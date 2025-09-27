@@ -5313,6 +5313,10 @@ public class player_building extends script.base_script
     }
     public boolean isMoveCommandValid(obj_id player, obj_id target) throws InterruptedException
     {
+        if (isGod(player))
+        {
+            return true;
+        }
         location loc = getLocation(player);
         obj_id structure = getTopMostContainer(loc.cell);
         if (!isIdValid(structure) || !isIdValid(target))

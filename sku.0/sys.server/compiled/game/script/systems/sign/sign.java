@@ -1,13 +1,16 @@
 package script.systems.sign;
 
+/*
+ * Copyright © SWG-OR 2024.
+ *
+ * Unauthorized usage, viewing or sharing of this file is prohibited.
+ */
+
 import script.*;
 import script.library.*;
 
 public class sign extends script.base_script
 {
-    public sign()
-    {
-    }
     public static final boolean LOGGING_ON = false;
     public static final String LOGGING_CATEGORY = "packup";
     public static final string_id SID_TERMINAL_MANAGEMENT = new string_id("player_structure", "management");
@@ -22,6 +25,12 @@ public class sign extends script.base_script
     public static final string_id SID_NOT_CITY_ABANDONED = new string_id("city/city", "not_city_abandoned");
     public static final int cityMinTimeDelayBetweenSameServerRequests = 300;
     public static final String cityTimeOfLastSameServerRequest = "timeOfLastSameServerRequest";
+    //@TODO: Add in custom door bell
+
+    public sign()
+    {
+    }
+
     public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi) throws InterruptedException
     {
         menu_info_data menuData = mi.getMenuItemByType(menu_info_types.ITEM_USE);
@@ -36,6 +45,10 @@ public class sign extends script.base_script
             CustomerServiceLog("playerStructure", "Player (" + player + ")" + getPlayerFullName(player) + " attempted to access a house sign(" + self + ") - and the sign has no parent (parent is the House ObjId).");
             return SCRIPT_CONTINUE;
         }
+        else
+        {
+            mi.addRootMenu(menu_info_types.SERVER_MENU3, new string_id("Ring Doorbell"));
+        }
         obj_id house = scriptvars.getObjId("player_structure.parent");
         if (player_structure.canShowPackOption(player, house))
         {
@@ -49,6 +62,7 @@ public class sign extends script.base_script
         }
         return SCRIPT_CONTINUE;
     }
+
     public int OnObjectMenuSelect(obj_id self, obj_id player, int item) throws InterruptedException
     {
         if (item == menu_info_types.ITEM_USE)
@@ -71,24 +85,53 @@ public class sign extends script.base_script
                         prose.setTT(pp, text);
                         prose.setTU(pp, houseOwnerName);
                         sui.msgbox(self, player, pp, "noHandlerNeeded");
-                        return SCRIPT_CONTINUE;
                     }
-                    else 
+                    else
                     {
-                        sui.msgbox(self, player, text, "noHandlerNeeded");
-                        return SCRIPT_CONTINUE;
+                        if (hasObjVar(self, "sign.customText"))
+                        {
+                            text = getStringObjVar(self, "sign.customText");
+                            sui.msgbox(self, player, text, sui.OK_ONLY, getEncodedName(self), "noHandlerNeeded");
+                        }
+                        else
+                        {
+                            text = getName(self);
+                            sui.msgbox(self, player, text, sui.OK_ONLY, getEncodedName(self), "noHandlerNeeded");
+                        }
                     }
+                    return SCRIPT_CONTINUE;
                 }
-                else 
+                else
                 {
-                    string_id desc = getDescriptionStringId(self);
-                    text = utils.packStringId(desc);
+                    if (hasObjVar(self, "sign.customText"))
+                    {
+                        text = getStringObjVar(self, "sign.customText");
+                        sui.msgbox(self, player, text, sui.OK_ONLY, getEncodedName(self), "noHandlerNeeded");
+                    }
+                    else
+                    {
+                        text = getName(self);
+                        sui.msgbox(self, player, text, sui.OK_ONLY, getEncodedName(self), "noHandlerNeeded");
+                    }
                     return SCRIPT_CONTINUE;
                 }
             }
-            string_id desc = getDescriptionStringId(self);
-            text = utils.packStringId(desc);
-            sui.msgbox(self, player, text, "noHandlerNeeded");
+            if (hasObjVar(self, "sign.customText"))
+            {
+                text = getStringObjVar(self, "sign.customText");
+            }
+            else
+            {
+                string_id desc = getDescriptionStringId(self);
+                text = utils.packStringId(desc);
+            }
+            //sui.msgbox(self, player, text, "noHandlerNeeded");
+            String signName = getEncodedName(self);
+            if (signName.length() > 80)
+            {
+                signName = "Signage";
+            }
+            sui.msgbox(self, player, text, sui.OK_ONLY, getEncodedName(self), "noHandlerNeeded");
         }
         if (item == menu_info_types.SERVER_MENU10)
         {
@@ -140,8 +183,38 @@ public class sign extends script.base_script
             obj_id sign = getSelf();
             AttemptPackCityAbandonedStructure(player, sign);
         }
+        if (item == menu_info_types.SERVER_MENU3)
+        {
+            playClientEffectObj(player, "sound/item_fusioncutter_start.snd", player, "");
+            String commPrompt = colors_hex.HEADER + colors_hex.AQUAMARINE + getPlayerFullName(player) + " is at this structure's entrance.";
+            obj_id house = utils.getObjIdScriptVar(self, "player_structure.parent");
+            obj_id[] occupants = player_structure.getPlayersInBuilding(house);
+            if (isIdValid(house))
+            {
+                if (occupants.length == 0)
+                {
+                    broadcast(player, "There does not appear to be anyone home.");
+                    return SCRIPT_CONTINUE;
+                }
+                for (obj_id occupant : occupants)
+                {
+                    String doorbellSnd = getStringObjVar(house, "player_structure.doorbell_snd");
+                    if (doorbellSnd == null || doorbellSnd.isEmpty())
+                    {
+                        doorbellSnd = "sound/item_fusioncutter_start.snd";
+                    }
+                    playClientEffectObj(occupant, doorbellSnd, occupant, "");
+                    prose_package pp = new prose_package();
+                    prose.setStringId(pp, new string_id(commPrompt));
+                    commPlayer(player, occupant, pp);
+                    broadcast(player, "You have rang this structure's doorbell.");
+                    return SCRIPT_CONTINUE;
+                }
+            }
+        }
         return SCRIPT_CONTINUE;
     }
+
     public int handleRemoteCommandCityHousePackup(obj_id self, dictionary params) throws InterruptedException
     {
         if (params == null || params.isEmpty())
@@ -164,6 +237,7 @@ public class sign extends script.base_script
         AttemptPackCityAbandonedStructure(player, paramsSign);
         return SCRIPT_CONTINUE;
     }
+
     public void AttemptPackCityAbandonedStructure(obj_id player, obj_id sign) throws InterruptedException
     {
         if (!utils.hasScriptVar(sign, "player_structure.parent"))
@@ -184,14 +258,15 @@ public class sign extends script.base_script
             }
             sendSystemMessage(player, new string_id("player_structure", "abandoned_structure_pack_up_please_wait_processing"));
         }
-        else 
+        else
         {
             player_structure.confirmCityAbandonedAndPack(house, player);
         }
     }
+
     public boolean blog(String msg) throws InterruptedException
     {
-        if (LOGGING_ON && msg != null && !msg.equals(""))
+        if (LOGGING_ON && msg != null && !msg.isEmpty())
         {
             LOG(LOGGING_CATEGORY, msg);
         }

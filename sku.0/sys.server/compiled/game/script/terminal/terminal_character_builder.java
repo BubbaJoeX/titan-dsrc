@@ -70,7 +70,7 @@ public class terminal_character_builder extends script.base_script
             "Structures",
             "Guild Halls",
             "Items",
-            "Jedi",
+            "Jedi Items",
             "Best Resources",
             "Flag for All Instances",
             "Draft Schematics",
@@ -7617,13 +7617,13 @@ public class terminal_character_builder extends script.base_script
                 setCount(drink, 10);
                 setBioLink(drink, player);
                 broadcast(player, "Breath of the Force Issued. ");
-                broadcast(player, "This item has been marked as unsatisfactory for testing. ");
+                broadcast(player, "This item has been marked as unsatisfactory for testing purposes. Act accordingly. ");
                 break;
             case 18:
                 obj_id drink1 = createObject("object/tangible/food/crafted/drink_bespin_port.iff", pInv, "");
                 setObjVar(drink1, "buff_name", "drink_bespin_port");
-                setName(drink1, "Bespin Port (x10)");
-                setCount(drink1, 4);
+                setName(drink1, "Liquid Gold (x10)");
+                setCount(drink1, 20);
                 setBioLink(drink1, player);
                 broadcast(player, "Liquid Gold Issued.");
                 break;
