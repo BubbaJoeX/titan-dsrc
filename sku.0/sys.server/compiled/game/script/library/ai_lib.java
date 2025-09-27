@@ -898,6 +898,108 @@ public class ai_lib extends script.base_script
         offset.z = -(spacing * (float)Math.ceil((position - 1) / 2.0f));
         follow(npc, leader, offset);
     }
+
+    public static void followInCircleFormation(obj_id npc, obj_id leader, int position, int totalFollowers) {
+        if (npc == leader || totalFollowers < 1) {
+            debugServerConsoleMsg(npc, npc + " was told to followInCircleFormation itself or totalFollowers is invalid");
+            return;
+        }
+
+        final float baseRadius = getObjectCollisionRadius(leader) * 2.5f;
+        final float radius = baseRadius + (totalFollowers * 0.5f); // Increase spacing with more followers
+        final double angle = (2 * Math.PI / totalFollowers) * position;
+
+        location offset = new location();
+        offset.x = (float) (radius * Math.cos(angle));
+        offset.z = (float) (radius * Math.sin(angle));
+
+        follow(npc, leader, offset);
+    }
+
+
+    public static void followInStarFormation(obj_id npc, obj_id leader, int position, int totalFollowers) {
+        if (npc == leader || totalFollowers < 5) {
+            debugServerConsoleMsg(npc, npc + " was told to followInStarFormation itself or totalFollowers is invalid");
+            return;
+        }
+
+        final float baseRadius = getObjectCollisionRadius(leader) * 3.0f;
+        final float radius = baseRadius + (totalFollowers * 0.5f); // Increase spread dynamically
+        final double angleOffset = Math.PI / 2; // Rotate to make the top point face up
+        final double[] starAngles = {0, 144, 288, 72, 216}; // 5-pointed star angles in degrees
+
+        int index = position % 5; // Ensuring we stay within 5 points
+        double angle = Math.toRadians(starAngles[index]) + angleOffset;
+
+        location offset = new location();
+        offset.x = (float) (radius * Math.cos(angle));
+        offset.z = (float) (radius * Math.sin(angle));
+
+        follow(npc, leader, offset);
+    }
+
+
+    public static void followInSWGFormation(obj_id npc, obj_id leader, int position, int totalFollowers) {
+        if (npc == leader || totalFollowers < 1) {
+            debugServerConsoleMsg(npc, npc + " was told to followInSWGFormation itself or totalFollowers is invalid");
+            return;
+        }
+
+        final float scale = getObjectCollisionRadius(leader) * 2.5f;
+
+        // Define relative positions for "SWG"
+        float[][] swgPositions = {
+                // S
+                {-3, 2}, {-2, 2}, {-1, 2}, {0, 2}, {1, 2},
+                {-3, 1}, {-3, 0}, {-1, 0}, {0, 0}, {1, 0},
+                {1, -1}, {-3, -2}, {-2, -2}, {-1, -2}, {1, -2},
+                // W
+                {4, 2}, {4, 1}, {4, 0}, {4, -1}, {4, -2},
+                {5, -2}, {6, -1}, {7, -2}, {7, 2}, {7, 1}, {7, 0}, {7, -1},
+                // G
+                {10, 2}, {11, 2}, {12, 2}, {13, 2},
+                {10, 1}, {10, 0}, {10, -1}, {10, -2},
+                {11, -2}, {12, -2}, {13, -2}, {13, -1}, {12, 0}
+        };
+
+        int totalPositions = swgPositions.length;
+        location offset = new location();
+
+        if (position < totalPositions) {
+            // Assign to letter positions
+            offset.x = swgPositions[position][0] * scale;
+            offset.z = swgPositions[position][1] * scale;
+        } else {
+            // Place extra NPCs in a border around the letters
+            int borderPosition = position - totalPositions;
+            int borderWidth = 16;  // Width of the bounding box around "SWG"
+            int borderHeight = 6;  // Height of the bounding box
+
+            int borderPerimeter = 2 * (borderWidth + borderHeight);
+            borderPosition %= borderPerimeter;  // Wrap around if more NPCs than perimeter
+
+            if (borderPosition < borderWidth) {
+                // Top border
+                offset.x = (-3 + borderPosition) * scale;
+                offset.z = 3 * scale;
+            } else if (borderPosition < borderWidth + borderHeight) {
+                // Right border
+                offset.x = (borderWidth - 3) * scale;
+                offset.z = (3 - (borderPosition - borderWidth)) * scale;
+            } else if (borderPosition < 2 * borderWidth + borderHeight) {
+                // Bottom border
+                offset.x = (borderWidth - 3 - (borderPosition - borderWidth - borderHeight)) * scale;
+                offset.z = -3 * scale;
+            } else {
+                // Left border
+                offset.x = -3 * scale;
+                offset.z = (-3 + (borderPosition - 2 * borderWidth - borderHeight)) * scale;
+            }
+        }
+
+        follow(npc, leader, offset);
+    }
+
     public static void pathAwayFrom(obj_id npc, obj_id target) throws InterruptedException
     {
         if (npc == target || !isIdValid(npc) || !isIdValid(target))

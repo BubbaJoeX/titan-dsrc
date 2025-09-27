@@ -9,7 +9,6 @@ package script.player;/*
 */
 
 import script.dictionary;
-import script.library.oracle;
 import script.obj_id;
 
 import java.sql.Connection;
@@ -134,66 +133,6 @@ public class player_anti_afk extends script.base_script
             broadcast(who, "Your macros have been dumped.");
             sendConsoleCommand("/dumpPausedCommands", who);
             LOG("ethereal", "[Anti-AFK] " + getName(who) + " has had their macros turned off by " + self);
-        }
-    }
-
-    private void warnPlayer(obj_id self, obj_id who)
-    {
-        String characterName = getName(who);
-        String stationId = String.valueOf(getPlayerStationId(who)); // Implement this if not already available
-        String characterId = String.valueOf(who); // Implement this if not already available
-        String location = getLocation(who).toLogFormat(); // Implement this to retrieve player location
-        String timestamp = getCalendarTimeStringLocal_YYYYMMDDHHMMSS(getCalendarTime()); // Implement a method to get current timestamp
-
-        Connection conn = oracle.connect();
-        PreparedStatement stmt = null;
-
-        try
-        {
-            String query = "MERGE INTO AFK_LOGS USING dual " +
-                    "ON (character_id = ?) " +
-                    "WHEN MATCHED THEN " +
-                    "UPDATE SET character_name = ?, station_id = ?, location = ?, timestamp = ? " +
-                    "WHEN NOT MATCHED THEN " +
-                    "INSERT (character_name, station_id, character_id, timestamp, location) " +
-                    "VALUES (?, ?, ?, ?, ?)";
-
-            stmt = conn.prepareStatement(query);
-            stmt.setString(1, characterId);
-            stmt.setString(2, characterName);
-            stmt.setString(3, stationId);
-            stmt.setString(4, location);
-            stmt.setString(5, timestamp);
-            stmt.setString(6, characterName);
-            stmt.setString(7, stationId);
-            stmt.setString(8, characterId);
-            stmt.setString(9, timestamp);
-            stmt.setString(10, location);
-
-            // Execute the query (insert or update based on the match)
-            stmt.executeUpdate();
-
-            LOG("ethereal", "[Anti-AFK] Player " + characterName + " has been logged for a warning.");
-
-        } catch (SQLException e)
-        {
-            LOG("ethereal", "[Anti-AFK] Error inserting/updating AFK log for " + getName(who) + ": " + e.getMessage());
-        } finally
-        {
-            try
-            {
-                if (stmt != null)
-                {
-                    stmt.close();
-                }
-                if (conn != null)
-                {
-                    conn.close();
-                }
-            } catch (SQLException e)
-            {
-                LOG("ethereal", "[Anti-AFK] Error closing database resources: " + e.getMessage());
-            }
         }
     }
 }

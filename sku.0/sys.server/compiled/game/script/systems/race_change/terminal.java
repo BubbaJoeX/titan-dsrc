@@ -9,7 +9,7 @@ package script.systems.race_change;/*
 */
 
 import script.*;
-import script.library.oracle;
+//import script.library.oracle;
 import script.library.sui;
 import script.library.utils;
 
@@ -146,7 +146,7 @@ public class terminal extends script.base_script
         setObjVar(player, "safeLogout", true);
         sendConsoleCommand("/quit", player);
         disconnectPlayer(player);
-        updatePlayer(player);
+        //updatePlayer(player);
 
         String clusterName = getClusterName();
         String dbHost = clusterName.equalsIgnoreCase(LIVE) ? LIVE_IP : TEST_IP;
@@ -160,7 +160,7 @@ public class terminal extends script.base_script
     }
 
     private void updateRaceInDatabase(String dbHost, String port, String serviceName, String dbUsername, String dbPassword, int templateId, String objectId)
-    {
+    {/*
         String url = "jdbc:oracle:thin:@" + dbHost + ":" + port + ":" + serviceName;
         String sql1 = "UPDATE SWG.SWG_CHARACTERS SET TEMPLATE_ID = ? WHERE OBJECT_ID = ?";
         String sql2 = "UPDATE SWG.OBJECTS SET OBJECT_TEMPLATE_ID = ? WHERE OBJECT_ID = ?";
@@ -213,6 +213,6 @@ public class terminal extends script.base_script
         }
         LOG("ethereal", "[Race Change]: " + getPlayerFullName(player) + " has been updated. Setting raceUpdated objvar for next OnLogin()");
         setObjVar(player, "raceUpdated", true);
-
+*/
     }
 }

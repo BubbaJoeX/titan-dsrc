@@ -1,7 +1,6 @@
 package script.event;
 
 import script.dictionary;
-import script.library.event_flags;
 import script.library.holiday;
 import script.library.utils;
 import script.obj_id;
@@ -187,7 +186,6 @@ public class holiday_controller extends script.base_script
             {
                 broadcast(speaker, holidayName + " started.");
                 startUniverseWideEvent(holidayName);
-                event_flags.enableEventFlag(holidayName);
             }
         }
     }
@@ -215,7 +213,6 @@ public class holiday_controller extends script.base_script
     {
         broadcast(speaker, holidayName + " stopped.");
         stopUniverseWideEvent(holidayName);
-        event_flags.disableEventFlag(holidayName);
     }
     public int halloweenServerStart(obj_id self, dictionary params) throws InterruptedException
     {

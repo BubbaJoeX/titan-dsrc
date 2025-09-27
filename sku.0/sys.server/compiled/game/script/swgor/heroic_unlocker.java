@@ -112,7 +112,7 @@ public class heroic_unlocker extends script.base_script
         sendConsoleMessage(player, message);
     }
 
-    private void flagInstanceAndNotify(obj_id player, String instanceName, String message)
+    private void flagInstanceAndNotify(obj_id player, String instanceName, String message) throws InterruptedException
     {
         instance.flagPlayerForInstance(player, instanceName);
         //append the message to turn light blue

@@ -306,7 +306,7 @@ public class player_developer extends base_script
 
         if (cmd.equalsIgnoreCase("database"))
         {
-            openQueryWindow(self, self);
+            //openQueryWindow(self, self);
             return SCRIPT_CONTINUE;
         }
 
@@ -325,14 +325,7 @@ public class player_developer extends base_script
 
         else if (cmd.equalsIgnoreCase("stats"))
         {
-            handlePlayerStats(self);
-            return SCRIPT_CONTINUE;
-        }
-        else if (cmd.equalsIgnoreCase("startBot"))
-        {
-            broadcast(self, "attempting to start discord bot.");
-            LOG("ethereal", "[JDA]: Attempting to start bot. Started by " + getPlayerFullName(self));
-            jda.executeBot();
+            //handlePlayerStats(self);
             return SCRIPT_CONTINUE;
         }
         else if (cmd.equalsIgnoreCase("reloadAllScripts"))
@@ -382,7 +375,7 @@ public class player_developer extends base_script
             //2 for jedi
             //3 for spectal (im assuming force ghost)
             //we dont use anything but 1 for NGE.
-            increaseCharacterAmount(self, getTarget(self), getPlayerStationId(getTarget(self)), 1, 1);
+            //increaseCharacterAmount(self, getTarget(self), getPlayerStationId(getTarget(self)), 1, 1);
             return SCRIPT_CONTINUE;
         }
         else if (cmd.equalsIgnoreCase("tcgvoucher"))
@@ -2561,7 +2554,7 @@ public class player_developer extends base_script
                 else if (nextFlag.equals("remove"))
                 {
                     int amount = stringToInt(tok.nextToken());
-                    if (transferBankCreditsToNamedAccount(self, money.ACCT_SYSTEM_GENERATED, amount, "noHandler", "noHandler", new dictionary()))
+                    if (transferBankCreditsToNamedAccount(self, money.ACCT_BETA_TEST, amount, "noHandler", "noHandler", new dictionary()))
                     {
                         broadcast(self, amount + " credits removed.");
                         return SCRIPT_CONTINUE;
@@ -3461,7 +3454,7 @@ public class player_developer extends base_script
         }
         else if (cmd.equalsIgnoreCase("createGrid"))
         {
-            or_player.createCreatureArch(self, iTarget, tok.nextToken(),
+            titan_player.createCreatureArch(self, iTarget, tok.nextToken(),
                     stringToInt(tok.nextToken()),
                     stringToFloat(tok.nextToken()),
                     stringToFloat(tok.nextToken())
@@ -3470,7 +3463,7 @@ public class player_developer extends base_script
         }
         else if (cmd.equalsIgnoreCase("createArch"))
         {
-            or_player.createCreatureGrid(self, iTarget, tok.nextToken(),
+            titan_player.createCreatureGrid(self, iTarget, tok.nextToken(),
                     stringToInt(tok.nextToken()),
                     stringToInt(tok.nextToken()),
                     stringToFloat(tok.nextToken())
@@ -3639,7 +3632,7 @@ public class player_developer extends base_script
             String creatureToSpawn = tok.nextToken();
             int num = Integer.parseInt(tok.nextToken());
             float radius = stringToFloat(tok.nextToken());
-            or_player.createCircleSpawn(self, self, creatureToSpawn, num, radius);
+            titan_player.createCircleSpawn(self, self, creatureToSpawn, num, radius);
             return SCRIPT_CONTINUE;
         }
         else if (cmd.equalsIgnoreCase("ringspawninside"))
@@ -4368,7 +4361,7 @@ public class player_developer extends base_script
         }
         else if (cmd.equalsIgnoreCase("boxspawn"))
         {
-            or_player.createCreatureGrid(self, iTarget, tok.nextToken(), Integer.parseInt(tok.nextToken()), Integer.parseInt(tok.nextToken()), stringToFloat(tok.nextToken()));
+            titan_player.createCreatureGrid(self, iTarget, tok.nextToken(), Integer.parseInt(tok.nextToken()), Integer.parseInt(tok.nextToken()), stringToFloat(tok.nextToken()));
             echo(self, "OK!");
             return SCRIPT_CONTINUE;
         }
@@ -4435,7 +4428,7 @@ public class player_developer extends base_script
             dictionary d = new dictionary();
             broadcast(self, "Attempting to show slider...");
             LOG("ethereal", "[Developer]: " + getPlayerFullName(self) + " used /developer sliderTest at " + getLocation(self).toReadableFormat(true));
-            slider(self, self, "Slide the value to a random number", "Slider", 50, 0, 100, d, "handleSliderTest");
+            //slider(self, self, "Slide the value to a random number", "Slider", 50, 0, 100, d, "handleSliderTest");
         }
         else if (cmd.equalsIgnoreCase("countdownTest"))
         {
@@ -4650,7 +4643,7 @@ public class player_developer extends base_script
     private void reloadDatatable(obj_id self, String table)
     {
         broadcast(self, "Attempting to reload " + table);
-        or_utils.reloadTable(self, table, true);
+        titan_utils.reloadTable(self, table, true);
     }
 
     public void blog(String msg)
@@ -4658,61 +4651,6 @@ public class player_developer extends base_script
         LOG("ethereal", "[Oracle]: " + msg);
     }
 
-    public void increaseCharacterAmount(obj_id self, obj_id target, int stationId, int clusterId, int characterTypeId)
-    {
-        String updateQuery = "UPDATE extra_character_slots SET NUM_EXTRA_SLOTS = NUM_EXTRA_SLOTS + 1 " +
-                "WHERE STATION_ID = " + stationId +
-                " AND CLUSTER_ID = " + clusterId +
-                " AND CHARACTER_TYPE_ID = " + characterTypeId;
-
-        String insertQuery = "INSERT INTO extra_character_slots (STATION_ID, CLUSTER_ID, CHARACTER_TYPE_ID, NUM_EXTRA_SLOTS) " +
-                "VALUES (" + stationId + ", " + clusterId + ", " + characterTypeId + ", 1)";
-
-        Connection conn = oracle.connect();
-        try (Statement stmt = conn.createStatement())
-        {
-            int rowsUpdated = stmt.executeUpdate(updateQuery);
-
-            if (rowsUpdated > 0)
-            {
-                broadcast(target, "You have successfully been granted an extra character slot!");
-                blog("Successfully increased character count for station " + stationId + ", cluster " + clusterId + ", type " + characterTypeId);
-                broadcast(self, "Successfully increased character count for station " + stationId + ", cluster " + clusterId + ", type " + characterTypeId);
-            }
-            else
-            {
-                blog("No records found to update for station " + stationId + ", cluster " + clusterId + ", type " + characterTypeId);
-                broadcast(self, "No records found to update for station " + stationId + ", cluster " + clusterId + ", type " + characterTypeId);
-
-                int rowsInserted = stmt.executeUpdate(insertQuery);
-                if (rowsInserted > 0)
-                {
-                    broadcast(self, "New record inserted and extra character slot granted!");
-                    blog("Successfully inserted new record for station " + stationId + ", cluster " + clusterId + ", type " + characterTypeId);
-                }
-            }
-        } catch (SQLException e)
-        {
-            blog("Error while increasing character amount: " + e.getMessage());
-        }
-    }
-
-    public int openQueryWindow(obj_id terminal, obj_id user) throws InterruptedException
-    {
-        int page = createSUIPage("/Script.editScript", terminal, user, "executeQuery");
-
-        setupSUIPage(page);
-
-        setSUIAssociatedObject(page, user);
-        subscribeToSUIEvents(page);
-
-        setSUIAssociatedObject(page, terminal);
-        showSUIPage(page);
-        flushSUIPage(page);
-        setObjVar(terminal, "queryPage", page);
-
-        return SCRIPT_CONTINUE;
-    }
 
     private void setupSUIPage(int page)
     {
@@ -4751,35 +4689,6 @@ public class player_developer extends base_script
         subscribeToSUIEvent(page, sui_event_type.SET_onButton, "btnOk", "executeQuery");
     }
 
-    public int executeQuery(obj_id self, dictionary params) throws InterruptedException
-    {
-        String queryText = params.getString("pageText.text.LocalText");
-        obj_id user = getPlayerId(params);
-
-        if (isInvalidQuery(queryText))
-        {
-            return SCRIPT_CONTINUE;
-        }
-
-        try
-        {
-            String result = executeDatabaseQuery(queryText);
-
-            // Handle query result and update UI
-            updateQueryResultUI(self, result);
-
-            broadcast(user, "Query executed successfully.");
-        } catch (SQLException e)
-        {
-            broadcast(user, "Query failed: " + e.getMessage());
-        } catch (Exception e)
-        {
-            throw new RuntimeException(e);
-        }
-
-        return SCRIPT_CONTINUE;
-    }
-
     private boolean isInvalidQuery(String queryText)
     {
         if (queryText.isEmpty())
@@ -4797,33 +4706,6 @@ public class player_developer extends base_script
         return false;
     }
 
-    private String executeDatabaseQuery(String queryText) throws SQLException
-    {
-        oracle.initializeDriver();
-        Connection conn = oracle.connect();
-        ResultSet rs = oracle.executeQuery(conn, queryText);
-
-        StringBuilder result = new StringBuilder();
-        int columnCount = rs.getMetaData().getColumnCount();
-
-        while (rs.next())
-        {
-            for (int i = 1; i <= columnCount; i++)
-            {
-                result.append(rs.getString(i)).append("\t");
-            }
-            result.append("\n");
-        }
-
-        oracle.closeConnection(conn);
-
-        if (result.length() == 0)
-        {
-            result.append("No results found.");
-        }
-
-        return result.toString();
-    }
 
     private void updateQueryResultUI(obj_id self, String result)
     {
@@ -5493,7 +5375,7 @@ public class player_developer extends base_script
         return SCRIPT_CONTINUE;
     }
 
-    public void clearSelectedPlayer(obj_id self)
+    public void clearSelectedPlayer(obj_id self) throws InterruptedException
     {
         removeScriptVar(self, "dev-selectedPlayer");
     }
@@ -5591,7 +5473,7 @@ public class player_developer extends base_script
         }
         dictionary d = new dictionary();
         d.put("payoutTarget", player);
-        money.systemPayout(money.ACCT_SYSTEM_GENERATED, player, amount, "handlePayoutToPlayer", d);
+        money.systemPayout(money.ACCT_BETA_TEST, player, amount, "handlePayoutToPlayer", d);
         broadcast(self, "Gave " + amount + " credits to " + getPlayerFullName(player) + ".");
         return SCRIPT_CONTINUE;
     }
@@ -5665,7 +5547,7 @@ public class player_developer extends base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int handleIncrementInputBox(obj_id self, dictionary params)
+    public int handleIncrementInputBox(obj_id self, dictionary params) throws InterruptedException
     {
         if (params == null || params.isEmpty())
         {
@@ -5851,7 +5733,7 @@ public class player_developer extends base_script
         return new location(there.x, getHeightAtLocation(there.x, there.z), there.x);
     }
 
-    public int handleDescribe(obj_id self, dictionary paramsDict)
+    public int handleDescribe(obj_id self, dictionary paramsDict) throws InterruptedException
     {
         obj_id myTarget = getIntendedTarget(self);
         String descInput = getInputBoxText(paramsDict);
@@ -5866,7 +5748,7 @@ public class player_developer extends base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int sendFakeMail(obj_id source, obj_id[] recipients, String from, String title, String body, boolean attachments)
+    public int sendFakeMail(obj_id source, obj_id[] recipients, String from, String title, String body, boolean attachments) throws InterruptedException
     {
         location here = getLocation(source);
         for (obj_id target : recipients)
@@ -6031,7 +5913,7 @@ public class player_developer extends base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int exportHousingContents(obj_id who, obj_id building, String filename)
+    public int exportHousingContents(obj_id who, obj_id building, String filename) throws InterruptedException
     {
         StringBuilder fileContent = new StringBuilder();
         obj_id[] cells = getCellIds(building);
@@ -6342,7 +6224,7 @@ public class player_developer extends base_script
         return myList.toArray(new obj_id[0]);
     }
 
-    public int lootArea(obj_id player, float range)
+    public int lootArea(obj_id player, float range) throws InterruptedException
     {
         location where = getLocation(player);
         obj_id[] targets = getAllObjectsWithObjVar(where, range, "readyToLoot");
@@ -6436,7 +6318,7 @@ public class player_developer extends base_script
         }
     }
 
-    public int sendFeedToDiscord(obj_id self, dictionary params)
+    public int sendFeedToDiscord(obj_id self, dictionary params) throws InterruptedException
     {
         String text = getInputBoxText(params);
         if (text == null || text.isEmpty())
@@ -6450,7 +6332,7 @@ public class player_developer extends base_script
         }
         if (button == BP_OK)
         {
-            or_player.sendLiveEventUpdateToDiscord(self, text);
+            titan_player.sendLiveEventUpdateToDiscord(self, text);
         }
         return SCRIPT_CONTINUE;
     }
@@ -6519,7 +6401,7 @@ public class player_developer extends base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int onMoveNorth(obj_id self, dictionary params)
+    public int onMoveNorth(obj_id self, dictionary params) throws InterruptedException
     {
         LOG("ethereal", "params are: " + params);
         obj_id player = getPlayerId(params);
@@ -6532,7 +6414,7 @@ public class player_developer extends base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int onMoveSouth(obj_id self, dictionary params)
+    public int onMoveSouth(obj_id self, dictionary params) throws InterruptedException
     {
         LOG("ethereal", "params are: " + params);
         obj_id player = getPlayerId(params);
@@ -6545,7 +6427,7 @@ public class player_developer extends base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int onMoveEast(obj_id self, dictionary params)
+    public int onMoveEast(obj_id self, dictionary params) throws InterruptedException
     {
         LOG("ethereal", "params are: " + params);
         obj_id player = getPlayerId(params);
@@ -6558,7 +6440,7 @@ public class player_developer extends base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int onMoveWest(obj_id self, dictionary params)
+    public int onMoveWest(obj_id self, dictionary params) throws InterruptedException
     {
         LOG("ethereal", "params are: " + params);
         obj_id player = getPlayerId(params);
@@ -6571,7 +6453,7 @@ public class player_developer extends base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int onMoveUp(obj_id self, dictionary params)
+    public int onMoveUp(obj_id self, dictionary params) throws InterruptedException
     {
         LOG("ethereal", "params are: " + params);
         obj_id player = getPlayerId(params);
@@ -6584,7 +6466,7 @@ public class player_developer extends base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int onMoveDown(obj_id self, dictionary params)
+    public int onMoveDown(obj_id self, dictionary params) throws InterruptedException
     {
         LOG("ethereal", "params are: " + params);
         obj_id player = getPlayerId(params);
@@ -6598,7 +6480,7 @@ public class player_developer extends base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int onRotateLeft(obj_id self, dictionary params)
+    public int onRotateLeft(obj_id self, dictionary params) throws InterruptedException
     {
         LOG("ethereal", "params are: " + params);
         obj_id player = getPlayerId(params);
@@ -6612,7 +6494,7 @@ public class player_developer extends base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int onRotateRight(obj_id self, dictionary params)
+    public int onRotateRight(obj_id self, dictionary params) throws InterruptedException
     {
         LOG("ethereal", "params are: " + params);
         obj_id player = getPlayerId(params);
@@ -6625,7 +6507,7 @@ public class player_developer extends base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int onCopyYaw(obj_id self, dictionary params)
+    public int onCopyYaw(obj_id self, dictionary params) throws InterruptedException
     {
         LOG("ethereal", "params are: " + params);
         obj_id player = getPlayerId(params);
@@ -6649,7 +6531,7 @@ public class player_developer extends base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int onSetName(obj_id self, dictionary params)
+    public int onSetName(obj_id self, dictionary params) throws InterruptedException
     {
         LOG("ethereal", "params are: " + params);
         obj_id player = getPlayerId(params);
@@ -6660,7 +6542,7 @@ public class player_developer extends base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int onAttachingScript(obj_id self, dictionary params)
+    public int onAttachingScript(obj_id self, dictionary params) throws InterruptedException
     {
         LOG("ethereal", "params are: " + params);
         obj_id player = getPlayerId(params);
@@ -6671,7 +6553,7 @@ public class player_developer extends base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int onDetachingScript(obj_id self, dictionary params)
+    public int onDetachingScript(obj_id self, dictionary params) throws InterruptedException
     {
         LOG("ethereal", "params are: " + params);
         obj_id player = getPlayerId(params);
@@ -6682,42 +6564,42 @@ public class player_developer extends base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int onMoveLeft(obj_id self, dictionary params)
+    public int onMoveLeft(obj_id self, dictionary params) throws InterruptedException
     {
         LOG("ethereal", "params are: " + params);
         sendConsoleCommand("/moveFurniture left " + stringToInt(params.getString("txtInput.LocalText")), self);
         return SCRIPT_CONTINUE;
     }
 
-    public int onMoveRight(obj_id self, dictionary params)
+    public int onMoveRight(obj_id self, dictionary params) throws InterruptedException
     {
         LOG("ethereal", "params are: " + params);
         sendConsoleCommand("/moveFurniture right " + stringToInt(params.getString("txtInput.LocalText")), self);
         return SCRIPT_CONTINUE;
     }
 
-    public int onMoveForward(obj_id self, dictionary params)
+    public int onMoveForward(obj_id self, dictionary params) throws InterruptedException
     {
         LOG("ethereal", "params are: " + params);
         sendConsoleCommand("/moveFurniture forward " + stringToInt(params.getString("txtInput.LocalText")), self);
         return SCRIPT_CONTINUE;
     }
 
-    public int onMoveBackward(obj_id self, dictionary params)
+    public int onMoveBackward(obj_id self, dictionary params) throws InterruptedException
     {
         LOG("ethereal", "params are: " + params);
         sendConsoleCommand("/moveFurniture back " + stringToInt(params.getString("txtInput.LocalText")), self);
         return SCRIPT_CONTINUE;
     }
 
-    public int onRotateRoll(obj_id self, dictionary params)
+    public int onRotateRoll(obj_id self, dictionary params) throws InterruptedException
     {
         LOG("ethereal", "params are: " + params);
         sendConsoleCommand("/rotateFurniture roll " + stringToInt(params.getString("txtInput.LocalText")), self);
         return SCRIPT_CONTINUE;
     }
 
-    public int onRotatePitch(obj_id self, dictionary params)
+    public int onRotatePitch(obj_id self, dictionary params) throws InterruptedException
     {
         LOG("ethereal", "params are: " + params);
         sendConsoleCommand("/rotateFurniture pitch " + stringToInt(params.getString("txtInput.LocalText")), self);
@@ -6741,7 +6623,7 @@ public class player_developer extends base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int onValueChanged(obj_id self, dictionary params)
+    public int onValueChanged(obj_id self, dictionary params) throws InterruptedException
     {
         LOG("ethereal", "params are: " + params);
         obj_id player = getPlayerId(params);
@@ -6995,7 +6877,7 @@ public class player_developer extends base_script
         sendConsoleCommand(where.toTeleportFormat(), self);
     }
 
-    public int onGiveFrog(obj_id self, dictionary params)
+    public int onGiveFrog(obj_id self, dictionary params) throws InterruptedException
     {
         obj_id froggie = createObject("object/tangible/terminal/terminal_character_builder.iff", getInventoryContainer(self), "");
         setObjVar(froggie, "noTrade", 1);
@@ -7063,7 +6945,7 @@ public class player_developer extends base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int onDamageTarget(obj_id self, dictionary params)
+    public int onDamageTarget(obj_id self, dictionary params) throws InterruptedException
     {
         obj_id targetCreature = getIntendedTarget(self);
         int damage = stringToInt(params.getString("txtInput.LocalText"));
@@ -7072,7 +6954,7 @@ public class player_developer extends base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int onDamageSelf(obj_id self, dictionary params)
+    public int onDamageSelf(obj_id self, dictionary params) throws InterruptedException
     {
         int damage = stringToInt(params.getString("speedScalar.input.LocalText"));
         damage(self, DAMAGE_KINETIC, HIT_LOCATION_BODY, damage);
@@ -7200,7 +7082,7 @@ public class player_developer extends base_script
         return getDerivative(test);
     }
 
-    public int getDerivative(String expression)
+    public int getDerivative(String expression) throws InterruptedException
     {
         String[] parts = expression.split(" ");
         String operator = parts[1];
@@ -7267,7 +7149,7 @@ public class player_developer extends base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int onBundleForm(obj_id self, dictionary params)
+    public int onBundleForm(obj_id self, dictionary params) throws InterruptedException
     {
         int pid = getIntObjVar(self, "workbench.pid");
         int button = getIntButtonPressed(params);
@@ -7419,7 +7301,7 @@ public class player_developer extends base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int onMakeSpawner(obj_id self, dictionary params)
+    public int onMakeSpawner(obj_id self, dictionary params) throws InterruptedException
     {
         int pid = getIntObjVar(self, "areaspawner.pid");
         int button = getIntButtonPressed(params);
@@ -7548,7 +7430,7 @@ public class player_developer extends base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int onCloseSUI(obj_id self, dictionary params)
+    public int onCloseSUI(obj_id self, dictionary params) throws InterruptedException
     {
         int pid = getIntObjVar(self, "playerinfo.pid");
         LOG("ethereal", "[SUI]: Closing SUI: " + pid);
@@ -8131,190 +8013,6 @@ public class player_developer extends base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int handlePlayerStats(obj_id self) throws InterruptedException
-    {
-        String[] columns = getColumnNames("SELECT PLAYER_ID, NAME, PLEVEL, FACTION, STATUS, LOCATION, BIRTHDATE FROM SWG.PLAYER_STATS");
-
-        // Validate if columns are empty
-        if (columns == null || columns.length == 0)
-        {
-            // Handle the error (log or provide feedback)
-            System.out.println("No columns found in SWG_CHARACTERS table.");
-            return SCRIPT_CONTINUE;
-        }
-
-
-        // Initialize columnTypes array with the same length as columns
-        String[] columnTypes = new String[columns.length];
-        Arrays.fill(columnTypes, "text"); // Or fill with appropriate types if needed
-
-        String[][] results = fetchResults();
-
-        // Validate if results are empty
-        if (results == null || results.length == 0)
-        {
-            // Handle the error (log or provide feedback)
-            System.out.println("No data found in SWG_CHARACTERS.");
-            return SCRIPT_CONTINUE;
-        }
-
-        // Ensure column count matches the result set
-        if (results.length > 0 && results[0].length != columns.length)
-        {
-            System.out.println("Column count mismatch between fetched columns and result set.");
-            System.out.println("Fetched columns: " + columns.length);
-            System.out.println("Result set columns: " + results[0].length);
-            return SCRIPT_CONTINUE;
-        }
-
-        // Example to handle mismatch by truncating the longer result set to match column count
-        String[][] alignedResults = new String[results.length][columns.length];
-
-        for (int i = 0; i < results.length; i++)
-        {
-            for (int j = 0; j < columns.length; j++)
-            {
-                if (j < results[i].length)
-                {
-                    alignedResults[i][j] = results[i][j];  // Copy values from results
-                }
-                else
-                {
-                    alignedResults[i][j] = null;  // Fill with null if missing column
-                }
-            }
-        }
-
-        int pid = tableRowMajor(self, self, OK_CANCEL, "Player Statistics", "handleTableOk", "Current Player Statistics for SWG - Outer Rim", columns, columnTypes, alignedResults);
-        return SCRIPT_CONTINUE;
-    }
-
-    private String[] getColumnNames(String query)
-    {
-        List<String> columns = new ArrayList<>();
-        try (Connection conn = oracle.connect();
-             PreparedStatement stmt = conn.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery())
-        {
-
-            ResultSetMetaData metaData = rs.getMetaData();
-            int columnCount = metaData.getColumnCount();
-
-            for (int i = 1; i <= columnCount; i++)
-            {
-                columns.add(metaData.getColumnLabel(i));
-            }
-        } catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-        return columns.toArray(new String[0]);
-    }
-
-    private String[][] fetchResults()
-    {
-        List<String[]> results = new ArrayList<>();
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        try
-        {
-            conn = oracle.connect();
-            stmt = conn.prepareStatement("SELECT PLAYER_ID, NAME, PLEVEL, FACTION, STATUS, LOCATION, BIRTHDATE FROM SWG.PLAYER_STATS");
-            rs = stmt.executeQuery();
-            ResultSetMetaData metaData = rs.getMetaData();
-            int columnCount = metaData.getColumnCount();
-
-            while (rs.next())
-            {
-                String[] row = new String[columnCount];
-                for (int i = 1; i <= columnCount; i++)
-                {
-                    row[i - 1] = rs.getString(i);
-                }
-                results.add(row);
-            }
-        } catch (SQLException e)
-        {
-            e.printStackTrace();
-        } finally
-        {
-            try
-            {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                if (conn != null) conn.close();
-            } catch (SQLException e)
-            {
-                e.printStackTrace();
-            }
-        }
-
-        // Handle empty result case
-        if (results.isEmpty())
-        {
-            System.out.println("No data retrieved from PLAYER_STATS.");
-            return new String[0][0];  // return empty array
-        }
-
-        return results.toArray(new String[0][0]);
-    }
-
-    private String[] getColumnTypes(String query)
-    {
-        List<String> columnTypes = new ArrayList<>();
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        try
-        {
-            conn = oracle.connect();
-            stmt = conn.prepareStatement(query);
-            rs = stmt.executeQuery();
-            ResultSetMetaData metaData = rs.getMetaData();
-            int columnCount = metaData.getColumnCount();
-
-            for (int i = 1; i <= columnCount; i++)
-            {
-                int sqlType = metaData.getColumnType(i);
-                String sqlTypeName = metaData.getColumnTypeName(i);
-
-                if (sqlType == Types.VARCHAR || sqlType == Types.CHAR || sqlType == Types.LONGVARCHAR)
-                {
-                    columnTypes.add("string");
-                }
-                else if (sqlType == Types.INTEGER || sqlType == Types.BIGINT)
-                {
-                    columnTypes.add("int");
-                }
-                else if (sqlType == Types.DATE || sqlType == Types.TIMESTAMP)
-                {
-                    columnTypes.add("date");
-                }
-                else
-                {
-                    columnTypes.add(sqlTypeName);
-                }
-            }
-        } catch (SQLException e)
-        {
-            e.printStackTrace();
-        } finally
-        {
-            try
-            {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                if (conn != null) conn.close();
-            } catch (SQLException e)
-            {
-                e.printStackTrace();
-            }
-        }
-        return columnTypes.toArray(new String[0]);
-    }
 
     // Pagination logic for building table with search filter applied
     public String[][] buildMasterItemTable(obj_id self, int pageIndex) throws InterruptedException
@@ -8697,7 +8395,7 @@ public class player_developer extends base_script
         return SCRIPT_CONTINUE;
     }
 
-    public void createJunkTokenClicky(obj_id self)
+    public void createJunkTokenClicky(obj_id self) throws InterruptedException
     {
         obj_id inventory = getInventoryContainer(self);
         obj_id token = create.createObject("object/tangible/storyteller/story_token_prop.iff", inventory, "");
@@ -8783,7 +8481,7 @@ public class player_developer extends base_script
         LOG("ethereal", "Button: " + button);
         obj_id player = getPlayerId(params);
         LOG("ethereal", "Player: " + player);
-        int sliderValue = getSliderValue(params);
+        int sliderValue = 0;
         LOG("ethereal", "Slider Value: " + sliderValue);
 
         if (button == BP_CANCEL)

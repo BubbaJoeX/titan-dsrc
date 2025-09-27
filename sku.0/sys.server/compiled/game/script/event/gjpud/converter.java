@@ -73,7 +73,7 @@ public class converter extends script.base_script
         {
             return SCRIPT_CONTINUE;
         }
-        if (utils.isInventoryFull(pInv))
+        if (getFilledVolume(pInv) >= getTotalVolume(pInv))
         {
             broadcast(player, "You do not have enough space in your inventory to recycle scrap heaps.");
             return SCRIPT_CONTINUE;

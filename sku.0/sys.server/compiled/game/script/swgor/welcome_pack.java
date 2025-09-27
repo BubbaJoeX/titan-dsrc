@@ -310,7 +310,7 @@ public class welcome_pack extends script.terminal.terminal_character_builder
         makeCraftedItem("object/draft_schematic/armor/shield_generator_personal_c.iff", PSUEDO_CRAFT_QUALITY - 25.25f, pInv);
     }
 
-    public void grantHousing(obj_id player)
+    public void grantHousing(obj_id player) throws InterruptedException
     {
         obj_id pInv = utils.getInventoryContainer(player);
         obj_id deed = createObject("object/tangible/loot/npc_loot/datapad_flashy_generic.iff", pInv, "");

@@ -181,7 +181,7 @@ public class frankenabubb extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
-    private void handleGroupHealthIncrease(obj_id self, obj_id attacker)
+    private void handleGroupHealthIncrease(obj_id self, obj_id attacker) throws InterruptedException
     {
         if (group.isGrouped(attacker))
         {

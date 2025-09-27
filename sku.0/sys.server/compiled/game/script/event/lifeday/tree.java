@@ -8,7 +8,7 @@ package script.event.lifeday;/*
 */
 
 import script.*;
-import script.library.or_player;
+import script.library.titan_player;
 import script.library.utils;
 
 public class tree extends base_script
@@ -69,7 +69,7 @@ public class tree extends base_script
         obj_id rtype = pickRandomNonDepeletedResource("wood");
         if (!isIdValid(rtype))
         {
-            or_player.logEthereal("Life Day Tree", "makeWood No valid resource type found for *wood*");
+            titan_player.logEthereal("Life Day Tree", "makeWood No valid resource type found for *wood*");
             return;
         }
         String crateTemplate = getResourceContainerForType(rtype);

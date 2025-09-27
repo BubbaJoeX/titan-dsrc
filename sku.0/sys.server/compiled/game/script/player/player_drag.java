@@ -47,7 +47,7 @@ public class player_drag extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int cmdBotExecute(obj_id self, obj_id target, String params, float defaultTime) throws NullPointerException
+    public int cmdBotExecute(obj_id self, obj_id target, String params, float defaultTime)
     {
         if (params == null || params.isEmpty())
         {

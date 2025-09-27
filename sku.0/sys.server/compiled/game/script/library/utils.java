@@ -76,11 +76,11 @@ public class utils extends script.base_script
     public static final obj_id OBJ_ID_BIO_LINK_PENDING = obj_id.getObjId(1);
     public static final String VENDOR_SCRIPT = "terminal.vendor";
     public static final String BAZAAR_SCRIPT = "terminal.bazaar";
-    public static int clipRange(int iValue, int iClipMin, int iClipMax) throws InterruptedException
+    public static int clipRange(int iValue, int iClipMin, int iClipMax)
     {
         return (iValue < iClipMin) ? iClipMin : Math.min(iValue, iClipMax);
     }
-    public static location getRandomAwayLocation(location pos, float fMinRadius, float fMaxRadius) throws InterruptedException
+    public static location getRandomAwayLocation(location pos, float fMinRadius, float fMaxRadius)
     {
         float fTheta = rand() * (2.0f * (float)Math.PI);
         float fRadius = Math.min(fMinRadius, fMaxRadius) + rand() * Math.abs(fMaxRadius - fMinRadius);
@@ -88,7 +88,7 @@ public class utils extends script.base_script
         pos.z += fRadius * StrictMath.sin(fTheta);
         return pos;
     }
-    public static float getDistance2D(location locTarget1, location locTarget2) throws InterruptedException
+    public static float getDistance2D(location locTarget1, location locTarget2)
     {
         if (locTarget1 == null || locTarget2 == null)
         {
@@ -117,7 +117,7 @@ public class utils extends script.base_script
         }
         return am;
     }
-    public static int randix(float[] fArray) throws InterruptedException
+    public static int randix(float[] fArray)
     {
         if (fArray.length > 1)
         {
@@ -138,7 +138,7 @@ public class utils extends script.base_script
         }
         return 0;
     }
-    public static boolean isMando(obj_id armor) throws InterruptedException
+    public static boolean isMando(obj_id armor)
     {
         if (isIdValid(armor))
         {
@@ -147,7 +147,7 @@ public class utils extends script.base_script
         }
         return false;
     }
-    public static boolean hasSpecialSkills(obj_id player) throws InterruptedException
+    public static boolean hasSpecialSkills(obj_id player)
     {
         boolean skillCheck = false;
         if (hasSkill(player, "class_commando_phase4_master"))
@@ -317,7 +317,7 @@ public class utils extends script.base_script
         }
         return totalUnequipped;
     }
-    public static int getIntObjVar(obj_id object, String name, int intDefault) throws InterruptedException
+    public static int getIntObjVar(obj_id object, String name, int intDefault)
     {
         if (!hasObjVar(object, name))
         {
@@ -325,7 +325,7 @@ public class utils extends script.base_script
         }
         return getIntObjVar(object, name);
     }
-    public static int[] getIntArrayObjVar(obj_id object, String name, int[] intArrayDefault) throws InterruptedException
+    public static int[] getIntArrayObjVar(obj_id object, String name, int[] intArrayDefault)
     {
         if (!hasObjVar(object, name))
         {
@@ -333,7 +333,7 @@ public class utils extends script.base_script
         }
         return getIntArrayObjVar(object, name);
     }
-    public static float getFloatObjVar(obj_id object, String name, float fltDefault) throws InterruptedException
+    public static float getFloatObjVar(obj_id object, String name, float fltDefault)
     {
         if (!hasObjVar(object, name))
         {
@@ -341,7 +341,7 @@ public class utils extends script.base_script
         }
         return getFloatObjVar(object, name);
     }
-    public static float[] getFloatArrayObjVar(obj_id object, String name, float[] fltArrayDefault) throws InterruptedException
+    public static float[] getFloatArrayObjVar(obj_id object, String name, float[] fltArrayDefault)
     {
         if (!hasObjVar(object, name))
         {
@@ -349,7 +349,7 @@ public class utils extends script.base_script
         }
         return getFloatArrayObjVar(object, name);
     }
-    public static String getStringObjVar(obj_id object, String name, String strDefault) throws InterruptedException
+    public static String getStringObjVar(obj_id object, String name, String strDefault)
     {
         if (!hasObjVar(object, name))
         {
@@ -357,7 +357,7 @@ public class utils extends script.base_script
         }
         return getStringObjVar(object, name);
     }
-    public static String[] getStringArrayObjVar(obj_id object, String name, String[] strArrayDefault) throws InterruptedException
+    public static String[] getStringArrayObjVar(obj_id object, String name, String[] strArrayDefault)
     {
         if (!hasObjVar(object, name))
         {
@@ -365,7 +365,7 @@ public class utils extends script.base_script
         }
         return getStringArrayObjVar(object, name);
     }
-    public static obj_id getObjIdObjVar(obj_id object, String name, obj_id idDefault) throws InterruptedException
+    public static obj_id getObjIdObjVar(obj_id object, String name, obj_id idDefault)
     {
         if (!hasObjVar(object, name))
         {
@@ -373,7 +373,7 @@ public class utils extends script.base_script
         }
         return getObjIdObjVar(object, name);
     }
-    public static obj_id[] getObjIdArrayObjVar(obj_id object, String name, obj_id[] idArrayDefault) throws InterruptedException
+    public static obj_id[] getObjIdArrayObjVar(obj_id object, String name, obj_id[] idArrayDefault)
     {
         if (!hasObjVar(object, name))
         {
@@ -381,7 +381,7 @@ public class utils extends script.base_script
         }
         return getObjIdArrayObjVar(object, name);
     }
-    public static location getLocationObjVar(obj_id object, String name, location locDefault) throws InterruptedException
+    public static location getLocationObjVar(obj_id object, String name, location locDefault)
     {
         if (!hasObjVar(object, name))
         {
@@ -389,7 +389,7 @@ public class utils extends script.base_script
         }
         return getLocationObjVar(object, name);
     }
-    public static location[] getLocationArrayObjVar(obj_id object, String name, location[] locArrayDefault) throws InterruptedException
+    public static location[] getLocationArrayObjVar(obj_id object, String name, location[] locArrayDefault)
     {
         if (!hasObjVar(object, name))
         {
@@ -397,7 +397,7 @@ public class utils extends script.base_script
         }
         return getLocationArrayObjVar(object, name);
     }
-    public static boolean getBooleanObjVar(obj_id object, String name, boolean bDefault) throws InterruptedException
+    public static boolean getBooleanObjVar(obj_id object, String name, boolean bDefault)
     {
         if (!hasObjVar(object, name))
         {
@@ -405,7 +405,7 @@ public class utils extends script.base_script
         }
         return getBooleanObjVar(object, name);
     }
-    public static boolean isObjIdInArray(obj_id[] objIdArray, obj_id objTarget) throws InterruptedException
+    public static boolean isObjIdInArray(obj_id[] objIdArray, obj_id objTarget)
     {
         if (objIdArray == null || objIdArray.length == 0)
         {
@@ -418,10 +418,11 @@ public class utils extends script.base_script
         }
         return false;
     }
-    public static boolean isElementInArray(Vector objIdArray, Object objTarget) throws InterruptedException {
+    public static boolean isElementInArray(Vector objIdArray, Object objTarget)
+    {
         return !(objIdArray == null || objIdArray.isEmpty()) && objIdArray.contains(objTarget);
     }
-    public static int getElementPositionInArray(Vector array, Object element) throws InterruptedException
+    public static int getElementPositionInArray(Vector array, Object element)
     {
         if (array == null)
         {
@@ -429,7 +430,7 @@ public class utils extends script.base_script
         }
         return array.indexOf(element);
     }
-    public static int getElementPositionInArray(obj_id[] array, obj_id element) throws InterruptedException
+    public static int getElementPositionInArray(obj_id[] array, obj_id element)
     {
         if (array == null || array.length == 0)
         {
@@ -444,7 +445,7 @@ public class utils extends script.base_script
         }
         return -1;
     }
-    public static int getElementPositionInArray(int[] array, int element) throws InterruptedException
+    public static int getElementPositionInArray(int[] array, int element)
     {
         if (array == null || array.length == 0)
         {
@@ -459,7 +460,7 @@ public class utils extends script.base_script
         }
         return -1;
     }
-    public static int getElementPositionInArray(float[] array, float element) throws InterruptedException
+    public static int getElementPositionInArray(float[] array, float element)
     {
         if (array == null || array.length == 0)
         {
@@ -474,7 +475,7 @@ public class utils extends script.base_script
         }
         return -1;
     }
-    public static int getElementPositionInArray(boolean[] array, boolean element) throws InterruptedException
+    public static int getElementPositionInArray(boolean[] array, boolean element)
     {
         if (array == null || array.length == 0)
         {
@@ -489,7 +490,7 @@ public class utils extends script.base_script
         }
         return -1;
     }
-    public static int getElementPositionInArray(String[] array, String element) throws InterruptedException
+    public static int getElementPositionInArray(String[] array, String element)
     {
         if (array == null || array.length == 0)
         {
@@ -504,7 +505,7 @@ public class utils extends script.base_script
         }
         return -1;
     }
-    public static int getElementPositionInArray(region[] array, region element) throws InterruptedException
+    public static int getElementPositionInArray(region[] array, region element)
     {
         if (array == null || array.length == 0)
         {
@@ -519,7 +520,7 @@ public class utils extends script.base_script
         }
         return -1;
     }
-    public static int getElementPositionInArray(location[] array, location element) throws InterruptedException
+    public static int getElementPositionInArray(location[] array, location element)
     {
         if (array == null || array.length == 0)
         {
@@ -534,7 +535,7 @@ public class utils extends script.base_script
         }
         return -1;
     }
-    public static int getElementPositionInArray(string_id[] array, string_id element) throws InterruptedException
+    public static int getElementPositionInArray(string_id[] array, string_id element)
     {
         if (array == null || array.length == 0)
         {
@@ -549,7 +550,7 @@ public class utils extends script.base_script
         }
         return -1;
     }
-    public static int getElementPositionInArray(attrib_mod[] array, attrib_mod element) throws InterruptedException
+    public static int getElementPositionInArray(attrib_mod[] array, attrib_mod element)
     {
         if (array == null || array.length == 0)
         {
@@ -564,7 +565,7 @@ public class utils extends script.base_script
         }
         return -1;
     }
-    public static obj_id[] copyObjIdArray(obj_id[] objSourceArray, obj_id[] objDestinationArray) throws InterruptedException
+    public static obj_id[] copyObjIdArray(obj_id[] objSourceArray, obj_id[] objDestinationArray)
     {
         if (objSourceArray == null || objDestinationArray == null || objSourceArray.length == 0 || objDestinationArray.length == 0 || objSourceArray.length > objDestinationArray.length)
         {
@@ -573,7 +574,7 @@ public class utils extends script.base_script
         System.arraycopy(objSourceArray, 0, objDestinationArray, 0, objSourceArray.length);
         return objDestinationArray;
     }
-    public static obj_id[] copyArray(obj_id[] oldArray, obj_id[] newArray) throws InterruptedException
+    public static obj_id[] copyArray(obj_id[] oldArray, obj_id[] newArray)
     {
         if (oldArray == null || newArray == null || oldArray.length == 0 || newArray.length == 0 || oldArray.length > newArray.length)
         {
@@ -582,7 +583,7 @@ public class utils extends script.base_script
         System.arraycopy(oldArray, 0, newArray, 0, oldArray.length);
         return newArray;
     }
-    public static int[] copyArray(int[] oldArray, int[] newArray) throws InterruptedException
+    public static int[] copyArray(int[] oldArray, int[] newArray)
     {
         if (oldArray == null || newArray == null || oldArray.length == 0 || newArray.length == 0 || oldArray.length > newArray.length)
         {
@@ -591,7 +592,7 @@ public class utils extends script.base_script
         System.arraycopy(oldArray, 0, newArray, 0, oldArray.length);
         return newArray;
     }
-    public static float[] copyArray(float[] oldArray, float[] newArray) throws InterruptedException
+    public static float[] copyArray(float[] oldArray, float[] newArray)
     {
         if (oldArray == null || newArray == null || oldArray.length == 0 || newArray.length == 0 || oldArray.length > newArray.length)
         {
@@ -600,7 +601,7 @@ public class utils extends script.base_script
         System.arraycopy(oldArray, 0, newArray, 0, oldArray.length);
         return newArray;
     }
-    public static boolean[] copyArray(boolean[] oldArray, boolean[] newArray) throws InterruptedException
+    public static boolean[] copyArray(boolean[] oldArray, boolean[] newArray)
     {
         if (oldArray == null || newArray == null || oldArray.length == 0 || newArray.length == 0 || oldArray.length > newArray.length)
         {
@@ -609,7 +610,7 @@ public class utils extends script.base_script
         System.arraycopy(oldArray, 0, newArray, 0, oldArray.length);
         return newArray;
     }
-    public static String[] copyArray(String[] oldArray, String[] newArray) throws InterruptedException
+    public static String[] copyArray(String[] oldArray, String[] newArray)
     {
         if (oldArray == null || newArray == null || oldArray.length == 0 || newArray.length == 0 || oldArray.length > newArray.length)
         {
@@ -618,7 +619,7 @@ public class utils extends script.base_script
         System.arraycopy(oldArray, 0, newArray, 0, oldArray.length);
         return newArray;
     }
-    public static region[] copyArray(region[] oldArray, region[] newArray) throws InterruptedException
+    public static region[] copyArray(region[] oldArray, region[] newArray)
     {
         if (oldArray == null || newArray == null || oldArray.length == 0 || newArray.length == 0 || oldArray.length > newArray.length)
         {
@@ -627,7 +628,7 @@ public class utils extends script.base_script
         System.arraycopy(oldArray, 0, newArray, 0, oldArray.length);
         return newArray;
     }
-    public static location[] copyArray(location[] oldArray, location[] newArray) throws InterruptedException
+    public static location[] copyArray(location[] oldArray, location[] newArray)
     {
         if (oldArray == null || newArray == null || oldArray.length == 0 || newArray.length == 0 || oldArray.length > newArray.length)
         {
@@ -636,7 +637,7 @@ public class utils extends script.base_script
         System.arraycopy(oldArray, 0, newArray, 0, oldArray.length);
         return newArray;
     }
-    public static string_id[] copyArray(string_id[] oldArray, string_id[] newArray) throws InterruptedException
+    public static string_id[] copyArray(string_id[] oldArray, string_id[] newArray)
     {
         if (oldArray == null || newArray == null || oldArray.length == 0 || newArray.length == 0 || oldArray.length > newArray.length)
         {
@@ -645,7 +646,7 @@ public class utils extends script.base_script
         System.arraycopy(oldArray, 0, newArray, 0, oldArray.length);
         return newArray;
     }
-    public static attrib_mod[] copyArray(attrib_mod[] oldArray, attrib_mod[] newArray) throws InterruptedException
+    public static attrib_mod[] copyArray(attrib_mod[] oldArray, attrib_mod[] newArray)
     {
         if (oldArray == null || newArray == null || oldArray.length == 0 || newArray.length == 0 || oldArray.length > newArray.length)
         {
@@ -654,7 +655,7 @@ public class utils extends script.base_script
         System.arraycopy(oldArray, 0, newArray, 0, oldArray.length);
         return newArray;
     }
-    public static String[] copyArrayOfRange(String[] oldArray, String[] newArray, int startIndex, int stopIndex) throws InterruptedException
+    public static String[] copyArrayOfRange(String[] oldArray, String[] newArray, int startIndex, int stopIndex)
     {
         if (oldArray == null || newArray == null || oldArray.length == 0 || newArray.length == 0 || oldArray.length < stopIndex + 1)
         {
@@ -668,7 +669,7 @@ public class utils extends script.base_script
         }
         return newArray;
     }
-    public static int setBit(int intBits, int intPos) throws InterruptedException
+    public static int setBit(int intBits, int intPos)
     {
         if (intPos < 0 || intPos > 31)
         {
@@ -677,7 +678,7 @@ public class utils extends script.base_script
         int posVal = 1 << intPos;
         return (intBits |= posVal);
     }
-    public static int clearBit(int intBits, int intPos) throws InterruptedException
+    public static int clearBit(int intBits, int intPos)
     {
         if (intPos < 0 || intPos > 31)
         {
@@ -686,7 +687,7 @@ public class utils extends script.base_script
         int posVal = 1 << intPos;
         return (intBits &= ~posVal);
     }
-    public static boolean checkBit(int intBits, int intPos) throws InterruptedException
+    public static boolean checkBit(int intBits, int intPos)
     {
         if (intPos < 0 || intPos > 31)
         {
@@ -695,7 +696,7 @@ public class utils extends script.base_script
         int posVal = 1 << intPos;
         return ((intBits & posVal) != 0);
     }
-    public static obj_id stringToObjId(String text) throws InterruptedException
+    public static obj_id stringToObjId(String text)
     {
         Long lngId;
         try
@@ -725,7 +726,7 @@ public class utils extends script.base_script
         }
         return null;
     }
-    public static int stringToInt(String text) throws InterruptedException
+    public static int stringToInt(String text)
     {
         if (text == null || text.equals(""))
         {
@@ -742,7 +743,7 @@ public class utils extends script.base_script
         }
         return amt;
     }
-    public static long stringToLong(String text) throws InterruptedException
+    public static long stringToLong(String text)
     {
         if (text == null || text.equals(""))
         {
@@ -759,7 +760,7 @@ public class utils extends script.base_script
         }
         return amt;
     }
-    public static float stringToFloat(String text) throws InterruptedException
+    public static float stringToFloat(String text)
     {
         if (text == null || text.equals(""))
         {
@@ -776,7 +777,7 @@ public class utils extends script.base_script
         }
         return amt;
     }
-    public static String objIdArrayToString(obj_id[] array) throws InterruptedException
+    public static String objIdArrayToString(obj_id[] array)
     {
         String text = "[ ";
         for (int i = 0; i < array.length; i++)
@@ -790,7 +791,7 @@ public class utils extends script.base_script
         text += " ]";
         return text;
     }
-    public static Vector removeElementAt(Vector array, int index) throws InterruptedException
+    public static Vector removeElementAt(Vector array, int index)
     {
         if (array == null)
         {
@@ -803,7 +804,7 @@ public class utils extends script.base_script
         array.removeElementAt(index);
         return array;
     }
-    public static Vector removeElement(Vector array, obj_id element) throws InterruptedException
+    public static Vector removeElement(Vector array, obj_id element)
     {
         if (array == null)
         {
@@ -816,7 +817,7 @@ public class utils extends script.base_script
         array.removeElement(element);
         return array;
     }
-    public static Vector removeElements(Vector array, obj_id[] elements) throws InterruptedException
+    public static Vector removeElements(Vector array, obj_id[] elements)
     {
         if (array == null)
         {
@@ -830,7 +831,7 @@ public class utils extends script.base_script
         array.removeAll(collection);
         return array;
     }
-    public static Vector removeElements(obj_id[] array, obj_id[] elements) throws InterruptedException
+    public static Vector removeElements(obj_id[] array, obj_id[] elements)
     {
         if (array == null)
         {
@@ -845,7 +846,7 @@ public class utils extends script.base_script
         ret.removeAll(collection);
         return ret;
     }
-    public static Vector removeElements(Vector array, Vector elements) throws InterruptedException
+    public static Vector removeElements(Vector array, Vector elements)
     {
         if (array == null)
         {
@@ -858,7 +859,7 @@ public class utils extends script.base_script
         array.removeAll(elements);
         return array;
     }
-    public static Vector addElement(Vector array, Object element) throws InterruptedException
+    public static Vector addElement(Vector array, Object element)
     {
         if (array == null)
         {
@@ -883,7 +884,7 @@ public class utils extends script.base_script
     {
         return addElement(array, Float.valueOf(element));
     }
-    public static obj_id[] toStaticObjIdArray(Vector vector) throws InterruptedException
+    public static obj_id[] toStaticObjIdArray(Vector vector)
     {
         if (vector == null || vector.size() == 0)
         {
@@ -893,7 +894,7 @@ public class utils extends script.base_script
         vector.toArray(ret);
         return ret;
     }
-    public static String[] toStaticStringArray(Vector vector) throws InterruptedException
+    public static String[] toStaticStringArray(Vector vector)
     {
         if (vector == null || vector.size() == 0)
         {
@@ -903,7 +904,7 @@ public class utils extends script.base_script
         vector.toArray(ret);
         return ret;
     }
-    public static location[] toStaticLocationArray(Vector vector) throws InterruptedException
+    public static location[] toStaticLocationArray(Vector vector)
     {
         if (vector == null || vector.size() == 0)
         {
@@ -913,7 +914,7 @@ public class utils extends script.base_script
         vector.toArray(ret);
         return ret;
     }
-    public static boolean[] messageTo(obj_id[] targets, String messageName, dictionary params, float time, boolean guaranteed) throws InterruptedException
+    public static boolean[] messageTo(obj_id[] targets, String messageName, dictionary params, float time, boolean guaranteed)
     {
         if (targets != null && targets.length > 0)
         {
@@ -939,7 +940,7 @@ public class utils extends script.base_script
         }
         return true;
     }
-    public static obj_id[] concatArrays(obj_id[] array1, obj_id[] array2) throws InterruptedException
+    public static obj_id[] concatArrays(obj_id[] array1, obj_id[] array2)
     {
         if (array1 == null)
         {
@@ -954,7 +955,7 @@ public class utils extends script.base_script
         System.arraycopy(array2, 0, toPass, array1.length, array2.length);
         return toPass;
     }
-    public static Vector concatArrays(Vector array1, Vector array2) throws InterruptedException
+    public static Vector concatArrays(Vector array1, Vector array2)
     {
         if (array1 == null)
         {
@@ -967,7 +968,7 @@ public class utils extends script.base_script
         array1.addAll(array2);
         return array1;
     }
-    public static Vector concatArrays(Vector array1, Object[] array2) throws InterruptedException
+    public static Vector concatArrays(Vector array1, Object[] array2)
     {
         if (array2 == null)
         {
@@ -1019,7 +1020,7 @@ public class utils extends script.base_script
         }
         return concatArrays(array1, toPass);
     }
-    public static String[] concatArrays(String[] array1, String[] array2) throws InterruptedException
+    public static String[] concatArrays(String[] array1, String[] array2)
     {
         if (array1 == null)
         {
@@ -1034,7 +1035,7 @@ public class utils extends script.base_script
         System.arraycopy(array2, 0, toPass, array1.length, array2.length);
         return toPass;
     }
-    public static boolean isSubset(obj_id[] array1, obj_id[] array2) throws InterruptedException
+    public static boolean isSubset(obj_id[] array1, obj_id[] array2)
     {
         if ((array1 == null) || (array2 == null))
         {
@@ -1044,7 +1045,7 @@ public class utils extends script.base_script
         Vector v2 = new Vector(Arrays.asList(array2));
         return v1.containsAll(v2);
     }
-    public static boolean isSubset(String[] array1, String[] array2) throws InterruptedException
+    public static boolean isSubset(String[] array1, String[] array2)
     {
         if ((array1 == null) || (array2 == null))
         {
@@ -1054,7 +1055,7 @@ public class utils extends script.base_script
         Vector v2 = new Vector(Arrays.asList(array2));
         return v1.containsAll(v2);
     }
-    public static boolean isSubset(string_id[] array1, string_id[] array2) throws InterruptedException
+    public static boolean isSubset(string_id[] array1, string_id[] array2)
     {
         if ((array1 == null) || (array2 == null))
         {
@@ -1064,7 +1065,7 @@ public class utils extends script.base_script
         Vector v2 = new Vector(Arrays.asList(array2));
         return v1.containsAll(v2);
     }
-    public static boolean isSubset(region[] array1, region[] array2) throws InterruptedException
+    public static boolean isSubset(region[] array1, region[] array2)
     {
         if ((array1 == null) || (array2 == null))
         {
@@ -1074,7 +1075,7 @@ public class utils extends script.base_script
         Vector v2 = new Vector(Arrays.asList(array2));
         return v1.containsAll(v2);
     }
-    public static boolean isSubset(location[] array1, location[] array2) throws InterruptedException
+    public static boolean isSubset(location[] array1, location[] array2)
     {
         if ((array1 == null) || (array2 == null))
         {
@@ -1084,7 +1085,7 @@ public class utils extends script.base_script
         Vector v2 = new Vector(Arrays.asList(array2));
         return v1.containsAll(v2);
     }
-    public static boolean isSubset(attrib_mod[] array1, attrib_mod[] array2) throws InterruptedException
+    public static boolean isSubset(attrib_mod[] array1, attrib_mod[] array2)
     {
         if ((array1 == null) || (array2 == null))
         {
@@ -1157,7 +1158,7 @@ public class utils extends script.base_script
         targetsArray = (obj_id[])targets.toArray(targetsArray);
         return makeNameList(targetsArray);
     }
-    public static boolean isOwner(obj_id target, obj_id player) throws InterruptedException
+    public static boolean isOwner(obj_id target, obj_id player)
     {
         if ((!isIdValid(target)) || (!isIdValid(player)))
         {
@@ -1270,7 +1271,7 @@ public class utils extends script.base_script
             return contents;
         }
     }
-    public static obj_id[] getSharedContainerObjects(obj_id object) throws InterruptedException
+    public static obj_id[] getSharedContainerObjects(obj_id object)
     {
         if (!isIdValid(object) || !exists(object))
         {
@@ -1351,7 +1352,7 @@ public class utils extends script.base_script
         }
         return null;
     }
-    public static boolean isNestedWithin(obj_id item, obj_id container) throws InterruptedException
+    public static boolean isNestedWithin(obj_id item, obj_id container)
     {
         if (!isIdValid(item) || !isIdValid(container))
         {
@@ -1400,7 +1401,7 @@ public class utils extends script.base_script
         }
         return false;
     }
-    public static obj_id getContainingPlayer(obj_id item) throws InterruptedException
+    public static obj_id getContainingPlayer(obj_id item)
     {
         obj_id containedBy = getContainedBy(item);
         if (!isIdValid(containedBy))
@@ -1421,7 +1422,7 @@ public class utils extends script.base_script
         }
         return isIdValid(getContainingNpcCreature(item));
     }
-    public static obj_id getContainingNpcCreature(obj_id item) throws InterruptedException
+    public static obj_id getContainingNpcCreature(obj_id item)
     {
         obj_id containedBy = getContainedBy(item);
         if (!isIdValid(containedBy))
@@ -1434,7 +1435,7 @@ public class utils extends script.base_script
         }
         return getContainingNpcCreature(containedBy);
     }
-    public static obj_id getContainingPlayerOrCreature(obj_id item) throws InterruptedException
+    public static obj_id getContainingPlayerOrCreature(obj_id item)
     {
         obj_id containedBy = getContainedBy(item);
         if (!isIdValid(containedBy))
@@ -1509,7 +1510,7 @@ public class utils extends script.base_script
         }
         return count;
     }
-    public static boolean playerHasItemByTemplateInInventoryOrEquipped(obj_id player, String desiredTemplate) throws InterruptedException
+    public static boolean playerHasItemByTemplateInInventoryOrEquipped(obj_id player, String desiredTemplate)
     {
         obj_id[] contents = getInventoryAndEquipment(player);
         if (contents != null)
@@ -1522,7 +1523,7 @@ public class utils extends script.base_script
         }
         return false;
     }
-    public static obj_id getItemByTemplateInInventoryOrEquipped(obj_id player, String desiredTemplate) throws InterruptedException
+    public static obj_id getItemByTemplateInInventoryOrEquipped(obj_id player, String desiredTemplate)
     {
         obj_id[] contents = getInventoryAndEquipment(player);
         if (contents != null)
@@ -1535,7 +1536,7 @@ public class utils extends script.base_script
         }
         return null;
     }
-    public static boolean playerHasItemWithObjVarInInventoryOrEquipped(obj_id player, String desiredObjVar) throws InterruptedException
+    public static boolean playerHasItemWithObjVarInInventoryOrEquipped(obj_id player, String desiredObjVar)
     {
         obj_id[] contents = getInventoryAndEquipment(player);
         if (contents != null)
@@ -1548,7 +1549,7 @@ public class utils extends script.base_script
         }
         return false;
     }
-    public static boolean playerHasItemByTemplateWithObjVarInInventoryOrEquipped(obj_id player, String desiredTemplate, String desiredObjVar) throws InterruptedException
+    public static boolean playerHasItemByTemplateWithObjVarInInventoryOrEquipped(obj_id player, String desiredTemplate, String desiredObjVar)
     {
         obj_id[] contents = getInventoryAndEquipment(player);
         if (contents != null)
@@ -1629,7 +1630,7 @@ public class utils extends script.base_script
     {
         return (isIdValid(getStaticItemInAppearanceInventory(player, staticItem)));
     }
-    public static obj_id getStaticItemInAppearanceInventory(obj_id player, String staticItem) throws InterruptedException
+    public static obj_id getStaticItemInAppearanceInventory(obj_id player, String staticItem)
     {
         obj_id[] contents = getAllItemsFromAppearanceInventory(player);
         
@@ -1676,7 +1677,7 @@ public class utils extends script.base_script
         }
         return null;
     }
-    public static obj_id getStaticItemInInventory(obj_id player, String staticItem) throws InterruptedException
+    public static obj_id getStaticItemInInventory(obj_id player, String staticItem)
     {
         obj_id[] contents = getInventoryAndEquipment(player);
         if (contents != null && contents.length > 0)
@@ -1957,7 +1958,7 @@ public class utils extends script.base_script
         locOffset.z = locOrigin.z;
         return rotatePointXZ(locOrigin, locOffset, fltAngle);
     }
-    public static location rotatePointXZ(location locOrigin, location locPoint, float fltAngle) throws InterruptedException
+    public static location rotatePointXZ(location locOrigin, location locPoint, float fltAngle)
     {
         float dx = locPoint.x - locOrigin.x;
         float dz = locPoint.z - locOrigin.z;
@@ -1970,7 +1971,7 @@ public class utils extends script.base_script
         locNewOffset.z += (dx * fltC) + (dz * fltS);
         return locNewOffset;
     }
-    public static location rotatePointXZ(location locPoint, float fltAngle) throws InterruptedException
+    public static location rotatePointXZ(location locPoint, float fltAngle)
     {
         float fltRadians = (float)Math.toRadians(fltAngle);
         float fltC = (float) StrictMath.cos(fltRadians);
@@ -1980,7 +1981,7 @@ public class utils extends script.base_script
         locNewPoint.z += (locPoint.x * fltS) + (locPoint.z * fltC);
         return locNewPoint;
     }
-    public static float getHeadingToLocation(location here, location there) throws InterruptedException
+    public static float getHeadingToLocation(location here, location there)
     {
         if (here == null || there == null)
         {
@@ -2005,19 +2006,19 @@ public class utils extends script.base_script
         }
         return rotatePointXZ(origin, distance, getYaw(target));
     }
-    public static attrib_mod createAttribMod(int attrib, int value, float duration, float attack, float decay) throws InterruptedException
+    public static attrib_mod createAttribMod(int attrib, int value, float duration, float attack, float decay)
     {
         return new attrib_mod(attrib, value, duration, attack, decay);
     }
-    public static attrib_mod createAttribMod(int attrib, int value, float duration, float attack) throws InterruptedException
+    public static attrib_mod createAttribMod(int attrib, int value, float duration, float attack)
     {
         return new attrib_mod(attrib, value, duration, attack, 0.0f);
     }
-    public static attrib_mod createAttribMod(int attrib, int value, float duration) throws InterruptedException
+    public static attrib_mod createAttribMod(int attrib, int value, float duration)
     {
         return new attrib_mod(attrib, value, duration, 0.0f, 0.0f);
     }
-    public static attrib_mod createHealDamageAttribMod(int attrib, int value) throws InterruptedException
+    public static attrib_mod createHealDamageAttribMod(int attrib, int value)
     {
         if ((value < 1) || (attrib % 3 != 0))
         {
@@ -2025,7 +2026,7 @@ public class utils extends script.base_script
         }
         return new attrib_mod(attrib, value, 0.0f, 0.0f, MOD_POOL);
     }
-    public static attrib_mod createHealWoundAttribMod(int attrib, int value) throws InterruptedException
+    public static attrib_mod createHealWoundAttribMod(int attrib, int value)
     {
         if (value < 1)
         {
@@ -2033,7 +2034,7 @@ public class utils extends script.base_script
         }
         return new attrib_mod(attrib, value, 0.0f, healing.AM_HEAL_WOUND, 0.0f);
     }
-    public static attrib_mod createHealShockAttribMod(int value) throws InterruptedException
+    public static attrib_mod createHealShockAttribMod(int value)
     {
         if (value < 1)
         {
@@ -2041,7 +2042,7 @@ public class utils extends script.base_script
         }
         return new attrib_mod(0, value, 0.0f, healing.AM_HEAL_SHOCK, 0.0f);
     }
-    public static attrib_mod createAddShockAttribMod(int value) throws InterruptedException
+    public static attrib_mod createAddShockAttribMod(int value)
     {
         if (value < 1)
         {
@@ -2049,7 +2050,7 @@ public class utils extends script.base_script
         }
         return new attrib_mod(0, value, 0.0f, healing.AM_ADD_SHOCK, 0.0f);
     }
-    public static attrib_mod createWoundAttribMod(int attrib, int value) throws InterruptedException
+    public static attrib_mod createWoundAttribMod(int attrib, int value)
     {
         if (value < 1)
         {
@@ -2057,15 +2058,15 @@ public class utils extends script.base_script
         }
         return new attrib_mod(attrib, value, 0.0f, 0.0f, MOD_WOUND);
     }
-    public static attrib_mod createAntidoteAttribMod(int attrib) throws InterruptedException
+    public static attrib_mod createAntidoteAttribMod(int attrib)
     {
         return new attrib_mod(attrib, 0, 0.0f, 0.0f, MOD_ANTIDOTE);
     }
-    public static boolean addAttribMod(obj_id target, int attrib, int value, float duration) throws InterruptedException
+    public static boolean addAttribMod(obj_id target, int attrib, int value, float duration)
     {
         return addAttribModifier(target, attrib, value, duration, 0.0f, 0.0f);
     }
-    public static boolean addAttribMod(obj_id target, attrib_mod am) throws InterruptedException
+    public static boolean addAttribMod(obj_id target, attrib_mod am)
     {
         if (target == null || am == null)
         {
@@ -2123,7 +2124,8 @@ public class utils extends script.base_script
         }
         return ret;
     }
-    public static boolean setHeading(obj_id target, float heading) throws InterruptedException {
+    public static boolean setHeading(obj_id target, float heading)
+    {
         return target != null && setYaw(target, heading);
     }
     public static dictionary parseKeyPairList(String keyPairList, char delim) throws InterruptedException
@@ -2156,21 +2158,23 @@ public class utils extends script.base_script
     {
         return parseKeyPairList(keyPairList, ',');
     }
-    public static boolean putInPlayerInventory(obj_id player, obj_id item) throws InterruptedException {
+    public static boolean putInPlayerInventory(obj_id player, obj_id item)
+    {
         if ((!isIdValid(player)) || (!isPlayer(player)) || (item == null)) {
             return false;
         }
         obj_id inventory = getObjectInSlot(player, SLOT_INVENTORY);
         return inventory != null && putIn(item, inventory);
     }
-    public static boolean putInPlayerDatapad(obj_id player, obj_id item) throws InterruptedException {
+    public static boolean putInPlayerDatapad(obj_id player, obj_id item)
+    {
         if ((!isIdValid(player)) || (!isPlayer(player)) || (item == null)) {
             return false;
         }
         obj_id datapad = getObjectInSlot(player, SLOT_DATAPAD);
         return datapad != null && putIn(item, datapad);
     }
-    public static obj_id getInventoryContainer(obj_id target) throws InterruptedException
+    public static obj_id getInventoryContainer(obj_id target)
     {
         if (!isIdValid(target))
         {
@@ -2193,7 +2197,7 @@ public class utils extends script.base_script
             return null;
         }
     }
-    public static obj_id getMissionBag(obj_id objPlayer) throws InterruptedException
+    public static obj_id getMissionBag(obj_id objPlayer)
     {
         if (!isIdValid(objPlayer))
         {
@@ -2201,7 +2205,7 @@ public class utils extends script.base_script
         }
         return getObjectInSlot(objPlayer, SLOT_MISSION_BAG);
     }
-    public static obj_id getDatapad(obj_id target) throws InterruptedException
+    public static obj_id getDatapad(obj_id target)
     {
         if (!isIdValid(target))
         {
@@ -2209,7 +2213,7 @@ public class utils extends script.base_script
         }
         return getObjectInSlot(target, SLOT_DATAPAD);
     }
-    public static obj_id getPlayerDatapad(obj_id player) throws InterruptedException
+    public static obj_id getPlayerDatapad(obj_id player)
     {
         if (!isIdValid(player) || !isPlayer(player))
         {
@@ -2217,7 +2221,7 @@ public class utils extends script.base_script
         }
         return getObjectInSlot(player, SLOT_DATAPAD);
     }
-    public static obj_id getPlayerHangar(obj_id player) throws InterruptedException
+    public static obj_id getPlayerHangar(obj_id player)
     {
         if (!isIdValid(player) || !isPlayer(player))
         {
@@ -2225,7 +2229,7 @@ public class utils extends script.base_script
         }
         return getObjectInSlot(player, SLOT_HANGAR);
     }
-    public static obj_id getPlayerBank(obj_id player) throws InterruptedException
+    public static obj_id getPlayerBank(obj_id player)
     {
         if (!isIdValid(player) || !isPlayer(player))
         {
@@ -2233,7 +2237,7 @@ public class utils extends script.base_script
         }
         return getObjectInSlot(player, SLOT_BANK);
     }
-    public static boolean itemNotActive(obj_id player) throws InterruptedException
+    public static boolean itemNotActive(obj_id player)
     {
         if ((!isIdValid(player)) || (!isPlayer(player)))
         {
@@ -2242,7 +2246,7 @@ public class utils extends script.base_script
         sendSystemMessage(player, SID_OBJECT_NOT_ACTIVE);
         return true;
     }
-    public static boolean requestContainerOpen(obj_id player, obj_id container) throws InterruptedException
+    public static boolean requestContainerOpen(obj_id player, obj_id container)
     {
         if ((!isIdValid(player)) || (!isPlayer(player)) || (!isIdValid(container)) || (getContainerType(container) == 0))
         {
@@ -2251,7 +2255,7 @@ public class utils extends script.base_script
         queueCommand(player, (1880585606), container, "", COMMAND_PRIORITY_DEFAULT);
         return true;
     }
-    public static String packStringId(string_id strId) throws InterruptedException
+    public static String packStringId(string_id strId)
     {
         if (strId == null)
         {
@@ -2263,7 +2267,7 @@ public class utils extends script.base_script
         }
         return "@" + strId.getTable() + ":" + strId.getAsciiId();
     }
-    public static string_id unpackString(String strId) throws InterruptedException
+    public static string_id unpackString(String strId)
     {
         if (strId == null || strId.equals(""))
         {
@@ -2280,7 +2284,7 @@ public class utils extends script.base_script
         }
         return null;
     }
-    public static obj_id getNearbyPlayerByName(obj_id actor, String name) throws InterruptedException
+    public static obj_id getNearbyPlayerByName(obj_id actor, String name)
     {
         java.util.StringTokenizer st = new java.util.StringTokenizer(name);
         if (st.hasMoreTokens())
@@ -2303,7 +2307,7 @@ public class utils extends script.base_script
         }
         return obj_id.NULL_ID;
     }
-    public static void sendPostureChange(obj_id objCreature, int intPosture) throws InterruptedException
+    public static void sendPostureChange(obj_id objCreature, int intPosture)
     {
         attacker_results cbtAttackerResults = new attacker_results();
         setPosture(objCreature, intPosture);
@@ -2462,27 +2466,27 @@ public class utils extends script.base_script
     {
         return getContainedObjectsWithScript(container, script, false);
     }
-    public static void sendMail(string_id subject, string_id body, String to, String from) throws InterruptedException
+    public static void sendMail(string_id subject, string_id body, String to, String from)
     {
         chatSendPersistentMessage(from, to, "@" + subject.toString(), null, chatMakePersistentMessageOutOfBandBody(null, body));
     }
-    public static void sendMail(string_id subject, string_id body, obj_id to, String from) throws InterruptedException
+    public static void sendMail(string_id subject, string_id body, obj_id to, String from)
     {
         chatSendPersistentMessage(from, to, "@" + subject.toString(), null, chatMakePersistentMessageOutOfBandBody(null, body));
     }
-    public static void sendMail(string_id subject, prose_package body, obj_id to, String from) throws InterruptedException
+    public static void sendMail(string_id subject, prose_package body, obj_id to, String from)
     {
         chatSendPersistentMessage(from, to, "@" + subject.toString(), null, chatMakePersistentMessageOutOfBandBody(null, body));
     }
-    public static void sendMail(string_id subject, prose_package body, String to, String from) throws InterruptedException
+    public static void sendMail(string_id subject, prose_package body, String to, String from)
     {
         chatSendPersistentMessage(from, to, "@" + subject.toString(), null, chatMakePersistentMessageOutOfBandBody(null, body));
     }
-    public static boolean isNightTime() throws InterruptedException
+    public static boolean isNightTime()
     {
         return getLocalTime() >= getLocalDayLength();
     }
-    public static void sendSystemMessageTestingOnly(obj_id[] players, String message) throws InterruptedException
+    public static void sendSystemMessageTestingOnly(obj_id[] players, String message)
     {
         if (players == null || players.length == 0)
         {
@@ -2494,7 +2498,7 @@ public class utils extends script.base_script
             }
         }
     }
-    public static void sendSystemMessage(obj_id[] players, string_id message) throws InterruptedException
+    public static void sendSystemMessage(obj_id[] players, string_id message)
     {
         if (players == null || players.length == 0)
         {
@@ -2506,7 +2510,7 @@ public class utils extends script.base_script
             }
         }
     }
-    public static void sendSystemMessageProse(obj_id[] players, prose_package message) throws InterruptedException
+    public static void sendSystemMessageProse(obj_id[] players, prose_package message)
     {
         if (players == null || players.length == 0)
         {
@@ -2534,7 +2538,7 @@ public class utils extends script.base_script
             utils.sendSystemMessageProse(players, message);
         }
     }
-    public static void messagePlayer(obj_id source, obj_id player, string_id message, String templateOverride) throws InterruptedException
+    public static void messagePlayer(obj_id source, obj_id player, string_id message, String templateOverride)
     {
         prose_package pp = new prose_package();
         pp.stringId = message;
@@ -2551,7 +2555,7 @@ public class utils extends script.base_script
     {
         messagePlayer(source, player, message, "none");
     }
-    public static void messagePlayer(obj_id source, obj_id[] players, string_id message, String templateOverride) throws InterruptedException
+    public static void messagePlayer(obj_id source, obj_id[] players, string_id message, String templateOverride)
     {
         prose_package pp = new prose_package();
         pp.stringId = message;
@@ -2564,7 +2568,7 @@ public class utils extends script.base_script
             commPlayers(source, players, pp, templateOverride);
         }
     }
-    public static void messagePlayer(obj_id source, obj_id[] players, string_id message, String templateOverride, float duration) throws InterruptedException
+    public static void messagePlayer(obj_id source, obj_id[] players, string_id message, String templateOverride, float duration)
     {
         prose_package pp = new prose_package();
         pp.stringId = message;
@@ -2668,7 +2672,7 @@ public class utils extends script.base_script
         }
         return result;
     }
-    public static boolean setLocalVar(obj_id target, String path, location val) throws InterruptedException
+    public static boolean setLocalVar(obj_id target, String path, location val)
     {
         if (!isIdValid(target))
         {
@@ -2681,7 +2685,7 @@ public class utils extends script.base_script
         target.getScriptDictionary().put(path, val);
         return true;
     }
-    public static boolean setLocalVar(obj_id target, String path, location[] val) throws InterruptedException
+    public static boolean setLocalVar(obj_id target, String path, location[] val)
     {
         if (!isIdValid(target))
         {
@@ -2694,7 +2698,7 @@ public class utils extends script.base_script
         target.getScriptDictionary().put(path, val);
         return true;
     }
-    public static boolean setLocalVar(obj_id target, String path, String val) throws InterruptedException
+    public static boolean setLocalVar(obj_id target, String path, String val)
     {
         if (!isIdValid(target))
         {
@@ -2707,7 +2711,7 @@ public class utils extends script.base_script
         target.getScriptDictionary().put(path, val);
         return true;
     }
-    public static boolean setLocalVar(obj_id target, String path, String[] val) throws InterruptedException
+    public static boolean setLocalVar(obj_id target, String path, String[] val)
     {
         if (!isIdValid(target))
         {
@@ -2720,7 +2724,7 @@ public class utils extends script.base_script
         target.getScriptDictionary().put(path, val);
         return true;
     }
-    public static boolean setLocalVar(obj_id target, String path, obj_id val) throws InterruptedException
+    public static boolean setLocalVar(obj_id target, String path, obj_id val)
     {
         if (!isIdValid(target))
         {
@@ -2733,7 +2737,7 @@ public class utils extends script.base_script
         target.getScriptDictionary().put(path, val);
         return true;
     }
-    public static boolean setLocalVar(obj_id target, String path, obj_id[] val) throws InterruptedException
+    public static boolean setLocalVar(obj_id target, String path, obj_id[] val)
     {
         if (!isIdValid(target))
         {
@@ -2746,7 +2750,7 @@ public class utils extends script.base_script
         target.getScriptDictionary().put(path, val);
         return true;
     }
-    public static boolean setLocalVar(obj_id target, String path, int val) throws InterruptedException
+    public static boolean setLocalVar(obj_id target, String path, int val)
     {
         if (!isIdValid(target))
         {
@@ -2759,7 +2763,7 @@ public class utils extends script.base_script
         target.getScriptDictionary().put(path, val);
         return true;
     }
-    public static boolean setLocalVar(obj_id target, String path, int[] val) throws InterruptedException
+    public static boolean setLocalVar(obj_id target, String path, int[] val)
     {
         if (!isIdValid(target))
         {
@@ -2772,7 +2776,7 @@ public class utils extends script.base_script
         target.getScriptDictionary().put(path, val);
         return true;
     }
-    public static boolean setLocalVar(obj_id target, String path, float val) throws InterruptedException
+    public static boolean setLocalVar(obj_id target, String path, float val)
     {
         if (!isIdValid(target))
         {
@@ -2785,7 +2789,7 @@ public class utils extends script.base_script
         target.getScriptDictionary().put(path, val);
         return true;
     }
-    public static boolean setLocalVar(obj_id target, String path, float[] val) throws InterruptedException
+    public static boolean setLocalVar(obj_id target, String path, float[] val)
     {
         if (!isIdValid(target))
         {
@@ -2798,7 +2802,7 @@ public class utils extends script.base_script
         target.getScriptDictionary().put(path, val);
         return true;
     }
-    public static boolean setLocalVar(obj_id target, String path, boolean val) throws InterruptedException
+    public static boolean setLocalVar(obj_id target, String path, boolean val)
     {
         if (!isIdValid(target))
         {
@@ -2811,7 +2815,7 @@ public class utils extends script.base_script
         target.getScriptDictionary().put(path, val);
         return true;
     }
-    public static boolean setLocalVar(obj_id target, String path, transform val) throws InterruptedException
+    public static boolean setLocalVar(obj_id target, String path, transform val)
     {
         if (!isIdValid(target))
         {
@@ -2824,7 +2828,7 @@ public class utils extends script.base_script
         target.getScriptDictionary().put(path, val);
         return true;
     }
-    public static boolean setLocalVar(obj_id target, String path, transform[] val) throws InterruptedException
+    public static boolean setLocalVar(obj_id target, String path, transform[] val)
     {
         if (!isIdValid(target))
         {
@@ -2837,7 +2841,7 @@ public class utils extends script.base_script
         target.getScriptDictionary().put(path, val);
         return true;
     }
-    public static boolean setLocalVar(obj_id target, String path, vector val) throws InterruptedException
+    public static boolean setLocalVar(obj_id target, String path, vector val)
     {
         if (!isIdValid(target))
         {
@@ -2850,7 +2854,7 @@ public class utils extends script.base_script
         target.getScriptDictionary().put(path, val);
         return true;
     }
-    public static boolean setLocalVar(obj_id target, String path, vector[] val) throws InterruptedException
+    public static boolean setLocalVar(obj_id target, String path, vector[] val)
     {
         if (!isIdValid(target))
         {
@@ -2863,7 +2867,7 @@ public class utils extends script.base_script
         target.getScriptDictionary().put(path, val);
         return true;
     }
-    public static boolean setLocalVar(obj_id target, String path, boolean[] val) throws InterruptedException
+    public static boolean setLocalVar(obj_id target, String path, boolean[] val)
     {
         if (!isIdValid(target))
         {
@@ -2876,7 +2880,7 @@ public class utils extends script.base_script
         target.getScriptDictionary().put(path, val);
         return true;
     }
-    public static boolean setLocalVar(obj_id target, String path, dictionary val) throws InterruptedException
+    public static boolean setLocalVar(obj_id target, String path, dictionary val)
     {
         if (!isIdValid(target))
         {
@@ -2889,11 +2893,11 @@ public class utils extends script.base_script
         target.getScriptDictionary().put(path, val);
         return true;
     }
-    public static boolean hasLocalVar(obj_id target, String path) throws InterruptedException
+    public static boolean hasLocalVar(obj_id target, String path)
     {
         return target.getScriptDictionary().containsKey(path);
     }
-    public static boolean removeLocalVar(obj_id target, String path) throws InterruptedException
+    public static boolean removeLocalVar(obj_id target, String path)
     {
         if ((target == null) || (target == obj_id.NULL_ID))
         {
@@ -2906,71 +2910,71 @@ public class utils extends script.base_script
         target.getScriptDictionary().remove(path);
         return true;
     }
-    public static int getIntLocalVar(obj_id target, String path) throws InterruptedException
+    public static int getIntLocalVar(obj_id target, String path)
     {
         return target.getScriptDictionary().getInt(path);
     }
-    public static int[] getIntArrayLocalVar(obj_id target, String path) throws InterruptedException
+    public static int[] getIntArrayLocalVar(obj_id target, String path)
     {
         return target.getScriptDictionary().getIntArray(path);
     }
-    public static float getFloatLocalVar(obj_id target, String path) throws InterruptedException
+    public static float getFloatLocalVar(obj_id target, String path)
     {
         return target.getScriptDictionary().getFloat(path);
     }
-    public static float[] getFloatArrayLocalVar(obj_id target, String path) throws InterruptedException
+    public static float[] getFloatArrayLocalVar(obj_id target, String path)
     {
         return target.getScriptDictionary().getFloatArray(path);
     }
-    public static String getStringLocalVar(obj_id target, String path) throws InterruptedException
+    public static String getStringLocalVar(obj_id target, String path)
     {
         return target.getScriptDictionary().getString(path);
     }
-    public static String[] getStringArrayLocalVar(obj_id target, String path) throws InterruptedException
+    public static String[] getStringArrayLocalVar(obj_id target, String path)
     {
         return target.getScriptDictionary().getStringArray(path);
     }
-    public static transform[] getTransformArrayLocalVar(obj_id target, String path) throws InterruptedException
+    public static transform[] getTransformArrayLocalVar(obj_id target, String path)
     {
         return target.getScriptDictionary().getTransformArray(path);
     }
-    public static boolean getBooleanLocalVar(obj_id target, String path) throws InterruptedException
+    public static boolean getBooleanLocalVar(obj_id target, String path)
     {
         return target.getScriptDictionary().getBoolean(path);
     }
-    public static boolean[] getBooleanArrayLocalVar(obj_id target, String path) throws InterruptedException
+    public static boolean[] getBooleanArrayLocalVar(obj_id target, String path)
     {
         return target.getScriptDictionary().getBooleanArray(path);
     }
-    public static location getLocationLocalVar(obj_id target, String path) throws InterruptedException
+    public static location getLocationLocalVar(obj_id target, String path)
     {
         return target.getScriptDictionary().getLocation(path);
     }
-    public static location[] getLocationArrayLocalVar(obj_id target, String path) throws InterruptedException
+    public static location[] getLocationArrayLocalVar(obj_id target, String path)
     {
         return target.getScriptDictionary().getLocationArray(path);
     }
-    public static obj_id getObjIdLocalVar(obj_id target, String path) throws InterruptedException
+    public static obj_id getObjIdLocalVar(obj_id target, String path)
     {
         return target.getScriptDictionary().getObjId(path);
     }
-    public static obj_id[] getObjIdArrayLocalVar(obj_id target, String path) throws InterruptedException
+    public static obj_id[] getObjIdArrayLocalVar(obj_id target, String path)
     {
         return target.getScriptDictionary().getObjIdArray(path);
     }
-    public static Vector getResizeableObjIdArrayLocalVar(obj_id target, String path) throws InterruptedException
+    public static Vector getResizeableObjIdArrayLocalVar(obj_id target, String path)
     {
         dictionary dd = target.getScriptDictionary();
         obj_id[] objArray = dd.getObjIdArray(path);
         return new Vector(Arrays.asList(objArray));
     }
-    public static Vector getResizeableLocationArrayLocalVar(obj_id target, String path) throws InterruptedException
+    public static Vector getResizeableLocationArrayLocalVar(obj_id target, String path)
     {
         dictionary dd = target.getScriptDictionary();
         location[] locArray = dd.getLocationArray(path);
         return new Vector(Arrays.asList(locArray));
     }
-    public static Vector getResizeableIntArrayLocalVar(obj_id target, String path) throws InterruptedException
+    public static Vector getResizeableIntArrayLocalVar(obj_id target, String path)
     {
         dictionary dd = target.getScriptDictionary();
         int[] intArray = dd.getIntArray(path);
@@ -2980,7 +2984,7 @@ public class utils extends script.base_script
         }
         return rszArray;
     }
-    public static Vector getResizeableFloatArrayLocalVar(obj_id target, String path) throws InterruptedException
+    public static Vector getResizeableFloatArrayLocalVar(obj_id target, String path)
     {
         dictionary dd = target.getScriptDictionary();
         float[] fltArray = dd.getFloatArray(path);
@@ -2990,37 +2994,37 @@ public class utils extends script.base_script
         }
         return rszArray;
     }
-    public static Vector getResizeableStringArrayLocalVar(obj_id target, String path) throws InterruptedException
+    public static Vector getResizeableStringArrayLocalVar(obj_id target, String path)
     {
         dictionary dd = target.getScriptDictionary();
         String[] strArray = dd.getStringArray(path);
         return new Vector(Arrays.asList((String[])strArray));
     }
-    public static Vector getResizeableTransformArrayLocalVar(obj_id target, String path) throws InterruptedException
+    public static Vector getResizeableTransformArrayLocalVar(obj_id target, String path)
     {
         dictionary dd = target.getScriptDictionary();
         transform[] trArray = dd.getTransformArray(path);
         return new Vector(Arrays.asList(trArray));
     }
-    public static Vector getResizeableVectorArrayLocalVar(obj_id target, String path) throws InterruptedException
+    public static Vector getResizeableVectorArrayLocalVar(obj_id target, String path)
     {
         dictionary dd = target.getScriptDictionary();
         vector[] vctArray = dd.getVectorArray(path);
         return new Vector(Arrays.asList(vctArray));
     }
-    public static string_id getStringIdLocalVar(obj_id target, String path) throws InterruptedException
+    public static string_id getStringIdLocalVar(obj_id target, String path)
     {
         return target.getScriptDictionary().getStringId(path);
     }
-    public static string_id[] getStringIdArrayLocalVar(obj_id target, String path) throws InterruptedException
+    public static string_id[] getStringIdArrayLocalVar(obj_id target, String path)
     {
         return target.getScriptDictionary().getStringIdArray(path);
     }
-    public static dictionary getDictionaryLocalVar(obj_id target, String path) throws InterruptedException
+    public static dictionary getDictionaryLocalVar(obj_id target, String path)
     {
         return target.getScriptDictionary().getDictionary(path);
     }
-    public static boolean setScriptVar(obj_id target, String path, location val) throws InterruptedException
+    public static boolean setScriptVar(obj_id target, String path, location val)
     {
         if (!isIdValid(target))
         {
@@ -3033,7 +3037,7 @@ public class utils extends script.base_script
         target.getScriptVars().put(path, val);
         return true;
     }
-    public static boolean setScriptVar(obj_id target, String path, location[] val) throws InterruptedException
+    public static boolean setScriptVar(obj_id target, String path, location[] val)
     {
         if (!isIdValid(target))
         {
@@ -3046,7 +3050,7 @@ public class utils extends script.base_script
         target.getScriptVars().put(path, val);
         return true;
     }
-    public static boolean setScriptVar(obj_id target, String path, String val) throws InterruptedException
+    public static boolean setScriptVar(obj_id target, String path, String val)
     {
         if (!isIdValid(target))
         {
@@ -3059,7 +3063,7 @@ public class utils extends script.base_script
         target.getScriptVars().put(path, val);
         return true;
     }
-    public static boolean setScriptVar(obj_id target, String path, String[] val) throws InterruptedException
+    public static boolean setScriptVar(obj_id target, String path, String[] val)
     {
         if (!isIdValid(target))
         {
@@ -3072,7 +3076,7 @@ public class utils extends script.base_script
         target.getScriptVars().put(path, val);
         return true;
     }
-    public static boolean setScriptVar(obj_id target, String path, String[][] val) throws InterruptedException
+    public static boolean setScriptVar(obj_id target, String path, String[][] val)
     {
         if (!isIdValid(target))
         {
@@ -3085,7 +3089,7 @@ public class utils extends script.base_script
         target.getScriptVars().put(path, val);
         return true;
     }
-    public static boolean setScriptVar(obj_id target, String path, obj_id val) throws InterruptedException
+    public static boolean setScriptVar(obj_id target, String path, obj_id val)
     {
         if (!isIdValid(target))
         {
@@ -3098,7 +3102,7 @@ public class utils extends script.base_script
         target.getScriptVars().put(path, val);
         return true;
     }
-    public static boolean setScriptVar(obj_id target, String path, obj_id[] val) throws InterruptedException
+    public static boolean setScriptVar(obj_id target, String path, obj_id[] val)
     {
         if (!isIdValid(target))
         {
@@ -3111,7 +3115,7 @@ public class utils extends script.base_script
         target.getScriptVars().put(path, val);
         return true;
     }
-    public static boolean setScriptVar(obj_id target, String path, int val) throws InterruptedException
+    public static boolean setScriptVar(obj_id target, String path, int val)
     {
         if (!isIdValid(target))
         {
@@ -3124,7 +3128,7 @@ public class utils extends script.base_script
         target.getScriptVars().put(path, val);
         return true;
     }
-    public static boolean setScriptVar(obj_id target, String path, int[] val) throws InterruptedException
+    public static boolean setScriptVar(obj_id target, String path, int[] val)
     {
         if (!isIdValid(target))
         {
@@ -3137,7 +3141,7 @@ public class utils extends script.base_script
         target.getScriptVars().put(path, val);
         return true;
     }
-    public static boolean setScriptVar(obj_id target, String path, long val) throws InterruptedException
+    public static boolean setScriptVar(obj_id target, String path, long val)
     {
         if (!isIdValid(target))
         {
@@ -3150,7 +3154,7 @@ public class utils extends script.base_script
         target.getScriptVars().put(path, val);
         return true;
     }
-    public static boolean setScriptVar(obj_id target, String path, long[] val) throws InterruptedException
+    public static boolean setScriptVar(obj_id target, String path, long[] val)
     {
         if (!isIdValid(target))
         {
@@ -3163,7 +3167,7 @@ public class utils extends script.base_script
         target.getScriptVars().put(path, val);
         return true;
     }
-    public static boolean setScriptVar(obj_id target, String path, double val) throws InterruptedException
+    public static boolean setScriptVar(obj_id target, String path, double val)
     {
         if (!isIdValid(target))
         {
@@ -3176,7 +3180,7 @@ public class utils extends script.base_script
         target.getScriptVars().put(path, val);
         return true;
     }
-    public static boolean setScriptVar(obj_id target, String path, double[] val) throws InterruptedException
+    public static boolean setScriptVar(obj_id target, String path, double[] val)
     {
         if (!isIdValid(target))
         {
@@ -3189,7 +3193,7 @@ public class utils extends script.base_script
         target.getScriptVars().put(path, val);
         return true;
     }
-    public static boolean setScriptVar(obj_id target, String path, float val) throws InterruptedException
+    public static boolean setScriptVar(obj_id target, String path, float val)
     {
         if (!isIdValid(target))
         {
@@ -3202,7 +3206,7 @@ public class utils extends script.base_script
         target.getScriptVars().put(path, val);
         return true;
     }
-    public static boolean setScriptVar(obj_id target, String path, float[] val) throws InterruptedException
+    public static boolean setScriptVar(obj_id target, String path, float[] val)
     {
         if (!isIdValid(target))
         {
@@ -3215,7 +3219,7 @@ public class utils extends script.base_script
         target.getScriptVars().put(path, val);
         return true;
     }
-    public static boolean setScriptVar(obj_id target, String path, boolean val) throws InterruptedException
+    public static boolean setScriptVar(obj_id target, String path, boolean val)
     {
         if (!isIdValid(target))
         {
@@ -3228,7 +3232,7 @@ public class utils extends script.base_script
         target.getScriptVars().put(path, val);
         return true;
     }
-    public static boolean setScriptVar(obj_id target, String path, transform val) throws InterruptedException
+    public static boolean setScriptVar(obj_id target, String path, transform val)
     {
         if (!isIdValid(target))
         {
@@ -3241,7 +3245,7 @@ public class utils extends script.base_script
         target.getScriptVars().put(path, val);
         return true;
     }
-    public static boolean setScriptVar(obj_id target, String path, transform[] val) throws InterruptedException
+    public static boolean setScriptVar(obj_id target, String path, transform[] val)
     {
         if (!isIdValid(target))
         {
@@ -3254,7 +3258,7 @@ public class utils extends script.base_script
         target.getScriptVars().put(path, val);
         return true;
     }
-    public static boolean setScriptVar(obj_id target, String path, vector val) throws InterruptedException
+    public static boolean setScriptVar(obj_id target, String path, vector val)
     {
         if (!isIdValid(target))
         {
@@ -3267,7 +3271,7 @@ public class utils extends script.base_script
         target.getScriptVars().put(path, val);
         return true;
     }
-    public static boolean setScriptVar(obj_id target, String path, vector[] val) throws InterruptedException
+    public static boolean setScriptVar(obj_id target, String path, vector[] val)
     {
         if (!isIdValid(target))
         {
@@ -3280,7 +3284,7 @@ public class utils extends script.base_script
         target.getScriptVars().put(path, val);
         return true;
     }
-    public static boolean setScriptVar(obj_id target, String path, boolean[] val) throws InterruptedException
+    public static boolean setScriptVar(obj_id target, String path, boolean[] val)
     {
         if (!isIdValid(target))
         {
@@ -3367,7 +3371,7 @@ public class utils extends script.base_script
         }
         return result;
     }
-    public static boolean setScriptVar(obj_id target, String path, dictionary val) throws InterruptedException
+    public static boolean setScriptVar(obj_id target, String path, dictionary val)
     {
         if (!isIdValid(target) || path == null || path.equals(""))
         {
@@ -3376,11 +3380,11 @@ public class utils extends script.base_script
         target.getScriptVars().put(path, val);
         return true;
     }
-    public static boolean hasScriptVar(obj_id target, String path) throws InterruptedException
+    public static boolean hasScriptVar(obj_id target, String path)
     {
         return target.hasScriptVar(path);
     }
-    public static boolean hasScriptVarTree(obj_id target, String path) throws InterruptedException
+    public static boolean hasScriptVarTree(obj_id target, String path)
     {
         if ((target == null) || (target == obj_id.NULL_ID))
         {
@@ -3402,7 +3406,7 @@ public class utils extends script.base_script
         }
         return false;
     }
-    public static boolean removeScriptVar(obj_id target, String path) throws InterruptedException
+    public static boolean removeScriptVar(obj_id target, String path)
     {
         if (target == null || target == obj_id.NULL_ID || path == null || path.equals(""))
         {
@@ -3411,7 +3415,7 @@ public class utils extends script.base_script
         target.getScriptVars().remove(path);
         return true;
     }
-    public static boolean removeScriptVarTree(obj_id target, String path) throws InterruptedException
+    public static boolean removeScriptVarTree(obj_id target, String path)
     {
         if (target == null || target == obj_id.NULL_ID || path == null || path.equals(""))
         {
@@ -3429,123 +3433,123 @@ public class utils extends script.base_script
         }
         return true;
     }
-    public static int getIntScriptVar(obj_id target, String path) throws InterruptedException
+    public static int getIntScriptVar(obj_id target, String path)
     {
         return target.getScriptVars().getInt(path);
     }
-    public static int[] getIntArrayScriptVar(obj_id target, String path) throws InterruptedException
+    public static int[] getIntArrayScriptVar(obj_id target, String path)
     {
         return target.getScriptVars().getIntArray(path);
     }
-    public static float getFloatScriptVar(obj_id target, String path) throws InterruptedException
+    public static float getFloatScriptVar(obj_id target, String path)
     {
         return target.getScriptVars().getFloat(path);
     }
-    public static float[] getFloatArrayScriptVar(obj_id target, String path) throws InterruptedException
+    public static float[] getFloatArrayScriptVar(obj_id target, String path)
     {
         return target.getScriptVars().getFloatArray(path);
     }
-    public static long getLongScriptVar(obj_id target, String path) throws InterruptedException
+    public static long getLongScriptVar(obj_id target, String path)
     {
         return target.getScriptVars().getLong(path);
     }
-    public static long[] getLongArrayScriptVar(obj_id target, String path) throws InterruptedException
+    public static long[] getLongArrayScriptVar(obj_id target, String path)
     {
         return target.getScriptVars().getLongArray(path);
     }
-    public static double getDoubleScriptVar(obj_id target, String path) throws InterruptedException
+    public static double getDoubleScriptVar(obj_id target, String path)
     {
         return target.getScriptVars().getDouble(path);
     }
-    public static double[] getDoubleArrayScriptVar(obj_id target, String path) throws InterruptedException
+    public static double[] getDoubleArrayScriptVar(obj_id target, String path)
     {
         return target.getScriptVars().getDoubleArray(path);
     }
-    public static String getStringScriptVar(obj_id target, String path) throws InterruptedException
+    public static String getStringScriptVar(obj_id target, String path)
     {
         return target.getScriptVars().getString(path);
     }
-    public static String[] getStringArrayScriptVar(obj_id target, String path) throws InterruptedException
+    public static String[] getStringArrayScriptVar(obj_id target, String path)
     {
         return target.getScriptVars().getStringArray(path);
     }
-    public static String[][] getStringArrayArrayScriptVar(obj_id target, String path) throws InterruptedException
+    public static String[][] getStringArrayArrayScriptVar(obj_id target, String path)
     {
         return target.getScriptVars().getStringArrayArray(path);
     }
-    public static transform[] getTransformArrayScriptVar(obj_id target, String path) throws InterruptedException
+    public static transform[] getTransformArrayScriptVar(obj_id target, String path)
     {
         return target.getScriptVars().getTransformArray(path);
     }
-    public static transform getTransformScriptVar(obj_id target, String path) throws InterruptedException
+    public static transform getTransformScriptVar(obj_id target, String path)
     {
         return target.getScriptVars().getTransform(path);
     }
-    public static boolean getBooleanScriptVar(obj_id target, String path) throws InterruptedException
+    public static boolean getBooleanScriptVar(obj_id target, String path)
     {
         return target.getScriptVars().getBoolean(path);
     }
-    public static boolean[] getBooleanArrayScriptVar(obj_id target, String path) throws InterruptedException
+    public static boolean[] getBooleanArrayScriptVar(obj_id target, String path)
     {
         return target.getScriptVars().getBooleanArray(path);
     }
-    public static location getLocationScriptVar(obj_id target, String path) throws InterruptedException
+    public static location getLocationScriptVar(obj_id target, String path)
     {
         return target.getScriptVars().getLocation(path);
     }
-    public static location[] getLocationArrayScriptVar(obj_id target, String path) throws InterruptedException
+    public static location[] getLocationArrayScriptVar(obj_id target, String path)
     {
         return target.getScriptVars().getLocationArray(path);
     }
-    public static obj_id getObjIdScriptVar(obj_id target, String path) throws InterruptedException
+    public static obj_id getObjIdScriptVar(obj_id target, String path)
     {
         return target.getScriptVars().getObjId(path);
     }
-    public static obj_id[] getObjIdArrayScriptVar(obj_id target, String path) throws InterruptedException
+    public static obj_id[] getObjIdArrayScriptVar(obj_id target, String path)
     {
         return target.getScriptVars().getObjIdArray(path);
     }
-    public static Vector getResizeableObjIdArrayScriptVar(obj_id target, String path) throws InterruptedException
+    public static Vector getResizeableObjIdArrayScriptVar(obj_id target, String path)
     {
         return target.getScriptVars().getResizeableObjIdArray(path);
     }
-    public static Vector getResizeableLocationArrayScriptVar(obj_id target, String path) throws InterruptedException
+    public static Vector getResizeableLocationArrayScriptVar(obj_id target, String path)
     {
         return target.getScriptVars().getResizeableLocationArray(path);
     }
-    public static Vector getResizeableIntArrayScriptVar(obj_id target, String path) throws InterruptedException
+    public static Vector getResizeableIntArrayScriptVar(obj_id target, String path)
     {
         return target.getScriptVars().getResizeableIntArray(path);
     }
-    public static Vector getResizeableFloatArrayScriptVar(obj_id target, String path) throws InterruptedException
+    public static Vector getResizeableFloatArrayScriptVar(obj_id target, String path)
     {
         return target.getScriptVars().getResizeableFloatArray(path);
     }
-    public static Vector getResizeableStringArrayScriptVar(obj_id target, String path) throws InterruptedException
+    public static Vector getResizeableStringArrayScriptVar(obj_id target, String path)
     {
         return target.getScriptVars().getResizeableStringArray(path);
     }
-    public static Vector getResizeableTransformArrayScriptVar(obj_id target, String path) throws InterruptedException
+    public static Vector getResizeableTransformArrayScriptVar(obj_id target, String path)
     {
         return target.getScriptVars().getResizeableTransformArray(path);
     }
-    public static Vector getResizeableVectorArrayScriptVar(obj_id target, String path) throws InterruptedException
+    public static Vector getResizeableVectorArrayScriptVar(obj_id target, String path)
     {
         return target.getScriptVars().getResizeableVectorArray(path);
     }
-    public static string_id getStringIdScriptVar(obj_id target, String path) throws InterruptedException
+    public static string_id getStringIdScriptVar(obj_id target, String path)
     {
         return target.getScriptVars().getStringId(path);
     }
-    public static string_id[] getStringIdArrayScriptVar(obj_id target, String path) throws InterruptedException
+    public static string_id[] getStringIdArrayScriptVar(obj_id target, String path)
     {
         return target.getScriptVars().getStringIdArray(path);
     }
-    public static dictionary getDictionaryScriptVar(obj_id target, String path) throws InterruptedException
+    public static dictionary getDictionaryScriptVar(obj_id target, String path)
     {
         return target.getScriptVars().getDictionary(path);
     }
-    public static boolean emptyContainer(obj_id target) throws InterruptedException
+    public static boolean emptyContainer(obj_id target)
     {
         if ((target == null) || (target == obj_id.NULL_ID))
         {
@@ -3603,7 +3607,7 @@ public class utils extends script.base_script
         locHeading.y = locStart.y + locHeading.y;
         return thetaDegrees(locStart, locHeading);
     }
-    public static float thetaDegrees(location direction) throws InterruptedException
+    public static float thetaDegrees(location direction)
     {
         return (float)Math.toDegrees(StrictMath.atan2(direction.x, direction.z));
     }
@@ -3615,7 +3619,7 @@ public class utils extends script.base_script
         direction.z = end.z - start.z;
         return thetaDegrees(direction);
     }
-    public static int countSubStringObjVars(obj_id[] objObjects, String strObjVar, String strSubString) throws InterruptedException
+    public static int countSubStringObjVars(obj_id[] objObjects, String strObjVar, String strSubString)
     {
         if (objObjects == null)
         {
@@ -3630,7 +3634,7 @@ public class utils extends script.base_script
         }
         return intCount;
     }
-    public static dictionary addObjVarToDictionary(obj_var ov, dictionary d, String basePath) throws InterruptedException
+    public static dictionary addObjVarToDictionary(obj_var ov, dictionary d, String basePath)
     {
         if (ov == null || d == null)
         {
@@ -3761,7 +3765,7 @@ public class utils extends script.base_script
         copyObjectData(template, clone);
         return clone;
     }
-    public static void copyObjectData(obj_id template, obj_id clone) throws InterruptedException
+    public static void copyObjectData(obj_id template, obj_id clone)
     {
         obj_var_list ovl = getObjVarList(clone, "");
         if (ovl == null)
@@ -3779,7 +3783,7 @@ public class utils extends script.base_script
             }
         }
     }
-    public static boolean copyObjVar(obj_id target, String basePath, obj_var ov) throws InterruptedException
+    public static boolean copyObjVar(obj_id target, String basePath, obj_var ov)
     {
         if (!isIdValid(target) || ov == null)
         {
@@ -3857,7 +3861,7 @@ public class utils extends script.base_script
         }
         return false;
     }
-    public static boolean[] removeObjVarList(obj_id object, String[] objVarList) throws InterruptedException
+    public static boolean[] removeObjVarList(obj_id object, String[] objVarList)
     {
         boolean[] result = new boolean[objVarList.length];
         for (int i = 0; i < objVarList.length; i++)
@@ -3878,7 +3882,7 @@ public class utils extends script.base_script
         }
         return result;
     }
-    public static boolean saveDictionaryAsObjVar(obj_id object, String rootName, dictionary dict) throws InterruptedException
+    public static boolean saveDictionaryAsObjVar(obj_id object, String rootName, dictionary dict)
     {
         if (!isIdValid(object) || dict == null)
         {
@@ -3940,7 +3944,7 @@ public class utils extends script.base_script
         }
         return true;
     }
-    public static String getFactionSubString(String strSearchString) throws InterruptedException
+    public static String getFactionSubString(String strSearchString)
     {
         if (strSearchString == null)
         {
@@ -3976,7 +3980,7 @@ public class utils extends script.base_script
         litmus &= setObjectArrayObjVar(target, base_path + "." + n, toSet);
         return litmus;
     }
-    public static void removeBatchObjVar(obj_id target, String base_path) throws InterruptedException
+    public static void removeBatchObjVar(obj_id target, String base_path)
     {
         if (!isIdValid(target) || base_path == null || base_path.equals("") || !hasObjVar(target, base_path))
         {
@@ -4048,7 +4052,7 @@ public class utils extends script.base_script
         litmus &= setObjectArrayObjVar(target, base_path + "." + n, toSet);
         return litmus;
     }
-    public static boolean setObjectArrayObjVar(obj_id target, String path, Vector vec) throws InterruptedException
+    public static boolean setObjectArrayObjVar(obj_id target, String path, Vector vec)
     {
         if (!isIdValid(target) || (path == null) || (path.equals("")) || (vec == null) || (vec.size() == 0))
         {
@@ -4455,7 +4459,7 @@ public class utils extends script.base_script
     {
         return getLocationBatchObjVar(target, base_path) != null;
     }
-    public static boolean setBatchScriptVar(obj_id target, String base_path, Vector array) throws InterruptedException
+    public static boolean setBatchScriptVar(obj_id target, String base_path, Vector array)
     {
         if (!isIdValid(target))
         {
@@ -4937,7 +4941,7 @@ public class utils extends script.base_script
             return "0." + decimals;
         }
     }
-    public static String padTimeDHMS(int seconds) throws InterruptedException
+    public static String padTimeDHMS(int seconds)
     {
         if (seconds < 0)
         {
@@ -4971,7 +4975,7 @@ public class utils extends script.base_script
         }
         return daysText + "d:" + hoursText + "h:" + minutesText + "m:" + secondsText + "s";
     }
-    public static String padTimeHM(int seconds) throws InterruptedException
+    public static String padTimeHM(int seconds)
     {
         seconds = seconds % (3600 * 24);
         int hours = seconds / 3600;
@@ -4989,7 +4993,7 @@ public class utils extends script.base_script
         }
         return hoursText + "h:" + minutesText + "m";
     }
-    public static void sendDelayedSystemMessage(obj_id target, string_id sid, float delay) throws InterruptedException
+    public static void sendDelayedSystemMessage(obj_id target, string_id sid, float delay)
     {
         if (!isIdValid(target) || (sid == null) || (delay < 0.0f))
         {
@@ -4999,7 +5003,7 @@ public class utils extends script.base_script
         msg.put("sidMsg", sid);
         messageTo(target, "handleDelayedSystemMessage", msg, delay, false);
     }
-    public static void sendDelayedSystemMessage(obj_id target, String sid, float delay) throws InterruptedException
+    public static void sendDelayedSystemMessage(obj_id target, String sid, float delay)
     {
         if (!isIdValid(target) || (sid == null) || sid.equals("") || (delay < 0.0f))
         {
@@ -5009,7 +5013,7 @@ public class utils extends script.base_script
         msg.put("stringMsg", sid);
         messageTo(target, "handleDelayedSystemMessage", msg, delay, false);
     }
-    public static void sendDelayedProseMessage(obj_id msgTarget, string_id sid, obj_id actor, String actorString, string_id actorStringId, obj_id target, String targetString, string_id targetStringId, obj_id other, String otherString, string_id otherStringId, int di, float df, float delay) throws InterruptedException
+    public static void sendDelayedProseMessage(obj_id msgTarget, string_id sid, obj_id actor, String actorString, string_id actorStringId, obj_id target, String targetString, string_id targetStringId, obj_id other, String otherString, string_id otherStringId, int di, float df, float delay)
     {
         if (!isIdValid(msgTarget) || (sid == null) || (delay < 0.0f))
         {
@@ -5030,7 +5034,7 @@ public class utils extends script.base_script
         msg.put("df", df);
         messageTo(msgTarget, "handleDelayedProseMessage", msg, delay, false);
     }
-    public static Vector alphabetizeStringArray(String[] array) throws InterruptedException
+    public static Vector alphabetizeStringArray(String[] array)
     {
         if ((array == null) || (array.length == 0))
         {
@@ -5070,7 +5074,7 @@ public class utils extends script.base_script
         }
         return alphabetizeStringArray(toPass);
     }
-    public static String getPlayerSpeciesName(int species) throws InterruptedException
+    public static String getPlayerSpeciesName(int species)
     {
         switch (species)
         {
@@ -5098,7 +5102,7 @@ public class utils extends script.base_script
                 return "unknown";
         }
     }
-    public static void addListener(String strObjVar, obj_id objListener, obj_id objTarget) throws InterruptedException
+    public static void addListener(String strObjVar, obj_id objListener, obj_id objTarget)
     {
         if (strObjVar == null)
         {
@@ -5120,7 +5124,7 @@ public class utils extends script.base_script
         dctParams.put("strObjVar", strObjVar);
         messageTo(objTarget, "addListener", dctParams, 0, true);
     }
-    public static void removeListener(String strObjVar, obj_id objListener, obj_id objTarget) throws InterruptedException
+    public static void removeListener(String strObjVar, obj_id objListener, obj_id objTarget)
     {
         if (strObjVar == null)
         {
@@ -5142,7 +5146,7 @@ public class utils extends script.base_script
         dctParams.put("strObjVar", strObjVar);
         messageTo(objTarget, "removeListener", dctParams, 0, true);
     }
-    public static void messageListeners(String strObjVar, obj_id objOwner, String strMessageName, dictionary dctParams) throws InterruptedException
+    public static void messageListeners(String strObjVar, obj_id objOwner, String strMessageName, dictionary dctParams)
     {
         if (strObjVar == null)
         {
@@ -5190,7 +5194,7 @@ public class utils extends script.base_script
         }
         return -1;
     }
-    public static boolean isTheater(String strLairType) throws InterruptedException
+    public static boolean isTheater(String strLairType)
     {
         return strLairType != null && strLairType.contains("theater");
     }
@@ -5222,7 +5226,8 @@ public class utils extends script.base_script
         }
         return setName(target, name);
     }
-    public static boolean setNonReservedName(obj_id target, String name) throws InterruptedException {
+    public static boolean setNonReservedName(obj_id target, String name)
+    {
         if (!isIdValid(target) || name == null || name.equals("")) {
             return false;
         }
@@ -5234,7 +5239,7 @@ public class utils extends script.base_script
         }
         return !isNameReserved(name) && setNonProfaneName(target, name);
     }
-    public static void destroyObjects(obj_id[] objects) throws InterruptedException
+    public static void destroyObjects(obj_id[] objects)
     {
         if (objects == null || objects.length == 0)
         {
@@ -5246,7 +5251,7 @@ public class utils extends script.base_script
             }
         }
     }
-    public static String getTemplateFilenameNoPath(obj_id target) throws InterruptedException
+    public static String getTemplateFilenameNoPath(obj_id target)
     {
         if (!isIdValid(target))
         {
@@ -5263,7 +5268,7 @@ public class utils extends script.base_script
         }
         return null;
     }
-    public static int getFirstNonValidIdIndex(obj_id[] ids) throws InterruptedException
+    public static int getFirstNonValidIdIndex(obj_id[] ids)
     {
         if (ids == null || ids.length == 0)
         {
@@ -5278,7 +5283,7 @@ public class utils extends script.base_script
         }
         return -1;
     }
-    public static int getFirstValidIdIndex(obj_id[] ids) throws InterruptedException
+    public static int getFirstValidIdIndex(obj_id[] ids)
     {
         if (ids == null || ids.length == 0)
         {
@@ -5293,15 +5298,15 @@ public class utils extends script.base_script
         }
         return -1;
     }
-    public static void moneyInMetric(obj_id objTransferer, String strAccount, int intAmount) throws InterruptedException
+    public static void moneyInMetric(obj_id objTransferer, String strAccount, int intAmount)
     {
         logBalance("moneyIn;" + getGameTime() + ";" + objTransferer + ";" + strAccount + ";" + intAmount);
     }
-    public static void moneyOutMetric(obj_id objTransferer, String strAccount, int intAmount) throws InterruptedException
+    public static void moneyOutMetric(obj_id objTransferer, String strAccount, int intAmount)
     {
         logBalance("moneyOut;" + getGameTime() + ";" + objTransferer + ";" + strAccount + ";" + intAmount);
     }
-    public static int getValidAttributeIndex(String[] array) throws InterruptedException
+    public static int getValidAttributeIndex(String[] array)
     {
         for (int i = 0; i < array.length; i++)
         {
@@ -5326,7 +5331,7 @@ public class utils extends script.base_script
         }
         return name;
     }
-    public static void warpPlayer(obj_id player, location dest) throws InterruptedException
+    public static void warpPlayer(obj_id player, location dest)
     {
         if (isIdValid(dest.cell))
         {
@@ -5337,11 +5342,11 @@ public class utils extends script.base_script
             warpPlayer(player, dest.area, dest.x, dest.y, dest.z, null, 0.0f, 0.0f, 0.0f);
         }
     }
-    public static void warpPlayer(obj_id player, String planet, location dest) throws InterruptedException
+    public static void warpPlayer(obj_id player, String planet, location dest)
     {
         warpPlayer(player, planet, dest.x, dest.y, dest.z, null, 0.0f, 0.0f, 0.0f);
     }
-    public static boolean copyObjVarList(obj_id from, obj_id to, String listpath) throws InterruptedException
+    public static boolean copyObjVarList(obj_id from, obj_id to, String listpath)
     {
         if (!isIdValid(from) || !isIdValid(to) || listpath == null || listpath.equals(""))
         {
@@ -5473,16 +5478,18 @@ public class utils extends script.base_script
     {
         return getStringCardinalDirection(locTest1, locTest2, false);
     }
-    public static boolean isContainer(obj_id target) throws InterruptedException {
+    public static boolean isContainer(obj_id target)
+    {
         return isIdValid(target) && (getContainerType(target) != 0);
     }
-    public static boolean noIncapDrainAttributes(obj_id target, int actionCost, int mindCost) throws InterruptedException {
+    public static boolean noIncapDrainAttributes(obj_id target, int actionCost, int mindCost)
+    {
         if (!isIdValid(target) || actionCost < 0) {
             return false;
         }
         return getAttrib(target, ACTION) >= actionCost && drainAttributes(target, actionCost, 0);
     }
-    public static int getUnbuffedWoundedMaxAttrib(obj_id target, int attrib) throws InterruptedException
+    public static int getUnbuffedWoundedMaxAttrib(obj_id target, int attrib)
     {
         if (!isIdValid(target) || attrib < HEALTH || attrib > WILLPOWER)
         {
@@ -5490,7 +5497,7 @@ public class utils extends script.base_script
         }
         return getUnmodifiedMaxAttrib(target, attrib);
     }
-    public static boolean validatePlayerHairStyle(obj_id player) throws InterruptedException
+    public static boolean validatePlayerHairStyle(obj_id player)
     {
         if (!isIdValid(player))
         {
@@ -5528,7 +5535,7 @@ public class utils extends script.base_script
         }
         return true;
     }
-    public static String getPackedScripts(obj_id objObject) throws InterruptedException
+    public static String getPackedScripts(obj_id objObject)
     {
         String strTest = "";
         String[] strScripts = getScriptList(objObject);
@@ -5545,7 +5552,7 @@ public class utils extends script.base_script
         }
         return strTest;
     }
-    public static String[] getUsableScriptList(obj_id objObject) throws InterruptedException
+    public static String[] getUsableScriptList(obj_id objObject)
     {
         String[] strScripts = getScriptList(objObject);
         debugSpeakMsg(objObject, "script list is " + strScripts.length);
@@ -5568,11 +5575,11 @@ public class utils extends script.base_script
         }
         return null;
     }
-    public static String[] unpackScriptString(String strScripts) throws InterruptedException
+    public static String[] unpackScriptString(String strScripts)
     {
         return split(strScripts, ',');
     }
-    public static boolean isEquipped(obj_id item) throws InterruptedException
+    public static boolean isEquipped(obj_id item)
     {
         if (!isIdValid(item))
         {
@@ -5664,11 +5671,11 @@ public class utils extends script.base_script
         int timeCalled = utils.getIntScriptVar(player, toCheckFor);
         return timeCalled < 1 ? -1 : timeCalled + utils.getIntScriptVar(player, modifiedTime) - getGameTime();
     }
-    public static boolean isFreeTrial(obj_id player) throws InterruptedException
+    public static boolean isFreeTrial(obj_id player)
     {
         return isFreeTrialAccount(player);
     }
-    public static boolean isFreeTrial(obj_id player, obj_id target) throws InterruptedException
+    public static boolean isFreeTrial(obj_id player, obj_id target)
     {
         return isFreeTrialAccount(player);
     }
@@ -5716,7 +5723,7 @@ public class utils extends script.base_script
             throw new InterruptedException();
         }
     }
-    public static String getCellName(obj_id building, obj_id cell) throws InterruptedException
+    public static String getCellName(obj_id building, obj_id cell)
     {
         for (String cellName : getCellNames(building)) {
             if (getCellId(building, cellName) == cell) {
@@ -5725,7 +5732,7 @@ public class utils extends script.base_script
         }
         return "";
     }
-    public static String getRealPlayerFirstName(obj_id player) throws InterruptedException
+    public static String getRealPlayerFirstName(obj_id player)
     {
         String firstName = getPlayerName(player);
         if (firstName == null)
@@ -5766,7 +5773,7 @@ public class utils extends script.base_script
             }
         }
     }
-    public static location getLocationFromTransform(transform trTest) throws InterruptedException
+    public static location getLocationFromTransform(transform trTest)
     {
         location locTest = new location();
         vector vctTest = trTest.getPosition_p();
@@ -5886,16 +5893,16 @@ public class utils extends script.base_script
         }
         return true;
     }
-    public static void makeItemNoDrop(obj_id item) throws InterruptedException
+    public static void makeItemNoDrop(obj_id item)
     {
         attachScript(item, "item.special.nomove");
         setObjVar(item, "noTrade", 1);
     }
-    public static boolean isItemNoDrop(obj_id item) throws InterruptedException
+    public static boolean isItemNoDrop(obj_id item)
     {
         return hasScript(item, "item.special.nomove") || hasObjVar(item, "noTrade");
     }
-    public static void clearNoDropFromItem(obj_id item) throws InterruptedException
+    public static void clearNoDropFromItem(obj_id item)
     {
         detachScript(item, "item.special.nomove");
         removeObjVar(item, "noTrade");
@@ -5934,7 +5941,7 @@ public class utils extends script.base_script
     {
         return findNoTradeItem(items, testPlayers, true);
     }
-    public static obj_id hasWaypoint(obj_id player, String name) throws InterruptedException
+    public static obj_id hasWaypoint(obj_id player, String name)
     {
         if (!isIdValid(player) || name == null)
         {
@@ -5956,7 +5963,7 @@ public class utils extends script.base_script
         }
         return null;
     }
-    public static boolean waypointExists(obj_id player, obj_id waypoint) throws InterruptedException
+    public static boolean waypointExists(obj_id player, obj_id waypoint)
     {
         if (!isIdValid(player) || !isIdValid(waypoint))
         {
@@ -5976,7 +5983,7 @@ public class utils extends script.base_script
         }
         return false;
     }
-    public static boolean isExtendedASCII(String inString) throws InterruptedException
+    public static boolean isExtendedASCII(String inString)
     {
         if (inString == null)
         {
@@ -5992,11 +5999,11 @@ public class utils extends script.base_script
         }
         return false;
     }
-    public static boolean isAntiDecay(obj_id item) throws InterruptedException
+    public static boolean isAntiDecay(obj_id item)
     {
         return isIdValid(item) && hasObjVar(item, "antidecay");
     }
-    public static boolean makeAntiDecay(obj_id item) throws InterruptedException
+    public static boolean makeAntiDecay(obj_id item)
     {
         if (isIdValid(item))
         {
@@ -6006,7 +6013,7 @@ public class utils extends script.base_script
         }
         return false;
     }
-    public static boolean removeAntiDecay(obj_id item) throws InterruptedException
+    public static boolean removeAntiDecay(obj_id item)
     {
         if (isIdValid(item))
         {
@@ -6049,7 +6056,7 @@ public class utils extends script.base_script
         }
         return (utils.toStaticObjIdArray(localMemberIdsVector));
     }
-    public static boolean canSpeakWookiee(obj_id player, obj_id npc) throws InterruptedException
+    public static boolean canSpeakWookiee(obj_id player, obj_id npc)
     {
         if (hasSkill(player, "class_smuggler_phase1_novice"))
         {
@@ -6134,7 +6141,7 @@ public class utils extends script.base_script
             }
         }
     }
-    public static boolean verifyLocationBasedDestructionAnchor(obj_id subject, float distance) throws InterruptedException
+    public static boolean verifyLocationBasedDestructionAnchor(obj_id subject, float distance)
     {
         if (!hasObjVar(subject, "recordLoc"))
         {
@@ -6149,7 +6156,7 @@ public class utils extends script.base_script
         }
         return true;
     }
-    public static boolean verifyLocationBasedDestructionAnchor(obj_id subject, location recordLoc, float distance) throws InterruptedException
+    public static boolean verifyLocationBasedDestructionAnchor(obj_id subject, location recordLoc, float distance)
     {
         if (!hasObjVar(subject, "recordLoc"))
         {
@@ -6168,7 +6175,7 @@ public class utils extends script.base_script
     {
         return assembleTimeRemainToUse(time, true);
     }
-    public static String assembleTimeRemainToUse(int time, boolean localized) throws InterruptedException
+    public static String assembleTimeRemainToUse(int time, boolean localized)
     {
         if (time <= 60)
         {
@@ -6231,7 +6238,7 @@ public class utils extends script.base_script
         }
         return null;
     }
-    public static boolean isProfession(obj_id player, int profession) throws InterruptedException
+    public static boolean isProfession(obj_id player, int profession)
     {
         if (!isIdValid(player))
         {
@@ -6277,7 +6284,7 @@ public class utils extends script.base_script
         String classTemplate = getSkillTemplate(player);
         return classTemplate != null && classTemplate.startsWith(professionName);
     }
-    public static int getPlayerProfession(obj_id player) throws InterruptedException
+    public static int getPlayerProfession(obj_id player)
     {
         String[] noviceSkillList = 
         {
@@ -6310,7 +6317,7 @@ public class utils extends script.base_script
         }
         return TRADER;
     }
-    public static byte[] packObject(Object o) throws InterruptedException
+    public static byte[] packObject(Object o)
     {
         byte[] ret = null;
         try
@@ -6333,7 +6340,7 @@ public class utils extends script.base_script
         }
         return ret;
     }
-    public static Object unpackObject(byte[] source) throws InterruptedException
+    public static Object unpackObject(byte[] source)
     {
         try
         {
@@ -6429,23 +6436,25 @@ public class utils extends script.base_script
             }
         }
     }
-    public static boolean isVendorObject(obj_id object) throws InterruptedException
+    public static boolean isVendorObject(obj_id object)
     {
         return hasScript(object, VENDOR_SCRIPT);
     }
-    public static boolean isBazaarObject(obj_id object) throws InterruptedException
+    public static boolean isBazaarObject(obj_id object)
     {
         return hasScript(object, BAZAAR_SCRIPT);
     }
-    public static boolean isInVendor(obj_id item) throws InterruptedException {
+    public static boolean isInVendor(obj_id item)
+    {
         obj_id ownerContainer = getContainedBy(item);
         return isIdValid(ownerContainer) && hasObjVar(getContainedBy(ownerContainer), "vendor");
     }
-    public static boolean isInBazaar(obj_id item) throws InterruptedException {
+    public static boolean isInBazaar(obj_id item)
+    {
         obj_id ownerContainer = getContainedBy(item);
         return isIdValid(ownerContainer) && hasScript(ownerContainer, "terminal.bazaar");
     }
-    public static boolean outOfRange(obj_id self, obj_id player, float distance, boolean message) throws InterruptedException
+    public static boolean outOfRange(obj_id self, obj_id player, float distance, boolean message)
     {
         if (isGod(player))
         {
@@ -6463,7 +6472,7 @@ public class utils extends script.base_script
         }
         return true;
     }
-    public static float roundFloatByDecimal(float number) throws InterruptedException
+    public static float roundFloatByDecimal(float number)
     {
         return (float) Math.round(number * 100) / 100;
     }
@@ -6636,7 +6645,7 @@ public class utils extends script.base_script
         playersInArea.toArray(_playersInArea);
         return _playersInArea;
     }
-    public static dictionary getCoordinatesInBuildoutRow(String scene, int buildout_row) throws InterruptedException
+    public static dictionary getCoordinatesInBuildoutRow(String scene, int buildout_row)
     {
         return dataTableGetRow("datatables/buildout/areas_" + scene + ".iff", buildout_row);
     }
@@ -7049,7 +7058,7 @@ public class utils extends script.base_script
             }
         }
     }
-    public static void updateHousePackupCTSObjvars(obj_id player, dictionary[] ctsOjbvars) throws InterruptedException
+    public static void updateHousePackupCTSObjvars(obj_id player, dictionary[] ctsOjbvars)
     {
         if (!isIdValid(player) || !exists(player))
         {
@@ -7151,7 +7160,7 @@ public class utils extends script.base_script
         }
         return returnData;
     }
-    public static String localizeSIDString(String text) throws InterruptedException
+    public static String localizeSIDString(String text)
     {
         if (text == null || text.length() < 1)
         {
@@ -7201,11 +7210,11 @@ public class utils extends script.base_script
         utils.removeScriptVar(player, "veteranRewardItemColor.color_setting");
         return true;
     }
-    public static boolean validateSkillModsAttached(obj_id item) throws InterruptedException
+    public static boolean validateSkillModsAttached(obj_id item)
     {
         return true;
     }
-    public static int getNumCreaturesForSpawnLimit() throws InterruptedException
+    public static int getNumCreaturesForSpawnLimit()
     {
         final int intNumCreatures = getNumAI() - (getNumHibernatingAI() / 2);
         if (intNumCreatures <= 0)
@@ -7214,7 +7223,8 @@ public class utils extends script.base_script
         }
         return intNumCreatures;
     }
-    public static boolean inDebugMode() throws InterruptedException {
+    public static boolean inDebugMode()
+    {
         return (utils.getIntConfigSetting("GameServer", "debugMode") == 1);
     }
 }

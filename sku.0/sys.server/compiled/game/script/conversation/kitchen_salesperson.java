@@ -79,7 +79,7 @@ public class kitchen_salesperson extends script.base_script
         setDescriptionString(self, "Gizmoton spends his days tinkering with appliances. What a nerd! But at least he has decent prices!");
         setCondition(self, CONDITION_CONVERSABLE);
         setCondition(self, CONDITION_HOLIDAY_INTERESTING);
-        return SCRIPT_OK;
+        return SCRIPT_CONTINUE;
     }
 
     public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info menuInfo) throws InterruptedException

@@ -87,7 +87,7 @@ public class player_bug extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int OnSpeaking(obj_id self, String text)
+    public int OnSpeaking(obj_id self, String text) throws InterruptedException
     {
         if (text.equals("bug"))
         {
@@ -96,7 +96,7 @@ public class player_bug extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int showBugWindow(obj_id self)
+    public int showBugWindow(obj_id self) throws InterruptedException
     {
         int pid = createSUIPage("/Debug.Bug", self, self, "handleBugWindow");
         setSUIProperty(pid, "", "Location", "500,500");

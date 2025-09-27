@@ -145,7 +145,7 @@ public class pick_a_stat extends script.terminal.terminal_character_builder
         return SCRIPT_CONTINUE;
     }
 
-    public void doSkillModGrantHigh(obj_id what, obj_id owner, String skillmod)
+    public void doSkillModGrantHigh(obj_id what, obj_id owner, String skillmod) throws InterruptedException
     {
         setSkillModBonus(what, skillmod, IMBUE_VALUE_GENERAL);
         if (!isGod(owner))
@@ -160,7 +160,7 @@ public class pick_a_stat extends script.terminal.terminal_character_builder
         utils.removeScriptVar(what, "in_use");
     }
 
-    public void doSkillModGrantLow(obj_id what, obj_id owner, String skillmod)
+    public void doSkillModGrantLow(obj_id what, obj_id owner, String skillmod) throws InterruptedException
     {
         setSkillModBonus(what, skillmod, IMBUE_VALUE_WEAPON);
         if (!isGod(owner))
