@@ -268,9 +268,9 @@ public class combat_weapon extends script.base_script
         int minDamage = weaponMinDamage + (playerLevel * intMultiplier);
         int maxDamage = intBaseDamage + weaponMaxDamage + (playerLevel * intMultiplier);
         int oldMin = getSkillStatisticModifier(player, "minDamage");
-        applySkillStatisticModifier(player, "minDamage", 0 - oldMin);
+        applySkillStatisticModifier(player, "minDamage", -oldMin);
         int oldMax = getSkillStatisticModifier(player, "maxDamage");
-        applySkillStatisticModifier(player, "maxDamage", 0 - oldMax);
+        applySkillStatisticModifier(player, "maxDamage", -oldMax);
         applySkillStatisticModifier(player, "minDamage", minDamage);
         applySkillStatisticModifier(player, "maxDamage", maxDamage);
     }

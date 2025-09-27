@@ -970,7 +970,7 @@ public class performance extends script.base_script
             webster.put("playingMusic", 1);
             messageTo(actor, "handleNewPlayerEntertainerAction", webster, 1, false);
         }
-        if (!!pet_lib.isDroidPet(actor) && !isHologramPerformer(actor))
+        if (!pet_lib.isDroidPet(actor) && !isHologramPerformer(actor))
         {
             if (activeBandSong)
             {

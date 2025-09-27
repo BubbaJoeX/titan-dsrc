@@ -177,10 +177,6 @@ public class quest_spawner extends script.base_script
         if (spawn_data == null)
         {
             LOG("quest", "quest_spawner.createSpawn -- can't find spawn data for spawner " + spawner + " in datatable " + datatable);
-            return false;
-        }
-        if (spawn_data == null)
-        {
             LOG("quest", "quest_spawner.createSpawn -- spawn_data is null for " + spawner);
             return false;
         }

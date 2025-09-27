@@ -927,7 +927,7 @@ public class space_dungeon extends script.base_script
     {
         location playerLoc = getLocation(player);
         String playerScene = playerLoc.area;
-        if (playerScene.equals("kashyyyk_main") || playerScene.equals("kashyyyk_dead_forest") || playerScene.equals("kashyyyk_dead_forest"))
+        if (playerScene.equals("kashyyyk_main") || playerScene.equals("kashyyyk_dead_forest"))
         {
             return false;
         }

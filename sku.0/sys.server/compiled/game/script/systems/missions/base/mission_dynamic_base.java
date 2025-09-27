@@ -1838,11 +1838,11 @@ public class mission_dynamic_base extends script.systems.missions.base.mission_b
             {
                 attachScript(objNPC, "systems.missions.dynamic.mission_deliver_interest_npc_demand");
             }
-            else if (intRoll < 10)
+            else if (intRoll <= 10)
             {
                 attachScript(objNPC, "systems.missions.dynamic.mission_deliver_interest_npc_escort");
             }
-            else if (intRoll < 10)
+            else
             {
                 attachScript(objNPC, "systems.missions.dynamic.mission_deliver_interest_npc_single_attacker");
             }

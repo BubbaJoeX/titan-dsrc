@@ -5387,7 +5387,7 @@ public class pet_lib extends script.base_script
         {
             if (hasObjVar(deed, "creature_attribs." + create.MAXATTRIBNAMES[attribNum]))
             {
-                if (("creature_attribs." + create.MAXATTRIBNAMES[attribNum]) != "creature_attribs.maxHealth")
+                if (!("creature_attribs." + create.MAXATTRIBNAMES[attribNum]).equals("creature_attribs.maxHealth"))
                 {
                     removeObjVar(deed, "creature_attribs." + create.MAXATTRIBNAMES[attribNum]);
                 }

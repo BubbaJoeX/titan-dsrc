@@ -615,7 +615,7 @@ public class harass extends script.base_script
         {
             return false;
         }
-        if ("imperial" == getFactionName(self))
+        if ("imperial".equals(getFactionName(self)))
         {
             return true;
         }
@@ -677,7 +677,7 @@ public class harass extends script.base_script
             CustomerServiceLog("CONTRABAND_SCANNING: ", "(" + target + ")" + getFirstName(target) + " made GCW PVP by Crackdown Scan");
         }
         String backupClass = null;
-        if (getFactionName(self) == "imperial")
+        if (getFactionName(self).equals("imperial"))
         {
             if (antiJedi && isEnemyJedi(self, target))
             {
@@ -805,7 +805,7 @@ public class harass extends script.base_script
             return;
         }
         String testFaction = null;
-        if (getFactionName(self) == "imperial")
+        if (getFactionName(self).equals("imperial"))
         {
             testFaction = "Imperial";
         }
@@ -861,7 +861,7 @@ public class harass extends script.base_script
             int pid = sui.createSUIPage(sui.SUI_MSGBOX, target, self, "handleFineSui");
             setSUIProperty(pid, "", "Size", "350,275");
             setSUIProperty(pid, sui.MSGBOX_TITLE, sui.PROP_TEXT, localize(IMP_FINE_TITLE));
-            if (getFactionName(self) == "imperial")
+            if (getFactionName(self).equals("imperial"))
             {
                 setSUIProperty(pid, sui.MSGBOX_PROMPT, sui.PROP_TEXT, localize(IMP_FINE_TEXT) + FINE + localize(IMP_FINE_TEXT2));
             }

@@ -114,7 +114,7 @@ public class tos_ent_pulse extends script.base_script
 
     public boolean canGetTokens(obj_id player) throws InterruptedException
     {
-        if (getCellName(player) != "cantina")
+        if (getCellName(player).equals("cantina"))
         {
             LOG("ethereal", "[Entertainer System]: Entertainer: " + getPlayerFullName(player) + " is not in a building cell named \"cantina\". Cannot earn tokens.");
             return false;

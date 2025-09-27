@@ -33,7 +33,8 @@ public class ss_setup extends script.base_script
         switch (sSentObjVar) {
             case "static":
                 if (hasObjVar(self, "spawn_objvar2")) {
-                    if ("customs" == getStringObjVar(self, "spawn_objvar2")) {
+                    if ("customs".equals(getStringObjVar(self, "spawn_objvar2")))
+                    {
                         String script = "city.city_wander";
                         attachScript(self, script);
                         return;

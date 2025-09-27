@@ -98,7 +98,7 @@ public class fallen_asteroid extends base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int handleMiningComplete(obj_id self, dictionary params)
+    public int handleMiningComplete(obj_id self, dictionary params) throws InterruptedException
     {
         obj_id player = params.getObjId("player");
         if (!isIdValid(player) || !exists(player))

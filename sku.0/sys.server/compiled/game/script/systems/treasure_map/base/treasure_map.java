@@ -969,11 +969,11 @@ public class treasure_map extends script.base_script
     }
     public boolean verifyVariablesNotNull(String loot_table, String type, int mobLevel, int groupModifier, int count, int datTableIdx) throws InterruptedException
     {
-        if (loot_table.equals("") || loot_table.equals(""))
+        if (loot_table.equals(""))
         {
             return false;
         }
-        if (type.equals("") || type.equals(""))
+        if (type.isEmpty())
         {
             return false;
         }

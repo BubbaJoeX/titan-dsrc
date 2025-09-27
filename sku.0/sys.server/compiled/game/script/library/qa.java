@@ -1214,7 +1214,7 @@ public class qa extends script.base_script
             CustomerServiceLog("qaTool", "User: (" + self + ") " + getName(self) + " has attained Master Rebel Pilot by using a QA Tool or command.");
             return true;
         }
-        else if (factionType.equals("Imperial Ships") || toLower(factionType) == "imperial")
+        else if (factionType.equals("Imperial Ships") || toLower(factionType).equals("imperial"))
         {
             revokePilotingSkills(self);
             grantPilotingSkills(self, "imperial_navy");
@@ -1222,7 +1222,7 @@ public class qa extends script.base_script
             CustomerServiceLog("qaTool", "User: (" + self + ") " + getName(self) + " has attained Master Imperial Pilot by using a QA Tool or command.");
             return true;
         }
-        else if (factionType.equals("Neutral/Freelancer Ships") || toLower(factionType) == "neutral")
+        else if (factionType.equals("Neutral/Freelancer Ships") || toLower(factionType).equals("neutral"))
         {
             revokePilotingSkills(self);
             grantPilotingSkills(self, "neutral");

@@ -1443,7 +1443,7 @@ public class combat_base extends script.base_script
                 {
                     hitData[i].proc = true;
                 }
-                if (actionData.effectOnTarget != null && actionData.effectOnTarget != "")
+                if (actionData.effectOnTarget != null && !actionData.effectOnTarget.equals(""))
                 {
                     playClientEffectObj(defenderData[i].id, actionData.effectOnTarget, defenderData[i].id, "");
                 }
@@ -2863,7 +2863,7 @@ public class combat_base extends script.base_script
                 attackerResults.setTrail(attacker_results.TRAIL_WEAPON, true);
             }
         }
-        if (actionData.actionName == "" || actionData.actionName == null)
+        if (actionData.actionName.equals("") || actionData.actionName == null)
         {
             return;
         }

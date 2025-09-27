@@ -306,7 +306,6 @@ public class ig88 extends script.base_script
         int combination = 0;
         switch (phase)
         {
-            default:
             case COMBAT_WEAPON_PHASE_UNKNOWN:
             utils.setScriptVar(self, COMBAT_WEAPON_PHASE, COMBAT_WEAPON_PHASE_ROCKET);
             combination = utils.getIntScriptVar(self, COMBAT_ACTION_COMBINATION);
@@ -334,6 +333,7 @@ public class ig88 extends script.base_script
             }
             messageTo(self, "nextWeaponPhase", sessionDict, COMBAT_WEAPON_TIME_FLAME_THROWER, false);
             break;
+            default:
         }
         return SCRIPT_CONTINUE;
     }

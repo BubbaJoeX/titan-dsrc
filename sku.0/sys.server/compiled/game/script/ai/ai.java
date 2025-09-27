@@ -2167,7 +2167,7 @@ public class ai extends script.base_script
             }
             return SCRIPT_CONTINUE;
         }
-        if (socialMeatlump != null && ((toLower(socialMeatlump)).equals("rebel") || (toLower(socialMeatlump)).equals("rebel")))
+        if (socialMeatlump != null && ((toLower(socialMeatlump)).equals("rebel")))
         {
             if (ai_lib.isNpc(self))
             {

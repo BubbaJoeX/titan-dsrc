@@ -853,7 +853,7 @@ public class collection extends script.base_script
         {
             s = "Error: No such player.";
         }
-        if (s.equals("") || s.equals(""))
+        if (s.isEmpty())
         {
             return false;
         }

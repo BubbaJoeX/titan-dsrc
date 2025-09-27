@@ -1532,7 +1532,7 @@ public class base_player extends script.base_script
         if (campXp > 0)
         {
             grantExperiencePoints(self, "scout", campXp);
-            grantExperiencePoints(self, "camp", 0 - campXp);
+            grantExperiencePoints(self, "camp", -campXp);
         }
         if (!utils.hasScriptVar(self, "bountyConsistencyCheck"))
         {
@@ -12035,11 +12035,7 @@ public class base_player extends script.base_script
         {
             return false;
         }
-        if (params == null || params.equals(""))
-        {
-            return false;
-        }
-        if (params == null || params.equals(""))
+        if (params.isEmpty())
         {
             messageTo(tool, "cancelTool", null, 0, false);
             return false;

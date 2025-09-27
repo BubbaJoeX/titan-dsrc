@@ -1,0 +1,13 @@
+version: "1.0"
+profile:
+  name: qodana.starter
+projectJDK: "11"
+linter: jetbrains/qodana-jvm:2025.2
+exclude:
+  - name: All
+    paths:
+      - "**"
+    mask:
+      - "!**/*.java"
+include:
+  - name: UNCHECKED_WARNING

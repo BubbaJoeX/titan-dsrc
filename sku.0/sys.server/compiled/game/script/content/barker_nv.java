@@ -164,7 +164,7 @@ public class barker_nv extends base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int handleMessageInput(obj_id self, dictionary params)
+    public int handleMessageInput(obj_id self, dictionary params) throws InterruptedException
     {
         obj_id player = sui.getPlayerId(params);
         String message = sui.getInputBoxText(params);
@@ -173,7 +173,7 @@ public class barker_nv extends base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int handleSetName(obj_id self, dictionary params)
+    public int handleSetName(obj_id self, dictionary params) throws InterruptedException
     {
         obj_id player = sui.getPlayerId(params);
         String message = sui.getInputBoxText(params);
@@ -214,7 +214,7 @@ public class barker_nv extends base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int handleDelayInput(obj_id self, dictionary params)
+    public int handleDelayInput(obj_id self, dictionary params) throws InterruptedException
     {
         obj_id player = sui.getPlayerId(params);
         float delay = Float.parseFloat(sui.getInputBoxText(params));
@@ -252,7 +252,7 @@ public class barker_nv extends base_script
     }
 
 
-    public int handleChatterType1(obj_id self, dictionary params)
+    public int handleChatterType1(obj_id self, dictionary params) throws InterruptedException
     {
         obj_id player = sui.getPlayerId(params);
         String message = sui.getInputBoxText(params);
@@ -266,7 +266,7 @@ public class barker_nv extends base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int handleChatterType2(obj_id self, dictionary params)
+    public int handleChatterType2(obj_id self, dictionary params) throws InterruptedException
     {
         obj_id player = sui.getPlayerId(params);
         String message = sui.getInputBoxText(params);
@@ -280,7 +280,7 @@ public class barker_nv extends base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int handleChatterType3(obj_id self, dictionary params)
+    public int handleChatterType3(obj_id self, dictionary params) throws InterruptedException
     {
         obj_id player = sui.getPlayerId(params);
         String message = sui.getInputBoxText(params);
@@ -294,7 +294,7 @@ public class barker_nv extends base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int handleChatterType4(obj_id self, dictionary params)
+    public int handleChatterType4(obj_id self, dictionary params) throws InterruptedException
     {
         obj_id player = sui.getPlayerId(params);
         String message = sui.getInputBoxText(params);

@@ -46,6 +46,7 @@ public class scavenger_droid extends script.base_script
         }
         if (!hasObjVar(self, "event_perk.scavenger.patched"))
         {
+            //Ignore Octal - its a date.
             setObjVar(self, "event_perk.scavenger.patched", 030105);
             resetList(self, self);
         }

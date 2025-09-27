@@ -58,7 +58,7 @@ public class combat_base_old extends script.base_script
     public static final int POSTURE_UP = -3;
     public static final int POSTURE_UPRIGHT_ACTIVE_DEFENSE_MOD = 10;
     public static final int POSTURE_CROUCHED_ACTIVE_DEFENSE_MOD = 0;
-    public static final int PRONE_ACTIVE_DEFENSE_MOD = 0 - 20;
+    public static final int PRONE_ACTIVE_DEFENSE_MOD = -20;
     public static final float TIMESLICE_VALUE = 1.0f;
     public static final int BASE_TO_HIT = 75;
     public static final int BASE_UNSKILLED = -50;

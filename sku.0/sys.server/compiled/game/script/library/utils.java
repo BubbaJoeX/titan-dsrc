@@ -7011,7 +7011,7 @@ public class utils extends script.base_script
             {
                 HashSet abilitiesCurrentNoDupes = new HashSet();
                 for (Object anAbilitiesCurrent : abilitiesCurrent) {
-                    abilitiesCurrentNoDupes.add(Integer.valueOf((Integer) anAbilitiesCurrent));
+                    abilitiesCurrentNoDupes.add((Integer) anAbilitiesCurrent);
                 }
                 Integer ability;
                 for (Object abilitiesCurrentNoDupe : abilitiesCurrentNoDupes) {
