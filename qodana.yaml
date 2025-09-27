@@ -6,8 +6,6 @@ linter: jetbrains/qodana-jvm:2025.2
 exclude:
   - name: All
     paths:
-      - "**"
-    mask:
       - "!**/*.java"
 include:
   - name: UNCHECKED_WARNING
