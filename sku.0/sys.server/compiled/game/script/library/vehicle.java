@@ -1107,4 +1107,12 @@ public class vehicle extends script.base_script
         }
         return null;
     }
+
+    public static String getShortenTemplateName(obj_id self, obj_id vehicle)
+    {
+        String template = getTemplateName(vehicle);
+        template = template.replaceAll("object/mobile/vehicle/shared_", "");
+        template = template.replaceAll(".iff", "");
+        return template;
+    }
 }
