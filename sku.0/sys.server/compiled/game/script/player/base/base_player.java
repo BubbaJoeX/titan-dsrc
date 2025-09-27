@@ -1333,34 +1333,33 @@ public class base_player extends script.base_script
             if (!isIdNull(planetId))
             {
                 utils.setScriptVar(self, "galaxyMessage.showmessage", true);
+
+                // Standard galaxy message
                 if (hasObjVar(planetId, "galaxyMessage"))
                 {
                     String strGalaxyMessage = "\\#FF0000" + utils.getStringObjVar(planetId, "galaxyMessage") + "\\#FFFFFF";
                     sendConsoleMessage(self, strGalaxyMessage);
                 }
-                else 
+                else
                 {
-                    String strGalaxyMessage = "\\#FF0000" + "Welcome to Star Wars Galaxies" + "\\#FFFFFF";
+                    String strGalaxyMessage = "\\#FF0000" + "Welcome to SWG: Titan" + "\\#FFFFFF";
                     sendConsoleMessage(self, strGalaxyMessage);
                 }
-                boolean warden = isWarden(self);
-                if (warden || (getGodLevel(self) >= 10))
+
+                // Show additional MOTD if player is a god
+                if (getGodLevel(self) >= 30)
                 {
-                    String strGalaxyMessage = "\\#FF0000";
-                    if (!warden)
-                    {
-                        strGalaxyMessage += "Displaying warden MOTD to you even though you are not a warden, because you are of the appropriate god level:\n";
-                    }
+                    String strGodMessage = "\\#FF0000" + "Displaying additional MOTD for admins:\n";
                     if (hasObjVar(planetId, "galaxyWardenMessage"))
                     {
-                        strGalaxyMessage += utils.getStringObjVar(planetId, "galaxyWardenMessage");
+                        strGodMessage += utils.getStringObjVar(planetId, "galaxyWardenMessage");
                     }
-                    else 
+                    else
                     {
-                        strGalaxyMessage += "Welcome warden";
+                        strGodMessage += "God Mode Detected";
                     }
-                    strGalaxyMessage += "\\#FFFFFF";
-                    sendConsoleMessage(self, strGalaxyMessage);
+                    strGodMessage += "\\#FFFFFF";
+                    sendConsoleMessage(self, strGodMessage);
                 }
             }
         }
@@ -1634,7 +1633,7 @@ public class base_player extends script.base_script
         {
             buff.removeBuff(self, "buildabuff_inspiration");
         }
-        if (getLocation(self).area == "dungeon1")
+        if (getLocation(self).area.equals("dungeon1"))
         {
             if (trial.getTop(self) == self)
             {
@@ -11801,44 +11800,22 @@ public class base_player extends script.base_script
     public int cmdGetGalaxyMessage(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException
     {
         obj_id planetId = getPlanetByName("tatooine");
-        if (!isIdNull(planetId))
+        String strGalaxyMessage;
+
+        if (!isIdNull(planetId) && hasObjVar(planetId, "galaxyMessage"))
         {
-            if (hasObjVar(planetId, "galaxyMessage"))
-            {
-                String strGalaxyMessage = "\\#FF0000" + utils.getStringObjVar(planetId, "galaxyMessage") + "\\#FFFFFF";
-                sendConsoleMessage(self, strGalaxyMessage);
-            }
-            else 
-            {
-                String strGalaxyMessage = "\\#FF0000" + "Welcome to Star Wars Galaxies" + "\\#FFFFFF";
-                sendConsoleMessage(self, strGalaxyMessage);
-            }
-            boolean warden = isWarden(self);
-            if (warden || (getGodLevel(self) >= 10))
-            {
-                String strGalaxyMessage = "\\#FF0000";
-                if (!warden)
-                {
-                    strGalaxyMessage += "Displaying warden MOTD to you even though you are not a warden, because you are of the appropriate god level:\n";
-                }
-                if (hasObjVar(planetId, "galaxyWardenMessage"))
-                {
-                    strGalaxyMessage += utils.getStringObjVar(planetId, "galaxyWardenMessage");
-                }
-                else 
-                {
-                    strGalaxyMessage += "Welcome warden";
-                }
-                strGalaxyMessage += "\\#FFFFFF";
-                sendConsoleMessage(self, strGalaxyMessage);
-            }
+            strGalaxyMessage = "\\#FF0000" + utils.getStringObjVar(planetId, "galaxyMessage") + "\\#FFFFFF";
         }
-        else 
+        else
         {
-            sendConsoleMessage(self, "Welcome to Star Wars Galaxies");
+            strGalaxyMessage = "\\#FF0000" + "Welcome to SWG: Titan" + "\\#FFFFFF";
         }
+
+        sendConsoleMessage(self, strGalaxyMessage);
+
         return SCRIPT_CONTINUE;
     }
+
     public int myCityMotdResponse(obj_id self, dictionary params) throws InterruptedException
     {
         String city_motd = params.getString("city_motd");
@@ -11849,24 +11826,7 @@ public class base_player extends script.base_script
         utils.setScriptVar(self, "recieved_city_motd", 1);
         return SCRIPT_CONTINUE;
     }
-//    public int stampDungeonArea(obj_id self, dictionary params) throws InterruptedException
-//    {
-//        LOG("space_dungeon", "base_player.stampDungeonArea -- Stamping player with obj vars.");
-//        String dungeon_area = params.getString("buildout_area");
-//
-//        if (dungeon_area.equals("invalid"))
-//        {
-//            return SCRIPT_CONTINUE;
-//        }
-//        int buildout_row = params.getInt("buildout_row");
-//        if (buildout_row == -1)
-//        {
-//            return SCRIPT_CONTINUE;
-//        }
-//        setObjVar(self, space_dungeon.VAR_BUILDOUT_AREA, dungeon_area);
-//        setObjVar(self, space_dungeon.VAR_BUILDOUT_ROW, buildout_row);
-//        return SCRIPT_CONTINUE;
-//    }
+
     public int removeDungeonArea(obj_id self, dictionary params) throws InterruptedException
     {
         String dungeon_area = params.getString("buildout_area");
