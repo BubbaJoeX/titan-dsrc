@@ -38,7 +38,7 @@ public class qa_helper extends script.base_script
     {
         if (hasScript(self, "player.yavin_e3") && utils.getBooleanScriptVar(self, SCRIPTVAR_MOB + ".recordDamage") && utils.getObjIdScriptVar(attacker, "spawnedBy") == self)
         {
-            sendSystemMessageTestingOnly(self, "Damage numbers will not be accurate due to player.yavin_e3 script attached to your character");
+            broadcast(self, "Damage numbers will not be accurate due to player.yavin_e3 script attached to your character");
         }
         else 
         {
@@ -102,13 +102,13 @@ public class qa_helper extends script.base_script
         {
             obj_id helperMob = create.createCreature(argumentString, getLocation(self), true);
             attachScript(helperMob, "test.qa_ai_helper_attach");
-            sendSystemMessageTestingOnly(self, "Helper Created.  Use radial menu.");
+            broadcast(self, "Helper Created.  Use radial menu.");
             dictionary creatureRow = dataTableGetRow(CREATURE_TABLE, creatureRowNumber);
             utils.setScriptVar(self, SCRIPTVAR + ".creatureDictionary", creatureRow);
         }
         else 
         {
-            sendSystemMessageTestingOnly(self, "Creature name invalid.");
+            broadcast(self, "Creature name invalid.");
         }
     }
 }

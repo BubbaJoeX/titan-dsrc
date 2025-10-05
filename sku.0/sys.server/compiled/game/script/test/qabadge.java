@@ -54,7 +54,7 @@ public class qabadge extends script.base_script
                 utils.setScriptVar(self, "qabadge.mainMenu", mainMenuArray);
                 if (mainMenuArray.length < 1)
                 {
-                    sendSystemMessageTestingOnly(player, "Badge UI creation failed.");
+                    broadcast(player, "Badge UI creation failed.");
                 }
                 else 
                 {
@@ -76,7 +76,7 @@ public class qabadge extends script.base_script
                 obj_id player = sui.getPlayerId(params);
                 if ((params == null) || (params.isEmpty()))
                 {
-                    sendSystemMessageTestingOnly(player, "Failing, params empty");
+                    broadcast(player, "Failing, params empty");
                     utils.removeScriptVarTree(player, "qabadge");
                     utils.removeScriptVarTree(player, "qatool");
                     return SCRIPT_CONTINUE;
@@ -96,7 +96,7 @@ public class qabadge extends script.base_script
                     String mainPrompt = utils.getStringScriptVar(player, "qatool.prompt");
                     if (options == null)
                     {
-                        sendSystemMessageTestingOnly(player, "You didn't start from the main tool menu");
+                        broadcast(player, "You didn't start from the main tool menu");
                         String[] mainMenuArray = utils.getStringArrayScriptVar(player, "qabadge.mainMenu");
                         qa.refreshMenu(player, "Choose the Badge", "Badge Granter", mainMenuArray, "mainMenuOptions", true, "qabadge.pid");
                         return SCRIPT_CONTINUE;
@@ -112,7 +112,7 @@ public class qabadge extends script.base_script
                 {
                     utils.removeScriptVarTree(player, "qabadge");
                     utils.removeScriptVarTree(player, "qatool");
-                    sendSystemMessageTestingOnly(player, "You didnt have anything selected");
+                    broadcast(player, "You didnt have anything selected");
                     return SCRIPT_CONTINUE;
                 }
                 String badgeChoice = previousBadgeArray[idx];
@@ -126,7 +126,7 @@ public class qabadge extends script.base_script
                         }
                     }
                     String[] mainMenuArray = utils.getStringArrayScriptVar(player, "qabadge.mainMenu");
-                    CustomerServiceLog("qaTool", "User: (" + self + ") " + getName(self) + " has added all in game badges from their current character using the QA Badge Tool.");
+                    LOG("ethereal", "[QA Tool]: User: (" + self + ") " + getName(self) + " has added all in game badges from their current character using the QA Badge Tool.");
                     qa.refreshMenu(player, "Choose the Badge", "Badge Granter", mainMenuArray, "mainMenuOptions", "qabadge.pid", sui.OK_CANCEL_REFRESH);
                     return SCRIPT_CONTINUE;
                 }
@@ -140,14 +140,14 @@ public class qabadge extends script.base_script
                         }
                     }
                     String[] mainMenuArray = utils.getStringArrayScriptVar(player, "qabadge.mainMenu");
-                    CustomerServiceLog("qaTool", "User: (" + self + ") " + getName(self) + " has removed all their badges from their current character using the QA Badge Tool.");
+                    LOG("ethereal", "[QA Tool]: User: (" + self + ") " + getName(self) + " has removed all their badges from their current character using the QA Badge Tool.");
                     qa.refreshMenu(player, "Choose the Badge", "Badge Granter", mainMenuArray, "mainMenuOptions", "qabadge.pid", sui.OK_CANCEL_REFRESH);
                     return SCRIPT_CONTINUE;
                 }
                 String[] menuArray = getAllCollectionSlotsInPage(badgeChoice);
                 if ((menuArray == null) || (menuArray.length < 1))
                 {
-                    sendSystemMessageTestingOnly(player, "Badge UI creation failed.");
+                    broadcast(player, "Badge UI creation failed.");
                 }
                 else 
                 {
@@ -169,7 +169,7 @@ public class qabadge extends script.base_script
                 obj_id player = sui.getPlayerId(params);
                 if ((params == null) || (params.isEmpty()))
                 {
-                    sendSystemMessageTestingOnly(player, "Failing, params empty");
+                    broadcast(player, "Failing, params empty");
                     utils.removeScriptVarTree(player, "qabadge");
                     utils.removeScriptVarTree(player, "qatool");
                     return SCRIPT_CONTINUE;
@@ -192,7 +192,7 @@ public class qabadge extends script.base_script
                 {
                     utils.removeScriptVarTree(player, "qabadge");
                     utils.removeScriptVarTree(player, "qatool");
-                    sendSystemMessageTestingOnly(player, "You didnt have anything selected");
+                    broadcast(player, "You didnt have anything selected");
                     return SCRIPT_CONTINUE;
                 }
                 String badgeChoice = previousBadgeArray[idx];
@@ -213,17 +213,17 @@ public class qabadge extends script.base_script
             if (hasBadge != true)
             {
                 badge.grantBadge(player, badgeName);
-                sendSystemMessageTestingOnly(player, "Badge granted");
+                broadcast(player, "Badge granted");
                 badge.checkBadgeCount(player);
-                CustomerServiceLog("qaTool", "User: (" + player + ") " + getName(player) + " has added a badge to their current character using the QA Badge Tool.");
+                LOG("ethereal", "[QA Tool]: User: (" + player + ") " + getName(player) + " has added a badge to their current character using the QA Badge Tool.");
                 explorerBadge(player);
             }
             else 
             {
                 badge.revokeBadge(player, badgeName, true);
-                sendSystemMessageTestingOnly(player, "Badge revoked");
+                broadcast(player, "Badge revoked");
                 badge.checkBadgeCount(player);
-                CustomerServiceLog("qaTool", "User: (" + player + ") " + getName(player) + " has removed a badge to their current character using the QA Badge Tool.");
+                LOG("ethereal", "[QA Tool]: User: (" + player + ") " + getName(player) + " has removed a badge to their current character using the QA Badge Tool.");
                 explorerBadge(player);
             }
         }

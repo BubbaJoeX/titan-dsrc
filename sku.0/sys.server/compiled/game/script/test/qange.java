@@ -71,7 +71,7 @@ public class qange extends script.base_script
                 }
                 else 
                 {
-                    sendSystemMessageTestingOnly(player, "Invalid entry");
+                    broadcast(player, "Invalid entry");
                     qa.createInputBox(player, RESPEC_TOOL_PROMPT, NGE_TOOL_TITLE, "handleGiveRespecItem", SCRIPTVAR + ".pid");
                 }
             }
@@ -128,7 +128,7 @@ public class qange extends script.base_script
     }
     public void removePlayer(obj_id player, String err) throws InterruptedException
     {
-        sendSystemMessageTestingOnly(player, err);
+        broadcast(player, err);
         qa.removeScriptVars(player, SCRIPTVAR);
         utils.removeScriptVarTree(player, SCRIPTVAR);
     }
@@ -146,7 +146,7 @@ public class qange extends script.base_script
         resetTester(self);
         utils.setScriptVar(self, "clickRespec.combatLevel", combatLevel);
         obj_id newRespecDevice = static_item.createNewItemFunction("item_respec_token_01_01", self);
-        CustomerServiceLog("qaTool", "User: (" + self + ") " + getName(self) + " has spawned a Respec Token with combat level of " + combatLevel + " by using the QA NGE Tool.");
+        LOG("ethereal", "[QA Tool]: User: (" + self + ") " + getName(self) + " has spawned a Respec Token with combat level of " + combatLevel + " by using the QA NGE Tool.");
         if (isIdValid(newRespecDevice))
         {
             setObjVar(newRespecDevice, "combatLevel", combatLevel);

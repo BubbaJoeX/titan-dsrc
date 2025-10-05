@@ -29,12 +29,12 @@ public class qa_stealth extends script.base_script
         {
             if ((toLower(text)).equals("qa_hide") || (toLower(text)).equals("qahide"))
             {
-                sendSystemMessageTestingOnly(self, "Your character has been hidden from other clients.");
+                broadcast(self, "Your character has been hidden from other clients.");
                 hideFromClient(self, true);
             }
             else if ((toLower(text)).equals("qa_unhide") || (toLower(text)).equals("qaunhide"))
             {
-                sendSystemMessageTestingOnly(self, "Your character is now visible to other clients.");
+                broadcast(self, "Your character is now visible to other clients.");
                 hideFromClient(self, false);
             }
         }

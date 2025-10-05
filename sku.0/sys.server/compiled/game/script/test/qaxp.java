@@ -155,7 +155,7 @@ public class qaxp extends script.base_script
     }
     public void removePlayer(obj_id player, String err) throws InterruptedException
     {
-        sendSystemMessageTestingOnly(player, err);
+        broadcast(player, err);
         qa.removeScriptVars(player, SCRIPTVAR);
         utils.removeScriptVarTree(player, SCRIPTVAR);
     }
@@ -184,7 +184,7 @@ public class qaxp extends script.base_script
                     }
                     else 
                     {
-                        sendSystemMessageTestingOnly(player, "The player has to be the correct Pilot Faction in order to receive this prestige.");
+                        broadcast(player, "The player has to be the correct Pilot Faction in order to receive this prestige.");
                     }
                 }
                 else 

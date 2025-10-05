@@ -88,7 +88,7 @@ public class qadroid extends script.base_script
                 obj_id[] invItems = getContents(inventory);
                 if (invItems.length > 89)
                 {
-                    sendSystemMessageTestingOnly(player, "You do not have enough space for this droid.");
+                    broadcast(player, "You do not have enough space for this droid.");
                     return SCRIPT_CONTINUE;
                 }
                 else 
@@ -98,7 +98,7 @@ public class qadroid extends script.base_script
                         int SourceSchematic = 0;
                         attachScript(newObj, "npc.pet_deed.droid_deed");
                         boolean myBool = utils.setScriptVar(newObj, "crafting.creator.xp", 90);
-                        sendSystemMessageTestingOnly(player, toString(newObj));
+                        broadcast(player, toString(newObj));
                         for (int j = 0; j < STRING_ARRAY.length; j++) {
                             setObjVar(newObj, STRING_ARRAY[j], STRING_VALUES[j]);
                         }

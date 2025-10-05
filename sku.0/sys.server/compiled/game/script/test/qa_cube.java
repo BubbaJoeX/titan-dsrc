@@ -84,7 +84,7 @@ public class qa_cube extends script.base_script
         }
         else 
         {
-            sendSystemMessageTestingOnly(player, "An error has occurred, please try again.");
+            broadcast(player, "An error has occurred, please try again.");
         }
     }
     public void getNamesArray(obj_id player) throws InterruptedException
@@ -134,7 +134,7 @@ public class qa_cube extends script.base_script
             String subComponent = dataTableGetString(CUBE_DATATABLE_1, idx, i);
             obj_id newObj = createObject(subComponent, inventory, "");
         }
-        sendSystemMessageTestingOnly(player, "The components have been successfully created in your inventory.");
+        broadcast(player, "The components have been successfully created in your inventory.");
         qa.removePlayer(player, SCRIPTVAR, "");
     }
     public void checkInventory(obj_id player) throws InterruptedException
@@ -143,7 +143,7 @@ public class qa_cube extends script.base_script
         obj_id[] invItems = getContents(inventory);
         if (invItems.length > 75)
         {
-            sendSystemMessageTestingOnly(player, "Please delete some items from your Inventory and try again.");
+            broadcast(player, "Please delete some items from your Inventory and try again.");
         }
     }
 }

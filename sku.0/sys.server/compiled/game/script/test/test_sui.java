@@ -72,7 +72,7 @@ public class test_sui extends script.base_script
                 break;
             case "test forceClose": {
                 int time = 5;
-                sendSystemMessageTestingOnly(self, "Loading SUI to test force close...");
+                broadcast(self, "Loading SUI to test force close...");
                 int box = sui.msgbox(self, "force close test... closing box in " + time + " seconds");
                 dictionary d = new dictionary();
                 d.put("sui", box);
@@ -148,7 +148,7 @@ public class test_sui extends script.base_script
             return SCRIPT_CONTINUE;
         }
         int box = params.getInt("sui");
-        sendSystemMessageTestingOnly(self, "Attempting to force close sui #" + box);
+        broadcast(self, "Attempting to force close sui #" + box);
         forceCloseSUIPage(box);
         return SCRIPT_CONTINUE;
     }

@@ -2,6 +2,7 @@ package script.test;
 
 import script.dictionary;
 import script.library.qa;
+import script.library.static_item;
 import script.library.sui;
 import script.library.utils;
 import script.obj_id;
@@ -73,7 +74,7 @@ public class qainventory extends script.base_script
                     String mainPrompt = utils.getStringScriptVar(player, "qatool.prompt");
                     if (options == null)
                     {
-                        sendSystemMessageTestingOnly(player, "You didn't start from the main tool menu");
+                        broadcast(player, "You didn't start from the main tool menu");
                         qa.refreshMenu(player, PROMPT, TITLE, MAIN_MENU, "mainMenuOptions", true, SCRIPT_VAR + ".pid");
                         return SCRIPT_CONTINUE;
                     }
@@ -91,23 +92,32 @@ public class qainventory extends script.base_script
                         for (obj_id item : items) {
                             String templateName = getTemplateName(item);
                             if (templateName.equals(FROG_STRING)) {
-                                sendSystemMessageTestingOnly(player, "The Frog will not be destroyed");
+                                broadcast(player, "The Character Builder Terminal will not be destroyed");
                             } else if (templateName.equals(KASHYYYK_FROG_STRING)) {
-                                sendSystemMessageTestingOnly(player, "The Kashyyyk Frog will not be destroyed");
+                                broadcast(player, "The Kashyyyk Character Builder Terminal will not be destroyed");
+                            } else if (hasObjVar(item, "gm_no_wipe")) {
+                                broadcast(player, "The item " + getNameNoSpam(item) + " has been flagged to not be destroyed via this method.");
                             } else {
                                 destroyObject(item);
                             }
                         }
-                    CustomerServiceLog("qaTool", "User: (" + self + ") " + getName(self) + " has deleted the entire contents of their inventory (less any Character Builder Terminals) using the QA Inventory Tool.");
+                    LOG("ethereal", "[QA Tool]: User: (" + self + ") " + getName(self) + " has deleted the entire contents of their inventory (less any Character Builder Terminals) using the QA Inventory Tool.");
                     qa.refreshMenu(player, PROMPT, TITLE, MAIN_MENU, "mainMenuOptions", SCRIPT_VAR + ".pid", sui.OK_CANCEL_REFRESH);
                     break;
                     case 1:
                     int freeSpace = getVolumeFree(inventory);
+                    String JUNK_TABLE = "datatables/crafting/reverse_engineering_junk.iff";
+                    String column = "note";
                     for (int i = 0; i < freeSpace; i++)
                     {
-                        createObject("object/tangible/food/fruit_melon.iff", inventory, "");
+                        String junk = dataTableGetString(JUNK_TABLE, rand(1, dataTableGetNumRows(JUNK_TABLE)), column);
+                        obj_id junkItem = static_item.createNewItemFunction(junk, utils.getInventoryContainer(self));
+                        if (isIdValid(junkItem))
+                        {
+                            setCount(junkItem, rand(1, 3));
+                        }
                     }
-                    CustomerServiceLog("qaTool", "User: (" + self + ") " + getName(self) + " has filled the entire contents of their inventory using the QA Inventory Tool.");
+                    LOG("ethereal", "[QA Tool]: User: (" + self + ") " + getName(self) + " has filled the entire contents of their inventory using the QA Inventory Tool.");
                     qa.refreshMenu(player, PROMPT, TITLE, MAIN_MENU, "mainMenuOptions", SCRIPT_VAR + ".pid", sui.OK_CANCEL_REFRESH);
                     break;
                     default:

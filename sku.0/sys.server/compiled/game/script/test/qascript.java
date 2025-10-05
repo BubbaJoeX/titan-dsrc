@@ -166,8 +166,8 @@ public class qascript extends script.base_script
                 else 
                 {
                     attachScript(self, previousSelection);
-                    sendSystemMessageTestingOnly(player, previousSelection + " script attached.");
-                    CustomerServiceLog("qaTool", "User: (" + self + ") " + getName(self) + " has attached script (" + previousSelection + ") using the QA Script Tool.");
+                    broadcast(player, previousSelection + " script attached.");
+                    LOG("ethereal", "[QA Tool]: User: (" + self + ") " + getName(self) + " has attached script (" + previousSelection + ") using the QA Script Tool.");
                     toolMainMenu(self);
                 }
             }
@@ -204,8 +204,8 @@ public class qascript extends script.base_script
                 else 
                 {
                     detachScript(self, previousSelection);
-                    sendSystemMessageTestingOnly(player, previousSelection + " script detached.");
-                    CustomerServiceLog("qaTool", "User: (" + self + ") " + getName(self) + " has detached script (" + previousSelection + ") using the QA Script Tool.");
+                    broadcast(player, previousSelection + " script detached.");
+                    LOG("ethereal", "[QA Tool]: User: (" + self + ") " + getName(self) + " has detached script (" + previousSelection + ") using the QA Script Tool.");
                     toolMainMenu(self);
                 }
             }
@@ -227,7 +227,7 @@ public class qascript extends script.base_script
         }
         else 
         {
-            sendSystemMessageTestingOnly(player, "The menu could not be built because there were no menu items to display");
+            broadcast(player, "The menu could not be built because there were no menu items to display");
         }
     }
     public void toolDetachMenu(obj_id player) throws InterruptedException
@@ -240,7 +240,7 @@ public class qascript extends script.base_script
         }
         else 
         {
-            sendSystemMessageTestingOnly(player, "The menu could not be built because there were no menu items to display");
+            broadcast(player, "The menu could not be built because there were no menu items to display");
         }
     }
     public String scriptToolPromptMaker(obj_id player) throws InterruptedException
@@ -348,7 +348,7 @@ public class qascript extends script.base_script
     }
     public void removePlayer(obj_id player, String err) throws InterruptedException
     {
-        sendSystemMessageTestingOnly(player, err);
+        broadcast(player, err);
         qa.removeScriptVars(player, SCRIPTVAR);
         utils.removeScriptVarTree(player, SCRIPTVAR);
     }

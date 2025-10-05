@@ -34,7 +34,7 @@ public class ai_rsitton extends script.base_script
                 {
                     obj_id objInventory = utils.getInventoryContainer(self);
                     obj_id lootItem = static_item.createNewItemFunction("weapon_carbine_02_03", objInventory);
-                    sendSystemMessageTestingOnly(self, "made " + lootItem);
+                    broadcast(self, "made " + lootItem);
                 }
             }
         }

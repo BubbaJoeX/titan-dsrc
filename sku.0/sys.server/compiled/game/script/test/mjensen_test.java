@@ -179,6 +179,6 @@ public class mjensen_test extends script.base_script
     public void sysMes(String sysMessage) throws InterruptedException
     {
         obj_id self = getSelf();
-        sendSystemMessageTestingOnly(self, sysMessage);
+        broadcast(self, sysMessage);
     }
 }

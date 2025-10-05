@@ -31,7 +31,7 @@ public class qawearables extends script.base_script
         int listCounter = 0;
         if (listingLength == 0)
         {
-            sendSystemMessageTestingOnly(player, "Tool Not Functioning because the Datatable Rows equal ZERO!");
+            broadcast(player, "Tool Not Functioning because the Datatable Rows equal ZERO!");
             Thread.dumpStack();
             return errorZeroLengthArray;
         }
@@ -85,7 +85,7 @@ public class qawearables extends script.base_script
         int listingLength = columnArray.length;
         if (listingLength == 0)
         {
-            sendSystemMessageTestingOnly(player, "Tool Not Functioning because the Datatable Rows equal ZERO!");
+            broadcast(player, "Tool Not Functioning because the Datatable Rows equal ZERO!");
             return errorZeroLengthArray;
         }
         else 
@@ -143,7 +143,7 @@ public class qawearables extends script.base_script
                 String[] mainMenuArray = populateArray(player, DATATABLE_LOCATION, "wearable_specie");
                 if (mainMenuArray.length < 1)
                 {
-                    sendSystemMessageTestingOnly(player, "Species UI creation failed.");
+                    broadcast(player, "Species UI creation failed.");
                 }
                 else 
                 {
@@ -164,7 +164,7 @@ public class qawearables extends script.base_script
                 String previousMainMenuArray[] = utils.getStringArrayScriptVar(self, "qawearable.mainMenu");
                 if ((params == null) || (params.isEmpty()))
                 {
-                    sendSystemMessageTestingOnly(player, "Failing, params empty");
+                    broadcast(player, "Failing, params empty");
                     utils.removeScriptVarTree(player, "qawearable");
                     utils.removeScriptVarTree(player, "qatool");
                     return SCRIPT_CONTINUE;
@@ -184,7 +184,7 @@ public class qawearables extends script.base_script
                     String mainPrompt = utils.getStringScriptVar(player, "qatool.prompt");
                     if (options == null)
                     {
-                        sendSystemMessageTestingOnly(player, "You didn't start from the main tool menu");
+                        broadcast(player, "You didn't start from the main tool menu");
                         String[] mainMenuArray = populateArray(player, DATATABLE_LOCATION, "wearable_specie");
                         qa.refreshMenu(player, "Choose the species", "Wearables Spawner", mainMenuArray, "wearableTypeOptionSelect", true, "qawearable.pid");
                         return SCRIPT_CONTINUE;
@@ -200,7 +200,7 @@ public class qawearables extends script.base_script
                     {
                         utils.removeScriptVarTree(player, "qawearable");
                         utils.removeScriptVarTree(player, "qatool");
-                        sendSystemMessageTestingOnly(player, "You didnt have anything selected");
+                        broadcast(player, "You didnt have anything selected");
                         return SCRIPT_CONTINUE;
                     }
                     break;
@@ -208,7 +208,7 @@ public class qawearables extends script.base_script
                 String specieChoice = previousMainMenuArray[idx];
                 if (specieChoice.equals(""))
                 {
-                    sendSystemMessageTestingOnly(self, "The Script failed because the previous menu did not pass a string.");
+                    broadcast(self, "The Script failed because the previous menu did not pass a string.");
                 }
                 else 
                 {
@@ -216,7 +216,7 @@ public class qawearables extends script.base_script
                     String[] wearablesArray = populateArray(player, DATATABLE_LOCATION, specieChoice, "wearable_specie", "wearable_type", false, false);
                     if (wearablesArray.length < 1)
                     {
-                        sendSystemMessageTestingOnly(player, "Wearables UI creation failed.");
+                        broadcast(player, "Wearables UI creation failed.");
                     }
                     else 
                     {
@@ -227,7 +227,7 @@ public class qawearables extends script.base_script
         }
         else 
         {
-            sendSystemMessageTestingOnly(player, "Godmode needed for this command.");
+            broadcast(player, "Godmode needed for this command.");
         }
         return SCRIPT_CONTINUE;
     }
@@ -241,7 +241,7 @@ public class qawearables extends script.base_script
                 String previousWearablesArray[] = utils.getStringArrayScriptVar(self, "qawearable.wearablesMenu");
                 if ((params == null) || (params.isEmpty()))
                 {
-                    sendSystemMessageTestingOnly(player, "Failing, params empty");
+                    broadcast(player, "Failing, params empty");
                     utils.removeScriptVarTree(player, "qawearable");
                     utils.removeScriptVarTree(player, "qatool");
                     return SCRIPT_CONTINUE;
@@ -254,7 +254,7 @@ public class qawearables extends script.base_script
                     String[] mainMenuArray = populateArray(player, DATATABLE_LOCATION, "wearable_specie");
                     if (mainMenuArray.length < 1)
                     {
-                        sendSystemMessageTestingOnly(player, "Specie UI creation failed.");
+                        broadcast(player, "Specie UI creation failed.");
                         utils.removeScriptVarTree(player, "qawearable");
                         utils.removeScriptVarTree(player, "qatool");
                         return SCRIPT_CONTINUE;
@@ -269,7 +269,7 @@ public class qawearables extends script.base_script
                     {
                         utils.removeScriptVarTree(player, "qawearable");
                         utils.removeScriptVarTree(player, "qatool");
-                        sendSystemMessageTestingOnly(player, "You didnt have anything selected");
+                        broadcast(player, "You didnt have anything selected");
                         return SCRIPT_CONTINUE;
                     }
                     break;
@@ -285,7 +285,7 @@ public class qawearables extends script.base_script
                     String[] wearablesNameArray = populateArray(player, DATATABLE_LOCATION, wearableChoice, "wearable_type", "wearable_name", true, true);
                     if (wearablesNameArray.length < 1)
                     {
-                        sendSystemMessageTestingOnly(player, "Wearables Name UI creation failed.");
+                        broadcast(player, "Wearables Name UI creation failed.");
                     }
                     else 
                     {
@@ -296,7 +296,7 @@ public class qawearables extends script.base_script
         }
         else 
         {
-            sendSystemMessageTestingOnly(player, "Godmode needed for this command.");
+            broadcast(player, "Godmode needed for this command.");
         }
         return SCRIPT_CONTINUE;
     }
@@ -310,7 +310,7 @@ public class qawearables extends script.base_script
                 String previousWearablesNameArray[] = utils.getStringArrayScriptVar(self, "qawearable.spawnItem");
                 if ((params == null) || (params.isEmpty()))
                 {
-                    sendSystemMessageTestingOnly(player, "Failing, params empty");
+                    broadcast(player, "Failing, params empty");
                     utils.removeScriptVarTree(player, "qawearable");
                     utils.removeScriptVarTree(player, "qatool");
                     return SCRIPT_CONTINUE;
@@ -327,7 +327,7 @@ public class qawearables extends script.base_script
                         String[] wearablesArray = populateArray(player, DATATABLE_LOCATION, specieChoice, "wearable_specie", "wearable_type", false, false);
                         if (wearablesArray.length < 1)
                         {
-                            sendSystemMessageTestingOnly(player, "Specie UI creation failed.");
+                            broadcast(player, "Specie UI creation failed.");
                         }
                         else 
                         {
@@ -336,7 +336,7 @@ public class qawearables extends script.base_script
                     }
                     else 
                     {
-                        sendSystemMessageTestingOnly(player, "The previous specie selection could not be retrieved.");
+                        broadcast(player, "The previous specie selection could not be retrieved.");
                     }
                     return SCRIPT_CONTINUE;
                     case sui.BP_OK:
@@ -344,7 +344,7 @@ public class qawearables extends script.base_script
                     {
                         utils.removeScriptVarTree(player, "qawearable");
                         utils.removeScriptVarTree(player, "qatool");
-                        sendSystemMessageTestingOnly(player, "You didnt have anything selected");
+                        broadcast(player, "You didnt have anything selected");
                         return SCRIPT_CONTINUE;
                     }
                     break;
@@ -407,7 +407,7 @@ public class qawearables extends script.base_script
                     String[] mainMenuArray = populateArray(player, DATATABLE_LOCATION, "wearable_specie");
                     if (mainMenuArray.length < 1)
                     {
-                        sendSystemMessageTestingOnly(player, "Specie UI creation failed.");
+                        broadcast(player, "Specie UI creation failed.");
                     }
                     else 
                     {
@@ -416,13 +416,13 @@ public class qawearables extends script.base_script
                 }
                 else 
                 {
-                    sendSystemMessageTestingOnly(player, "The script failed to pass the string from the previous menu.");
+                    broadcast(player, "The script failed to pass the string from the previous menu.");
                 }
             }
         }
         else 
         {
-            sendSystemMessageTestingOnly(player, "Godmode needed for this command.");
+            broadcast(player, "Godmode needed for this command.");
         }
         return SCRIPT_CONTINUE;
     }

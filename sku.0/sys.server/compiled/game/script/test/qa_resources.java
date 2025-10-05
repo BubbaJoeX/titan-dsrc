@@ -154,7 +154,7 @@ public class qa_resources extends script.base_script
                             debugSpeakMsg(self, "Completed.");
                             return SCRIPT_CONTINUE;
                         default:
-                            sendSystemMessageTestingOnly(player, "Tool Failed.");
+                            broadcast(player, "Tool Failed.");
                             qa.removePlayer(player, SCRIPTVAR, "");
                             return SCRIPT_CONTINUE;
                     }
@@ -199,7 +199,7 @@ public class qa_resources extends script.base_script
                             qa.refreshMenu(self, "Select a Resource Type", TITLE, RECYCLED_ORE, "allRecycledMenuOptions", false, "resource.pid", "resource.allRecycled");
                             return SCRIPT_OVERRIDE;
                         default:
-                            sendSystemMessageTestingOnly(player, "Tool Failed.");
+                            broadcast(player, "Tool Failed.");
                             qa.removePlayer(player, SCRIPTVAR, "");
                             return SCRIPT_CONTINUE;
                     }
@@ -228,7 +228,7 @@ public class qa_resources extends script.base_script
                     String[] previousMainMenuArray = utils.getStringArrayScriptVar(self, "resource.allRecycled");
                     String previousSelection = previousMainMenuArray[idx];
                     createResourceInInventory(player, previousSelection);
-                    CustomerServiceLog("qaTool", "User: (" + self + ") " + getName(self) + " has spawned " + previousSelection + " (a recycled resource) using the QA Resource Tool.");
+                    LOG("ethereal", "[QA Tool]: User: (" + self + ") " + getName(self) + " has spawned " + previousSelection + " (a recycled resource) using the QA Resource Tool.");
                     qa.refreshMenu(self, "Select a Resource Type", TITLE, previousMainMenuArray, "allRecycledMenuOptions", false, "resource.pid", "resource.allRecycled");
                     return SCRIPT_OVERRIDE;
                 }
@@ -256,7 +256,7 @@ public class qa_resources extends script.base_script
                     String previousSelection = previousMainMenuArray[idx];
                     if (previousSelection.equals(""))
                     {
-                        sendSystemMessageTestingOnly(player, "There was a menu index error. Script failed.");
+                        broadcast(player, "There was a menu index error. Script failed.");
                         qa.removePlayer(player, SCRIPTVAR, "");
                         return SCRIPT_CONTINUE;
                     }
@@ -266,8 +266,8 @@ public class qa_resources extends script.base_script
                         obj_id rtype = rtypes[0];
                         if (!isIdValid(rtype))
                         {
-                            sendSystemMessageTestingOnly(self, "No id found");
-                            sendSystemMessageTestingOnly(self, "Space Resource " + previousSelection + " could not be spawned. Report this to the tools team.");
+                            broadcast(self, "No id found");
+                            broadcast(self, "Space Resource " + previousSelection + " could not be spawned. Report this to the tools team.");
                             return SCRIPT_CONTINUE;
                         }
                         String crateTemplate = getResourceContainerForType(rtype);
@@ -279,8 +279,8 @@ public class qa_resources extends script.base_script
                                 obj_id crate = createObject(crateTemplate, pInv, "");
                                 if (addResourceToContainer(crate, rtype, 100000, self))
                                 {
-                                    sendSystemMessageTestingOnly(self, "Resource of class " + previousSelection + " placed in inventory.");
-                                    CustomerServiceLog("qaTool", "User: (" + self + ") " + getName(self) + " has spawned " + previousSelection + " (a space resource) using the QA Resource Tool.");
+                                    broadcast(self, "Resource of class " + previousSelection + " placed in inventory.");
+                                    LOG("ethereal", "[QA Tool]: User: (" + self + ") " + getName(self) + " has spawned " + previousSelection + " (a space resource) using the QA Resource Tool.");
                                     qa.refreshMenu(player, RESOURCE_TOOL_DESCRIPTION, TITLE, SPACE_RESOURCE_CONST, "spaceResourceHandler", false, "resource.pid", "resource.spaceResource");
                                     return SCRIPT_CONTINUE;
                                 }
@@ -295,17 +295,17 @@ public class qa_resources extends script.base_script
     public void createResourceInInventory(obj_id player, String resourceTypeName) throws InterruptedException
     {
         obj_id resourceId = pickRandomNonDepeletedResource(resourceTypeName);
-        sendSystemMessageTestingOnly(player, "resourceId " + resourceId);
+        broadcast(player, "resourceId " + resourceId);
         if (!isIdNull(resourceId))
         {
             obj_id recycle = getRecycledVersionOfResourceType(resourceId);
             obj_id inv = utils.getInventoryContainer(player);
             obj_id generic = createResourceCrate(recycle, RECYCLED_AMOUNT, inv);
-            sendSystemMessageTestingOnly(player, "Resource placed in inventory.");
+            broadcast(player, "Resource placed in inventory.");
         }
         else 
         {
-            sendSystemMessageTestingOnly(player, "The function failed because there were no resources of this type found on the server.");
+            broadcast(player, "The function failed because there were no resources of this type found on the server.");
         }
         qa.removePlayer(player, SCRIPTVAR, "");
     }

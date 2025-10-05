@@ -353,7 +353,7 @@ public class qaitem extends script.base_script
                 getLevelsToDisplay(player, "item_clothing");
                 break;
                 default:
-                sendSystemMessageTestingOnly(player, "That Armor is not currently available.");
+                broadcast(player, "That Armor is not currently available.");
                 toolArmorMainMenu(player);
                 return SCRIPT_CONTINUE;
             }
@@ -437,7 +437,7 @@ public class qaitem extends script.base_script
             }
             else 
             {
-                sendSystemMessageTestingOnly(player, "There was an error with the previous selection - please try again");
+                broadcast(player, "There was an error with the previous selection - please try again");
                 qa.refreshMenu(player, "Select an Armor Class", "Armor Tool", ARMOR_CLASSES, "handleArmorOptions", SCRIPTVAR + ".armorType.pid", SCRIPTVAR + ".armorTypeMenu", sui.OK_CANCEL_REFRESH);
             }
         }
@@ -489,7 +489,7 @@ public class qaitem extends script.base_script
                 spawnItems(player, myColor);
                 break;
                 default:
-                sendSystemMessageTestingOnly(player, "This Armor is not currently available.");
+                broadcast(player, "This Armor is not currently available.");
                 qa.refreshMenu(player, "Select an Armor Class", "Armor Tool", ARMOR_CLASSES, "handleArmorOptions", SCRIPTVAR + ".armorType.pid", SCRIPTVAR + ".armorTypeMenu", sui.OK_CANCEL_REFRESH);
                 return SCRIPT_CONTINUE;
             }
@@ -913,7 +913,7 @@ public class qaitem extends script.base_script
         }
         else 
         {
-            sendSystemMessageTestingOnly(player, "No Armor is available for this Class/Level Combination");
+            broadcast(player, "No Armor is available for this Class/Level Combination");
             toolArmorMainMenu(player);
         }
     }

@@ -12,7 +12,7 @@ public class jwatson_mining_asteroid_dynamic extends script.base_script
         obj_id pilot = getPilotId(self);
         if (pilot != null)
         {
-            sendSystemMessageTestingOnly(pilot, "jwatson_ship IDOT removed slot=" + chassisSlot + ", damageRate=" + damageRate + ", threshold=" + damageThreshold);
+            broadcast(pilot, "jwatson_ship IDOT removed slot=" + chassisSlot + ", damageRate=" + damageRate + ", threshold=" + damageThreshold);
         }
         return SCRIPT_CONTINUE;
     }
@@ -39,7 +39,7 @@ public class jwatson_mining_asteroid_dynamic extends script.base_script
                 float velocityMultiplier = MAX_VELOCITY_MAGNITUDE / velocityMagnitude;
                 currentVelocity_w = currentVelocity_w.multiply(velocityMultiplier);
             }
-            sendSystemMessageTestingOnly(attackingPilot, "*** asteroid dynamic TRACTOR PULSE add=" + directionToAttacker_w);
+            broadcast(attackingPilot, "*** asteroid dynamic TRACTOR PULSE add=" + directionToAttacker_w);
             setDynamicMiningAsteroidVelocity(self, currentVelocity_w);
             return SCRIPT_CONTINUE;
         }
@@ -47,10 +47,10 @@ public class jwatson_mining_asteroid_dynamic extends script.base_script
         int oldHitpoints = getHitpoints(self);
         setHitpoints(self, oldHitpoints - 10);
         int newHitpoints = getHitpoints(self);
-        sendSystemMessageTestingOnly(attackingPilot, "hit asteroid dynamic " + newHitpoints + "/" + maxHitpoints);
+        broadcast(attackingPilot, "hit asteroid dynamic " + newHitpoints + "/" + maxHitpoints);
         if (newHitpoints <= 0)
         {
-            sendSystemMessageTestingOnly(attackingPilot, "*** asteroid dynamic DESTROYED");
+            broadcast(attackingPilot, "*** asteroid dynamic DESTROYED");
             handleShipDestruction(self, 1.0f);
         }
         else 
@@ -64,11 +64,11 @@ public class jwatson_mining_asteroid_dynamic extends script.base_script
                     location selfLocation = getLocation(self);
                     obj_id spawnDynamicAsteroid = createObject("object/ship/asteroid/mining_asteroid_dynamic_nugget.iff", selfLocation);
                     vector currentVelocity_w = getDynamicMiningAsteroidVelocity(self);
-                    sendSystemMessageTestingOnly(attackingPilot, "*** uber-nugget-roid SPAWNED!");
+                    broadcast(attackingPilot, "*** uber-nugget-roid SPAWNED!");
                     vector spawnDirection_w = currentVelocity_w.cross(vector.randomUnit());
                     spawnDirection_w = spawnDirection_w.normalize();
                     spawnDirection_w = spawnDirection_w.multiply(15.0f);
-                    sendSystemMessageTestingOnly(attackingPilot, "spawn dir =" + spawnDirection_w);
+                    broadcast(attackingPilot, "spawn dir =" + spawnDirection_w);
                     currentVelocity_w = currentVelocity_w.add(spawnDirection_w);
                     setDynamicMiningAsteroidVelocity(spawnDynamicAsteroid, currentVelocity_w);
                     currentVelocity_w = currentVelocity_w.subtract(spawnDirection_w);

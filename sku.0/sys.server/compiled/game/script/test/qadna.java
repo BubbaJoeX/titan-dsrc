@@ -78,7 +78,7 @@ public class qadna extends script.base_script
                     getCreatureList(self);
                     break;
                     case 1:
-                    sendSystemMessageTestingOnly(self, "These pet options are not yet available.");
+                    broadcast(self, "These pet options are not yet available.");
                     qa.refreshMenu(self, QATOOL_PROMPT, QATOOL_TITLE, QATOOL_MAIN_MENU, "toolMainMenu", true, "qatool.pid");
                     utils.removeScriptVarTree(player, "qadna");
                     break;
@@ -150,13 +150,13 @@ public class qadna extends script.base_script
             }
             else 
             {
-                sendSystemMessageTestingOnly(self, "There is an error with this tool, if the issue persists, please contact the tool team.");
+                broadcast(self, "There is an error with this tool, if the issue persists, please contact the tool team.");
                 removePlayer(self, "");
             }
         }
         else 
         {
-            sendSystemMessageTestingOnly(self, "There is an error with this tool, if the issue persists, please contact the tool team.");
+            broadcast(self, "There is an error with this tool, if the issue persists, please contact the tool team.");
             removePlayer(self, "");
         }
     }
@@ -184,12 +184,12 @@ public class qadna extends script.base_script
         int row = dataTableSearchColumnForString(creatureTemplate, "initial_template", INCUBATOR_TEMPLATES);
         int hashTemplate = dataTableGetInt(INCUBATOR_TEMPLATES, row, "hash_initial_template");
         setObjVar(dnaContainer, incubator.DNA_TEMPLATE_OBJVAR, hashTemplate);
-        sendSystemMessageTestingOnly(self, "A " + creature + " DNA sample has been placed in your inventory.");
+        broadcast(self, "A " + creature + " DNA sample has been placed in your inventory.");
         removePlayer(self, "");
     }
     public void removePlayer(obj_id self, String err) throws InterruptedException
     {
-        sendSystemMessageTestingOnly(self, err);
+        broadcast(self, err);
         qa.removeScriptVars(self, SCRIPTVAR);
         utils.removeScriptVarTree(self, SCRIPTVAR);
     }

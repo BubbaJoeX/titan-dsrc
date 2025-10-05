@@ -414,7 +414,7 @@ public class qa_ai_helper_attach extends script.base_script
         }
         else 
         {
-            sendSystemMessageTestingOnly(tester, "Tester must be in God Mode to use QA Helper.");
+            broadcast(tester, "Tester must be in God Mode to use QA Helper.");
         }
         return SCRIPT_CONTINUE;
     }
@@ -450,7 +450,7 @@ public class qa_ai_helper_attach extends script.base_script
         }
         else 
         {
-            sendSystemMessageTestingOnly(tester, "Tester must be in God Mode to use QA Helper.");
+            broadcast(tester, "Tester must be in God Mode to use QA Helper.");
             return SCRIPT_CONTINUE;
         }
     }
@@ -468,7 +468,7 @@ public class qa_ai_helper_attach extends script.base_script
     {
         if (hasScript(self, "player.yavin_e3") && utils.getBooleanScriptVar(self, SCRIPTVAR_MOB + ".recordDamage") && utils.getObjIdScriptVar(attacker, "spawnedBy") == self)
         {
-            sendSystemMessageTestingOnly(self, "Damage numbers will not be accurate due to player.yavin_e3 script attached to your character");
+            broadcast(self, "Damage numbers will not be accurate due to player.yavin_e3 script attached to your character");
         }
         else 
         {
@@ -590,7 +590,7 @@ public class qa_ai_helper_attach extends script.base_script
         }
         else 
         {
-            sendSystemMessageTestingOnly(tester, "Tester must be in God Mode to use QA Helper.");
+            broadcast(tester, "Tester must be in God Mode to use QA Helper.");
         }
         return SCRIPT_CONTINUE;
     }
@@ -635,7 +635,7 @@ public class qa_ai_helper_attach extends script.base_script
         }
         else 
         {
-            sendSystemMessageTestingOnly(tester, "Tester must be in God Mode to use QA Helper.");
+            broadcast(tester, "Tester must be in God Mode to use QA Helper.");
         }
         return SCRIPT_CONTINUE;
     }
@@ -686,7 +686,7 @@ public class qa_ai_helper_attach extends script.base_script
                         break;
                         case STARTDATACOLLECTION:
                         buff.removeAllBuffs(tester);
-                        sendSystemMessageTestingOnly(tester, "All buffs have been removed, please re-apply if needed.");
+                        broadcast(tester, "All buffs have been removed, please re-apply if needed.");
                         storeCurrentHealth(self, tester);
                         removeActionRegen(tester);
                         recordDamage(self, tester);
@@ -709,7 +709,7 @@ public class qa_ai_helper_attach extends script.base_script
         }
         else 
         {
-            sendSystemMessageTestingOnly(tester, "Tester must be in God Mode to use QA Helper.");
+            broadcast(tester, "Tester must be in God Mode to use QA Helper.");
         }
         return SCRIPT_CONTINUE;
     }
@@ -762,7 +762,7 @@ public class qa_ai_helper_attach extends script.base_script
         }
         else 
         {
-            sendSystemMessageTestingOnly(tester, "Tester must be in God Mode to use QA Helper.");
+            broadcast(tester, "Tester must be in God Mode to use QA Helper.");
         }
         return SCRIPT_CONTINUE;
     }
@@ -792,7 +792,7 @@ public class qa_ai_helper_attach extends script.base_script
         }
         else 
         {
-            sendSystemMessageTestingOnly(tester, "Tester must be in God Mode to use QA Helper.");
+            broadcast(tester, "Tester must be in God Mode to use QA Helper.");
         }
         return SCRIPT_CONTINUE;
     }
@@ -859,7 +859,7 @@ public class qa_ai_helper_attach extends script.base_script
         }
         else 
         {
-            sendSystemMessageTestingOnly(tester, "Tester must be in God Mode to use QA Helper.");
+            broadcast(tester, "Tester must be in God Mode to use QA Helper.");
         }
         return SCRIPT_CONTINUE;
     }
@@ -931,7 +931,7 @@ public class qa_ai_helper_attach extends script.base_script
         }
         else 
         {
-            sendSystemMessageTestingOnly(tester, "Tester must be in God Mode to use QA Helper.");
+            broadcast(tester, "Tester must be in God Mode to use QA Helper.");
         }
         return SCRIPT_CONTINUE;
     }
@@ -1342,7 +1342,7 @@ public class qa_ai_helper_attach extends script.base_script
         }
         else 
         {
-            sendSystemMessageTestingOnly(tester, "Tester must be in God Mode to use QA Helper.");
+            broadcast(tester, "Tester must be in God Mode to use QA Helper.");
         }
         return SCRIPT_CONTINUE;
     }
@@ -1352,7 +1352,7 @@ public class qa_ai_helper_attach extends script.base_script
         utils.removeScriptVarTree(tester, SCRIPTVAR);
         qa.removeScriptVars(self, SCRIPTVAR);
         utils.removeScriptVarTree(self, SCRIPTVAR);
-        sendSystemMessageTestingOnly(tester, err);
+        broadcast(tester, err);
     }
     public void startLazyMenuFunction(obj_id tester, obj_id self) throws InterruptedException
     {
@@ -1365,7 +1365,7 @@ public class qa_ai_helper_attach extends script.base_script
         }
         else 
         {
-            sendSystemMessageTestingOnly(tester, "Tester must be in God Mode to use QA Helper.");
+            broadcast(tester, "Tester must be in God Mode to use QA Helper.");
         }
     }
     public void stopFollowingTester(obj_id self, obj_id tester) throws InterruptedException
@@ -1373,7 +1373,7 @@ public class qa_ai_helper_attach extends script.base_script
         revertRunSpeed(self);
         ai_lib.aiStopFollowing(self);
         ai_lib.setDefaultCalmBehavior(self, ai_lib.BEHAVIOR_LOITER);
-        sendSystemMessageTestingOnly(tester, "Follow command revoked.  Mobile will now wander.");
+        broadcast(tester, "Follow command revoked.  Mobile will now wander.");
     }
     public void revertRunSpeed(obj_id self) throws InterruptedException
     {
@@ -1386,7 +1386,7 @@ public class qa_ai_helper_attach extends script.base_script
         removeTriggerVolume(ai_lib.ALERT_VOLUME_NAME);
         removeTriggerVolume(ai_lib.AGGRO_VOLUME_NAME);
         detachScript(self, "ai.creature_combat");
-        sendSystemMessageTestingOnly(tester, "Aggressive behaviour has been disabled.");
+        broadcast(tester, "Aggressive behaviour has been disabled.");
     }
     public void killHelper(obj_id self, obj_id tester) throws InterruptedException
     {
@@ -1403,12 +1403,12 @@ public class qa_ai_helper_attach extends script.base_script
     {
         if (hasScript(self, "player.yavin_e3"))
         {
-            sendSystemMessageTestingOnly(tester, "No death script already attached.");
+            broadcast(tester, "No death script already attached.");
         }
         else 
         {
             attachScript(self, "player.yavin_e3");
-            sendSystemMessageTestingOnly(tester, "No death script attached.");
+            broadcast(tester, "No death script attached.");
         }
     }
     public void removeNoDeathScript(obj_id self, obj_id tester) throws InterruptedException
@@ -1416,18 +1416,18 @@ public class qa_ai_helper_attach extends script.base_script
         if (hasScript(self, "player.yavin_e3"))
         {
             detachScript(self, "player.yavin_e3");
-            sendSystemMessageTestingOnly(tester, "No Death Script Removed.");
+            broadcast(tester, "No Death Script Removed.");
         }
         else 
         {
-            sendSystemMessageTestingOnly(tester, "Mobile doesn't have the No Death script.");
+            broadcast(tester, "Mobile doesn't have the No Death script.");
         }
     }
     public void freezeMob(obj_id self, obj_id tester) throws InterruptedException
     {
         ai_lib.aiStopFollowing(self);
         setState(self, STATE_FROZEN, true);
-        sendSystemMessageTestingOnly(tester, "Helper set to FROZEN. Helper will not move from current location.");
+        broadcast(tester, "Helper set to FROZEN. Helper will not move from current location.");
     }
     public String getCreaturePrompt(obj_id creature, obj_id tester) throws InterruptedException
     {
@@ -1566,7 +1566,7 @@ public class qa_ai_helper_attach extends script.base_script
         }
         else 
         {
-            sendSystemMessageTestingOnly(tester, "The tool failed to retrieve the creature data needed.");
+            broadcast(tester, "The tool failed to retrieve the creature data needed.");
         }
         String errorStr = "There was an error retriving Creature Data";
         return errorStr;
@@ -1605,17 +1605,17 @@ public class qa_ai_helper_attach extends script.base_script
                 }
                 else 
                 {
-                    sendSystemMessageTestingOnly(tester, "This creature has no primary weapon.");
+                    broadcast(tester, "This creature has no primary weapon.");
                 }
             }
             else 
             {
-                sendSystemMessageTestingOnly(tester, "An error was encountered and no creature data was found.");
+                broadcast(tester, "An error was encountered and no creature data was found.");
             }
         }
         else 
         {
-            sendSystemMessageTestingOnly(tester, "You must remove AI Ignore or be of the opposing faction before using this function.");
+            broadcast(tester, "You must remove AI Ignore or be of the opposing faction before using this function.");
         }
     }
     public void toolMovementMenu(obj_id self, obj_id tester) throws InterruptedException
@@ -1633,7 +1633,7 @@ public class qa_ai_helper_attach extends script.base_script
         }
         else 
         {
-            sendSystemMessageTestingOnly(tester, "You must have at least one waypoint to use this function.");
+            broadcast(tester, "You must have at least one waypoint to use this function.");
         }
     }
     public void recordDamage(obj_id self, obj_id tester) throws InterruptedException
@@ -1642,7 +1642,7 @@ public class qa_ai_helper_attach extends script.base_script
         utils.setScriptVar(self, SCRIPTVAR_MOB + ".recordDamage", true);
         utils.setScriptVar(tester, SCRIPTVAR_MOB + ".damageDone", "No Data");
         utils.setScriptVar(self, SCRIPTVAR_MOB + ".damageDone", "No Data");
-        sendSystemMessageTestingOnly(tester, "Damage Recording On.");
+        broadcast(tester, "Damage Recording On.");
     }
     public void exportDamageData(obj_id self, obj_id tester) throws InterruptedException
     {
@@ -1662,7 +1662,7 @@ public class qa_ai_helper_attach extends script.base_script
             utils.removeScriptVar(self, SCRIPTVAR_MOB + ".recordDamage");
             utils.removeScriptVar(tester, SCRIPTVAR_MOB + ".healthVar");
             utils.removeScriptVar(self, SCRIPTVAR_MOB + ".healthVar");
-            sendSystemMessageTestingOnly(tester, "Damage Recording Off.");
+            broadcast(tester, "Damage Recording Off.");
         }
     }
     public void callAttackSUI(obj_id self, obj_id tester) throws InterruptedException
@@ -1681,7 +1681,7 @@ public class qa_ai_helper_attach extends script.base_script
     }
     public void dataStorageCapacityReached(obj_id self, obj_id tester) throws InterruptedException
     {
-        sendSystemMessageTestingOnly(tester, "Damage data storage capacity reached.  Combat stopped and data stored.");
+        broadcast(tester, "Damage data storage capacity reached.  Combat stopped and data stored.");
         exportDamageData(self, tester);
         qa.stopCreatureCombat(self, tester);
         qa.followTester(self, tester);
@@ -1694,7 +1694,7 @@ public class qa_ai_helper_attach extends script.base_script
         int testerHealthMax = getAttrib(tester, HEALTH);
         utils.setScriptVar(self, SCRIPTVAR_MOB + ".healthVar", mobHealthMax);
         utils.setScriptVar(tester, SCRIPTVAR_MOB + ".healthVar", testerHealthMax);
-        sendSystemMessageTestingOnly(tester, "Health set to maximum.");
+        broadcast(tester, "Health set to maximum.");
     }
     public void giveFullHealth(obj_id recipient) throws InterruptedException
     {
@@ -1721,7 +1721,7 @@ public class qa_ai_helper_attach extends script.base_script
         }
         else 
         {
-            sendSystemMessageTestingOnly(tester, "Action Regen Rate has already been set to Zero.");
+            broadcast(tester, "Action Regen Rate has already been set to Zero.");
         }
         setRegenRate(tester, REGEN_RATE);
     }
@@ -1741,10 +1741,10 @@ public class qa_ai_helper_attach extends script.base_script
     public void startTheDancing(obj_id self, obj_id tester, String danceName) throws InterruptedException
     {
         int performanceIndex = performance.lookupPerformanceIndex((-1788534963), danceName, 0);
-        sendSystemMessageTestingOnly(tester, "idx: " + performanceIndex);
+        broadcast(tester, "idx: " + performanceIndex);
         if (!performance.canPerformDance(self, performanceIndex))
         {
-            sendSystemMessageTestingOnly(tester, "can't do it");
+            broadcast(tester, "can't do it");
         }
         setClientUsesAnimationLocomotion(self, true);
         dictionary params;

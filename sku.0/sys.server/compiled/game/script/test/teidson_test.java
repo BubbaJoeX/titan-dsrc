@@ -44,23 +44,23 @@ public class teidson_test extends script.base_script
         {
             int gameTime = getGameTime();
             int[] convertedGameTime = player_structure.convertSecondsTime(gameTime);
-            sendSystemMessageTestingOnly(self, "getGameTime() returns " + gameTime + " (" + (convertedGameTime[0] / 365) + "y:" + (convertedGameTime[0] % 365) + "d:" + convertedGameTime[1] + "h:" + convertedGameTime[2] + "m:" + convertedGameTime[3] + "s)");
+            broadcast(self, "getGameTime() returns " + gameTime + " (" + (convertedGameTime[0] / 365) + "y:" + (convertedGameTime[0] % 365) + "d:" + convertedGameTime[1] + "h:" + convertedGameTime[2] + "m:" + convertedGameTime[3] + "s)");
             int calendarTime = getCalendarTime();
             int[] convertedCalendarTime = player_structure.convertSecondsTime(calendarTime);
-            sendSystemMessageTestingOnly(self, "getCalendarTime() returns " + calendarTime + " (" + (convertedCalendarTime[0] / 365) + "y:" + (convertedCalendarTime[0] % 365) + "d:" + convertedCalendarTime[1] + "h:" + convertedCalendarTime[2] + "m:" + convertedCalendarTime[3] + "s)");
-            sendSystemMessageTestingOnly(self, "getCalendarTimeStringGMT(" + calendarTime + ") returns " + getCalendarTimeStringGMT(calendarTime));
-            sendSystemMessageTestingOnly(self, "getCalendarTimeStringLocal(" + calendarTime + ") returns " + getCalendarTimeStringLocal(calendarTime));
+            broadcast(self, "getCalendarTime() returns " + calendarTime + " (" + (convertedCalendarTime[0] / 365) + "y:" + (convertedCalendarTime[0] % 365) + "d:" + convertedCalendarTime[1] + "h:" + convertedCalendarTime[2] + "m:" + convertedCalendarTime[3] + "s)");
+            broadcast(self, "getCalendarTimeStringGMT(" + calendarTime + ") returns " + getCalendarTimeStringGMT(calendarTime));
+            broadcast(self, "getCalendarTimeStringLocal(" + calendarTime + ") returns " + getCalendarTimeStringLocal(calendarTime));
         }
         if (strCommands[0].equalsIgnoreCase("gcwnear"))
         {
             obj_id near = gcw.getInvasionSequencerNearby(self);
-            sendSystemMessageTestingOnly(self, "GCW Sequencer: " + near);
+            broadcast(self, "GCW Sequencer: " + near);
         }
         if (strCommands[0].equalsIgnoreCase("yaw"))
         {
             obj_id target = getTarget(self);
             float yaw = getYaw(target);
-            sendSystemMessageTestingOnly(self, "Target's yaw: " + yaw);
+            broadcast(self, "Target's yaw: " + yaw);
         }
         if (strCommands[0].equalsIgnoreCase("rotate"))
         {
@@ -76,7 +76,7 @@ public class teidson_test extends script.base_script
         if (strCommands[0].equalsIgnoreCase("ismob"))
         {
             obj_id target = getTarget(self);
-            sendSystemMessageTestingOnly(self, "isMob: " + isMob(target));
+            broadcast(self, "isMob: " + isMob(target));
         }
         if (strCommands[0].equalsIgnoreCase("gcwpoints"))
         {
@@ -87,13 +87,13 @@ public class teidson_test extends script.base_script
         {
             if (!hasObjVar(self, "record_table"))
             {
-                sendSystemMessageTestingOnly(self, "You do not have the record_table objvar defined");
+                broadcast(self, "You do not have the record_table objvar defined");
                 return SCRIPT_CONTINUE;
             }
             obj_id target = getTarget(self);
             if (!isIdValid(target))
             {
-                sendSystemMessageTestingOnly(self, "You must target something first");
+                broadcast(self, "You must target something first");
                 return SCRIPT_CONTINUE;
             }
             String table = getStringObjVar(self, "record_table");
@@ -103,7 +103,7 @@ public class teidson_test extends script.base_script
             float z = objLoc.z;
             String name = getTemplateName(target);
             float yaw = getYaw(target);
-            sendSystemMessageTestingOnly(self, "Location(" + x + ", " + y + ", " + z + ") yaw(" + yaw + ")");
+            broadcast(self, "Location(" + x + ", " + y + ", " + z + ") yaw(" + yaw + ")");
             dictionary dctRow = new dictionary();
             dctRow.put("object", name);
             dctRow.put("spawn_id", "");
@@ -138,7 +138,7 @@ public class teidson_test extends script.base_script
         }
         if (strCommands[0].equalsIgnoreCase("rebelgcw"))
         {
-            sendSystemMessageTestingOnly(self, "Rebel percentage: " + gcw.getRebelPercentileByRegion(self));
+            broadcast(self, "Rebel percentage: " + gcw.getRebelPercentileByRegion(self));
             return SCRIPT_CONTINUE;
         }
         if (strCommands[0].equalsIgnoreCase("rnd"))
@@ -148,7 +148,7 @@ public class teidson_test extends script.base_script
             {
                 location loc = getLocation(self);
                 oneTimeHarvest(resource, 1000000, loc);
-                sendSystemMessageTestingOnly(self, "gas_reactive resource: " + resource);
+                broadcast(self, "gas_reactive resource: " + resource);
                 return SCRIPT_CONTINUE;
             }
             resource = pickRandomNonDepeletedResource("steel");
@@ -156,7 +156,7 @@ public class teidson_test extends script.base_script
             {
                 location loc = getLocation(self);
                 oneTimeHarvest(resource, 1000000, loc);
-                sendSystemMessageTestingOnly(self, "steel resource: " + resource);
+                broadcast(self, "steel resource: " + resource);
                 return SCRIPT_CONTINUE;
             }
         }
@@ -188,7 +188,7 @@ public class teidson_test extends script.base_script
             for (int i = 0, j = 10; i < j; i++)
             {
                 int amount = gcw.distributeIndividualContribution(self, target, 0, gcw.GCW_POINT_TYPE_GROUND_PVP);
-                sendSystemMessageTestingOnly(self, "GCW: " + amount);
+                broadcast(self, "GCW: " + amount);
             }
         }
         if (strCommands[0].equalsIgnoreCase("lreg"))
@@ -196,17 +196,17 @@ public class teidson_test extends script.base_script
             region[] regions = getRegionsAtPoint(getLocation(self));
             if (regions == null || regions.length < 1)
             {
-                sendSystemMessageTestingOnly(self, "No regions here.");
+                broadcast(self, "No regions here.");
                 return SCRIPT_CONTINUE;
             }
             for (region region : regions) {
-                sendSystemMessageTestingOnly(self, "Region: " + region.getName());
+                broadcast(self, "Region: " + region.getName());
             }
         }
         if (strCommands[0].equalsIgnoreCase("top"))
         {
             obj_id topMost = getTopMostContainer(self);
-            sendSystemMessageTestingOnly(self, "Topmost: " + topMost);
+            broadcast(self, "Topmost: " + topMost);
         }
         if (strCommands[0].equalsIgnoreCase("resources"))
         {
@@ -221,7 +221,7 @@ public class teidson_test extends script.base_script
             craftinglib.makeBestResource(self, "fiberplast", 1000000);
             craftinglib.makeBestResource(self, "gas_inert", 1000000);
             craftinglib.makeBestResource(self, "gas_reactive", 1000000);
-            sendSystemMessageTestingOnly(self, "Completed.");
+            broadcast(self, "Completed.");
             return SCRIPT_CONTINUE;
         }
         if (strCommands[0].equalsIgnoreCase("tcg"))
@@ -229,22 +229,22 @@ public class teidson_test extends script.base_script
             String[] promotions = scheduled_drop.validatePromotionsVersusCluster(scheduled_drop.getScheduledPromotions("item"));
             if (promotions == null || promotions.length <= 0)
             {
-                sendSystemMessageTestingOnly(self, "All promotions empty.");
+                broadcast(self, "All promotions empty.");
                 return SCRIPT_CONTINUE;
             }
             dictionary[] promotionalItems = scheduled_drop.getStaticItemsForAllPromotions(promotions);
             if (promotionalItems == null || promotionalItems.length <= 0)
             {
-                sendSystemMessageTestingOnly(self, "Items in promotions empty.");
+                broadcast(self, "Items in promotions empty.");
                 return SCRIPT_CONTINUE;
             }
             int index = scheduled_drop.getRandomStaticItem(promotionalItems);
             if (index < 0)
             {
-                sendSystemMessageTestingOnly(self, "No promotion item chosen.");
+                broadcast(self, "No promotion item chosen.");
                 return SCRIPT_CONTINUE;
             }
-            sendSystemMessageTestingOnly(self, "promotions.length: " + promotions.length + "promotionalItems.length: " + promotionalItems.length + " random item: " + promotionalItems[index].getString("promotionItem"));
+            broadcast(self, "promotions.length: " + promotions.length + "promotionalItems.length: " + promotionalItems.length + " random item: " + promotionalItems[index].getString("promotionItem"));
             String[] promotionList = new String[promotionalItems.length];
             for (int i = 0, j = promotionalItems.length; i < j; i++)
             {
@@ -256,7 +256,7 @@ public class teidson_test extends script.base_script
         {
             location where = getLocation(self);
             String serverName = toLower(getConfigSetting("CentralServer", "clusterName"));
-            sendSystemMessageTestingOnly(self, "Planet: " + getPlanetByName(where.area) + " serverName: " + serverName);
+            broadcast(self, "Planet: " + getPlanetByName(where.area) + " serverName: " + serverName);
             return SCRIPT_CONTINUE;
         }
         if (strCommands[0].equalsIgnoreCase("erasetcg"))
@@ -322,7 +322,7 @@ public class teidson_test extends script.base_script
         }
         if (strCommands[0].equals("cleanUpYo"))
         {
-            sendSystemMessageTestingOnly(self, "Cleaning up encounters....");
+            broadcast(self, "Cleaning up encounters....");
             obj_id[] objectsInRange = getObjectsInRange(getLocation(self), 200.0f);
             for (obj_id obj_id : objectsInRange) {
                 if (hasObjVar(obj_id, "grievous_encounter.active")) {
@@ -336,7 +336,7 @@ public class teidson_test extends script.base_script
             obj_id dungeon = getTopMostContainer(self);
             String cellName = strCommands[1];
             obj_id cell = getCellId(dungeon, cellName);
-            sendSystemMessageTestingOnly(self, "Cell " + cell + " is public:  " + permissionsIsPublic(cell));
+            broadcast(self, "Cell " + cell + " is public:  " + permissionsIsPublic(cell));
         }
         if (strCommands[0].equals("exp"))
         {
@@ -358,7 +358,7 @@ public class teidson_test extends script.base_script
             dctRow.put("room", roomName);
             dctRow.put("delay", 1.0f);
             datatable.serverDataTableAddRow(table, dctRow);
-            sendSystemMessageTestingOnly(self, "Explosion added: " + here);
+            broadcast(self, "Explosion added: " + here);
             return SCRIPT_CONTINUE;
         }
         if (strCommands[0].equals("schematicTest"))
@@ -403,7 +403,7 @@ public class teidson_test extends script.base_script
             obj_id objPlayerShip = getPilotedShip(self);
             int contents = getShipCargoHoldContentsCurrent(objPlayerShip);
             int max = getShipCargoHoldContentsMaximum(objPlayerShip);
-            sendSystemMessageTestingOnly(self, "CARGO: " + contents + " / " + max);
+            broadcast(self, "CARGO: " + contents + " / " + max);
         }
         if (strCommands[0].equals("stopRunning"))
         {
@@ -415,13 +415,13 @@ public class teidson_test extends script.base_script
             obj_id objShip = getLookAtTarget(self);
             if (!isIdValid(objShip))
             {
-                sendSystemMessageTestingOnly(self, "No look at target");
+                broadcast(self, "No look at target");
                 return SCRIPT_CONTINUE;
             }
             obj_id[] objCells = getContents(objShip);
             if ((objCells == null) || (objCells.length == 0))
             {
-                sendSystemMessageTestingOnly(self, "ship  doesn't have an interior");
+                broadcast(self, "ship  doesn't have an interior");
                 return SCRIPT_CONTINUE;
             }
             obj_id objCell = objCells[0];
@@ -449,7 +449,7 @@ public class teidson_test extends script.base_script
         if (strCommands[0].equals("loco"))
         {
             int loco = getLocomotion(self);
-            sendSystemMessageTestingOnly(self, "Locomotion state = " + loco);
+            broadcast(self, "Locomotion state = " + loco);
         }
         if (strCommands[0].equals("cellx"))
         {
@@ -474,7 +474,7 @@ public class teidson_test extends script.base_script
             obj_id objShip = getLookAtTarget(self);
             if (!isIdValid(objShip))
             {
-                sendSystemMessageTestingOnly(self, "No look at target");
+                broadcast(self, "No look at target");
                 return SCRIPT_CONTINUE;
             }
             obj_id[] objCells = getContents(objShip);
@@ -501,7 +501,7 @@ public class teidson_test extends script.base_script
             obj_id[] objCells = getContents(objStation);
             if ((objCells == null) || (objCells.length == 0))
             {
-                sendSystemMessageTestingOnly(self, "ship  doesn't have an interior");
+                broadcast(self, "ship  doesn't have an interior");
                 return SCRIPT_CONTINUE;
             }
             obj_id objCell = objCells[0];
@@ -510,12 +510,12 @@ public class teidson_test extends script.base_script
             locDestination.y = -3;
             locDestination.z = -72.2f;
             setLocation(self, locDestination);
-            sendSystemMessageTestingOnly(self, "station is " + objStation);
+            broadcast(self, "station is " + objStation);
         }
         if (strCommands[0].equals("loc"))
         {
             location loc = getLocation(self);
-            sendSystemMessageTestingOnly(self, "X = " + loc.x + " Y = " + loc.y + "Z = " + loc.z + " AREA = " + loc.area + " CELL = " + loc.cell);
+            broadcast(self, "X = " + loc.x + " Y = " + loc.y + "Z = " + loc.z + " AREA = " + loc.area + " CELL = " + loc.cell);
         }
         if (strCommands[0].equals("teleport"))
         {
@@ -582,10 +582,10 @@ public class teidson_test extends script.base_script
             if (utils.hasScriptVar(objShip, "objPlasmaConduits"))
             {
                 obj_id[] objPlasmaConduits = utils.getObjIdArrayScriptVar(objShip, "objPlasmaConduits");
-                sendSystemMessageTestingOnly(self, "objPlasmaCondiuts size: " + objPlasmaConduits.length);
+                broadcast(self, "objPlasmaCondiuts size: " + objPlasmaConduits.length);
                 for (int i = 0; i < objPlasmaConduits.length; i++)
                 {
-                    sendSystemMessageTestingOnly(self, "objPlasmaConduits[" + i + "]: " + objPlasmaConduits[i]);
+                    broadcast(self, "objPlasmaConduits[" + i + "]: " + objPlasmaConduits[i]);
                 }
             }
         }
@@ -621,7 +621,7 @@ public class teidson_test extends script.base_script
             boolean boolTest = datatable.createDataTable(strDataTable, strHeaders, strHeaderTypes);
             if (!boolTest)
             {
-                sendSystemMessageTestingOnly(self, "No datatable made");
+                broadcast(self, "No datatable made");
                 return SCRIPT_CONTINUE;
             }
             dictionary dctRow = new dictionary(1);
@@ -797,7 +797,7 @@ public class teidson_test extends script.base_script
             boolean boolTest = datatable.createDataTable(strDataTable, strHeaders, strHeaderTypes);
             if (!boolTest)
             {
-                sendSystemMessageTestingOnly(self, "No datatable made");
+                broadcast(self, "No datatable made");
                 return SCRIPT_CONTINUE;
             }
             String[] strTables = new String[1];

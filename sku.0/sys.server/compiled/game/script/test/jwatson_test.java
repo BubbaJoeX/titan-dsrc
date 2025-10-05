@@ -121,7 +121,7 @@ public class jwatson_test extends script.base_script
                         } else {
                             id = self;
                         }
-                        sendSystemMessageTestingOnly(id, text);
+                        broadcast(id, text);
                     }
                     break;
                 case "jw_systemMessagePlanet":
@@ -493,7 +493,7 @@ public class jwatson_test extends script.base_script
                 case "jw_shipHitMe": {
                     obj_id objTarget = getLookAtTarget(self);
                     obj_id objShip = getPilotedShip(self);
-                    sendSystemMessageTestingOnly(self, "objTarget of " + objTarget + " is attacking " + objShip);
+                    broadcast(self, "objTarget of " + objTarget + " is attacking " + objShip);
                     ship_ai.spaceAttack(objTarget, objShip);
                     break;
                 }
@@ -505,7 +505,7 @@ public class jwatson_test extends script.base_script
                 }
                 case "jw_shipSetWeaponDamage": {
                     int index = Integer.parseInt(tok.nextToken());
-                    sendSystemMessageTestingOnly(self, "index=" + index);
+                    broadcast(self, "index=" + index);
                     setShipWeaponDamageMaximum(getLookAtTarget(self), ship_chassis_slot_type.SCST_weapon_0 + index, 500.0f);
                     break;
                 }
@@ -537,7 +537,7 @@ public class jwatson_test extends script.base_script
                     }
                     for (int i = ship_chassis_slot_type.SCST_weapon_first; i < ship_chassis_slot_type.SCST_weapon_last; ++i) {
                         if (isShipSlotInstalled(objTarget, i)) {
-                            sendSystemMessageTestingOnly(self, "up ammo");
+                            broadcast(self, "up ammo");
                             setShipWeaponAmmoCurrent(objTarget, i, getShipWeaponAmmoMaximum(objTarget, i));
                         }
                     }
@@ -562,7 +562,7 @@ public class jwatson_test extends script.base_script
                     setShipComponentEnergyMaintenanceRequirement(objShip, space_crafting.WEAPON_0, 100);
                     setShipComponentEnergyMaintenanceRequirement(objShip, space_crafting.WEAPON_1, 100);
                     setShipComponentEnergyMaintenanceRequirement(objShip, space_crafting.CAPACITOR, 100);
-                    sendSystemMessageTestingOnly(self, "whacked ");
+                    broadcast(self, "whacked ");
                     break;
                 }
                 case "jw_sprTest": {
@@ -613,7 +613,7 @@ public class jwatson_test extends script.base_script
                     break;
                 }
                 case "jw_spaceEject":
-                    sendSystemMessageTestingOnly(self, "now ejecting... ");
+                    broadcast(self, "now ejecting... ");
                     space_dungeon.ejectPlayerFromDungeon(self);
                     break;
                 case "jw_avatarPlatform": {
@@ -629,7 +629,7 @@ public class jwatson_test extends script.base_script
                     break;
                 }
                 case "jw_spaceLaunch":
-                    sendSystemMessageTestingOnly(self, "now launching... ");
+                    broadcast(self, "now launching... ");
                     space_dungeon.launchPlayerFromDungeon(self);
                     break;
                 case "jw_spaceDupe": {
@@ -638,7 +638,7 @@ public class jwatson_test extends script.base_script
                     if (null == ship) {
                         ship = getPilotedShip(self);
                     }
-                    sendSystemMessageTestingOnly(self, "scds.length=" + scds.length + ", ship=" + ship);
+                    broadcast(self, "scds.length=" + scds.length + ", ship=" + ship);
                     if (null == ship) {
                     } else {
                         location selfLocation = getLocation(self);
@@ -681,19 +681,19 @@ public class jwatson_test extends script.base_script
                     long id = Long.parseLong(tok.nextToken());
                     obj_id dungeon = obj_id.getObjId(id);
                     if (!isValidId(dungeon)) {
-                        sendSystemMessageTestingOnly(self, "NO SUCH OBJECT: [" + dungeon + "]");
+                        broadcast(self, "NO SUCH OBJECT: [" + dungeon + "]");
                         return SCRIPT_CONTINUE;
                     }
                     obj_id[] registered = space_dungeon.getRegisteredObjects(dungeon);
                     if (null == registered) {
-                        sendSystemMessageTestingOnly(self, "REGISTERED NULL!");
+                        broadcast(self, "REGISTERED NULL!");
                     } else {
-                        sendSystemMessageTestingOnly(self, "REGISTERED " + registered.length);
+                        broadcast(self, "REGISTERED " + registered.length);
                         for (obj_id rid : registered) {
                             if (null != rid) {
-                                sendSystemMessageTestingOnly(self, "   ... " + rid);
+                                broadcast(self, "   ... " + rid);
                             } else {
-                                sendSystemMessageTestingOnly(self, "   ... NULL!");
+                                broadcast(self, "   ... NULL!");
                             }
                         }
                     }
@@ -703,7 +703,7 @@ public class jwatson_test extends script.base_script
                     long id = Long.parseLong(tok.nextToken());
                     obj_id obj = obj_id.getObjId(id);
                     float f = getObjectCollisionRadius(obj);
-                    sendSystemMessageTestingOnly(self, "radius=" + f);
+                    broadcast(self, "radius=" + f);
                     break;
                 }
                 case "jw_dungeonLandTicketless": {
@@ -732,17 +732,17 @@ public class jwatson_test extends script.base_script
                     setShipCargoHoldContent(ship, "space_metal_carbonaceous", 22);
                     int cd = getShipCargoHoldContent(ship, "space_gem_diamond");
                     int cc = getShipCargoHoldContent(ship, "space_metal_carbonaceous");
-                    sendSystemMessageTestingOnly(self, "1) cargo " + getShipCargoHoldContentsCurrent(ship) + "/" + getShipCargoHoldContentsMaximum(ship) + ", contains=" + cd + "," + cc);
+                    broadcast(self, "1) cargo " + getShipCargoHoldContentsCurrent(ship) + "/" + getShipCargoHoldContentsMaximum(ship) + ", contains=" + cd + "," + cc);
                     modifyShipCargoHoldContent(ship, "space_gem_diamond", 4);
                     modifyShipCargoHoldContent(ship, "space_metal_carbonaceous", 2);
                     cd = getShipCargoHoldContent(ship, "space_gem_diamond");
                     cc = getShipCargoHoldContent(ship, "space_metal_carbonaceous");
-                    sendSystemMessageTestingOnly(self, "2) cargo " + getShipCargoHoldContentsCurrent(ship) + "/" + getShipCargoHoldContentsMaximum(ship) + ", contains=" + cd + "," + cc);
+                    broadcast(self, "2) cargo " + getShipCargoHoldContentsCurrent(ship) + "/" + getShipCargoHoldContentsMaximum(ship) + ", contains=" + cd + "," + cc);
                     modifyShipCargoHoldContent(ship, "space_gem_diamond", -8);
                     modifyShipCargoHoldContent(ship, "space_metal_carbonaceous", -4);
                     cd = getShipCargoHoldContent(ship, "space_gem_diamond");
                     cc = getShipCargoHoldContent(ship, "space_metal_carbonaceous");
-                    sendSystemMessageTestingOnly(self, "3) cargo " + getShipCargoHoldContentsCurrent(ship) + "/" + getShipCargoHoldContentsMaximum(ship) + ", contains=" + cd + "," + cc);
+                    broadcast(self, "3) cargo " + getShipCargoHoldContentsCurrent(ship) + "/" + getShipCargoHoldContentsMaximum(ship) + ", contains=" + cd + "," + cc);
                     break;
                 }
             }
@@ -773,7 +773,7 @@ public class jwatson_test extends script.base_script
     public int OnSpaceMiningSellResource(obj_id self, obj_id player, obj_id ship, obj_id station, obj_id resourceId, int amount) throws InterruptedException
     {
         int amountDeducted = -modifyShipCargoHoldContent(ship, resourceId, -amount);
-        sendSystemMessageTestingOnly(player, "Sold Resources: " + amountDeducted + "units");
+        broadcast(player, "Sold Resources: " + amountDeducted + "units");
         return SCRIPT_CONTINUE;
     }
 }

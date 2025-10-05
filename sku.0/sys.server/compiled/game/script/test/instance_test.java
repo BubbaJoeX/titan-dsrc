@@ -42,7 +42,7 @@ public class instance_test extends script.base_script
     public int cmdActivateInstance(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException
     {
         String[] dungeons = dataTableGetStringColumn(dataTable, "dungeon");
-        sui.listbox(self, self, "Select Instnace Dungeon", sui.OK_CANCEL, "Select Dungeon", dungeons, "handleSelectInstance", true);
+        sui.listbox(self, self, "Select Instance Dungeon", sui.OK_CANCEL, "Select Dungeon", dungeons, "handleSelectInstance", true);
         return SCRIPT_CONTINUE;
     }
     public int handleSelectInstance(obj_id self, dictionary params) throws InterruptedException
@@ -52,7 +52,7 @@ public class instance_test extends script.base_script
         int rows = dataTableGetNumRows(dataTable);
         if (idx < 0 || idx > rows - 1)
         {
-            sendSystemMessageTestingOnly(player, "Invalid dungeon selected");
+            broadcast(player, "Invalid dungeon selected");
             return SCRIPT_CONTINUE;
         }
         dictionary dungeonDict = dataTableGetRow(dataTable, idx);
@@ -85,7 +85,7 @@ public class instance_test extends script.base_script
         dictionary dungeonDict = dataTableGetRow(dataTable, dungeonIdx);
         if (idx < 0 || idx > parse.length - 1)
         {
-            sendSystemMessageTestingOnly(player, "Invalid Selection");
+            broadcast(player, "Invalid Selection");
             return SCRIPT_CONTINUE;
         }
         else 

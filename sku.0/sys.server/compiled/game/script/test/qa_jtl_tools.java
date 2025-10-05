@@ -427,11 +427,11 @@ public class qa_jtl_tools extends script.base_script
                             break;
                             case REVOKE_PILOT:
                             qa.revokePilotingSkills(self);
-                            sendSystemMessageTestingOnly(self, "Pilot Skills revoked");
+                            broadcast(self, "Pilot Skills revoked");
                             toolMainMenu(self);
                             break;
                             default:
-                            sendSystemMessageTestingOnly(player, "");
+                            broadcast(player, "");
                             removePlayer(self, "");
                             return SCRIPT_CONTINUE;
                         }
@@ -536,7 +536,7 @@ public class qa_jtl_tools extends script.base_script
                             boolean rebTatWaypointFunctionComplete = getWaypoint(self, "rebtat");
                             if (rebTatWaypointFunctionComplete)
                             {
-                                sendSystemMessageTestingOnly(self, "Waypoints issued");
+                                broadcast(self, "Waypoints issued");
                                 toolMainMenu(self);
                             }
                             break;
@@ -544,7 +544,7 @@ public class qa_jtl_tools extends script.base_script
                             boolean impTatWaypointFunctionComplete = getWaypoint(self, "imptat");
                             if (impTatWaypointFunctionComplete)
                             {
-                                sendSystemMessageTestingOnly(self, "Waypoints issued");
+                                broadcast(self, "Waypoints issued");
                                 toolMainMenu(self);
                             }
                             break;
@@ -586,7 +586,7 @@ public class qa_jtl_tools extends script.base_script
                     String componentListName = VALID_SHIPS_COMPONENTS_LIST[idx];
                     if (previousSelection.equals(""))
                     {
-                        sendSystemMessageTestingOnly(player, "There was a menu index error. Script failed.");
+                        broadcast(player, "There was a menu index error. Script failed.");
                         utils.removeScriptVarTree(player, SCRIPTVAR);
                         return SCRIPT_CONTINUE;
                     }
@@ -710,7 +710,7 @@ public class qa_jtl_tools extends script.base_script
                     String previousSelection = previousMainMenuArray[idx];
                     if (previousSelection.equals(""))
                     {
-                        sendSystemMessageTestingOnly(player, "There was a menu index error. Script failed.");
+                        broadcast(player, "There was a menu index error. Script failed.");
                         utils.removeScriptVarTree(player, SCRIPTVAR);
                         return SCRIPT_CONTINUE;
                     }
@@ -722,7 +722,7 @@ public class qa_jtl_tools extends script.base_script
                             String[] bonusShipArray = qa.populateArray(player, SHIP_DATATABLE, previousSelection, "SHIP_FACTION", "GOD_SHIP_NAME");
                             if (bonusShipArray.length < 1)
                             {
-                                sendSystemMessageTestingOnly(player, "SUI creation failed.");
+                                broadcast(player, "SUI creation failed.");
                             }
                             else 
                             {
@@ -733,7 +733,7 @@ public class qa_jtl_tools extends script.base_script
                             String[] imperialShipArray = qa.populateArray(player, SHIP_DATATABLE, previousSelection, "SHIP_FACTION", "GOD_SHIP_NAME");
                             if (imperialShipArray.length < 1)
                             {
-                                sendSystemMessageTestingOnly(player, "SUI creation failed.");
+                                broadcast(player, "SUI creation failed.");
                             }
                             else 
                             {
@@ -744,7 +744,7 @@ public class qa_jtl_tools extends script.base_script
                             String[] neutralShipArray = qa.populateArray(player, SHIP_DATATABLE, previousSelection, "SHIP_FACTION", "GOD_SHIP_NAME");
                             if (neutralShipArray.length < 1)
                             {
-                                sendSystemMessageTestingOnly(player, "SUI creation failed.");
+                                broadcast(player, "SUI creation failed.");
                             }
                             else 
                             {
@@ -755,7 +755,7 @@ public class qa_jtl_tools extends script.base_script
                             String[] rebelShipArray = qa.populateArray(player, SHIP_DATATABLE, previousSelection, "SHIP_FACTION", "GOD_SHIP_NAME");
                             if (rebelShipArray.length < 1)
                             {
-                                sendSystemMessageTestingOnly(player, "SUI creation failed.");
+                                broadcast(player, "SUI creation failed.");
                             }
                             else 
                             {
@@ -810,7 +810,7 @@ public class qa_jtl_tools extends script.base_script
                             String[] bonusShipArray = qa.populateArray(player, SHIP_DATATABLE, previousSelection, "SHIP_FACTION", "VALID_SHIP_NAME");
                             if (bonusShipArray.length < 1)
                             {
-                                sendSystemMessageTestingOnly(player, "SUI creation failed.");
+                                broadcast(player, "SUI creation failed.");
                             }
                             else 
                             {
@@ -821,7 +821,7 @@ public class qa_jtl_tools extends script.base_script
                             String[] imperialShipArray = qa.populateArray(player, SHIP_DATATABLE, previousSelection, "SHIP_FACTION", "VALID_SHIP_NAME");
                             if (imperialShipArray.length < 1)
                             {
-                                sendSystemMessageTestingOnly(player, "SUI creation failed.");
+                                broadcast(player, "SUI creation failed.");
                             }
                             else 
                             {
@@ -832,7 +832,7 @@ public class qa_jtl_tools extends script.base_script
                             String[] neutralShipArray = qa.populateArray(player, SHIP_DATATABLE, previousSelection, "SHIP_FACTION", "VALID_SHIP_NAME");
                             if (neutralShipArray.length < 1)
                             {
-                                sendSystemMessageTestingOnly(player, "SUI creation failed.");
+                                broadcast(player, "SUI creation failed.");
                             }
                             else 
                             {
@@ -843,7 +843,7 @@ public class qa_jtl_tools extends script.base_script
                             String[] rebelShipArray = qa.populateArray(player, SHIP_DATATABLE, previousSelection, "SHIP_FACTION", "VALID_SHIP_NAME");
                             if (rebelShipArray.length < 1)
                             {
-                                sendSystemMessageTestingOnly(player, "SUI creation failed.");
+                                broadcast(player, "SUI creation failed.");
                             }
                             else 
                             {
@@ -887,7 +887,7 @@ public class qa_jtl_tools extends script.base_script
                     String previousSelection = previousMainMenuArray[idx];
                     if (previousSelection.equals(""))
                     {
-                        sendSystemMessageTestingOnly(player, "There was a menu index error. Script failed.");
+                        broadcast(player, "There was a menu index error. Script failed.");
                         utils.removeScriptVarTree(player, SCRIPTVAR);
                         return SCRIPT_CONTINUE;
                     }
@@ -936,7 +936,7 @@ public class qa_jtl_tools extends script.base_script
                     String previousSelection = previousMainMenuArray[idx];
                     if (previousSelection.equals(""))
                     {
-                        sendSystemMessageTestingOnly(player, "There was a menu index error. Script failed.");
+                        broadcast(player, "There was a menu index error. Script failed.");
                         utils.removeScriptVarTree(player, SCRIPTVAR);
                         return SCRIPT_CONTINUE;
                     }
@@ -991,7 +991,7 @@ public class qa_jtl_tools extends script.base_script
                     }
                     else 
                     {
-                        sendSystemMessageTestingOnly(player, "There was a menu index error. Script failed.");
+                        broadcast(player, "There was a menu index error. Script failed.");
                         utils.removeScriptVarTree(player, SCRIPTVAR);
                         return SCRIPT_CONTINUE;
                     }
@@ -1027,7 +1027,7 @@ public class qa_jtl_tools extends script.base_script
                     String previousSelection = previousMainMenuArray[idx];
                     if (previousSelection.equals(""))
                     {
-                        sendSystemMessageTestingOnly(player, "There was a menu index error. Script failed.");
+                        broadcast(player, "There was a menu index error. Script failed.");
                         utils.removeScriptVarTree(player, SCRIPTVAR);
                         return SCRIPT_CONTINUE;
                     }
@@ -1068,7 +1068,7 @@ public class qa_jtl_tools extends script.base_script
                     String previousSelection = previousMainMenuArray[idx];
                     if (previousSelection.equals(""))
                     {
-                        sendSystemMessageTestingOnly(player, "There was a menu index error. Script failed.");
+                        broadcast(player, "There was a menu index error. Script failed.");
                         utils.removeScriptVarTree(player, SCRIPTVAR);
                         return SCRIPT_CONTINUE;
                     }
@@ -1090,7 +1090,7 @@ public class qa_jtl_tools extends script.base_script
     }
     public void removePlayer(obj_id self, String err) throws InterruptedException
     {
-        sendSystemMessageTestingOnly(self, err);
+        broadcast(self, err);
         qa.removeScriptVars(self, SCRIPTVAR);
         utils.removeScriptVarTree(self, SCRIPTVAR);
         utils.removeScriptVarTree(self, "pilotrebtat");
@@ -1106,10 +1106,10 @@ public class qa_jtl_tools extends script.base_script
         obj_id pcd = createObject("object/intangible/ship/" + shipName + "_pcd.iff", datapad, "");
         obj_id ship = createObject("object/ship/player/player_" + shipName + ".iff", pcd, "");
         setName(pcd, "[QA] " + localize(getNameStringId(pcd)));
-        sendSystemMessageTestingOnly(player, "About to set chassis max mass.");
+        broadcast(player, "About to set chassis max mass.");
         setChassisComponentMassMaximum(ship, 210000.0f);
         setOwner(ship, player);
-        sendSystemMessageTestingOnly(player, "About to unload all components.");
+        broadcast(player, "About to unload all components.");
         if (isIdValid(ship))
         {
             obj_id objInventory = utils.getInventoryContainer(player);
@@ -1127,9 +1127,9 @@ public class qa_jtl_tools extends script.base_script
         }
         else 
         {
-            sendSystemMessageTestingOnly(player, "Ship not valid.");
+            broadcast(player, "Ship not valid.");
         }
-        sendSystemMessageTestingOnly(player, "Components unloaded.");
+        broadcast(player, "Components unloaded.");
         obj_id armor1 = createObjectOverloaded(SHIP_COMPONENTS_ARMOR_TYPE_2, inv);
         obj_id armor2 = createObjectOverloaded(SHIP_COMPONENTS_ARMOR_TYPE_2, inv);
         obj_id booster = createObjectOverloaded(SHIP_COMPONENTS_BOOSTER_TYPE_1, inv);
@@ -1137,7 +1137,7 @@ public class qa_jtl_tools extends script.base_script
         obj_id engine = createObjectOverloaded(SHIP_COMPONENTS_ENGINE_TYPE_2, inv);
         obj_id reactor = createObjectOverloaded(SHIP_COMPONENTS_REACTOR_TYPE_2, inv);
         obj_id shield = createObjectOverloaded(SHIP_COMPONENTS_SHIELD_TYPE_2, inv);
-        sendSystemMessageTestingOnly(player, "About to add weapons");
+        broadcast(player, "About to add weapons");
         if (weaponSlots >= 1)
         {
             obj_id weapon1 = createObjectOverloaded(SHIP_COMPONENTS_WEAPON_TYPE_2, inv);
@@ -1186,7 +1186,7 @@ public class qa_jtl_tools extends script.base_script
             setName(weapon8, "[QA] " + localize(getNameStringId(weapon8)));
             shipInstallComponent(player, ship, ship_chassis_slot_type.SCST_weapon_7, weapon8);
         }
-        sendSystemMessageTestingOnly(player, "weapons installed");
+        broadcast(player, "weapons installed");
         if (godShip == true)
         {
             setObjVar(armor1, "ship_comp.armor_hitpoints_maximum", 20000.0f);
@@ -1217,7 +1217,7 @@ public class qa_jtl_tools extends script.base_script
             setObjVar(shield, "ship_comp.shield.hitpoints_front_current", 2000.0f);
             setObjVar(shield, "ship_comp.mass", 1.0f);
             setName(shield, "[QA] " + localize(getNameStringId(shield)));
-            sendSystemMessageTestingOnly(player, "All non weapon component attributes set");
+            broadcast(player, "All non weapon component attributes set");
         }
         shipInstallComponent(player, ship, ship_chassis_slot_type.SCST_armor_0, armor1);
         shipInstallComponent(player, ship, ship_chassis_slot_type.SCST_armor_1, armor2);
@@ -1226,8 +1226,8 @@ public class qa_jtl_tools extends script.base_script
         shipInstallComponent(player, ship, ship_chassis_slot_type.SCST_engine, engine);
         shipInstallComponent(player, ship, ship_chassis_slot_type.SCST_reactor, reactor);
         shipInstallComponent(player, ship, ship_chassis_slot_type.SCST_shield_0, shield);
-        CustomerServiceLog("qaTool", "User: (" + player + ") " + getName(player) + " has spawned a ship (" + ship + ") using the QA Space Tool.");
-        sendSystemMessageTestingOnly(player, "Non-weapon components installed");
+        LOG("ethereal", "[QA Tool]: User: (" + player + ") " + getName(player) + " has spawned a ship (" + ship + ") using the QA Space Tool.");
+        broadcast(player, "Non-weapon components installed");
     }
     public String[] createLootCategroies(obj_id player, String categoryString) throws InterruptedException
     {
@@ -1236,7 +1236,7 @@ public class qa_jtl_tools extends script.base_script
         String preAppend = "object/tangible/ship/components/";
         if (categoryString.contains("all "))
         {
-            sendSystemMessageTestingOnly(player, "Please wait. Component list is long!");
+            broadcast(player, "Please wait. Component list is long!");
         }
         int totalColumnsInDataTable = dataTableGetNumColumns(LOOT_DATATABLE);
         String[] allCellsInTable = returnListOfCellsInTable(player, totalColumnsInDataTable, LOOT_DATATABLE);
@@ -1280,7 +1280,7 @@ public class qa_jtl_tools extends script.base_script
             String[] arrayList = dataTableGetStringColumn(datatableName, i);
             if (arrayList.length <= 0)
             {
-                sendSystemMessageTestingOnly(player, "Tool Not Functioning because the Datatable Rows equal ZERO!");
+                broadcast(player, "Tool Not Functioning because the Datatable Rows equal ZERO!");
                 return null;
             }
             int listingLength = arrayList.length;

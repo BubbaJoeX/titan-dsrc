@@ -27,13 +27,13 @@ public class qaspace extends script.base_script
             detachScript(self, "test.qaspace");
         }
         else {
-            sendSystemMessageTestingOnly(self, "QaSpace script attached.");
+            broadcast(self, "QaSpace script attached.");
         }
         return SCRIPT_CONTINUE;
     }
     public int OnDetach(obj_id self) throws InterruptedException
     {
-        sendSystemMessageTestingOnly(self, "QaSpace script detached.");
+        broadcast(self, "QaSpace script detached.");
         return SCRIPT_CONTINUE;
     }
     public int OnSpeaking(obj_id self, String text) throws InterruptedException
@@ -54,7 +54,7 @@ public class qaspace extends script.base_script
         }
         else 
         {
-            sendSystemMessageTestingOnly(self, "Space Loot Error: Missing name of victim ship");
+            broadcast(self, "Space Loot Error: Missing name of victim ship");
         }
         if (st.hasMoreTokens())
         {
@@ -68,23 +68,23 @@ public class qaspace extends script.base_script
         obj_id objMyShip = getPilotedShip(self);
         if (objMyShip == null)
         {
-            sendSystemMessageTestingOnly(self, "Space Loot Error: You must be in a ship in space.");
+            broadcast(self, "Space Loot Error: You must be in a ship in space.");
             return;
         }
         int shipRowNumber = dataTableSearchColumnForString(victimName, "strIndex", SPACE_MOBILE_TABLE);
         if (shipRowNumber == -1)
         {
-            sendSystemMessageTestingOnly(self, "Space Loot Error: You passed in a bad shipType. Type is " + victimName);
+            broadcast(self, "Space Loot Error: You passed in a bad shipType. Type is " + victimName);
             return;
         }
         if (victimCount > 100)
         {
-            sendSystemMessageTestingOnly(self, "Space Loot Error: Iterations limited 1 to 100.");
+            broadcast(self, "Space Loot Error: Iterations limited 1 to 100.");
             victimCount = 100;
         }
         if (victimCount < 1)
         {
-            sendSystemMessageTestingOnly(self, "Space Loot Error: Iterations limited 1 to 100.");
+            broadcast(self, "Space Loot Error: Iterations limited 1 to 100.");
             victimCount = 1;
         }
         int loopAmountInt = victimCount / 10;
@@ -100,9 +100,9 @@ public class qaspace extends script.base_script
                     incrementDict.put("victimCount", 10);
                     messageTo(self, "runSpaceLootIteration", incrementDict, 5, true);
                 }
-                catch(Exception e)
+                catch(RuntimeException e)
                 {
-                    sendSystemMessageTestingOnly(self, "Interrupted! " + e);
+                    broadcast(self, "Interrupted! " + e);
                 }
             }
         }
@@ -132,11 +132,11 @@ public class qaspace extends script.base_script
             }
             if (objVictimShip == null)
             {
-                sendSystemMessageTestingOnly(self, "Space Loot Error: You passed in a bad shipType. Type is " + victimName);
+                broadcast(self, "Space Loot Error: You passed in a bad shipType. Type is " + victimName);
             }
             else 
             {
-                sendSystemMessageTestingOnly(self, "Space Loot: Made ship of type " + victimName + " object id is: " + objVictimShip);
+                broadcast(self, "Space Loot: Made ship of type " + victimName + " object id is: " + objVictimShip);
                 notifyShipDamage(objVictimShip, objMyShip, 10.0f);
                 space_combat.doChassisDamage(objMyShip, objVictimShip, 0, 1.0f);
                 setShipCurrentChassisHitPoints(objVictimShip, 0.0f);
@@ -146,7 +146,7 @@ public class qaspace extends script.base_script
                 float fltIntensity = rand(0, 1.0f);
                 handleShipDestruction(objVictimShip, fltIntensity);
                 space_combat.doDeathCleanup(objVictimShip);
-                sendSystemMessageTestingOnly(self, "Space Loot: Killed ship of type " + victimName + " object id is: " + objVictimShip);
+                broadcast(self, "Space Loot: Killed ship of type " + victimName + " object id is: " + objVictimShip);
             }
         }
     }

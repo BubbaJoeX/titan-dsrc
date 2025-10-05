@@ -69,14 +69,14 @@ public class millbarge_test extends script.base_script
             {
                 int city_id = getCityAtLocation(getLocation(self), 0);
                 obj_id vote = cityGetCitizenAllegiance(city_id, self);
-                sendSystemMessageTestingOnly(self, "City ID: " + city_id + " : My Allegience is to: (" + vote + ") " + cityGetCitizenName(city_id, vote));
+                broadcast(self, "City ID: " + city_id + " : My Allegience is to: (" + vote + ") " + cityGetCitizenName(city_id, vote));
             }
             if (command.equalsIgnoreCase("mayor"))
             {
                 int city_id = getCityAtLocation(getLocation(self), 0);
                 obj_id mayor = cityGetLeader(city_id);
                 String name = cityGetCitizenName(city_id, mayor);
-                sendSystemMessageTestingOnly(self, "mayor's name is: " + name + " Obj_Id: " + mayor);
+                broadcast(self, "mayor's name is: " + name + " Obj_Id: " + mayor);
             }
             if (command.equalsIgnoreCase("setEntSpec"))
             {
@@ -101,7 +101,7 @@ public class millbarge_test extends script.base_script
             if (command.equalsIgnoreCase("whatCity"))
             {
                 int city = getCitizenOfCityId(self);
-                sendSystemMessageTestingOnly(self, "My getCitizenOfCityId Returned: " + city);
+                broadcast(self, "My getCitizenOfCityId Returned: " + city);
             }
             if (command.equalsIgnoreCase("breakspawner"))
             {
@@ -109,7 +109,7 @@ public class millbarge_test extends script.base_script
                 obj_id brokenId = obj_id.NULL_ID;
                 for (int i = 0; i < spawnedList.size(); i++)
                 {
-                    sendSystemMessageTestingOnly(self, "Breaking Spawner - previous ID: " + ((obj_id)spawnedList.get(i)));
+                    broadcast(self, "Breaking Spawner - previous ID: " + ((obj_id)spawnedList.get(i)));
                     spawnedList.set(i, brokenId);
                 }
                 utils.setScriptVar(myTarget, "myCreations", spawnedList);
@@ -117,18 +117,18 @@ public class millbarge_test extends script.base_script
             if (command.equalsIgnoreCase("owner"))
             {
                 obj_id owner = getOwner(myTarget);
-                sendSystemMessageTestingOnly(self, "Owner is: " + owner);
+                broadcast(self, "Owner is: " + owner);
             }
             if (command.equalsIgnoreCase("resetScurrierSnackTime"))
             {
                 if (hasObjVar(myTarget, house_pet.SCURRIER_SNACK_LAST_FED))
                 {
                     removeObjVar(myTarget, house_pet.SCURRIER_SNACK_LAST_FED);
-                    sendSystemMessageTestingOnly(self, "Scurrier Snack Time has been reset");
+                    broadcast(self, "Scurrier Snack Time has been reset");
                 }
                 else 
                 {
-                    sendSystemMessageTestingOnly(self, "Scurrier Snack Time objvar could not be found.  You must target the Controller (Feeding Bowl) for this command to work.");
+                    broadcast(self, "Scurrier Snack Time objvar could not be found.  You must target the Controller (Feeding Bowl) for this command to work.");
                 }
             }
         }

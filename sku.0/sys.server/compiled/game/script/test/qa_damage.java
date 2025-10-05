@@ -73,12 +73,12 @@ public class qa_damage extends script.base_script
                     if (damageAmount > 0 && isIdValid(lookAtTarget))
                     {
                         damage(lookAtTarget, DAMAGE_KINETIC, HIT_LOCATION_BODY, damageAmount);
-                        CustomerServiceLog("qaTool", "User: (" + self + ") " + getName(self) + " has healed (" + lookAtTarget + ") using the QA Damage Tool.");
-                        sendSystemMessageTestingOnly(self, "Damage to target completed.");
+                        LOG("ethereal", "[QA Tool]: User: (" + self + ") " + getName(self) + " has healed (" + lookAtTarget + ") using the QA Damage Tool.");
+                        broadcast(self, "Damage to target completed.");
                     }
                     else 
                     {
-                        sendSystemMessageTestingOnly(self, "Variables not valid");
+                        broadcast(self, "Variables not valid");
                     }
                     removePlayer(self, "");
                 }
@@ -110,12 +110,12 @@ public class qa_damage extends script.base_script
                     {
                         int totalHeal = healAmount + healthRightNow;
                         setAttrib(lookAtTarget, HEALTH, totalHeal);
-                        CustomerServiceLog("qaTool", "User: (" + self + ") " + getName(self) + " has healed (" + lookAtTarget + ") using the QA Heal Tool.");
-                        sendSystemMessageTestingOnly(self, "Heal target completed.");
+                        LOG("ethereal", "[QA Tool]: User: (" + self + ") " + getName(self) + " has healed (" + lookAtTarget + ") using the QA Heal Tool.");
+                        broadcast(self, "Heal target completed.");
                     }
                     else 
                     {
-                        sendSystemMessageTestingOnly(self, "Variables not valid");
+                        broadcast(self, "Variables not valid");
                     }
                     removePlayer(self, "");
                 }
@@ -125,7 +125,7 @@ public class qa_damage extends script.base_script
     }
     public void removePlayer(obj_id self, String err) throws InterruptedException
     {
-        sendSystemMessageTestingOnly(self, err);
+        broadcast(self, err);
         qa.removeScriptVars(self, DAMAGE_SCRIPTVAR);
         qa.removeScriptVars(self, DAMAGE_PID_SCRIPTVAR);
         utils.removeScriptVarTree(self, DAMAGE_SCRIPTVAR);

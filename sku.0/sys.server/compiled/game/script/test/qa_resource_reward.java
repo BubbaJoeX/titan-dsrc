@@ -179,7 +179,7 @@ public class qa_resource_reward extends script.base_script
                     obj_id crate = createResourceCrate(resourceChosen, RESOURCE_AMOUNT, utils.getInventoryContainer(player));
                     if (isIdValid(crate))
                     {
-                        sendSystemMessageTestingOnly(self, "The selected resource has been placed in your inventory");
+                        broadcast(self, "The selected resource has been placed in your inventory");
                     }
                     cleanup();
                     removePlayer(self, "");
@@ -369,7 +369,7 @@ public class qa_resource_reward extends script.base_script
     }
     public void removePlayer(obj_id player, String err) throws InterruptedException
     {
-        sendSystemMessageTestingOnly(player, err);
+        broadcast(player, err);
         qa.removeScriptVars(player, "qarewardresource");
     }
     public String[] filterTopLevelResourceList(String parentClass) throws InterruptedException

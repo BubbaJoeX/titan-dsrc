@@ -121,7 +121,7 @@ public class dmellencamp_test extends script.base_script
                         } else {
                             id = self;
                         }
-                        sendSystemMessageTestingOnly(id, text);
+                        broadcast(id, text);
                     }
                     break;
                 case "dm_systemMessagePlanet":
@@ -493,7 +493,7 @@ public class dmellencamp_test extends script.base_script
                 case "dm_shipHitMe": {
                     obj_id objTarget = getLookAtTarget(self);
                     obj_id objShip = getPilotedShip(self);
-                    sendSystemMessageTestingOnly(self, "objTarget of " + objTarget + " is attacking " + objShip);
+                    broadcast(self, "objTarget of " + objTarget + " is attacking " + objShip);
                     ship_ai.spaceAttack(objTarget, objShip);
                     break;
                 }
@@ -505,7 +505,7 @@ public class dmellencamp_test extends script.base_script
                 }
                 case "dm_shipSetWeaponDamage": {
                     int index = Integer.parseInt(tok.nextToken());
-                    sendSystemMessageTestingOnly(self, "index=" + index);
+                    broadcast(self, "index=" + index);
                     setShipWeaponDamageMaximum(getLookAtTarget(self), ship_chassis_slot_type.SCST_weapon_0 + index, 500.0f);
                     break;
                 }
@@ -537,7 +537,7 @@ public class dmellencamp_test extends script.base_script
                     }
                     for (int i = ship_chassis_slot_type.SCST_weapon_first; i < ship_chassis_slot_type.SCST_weapon_last; ++i) {
                         if (isShipSlotInstalled(objTarget, i)) {
-                            sendSystemMessageTestingOnly(self, "up ammo");
+                            broadcast(self, "up ammo");
                             setShipWeaponAmmoCurrent(objTarget, i, getShipWeaponAmmoMaximum(objTarget, i));
                         }
                     }
@@ -562,7 +562,7 @@ public class dmellencamp_test extends script.base_script
                     setShipComponentEnergyMaintenanceRequirement(objShip, space_crafting.WEAPON_0, 100);
                     setShipComponentEnergyMaintenanceRequirement(objShip, space_crafting.WEAPON_1, 100);
                     setShipComponentEnergyMaintenanceRequirement(objShip, space_crafting.CAPACITOR, 100);
-                    sendSystemMessageTestingOnly(self, "whacked ");
+                    broadcast(self, "whacked ");
                     break;
                 }
                 case "dm_sprTest": {
@@ -613,14 +613,14 @@ public class dmellencamp_test extends script.base_script
                     break;
                 }
                 case "dm_spaceEject":
-                    sendSystemMessageTestingOnly(self, "now ejecting... ");
+                    broadcast(self, "now ejecting... ");
                     space_dungeon.ejectPlayerFromDungeon(self);
                     break;
                 case "dm_dungeon_yt1300": {
                     location selfLocation = getLocation(self);
                     selfLocation.x += 100.0f;
                     obj_id platform1 = createObject("object/ship/dungeon/dungeon_yt1300.iff", selfLocation);
-                    sendSystemMessageTestingOnly(self, "dungeon id is " + platform1);
+                    broadcast(self, "dungeon id is " + platform1);
                     break;
                 }
                 case "dm_fill_dungeon_yt1300":
@@ -633,9 +633,9 @@ public class dmellencamp_test extends script.base_script
                                 createLocation.y = y;
                                 createLocation.z = z;
                                 obj_id platform1 = createObject("object/ship/dungeon/dungeon_yt1300.iff", createLocation);
-                                sendSystemMessageTestingOnly(self, "Created dungeon " + platform1 + " at " + x + "," + y + "," + z);
+                                broadcast(self, "Created dungeon " + platform1 + " at " + x + "," + y + "," + z);
                                 objCreated++;
-                                sendSystemMessageTestingOnly(self, "Dungeons created " + objCreated);
+                                broadcast(self, "Dungeons created " + objCreated);
                             }
                         }
                     }
@@ -680,17 +680,17 @@ public class dmellencamp_test extends script.base_script
                     setShipCargoHoldContent(ship, "space_metal_carbonaceous", 22);
                     int cd = getShipCargoHoldContent(ship, "space_gem_diamond");
                     int cc = getShipCargoHoldContent(ship, "space_metal_carbonaceous");
-                    sendSystemMessageTestingOnly(self, "1) cargo " + getShipCargoHoldContentsCurrent(ship) + "/" + getShipCargoHoldContentsMaximum(ship) + ", contains=" + cd + "," + cc);
+                    broadcast(self, "1) cargo " + getShipCargoHoldContentsCurrent(ship) + "/" + getShipCargoHoldContentsMaximum(ship) + ", contains=" + cd + "," + cc);
                     modifyShipCargoHoldContent(ship, "space_gem_diamond", 4);
                     modifyShipCargoHoldContent(ship, "space_metal_carbonaceous", 2);
                     cd = getShipCargoHoldContent(ship, "space_gem_diamond");
                     cc = getShipCargoHoldContent(ship, "space_metal_carbonaceous");
-                    sendSystemMessageTestingOnly(self, "2) cargo " + getShipCargoHoldContentsCurrent(ship) + "/" + getShipCargoHoldContentsMaximum(ship) + ", contains=" + cd + "," + cc);
+                    broadcast(self, "2) cargo " + getShipCargoHoldContentsCurrent(ship) + "/" + getShipCargoHoldContentsMaximum(ship) + ", contains=" + cd + "," + cc);
                     modifyShipCargoHoldContent(ship, "space_gem_diamond", -8);
                     modifyShipCargoHoldContent(ship, "space_metal_carbonaceous", -4);
                     cd = getShipCargoHoldContent(ship, "space_gem_diamond");
                     cc = getShipCargoHoldContent(ship, "space_metal_carbonaceous");
-                    sendSystemMessageTestingOnly(self, "3) cargo " + getShipCargoHoldContentsCurrent(ship) + "/" + getShipCargoHoldContentsMaximum(ship) + ", contains=" + cd + "," + cc);
+                    broadcast(self, "3) cargo " + getShipCargoHoldContentsCurrent(ship) + "/" + getShipCargoHoldContentsMaximum(ship) + ", contains=" + cd + "," + cc);
                     break;
                 }
             }
@@ -721,7 +721,7 @@ public class dmellencamp_test extends script.base_script
     public int OnSpaceMiningSellResource(obj_id self, obj_id player, obj_id ship, obj_id station, obj_id resourceId, int amount) throws InterruptedException
     {
         int amountDeducted = -modifyShipCargoHoldContent(ship, resourceId, -amount);
-        sendSystemMessageTestingOnly(player, "Sold Resources: " + amountDeducted + "units");
+        broadcast(player, "Sold Resources: " + amountDeducted + "units");
         return SCRIPT_CONTINUE;
     }
 }

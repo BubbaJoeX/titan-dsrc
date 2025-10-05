@@ -184,7 +184,7 @@ public class qadatapad extends script.base_script
                     location waypointWarpLocationArray[] = utils.getLocationArrayScriptVar(self, SCRIPTVAR + ".warpPoints");
                     location warpSelection = waypointWarpLocationArray[idx];
                     goWarpLocation(player, warpSelection);
-                    CustomerServiceLog("qaTool", "User: (" + self + ") " + getName(self) + " has warped to  (" + warpSelection + ") using a QA Datapad Tool.");
+                    LOG("ethereal", "[QA Tool]: User: (" + self + ") " + getName(self) + " has warped to  (" + warpSelection + ") using a QA Datapad Tool.");
                     qa.removePlayer(player, SCRIPTVAR, "");
                 }
                 else 
@@ -224,7 +224,7 @@ public class qadatapad extends script.base_script
     }
     public void goWarpLocation(obj_id player, location selectedLocation) throws InterruptedException
     {
-        sendSystemMessageTestingOnly(player, "Waypoint data received, warping now.");
+        broadcast(player, "Waypoint data received, warping now.");
         warpPlayer(player, selectedLocation.area, selectedLocation.x, selectedLocation.y, selectedLocation.z, null, 0.0f, 0.0f, 0.0f);
     }
     public boolean createWaypoint(obj_id self, String planetArea, float locationX, float locationY, float locationZ, String waypointName) throws InterruptedException

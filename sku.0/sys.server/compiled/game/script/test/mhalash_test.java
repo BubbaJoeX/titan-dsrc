@@ -30,7 +30,7 @@ public class mhalash_test extends script.base_script
                 int intLevel = utils.stringToInt(levelStr);
                 if (strName == null || strName.equals("") || levelStr == null || levelStr.equals(""))
                 {
-                    sendSystemMessageTestingOnly(self, "Use d_item itemCat intLevel");
+                    broadcast(self, "Use d_item itemCat intLevel");
                     return SCRIPT_CONTINUE;
                 }
                 obj_id inventory = utils.getInventoryContainer(self);
@@ -44,7 +44,7 @@ public class mhalash_test extends script.base_script
                 int number2 = utils.stringToInt(numberStr2);
                 if (numberStr1 == null || numberStr1.equals("") || numberStr2 == null || numberStr2.equals(""))
                 {
-                    sendSystemMessageTestingOnly(self, "num_combos number1 number2");
+                    broadcast(self, "num_combos number1 number2");
                     return SCRIPT_CONTINUE;
                 }
                 int numCombos = 0;
@@ -55,11 +55,11 @@ public class mhalash_test extends script.base_script
                         if ((i * j) >= number1 && (i * j) <= number2)
                         {
                             numCombos++;
-                            sendSystemMessageTestingOnly(self, "Valid hit " + i + "*" + j + "= " + (i * j));
+                            broadcast(self, "Valid hit " + i + "*" + j + "= " + (i * j));
                         }
                     }
                 }
-                sendSystemMessageTestingOnly(self, "numbCombos =" + numCombos);
+                broadcast(self, "numbCombos =" + numCombos);
             }
             if (command.equalsIgnoreCase("buildabuff"))
             {
@@ -83,7 +83,7 @@ public class mhalash_test extends script.base_script
                 };
                 utils.setScriptVar(self, "performance.buildabuff.modNames", modNames);
                 utils.setScriptVar(self, "performance.buildabuff.modValues", modVals);
-                sendSystemMessageTestingOnly(self, "buildabuff!" + modName1 + modVal1 + modName2 + modVal2);
+                broadcast(self, "buildabuff!" + modName1 + modVal1 + modName2 + modVal2);
             }
             if (command.equalsIgnoreCase("token_vendor_sui"))
             {

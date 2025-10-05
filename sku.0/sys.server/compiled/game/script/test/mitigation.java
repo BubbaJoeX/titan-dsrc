@@ -79,17 +79,17 @@ public class mitigation extends script.base_script
                         }
                         else 
                         {
-                            sendSystemMessageTestingOnly(self, "Equip a weapon before attempting to use this tool.");
+                            broadcast(self, "Equip a weapon before attempting to use this tool.");
                         }
                     }
                     else 
                     {
-                        sendSystemMessageTestingOnly(self, "You must have a valid mob or player targeted.");
+                        broadcast(self, "You must have a valid mob or player targeted.");
                     }
                 }
                 else 
                 {
-                    sendSystemMessageTestingOnly(self, "You must have a valid mob or player targeted.");
+                    broadcast(self, "You must have a valid mob or player targeted.");
                 }
             }
             return SCRIPT_OVERRIDE;
@@ -238,7 +238,7 @@ public class mitigation extends script.base_script
     }
     public void removePlayer(obj_id self, String err) throws InterruptedException
     {
-        sendSystemMessageTestingOnly(self, err);
+        broadcast(self, err);
         qa.removeScriptVars(self, SCRIPTVAR);
         qa.removeScriptVars(self, PID_SCRIPTVAR);
         utils.removeScriptVarTree(self, SCRIPTVAR);

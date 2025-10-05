@@ -12,7 +12,7 @@ public class jwatson_ship extends script.base_script
         obj_id pilot = getPilotId(self);
         if (pilot != null)
         {
-            sendSystemMessageTestingOnly(pilot, "jwatson_ship IDOT removed slot=" + chassisSlot + ", damageRate=" + damageRate + ", threshold=" + damageThreshold);
+            broadcast(pilot, "jwatson_ship IDOT removed slot=" + chassisSlot + ", damageRate=" + damageRate + ", threshold=" + damageThreshold);
         }
         return SCRIPT_CONTINUE;
     }

@@ -22,11 +22,11 @@ public class dwhite_test extends script.base_script
         location loc = getLocation(self);
         if (text.startsWith("getWorkingSkill"))
         {
-            sendSystemMessageTestingOnly(self, "Working Skill = " + getWorkingSkill(self));
+            broadcast(self, "Working Skill = " + getWorkingSkill(self));
         }
         if (text.startsWith("getSkillTemplate"))
         {
-            sendSystemMessageTestingOnly(self, "Skill Template = " + getSkillTemplate(self));
+            broadcast(self, "Skill Template = " + getSkillTemplate(self));
         }
         if (text.startsWith("setWorkingSkill"))
         {
@@ -38,7 +38,7 @@ public class dwhite_test extends script.base_script
                 arg = st.nextToken();
             }
             setWorkingSkill(self, arg);
-            sendSystemMessageTestingOnly(self, "Working Skill set to: " + arg);
+            broadcast(self, "Working Skill set to: " + arg);
         }
         if (text.startsWith("setSkillTemplate"))
         {
@@ -52,12 +52,12 @@ public class dwhite_test extends script.base_script
             String templateSkills = dataTableGetString(skill_template.TEMPLATE_TABLE, arg, "template");
             if (!arg.equals("") && (templateSkills == null || templateSkills.equals("")))
             {
-                sendSystemMessageTestingOnly(self, "Not a Valid Skill Template");
+                broadcast(self, "Not a Valid Skill Template");
             }
             else 
             {
                 setSkillTemplate(self, arg);
-                sendSystemMessageTestingOnly(self, "Skill Template set to: " + arg);
+                broadcast(self, "Skill Template set to: " + arg);
             }
         }
         if (text.startsWith("killme"))
@@ -86,7 +86,7 @@ public class dwhite_test extends script.base_script
             String arg = st.nextToken();
             if (st.countTokens() != 2)
             {
-                sendSystemMessageTestingOnly(self, "[debugger] SYNTAX: createResource <resource> <amt>");
+                broadcast(self, "[debugger] SYNTAX: createResource <resource> <amt>");
                 return SCRIPT_CONTINUE;
             }
             String type = st.nextToken();
@@ -94,7 +94,7 @@ public class dwhite_test extends script.base_script
             int amt = utils.stringToInt(sAmt);
             if (amt < 1)
             {
-                sendSystemMessageTestingOnly(self, "[debugger] SYNTAX: createResource <resource> <amt>");
+                broadcast(self, "[debugger] SYNTAX: createResource <resource> <amt>");
                 return SCRIPT_CONTINUE;
             }
             obj_id pInv = utils.getInventoryContainer(self);
@@ -106,7 +106,7 @@ public class dwhite_test extends script.base_script
             String arg = st.nextToken();
             if (st.countTokens() != 1)
             {
-                sendSystemMessageTestingOnly(self, "[debugger] SYNTAX: createDNA <creature>");
+                broadcast(self, "[debugger] SYNTAX: createDNA <creature>");
                 return SCRIPT_CONTINUE;
             }
             String creature = st.nextToken();
@@ -134,7 +134,7 @@ public class dwhite_test extends script.base_script
             String arg = st.nextToken();
             String badgeName = st.nextToken();
             obj_id target = getLookAtTarget(self);
-            sendSystemMessageTestingOnly(self, "[Badge] Has Badge " + badgeName + " = " + badge.hasBadge(target, badgeName));
+            broadcast(self, "[Badge] Has Badge " + badgeName + " = " + badge.hasBadge(target, badgeName));
         }
         if (text.equals("enableJedi"))
         {
@@ -142,7 +142,7 @@ public class dwhite_test extends script.base_script
         }
         if (text.equals("runTest"))
         {
-            sendSystemMessageTestingOnly(self, "[test] Analyzing creatures level/stats...");
+            broadcast(self, "[test] Analyzing creatures level/stats...");
             checkCreatures();
         }
         if (text.equals("resetPower"))
@@ -162,7 +162,7 @@ public class dwhite_test extends script.base_script
             }
             float finalScale = baseScale * scale;
             setScale(target, finalScale);
-            sendSystemMessageTestingOnly(self, "[test] Creature scale set to " + scale);
+            broadcast(self, "[test] Creature scale set to " + scale);
         }
         if (text.startsWith("getScriptVars"))
         {
@@ -172,14 +172,14 @@ public class dwhite_test extends script.base_script
                 target = self;
             }
             deltadictionary dctScriptVars = target.getScriptVars();
-            sendSystemMessageTestingOnly(self, "Scriptvars are " + dctScriptVars.toString());
+            broadcast(self, "Scriptvars are " + dctScriptVars.toString());
         }
         if (text.startsWith("getPlanetScriptVars"))
         {
             String planetName = getCurrentSceneName();
             obj_id planet = getPlanetByName(planetName);
             deltadictionary dctScriptVars = planet.getScriptVars();
-            sendSystemMessageTestingOnly(self, "Scriptvars are " + dctScriptVars.toString());
+            broadcast(self, "Scriptvars are " + dctScriptVars.toString());
         }
         if (text.startsWith("getResourceId"))
         {
@@ -187,7 +187,7 @@ public class dwhite_test extends script.base_script
             String arg = st.nextToken();
             String resource = st.nextToken();
             obj_id resId = getResourceTypeByName(resource);
-            sendSystemMessageTestingOnly(self, "[test] " + resource + " = " + resId);
+            broadcast(self, "[test] " + resource + " = " + resId);
         }
         if (text.startsWith("testGoggles"))
         {
@@ -296,23 +296,23 @@ public class dwhite_test extends script.base_script
             {
                 case 0:
                 state = JEDI_STATE_NONE;
-                sendSystemMessageTestingOnly(self, "Setting Jedi State to JEDI_STATE_NONE");
+                broadcast(self, "Setting Jedi State to JEDI_STATE_NONE");
                 break;
                 case 1:
                 state = JEDI_STATE_FORCE_SENSITIVE;
-                sendSystemMessageTestingOnly(self, "Setting Jedi State to JEDI_STATE_FORCE_SENSITIVE");
+                broadcast(self, "Setting Jedi State to JEDI_STATE_FORCE_SENSITIVE");
                 break;
                 case 2:
                 state = JEDI_STATE_JEDI;
-                sendSystemMessageTestingOnly(self, "Setting Jedi State to JEDI_STATE_JEDI");
+                broadcast(self, "Setting Jedi State to JEDI_STATE_JEDI");
                 break;
                 case 3:
                 state = JEDI_STATE_FORCE_RANKED_LIGHT;
-                sendSystemMessageTestingOnly(self, "Setting Jedi State to JEDI_STATE_FORCE_RANKED_LIGHT");
+                broadcast(self, "Setting Jedi State to JEDI_STATE_FORCE_RANKED_LIGHT");
                 break;
                 case 4:
                 state = JEDI_STATE_FORCE_RANKED_DARK;
-                sendSystemMessageTestingOnly(self, "Setting Jedi State to JEDI_STATE_FORCE_RANKED_DARK");
+                broadcast(self, "Setting Jedi State to JEDI_STATE_FORCE_RANKED_DARK");
                 break;
             }
             setJediState(self, state);

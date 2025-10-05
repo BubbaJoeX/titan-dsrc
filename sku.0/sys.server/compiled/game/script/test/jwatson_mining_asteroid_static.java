@@ -12,7 +12,7 @@ public class jwatson_mining_asteroid_static extends script.base_script
         obj_id pilot = getPilotId(self);
         if (pilot != null)
         {
-            sendSystemMessageTestingOnly(pilot, "jwatson_ship IDOT removed slot=" + chassisSlot + ", damageRate=" + damageRate + ", threshold=" + damageThreshold);
+            broadcast(pilot, "jwatson_ship IDOT removed slot=" + chassisSlot + ", damageRate=" + damageRate + ", threshold=" + damageThreshold);
         }
         return SCRIPT_CONTINUE;
     }
@@ -27,10 +27,10 @@ public class jwatson_mining_asteroid_static extends script.base_script
         int oldHitpoints = getHitpoints(self);
         setHitpoints(self, oldHitpoints - 3);
         int newHitpoints = getHitpoints(self);
-        sendSystemMessageTestingOnly(attackingPilot, "hit asteroid static " + newHitpoints + "/" + maxHitpoints);
+        broadcast(attackingPilot, "hit asteroid static " + newHitpoints + "/" + maxHitpoints);
         if (newHitpoints <= 0)
         {
-            sendSystemMessageTestingOnly(attackingPilot, "*** asteroid static DESTROYED");
+            broadcast(attackingPilot, "*** asteroid static DESTROYED");
             handleShipDestruction(self, 1.0f);
         }
         else 
@@ -48,7 +48,7 @@ public class jwatson_mining_asteroid_static extends script.base_script
                 spawnDirection_o = spawnDirection_o.approximateNormalize();
                 spawnDirection_o = spawnDirection_o.multiply(40.0f + (random.rand() * 40.0f));
                 obj_id spawnDynamicAsteroid = createObject("object/ship/asteroid/mining_asteroid_dynamic_default.iff", selfLocation);
-                sendSystemMessageTestingOnly(attackingPilot, "*** mini-roid SPAWNED! vel=" + spawnDirection_o + ", mag=" + spawnDirection_o.magnitude());
+                broadcast(attackingPilot, "*** mini-roid SPAWNED! vel=" + spawnDirection_o + ", mag=" + spawnDirection_o.magnitude());
                 setDynamicMiningAsteroidVelocity(spawnDynamicAsteroid, spawnDirection_o);
             }
         }

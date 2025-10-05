@@ -354,7 +354,7 @@ public class qaweapon extends script.base_script
         obj_id[] invItems = getContents(inventory);
         if (invItems.length > 79)
         {
-            sendSystemMessageTestingOnly(player, "You do not have enough space in your inventory, please delete some items and try again.");
+            broadcast(player, "You do not have enough space in your inventory, please delete some items and try again.");
         }
     }
     public void createQAWeapon(obj_id player) throws InterruptedException
@@ -421,12 +421,12 @@ public class qaweapon extends script.base_script
             {
                 setWeaponElementalDamage(newObj, intElementalType, intElementalDamage);
             }
-            sendSystemMessageTestingOnly(player, "The QAWeapon has been placed in your backpack.");
+            broadcast(player, "The QAWeapon has been placed in your backpack.");
             qa.removePlayer(player, SCRIPTVAR, "");
         }
         else 
         {
-            sendSystemMessageTestingOnly(player, "There was an error with the QA Test Weapon Tool - Please Try Again.");
+            broadcast(player, "There was an error with the QA Test Weapon Tool - Please Try Again.");
             qa.removePlayer(player, SCRIPTVAR, "");
             weaponTypeMenu(player);
         }

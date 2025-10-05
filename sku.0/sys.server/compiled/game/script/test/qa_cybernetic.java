@@ -112,7 +112,7 @@ public class qa_cybernetic extends script.base_script
                 }
                 else 
                 {
-                    sendSystemMessageTestingOnly(player, "This character already has the maximum number of Cybernetics installed!");
+                    broadcast(player, "This character already has the maximum number of Cybernetics installed!");
                 }
                 break;
                 case UNINSTALL_OPTION:
@@ -228,7 +228,7 @@ public class qa_cybernetic extends script.base_script
             }
             else 
             {
-                sendSystemMessageTestingOnly(player, "An error has occurred, please try again.");
+                broadcast(player, "An error has occurred, please try again.");
                 toolCyberMainMenu(player);
             }
         }
@@ -261,7 +261,7 @@ public class qa_cybernetic extends script.base_script
         }
         else 
         {
-            sendSystemMessageTestingOnly(player, "An error has occurred, please try again.");
+            broadcast(player, "An error has occurred, please try again.");
             toolCyberMainMenu(player);
         }
         qa.removePlayer(player, SCRIPTVAR, "");
@@ -290,13 +290,13 @@ public class qa_cybernetic extends script.base_script
             }
             else 
             {
-                sendSystemMessageTestingOnly(player, "An error has occurred, please try again.");
+                broadcast(player, "An error has occurred, please try again.");
                 toolCyberMainMenu(player);
             }
         }
         else 
         {
-            sendSystemMessageTestingOnly(player, "There are not cybernetics installed on this character.");
+            broadcast(player, "There are not cybernetics installed on this character.");
             toolCyberMainMenu(player);
         }
     }

@@ -85,7 +85,7 @@ public class qa_character extends script.base_script
         obj_id pInv = utils.getInventoryContainer(self);
         if (text.equals("qaCharacter"))
         {
-            sendSystemMessageTestingOnly(self, "start menu wooo hoo.");
+            broadcast(self, "start menu wooo hoo.");
             qaToolMainMenu(self);
         }
         if (text.equals("writeTemp"))
@@ -177,10 +177,10 @@ public class qa_character extends script.base_script
                     int n = 0;
                     if (!selectedTemplate[i].equals("null"))
                     {
-                        sendSystemMessageTestingOnly(self, "selectedTemp: " + selectedTemplate[i]);
+                        broadcast(self, "selectedTemp: " + selectedTemplate[i]);
                     }
                 }
-                sendSystemMessageTestingOnly(self, "Class template: " + selectedProf);
+                broadcast(self, "Class template: " + selectedProf);
                 if (!previousSelection.equals("null"))
                 {
                     setTemplate(self, selectedTemplate, selectedProf);
@@ -252,7 +252,7 @@ public class qa_character extends script.base_script
     public void writeTemplateFile() throws InterruptedException
     {
         obj_id self = getSelf();
-        sendSystemMessageTestingOnly(self, "In write file method");
+        broadcast(self, "In write file method");
         String[] pSkill = getSkillListingForPlayer(self);
         String prof = getSkillTemplate(self);
         String template = "Template Name\n" + "s\n" + prof;
@@ -265,7 +265,7 @@ public class qa_character extends script.base_script
                 for (String skillName : pSkill) {
                     if (skillName.startsWith("expertise_")) {
                         temp = skillName;
-                        sendSystemMessageTestingOnly(self, "Adding line: " + skillName);
+                        broadcast(self, "Adding line: " + skillName);
                         template += "\n" + temp;
                     }
                     --attempts;

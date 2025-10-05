@@ -110,7 +110,7 @@ public class qa_dynamic extends script.base_script
             int level = utils.stringToInt(text);
             if (level < 1 || level > 90)
             {
-                sendSystemMessageTestingOnly(player, "Invalid level entered!");
+                broadcast(player, "Invalid level entered!");
             }
             else 
             {
@@ -120,7 +120,7 @@ public class qa_dynamic extends script.base_script
         }
         else 
         {
-            sendSystemMessageTestingOnly(self, "There was an error with the previous selection - please try again");
+            broadcast(self, "There was an error with the previous selection - please try again");
             qa.removePlayer(self, SCRIPTVAR, "");
         }
         return SCRIPT_CONTINUE;
@@ -156,7 +156,7 @@ public class qa_dynamic extends script.base_script
             }
             else 
             {
-                sendSystemMessageTestingOnly(player, "There was an error with the previous selection - please try again");
+                broadcast(player, "There was an error with the previous selection - please try again");
                 qa.removePlayer(player, SCRIPTVAR, "");
             }
         }
@@ -181,7 +181,7 @@ public class qa_dynamic extends script.base_script
         }
         else 
         {
-            sendSystemMessageTestingOnly(player, "An error has occurred, please contact the Tool Team.");
+            broadcast(player, "An error has occurred, please contact the Tool Team.");
             qa.removePlayer(player, SCRIPTVAR, "");
         }
     }
@@ -197,12 +197,12 @@ public class qa_dynamic extends script.base_script
                 obj_id myObj = static_item.makeDynamicObject(spawnNameChoice, inventory, chosenLevel);
             }
             qa.findOrCreateAndEquipQABag(player, inventory, true);
-            sendSystemMessageTestingOnly(player, "Spawning of dynamic items is complete");
+            broadcast(player, "Spawning of dynamic items is complete");
             qa.removePlayer(player, SCRIPTVAR, "");
         }
         else 
         {
-            sendSystemMessageTestingOnly(player, "There was an error with the previous selection - please try again");
+            broadcast(player, "There was an error with the previous selection - please try again");
             qa.removePlayer(player, SCRIPTVAR, "");
         }
     }

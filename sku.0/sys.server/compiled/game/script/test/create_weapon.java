@@ -19,12 +19,12 @@ public class create_weapon extends script.base_script
     public void makeResource(obj_id self, String rclass) throws InterruptedException
     {
         obj_id[] rtypes = getResourceTypes(rclass);
-        sendSystemMessageTestingOnly(self, "Types are..." + rtypes[0].toString());
+        broadcast(self, "Types are..." + rtypes[0].toString());
         obj_id rtype = rtypes[0];
         if (!isIdValid(rtype))
         {
-            sendSystemMessageTestingOnly(self, "No id found");
-            sendSystemMessageTestingOnly(self, "Type was " + rclass);
+            broadcast(self, "No id found");
+            broadcast(self, "Type was " + rclass);
             return;
         }
         String crateTemplate = getResourceContainerForType(rtype);
@@ -36,7 +36,7 @@ public class create_weapon extends script.base_script
                 obj_id crate = createObject(crateTemplate, pInv, "");
                 if (addResourceToContainer(crate, rtype, 100000, self))
                 {
-                    sendSystemMessageTestingOnly(self, "Resource of class " + rclass + " added");
+                    broadcast(self, "Resource of class " + rclass + " added");
                 }
             }
         }

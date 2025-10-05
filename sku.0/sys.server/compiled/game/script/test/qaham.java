@@ -82,12 +82,12 @@ public class qaham extends script.base_script
         removeObjVar(player, QA_REGEN_OBJVAR);
         if (!hasObjVar(player, QA_REGEN_OBJVAR))
         {
-            sendSystemMessageTestingOnly(player, "Your Action Regen Rate has been restored");
+            broadcast(player, "Your Action Regen Rate has been restored");
         }
         else 
         {
-            sendSystemMessageTestingOnly(player, "Problem - Regen Rate was not restored!");
-            sendSystemMessageTestingOnly(player, "Contact the QA Tool Team about this character immediately.");
+            broadcast(player, "Problem - Regen Rate was not restored!");
+            broadcast(player, "Contact the QA Tool Team about this character immediately.");
         }
     }
     public void stopActionRegenRate(obj_id player) throws InterruptedException
@@ -112,12 +112,12 @@ public class qaham extends script.base_script
         getActionRegenRate(player, rate);
         if (hasObjVar(player, QA_REGEN_OBJVAR))
         {
-            sendSystemMessageTestingOnly(player, "Your Action Regen Rate has been set to " + rate);
+            broadcast(player, "Your Action Regen Rate has been set to " + rate);
         }
         else 
         {
-            sendSystemMessageTestingOnly(player, "Problem - Regen Rate was not set correctly!");
-            sendSystemMessageTestingOnly(player, "Contact the QA Tool Team about this character immediately.");
+            broadcast(player, "Problem - Regen Rate was not set correctly!");
+            broadcast(player, "Contact the QA Tool Team about this character immediately.");
         }
     }
     public void helpMessage(obj_id player) throws InterruptedException
@@ -126,10 +126,10 @@ public class qaham extends script.base_script
         {
             return;
         }
-        sendSystemMessageTestingOnly(player, "Qaham Script Help Message");
-        sendSystemMessageTestingOnly(player, "Say any the following commands in chat:");
-        sendSystemMessageTestingOnly(player, "stop_action_regen");
-        sendSystemMessageTestingOnly(player, "restore_action_regen");
-        sendSystemMessageTestingOnly(player, "max_action_regen");
+        broadcast(player, "Qaham Script Help Message");
+        broadcast(player, "Say any the following commands in chat:");
+        broadcast(player, "stop_action_regen");
+        broadcast(player, "restore_action_regen");
+        broadcast(player, "max_action_regen");
     }
 }
