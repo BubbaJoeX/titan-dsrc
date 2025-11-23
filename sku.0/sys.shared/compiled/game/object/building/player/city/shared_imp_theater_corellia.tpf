@@ -1,0 +1,21 @@
+// September 9, 2003
+
+@base object/building/base/shared_base_player_building.iff
+
+@class building_object_template 1
+
+@class tangible_object_template 5
+
+structureFootprintFileName = "footprint/building/player/shared_player_city_theater.sfp"
+
+@class object_template 6
+
+clearFloraRadius = 30
+
+objectName = "building_name" "imp_theater"
+detailedDescription = "building_detail" "imp_theater"
+lookAtText = "building_lookat" "imp_theater"
+
+portalLayoutFilename = "appearance/imp_ply_corl_theater_s01.pob"
+
+clientDataFile = "clientdata/building/shared_city_medium_building.cdf"
