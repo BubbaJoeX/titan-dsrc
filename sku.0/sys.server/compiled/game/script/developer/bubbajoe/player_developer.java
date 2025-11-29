@@ -2415,7 +2415,7 @@ public class player_developer extends base_script
                 {
                     broadcast(self, "Please Wait... Pulling and Compiling.");
                     // 1. Run git pull to update files
-                    final String result = system_process.runAndGetOutput("git pull origin development", new File("/home/swg/swg-main/dsrc/"));
+                    final String result = system_process.runAndGetOutput("git pull origin main", new File("/home/swg/swg-main/dsrc/"));
                     if (result.contains("Already up to date."))
                     {
                         broadcast(self, "Repo 'dsrc' is already up to date.");
