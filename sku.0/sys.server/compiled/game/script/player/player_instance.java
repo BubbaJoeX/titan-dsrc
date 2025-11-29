@@ -691,7 +691,7 @@ public class player_instance extends script.base_script
         {
             count = params.getInt("tokenCount");
         }
-        float multiplier = utils.stringToFloat(getConfigSetting("GameServer", "heroicTokenBonus"));
+        float multiplier = getFloatObjVar(getPlanetByName("tatooine"), "bonus.heroic");
         if (multiplier > 1)
         {
             count = (int)(count * (float)multiplier);

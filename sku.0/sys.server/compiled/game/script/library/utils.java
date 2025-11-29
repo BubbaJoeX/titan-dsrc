@@ -7227,4 +7227,14 @@ public class utils extends script.base_script
     {
         return (utils.getIntConfigSetting("GameServer", "debugMode") == 1);
     }
+
+    public static float getFloatBonusValue(String account)
+    {
+        return getFloatObjVar(getPlanetByName("tatooine"), "bonus." + account);
+    }
+
+    public static int getIntBonusValue(String account)
+    {
+        return getIntObjVar(getPlanetByName("tatooine"), "bonus." + account);
+    }
 }

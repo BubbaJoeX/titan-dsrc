@@ -235,7 +235,7 @@ public class c_darth_rolii extends script.base_script
                 obj_id token = static_item.createNewItemFunction("item_world_boss_token_01_01", player);
                 if (isIdValid(token))
                 {
-                    int multiplier = getIntObjVar(getPlanetByName("tatooine"), "bonus.wb");
+                    int multiplier = utils.getIntBonusValue("wb");
                     int newCount = 5 * multiplier;
                     setCount(token, newCount);
                     sendSystemMessage(player, "You have received " + color("DAA520", String.valueOf(newCount)) + " World Boss Tokens.", null);

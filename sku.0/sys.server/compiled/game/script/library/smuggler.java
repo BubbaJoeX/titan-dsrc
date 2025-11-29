@@ -178,7 +178,7 @@ public class smuggler extends script.base_script
                 prose_package ppfence = prose.getPackage(PROSE_FENCE_COMM[rand(0, PROSE_FENCE_COMM.length - 1)]);
                 commPlayers(player, strSpecies, strSound, 7.0f, player, ppfence);
             }
-            float cashMultiplier = 1.0f;
+            float cashMultiplier = utils.getFloatBonusValue("junk_dealer");
             if (fence)
             {
                 int playerLevel = getLevel(player);
@@ -284,7 +284,7 @@ public class smuggler extends script.base_script
             sendSystemMessageProse(player, ppSold);
             return;
         }
-        float cashMultiplier = 1.0f;
+        float cashMultiplier = utils.getFloatBonusValue("junk_dealer");
         if (fence)
         {
             int playerLevel = getLevel(player);

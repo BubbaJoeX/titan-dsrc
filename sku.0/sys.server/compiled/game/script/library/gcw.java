@@ -2455,10 +2455,10 @@ public class gcw extends script.base_script
         else {
             tokenStaticName = GCW_REBEL_TOKEN;
         }
-        float multiplier = utils.stringToFloat(getConfigSetting("GameServer", "gcwTokenBonus"));
+        float multiplier = utils.getFloatBonusValue("gcw");
         if (multiplier > 1)
         {
-            gcwTokenAmt *= multiplier;
+            gcwTokenAmt *= (int) multiplier;
         }
         for (Object o : participantList) {
             if (!isValidId(((obj_id) o)) || !exists(((obj_id) o))) {
