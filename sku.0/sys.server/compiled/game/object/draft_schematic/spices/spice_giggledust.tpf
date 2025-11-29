@@ -4,7 +4,7 @@
 // skills used: inventor/basic general component design
 //
 
-itemsPerContainer = 25
+itemsPerContainer = 15
 craftedObjectTemplate = "object/tangible/food/spice/spice_giggledust.iff"
 
 slots = [
@@ -12,7 +12,7 @@ slots = [
 	optional=false,
 	name = "craft_food_ingredients_n" "powdered_organic",
 	options = [
-		[ingredientType=IT_resourceClass, ingredients = [[name="craft_food_ingredients_n" "powdered_organic", ingredient="organic", count=10]], complexity = 0, skillCommand = "unskilled"]],
+		[ingredientType=IT_resourceClass, ingredients = [[name="craft_food_ingredients_n" "powdered_organic", ingredient="organic", count=450]], complexity = 0, skillCommand = "unskilled"]],
 	optionalSkillCommand = "",
 	complexity = 0,
 	appearance = "" ],
@@ -20,7 +20,7 @@ slots = [
 	optional=false,
 	name = "craft_food_ingredients_n" "crushed_bone",
 	options = [
-		[ingredientType=IT_resourceClass, ingredients = [[name="craft_food_ingredients_n" "crushed_bone", ingredient="bone", count=5]], complexity = 0, skillCommand = "unskilled"]],
+		[ingredientType=IT_resourceClass, ingredients = [[name="craft_food_ingredients_n" "crushed_bone", ingredient="bone", count=450]], complexity = 0, skillCommand = "unskilled"]],
 	optionalSkillCommand = "",
 	complexity = 0,
 	appearance = "" ],
@@ -28,7 +28,7 @@ slots = [
 	optional=false,
 	name = "craft_food_ingredients_n" "crushed_flowers",
 	options = [
-		[ingredientType=IT_resourceClass, ingredients = [[name="craft_food_ingredients_n" "crushed_flowers", ingredient="fruit_flowers", count=5]], complexity = 0, skillCommand = "unskilled"]],
+		[ingredientType=IT_resourceClass, ingredients = [[name="craft_food_ingredients_n" "crushed_flowers", ingredient="fruit_flowers", count=450]], complexity = 0, skillCommand = "unskilled"]],
 	optionalSkillCommand = "",
 	complexity = 1,
 	appearance = "" ]]

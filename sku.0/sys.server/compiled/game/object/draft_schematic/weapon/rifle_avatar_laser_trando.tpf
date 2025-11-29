@@ -3,7 +3,7 @@
 @class draft_schematic_object_template 7
 
 category = CT_weapon
-itemsPerContainer = 25
+itemsPerContainer = 0
 craftedObjectTemplate = "object/weapon/ranged/rifle/rifle_avatar_laser_trando.iff"
 slots = [
 	[

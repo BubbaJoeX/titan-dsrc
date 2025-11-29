@@ -4,7 +4,7 @@
 // skills used: inventor/basic general component design
 //
 
-itemsPerContainer = 25
+itemsPerContainer = 15
 craftedObjectTemplate = "object/tangible/food/spice/spice_thruster_head.iff"
 
 slots = [
@@ -12,7 +12,7 @@ slots = [
 	optional=false,
 	name = "craft_food_ingredients_n" "antianxiolytic",
 	options = [
-		[ingredientType=IT_resourceClass, ingredients = [[name="craft_food_ingredients_n" "antianxiolytic", ingredient="chemical", count=15]], complexity = 0, skillCommand = "unskilled"]],
+		[ingredientType=IT_resourceClass, ingredients = [[name="craft_food_ingredients_n" "antianxiolytic", ingredient="chemical", count=450]], complexity = 0, skillCommand = "unskilled"]],
 	optionalSkillCommand = "",
 	complexity = 0,
 	appearance = "" ],
@@ -20,7 +20,7 @@ slots = [
 	optional=false,
 	name = "craft_food_ingredients_n" "hyperemetic",
 	options = [
-		[ingredientType=IT_resourceClass, ingredients = [[name="craft_food_ingredients_n" "hyperemetic", ingredient="meat", count=5]], complexity = 0, skillCommand = "unskilled"]],
+		[ingredientType=IT_resourceClass, ingredients = [[name="craft_food_ingredients_n" "hyperemetic", ingredient="meat", count=450]], complexity = 0, skillCommand = "unskilled"]],
 	optionalSkillCommand = "",
 	complexity = 0,
 	appearance = "" ],
@@ -28,7 +28,7 @@ slots = [
 	optional=false,
 	name = "craft_food_ingredients_n" "synaptic_accelerant",
 	options = [
-		[ingredientType=IT_resourceClass, ingredients = [[name="craft_food_ingredients_n" "synaptic_accelerant", ingredient="gas", count=15]], complexity = 0, skillCommand = "unskilled"]],
+		[ingredientType=IT_resourceClass, ingredients = [[name="craft_food_ingredients_n" "synaptic_accelerant", ingredient="gas", count=450]], complexity = 0, skillCommand = "unskilled"]],
 	optionalSkillCommand = "",
 	complexity = 1,
 	appearance = "" ]]

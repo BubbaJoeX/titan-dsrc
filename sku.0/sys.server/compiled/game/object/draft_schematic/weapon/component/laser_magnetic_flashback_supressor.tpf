@@ -4,7 +4,7 @@
 // skills used: inventor/basic general component design
 //
 
-itemsPerContainer = 25
+itemsPerContainer = 1000
 craftedObjectTemplate = "object/tangible/component/weapon/laser_magnetic_flashback_supressor.iff"
 slots = [
 	[

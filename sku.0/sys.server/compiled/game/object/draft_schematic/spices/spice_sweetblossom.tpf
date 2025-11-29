@@ -4,7 +4,7 @@
 // skills used: inventor/basic general component design
 //
 
-itemsPerContainer = 25
+itemsPerContainer = 15
 craftedObjectTemplate = "object/tangible/food/spice/spice_sweetblossom.iff"
 
 slots = [
@@ -12,7 +12,7 @@ slots = [
 	optional=false,
 	name = "craft_food_ingredients_n" "sweetblossom_nectar",
 	options = [
-		[ingredientType=IT_resourceClass, ingredients = [[name="craft_food_ingredients_n" "sweetblossom_nectar", ingredient="fruit_flowers", count=10]], complexity = 0, skillCommand = "unskilled"]],
+		[ingredientType=IT_resourceClass, ingredients = [[name="craft_food_ingredients_n" "sweetblossom_nectar", ingredient="fruit_flowers", count=450]], complexity = 0, skillCommand = "unskilled"]],
 	optionalSkillCommand = "",
 	complexity = 0,
 	appearance = "" ],
@@ -20,7 +20,7 @@ slots = [
 	optional=false,
 	name = "craft_food_ingredients_n" "thinner",
 	options = [
-		[ingredientType=IT_resourceClass, ingredients = [[name="craft_food_ingredients_n" "thinner", ingredient="water", count=5]], complexity = 0, skillCommand = "unskilled"]],
+		[ingredientType=IT_resourceClass, ingredients = [[name="craft_food_ingredients_n" "thinner", ingredient="water", count=450]], complexity = 0, skillCommand = "unskilled"]],
 	optionalSkillCommand = "",
 	complexity = 0,
 	appearance = "" ],
@@ -28,7 +28,7 @@ slots = [
 	optional=false,
 	name = "craft_food_ingredients_n" "distilling_vat",
 	options = [
-		[ingredientType=IT_resourceClass, ingredients = [[name="craft_food_ingredients_n" "distilling_vat", ingredient="metal", count=5]], complexity = 0, skillCommand = "unskilled"]],
+		[ingredientType=IT_resourceClass, ingredients = [[name="craft_food_ingredients_n" "distilling_vat", ingredient="metal", count=450]], complexity = 0, skillCommand = "unskilled"]],
 	optionalSkillCommand = "",
 	complexity = 0,
 	appearance = "" ]]

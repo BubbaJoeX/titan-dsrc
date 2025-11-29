@@ -9,7 +9,7 @@
 
 @class draft_schematic_object_template 7
 
-itemsPerContainer = 50
+itemsPerContainer = 0
 craftedObjectTemplate = "object/tangible/deed/vehicle_deed/landspeeder_desert_skiff_deed.iff"
 slots = [
 	[

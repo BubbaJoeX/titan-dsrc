@@ -4,7 +4,7 @@
 // skills used: inventor/basic general component design
 //
 
-itemsPerContainer = 25
+itemsPerContainer = 15
 craftedObjectTemplate = "object/tangible/food/spice/spice_grey_gabaki.iff"
 
 slots = [
@@ -12,7 +12,7 @@ slots = [
 	optional=false,
 	name = "craft_food_ingredients_n" "dried_leaf",
 	options = [
-		[ingredientType=IT_resourceClass, ingredients = [[name="craft_food_ingredients_n" "dried_leaf", ingredient="vegetable", count=15]], complexity = 0, skillCommand = "unskilled"]],
+		[ingredientType=IT_resourceClass, ingredients = [[name="craft_food_ingredients_n" "dried_leaf", ingredient="vegetable", count=450]], complexity = 0, skillCommand = "unskilled"]],
 	optionalSkillCommand = "",
 	complexity = 0,
 	appearance = "" ],
@@ -20,7 +20,7 @@ slots = [
 	optional=false,
 	name = "craft_food_ingredients_n" "preservative",
 	options = [
-		[ingredientType=IT_resourceClass, ingredients = [[name="craft_food_ingredients_n" "preservative", ingredient="organic", count=5]], complexity = 0, skillCommand = "unskilled"]],
+		[ingredientType=IT_resourceClass, ingredients = [[name="craft_food_ingredients_n" "preservative", ingredient="organic", count=450]], complexity = 0, skillCommand = "unskilled"]],
 	optionalSkillCommand = "",
 	complexity = 0,
 	appearance = "" ]]

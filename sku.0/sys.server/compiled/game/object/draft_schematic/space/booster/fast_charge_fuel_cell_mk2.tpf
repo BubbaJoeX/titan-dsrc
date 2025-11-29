@@ -9,7 +9,7 @@
 
 @class draft_schematic_object_template 7
 
-itemsPerContainer = 25
+itemsPerContainer = 1000
 category = CT_space
 craftedObjectTemplate = "object/tangible/ship/crafted/booster/fast_charge_fuel_cell_mk2.iff"
 slots = [

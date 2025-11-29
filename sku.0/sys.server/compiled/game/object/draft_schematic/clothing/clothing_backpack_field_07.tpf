@@ -67,4 +67,4 @@ manufactureScripts = [ "systems.crafting.clothing.skill.crafting_clothing_tailor
 
 complexity = 23
 sharedTemplate = "object/draft_schematic/clothing/shared_clothing_backpack_field_07.iff"
-volume = 2
+volume = 1

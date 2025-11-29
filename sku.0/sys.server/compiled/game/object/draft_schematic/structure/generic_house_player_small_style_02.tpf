@@ -4,7 +4,7 @@
 // skills used: inventor/basic general component design
 //
 
-itemsPerContainer = 1
+itemsPerContainer = 1000
 craftedObjectTemplate = "object/tangible/deed/player_house_deed/generic_house_small_style_02_deed.iff"
 
 slots = [

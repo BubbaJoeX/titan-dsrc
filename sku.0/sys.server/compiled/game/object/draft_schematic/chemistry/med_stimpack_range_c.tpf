@@ -3,7 +3,7 @@
 //
 // skills used: inventor/basic general component design
 //
-itemsPerContainer = 50
+itemsPerContainer = 1000
 craftedObjectTemplate = "object/tangible/medicine/crafted/crafted_medpack_grenade_damage_c.iff"
 
 slots = [

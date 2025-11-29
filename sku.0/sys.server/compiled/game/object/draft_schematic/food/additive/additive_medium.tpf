@@ -5,7 +5,7 @@
 // skills used: inventor/basic general component design
 //
 
-itemsPerContainer = 25
+itemsPerContainer = 5000
 craftedObjectTemplate = "object/tangible/food/crafted/additive/additive_medium.iff"
 
 slots = [

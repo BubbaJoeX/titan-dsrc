@@ -4,7 +4,7 @@
 // 
 //
 
-itemsPerContainer = 10
+itemsPerContainer = 1000
 craftedObjectTemplate = "object/tangible/component/armor/bio_cartridge.iff"
 
 slots = [

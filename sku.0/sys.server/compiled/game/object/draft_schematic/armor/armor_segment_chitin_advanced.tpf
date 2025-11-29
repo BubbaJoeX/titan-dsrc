@@ -3,7 +3,7 @@
 //
 // skills used: inventor/basic general component design
 //
-itemsPerContainer = 50
+itemsPerContainer = 100
 craftedObjectTemplate = "object/tangible/component/armor/armor_segment_chitin_advanced.iff"
 slots = [
 	[

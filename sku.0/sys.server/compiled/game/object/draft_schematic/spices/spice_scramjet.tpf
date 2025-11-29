@@ -4,7 +4,7 @@
 // skills used: inventor/basic general component design
 //
 
-itemsPerContainer = 25
+itemsPerContainer = 15
 craftedObjectTemplate = "object/tangible/food/spice/spice_scramjet.iff"
 
 slots = [
@@ -12,7 +12,7 @@ slots = [
 	optional=false,
 	name = "craft_food_ingredients_n" "protein_base",
 	options = [
-		[ingredientType=IT_resourceClass, ingredients = [[name="craft_food_ingredients_n" "protein_base", ingredient="meat", count=10]], complexity = 0, skillCommand = "unskilled"]],
+		[ingredientType=IT_resourceClass, ingredients = [[name="craft_food_ingredients_n" "protein_base", ingredient="meat", count=450]], complexity = 0, skillCommand = "unskilled"]],
 	optionalSkillCommand = "",
 	complexity = 0,
 	appearance = "" ],
@@ -20,7 +20,7 @@ slots = [
 	optional=false,
 	name = "craft_food_ingredients_n" "reactant_additive",
 	options = [
-		[ingredientType=IT_resourceClass, ingredients = [[name="craft_food_ingredients_n" "reactant_additive", ingredient="gas_reactive", count=10]], complexity = 0, skillCommand = "unskilled"]],
+		[ingredientType=IT_resourceClass, ingredients = [[name="craft_food_ingredients_n" "reactant_additive", ingredient="gas_reactive", count=450]], complexity = 0, skillCommand = "unskilled"]],
 	optionalSkillCommand = "",
 	complexity = 0,
 	appearance = "" ]]

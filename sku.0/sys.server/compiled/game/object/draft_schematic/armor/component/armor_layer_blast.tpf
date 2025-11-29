@@ -3,7 +3,7 @@
 @class draft_schematic_object_template 7
 
 category = CT_armor
-itemsPerContainer = 100
+itemsPerContainer = 1000
 craftedObjectTemplate = "object/tangible/component/armor/armor_layer_blast.iff"
 slots = [
 	[

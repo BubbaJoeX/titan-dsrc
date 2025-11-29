@@ -3,7 +3,7 @@
 //
 // skills used: inventor/basic general component design
 //
-itemsPerContainer = 50
+itemsPerContainer = 1000
 craftedObjectTemplate = "object/tangible/theme_park/alderaan/act3/dead_eye_prototype.iff"
 
 slots = [

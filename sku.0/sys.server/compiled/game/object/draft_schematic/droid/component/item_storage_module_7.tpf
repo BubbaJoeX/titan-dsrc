@@ -9,7 +9,7 @@
 
 @class draft_schematic_object_template 7
 
-itemsPerContainer = 30
+itemsPerContainer = 1000
 craftedObjectTemplate = "object/tangible/component/droid/item_storage_module_7.iff"
 slots = [
 	[

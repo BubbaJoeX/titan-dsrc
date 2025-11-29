@@ -4,7 +4,7 @@
 // skills used: inventor/basic general component design
 //
 
-itemsPerContainer = 10
+itemsPerContainer = 1000
 craftedObjectTemplate = "object/tangible/furniture/cheap/chest_s01.iff"
 
 slots = [

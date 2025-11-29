@@ -1,7 +1,7 @@
 @base object/draft_schematic/furniture/furniture_base.iff
 @class draft_schematic_object_template 7
 
-itemsPerContainer = 10
+itemsPerContainer = 0
 craftedObjectTemplate = "object/tangible/furniture/tatooine/uber_large_fruit_stand.iff"
 
 slots = [

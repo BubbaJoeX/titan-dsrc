@@ -3,7 +3,7 @@
 //
 // skills used: inventor/basic general component design
 //
-itemsPerContainer = 100
+itemsPerContainer = 1000
 craftedObjectTemplate = "object/tangible/component/armor/heavy_armor_layer_kinetic.iff"
 slots = [
 	[

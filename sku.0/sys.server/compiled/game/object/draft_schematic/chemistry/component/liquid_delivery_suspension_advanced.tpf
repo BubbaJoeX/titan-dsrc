@@ -3,7 +3,7 @@
 //
 // skills used: inventor/basic general component design
 //
-itemsPerContainer = 50
+itemsPerContainer = 1000
 craftedObjectTemplate = "object/tangible/component/chemistry/liquid_delivery_suspension_advanced.iff"
 
 slots = [

@@ -1,7 +1,7 @@
 @base object/draft_schematic/bio_engineer/dna_template/base_dna_template_schematic.iff
 @class draft_schematic_object_template 7
 //
-itemsPerContainer = 25
+itemsPerContainer = 1000
 //
 
 

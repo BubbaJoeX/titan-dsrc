@@ -9,7 +9,7 @@
 
 @class draft_schematic_object_template 7
 
-itemsPerContainer = 25
+itemsPerContainer = 2500
 craftedObjectTemplate = "object/tangible/component/clothing/synthetic_cloth.iff"
 slots = [
 	[

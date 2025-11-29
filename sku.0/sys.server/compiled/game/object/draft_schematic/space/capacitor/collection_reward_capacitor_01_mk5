@@ -9,7 +9,7 @@
 
 @class draft_schematic_object_template 7
 
-itemsPerContainer = 0
+itemsPerContainer = 10000
 category = CT_space
 craftedObjectTemplate = "object/tangible/ship/crafted/reactor/collection_reward_reactor_01_mk5.iff"
 slots = [

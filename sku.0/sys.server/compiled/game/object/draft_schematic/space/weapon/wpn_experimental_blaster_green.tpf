@@ -9,7 +9,7 @@
 
 @class draft_schematic_object_template 7
 
-itemsPerContainer = 0
+itemsPerContainer = 1000
 craftedObjectTemplate = "object/tangible/ship/crafted/weapon/wpn_experimental_blaster_green.iff"
 slots = [
 	[

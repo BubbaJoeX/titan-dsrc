@@ -4,7 +4,7 @@
 // skills used: inventor/basic general component design
 //
 
-itemsPerContainer = 10
+itemsPerContainer = 1000
 craftedObjectTemplate = "object/tangible/furniture/tatooine/frn_tato_table_small_style_01.iff"
 
 slots = [

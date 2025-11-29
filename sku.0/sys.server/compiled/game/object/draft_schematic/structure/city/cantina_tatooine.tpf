@@ -4,7 +4,7 @@
 // skills used: inventor/basic general component design
 //
 
-itemsPerContainer = 1
+itemsPerContainer = 1000
 craftedObjectTemplate = "object/tangible/deed/city_deed/cantina_tatooine_deed.iff"
 
 slots = [

@@ -9,7 +9,7 @@
 
 @class draft_schematic_object_template 7
 
-itemsPerContainer = 0
+itemsPerContainer = 5;
 craftedObjectTemplate = "object/tangible/component/food/component_fryer_repair_tool.iff"
 slots = [
 	[

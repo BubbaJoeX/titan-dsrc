@@ -9,7 +9,7 @@
 
 @class draft_schematic_object_template 7
 
-itemsPerContainer = 1
+itemsPerContainer = 0
 category = CT_lightsaber
 craftedObjectTemplate = "object/weapon/melee/polearm/crafted_saber/sword_lightsaber_polearm_gen2.iff"
 slots = [

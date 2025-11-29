@@ -3,7 +3,7 @@
 @class draft_schematic_object_template 7
 
 category = CT_armor
-itemsPerContainer = 25
+itemsPerContainer = 0
 craftedObjectTemplate = "object/tangible/wearables/armor/scout_trooper/armor_scout_trooper_utility_belt.iff"
 slots = [
 	[

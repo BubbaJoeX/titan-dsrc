@@ -6,7 +6,7 @@
 
 category = CT_lightsaber
 
-itemsPerContainer = 1
+itemsPerContainer = 0
 craftedObjectTemplate = "object/weapon/melee/2h_sword/crafted_saber/sword_lightsaber_two_handed_gen3.iff"
 
 slots = [

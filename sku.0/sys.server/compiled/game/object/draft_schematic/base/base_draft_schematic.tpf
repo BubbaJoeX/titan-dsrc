@@ -25,7 +25,7 @@ destroyIngredients = true
 manufactureScripts = [  ]
 // list, of type struct SchematicAttribute
 // integer
-itemsPerContainer = 10
+itemsPerContainer = 1000
 // floating point
 manufactureTime = 8.0
 // floating point

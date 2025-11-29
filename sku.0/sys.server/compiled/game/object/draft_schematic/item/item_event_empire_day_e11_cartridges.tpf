@@ -9,7 +9,7 @@
 
 @class draft_schematic_object_template 7
 
-itemsPerContainer = 0
+itemsPerContainer = 1000
 craftedObjectTemplate = "object/tangible/holiday/empire_day/e11_gas_cartridge_crate.iff"
 slots = [
 	[
