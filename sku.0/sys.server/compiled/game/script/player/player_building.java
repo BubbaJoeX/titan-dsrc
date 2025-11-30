@@ -975,8 +975,11 @@ public class player_building extends script.base_script
         {
             location sourceLoc = getLocation(intendedTarget);
             move_loc = getLocation(target);
-            if ((sourceLoc != null) && (move_loc != null) && (isIdValid(sourceLoc.cell)) && (isIdValid(move_loc.cell)))
+            if (sourceLoc != null
+                    && move_loc != null
+                    && (isGod(self) || (isIdValid(sourceLoc.cell) && isIdValid(move_loc.cell))))
             {
+                // existing logic unchanged
                 if (sourceLoc.cell == move_loc.cell)
                 {
                     if (copyLocation)
@@ -988,15 +991,18 @@ public class player_building extends script.base_script
                     {
                         move_loc.y = sourceLoc.y;
                     }
-                    else 
+                    else
                     {
                         return SCRIPT_CONTINUE;
                     }
                 }
-                else 
+                else
                 {
-                    sendSystemMessage(self, new string_id(STF, "move_copy_objects_not_in_same_cell"));
-                    return SCRIPT_CONTINUE;
+                    if (!isGod(self)) // optional: still warn non-gods
+                    {
+                        sendSystemMessage(self, new string_id(STF, "move_copy_objects_not_in_same_cell"));
+                        return SCRIPT_CONTINUE;
+                    }
                 }
             }
             else 
