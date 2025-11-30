@@ -701,7 +701,7 @@ public class terminal_character_builder extends script.base_script
             "Ship Crafting Station"
     };
     public static final String[] CBTABOUT = {
-            " Outer Rim Focus Testing - Items that are commonly used to help test.",
+            " Focus Testing - Items that are commonly used to help test.",
             " Weapons -- Select weapons with frog stats.",
             " Armor -- Select armor with frog stats.",
             " Skills -- Allows players to set level and skills.",
