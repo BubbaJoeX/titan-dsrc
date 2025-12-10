@@ -116,7 +116,7 @@ public class station_lib extends script.base_script
         }
         if (shouldLog)
         {
-            LOG("ethereal", "[MA-C]: Removed " + (players.length - uniqueMembers.values().size()) + " players from array.");
+            LOG("ethereal", "[MA-C]: Removed " + (players.length - uniqueMembers.size()) + " players from array.");
         }
         return uniqueMembers.values().toArray(new obj_id[0]);
     }

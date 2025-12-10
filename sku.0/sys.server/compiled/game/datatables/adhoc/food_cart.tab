@@ -2,11 +2,5 @@ name	template	buffName	duration	effectiveness	cost	stackSize	displayName
 s[unique]	s	s	f	f	i[15000]	i[1]	s
 Bubba's Souffle	object/tangible/food/crafted/dessert_puffcake.iff	entertainer_inspiration	4.0	1.3		2	Entertainer Inspiration
 Cyndel's Libation	object/tangible/food/crafted/drink_rancoraid.iff	general_inspiration	4.0	1.3		2	General Inspiration
-Lusty's Casserole	object/tangible/food/quest/dessert_luilris_mushroom_pie.iff	tcg_series4_falleens_fist	4.0	1.3		2	Falleen's Fist
-Colbey's Brew Stew	object/tangible/food/generic/dish_fire_stew.iff	tcg_series1_gorax_ear	4.0	1.3			Gorax Ear
-Rraawwrrs' Quool-Aid	object/tangible/food/crafted/drink_rancoraid.iff	tcg_series7_rocket_launcher	4.0	1.3			GCW Increase
-Rome's Roasted Wampa	object/tangible/food/meat_object.iff	tcg_series8_severed_wampa_arm	4.0	1.3			Severed Wampa Arm
-Stryker's Shish Kabob	object/tangible/food/crafted/dish_scrimpi.iff	tcg_series1_tusken_talisman	4.0	1.3			Muur Talisman
-Tasten's Tasty Trimpian	object/tangible/food/crafted/dish_trimpian.iff	player_armor_break_immunity	4.0	1.3			Armor Break Immunity
 Wowakan's Loaf of Bread	object/tangible/food/bread_loaf_full_s1.iff	tcg_series2_sanyassan_skull	4.0	1.3			Sanyassan Skull
 Bubba's Sour Dough	object/tangible/food/bread_loaf_full_s1.iff	event_lifeday_drink	4.0	1.3			Expertise Damage
