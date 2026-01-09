@@ -1827,7 +1827,7 @@ public class ai extends script.base_script
         // Run the AI request in a background thread to prevent engine freezing
         new Thread(() -> {
             try {
-                String response = openwebui.getCompletion(openwebui.API_KEY, text);
+                String response = openwebui.getChatCompletion(openwebui.API_KEY, text);
 
                 // Use messageTo to send the result back to the main logic thread
                 dictionary d = new dictionary();
