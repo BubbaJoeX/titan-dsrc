@@ -1774,6 +1774,7 @@ public class ai extends script.base_script
     }
     public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi) throws InterruptedException
     {
+        mi.addRootMenu(menu_info_types.SERVER_MENU30, new string_id("Speak To"));
         if (pet_lib.isPet(self) || beast_lib.isBeast(self))
         {
             return SCRIPT_CONTINUE;
@@ -1798,8 +1799,61 @@ public class ai extends script.base_script
     }
     public int OnObjectMenuSelect(obj_id self, obj_id player, int item) throws InterruptedException
     {
+        if (item == menu_info_types.SERVER_MENU30)
+        {
+            String[] MSG_ARRAY = {
+                    "What do you want?",
+                    "How can I help you?",
+                    "Yes?"
+            };
+            int idx = rand (0, 3);
+            chat.chat(self, MSG_ARRAY[idx]);
+            sui.inputbox(self, player, "What is your question to this NPC?", "handlePrompt");
+        }
         return SCRIPT_CONTINUE;
     }
+
+    public int handlePrompt(obj_id self, dictionary params) throws Exception
+    {
+        obj_id player = sui.getPlayerId(params);
+        String text = sui.getInputBoxText(params);
+        int btn = sui.getIntButtonPressed(params);
+
+        if (btn == sui.BP_CANCEL || text == null || text.equals(""))
+        {
+            return SCRIPT_CONTINUE;
+        }
+
+        // Run the AI request in a background thread to prevent engine freezing
+        new Thread(() -> {
+            try {
+                String response = openwebui.getCompletion(openwebui.API_KEY, text);
+
+                // Use messageTo to send the result back to the main logic thread
+                dictionary d = new dictionary();
+                d.put("response", response);
+                messageTo(self, "handleAiResponse", d, 0, false);
+            } catch (Exception e) {
+                LOG(LOGGING_CATEGORY, "AI Request Error: " + e.getMessage());
+            }
+        }).start();
+
+        return SCRIPT_CONTINUE;
+    }
+
+    public int handleAiResponse(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (params == null)
+            return SCRIPT_CONTINUE;
+
+        String response = params.getString("response");
+        if (response != null && !response.isEmpty())
+        {
+            chat.chat(self, response);
+        }
+        return SCRIPT_CONTINUE;
+    }
+
     public int OnDestroy(obj_id self) throws InterruptedException
     {
         obj_id group = getGroupObject(self);
