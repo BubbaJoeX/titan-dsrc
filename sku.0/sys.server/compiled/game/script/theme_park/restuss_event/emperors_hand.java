@@ -21,12 +21,14 @@ public class emperors_hand extends script.base_script
     }
     public int OnInitialize(obj_id self) throws InterruptedException
     {
+        setObjVar(getPlanetByName("tatooine"), "dungeon_finder.open_world.hand", "Active");
         createTriggerVolume(VOLUME_NAME, 15.0f, true);
         messageTo(self, "setLoiter", null, 10.0f, false);
         return SCRIPT_CONTINUE;
     }
     public int OnIncapacitated(obj_id self, obj_id killer) throws InterruptedException
     {
+        setObjVar(getPlanetByName("tatooine"), "dungeon_finder.open_world.hand", "Inactive");
         messageTo(self, "cleanupCorpse", null, 300.0f, false);
         String[] scriptList = getScriptList(self);
         if (scriptList == null || scriptList.length == 0)
@@ -64,6 +66,11 @@ public class emperors_hand extends script.base_script
     }
     public int OnCreatureDamaged(obj_id self, obj_id attacker, obj_id weapon, int[] damage) throws InterruptedException
     {
+        if (!utils.hasScriptVar(self, "df_ping"))
+        {
+            setObjVar(getPlanetByName("tatooine"), "dungeon_finder.open_world.hand", "Contested");
+            utils.setScriptVar(self, "df_ping", 1);
+        }
         Vector attackers = new Vector();
         attackers.setSize(0);
         Vector attackerList = utils.getResizeableObjIdArrayScriptVar(self, "attackerList");

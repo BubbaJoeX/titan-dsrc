@@ -89,24 +89,24 @@ public class git_user extends script.base_script
     public void displayDiff(obj_id self, String diff) throws InterruptedException
     {
         String[] diffLines = split(diff, '\n');
-        String diffedText = "\\#FFFFFF";
+        StringBuilder diffedText = new StringBuilder("\\#FFFFFF");
         for (String line : diffLines)
         {
             if (line.startsWith("-"))
             {
-                diffedText += "\\#FF0000" + line + "\n" + "\\#FFFFFF";
+                diffedText.append("\\#FF0000").append(line).append("\n").append("\\#FFFFFF");
             }
             else if (line.startsWith("+"))
             {
-                diffedText += "\\#00FF00" + line + "\n" + "\\#FFFFFF";
+                diffedText.append("\\#00FF00").append(line).append("\n").append("\\#FFFFFF");
             }
             else
             {
-                diffedText += line + "\n" + "\\#FFFFFF";
+                diffedText.append(line).append("\n").append("\\#FFFFFF");
             }
         }
         int page = createSUIPage("/Script.textEditor", self, self);
-        setSUIProperty(page, "pageText.text", "LocalText", diffedText);
+        setSUIProperty(page, "pageText.text", "LocalText", diffedText.toString());
         setSUIProperty(page, "bg.caption.text", "Text", "Git Diff");
         setSUIProperty(page, "pageText.text", "Editable", "false");
         setSUIProperty(page, "pageText.text", "GetsInput", "true");

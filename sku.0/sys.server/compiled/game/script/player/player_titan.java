@@ -224,7 +224,7 @@ public class player_titan extends base_script
         String planetName = getCurrentSceneName();
         if (planetName.equals("tutorial"))
         {
-            broadcast(self, "Welcome to Titan!");
+            broadcast(self, "Welcome to SWG: Titan!");
         }
         else if (planetName.equals("corellia"))
         {
@@ -430,45 +430,29 @@ public class player_titan extends base_script
     // @NOTE: [used with /showContent]
     public int cmdContentFinder(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException
     {
-        listAllContentStatuses(self);
-        /*if (isGod(self))
+        String arg = params.trim();
+        if (arg.equalsIgnoreCase("help") || arg.equalsIgnoreCase("?") || arg.equalsIgnoreCase(""))
         {
-            broadcast(self, "Showing current Game Masters online as well,  since you are in God Mode.");
-            listAllGodModePlayers(self);
-        }*/
+            broadcast(self, "Usage: /showContent status\tShows the current status of world bosses and dungeons.");
+            broadcast(self, "Usage: /showContent self\tShows the current status of you.");
+            return SCRIPT_CONTINUE;
+        }
+        if (arg.equalsIgnoreCase("status"))
+        {
+            listAllContentStatuses(self);
+        }
+        if (arg.equalsIgnoreCase("self"))
+        {
+            //@TODO: implement world boss tracker sui
+            //listAllContentForSelf(self);
+        }
         return SCRIPT_CONTINUE;
-    }
-
-    public void listAllGodModePlayers(obj_id self) throws InterruptedException
-    {
-        StringBuilder prompt = new StringBuilder();
-        String root_objvar = "skynet.admin_list";
-        String[] admin_list = getStringArrayObjVar(getPlanetByName("tatooine"), root_objvar);
-        if (admin_list == null || admin_list.length == 0)
-        {
-            prompt = new StringBuilder("No Game Masters are currently online.");
-        }
-        else
-        {
-            prompt.append("Current Game Masters Online\n");
-            prompt.append("\n");
-            for (String s : admin_list)
-            {
-                obj_id admin = utils.stringToObjId(s);
-                if (isIdValid(admin))
-                {
-                    prompt.append("\t").append(getPlayerFullName(admin)).append("\n");
-                    prompt.append("\t\t" + "Location: ").append(getLocation(admin).toReadableFormat(true)).append("\n"); //fails if not on same game-server.
-                }
-            }
-        }
-        sui.msgbox(self, self, prompt.toString(), sui.OK_ONLY, "Game Masters: " + getClusterName(), "noHandler");
     }
 
     public void listAllContentStatuses(obj_id self) throws InterruptedException
     {
         String prompt = "";
-        prompt += "Current Status of Content\n";
+        prompt += "Content:\n";
         prompt += "\n";
         prompt += "\tWorld Bosses\n";
         prompt += "\t\tElder Ancient Krayt Dragon: " + getDungeonStatus("world_boss.krayt") + "\n";
@@ -477,17 +461,20 @@ public class player_titan extends base_script
         prompt += "\t\tThe Crusader: " + getDungeonStatus("world_boss.pax") + "\n";
         prompt += "\t\tDonk-Donk Binks: " + getDungeonStatus("world_boss.donkdonk_binks") + "\n";
         prompt += "\t\tIG-24: " + getDungeonStatus("world_boss.ig24") + "\n";
+        prompt += "\tDungeons\n";
+        prompt += "\t\tGeonosian Bio-lab (Players: " + getObjVar(getPlanetByName("tatooine"), "dungeon_finder.geo_count") + "\n";
+       // prompt += "\t\t\tAcklay: " + getDungeonStatus("dungeon.geo_madbio.acklay") + "\n";
+        //prompt += "\t\t\tReek: " + getDungeonStatus("dungeon.geo_madbio.reek") + "\n";
+        //prompt += "\t\t\tNexu: " + getDungeonStatus("dungeon.geo_madbio.nexu") + "\n\n";
+        prompt += "\t\tDeath Watch Bunker (Players: " + getObjVar(getPlanetByName("tatooine"), "dungeon_finder.dwb_count") + "\n";
+        prompt += "\t\t\tDeath Watch Overlord: " + getDungeonStatus("dungeon.death_watch_bunker.overlord") + "\n\n";
+        prompt += "\tOpen-World\n";
+        prompt += "\t\tEmperor's Hand: " + getDungeonStatus("open_world.hand") + "\n";
+
         if (restoredContent)
         {
             //prompt += "\t\tEmperor's Hand: " + getDungeonStatus("world_boss.emperors_hand") + "\n\n";
             prompt += "\t\tAurra Sing: " + getDungeonStatus("world_boss.aurra_sing") + "\n\n"; //@TODO: replace when Aurra Sing is added
-            prompt += "\tDungeons\n";
-            prompt += "\t\tGeonosian Bio-lab\n";
-            prompt += "\t\t\tAcklay: " + getDungeonStatus("dungeon.geo_madbio.acklay") + "\n";
-            prompt += "\t\t\tReek: " + getDungeonStatus("dungeon.geo_madbio.reek") + "\n";
-            prompt += "\t\t\tNexu: " + getDungeonStatus("dungeon.geo_madbio.nexu") + "\n\n";
-            prompt += "\t\tDeath Watch Bunker\n";
-            prompt += "\t\t\tDeath Watch Overlord: " + getDungeonStatus("dungeon.death_watch_bunker.overlord") + "\n\n";
         }
         if (restoredContent)
         {
@@ -525,6 +512,10 @@ public class player_titan extends base_script
         else if (dungeonStatus.equals("Active"))
         {
             dungeonStatus = "\\#7CFC00Active\\#.";
+        }
+        else if (dungeonStatus.equals("Contested"))
+        {
+            dungeonStatus = "\\#FF8C00Contested\\#.";
         }
         else if (dungeonStatus.equals("Engaged"))
         {

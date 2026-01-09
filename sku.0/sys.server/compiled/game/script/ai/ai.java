@@ -30,6 +30,22 @@ public class ai extends script.base_script
     public static final string_id SID_GAVE_RECRUIT_ITEM = new string_id("collection", "gave_recruit_item");
     public static final string_id SID_NPC_MEATLUMP_SPEAK = new string_id("collection", "npc_meatlump_speak");
     public static final string_id SID_NO_RECRUIT_REB_IMP = new string_id("collection", "no_recruit_reb_imp");
+
+    public int OnHearSpeech(obj_id self, obj_id speaker, String text) throws Exception
+    {
+        if (isPlayer(speaker))
+        {
+            //random check to see if we should od a "Hmm..." or something similar
+            int rand = rand(0,10);
+            if (rand >= 7)
+            {
+                chat.chat(self,"Hmm..");
+            }
+            openwebui.getCompletion(openwebui.API_KEY, text);
+        }
+        return SCRIPT_CONTINUE;
+    }
+
     public void initializeScript() throws InterruptedException
     {
         obj_id self = getSelf();

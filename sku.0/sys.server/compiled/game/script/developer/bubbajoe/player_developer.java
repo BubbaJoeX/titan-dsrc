@@ -1428,7 +1428,7 @@ public class player_developer extends base_script
             String clipboard = tok.nextToken();
             if (clipboard == null)
             {
-                broadcast(self, "Not enough arguments. Usage: /developer clipboard [location] [scripts] [objvars]");
+                broadcast(self, "Not enough arguments. Usage: /developer clipboard [location | scripts | objvars]");
             }
             if (clipboard.equals("location"))
             {

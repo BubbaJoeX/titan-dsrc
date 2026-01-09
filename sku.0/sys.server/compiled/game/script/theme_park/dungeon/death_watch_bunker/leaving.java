@@ -1,6 +1,7 @@
 package script.theme_park.dungeon.death_watch_bunker;
 
 import script.dictionary;
+import script.library.utils;
 import script.obj_id;
 import script.string_id;
 
@@ -27,6 +28,16 @@ public class leaving extends script.base_script
                 return SCRIPT_OVERRIDE;
             }
             CustomerServiceLog("DUNGEON_DeathWatchBunker", "*Death Watch Entry: %TU has entered the Death Watch Bunker.", item);
+            int playerCount = 0;
+            obj_id[] players = utils.getContents(top, true);
+            for (obj_id player : players)
+            {
+                if (isPlayer(player))
+                {
+                    playerCount++;
+                }
+            }
+            setObjVar(getPlanetByName("tatooine"), "dungeon_finder.dwb_count", playerCount);
         }
         return SCRIPT_CONTINUE;
     }
@@ -48,6 +59,16 @@ public class leaving extends script.base_script
             clearPlayer(item);
             reLockDoor(transferrer, item);
         }
+        int playerCount = 0;
+        obj_id[] players = utils.getContents(getTopMostContainer(getSelf()), true);
+        for (obj_id player : players)
+        {
+            if (isPlayer(player))
+            {
+                playerCount++;
+            }
+        }
+        setObjVar(getPlanetByName("tatooine"), "dungeon_finder.dwb_count", playerCount);
         return SCRIPT_CONTINUE;
     }
     public void reLockDoor(obj_id self, obj_id player) throws InterruptedException

@@ -1669,6 +1669,10 @@ public class base_player extends script.base_script
             obj_id dna_extractor = utils.getStaticItemInBankOrInventory(self, "item_nym_themepark_dna_extractor");
             if(isValidId(dna_extractor)) utils.destroyObject(dna_extractor);
         }
+
+        /*
+        @Note: handle any on login code for player here
+        */
         return SCRIPT_CONTINUE;
     }
     public int disconnectPlayerCtsCompletedOrInProgress(obj_id self, dictionary params) throws InterruptedException

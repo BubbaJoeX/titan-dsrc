@@ -1,6 +1,7 @@
 package script.theme_park.dungeon.geonosian_madbio_bunker;
 
 import script.dictionary;
+import script.library.utils;
 import script.obj_id;
 import script.string_id;
 
@@ -30,6 +31,16 @@ public class leaving extends script.base_script
             {
                 CustomerServiceLog("DUNGEON_GeonosianBunker", "*Geonosian Entry: " + item + ": " + getName(item) + " has entered the Geonosian Dungeon.");
                 attachScript(item, "theme_park.dungeon.geonosian_madbio_bunker.death_script");
+                int playerCount = 0;
+                obj_id[] players = utils.getContents(top, true);
+                for (obj_id player : players)
+                {
+                    if (isPlayer(player))
+                    {
+                        playerCount++;
+                    }
+                }
+                setObjVar(getPlanetByName("tatooine"), "dungeon_finder.geo_count", playerCount);
             }
         }
         return SCRIPT_CONTINUE;
@@ -47,6 +58,18 @@ public class leaving extends script.base_script
             clearPlayer(item);
             reLockDoor(transferrer, item);
         }
+        //decrement player count
+        obj_id cave = getTopMostContainer(getSelf());
+        int playerCount = 0;
+        obj_id[] players = utils.getContents(cave, true);
+        for (obj_id player : players)
+        {
+            if (isPlayer(player))
+            {
+                playerCount++;
+            }
+        }
+        setObjVar(getPlanetByName("tatooine"), "dungeon_finder.geo_count", playerCount);
         return SCRIPT_CONTINUE;
     }
     public int relockDoor(obj_id self, dictionary params) throws InterruptedException
