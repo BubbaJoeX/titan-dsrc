@@ -14,6 +14,7 @@ public class openwebui extends script.base_script
 {
 
     public static final String API_KEY = "sk-15a20859ffd140d1b0c8025f08b7b0e4";
+    public static final String MODEL = "llama3:latest";
     public static final String PROMPT_LIMITER = "Respond to the prompt in character, with no more than 200 characters, unless you need to finish the sentence but you MUST keep it short. Context: ";
 
     public static String getChatCompletion(String apiKey, obj_id target, String prompt, obj_id speaker) throws Exception
@@ -27,7 +28,7 @@ public class openwebui extends script.base_script
         connection.setRequestProperty("Content-Type", "application/json");
 
         String jsonBody = "{"
-                + "\"model\": \"codellama\","
+                + "\"model\": \"" + MODEL + "\","
                 + "\"prompt\": \"" + PROMPT_LIMITER + Arrays.toString(buildCulture(target, speaker)) + prompt + "\","
                 + "\"stream\": false"
                 + "}";
@@ -79,7 +80,7 @@ public class openwebui extends script.base_script
 
         // Manually create JSON body as String
         String jsonBody = "{"
-                + "\"model\": \"deepseek-r1:70b\","
+                + "\"model\": \"" + MODEL + "\","
                 + "\"prompt\": \"" + prompt + "\","
                 + "\"stream\": false"
                 + "}";
