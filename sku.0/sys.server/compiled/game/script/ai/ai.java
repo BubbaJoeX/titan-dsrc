@@ -2322,7 +2322,7 @@ public class ai extends script.base_script
             broadcast(player, "Creature name is null.");
             return SCRIPT_CONTINUE;
         }
-        or_player.createCreatureGrid(player, self, creatureToSpawn, 10, 10, 5f);
+        titan_player.createCreatureGrid(player, self, creatureToSpawn, 10, 10, 5f);
         broadcast(player, "Spawned 10x10 grid of " + creatureToSpawn);
         return SCRIPT_CONTINUE;
     }
