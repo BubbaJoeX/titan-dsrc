@@ -2306,9 +2306,9 @@ public class ai extends script.base_script
         if (isGod(speaker) && getDistance(self, speaker) < 2.5f && hasObjVar(speaker, "player_ai"))
         {
             String response = openwebui.getChatCompletion(openwebui.API_KEY, self, text, speaker);
-            response_store.addResponse(text, response);
             chat.chat(self, response);
-            return SCRIPT_CONTINUE;
+            showFlyText(self, string_id.unlocalized("!"), 3.0f, colors.YELLOW);
+             return SCRIPT_CONTINUE;
         }
         return SCRIPT_CONTINUE;
     }
