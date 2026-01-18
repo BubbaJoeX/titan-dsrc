@@ -1205,7 +1205,7 @@ public class ai extends script.base_script
         {
             if (isPlayer(attacker))
             {
-                */if (groundquests.isQuestActive(attacker, "quest/pharple_day"))
+                /*if (groundquests.isQuestActive(attacker, "quest/pharple_day"))
                 {
                     groundquests.sendSignal(attacker, "pharple_day_kill");
                 }
