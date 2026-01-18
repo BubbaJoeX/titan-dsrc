@@ -1209,7 +1209,7 @@ public class ai extends script.base_script
                 {
                     groundquests.sendSignal(attacker, "pharple_day_kill");
                 }
-                repeatables.updateDailySlayer(attacker);
+                //repeatables.updateDailySlayer(attacker);
                 //@TODO: add in a check if it's halloween or something so I don't have to comment this out every damn year
                 //fillCandyBowl(attacker);
             }
