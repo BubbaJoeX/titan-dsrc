@@ -489,7 +489,7 @@ public class player_building extends script.base_script
                         sendSystemMessage(self, new string_id(STF, "rotate_params"));
                         return SCRIPT_CONTINUE;
                     }
-                    if (rotation < -180 || rotation > 180)
+                    if (rotation < -180 || rotation > 180 && !isGod(self))
                     {
                         sendSystemMessage(self, new string_id(STF, "rotate_params"));
                         return SCRIPT_CONTINUE;
