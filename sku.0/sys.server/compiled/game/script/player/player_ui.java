@@ -6,11 +6,16 @@ import script.library.static_item;
 import script.library.sui;
 import script.library.utils;
 import script.obj_id;
+import script.location;
 
 /**
  * Admin Panel UI - Comprehensive administration interface
  * Uses custom SUI page: Script.adminPanel
  * Provides lookup and management for: Items, Creatures, Buffs, Skills
+ * Supports spawn (for items/creatures) and grant (for buffs/skills)
+ *
+ * @author Titan Admin System
+ * @version 2.0
  */
 public class player_ui extends script.base_script
 {
@@ -32,6 +37,7 @@ public class player_ui extends script.base_script
     private static final String SCRIPTVAR_SUI_PID = SCRIPTVAR_BASE + ".sui_pid";
     private static final String SCRIPTVAR_CURRENT_TAB = SCRIPTVAR_BASE + ".current_tab";
     private static final String SCRIPTVAR_SEARCH_RESULTS = SCRIPTVAR_BASE + ".search_results";
+    private static final String SCRIPTVAR_SEARCH_INDEX = SCRIPTVAR_BASE + ".search_index";
 
     // SUI Page path
     private static final String SUI_ADMIN_PANEL = "Script.adminPanel";
@@ -54,8 +60,19 @@ public class player_ui extends script.base_script
     private static final String DATATABLE_BUFFS = "datatables/buff/buff.iff";
     private static final String DATATABLE_SKILLS = "datatables/skill/skills.iff";
 
+    // Datatable columns
+    private static final String ITEM_NAME_COL = "name";
+    private static final String ITEM_TEMPLATE_COL = "template_name";
+    private static final String CREATURE_NAME_COL = "creature_name";
+    private static final String CREATURE_TEMPLATE_COL = "template_name";
+    private static final String BUFF_NAME_COL = "name";
+    private static final String SKILL_NAME_COL = "skill_name";
+
     // Max results
     private static final int MAX_SEARCH_RESULTS = 100;
+
+    // Creature spawn distance
+    private static final float CREATURE_SPAWN_DISTANCE = 3.0f;
 
     // ========================================
     // LIFECYCLE
@@ -326,41 +343,46 @@ public class player_ui extends script.base_script
 
     private String[] performSearch(obj_id player, int tab, String searchText) throws InterruptedException
     {
-        String datatable;
-        String column;
-
-        switch (tab)
+        try
         {
-            case TAB_ITEMS:
-                datatable = DATATABLE_MASTER_ITEM;
-                column = "name";
-                break;
-            case TAB_CREATURES:
-                datatable = DATATABLE_CREATURES;
-                column = "creatureName";
-                break;
-            case TAB_BUFFS:
-                datatable = DATATABLE_BUFFS;
-                column = "name";
-                break;
-            case TAB_SKILLS:
-                datatable = DATATABLE_SKILLS;
-                column = "skill_name";
-                break;
-            default:
-                return null;
-        }
+            String datatable;
+            String column;
 
-        String[] allNames = dataTableGetStringColumn(datatable, column);
-        if (allNames == null || allNames.length == 0)
+            switch (tab)
+            {
+                case TAB_ITEMS:
+                    return searchItems(searchText);
+                case TAB_CREATURES:
+                    return searchCreatures(searchText);
+                case TAB_BUFFS:
+                    return searchBuffs(searchText);
+                case TAB_SKILLS:
+                    return searchSkills(searchText);
+                default:
+                    return null;
+            }
+        }
+        catch (Exception e)
+        {
+            LOG("admin_panel", "Error during search: " + e.toString());
+            return null;
+        }
+    }
+
+    private String[] searchItems(String searchText) throws InterruptedException
+    {
+        String[] itemNames = dataTableGetStringColumn(DATATABLE_MASTER_ITEM, ITEM_NAME_COL);
+        if (itemNames == null || itemNames.length == 0)
         {
             return null;
         }
 
         java.util.Vector<String> matches = new java.util.Vector<>();
-        for (String name : allNames)
+        searchText = searchText.toLowerCase();
+
+        for (String name : itemNames)
         {
-            if (name != null && name.toLowerCase().contains(searchText))
+            if (name != null && !name.isEmpty() && name.toLowerCase().contains(searchText))
             {
                 matches.add(name);
                 if (matches.size() >= MAX_SEARCH_RESULTS)
@@ -370,7 +392,85 @@ public class player_ui extends script.base_script
             }
         }
 
-        return matches.toArray(new String[0]);
+        return matches.size() > 0 ? matches.toArray(new String[0]) : null;
+    }
+
+    private String[] searchCreatures(String searchText) throws InterruptedException
+    {
+        String[] creatureNames = dataTableGetStringColumn(DATATABLE_CREATURES, CREATURE_NAME_COL);
+        if (creatureNames == null || creatureNames.length == 0)
+        {
+            return null;
+        }
+
+        java.util.Vector<String> matches = new java.util.Vector<>();
+        searchText = searchText.toLowerCase();
+
+        for (String name : creatureNames)
+        {
+            if (name != null && !name.isEmpty() && name.toLowerCase().contains(searchText))
+            {
+                matches.add(name);
+                if (matches.size() >= MAX_SEARCH_RESULTS)
+                {
+                    break;
+                }
+            }
+        }
+
+        return matches.size() > 0 ? matches.toArray(new String[0]) : null;
+    }
+
+    private String[] searchBuffs(String searchText) throws InterruptedException
+    {
+        String[] buffNames = dataTableGetStringColumn(DATATABLE_BUFFS, BUFF_NAME_COL);
+        if (buffNames == null || buffNames.length == 0)
+        {
+            return null;
+        }
+
+        java.util.Vector<String> matches = new java.util.Vector<>();
+        searchText = searchText.toLowerCase();
+
+        for (String name : buffNames)
+        {
+            if (name != null && !name.isEmpty() && name.toLowerCase().contains(searchText))
+            {
+                matches.add(name);
+                if (matches.size() >= MAX_SEARCH_RESULTS)
+                {
+                    break;
+                }
+            }
+        }
+
+        return matches.size() > 0 ? matches.toArray(new String[0]) : null;
+    }
+
+    private String[] searchSkills(String searchText) throws InterruptedException
+    {
+        String[] skillNames = dataTableGetStringColumn(DATATABLE_SKILLS, SKILL_NAME_COL);
+        if (skillNames == null || skillNames.length == 0)
+        {
+            return null;
+        }
+
+        java.util.Vector<String> matches = new java.util.Vector<>();
+        searchText = searchText.toLowerCase();
+
+        for (String name : skillNames)
+        {
+            if (name != null && !name.isEmpty() && name.toLowerCase().contains(searchText))
+            {
+                matches.add(name);
+                if (matches.size() >= MAX_SEARCH_RESULTS)
+                {
+                    break;
+                }
+            }
+        }
+
+        return matches.size() > 0 ? matches.toArray(new String[0]) : null;
     }
 
     // ========================================
@@ -468,7 +568,7 @@ public class player_ui extends script.base_script
 
         if (currentTab == TAB_BUFFS)
         {
-            success = buff.applyBuff(self, selectedName);
+            success = grantBuff(self, selectedName);
             actionType = "Buff grant";
         }
         else if (currentTab == TAB_SKILLS)
@@ -479,7 +579,7 @@ public class player_ui extends script.base_script
                 flushSUIPage(pid);
                 return SCRIPT_CONTINUE;
             }
-            success = grantSkill(self, selectedName);
+            success = grantSkillByName(self, selectedName);
             actionType = "Skill grant";
         }
 
@@ -521,37 +621,145 @@ public class player_ui extends script.base_script
 
     private boolean spawnItem(obj_id player, String itemName) throws InterruptedException
     {
-        obj_id inventory = utils.getInventoryContainer(player);
-        if (!isIdValid(inventory))
+        try
         {
+            // Validate player and get inventory
+            if (!isIdValid(player) || !isPlayer(player))
+            {
+                LOG("admin_panel", "Invalid player for item spawn: " + player);
+                return false;
+            }
+
+            obj_id inventory = utils.getInventoryContainer(player);
+            if (!isIdValid(inventory))
+            {
+                LOG("admin_panel", "Could not get inventory for player: " + player);
+                return false;
+            }
+
+            // Attempt to create item
+            obj_id newItem = static_item.createNewItemFunction(itemName, inventory);
+
+            if (!isIdValid(newItem))
+            {
+                LOG("admin_panel", "Failed to create item: " + itemName + " for player: " + player);
+                return false;
+            }
+
+            LOG("admin_panel", "Successfully spawned item: " + itemName + " for player: " + player);
+            return true;
+        }
+        catch (Exception e)
+        {
+            LOG("admin_panel", "Exception spawning item " + itemName + ": " + e.toString());
             return false;
         }
-
-        obj_id newItem = static_item.createNewItemFunction(itemName, inventory);
-        return isIdValid(newItem);
     }
 
     private boolean spawnCreature(obj_id player, String creatureName) throws InterruptedException
     {
-        script.location spawnLoc = getLocation(player);
-
-        // Offset spawn location slightly in front of player
-        float yaw = getYaw(player);
-        spawnLoc.x += (float)(Math.sin(Math.toRadians(yaw)) * 3.0);
-        spawnLoc.z += (float)(Math.cos(Math.toRadians(yaw)) * 3.0);
-
-        String template = creatureName;
-        if (!template.startsWith("object/"))
+        try
         {
-            template = "object/mobile/" + creatureName + ".iff";
-        }
-        if (!template.endsWith(".iff"))
-        {
-            template += ".iff";
-        }
+            if (!isIdValid(player) || !isPlayer(player))
+            {
+                LOG("admin_panel", "Invalid player for creature spawn: " + player);
+                return false;
+            }
 
-        obj_id creature = createObject(template, spawnLoc);
-        return isIdValid(creature);
+            location spawnLoc = getLocation(player);
+            if (spawnLoc == null)
+            {
+                LOG("admin_panel", "Could not get location for player: " + player);
+                return false;
+            }
+
+            // Offset spawn location in front of player based on yaw
+            float yaw = getYaw(player);
+            double radians = Math.toRadians(yaw);
+            spawnLoc.x += (float)(Math.sin(radians) * CREATURE_SPAWN_DISTANCE);
+            spawnLoc.z += (float)(Math.cos(radians) * CREATURE_SPAWN_DISTANCE);
+
+            // Build template path if needed
+            String template = creatureName;
+            if (!template.startsWith("object/"))
+            {
+                template = "object/mobile/" + template;
+            }
+            if (!template.endsWith(".iff"))
+            {
+                template += ".iff";
+            }
+
+            obj_id creature = createObject(template, spawnLoc);
+
+            if (!isIdValid(creature))
+            {
+                LOG("admin_panel", "Failed to create creature: " + template + " at location: " + spawnLoc);
+                return false;
+            }
+
+            LOG("admin_panel", "Successfully spawned creature: " + creatureName + " for player: " + player + " at " + spawnLoc);
+            return true;
+        }
+        catch (Exception e)
+        {
+            LOG("admin_panel", "Exception spawning creature " + creatureName + ": " + e.toString());
+            return false;
+        }
+    }
+
+    private boolean grantBuff(obj_id player, String buffName) throws InterruptedException
+    {
+        try
+        {
+            if (!isIdValid(player) || !isPlayer(player))
+            {
+                LOG("admin_panel", "Invalid player for buff grant: " + player);
+                return false;
+            }
+
+            if (!buff.canApplyBuff(player, buffName))
+            {
+                LOG("admin_panel", "Cannot apply buff: " + buffName + " to player: " + player);
+                return false;
+            }
+
+            buff.applyBuff(player, buffName);
+            LOG("admin_panel", "Successfully granted buff: " + buffName + " to player: " + player);
+            return true;
+        }
+        catch (Exception e)
+        {
+            LOG("admin_panel", "Exception granting buff " + buffName + ": " + e.toString());
+            return false;
+        }
+    }
+
+    private boolean grantSkillByName(obj_id player, String skillName) throws InterruptedException
+    {
+        try
+        {
+            if (!isIdValid(player) || !isPlayer(player))
+            {
+                LOG("admin_panel", "Invalid player for skill grant: " + player);
+                return false;
+            }
+
+            if (hasSkill(player, skillName))
+            {
+                LOG("admin_panel", "Player already has skill: " + skillName);
+                return false;
+            }
+
+            grantSkill(player, skillName);
+            LOG("admin_panel", "Successfully granted skill: " + skillName + " to player: " + player);
+            return true;
+        }
+        catch (Exception e)
+        {
+            LOG("admin_panel", "Exception granting skill " + skillName + ": " + e.toString());
+            return false;
+        }
     }
 
     // ========================================
