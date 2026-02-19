@@ -953,7 +953,7 @@ public class player_building extends script.base_script
                 move_loc = new location(x + loc.x, loc.y, z + loc.z, loc.area, loc.cell);
             }
             LOG("LOG_CHANNEL", "move_loc ->" + move_loc);
-            if (!isValidInteriorLocation(move_loc))
+            if (!isGod(self) && !isValidInteriorLocation(move_loc))
             {
                 sendSystemMessage(self, new string_id(STF, "not_valid_location"));
                 return SCRIPT_CONTINUE;
@@ -988,15 +988,18 @@ public class player_building extends script.base_script
                     }
                 }
             }
-            if (!utils.hasScriptVar(target, "vertical.min_height") || !utils.hasScriptVar(target, "vertical.max_height"))
+            if (!isGod(self))
             {
-                sendSystemMessage(self, new string_id(STF, "error_move_item"));
-                return SCRIPT_CONTINUE;
-            }
-            if (new_y < utils.getFloatScriptVar(target, "vertical.min_height") || new_y > utils.getFloatScriptVar(target, "vertical.max_height"))
-            {
-                sendSystemMessage(self, new string_id(STF, "not_valid_location"));
-                return SCRIPT_CONTINUE;
+                if (!utils.hasScriptVar(target, "vertical.min_height") || !utils.hasScriptVar(target, "vertical.max_height"))
+                {
+                    sendSystemMessage(self, new string_id(STF, "error_move_item"));
+                    return SCRIPT_CONTINUE;
+                }
+                if (new_y < utils.getFloatScriptVar(target, "vertical.min_height") || new_y > utils.getFloatScriptVar(target, "vertical.max_height"))
+                {
+                    sendSystemMessage(self, new string_id(STF, "not_valid_location"));
+                    return SCRIPT_CONTINUE;
+                }
             }
         }
         else if (target != intendedTarget)
