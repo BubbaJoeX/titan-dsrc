@@ -469,38 +469,54 @@ public class player_building extends script.base_script
         float qx = 0.0f;
         float qy = 0.0f;
         float qz = 0.0f;
+        float rotationDegrees = 0.0f;
+        boolean rotationIsFloat = false;
         if (actionYaw || actionPitch || actionRoll)
         {
             if (st.hasMoreTokens())
             {
-                String rot_str = (st.nextToken()).toUpperCase();
-                if (rot_str.equals("RANDOM"))
+                String rot_str = st.nextToken();
+                if (rot_str.toUpperCase().equals("RANDOM"))
                 {
                     actionRandom = true;
                 }
-                else 
+                else
                 {
                     try
                     {
-                        rotation = Integer.parseInt(rot_str);
+                        rotationDegrees = Float.parseFloat(rot_str);
+                        rotationIsFloat = (rot_str.indexOf('.') >= 0);
+                        if (rotationIsFloat)
+                        {
+                            if (rotationDegrees < -360.0f || rotationDegrees > 360.0f)
+                            {
+                                sendSystemMessage(self, new string_id(STF, "rotate_params"));
+                                return SCRIPT_CONTINUE;
+                            }
+                        }
+                        else
+                        {
+                            rotation = (int)rotationDegrees;
+                            if (rotation < -180 || rotation > 180 && !isGod(self))
+                            {
+                                sendSystemMessage(self, new string_id(STF, "rotate_params"));
+                                return SCRIPT_CONTINUE;
+                            }
+                        }
                     }
-                    catch(NumberFormatException err)
-                    {
-                        sendSystemMessage(self, new string_id(STF, "rotate_params"));
-                        return SCRIPT_CONTINUE;
-                    }
-                    if (rotation < -180 || rotation > 180 && !isGod(self))
+                    catch (NumberFormatException err)
                     {
                         sendSystemMessage(self, new string_id(STF, "rotate_params"));
                         return SCRIPT_CONTINUE;
                     }
                 }
             }
-            else 
+            else
             {
                 rotation = getFurnitureRotationDegree(self);
+                rotationDegrees = (float)rotation;
             }
-            if ((rotation == 0) && !actionRandom)
+            if (!actionRandom && (rotationDegrees == 0.0f && rotation == 0))
             {
                 return SCRIPT_CONTINUE;
             }
@@ -613,9 +629,9 @@ public class player_building extends script.base_script
             {
                 modifyYaw(target, rand(-180, 180));
             }
-            else 
+            else
             {
-                modifyYaw(target, rotation);
+                modifyYaw(target, rotationIsFloat ? rotationDegrees : (float)rotation);
             }
         }
         else if (actionPitch)
@@ -624,9 +640,9 @@ public class player_building extends script.base_script
             {
                 modifyPitch(target, rand(-180, 180));
             }
-            else 
+            else
             {
-                modifyPitch(target, rotation);
+                modifyPitch(target, rotationIsFloat ? rotationDegrees : (float)rotation);
             }
         }
         else if (actionRoll)
@@ -635,9 +651,9 @@ public class player_building extends script.base_script
             {
                 modifyRoll(target, rand(-180, 180));
             }
-            else 
+            else
             {
-                modifyRoll(target, rotation);
+                modifyRoll(target, rotationIsFloat ? rotationDegrees : (float)rotation);
             }
         }
         else if (actionRandom)
@@ -764,45 +780,40 @@ public class player_building extends script.base_script
             }
         }
         int distance = 0;
+        float distanceMeters = 0.0f;
+        boolean worldSpaceDelta = false;
         boolean copyLocation = false;
         boolean copyHeight = false;
         if (st.hasMoreTokens() && dist_str == null)
         {
-            dist_str = (st.nextToken()).toUpperCase();
-            if (direction.equals("COPY"))
-            {
-                if (dist_str.equals("LOCATION"))
-                {
-                    copyLocation = true;
-                }
-                else if (dist_str.equals("HEIGHT"))
-                {
-                    copyHeight = true;
-                }
-                else 
-                {
-                    sendSystemMessage(self, new string_id(STF, "format_movefurniture_distance"));
-                    return SCRIPT_CONTINUE;
-                }
-            }
-            else 
-            {
-                int dist_int = utils.stringToInt(dist_str);
-                if (dist_int != -1)
-                {
-                    distance = dist_int;
-                }
-                if (distance < 1 || distance > 500 && !isGod(self))
-                {
-                    sendSystemMessage(self, new string_id(STF, "movefurniture_params"));
-                    return SCRIPT_CONTINUE;
-                }
-            }
+            dist_str = st.nextToken();
         }
-        else if (dist_str != null)
+        if (dist_str != null && !direction.equals("COPY"))
         {
-            dist_str = dist_str.toUpperCase();
-            if (direction.equals("COPY"))
+            try
+            {
+                float d = Float.parseFloat(dist_str);
+                if (dist_str.indexOf('.') >= 0 && d >= -50.0f && d <= 50.0f && (direction.equals("FORWARD") || direction.equals("BACK") || direction.equals("LEFT") || direction.equals("RIGHT") || direction.equals("UP") || direction.equals("DOWN")))
+                {
+                    distanceMeters = d;
+                    worldSpaceDelta = true;
+                }
+            }
+            catch (NumberFormatException ignored)
+            {
+            }
+        }
+        if (!worldSpaceDelta)
+        {
+            if (dist_str != null)
+            {
+                dist_str = dist_str.toUpperCase();
+            }
+            if (st.hasMoreTokens() && dist_str == null)
+            {
+                dist_str = (st.nextToken()).toUpperCase();
+            }
+            if (dist_str != null && direction.equals("COPY"))
             {
                 if (dist_str.equals("LOCATION"))
                 {
@@ -812,13 +823,13 @@ public class player_building extends script.base_script
                 {
                     copyHeight = true;
                 }
-                else 
+                else
                 {
                     sendSystemMessage(self, new string_id(STF, "format_movefurniture_distance"));
                     return SCRIPT_CONTINUE;
                 }
             }
-            else 
+            else if (dist_str != null && !direction.equals("COPY"))
             {
                 int dist_int = utils.stringToInt(dist_str);
                 if (dist_int != -1)
@@ -831,15 +842,20 @@ public class player_building extends script.base_script
                     return SCRIPT_CONTINUE;
                 }
             }
+            else if (direction.equals("COPY"))
+            {
+                sendSystemMessage(self, new string_id(STF, "format_movefurniture_distance"));
+                return SCRIPT_CONTINUE;
+            }
+            else
+            {
+                distance = 100;
+            }
         }
-        else if (direction.equals("COPY"))
+        else if (dist_str == null && (direction.equals("FORWARD") || direction.equals("BACK") || direction.equals("LEFT") || direction.equals("RIGHT") || direction.equals("UP") || direction.equals("DOWN")))
         {
             sendSystemMessage(self, new string_id(STF, "format_movefurniture_distance"));
             return SCRIPT_CONTINUE;
-        }
-        else 
-        {
-            distance = 100;
         }
         obj_id intendedTarget = getIntendedTarget(self);
         obj_id lookAtTarget = getLookAtTarget(self);
@@ -897,28 +913,45 @@ public class player_building extends script.base_script
         if (direction.equals("FORWARD") || direction.equals("BACK") || direction.equals("LEFT") || direction.equals("RIGHT"))
         {
             location loc = getLocation(target);
-            float facing = getYaw(self);
-            if (direction.equals("LEFT"))
+            if (worldSpaceDelta)
             {
-                facing -= 90;
-                direction = "FORWARD";
+                float dx = 0.0f;
+                float dz = 0.0f;
+                if (direction.equals("FORWARD"))
+                    dz = distanceMeters;
+                else if (direction.equals("BACK"))
+                    dz = -distanceMeters;
+                else if (direction.equals("RIGHT"))
+                    dx = distanceMeters;
+                else
+                    dx = -distanceMeters;
+                move_loc = new location(loc.x + dx, loc.y, loc.z + dz, loc.area, loc.cell);
             }
-            else if (direction.equals("RIGHT"))
+            else
             {
-                facing += 90;
-                direction = "FORWARD";
+                float facing = getYaw(self);
+                if (direction.equals("LEFT"))
+                {
+                    facing -= 90;
+                    direction = "FORWARD";
+                }
+                else if (direction.equals("RIGHT"))
+                {
+                    facing += 90;
+                    direction = "FORWARD";
+                }
+                float dist_scaled = distance / 100.0f;
+                float facing_rad = (float)Math.toRadians(facing);
+                float x = dist_scaled * (float) StrictMath.sin(facing_rad);
+                float z = dist_scaled * (float) StrictMath.cos(facing_rad);
+                if (direction.equals("BACK"))
+                {
+                    x = x * -1;
+                    z = z * -1;
+                }
+                LOG("LOG_CHANNEL", "x ->" + x + " z ->" + z + " dist ->" + dist_scaled);
+                move_loc = new location(x + loc.x, loc.y, z + loc.z, loc.area, loc.cell);
             }
-            float dist_scaled = distance / 100.0f;
-            float facing_rad = (float)Math.toRadians(facing);
-            float x = dist_scaled * (float) StrictMath.sin(facing_rad);
-            float z = dist_scaled * (float) StrictMath.cos(facing_rad);
-            if (direction.equals("BACK"))
-            {
-                x = x * -1;
-                z = z * -1;
-            }
-            LOG("LOG_CHANNEL", "x ->" + x + " z ->" + z + " dist ->" + dist_scaled);
-            move_loc = new location(x + loc.x, loc.y, z + loc.z, loc.area, loc.cell);
             LOG("LOG_CHANNEL", "move_loc ->" + move_loc);
             if (!isValidInteriorLocation(move_loc))
             {
@@ -929,13 +962,8 @@ public class player_building extends script.base_script
         else if (direction.equals("UP") || direction.equals("DOWN"))
         {
             location loc = getLocation(target);
-            float facing = getYaw(self);
-            float dist_scaled = distance / 100.0f;
-            float y = dist_scaled;
-            if (direction.equals("DOWN"))
-            {
-                y = y * -1;
-            }
+            float dist_scaled = worldSpaceDelta ? distanceMeters : (distance / 100.0f);
+            float y = direction.equals("DOWN") ? -dist_scaled : dist_scaled;
             LOG("LOG_CHANNEL", "y ->" + y + " dist ->" + dist_scaled);
             move_loc = new location(loc.x, y + loc.y, loc.z, loc.area, loc.cell);
             LOG("LOG_CHANNEL", "move_loc ->" + move_loc);
