@@ -4792,6 +4792,14 @@ public class pet_lib extends script.base_script
         obj_id playerCurrentMount = getMountId(riderId);
         if (isIdValid(playerCurrentMount) && exists(playerCurrentMount))
         {
+            if (vehicle.isRiderInAirspeederMode(riderId))
+            {
+                if (notify)
+                {
+                    sendSystemMessage(riderId, vehicle.SID_SYS_CANT_DISMOUNT_SKYWAY);
+                }
+                return false;
+            }
             queueClear(riderId);
             dismountCreature(riderId);
             dismountOccurred = true;

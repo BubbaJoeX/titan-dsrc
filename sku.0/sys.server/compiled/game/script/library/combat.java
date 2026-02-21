@@ -1671,6 +1671,10 @@ public class combat extends script.base_script
         {
             return;
         }
+        if (vehicle.isRiderInAirspeederMode(attacker))
+        {
+            return;
+        }
         float hateMod = actionData.hateDamageModifier;
         int maxHate = actionData.maxHate;
         int hateAdd = actionData.hateAdd;

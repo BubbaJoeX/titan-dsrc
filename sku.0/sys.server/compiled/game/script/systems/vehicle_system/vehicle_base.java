@@ -168,6 +168,7 @@ public class vehicle_base extends script.base_script
         setObjectCollidable(self, false);
         dictionary ascentParams = new dictionary();
         ascentParams.put("startHover", currentHover);
+        ascentParams.put("startYaw", getYaw(self));
         ascentParams.put("startTime", getGameTime());
         messageTo(self, "continueSkywayAscent", ascentParams, vehicle.AIRSPEEDER_ASCENT_INTERVAL, false);
         return SCRIPT_CONTINUE;
@@ -177,11 +178,14 @@ public class vehicle_base extends script.base_script
         if (!hasObjVar(self, vehicle.OBJVAR_AIRSPEEDER_ACTIVE))
             return SCRIPT_CONTINUE;
         float startHover = params.getFloat("startHover");
+        float startYaw = params.getFloat("startYaw");
         float startTime = params.getFloat("startTime");
         float elapsed = getGameTime() - startTime;
         float t = Math.min(1.0f, elapsed / vehicle.AIRSPEEDER_ASCENT_DURATION);
         float newHover = startHover + (vehicle.AIRSPEEDER_HOVER_HEIGHT - startHover) * t;
         vehicle.setHoverHeight(self, newHover);
+        float newYaw = startYaw + (360.0f * vehicle.AIRSPEEDER_HELIX_TURNS * t);
+        setYaw(self, newYaw);
         if (t >= 1.0f)
         {
             float savedSpeed = vehicle.getMaximumSpeed(self);
@@ -191,8 +195,56 @@ public class vehicle_base extends script.base_script
         else
         {
             params.put("startHover", startHover);
+            params.put("startYaw", startYaw);
             params.put("startTime", startTime);
             messageTo(self, "continueSkywayAscent", params, vehicle.AIRSPEEDER_ASCENT_INTERVAL, false);
+        }
+        return SCRIPT_CONTINUE;
+    }
+    public int startSkywayDescent(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id rider = getRiderId(self);
+        if (!isIdValid(rider) || !vehicle.isHoverVehicle(self) || vehicle.isJetPackVehicle(self) || isSpaceScene())
+            return SCRIPT_CONTINUE;
+        if (!hasObjVar(self, vehicle.OBJVAR_AIRSPEEDER_ACTIVE))
+            return SCRIPT_CONTINUE;
+        float currentHover = vehicle.getHoverHeight(self);
+        float targetHover = vehicle.AIRSPEEDER_HOVER_HEIGHT;
+        if (hasObjVar(self, vehicle.OBJVAR_AIRSPEEDER_SAVED_HOVER))
+            targetHover = getFloatObjVar(self, vehicle.OBJVAR_AIRSPEEDER_SAVED_HOVER);
+        dictionary descentParams = new dictionary();
+        descentParams.put("startHover", currentHover);
+        descentParams.put("targetHover", targetHover);
+        descentParams.put("startYaw", getYaw(self));
+        descentParams.put("startTime", getGameTime());
+        messageTo(self, "continueSkywayDescent", descentParams, vehicle.AIRSPEEDER_DESCENT_INTERVAL, false);
+        return SCRIPT_CONTINUE;
+    }
+    public int continueSkywayDescent(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (!hasObjVar(self, vehicle.OBJVAR_AIRSPEEDER_ACTIVE))
+            return SCRIPT_CONTINUE;
+        float startHover = params.getFloat("startHover");
+        float targetHover = params.getFloat("targetHover");
+        float startYaw = params.getFloat("startYaw");
+        float startTime = params.getFloat("startTime");
+        float elapsed = getGameTime() - startTime;
+        float t = Math.min(1.0f, elapsed / vehicle.AIRSPEEDER_DESCENT_DURATION);
+        float newHover = startHover + (targetHover - startHover) * t;
+        vehicle.setHoverHeight(self, newHover);
+        float newYaw = startYaw + (360.0f * vehicle.AIRSPEEDER_HELIX_TURNS * t);
+        setYaw(self, newYaw);
+        if (t >= 1.0f)
+        {
+            vehicle.exitAirspeederMode(self);
+        }
+        else
+        {
+            params.put("startHover", startHover);
+            params.put("targetHover", targetHover);
+            params.put("startYaw", startYaw);
+            params.put("startTime", startTime);
+            messageTo(self, "continueSkywayDescent", params, vehicle.AIRSPEEDER_DESCENT_INTERVAL, false);
         }
         return SCRIPT_CONTINUE;
     }

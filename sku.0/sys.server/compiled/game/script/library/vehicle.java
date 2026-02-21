@@ -1075,6 +1075,9 @@ public class vehicle extends script.base_script
     public static final float AIRSPEEDER_TRAFFIC_SPEED_MULTIPLIER = 0.3f;
     public static final float AIRSPEEDER_ASCENT_DURATION = 5.0f;
     public static final float AIRSPEEDER_ASCENT_INTERVAL = 0.25f;
+    public static final float AIRSPEEDER_DESCENT_DURATION = 5.0f;
+    public static final float AIRSPEEDER_DESCENT_INTERVAL = 0.25f;
+    public static final float AIRSPEEDER_HELIX_TURNS = 2.0f;
     public static final String OBJVAR_AIRSPEEDER_ACTIVE = "airspeeder.active";
     public static final String OBJVAR_AIRSPEEDER_SAVED_HOVER = "airspeeder.savedHoverHeight";
     public static final String OBJVAR_AIRSPEEDER_SAVED_SPEED = "airspeeder.savedMaxSpeed";
@@ -1085,6 +1088,14 @@ public class vehicle extends script.base_script
     public static final String OBJVAR_AIRSPEEDER_BOOST_ACTIVE = "airspeeder.boostActive";
     public static final String OBJVAR_AIRSPEEDER_TRAFFIC_ACTIVE = "airspeeder.trafficActive";
     public static final String OBJVAR_AIRSPEEDER_PANEL_RIDER = "airspeeder.panelRider";
+    public static final string_id SID_SYS_CANT_DISMOUNT_SKYWAY = new string_id("pet/pet_menu", "cant_dismount_skyway");
+    public static boolean isRiderInAirspeederMode(obj_id rider) throws InterruptedException
+    {
+        if (!isValidId(rider))
+            return false;
+        obj_id mount = getMountId(rider);
+        return isValidId(mount) && exists(mount) && hasObjVar(mount, OBJVAR_AIRSPEEDER_ACTIVE);
+    }
     public static void applyVehicleBuffs(obj_id player, obj_id vehicle) throws InterruptedException
     {
         String template = getTemplateName(vehicle);

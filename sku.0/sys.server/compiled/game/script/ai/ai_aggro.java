@@ -95,6 +95,11 @@ public class ai_aggro extends script.base_script
             LOGC(aiLoggingEnabled(self), "debug_ai", "ai_aggro::getAggroStatus() self(" + self + ":" + getName(self) + ") target(" + target + ":" + getName(target) + ") TARGET IS INVULNERABLE");
             debugSpeakMsgc(aiLoggingEnabled(self), self, "AggroCheck(" + target + ") TARGET IS INVULNERABLE");
         }
+        else if (vehicle.isRiderInAirspeederMode(target))
+        {
+            LOGC(aiLoggingEnabled(self), "debug_ai", "ai_aggro::getAggroStatus() self(" + self + ":" + getName(self) + ") target(" + target + ":" + getName(target) + ") TARGET IN AIRSPEEDER MODE");
+            debugSpeakMsgc(aiLoggingEnabled(self), self, "AggroCheck(" + target + ") TARGET IN AIRSPEEDER MODE");
+        }
         else if (ai_lib.isInCombat(self))
         {
             LOGC(aiLoggingEnabled(self), "debug_ai", "ai_aggro::getAggroStatus() self(" + self + ":" + getName(self) + ") target(" + target + ":" + getName(target) + ") I AM IN COMBAT");

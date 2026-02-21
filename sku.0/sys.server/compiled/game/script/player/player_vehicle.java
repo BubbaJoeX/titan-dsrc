@@ -188,7 +188,7 @@ public class player_vehicle extends script.base_script
         {
             if (hasObjVar(vehicleObj, vehicle.OBJVAR_AIRSPEEDER_ACTIVE))
             {
-                vehicle.exitAirspeederMode(vehicleObj);
+                messageTo(vehicleObj, "startSkywayDescent", null, 0, false);
             }
             else
             {
