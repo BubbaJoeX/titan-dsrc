@@ -133,17 +133,7 @@ public class vehicle_base extends script.base_script
             messageTo(self, "handleAirspeederCheck", null, 0.5f, false);
             return SCRIPT_CONTINUE;
         }
-        boolean hasPanelRider = hasObjVar(self, vehicle.OBJVAR_AIRSPEEDER_PANEL_RIDER);
-        // Show panel when server detects player is riding this hover vehicle (RIDING_MOUNT state); client-server message only
-        if (!hasPanelRider && isPlayer(rider))
-        {
-            showAirspeederPanel(rider, true);
-            setObjVar(self, vehicle.OBJVAR_AIRSPEEDER_PANEL_RIDER, rider);
-            if (!hasScript(rider, "player.player_vehicle"))
-            {
-                attachScript(rider, "player.player_vehicle");
-            }
-        }
+        // Panel is shown via radial "Advanced Piloting" only; here we just keep the poll running and hide panel when rider dismounts
         messageTo(self, "handleAirspeederCheck", null, 0.5f, false);
         return SCRIPT_CONTINUE;
     }
@@ -291,6 +281,10 @@ public class vehicle_base extends script.base_script
         {
             return SCRIPT_CONTINUE;
         }
+        if (vehicle.isHoverVehicle(self) && !vehicle.isJetPackVehicle(self) && !isSpaceScene())
+        {
+            mi.addRootMenu(menu_info_types.SERVER_MENU2, new string_id(MENU_FILE, "menu_advanced_piloting"));
+        }
         if (ai_lib.isInCombat(player) || pet_lib.wasInCombatRecently(self, player, false))
         {
             return SCRIPT_CONTINUE;
@@ -332,7 +326,7 @@ public class vehicle_base extends script.base_script
         {
             return SCRIPT_CONTINUE;
         }
-        if (item != menu_info_types.SERVER_VEHICLE_ENTER_EXIT && pet_lib.isPet(self) && pet_lib.hasMaster(self) && player != getMaster(self))
+        if (item != menu_info_types.SERVER_VEHICLE_ENTER_EXIT && item != menu_info_types.SERVER_MENU2 && pet_lib.isPet(self) && pet_lib.hasMaster(self) && player != getMaster(self))
         {
             return SCRIPT_CONTINUE;
         }
@@ -370,6 +364,18 @@ public class vehicle_base extends script.base_script
             else 
             {
                 debugServerConsoleMsg(player, "+++ pet . onObjectMenuSelect +++ getMountsEneabled returnted FALSE");
+            }
+        }
+        else if (item == menu_info_types.SERVER_MENU2)
+        {
+            if (vehicle.isHoverVehicle(self) && !vehicle.isJetPackVehicle(self) && !isSpaceScene())
+            {
+                showAirspeederPanel(player, true);
+                setObjVar(self, vehicle.OBJVAR_AIRSPEEDER_PANEL_RIDER, player);
+                if (!hasScript(player, "player.player_vehicle"))
+                {
+                    attachScript(player, "player.player_vehicle");
+                }
             }
         }
         else if (item == menu_info_types.SERVER_MENU1)
