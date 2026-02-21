@@ -134,21 +134,7 @@ public class vehicle_base extends script.base_script
             return SCRIPT_CONTINUE;
         }
         boolean hasPanelRider = hasObjVar(self, vehicle.OBJVAR_AIRSPEEDER_PANEL_RIDER);
-        if (!hasPanelRider)
-        {
-            float terrainHeight = getHeightAtLocation(loc.x, loc.z);
-            float heightAboveTerrain = loc.y - terrainHeight;
-            float exitThreshold = vehicle.AIRSPEEDER_HEIGHT_THRESHOLD - vehicle.AIRSPEEDER_EXIT_HYSTERESIS;
-            boolean inAirspeeder = hasObjVar(self, vehicle.OBJVAR_AIRSPEEDER_ACTIVE);
-            if (heightAboveTerrain >= vehicle.AIRSPEEDER_HEIGHT_THRESHOLD && !inAirspeeder)
-            {
-                vehicle.enterAirspeederMode(self);
-            }
-            else if (heightAboveTerrain < exitThreshold && inAirspeeder)
-            {
-                vehicle.exitAirspeederMode(self);
-            }
-        }
+        // Airspeeder mode is triggered by the Enter Skyway button, not by reaching a height threshold
         if (!hasPanelRider && isPlayer(rider) && getLevel(rider) >= 90 && hasObjVar(rider, "airspeeder.pilot_license") && getIntObjVar(rider, "airspeeder.pilot_license") == 1)
         {
             showAirspeederPanel(rider, true);
