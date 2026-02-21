@@ -14937,6 +14937,18 @@ public class base_class
             return getObjIdWithNull(_makeCraftedItem(draftSchematic, qualityPercent, getLongWithNull(container)));
         }
 
+        private static native long _generateFactoryCrate(String draftSchematic, float qualityPercent, long container);
+        public static obj_id generateFactoryCrate(String draftSchematic, float qualityPercent, obj_id container)
+        {
+            return getObjIdWithNull(_generateFactoryCrate(draftSchematic, qualityPercent, getLongWithNull(container)));
+        }
+
+        private static native long _makeIntoFactoryCrate(long prototypeId, int count, long container);
+        public static obj_id makeIntoFactoryCrate(obj_id prototypeId, int count, obj_id container)
+        {
+            return getObjIdWithNull(_makeIntoFactoryCrate(getLongWithNull(prototypeId), count, getLongWithNull(container)));
+        }
+
         /**
          * Gets a list of objects that can be repaired by a given repair tool.
          * @param player        the player whose objects to get
