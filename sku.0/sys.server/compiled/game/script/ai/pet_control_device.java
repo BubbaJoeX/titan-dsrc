@@ -546,6 +546,7 @@ public class pet_control_device extends script.base_script
         }
         mountCreature(player, pet);
         pet_lib.setMountedMovementRate(player, pet);
+        messageTo(player, "applyMountBuff", null, 1, false);
         return SCRIPT_CONTINUE;
     }
     public void destroyCurrentPet(obj_id petControlDevice) throws InterruptedException
