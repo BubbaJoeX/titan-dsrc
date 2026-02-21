@@ -11924,7 +11924,7 @@ public class base_player extends script.base_script
         if (isIdValid(playerCurrentMount))
         {
             vehicle.applyVehicleBuffs(self, playerCurrentMount);
-            if (vehicle.isHoverVehicle(playerCurrentMount) && !vehicle.isJetPackVehicle(playerCurrentMount) && !isSpaceScene() && getLevel(self) >= 90 && hasObjVar(self, "airspeeder.pilot_license") && getIntObjVar(self, "airspeeder.pilot_license") == 1)
+            if (vehicle.isHoverVehicle(playerCurrentMount) && !vehicle.isJetPackVehicle(playerCurrentMount) && !isSpaceScene())
             {
                 showAirspeederPanel(self, true);
                 setObjVar(playerCurrentMount, vehicle.OBJVAR_AIRSPEEDER_PANEL_RIDER, self);
@@ -11947,7 +11947,7 @@ public class base_player extends script.base_script
                 showAirspeederPanel(self, false);
                 removeObjVar(mount, vehicle.OBJVAR_AIRSPEEDER_PANEL_RIDER);
             }
-            else if (getLevel(self) >= 90 && hasObjVar(self, "airspeeder.pilot_license") && getIntObjVar(self, "airspeeder.pilot_license") == 1)
+            else
             {
                 showAirspeederPanel(self, true);
                 setObjVar(mount, vehicle.OBJVAR_AIRSPEEDER_PANEL_RIDER, self);
