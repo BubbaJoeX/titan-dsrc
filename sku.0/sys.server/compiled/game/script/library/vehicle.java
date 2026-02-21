@@ -932,6 +932,8 @@ public class vehicle extends script.base_script
     {
         if (!isValidId(vehicle) || !hasObjVar(vehicle, OBJVAR_AIRSPEEDER_ACTIVE))
             return;
+        setBoostMode(vehicle, false);
+        setTrafficMode(vehicle, false);
         removeObjVar(vehicle, OBJVAR_AIRSPEEDER_ACTIVE);
         if (hasObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_HOVER))
         {
@@ -947,13 +949,141 @@ public class vehicle extends script.base_script
         }
         setObjectCollidable(vehicle, true);
     }
+    public static void setBoostMode(obj_id vehicle, boolean enable) throws InterruptedException
+    {
+        if (!isValidId(vehicle) || !isHoverVehicle(vehicle))
+            return;
+        if (enable)
+        {
+            if (hasObjVar(vehicle, OBJVAR_AIRSPEEDER_TRAFFIC_ACTIVE))
+                setTrafficMode(vehicle, false);
+            if (hasObjVar(vehicle, OBJVAR_AIRSPEEDER_BOOST_ACTIVE))
+                return;
+            float baseSpeed = getMaximumSpeed(vehicle);
+            float baseMin = getMinimumSpeed(vehicle);
+            float baseAccelMin = getAccelMin(vehicle);
+            float baseAccelMax = getAccelMax(vehicle);
+            float baseDecel = getDecel(vehicle);
+            setObjVar(vehicle, OBJVAR_AIRSPEEDER_BOOST_ACTIVE, 1);
+            setObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_SPEED, baseSpeed);
+            setObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_MIN_SPEED, baseMin);
+            setObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_ACCEL_MIN, baseAccelMin);
+            setObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_ACCEL_MAX, baseAccelMax);
+            setObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_DECEL, baseDecel);
+            setMaximumSpeed(vehicle, baseSpeed * AIRSPEEDER_BOOST_SPEED_MULTIPLIER);
+            setMinimumSpeed(vehicle, baseMin * AIRSPEEDER_BOOST_SPEED_MULTIPLIER);
+            setAccelMin(vehicle, baseAccelMin * 2.0f);
+            setAccelMax(vehicle, baseAccelMax * 2.0f);
+            setDecel(vehicle, baseDecel * 2.0f);
+        }
+        else
+        {
+            if (!hasObjVar(vehicle, OBJVAR_AIRSPEEDER_BOOST_ACTIVE))
+                return;
+            removeObjVar(vehicle, OBJVAR_AIRSPEEDER_BOOST_ACTIVE);
+            if (hasObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_SPEED))
+            {
+                setMaximumSpeed(vehicle, getFloatObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_SPEED));
+                removeObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_SPEED);
+            }
+            if (hasObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_MIN_SPEED))
+            {
+                setMinimumSpeed(vehicle, getFloatObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_MIN_SPEED));
+                removeObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_MIN_SPEED);
+            }
+            if (hasObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_ACCEL_MIN))
+            {
+                setAccelMin(vehicle, getFloatObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_ACCEL_MIN));
+                removeObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_ACCEL_MIN);
+            }
+            if (hasObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_ACCEL_MAX))
+            {
+                setAccelMax(vehicle, getFloatObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_ACCEL_MAX));
+                removeObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_ACCEL_MAX);
+            }
+            if (hasObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_DECEL))
+            {
+                setDecel(vehicle, getFloatObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_DECEL));
+                removeObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_DECEL);
+            }
+        }
+    }
+    public static void setTrafficMode(obj_id vehicle, boolean enable) throws InterruptedException
+    {
+        if (!isValidId(vehicle) || !isHoverVehicle(vehicle))
+            return;
+        if (enable)
+        {
+            if (hasObjVar(vehicle, OBJVAR_AIRSPEEDER_BOOST_ACTIVE))
+                setBoostMode(vehicle, false);
+            if (hasObjVar(vehicle, OBJVAR_AIRSPEEDER_TRAFFIC_ACTIVE))
+                return;
+            float baseSpeed = getMaximumSpeed(vehicle);
+            float baseMin = getMinimumSpeed(vehicle);
+            float baseAccelMin = getAccelMin(vehicle);
+            float baseAccelMax = getAccelMax(vehicle);
+            float baseDecel = getDecel(vehicle);
+            setObjVar(vehicle, OBJVAR_AIRSPEEDER_TRAFFIC_ACTIVE, 1);
+            setObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_SPEED, baseSpeed);
+            setObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_MIN_SPEED, baseMin);
+            setObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_ACCEL_MIN, baseAccelMin);
+            setObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_ACCEL_MAX, baseAccelMax);
+            setObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_DECEL, baseDecel);
+            setMaximumSpeed(vehicle, baseSpeed * AIRSPEEDER_TRAFFIC_SPEED_MULTIPLIER);
+            setMinimumSpeed(vehicle, baseMin * AIRSPEEDER_TRAFFIC_SPEED_MULTIPLIER);
+            setAccelMin(vehicle, baseAccelMin * 0.5f);
+            setAccelMax(vehicle, baseAccelMax * 0.5f);
+            setDecel(vehicle, baseDecel * 1.5f);
+        }
+        else
+        {
+            if (!hasObjVar(vehicle, OBJVAR_AIRSPEEDER_TRAFFIC_ACTIVE))
+                return;
+            removeObjVar(vehicle, OBJVAR_AIRSPEEDER_TRAFFIC_ACTIVE);
+            if (hasObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_SPEED))
+            {
+                setMaximumSpeed(vehicle, getFloatObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_SPEED));
+                removeObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_SPEED);
+            }
+            if (hasObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_MIN_SPEED))
+            {
+                setMinimumSpeed(vehicle, getFloatObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_MIN_SPEED));
+                removeObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_MIN_SPEED);
+            }
+            if (hasObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_ACCEL_MIN))
+            {
+                setAccelMin(vehicle, getFloatObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_ACCEL_MIN));
+                removeObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_ACCEL_MIN);
+            }
+            if (hasObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_ACCEL_MAX))
+            {
+                setAccelMax(vehicle, getFloatObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_ACCEL_MAX));
+                removeObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_ACCEL_MAX);
+            }
+            if (hasObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_DECEL))
+            {
+                setDecel(vehicle, getFloatObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_DECEL));
+                removeObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_DECEL);
+            }
+        }
+    }
     public static final float AIRSPEEDER_HEIGHT_THRESHOLD = 10.0f;
     public static final float AIRSPEEDER_EXIT_HYSTERESIS = 0.5f;
     public static final float AIRSPEEDER_HOVER_HEIGHT = 15.0f;
     public static final float AIRSPEEDER_SPEED_MULTIPLIER = 1.5f;
+    public static final float AIRSPEEDER_BOOST_SPEED_MULTIPLIER = 5.0f;
+    public static final float AIRSPEEDER_TRAFFIC_SPEED_MULTIPLIER = 0.3f;
+    public static final float AIRSPEEDER_ASCENT_DURATION = 5.0f;
+    public static final float AIRSPEEDER_ASCENT_INTERVAL = 0.25f;
     public static final String OBJVAR_AIRSPEEDER_ACTIVE = "airspeeder.active";
     public static final String OBJVAR_AIRSPEEDER_SAVED_HOVER = "airspeeder.savedHoverHeight";
     public static final String OBJVAR_AIRSPEEDER_SAVED_SPEED = "airspeeder.savedMaxSpeed";
+    public static final String OBJVAR_AIRSPEEDER_SAVED_MIN_SPEED = "airspeeder.savedMinSpeed";
+    public static final String OBJVAR_AIRSPEEDER_SAVED_ACCEL_MIN = "airspeeder.savedAccelMin";
+    public static final String OBJVAR_AIRSPEEDER_SAVED_ACCEL_MAX = "airspeeder.savedAccelMax";
+    public static final String OBJVAR_AIRSPEEDER_SAVED_DECEL = "airspeeder.savedDecel";
+    public static final String OBJVAR_AIRSPEEDER_BOOST_ACTIVE = "airspeeder.boostActive";
+    public static final String OBJVAR_AIRSPEEDER_TRAFFIC_ACTIVE = "airspeeder.trafficActive";
     public static final String OBJVAR_AIRSPEEDER_PANEL_RIDER = "airspeeder.panelRider";
     public static void applyVehicleBuffs(obj_id player, obj_id vehicle) throws InterruptedException
     {

@@ -9,7 +9,8 @@ activateQuest		immediate	cmdActivateQuest	failAdmin				admin																				
 actOfWar	commandClicky	normal	actOfWar	failSpecialAttack			1	actOfWar	1	0	1	1	1	0	1	1	1	0	0	0	0	0	0	0	0	0	0			0	0	1	1		1	0	0	1	1	1	1	0	1	0	1	1	1	1	0	0									0		0	0	0	0	0								enemy	optional		2		combat_ranged	0			combat	1	ALL	HEAVY	act_war	0	0.25	3			1	
 addAllowedPlayer		immediate		failAdmin	addAllowedPlayer			admin																				1	1		0	1												1																	0	0	0	0										none					0		40	csr	0										
 addBannedPlayer		immediate		failAdmin	addBannedPlayer			admin																				1	1		0	1												1																	0	0	0	0										none					0		40	csr	0										
-addFriend		immediate			addFriend																							1	1		0	1												1																														none					0				0										
+addFriend		immediate			addFriend																							1	1		0	1												1																														none					0				0
+airspeederControl		immediate	onAirspeederControl																						0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0			0	0	0	1		1		0		1	1	1	0	1	1	1	1	1	0	0	1									0		0	0	0	0								none					0				0										
 addIgnore		immediate			addIgnore																							1	1		0	1												1																														none					0				0										
 addMapLocation		immediate			addMapLocation																							1	1		0	1												1																														none	0				0				0										
 addPower		immediate	cmdAddPower				0																								0	1												1																														none					0				0										

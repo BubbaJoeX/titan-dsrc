@@ -133,24 +133,81 @@ public class vehicle_base extends script.base_script
             messageTo(self, "handleAirspeederCheck", null, 0.5f, false);
             return SCRIPT_CONTINUE;
         }
-        float terrainHeight = getHeightAtLocation(loc.x, loc.z);
-        float heightAboveTerrain = loc.y - terrainHeight;
-        float exitThreshold = vehicle.AIRSPEEDER_HEIGHT_THRESHOLD - vehicle.AIRSPEEDER_EXIT_HYSTERESIS;
-        boolean inAirspeeder = hasObjVar(self, vehicle.OBJVAR_AIRSPEEDER_ACTIVE);
-        if (heightAboveTerrain >= vehicle.AIRSPEEDER_HEIGHT_THRESHOLD && !inAirspeeder)
+        boolean hasPanelRider = hasObjVar(self, vehicle.OBJVAR_AIRSPEEDER_PANEL_RIDER);
+        if (!hasPanelRider)
         {
-            vehicle.enterAirspeederMode(self);
+            float terrainHeight = getHeightAtLocation(loc.x, loc.z);
+            float heightAboveTerrain = loc.y - terrainHeight;
+            float exitThreshold = vehicle.AIRSPEEDER_HEIGHT_THRESHOLD - vehicle.AIRSPEEDER_EXIT_HYSTERESIS;
+            boolean inAirspeeder = hasObjVar(self, vehicle.OBJVAR_AIRSPEEDER_ACTIVE);
+            if (heightAboveTerrain >= vehicle.AIRSPEEDER_HEIGHT_THRESHOLD && !inAirspeeder)
+            {
+                vehicle.enterAirspeederMode(self);
+            }
+            else if (heightAboveTerrain < exitThreshold && inAirspeeder)
+            {
+                vehicle.exitAirspeederMode(self);
+            }
         }
-        else if (heightAboveTerrain < exitThreshold && inAirspeeder)
-        {
-            vehicle.exitAirspeederMode(self);
-        }
-        if (!hasObjVar(self, vehicle.OBJVAR_AIRSPEEDER_PANEL_RIDER) && isPlayer(rider) && getLevel(rider) >= 90 && hasObjVar(rider, "airspeeder.pilot_license") && getIntObjVar(rider, "airspeeder.pilot_license") == 1)
+        if (!hasPanelRider && isPlayer(rider) && getLevel(rider) >= 90 && hasObjVar(rider, "airspeeder.pilot_license") && getIntObjVar(rider, "airspeeder.pilot_license") == 1)
         {
             showAirspeederPanel(rider, true);
             setObjVar(self, vehicle.OBJVAR_AIRSPEEDER_PANEL_RIDER, rider);
+            if (!hasScript(rider, "player.player_vehicle"))
+            {
+                attachScript(rider, "player.player_vehicle");
+            }
         }
         messageTo(self, "handleAirspeederCheck", null, 0.5f, false);
+        return SCRIPT_CONTINUE;
+    }
+    public int startSkywayAscent(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id rider = getRiderId(self);
+        if (!isIdValid(rider) || !vehicle.isHoverVehicle(self) || vehicle.isJetPackVehicle(self) || isSpaceScene())
+            return SCRIPT_CONTINUE;
+        if (hasObjVar(self, vehicle.OBJVAR_AIRSPEEDER_ACTIVE))
+            return SCRIPT_CONTINUE;
+        float currentHover = vehicle.getHoverHeight(self);
+        if (currentHover >= vehicle.AIRSPEEDER_HOVER_HEIGHT)
+        {
+            vehicle.enterAirspeederMode(self);
+            return SCRIPT_CONTINUE;
+        }
+        if (!hasObjVar(self, vehicle.OBJVAR_AIRSPEEDER_SAVED_HOVER))
+        {
+            setObjVar(self, vehicle.OBJVAR_AIRSPEEDER_SAVED_HOVER, currentHover);
+        }
+        setObjVar(self, vehicle.OBJVAR_AIRSPEEDER_ACTIVE, 1);
+        setObjectCollidable(self, false);
+        dictionary ascentParams = new dictionary();
+        ascentParams.put("startHover", currentHover);
+        ascentParams.put("startTime", getGameTime());
+        messageTo(self, "continueSkywayAscent", ascentParams, vehicle.AIRSPEEDER_ASCENT_INTERVAL, false);
+        return SCRIPT_CONTINUE;
+    }
+    public int continueSkywayAscent(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (!hasObjVar(self, vehicle.OBJVAR_AIRSPEEDER_ACTIVE))
+            return SCRIPT_CONTINUE;
+        float startHover = params.getFloat("startHover");
+        float startTime = params.getFloat("startTime");
+        float elapsed = getGameTime() - startTime;
+        float t = Math.min(1.0f, elapsed / vehicle.AIRSPEEDER_ASCENT_DURATION);
+        float newHover = startHover + (vehicle.AIRSPEEDER_HOVER_HEIGHT - startHover) * t;
+        vehicle.setHoverHeight(self, newHover);
+        if (t >= 1.0f)
+        {
+            float savedSpeed = vehicle.getMaximumSpeed(self);
+            setObjVar(self, vehicle.OBJVAR_AIRSPEEDER_SAVED_SPEED, savedSpeed);
+            vehicle.setMaximumSpeed(self, savedSpeed * vehicle.AIRSPEEDER_SPEED_MULTIPLIER);
+        }
+        else
+        {
+            params.put("startHover", startHover);
+            params.put("startTime", startTime);
+            messageTo(self, "continueSkywayAscent", params, vehicle.AIRSPEEDER_ASCENT_INTERVAL, false);
+        }
         return SCRIPT_CONTINUE;
     }
     public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi) throws InterruptedException
