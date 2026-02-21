@@ -111,6 +111,10 @@ public class vehicle_base extends script.base_script
             {
                 vehicle.exitAirspeederMode(self);
             }
+            if (vehicle.isHoverVehicle(self) && !vehicle.isJetPackVehicle(self) && !isSpaceScene())
+            {
+                messageTo(self, "handleAirspeederCheck", null, 2.0f, false);
+            }
             return SCRIPT_CONTINUE;
         }
         if (!vehicle.isHoverVehicle(self) || vehicle.isJetPackVehicle(self))
