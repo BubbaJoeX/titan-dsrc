@@ -18,5 +18,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -37582771	0	object/tangible/ground_spawning/area_spawner.iff	0	636.305	143	235.776	-0.658412	0	0.752658	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|120.000000|fltMinSpawnTime|2|45.000000|fltRadius|2|1.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|twisted2|strSpawnerType|4|area|strSpawns|4|tatooine/fs_11_twisted|$|
 -24118000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
 -998694157	0	object/tangible/ground_spawning/area_spawner.iff	0	608.461	143.001	214.309	0.937547	0	0.34786	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|40.000000|fltMinSpawnTime|2|20.000000|fltRadius|2|1.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|twisted5|strSpawnerType|4|area|strSpawns|4|tatooine/fs_11_twisted|$|
--774325041	0	unknown_1459683328.iff	0	354.966	-1.12552e-23	2048	2.81445e-36	-2.07274e+15	1.77457e+15	3.22988e+25		$|
--1908401984	0	unknown_1090584576.iff	0	1968.34	5.74869e-41	2048	4.6006e-41	0	0	0		$|
