@@ -1,7 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--657375106	0	object/tangible/collection/rebel_assault_right_bracer.iff	0	1064.93	65.632	57.2515	0.0674702	-0.00103019	0.878811	-0.472374	systems.collections.consume_click	collection.slotName|4|col_rebel_assault_armor:rebel_assault_right_bracer|$|
--37288000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
 -774325041	0	object/static/particle/pt_miasma_of_fog_mustard.iff	0	1837.14	101.371	1247.55	1	0	0	0		$|
 -1908401984	0	object/static/particle/pt_miasma_of_fog_mustard.iff	0	1845.97	101.174	1256.6	1	0	0	0		$|
 -2093773463	0	object/static/particle/pt_miasma_of_fog_mustard.iff	0	1858.01	101.588	1246.01	1	0	0	0		$|
@@ -19,5 +17,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1960783934	0	object/building/endor/endr_lake_rail8m.iff	0	1834.35	93.7264	1253.87	0.979564	0.193764	0.000968826	0.0539304		$|
 -879410635	0	object/building/endor/endr_lake_rail8m.iff	0	1834.16	94.9322	1241.16	0.962425	0.271547	0	0		$|
 -1241413427	0	object/building/endor/endr_lake_rail4m.iff	0	1829.07	93.9588	1251.91	0.371304	-0.335645	0.580543	0.64222		$|
--2079230854	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1053.344482	65.92173004	32.691162	1	0	0	0		$|
--2083494600	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1041.875488	65.86437988	78.098633	1	0	0	0		$|

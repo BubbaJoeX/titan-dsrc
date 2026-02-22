@@ -1,6 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
 -774325041	0	object/static/flora/flora_decd_dath_azerontree.iff	0	955.279	27.3684	1439.36	1	0	0	0		$|
 -1908401984	0	object/static/particle/particle_campfire_style_1.iff	0	954.219	38.877	1439.64	1	0	0	0		$|
 -2093773463	0	object/static/particle/particle_campfire_style_1.iff	0	956.759	39.5828	1439.74	1	0	0	0		$|
@@ -9,7 +8,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1621582391	0	object/static/structure/dantooine/dant_jedi_temple_pillar_fallen.iff	0	935.207	27.1067	1515.51	1	0	0	0		$|
 -1668142224	0	object/static/structure/dantooine/dant_jedi_wall_2.iff	0	330.574	52.772	1018.99	0.929964	-0.0581385	-0.362445	0.0205002		$|
 -1847828235	0	object/static/structure/dantooine/dant_jedi_wall_2.iff	0	324.868	51.709	1024.84	0.916883	0.0770575	-0.381965	0.0865432		$|
--565923755	0	object/tangible/ground_spawning/mob_spawner.iff	0	322	53	1021	1	0	0	0		$|
--1927376940	0	object/tangible/ground_spawning/mob_spawner.iff	0	322	53	1021	1	0	0	0		$|
--694282569	0	object/tangible/ground_spawning/mob_spawner.iff	0	322	53	1021	1	0	0	0		$|
--556911782	0	object/tangible/ground_spawning/mob_spawner.iff	0	322	53	1021	1	0	0	0		$|

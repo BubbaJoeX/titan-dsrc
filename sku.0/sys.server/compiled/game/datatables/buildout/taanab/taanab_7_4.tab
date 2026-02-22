@@ -1,0 +1,24 @@
+objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
+i	i	h	i	f	f	f	f	f	f	f	s	p
+-774325041	0	object/static/structure/tatooine/stone_hovel_tatooine_style_01.iff	0	1018.7	47.3	1511.3	0.707108	0	0.707106	0		$|
+-1908401984	0	object/static/structure/tatooine/shed_junkshop_watto.iff	0	1036.5	47.3	1533.2	0.707108	0	0.707106	0		$|
+-2093773463	0	object/static/installation/mockup_farm_flora_style_1.iff	0	1024.9	47.3	1522.1	0.898794	0	-0.438371	0		$|
+-555016066	0	object/static/particle/pt_poi_broken_electronics.iff	0	1027.9	47.8	1519.2	0.898794	0	-0.438371	0		$|
+-1556862676	0	object/static/installation/mockup_mining_liquid_harvester_style_1.iff	0	1056.4	47.3	1532.2	0.00872656	0	0.999962	0		$|
+-1621582391	0	object/static/installation/mockup_power_generator_photo_bio_style_1.iff	0	1024.8	47.3	1495.1	0.92388	0	0.382683	0		$|
+-1668142224	0	object/static/structure/dantooine/dant_fence_8m.iff	0	1044	47.3	1517.2	0.707108	0	0.707106	0		$|
+-1847828235	0	object/static/structure/dantooine/dant_fence_8m.iff	0	1047.9	47.3	1521.1	1	0	0	0		$|
+-565923755	0	object/static/structure/dantooine/dant_fence_8m.iff	0	1047.9	47.3	1513.3	1	0	0	0		$|
+-1927376940	0	object/static/structure/dantooine/dant_fence_8m.iff	0	1059.9	47.3	1517.2	0.707108	0	0.707106	0		$|
+-694282569	0	object/static/structure/dantooine/dant_fence_8m.iff	0	1055.9	47.3	1521.1	1	0	0	0		$|
+-556911782	0	object/static/structure/dantooine/dant_fence_8m.iff	0	1055.9	47.3	1513.3	1	0	0	0		$|
+-231542615	0	object/static/structure/tatooine/shed_junkshop_watto.iff	0	1047.4	47.3	1490	0.707108	0	0.707106	0		$|
+-976317925	0	object/static/installation/mockup_mining_liquid_moisture_harvester.iff	0	1021.1	47.3	1504.1	0.707108	0	0.707106	0		$|
+-1960783934	0	object/static/particle/pt_poi_broken_electronics.iff	0	1021.1	47.3	1504.1	0.707108	0	0.707106	0		$|
+-879410635	0	object/static/worldbuilding/decal/mun_decal_blast_lg.iff	0	1046.4	47.3	1504.7	0.707108	0	0.707106	0		$|
+-1241413427	0	object/static/structure/general/skeleton_human_headandbody.iff	0	1031	47.3	1501	0.996195	0	-0.0871557	0		$|
+-2079230854	0	object/static/structure/general/skeleton_bith_headandbody.iff	0	1054.8	47.3	1511.4	0.71934	0	0.694658	0		$|
+-2083494600	0	object/static/structure/general/skeleton_bith_headandbody.iff	0	1046.8	47.3	1497.5	0.984808	0	-0.173648	0		$|
+-1946274642	0	object/static/structure/general/skeleton_human_headandbody.iff	0	1048.4	47.3	1525.6	0.945519	0	0.325568	0		$|
+-1677962170	0	object/static/structure/general/skeleton_human_headandbody.iff	0	1071.9	47.3	1514.3	-0.507538	0	0.861629	0		$|
+-1647848179	0	object/static/structure/general/skeleton_human_headandbody.iff	0	1064.2	47.3	1495.1	0.948324	0	-0.317305	0		$|

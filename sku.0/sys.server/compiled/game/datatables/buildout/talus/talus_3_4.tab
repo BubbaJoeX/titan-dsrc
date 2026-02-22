@@ -1,6 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--36598000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
 -774325041	0	object/static/structure/corellia/corl_tent_med.iff	0	409.84	34.9464	1495.3	1	0	0	0		$|
 -1908401984	0	object/static/structure/general/tato_cave_rock_med.iff	0	411.156	34.936	1494.9	0.79695	-0.134144	-0.0973349	0.580863		$|
 -2093773463	0	object/static/structure/general/tato_cave_rock_med.iff	0	408.061	34.9197	1495.17	0.991562	0	0.129634	0		$|
@@ -21,6 +20,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -2079230854	0	object/tangible/furniture/all/frn_bench_generic.iff	0	947.608	4.91425	1128.36	0.710914	0	-0.703279	0		$|
 -2083494600	0	object/tangible/furniture/all/frn_bench_generic.iff	0	942.793	5.36576	1123.49	0.999673	-0.00013495	0.00539687	-0.024997		$|
 -1946274642	0	object/static/structure/tatooine/streetsign_upright_style_01.iff	0	952.38	4.82899	1122.77	0.714421	0	0.699716	0		$|
--1677962170	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	413.713867	35.35825729	1504.6521	1	0	0	0		$|
--1647848179	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	419.000977	35.00649261	1493.951294	1	0	0	0		$|
--1062241431	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	944.605469	5.355751514	1121.152771	1	0	0	0		$|

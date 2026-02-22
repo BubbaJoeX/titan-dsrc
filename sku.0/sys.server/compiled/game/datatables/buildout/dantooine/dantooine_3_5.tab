@@ -1,6 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
 -774325041	0	object/static/particle/pt_buzzing_insects_large.iff	0	730.969	2.47999	484.475	1	0	0	0		$|
 -1908401984	0	object/static/structure/general/tato_cave_stalagmite_large.iff	0	1601	25.7532	1862	0.889293	0	-0.457339	0		$|
 -2093773463	0	object/static/structure/general/tato_cave_stalagmite_large.iff	0	1583	25.2621	1862	-0.514819	0	0.857299	0		$|
@@ -39,7 +38,7 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1550073655	0	object/static/flora/flora_tree_rori_windswept_s00.iff	0	355.548	-0.459767	448.922	1	0	0	0		$|
 -409244986	0	object/static/flora/flora_tree_rori_windswept_s00.iff	0	361.556	-0.624811	441.605	1	0	0	0		$|
 -280675418	0	object/static/flora/flora_tree_rori_windswept_s00.iff	0	353.819	-0.639511	443.103	-0.160104	0	0.9871	0		$|
--2133527664	0	object/static/flora/flora_tree_rori_windswept_s00.iff	0	354.563	-0.602617	445.973	1	0	0	0		$|
+-2133527664	0	object/static/flora/flora_tree_rori_windswept_s00.iff	0	354.562	-0.602617	445.973	1	0	0	0		$|
 -517957242	0	object/static/flora/flora_tree_rori_mkpodtree.iff	0	354.152	2.93073	444.725	0.728271	0	0.685289	0		$|
 -416999969	0	object/static/flora/flora_tree_rori_mkpodtree.iff	0	361.624	1.99448	442.852	1	0	0	0		$|
 -1804617885	0	object/static/structure/general/skeleton_ancient_s01.iff	0	733.646	2.18195	480.425	0.922997	0	0	0.384808		$|
@@ -59,5 +58,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1376581304	0	object/static/structure/naboo/gungan_damaged_narrow_arch_s01.iff	0	1725.43	-2.99161	121.397	-0.577609	0	0.816314	0		$|
 -327503350	0	object/static/structure/naboo/gungan_damaged_narrow_arch_s01.iff	0	1736.7	-2.88786	88.3866	-0.625519	0	0.780209	0		$|
 -1408844359	0	object/static/structure/naboo/gungan_damaged_wide_arch_s01.iff	0	1690.61	-2.57305	213.519	0.810963	0	0.585097	0		$|
--850991870	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1102.093262	23.22311401	132.2370605	1	0	0	0		$|
--1579429420	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1600.602295	26.09088898	1858.303345	1	0	0	0		$|

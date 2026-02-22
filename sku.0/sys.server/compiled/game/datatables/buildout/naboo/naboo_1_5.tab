@@ -1,6 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		$|
 -774325041	0	object/static/structure/naboo/nboo_imprv_short_curved_wall_small_s01.iff	0	1735.46	7.97123	1745.19	1	0	0	0		$|
 -1908401984	0	object/static/structure/naboo/nboo_imprv_pillar_pillar_s03.iff	0	1739.15	8.74254	1749.24	0.999687	0	0.0249974	0		$|
 -2093773463	0	object/static/structure/naboo/nboo_imprv_pillar_pillar_s03.iff	0	1734.9	8.53093	1744.98	0.9998	0	0.0199987	0		$|
@@ -66,21 +65,20 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -580396567	0	object/static/flora/flora_bush_yavin_blueleaf.iff	0	798.806	2.96784	915.52	1	0	0	0		$|
 -1160876236	0	object/static/flora/flora_bush_yavin_blueleaf.iff	0	789.609	2.93248	913.21	1	0	0	0		$|
 -995942589	0	object/static/structure/general/streetlamp_small_style_01.iff	0	777.252	1.3606	917.475	1	0	0	0		$|
--1879421507	0	object/static/structure/dantooine/dant_fence_8m.iff	0	1960.91	38.9134	1039.72	0.761611	0	-0.648034	0		$|
--57733465	0	object/static/structure/dantooine/dant_fence_8m.iff	0	1959.68	37.907	1047.29	0.935897	0	0.352274	0		$|
--166869423	0	object/static/structure/dantooine/dant_fence_8m.iff	0	1953.47	36.9029	1049.22	0.988012	0	-0.15438	0		$|
--1334587254	0	object/static/structure/dantooine/dant_fence_8m.iff	0	1948.04	35.5463	1045.23	0.862807	0	-0.505533	0		$|
--1978261515	0	object/static/structure/dantooine/dant_fence_8m.iff	0	1948.98	35.9206	1038.4	0.884675	0	0.466208	0		$|
--961985415	0	object/static/structure/dantooine/dant_fence_8m.iff	0	1957	38.1891	1034.14	0.982936	0	-0.183947	0		$|
--1517888095	0	object/static/flora/flora_tree_lok_mkpud.iff	0	1956.53	35.9784	1036.61	1	0	0	0		$|
--366350694	0	object/static/flora/flora_tree_lok_mkpud.iff	0	1949	34.9101	1042.49	1	0	0	0		$|
--797489960	0	object/static/flora/flora_tree_lok_mkpud.iff	0	1951.37	35.2082	1037.93	1	0	0	0		$|
--819222594	0	object/static/flora/flora_tree_lok_mkpud.iff	0	1956.03	35.6547	1047.31	1	0	0	0		$|
--245990504	0	object/static/flora/flora_tree_lok_mkpud.iff	0	1951.21	35.0582	1046.74	1	0	0	0		$|
--296982175	0	object/static/flora/flora_tree_lok_mkpud.iff	0	1959.01	36.2712	1041.53	1	0	0	0		$|
--1370878343	0	object/static/flora/flora_tree_lok_mkpud.iff	0	1957.66	35.8941	1044.92	1	0	0	0		$|
--907629344	0	object/static/flora/flora_tree_lok_mkpud.iff	0	1954.6	35.0208	1044.74	1	0	0	0		$|
--1734547049	0	object/static/structure/dantooine/dant_fence_4m.iff	0	1952.27	36.9571	1033.69	0.955336	0	0.29552	0		$|
--634427143	0	object/static/structure/general/streetlamp_small_style_01.iff	0	1956	35.4454	1041.45	1	0	0	0		$|
--1998115094	0	object/static/corellia/rock_crystal_geyser_agrilat_small.iff	0	1955.99	16.8117	1041.95	1	0	0	0		$|
--2049076531	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	788.434082	2.903019667	921.5368652	1	0	0	0		$|
+-1879421507	0	object/static/terrain/corellia/rock_crystal_geyser_agrilat_medium.iff	0	1955.99	16.8117	1041.95	1	0	0	0		$|
+-57733465	0	object/static/structure/dantooine/dant_fence_8m.iff	0	1960.91	38.9134	1039.72	0.761611	0	-0.648034	0		$|
+-166869423	0	object/static/structure/dantooine/dant_fence_8m.iff	0	1959.68	37.907	1047.29	0.935897	0	0.352274	0		$|
+-1334587254	0	object/static/structure/dantooine/dant_fence_8m.iff	0	1953.47	36.9029	1049.22	0.988012	0	-0.15438	0		$|
+-1978261515	0	object/static/structure/dantooine/dant_fence_8m.iff	0	1948.04	35.5463	1045.23	0.862807	0	-0.505533	0		$|
+-961985415	0	object/static/structure/dantooine/dant_fence_8m.iff	0	1948.98	35.9206	1038.4	0.884675	0	0.466208	0		$|
+-1517888095	0	object/static/structure/dantooine/dant_fence_8m.iff	0	1957	38.1891	1034.14	0.982936	0	-0.183947	0		$|
+-366350694	0	object/static/flora/flora_tree_lok_mkpud.iff	0	1956.53	35.9784	1036.61	1	0	0	0		$|
+-797489960	0	object/static/flora/flora_tree_lok_mkpud.iff	0	1949	34.9101	1042.49	1	0	0	0		$|
+-819222594	0	object/static/flora/flora_tree_lok_mkpud.iff	0	1951.37	35.2082	1037.93	1	0	0	0		$|
+-245990504	0	object/static/flora/flora_tree_lok_mkpud.iff	0	1956.03	35.6547	1047.31	1	0	0	0		$|
+-296982175	0	object/static/flora/flora_tree_lok_mkpud.iff	0	1951.21	35.0582	1046.74	1	0	0	0		$|
+-1370878343	0	object/static/flora/flora_tree_lok_mkpud.iff	0	1959.01	36.2712	1041.53	1	0	0	0		$|
+-907629344	0	object/static/flora/flora_tree_lok_mkpud.iff	0	1957.66	35.8941	1044.92	1	0	0	0		$|
+-1734547049	0	object/static/flora/flora_tree_lok_mkpud.iff	0	1954.6	35.0208	1044.74	1	0	0	0		$|
+-634427143	0	object/static/structure/dantooine/dant_fence_4m.iff	0	1952.27	36.9571	1033.69	0.955336	0	0.29552	0		$|
+-1998115094	0	object/static/structure/general/streetlamp_small_style_01.iff	0	1956	35.4454	1041.45	1	0	0	0		$|

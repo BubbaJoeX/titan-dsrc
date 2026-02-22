@@ -1,6 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
 -774325041	0	object/static/structure/tatooine/shed_junkshop_watto.iff	0	666	9.68165	806	1	0	0	0		$|
 -1908401984	0	object/static/structure/tatooine/wall_pristine_tatooine_tall_style_01.iff	0	660.184	7.56064	793.976	0.707108	0	-0.707106	0		$|
 -2093773463	0	object/static/structure/tatooine/wall_ruined_tatooine_large_style_01.iff	0	675.158	12.006	793.467	0.707107	0	0.707107	0		$|

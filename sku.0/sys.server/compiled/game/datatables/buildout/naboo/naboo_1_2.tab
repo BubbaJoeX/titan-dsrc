@@ -1,7 +1,6 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		$|
--774325041	0	object/static/structure/naboo/gate_narrow_s02.iff	0	869.508	10.8025	1987.57	0.836325	-0.0107076	0.535309	-0.117857	theme_park.dungeon.generic_spawner	spawn_table|4|datatables/spawning/poi_spawner/naboo/naboo_commoner.iff|$|
+-774325041	0	object/static/structure/naboo/gate_narrow_s02.iff	0	869.508	10.8025	1987.57	0.836325	-0.0107076	0.535309	-0.117857		$|
 -1908401984	0	object/static/structure/naboo/nboo_imprv_pillar_pillar_s07.iff	0	867.961	10.8969	1983.01	0.8499	0	0	0.526943		$|
 -2093773463	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	857.478	10.1018	1993.14	0.962425	0	0	0.271547		$|
 -555016066	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	874.356	11.2626	1996.06	1	0	0	0		$|
@@ -15,7 +14,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -556911782	0	object/static/structure/tatooine/palette_tatooine_style_01.iff	0	1882.48	5.48266	1055.62	0.898261	0	0	-0.439462		$|
 -231542615	0	object/tangible/furniture/all/frn_all_rug_rectangle_large_style_01.iff	0	1881.72	4.82503	1054.65	1	0	0	0		$|
 -976317925	0	object/static/structure/general/streetlamp_small_red_style_01.iff	0	1883.01	4.64979	1059.79	1	0	0	0		$|
--1960783934	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1881.419922	5.215501785	1055.143066	1	0	0	0		$|
--879410635	0	object/tangible/ground_spawning/mob_spawner.iff	0	870	11	1995	1	0	0	0		$|
--1241413427	0	object/tangible/ground_spawning/mob_spawner.iff	0	870	11	1995	1	0	0	0		$|
--2079230854	0	object/tangible/ground_spawning/mob_spawner.iff	0	870	11	1995	1	0	0	0		$|

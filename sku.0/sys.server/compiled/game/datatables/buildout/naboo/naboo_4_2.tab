@@ -1,344 +1,95 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--2	0	object/building/general/boss_nass_dungeon.iff	0	157.953	5.40839	553.571	0.522008	0	0.85294	0	theme_park.dungeon.generic_spawner	portalProperty.crc|0|1682376097|spawn_table|4|datatables/spawning/dungeon/naboo/robot_dungeon.iff|$|
--3	-2	object/cell/cell.iff	1	0	0	0	1	0	0	0		$|
--4	-2	object/cell/cell.iff	2	0	0	0	1	0	0	0		$|
--5	-2	object/cell/cell.iff	3	0	0	0	1	0	0	0		$|
--6	-2	object/cell/cell.iff	4	0	0	0	1	0	0	0		$|
--7	-2	object/cell/cell.iff	5	0	0	0	1	0	0	0		$|
--8	-2	object/cell/cell.iff	6	0	0	0	1	0	0	0		$|
--9	-2	object/cell/cell.iff	7	0	0	0	1	0	0	0		$|
--10	-2	object/cell/cell.iff	8	0	0	0	1	0	0	0		$|
--11	-2	object/cell/cell.iff	9	0	0	0	1	0	0	0		$|
--269377153	0	object/tangible/ground_spawning/area_spawner.iff	0	55.7725	5.20364	721.766	-0.689093	0	0.724673	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|9.000000|fltMinSpawnTime|2|3.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_boss_nass|strSpawnerType|4|area|strSpawns|4|naboo/boss_nass|$|
--1833773201	0	object/building/general/naboo_sacred_place_skaak_bunker.iff	0	406.04	5.89913	772.131	1	0	0	0		portalProperty.crc|0|-1842432084|$|
--1018083503	-1833773201	object/cell/cell.iff	1	0	0	0	1	0	0	0		$|
--57806354	-1833773201	object/cell/cell.iff	2	0	0	0	1	0	0	0		$|
--1390052819	-1833773201	object/cell/cell.iff	3	0	0	0	1	0	0	0		$|
--1540505210	-1833773201	object/cell/cell.iff	4	0	0	0	1	0	0	0		$|
--1542453142	-1540505210	object/tangible/ground_spawning/area_spawner.iff	4	3.45088	-12	37.9783	0.0415664	0	0.999136	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_skaak_raider_17|strSpawnerType|4|area|strSpawns|4|naboo/skaak_tipper_raider|$|
--1672851971	-1540505210	object/tangible/ground_spawning/area_spawner.iff	4	3.24345	-12	25.971	0.0980118	0	0.995185	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_skaak_pariah_03|strSpawnerType|4|area|strSpawns|4|naboo/skaak_tipper_pariah|$|
--1934848779	-1833773201	object/cell/cell.iff	5	0	0	0	1	0	0	0		$|
--304621065	-1934848779	object/tangible/ground_spawning/area_spawner.iff	5	32.1417	-12	27.2765	0.765953	0	-0.642897	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_skaak_pariah_01|strSpawnerType|4|area|strSpawns|4|naboo/skaak_tipper_pariah|$|
--1309153979	-1934848779	object/tangible/ground_spawning/area_spawner.iff	5	30.4428	-12	32.7531	-0.626136	0	0.779714	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_skaak_pariah_02|strSpawnerType|4|area|strSpawns|4|naboo/skaak_tipper_pariah|$|
--86265335	-1833773201	object/cell/cell.iff	6	0	0	0	1	0	0	0		$|
--396397561	-1833773201	object/cell/cell.iff	7	0	0	0	1	0	0	0		$|
--871093728	-396397561	object/tangible/quest/naboo_boss_nass_gungan_artifact_hidden.iff	7	13.7022	-16	71.8903	1	0	0	0	quest.task.ground.retrieve_item_on_item	$|
--2002636503	-396397561	object/tangible/ground_spawning/area_spawner.iff	7	-11.9809	-16	83.8288	0.424798	0	0.905288	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_skaak_raider_02|strSpawnerType|4|area|strSpawns|4|naboo/skaak_tipper_raider|$|
--68678789	-396397561	object/tangible/ground_spawning/area_spawner.iff	7	-13.9807	-16	77.4949	0.702007	0	0.71217	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_skaak_raider_03|strSpawnerType|4|area|strSpawns|4|naboo/skaak_tipper_raider|$|
--1299114477	-396397561	object/tangible/ground_spawning/area_spawner.iff	7	0.481988	-16	62.4832	0.123718	0	0.992317	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_skaak_raider_04|strSpawnerType|4|area|strSpawns|4|naboo/skaak_tipper_raider|$|
--2122992371	-396397561	object/tangible/ground_spawning/area_spawner.iff	7	5.25247	-16	66.3258	0.00575324	0	0.999983	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_skaak_raider_05|strSpawnerType|4|area|strSpawns|4|naboo/skaak_tipper_raider|$|
--1459468700	-396397561	object/tangible/ground_spawning/area_spawner.iff	7	2.08503	-16	80.4078	0.026218	0	0.999656	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_skaak_raider_06|strSpawnerType|4|area|strSpawns|4|naboo/skaak_tipper_raider|$|
--750759084	-396397561	object/tangible/ground_spawning/area_spawner.iff	7	17.8453	-16	77.2989	-0.648965	0	0.760818	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_skaak_raider_07|strSpawnerType|4|area|strSpawns|4|naboo/skaak_tipper_raider|$|
--1695128862	-396397561	object/tangible/ground_spawning/area_spawner.iff	7	19.3147	-16	81.8023	-0.589509	0	0.807762	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_skaak_raider_08|strSpawnerType|4|area|strSpawns|4|naboo/skaak_tipper_raider|$|
--316412378	-1833773201	object/cell/cell.iff	8	0	0	0	1	0	0	0		$|
--126231965	-316412378	object/tangible/ground_spawning/area_spawner.iff	8	78.0481	-16	76.3885	0.744913	0	-0.667161	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_skaak_raider_09|strSpawnerType|4|area|strSpawns|4|naboo/skaak_tipper_raider|$|
--1108942274	-316412378	object/tangible/ground_spawning/area_spawner.iff	8	71.0477	-16	80.8015	-0.671898	0	0.740644	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_skaak_raider_10|strSpawnerType|4|area|strSpawns|4|naboo/skaak_tipper_raider|$|
--61253278	-316412378	object/tangible/ground_spawning/area_spawner.iff	8	77.7064	-16	61.1742	0.798469	0	-0.602036	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_skaak_raider_11|strSpawnerType|4|area|strSpawns|4|naboo/skaak_tipper_raider|$|
--332909982	-316412378	object/tangible/ground_spawning/area_spawner.iff	8	72.7424	-16	64.4115	0.825904	0	-0.563811	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_skaak_raider_12|strSpawnerType|4|area|strSpawns|4|naboo/skaak_tipper_raider|$|
--598706632	-316412378	object/tangible/ground_spawning/area_spawner.iff	8	42.8482	-16	59.768	0.869823	0	0.493364	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_skaak_raider_13|strSpawnerType|4|area|strSpawns|4|naboo/skaak_tipper_raider|$|
--1541481857	-316412378	object/tangible/ground_spawning/area_spawner.iff	8	53.9434	-16	62.9774	0.83289	0	0.553438	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_skaak_raider_14|strSpawnerType|4|area|strSpawns|4|naboo/skaak_tipper_raider|$|
--1124494400	-316412378	object/tangible/ground_spawning/area_spawner.iff	8	58.6462	-16	83.1742	-0.595388	0	0.803439	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_skaak_raider_15|strSpawnerType|4|area|strSpawns|4|naboo/skaak_tipper_raider|$|
--1732328847	-316412378	object/tangible/ground_spawning/area_spawner.iff	8	51.3684	-16	76.8202	-0.698306	0	0.715799	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_skaak_raider_16|strSpawnerType|4|area|strSpawns|4|naboo/skaak_tipper_raider|$|
--897618883	-1833773201	object/cell/cell.iff	9	0	0	0	1	0	0	0		$|
--1580284428	-897618883	object/tangible/ground_spawning/area_spawner.iff	9	-40.1471	-14	79.4579	0.692609	0	0.721314	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|304.000000|fltMinSpawnTime|2|300.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_skaak_tomi_skaak|strSpawnerType|4|area|strSpawns|4|naboo/skaak_tipper_tomi_skaak|$|
--1995601869	-897618883	object/tangible/ground_spawning/area_spawner.iff	9	-34.3202	-14	80.4786	0.769782	0	0.638307	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_skaak_raider_01|strSpawnerType|4|area|strSpawns|4|naboo/skaak_tipper_raider|$|
--1841033668	-1833773201	object/cell/cell.iff	10	0	0	0	1	0	0	0		$|
--989690005	0	object/static/installation/mockup_power_generator_photo_bio_style_1.iff	0	406.141	6.4207	762.684	-3.20E-08	0	1	0		$|
--829319264	0	object/static/structure/military/bunker_crate_style_01.iff	0	396.11	5.32242	802.906	1	0	0	0		$|
--1966539587	0	object/static/structure/military/bunker_crate_style_01.iff	0	387.653	5.12073	800.479	1	0	0	0		$|
--527048668	0	object/static/structure/military/bunker_crate_style_01.iff	0	391.966	5.2142	794.849	1	0	0	0		$|
--1587943167	0	object/static/structure/corellia/corl_power_bubble_node.iff	0	406.116	11.22	770.011	1	0	0	0		$|
--1171176084	0	object/static/structure/corellia/corl_power_bubble_node.iff	0	406.134	11.22	777.343	1	0	0	0		$|
--1756189265	0	object/static/structure/naboo/gungan_damaged_narrow_arch_s01.iff	0	304.184	7.82601	379.222	1	0	0	0		$|
--2132203190	0	object/static/structure/naboo/poi_nboo_tent_small.iff	0	306.798	8.58801	379.326	1	0	0	0		$|
--1328470118	0	object/static/structure/naboo/gungan_damaged_wide_arch_s01.iff	0	309.922	8.27041	379.271	1	0	0	0		$|
--596384676	0	object/static/structure/naboo/gungan_shield_gen_s01.iff	0	306.832	8.39887	374.552	0.707107	0	0.707106	0		$|
--1516659702	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	309.159	8.39227	375.708	1	0	0	0		$|
--167530543	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	304.52	8.46653	375.581	1	0	0	0		$|
--636354957	0	object/static/structure/naboo/gungan_damaged_wall_lg_s01.iff	0	307.12	7.94825	383.404	0.707107	0	0.707106	0		$|
--2121411546	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	201.612	9.94406	924.182	1	0	0	0		$|
--305395675	0	object/static/structure/naboo/gungan_damaged_narrow_arch_s01.iff	0	198.196	10.0073	926.526	1	0	0	0		$|
--1423578184	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	201.681	10.2208	928.792	1	0	0	0		$|
--1716674303	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	204.682	10.2719	928.734	1	0	0	0		$|
--1141583471	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	204.738	10.0353	924.662	0.707107	0	0.707107	0		$|
--1695592960	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	202.178	10.8026	936.343	-0.703846	0	0.710353	0		$|
--1395304591	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	201.945	10.534	933.167	0.71791	0	-0.696136	0		$|
--1718171902	0	object/static/structure/naboo/gungan_statue_s02.iff	0	202.397	10.6644	934.728	0.696707	0	0.717356	0		$|
--1918533913	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	202.264	11.0158	938.489	0.999987	0	0.00499966	0		$|
--1437800995	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	201.811	10.3666	930.917	0.999888	0	0.0149997	0		$|
--1024617204	0	object/static/structure/naboo/poi_nboo_tent_small.iff	0	205.926	10.7607	935.36	0.999197	-0.039639	-0.000227952	0.00574609		$|
--1115705301	0	object/static/structure/naboo/gungan_cleft_wall_lg_s01.iff	0	293.215	7.59412	899.602	0.707094	0.00457949	0.706884	-0.0176487		$|
--1314382333	0	object/static/structure/naboo/gungan_damaged_wall_lg_s01.iff	0	290.215	7.38919	889.602	0.707026	-0.0108673	0.706879	-0.0178504		$|
--411766748	0	object/static/structure/naboo/gungan_cleft_wall_lg_s01.iff	0	294.215	7.41902	892.602	0.999865	-0.0130899	0.000129508	-0.00989243		$|
--416778187	0	object/static/structure/naboo/gungan_damaged_wall_lg_s01.iff	0	300.215	7.43836	892.602	0.999942	-0.00773707	-5.75E-05	0.00742614		$|
--253345333	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	294.215	7.30062	888.602	0.999861	-0.0166343	-9.09E-06	0.000546618		$|
--989298071	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	300.215	7.3609	888.602	0.999915	-0.0108691	-7.75E-05	0.00713371		$|
--1084381053	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	294.215	7.23568	886.602	0.999871	-0.0160559	-8.78E-06	0.000546623		$|
--1651146967	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	300.215	7.3138	886.602	0.999907	-0.0120565	-7.78E-05	0.0064493		$|
--1178424642	0	object/static/structure/naboo/gungan_damaged_narrow_arch_s01.iff	0	297.215	7.21215	884.602	0.70698	-0.0133711	0.707091	-0.00481242		$|
--1800233721	0	object/static/structure/naboo/poi_nboo_tent_small.iff	0	289.275	7.62696	893.974	0.999794	-0.0184152	0.000158159	-0.00858674		$|
--894312901	0	object/static/structure/naboo/gungan_damaged_wide_arch_s01.iff	0	228.143	5.19798	828.282	0.999855	-0.0061222	-9.72E-05	0.0158675		$|
--2032870622	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	234.663	5.33198	826.682	-0.663436	-0.00113494	0.74817	-0.0096673		$|
--199711674	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	234.219	5.39299	831.284	0.998135	-0.00767241	-0.0600216	0.0081135		$|
--495047567	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	231.328	5.32695	830.95	0.998083	-0.00711366	-0.0600431	0.0132282		$|
--629555266	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	231.811	5.27637	826.365	0.998107	-0.00542338	-0.0600174	0.0122926		$|
--171639195	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	228.057	5.28642	834.525	0.99982	-0.00900042	-0.000150573	0.0167265		$|
--499589139	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	228.116	5.14669	822.608	0.999902	-0.00324237	-4.41E-05	0.013589		$|
--1678619984	0	object/static/structure/naboo/poi_nboo_tent_small.iff	0	231.526	5.40917	835.363	0.999864	-0.00958998	-0.000128777	0.0134265		$|
--1061877994	0	object/static/structure/naboo/poi_nboo_tent_small.iff	0	232.818	5.25191	821.146	0.999919	-0.0034768	-4.25E-05	0.012237		$|
--570238015	0	object/tangible/quest/naboo_boss_nass_ultragungan_battle_droid.iff	0	232.601	5.2485	822.808	0.324796	0	0.945784	0	quest.task.ground.retrieve_item_on_item	$|
--473830007	0	object/static/structure/tatooine/debris_tatt_drum_dented_1.iff	0	232.253	5.23148	819.093	-0.326943	-0.0220503	0.94473	-0.0103568		$|
--973373101	0	object/static/structure/tatooine/debris_tatt_drum_storage_1.iff	0	233.559	5.28869	818.884	0.999824	0.00313795	5.81E-05	0.0185179		$|
--1518722230	0	object/tangible/quest/naboo_boss_nass_ultragungan_battle_droid.iff	0	230.036	5.3593	834.873	0.922997	0	0.384808	0	quest.task.ground.retrieve_item_on_item	$|
--1712062414	0	object/static/item/item_container_energy_liquid.iff	0	230.046	5.34812	834.26	0.99656	0	0.082878	0		$|
--759517927	0	object/static/item/item_container_energy_liquid.iff	0	229.476	5.33022	834.319	0.97923	0	-0.202754	0		$|
--1033483685	0	object/tangible/quest/naboo_boss_nass_ultragungan_battle_droid.iff	0	227.613	5.14277	825.004	1	0	0	0	quest.task.ground.retrieve_item_on_item	$|
--212128259	0	object/tangible/quest/naboo_boss_nass_ultragungan_battle_droid.iff	0	290.491	7.47788	892.07	0.920474	-0.0284951	-0.388302	-0.033733	quest.task.ground.retrieve_item_on_item	$|
--360997940	0	object/static/item/item_container_energy_gas.iff	0	291.253	7.49893	892.875	-0.682	0.017875	0.731125	-0.00376191		$|
--739421890	0	object/tangible/quest/naboo_boss_nass_ultragungan_battle_droid.iff	0	296.35	7.4877	898.85	-0.00920344	0	0.999958	0	quest.task.ground.retrieve_item_on_item	$|
--727266212	0	object/static/item/item_container_energy_liquid.iff	0	295.764	7.49771	898.906	-0.479756	0	0.877402	0		$|
--1676976498	0	object/static/item/item_container_energy_liquid.iff	0	295.133	7.51766	898.871	-0.220677	0	0.975347	0		$|
--1400778243	0	object/tangible/quest/naboo_boss_nass_ultragungan_battle_droid.iff	0	293.276	7.31385	888.733	-0.130424	0	0.991458	0	quest.task.ground.retrieve_item_on_item	$|
--1928266483	0	object/tangible/quest/naboo_boss_nass_ultragungan_battle_droid.iff	0	205.173	10.8543	936.573	0.609727	-0.0318175	0.79133	-0.0319005	quest.task.ground.retrieve_item_on_item	$|
--749183433	0	object/static/item/item_container_energy_liquid.iff	0	205.571	10.8954	936.98	-0.0970191	0	0.995283	0		$|
--1001696890	0	object/static/item/item_container_energy_liquid.iff	0	204.649	10.883	936.951	0.855986	0	-0.516999	0		$|
--2006209795	0	object/tangible/quest/naboo_boss_nass_ultragungan_battle_droid.iff	0	197.446	10.1719	929.3	0.841288	-0.0225956	-0.539415	0.0274795	quest.task.ground.retrieve_item_on_item	$|
--1711856886	0	object/tangible/quest/naboo_boss_nass_ultragungan_battle_droid.iff	0	204.205	9.96073	923.477	-0.168397	0	0.985719	0	quest.task.ground.retrieve_item_on_item	$|
--202750017	0	object/static/structure/general/trash_pile_no_flora_15m.iff	0	217.554	3.99948	1058.89	0.275491	-0.0268887	0.960923	0.00285266		$|
--1248920350	0	object/static/structure/general/trash_pile_no_flora_15m.iff	0	213.166	3.8282	1048.2	0.988938	0.0103392	0.147056	0.0163901		$|
--505155312	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	208.705	3.40349	1060.95	-0.0495818	0	0.99877	0		$|
--680996631	0	object/static/structure/naboo/gungan_damaged_narrow_arch_s01.iff	0	211.298	3.85804	1046.62	0.671178	0	0.741296	0		$|
--809003972	0	object/static/structure/naboo/gungan_cleft_wall_lg_s01.iff	0	223.637	4.31186	1049.42	-0.0495682	0	0.998771	0		$|
--743981319	0	object/static/structure/naboo/gungan_damaged_wall_lg_s01.iff	0	225.029	4.32834	1053.3	0.741289	0	-0.671186	0		$|
--469678773	0	object/static/structure/naboo/gungan_cleft_wall_lg_s01.iff	0	218.651	4.26548	1070.01	0.671178	0	0.741296	0		$|
--1805474038	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	228.91	4.6267	1051.91	0.741296	0	-0.671178	0		$|
--2014267043	0	object/static/structure/naboo/gungan_damaged_wide_arch_s01.iff	0	222.441	4.08198	1057.57	-0.0495818	0	0.99877	0		$|
--902590922	0	object/static/structure/naboo/gungan_damaged_wall_lg_s01.iff	0	209.107	3.52383	1054.88	0.671178	0	0.741296	0		$|
--286754890	0	object/static/structure/naboo/gungan_cleft_wall_lg_s01.iff	0	205.521	3.58309	1059.26	-0.0495818	0	0.99877	0		$|
--149424750	0	object/static/structure/naboo/gungan_cleft_wall_lg_s01.iff	0	207.716	3.74305	1051	-0.049578	0	0.99877	0		$|
--15746157	0	object/static/structure/naboo/gungan_damaged_wall_lg_s01.iff	0	229.404	4.5747	1056.88	-0.0495818	0	0.99877	0		$|
--1970016734	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	228.711	4.66076	1049.91	-0.0495818	0	0.99877	0		$|
--1462879187	0	object/static/structure/naboo/gungan_damaged_wall_lg_s01.iff	0	226.612	4.45354	1069.22	0.671178	0	0.741296	0		$|
--1657666712	0	object/static/structure/naboo/gungan_cleft_wall_lg_s01.iff	0	223.229	4.15804	1065.53	0.99877	0	0.0495848	0		$|
--642862797	0	object/static/structure/naboo/gungan_damaged_wall_lg_s01.iff	0	230.198	4.58812	1064.84	-0.0495818	0	0.99877	0		$|
--112946579	0	object/static/structure/naboo/gungan_damaged_wall_lg_s01.iff	0	219.26	4.21392	1045.83	0.741296	0	-0.671178	0		$|
--362107704	0	object/static/structure/naboo/gungan_damaged_narrow_arch_s01.iff	0	217.067	3.7957	1054.09	0.741296	0	-0.671178	0		$|
--1258170842	0	object/static/structure/naboo/gungan_damaged_narrow_arch_s01.iff	0	212.488	3.6091	1058.57	-0.049578	0	0.99877	0		$|
--100348510	0	object/static/structure/naboo/gungan_cleft_wall_lg_s01.iff	0	213.281	3.8398	1066.53	-0.0495818	0	0.99877	0		$|
--175868652	0	object/static/structure/naboo/gungan_cleft_wall_lg_s01.iff	0	210.691	3.72372	1070.8	0.671178	0	0.741296	0		$|
--125214022	0	object/static/structure/naboo/gungan_damaged_wall_lg_s01.iff	0	206.314	3.58149	1067.22	-0.0495818	0	0.99877	0		$|
--1191010398	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	218.268	2.04571	1065.28	-0.0495818	0	0.99877	0		$|
--127085739	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	209.004	3.42215	1063.94	0.671178	0	0.741296	0		$|
--1208199432	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	226.914	4.38047	1062.16	0.671178	0	0.741296	0		$|
--723041582	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	226.619	4.37374	1059.17	-0.0495818	0	0.99877	0		$|
--1732889842	0	object/tangible/furniture/all/frn_all_professor_desk.iff	0	209.544	3.56366	1068.34	0.000214913	-0.0132144	0.99978	-0.0162657		$|
--73718300	0	object/static/structure/general/data_terminal_s2.iff	0	211.916	3.76714	1068.29	0.000774724	-0.0494757	0.998653	-0.0156391		$|
--1667405214	0	object/tangible/quest/naboo_boss_nass_droidtech_tools.iff	0	207.688	3.54313	1068.5	0.839017	0.00037418	0.543151	-0.0322061	quest.task.ground.retrieve_item_on_item	$|
--1521270394	0	object/static/structure/general/droid_repairdroidhead.iff	0	219.901	4.09858	1061.16	-0.577147	0	0.81664	0		$|
--1456063864	0	object/static/structure/general/droid_repairdroidhead.iff	0	219.581	4.10081	1061.86	-0.468353	0	0.883541	0		$|
--299176589	0	object/static/structure/general/droid_repairdroidhead.iff	0	220.897	4.09929	1061.38	0.928388	0	0.371613	0		$|
--912540053	0	object/static/structure/general/droid_repairdroidhead.iff	0	221.235	4.08591	1060.61	-0.341113	0	0.940022	0		$|
--247411819	0	object/static/structure/general/droid_repairdroidtorso.iff	0	217.413	4.02591	1061.57	0.860847	0.00658414	-0.508125	0.026589		$|
--559162653	0	object/static/structure/general/droid_repairdroidtorso.iff	0	214.885	3.8848	1062.63	-0.336556	-0.0328925	0.940836	-0.0217968		$|
--1662406571	0	object/static/structure/general/droid_r5_head.iff	0	226.666	4.41303	1067.3	-0.0650249	0	0.997884	0		$|
--1387873711	0	object/static/structure/general/droid_r5_torso.iff	0	225.32	4.30401	1067.49	1	0	0	0		$|
--408997714	0	object/static/structure/general/droid_r4_head.iff	0	229.048	4.5763	1067.9	0.711142	0	0.703048	0		$|
--360701963	0	object/static/structure/general/droid_r3_torso.iff	0	229.48	4.58352	1067.02	0.674876	0	0.737931	0		$|
--1592138609	0	object/static/item/lair_wooden_tent.iff	0	59.9713	11.7019	1076.22	-0.0272449	0	0.999629	0		$|
--1192043953	0	object/static/structure/general/campfire_fresh.iff	0	54.4017	11.9653	1076.65	-0.4089	0.0469699	0.91136	-0.0040717		$|
--1635129752	0	object/static/structure/general/trash_pile_no_flora_15m.iff	0	56.0168	11.7815	1079.22	0.794627	-0.00889897	0.604103	-0.0595589		$|
--648460715	0	object/static/item/lair_wooden_tent.iff	0	85.9902	8.07106	1138.87	-0.38253	0	0.923943	0		$|
--2012054901	0	object/static/structure/general/campfire_fresh.iff	0	82.0959	8.01291	1142.86	0.707474	-0.0453253	-0.705165	-0.0129753		$|
--1541240801	0	object/static/structure/general/trash_pile_no_flora_15m.iff	0	85.0199	8.13765	1143.75	0.526406	0.0129635	0.848098	-0.0588081		$|
--2016188465	0	object/static/item/lair_wooden_tent.iff	0	18.2662	9.66723	986.652	-0.490057	0	0.87169	0		$|
--900770539	0	object/static/structure/general/campfire_fresh.iff	0	15.4226	9.76369	991.426	0.786571	-0.043453	-0.615698	-0.0182916		$|
--1638204464	0	object/static/structure/general/trash_pile_no_flora_15m.iff	0	18.4695	9.98179	991.625	0.421434	0.0198889	0.904858	-0.0568408		$|
--1177581802	0	object/tangible/ground_spawning/area_spawner.iff	0	14.3123	9.96517	995.896	0.855541	0	-0.517735	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_ugm_foot_soldier_01|strSpawnerType|4|area|strSpawns|4|naboo/ugm_foot_soldier|$|
--228633489	0	object/tangible/ground_spawning/area_spawner.iff	0	26.3401	10.0883	984.094	0.421408	0	0.906871	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_ugm_foot_soldier_02|strSpawnerType|4|area|strSpawns|4|naboo/ugm_foot_soldier|$|
--1927202466	0	object/tangible/ground_spawning/area_spawner.iff	0	52.4708	11.9136	1077.77	0.480058	0	0.877237	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_ugm_foot_soldier_05|strSpawnerType|4|area|strSpawns|4|naboo/ugm_foot_soldier|$|
--418587893	0	object/tangible/ground_spawning/area_spawner.iff	0	68.7579	11.1764	1075.4	0.335641	0	0.94199	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|maboo_foot_soldier_06|strSpawnerType|4|area|strSpawns|4|naboo/ugm_foot_soldier|$|
--2119023501	0	object/tangible/ground_spawning/area_spawner.iff	0	81.679	7.96527	1146.53	0.895686	0	-0.444686	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_ugm_foot_soldier_07|strSpawnerType|4|area|strSpawns|4|naboo/ugm_foot_soldier|$|
--1793199203	0	object/tangible/ground_spawning/area_spawner.iff	0	92.907	7.42288	1131.04	0.0821078	0	0.996623	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|73.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|66|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_ugm_foot_soldier|strSpawnerType|4|area|strSpawns|4|naboo/ugm_foot_soldier|$|
--1740677464	0	object/tangible/ground_spawning/area_spawner.iff	0	211.156	3.50079	1059.2	0.490182	0	0.87162	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|0.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_ugm_droidtech_01|strSpawnerType|4|area|strSpawns|4|naboo/ugm_droidtech|$|
--1727342663	0	object/tangible/ground_spawning/area_spawner.iff	0	225.39	4.28599	1057.69	0.780684	0	-0.624926	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_ugm_droidtech_02|strSpawnerType|4|area|strSpawns|4|naboo/ugm_droidtech|$|
--17409187	0	object/tangible/ground_spawning/area_spawner.iff	0	227.657	4.47717	1066.78	-0.241568	0	0.970384	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|0.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_ugm_droidtech|strSpawnerType|4|area|strSpawns|4|naboo/ugm_droidtech|$|
--185663683	0	object/tangible/ground_spawning/area_spawner.iff	0	221.371	4.16114	1049.19	-0.700687	0	0.713469	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|0.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_ugm_droidtech_04|strSpawnerType|4|area|strSpawns|4|naboo/ugm_droidtech|$|
--651057999	0	object/tangible/ground_spawning/area_spawner.iff	0	210.776	3.79419	1047.76	0.0896349	0	0.995975	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|0.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_ugm_droidtech_05|strSpawnerType|4|area|strSpawns|4|naboo/ugm_droidtech|$|
--408038656	0	object/tangible/ground_spawning/area_spawner.iff	0	211.173	4.55177	1035.48	0.062316	0	0.998056	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_ugm_droidtech_06|strSpawnerType|4|area|strSpawns|4|naboo/ugm_droidtech|$|
--2144063515	0	object/tangible/ground_spawning/area_spawner.iff	0	227.276	5.81553	1024.96	0.578412	0	0.815745	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_ugm_droidtech_07|strSpawnerType|4|area|strSpawns|4|naboo/ugm_droidtech|$|
--1697377142	0	object/tangible/ground_spawning/area_spawner.iff	0	192.666	4.60196	1066.88	0.985026	0	-0.172404	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_ugm_droidtech_08|strSpawnerType|4|area|strSpawns|4|naboo/ugm_droidtech|$|
--562932660	0	object/tangible/ground_spawning/area_spawner.iff	0	209.734	4.33721	1084.54	0.888718	0	0.458455	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_ugm_droidtech_09|strSpawnerType|4|area|strSpawns|4|naboo/ugm_droidtech|$|
--951657741	0	object/tangible/ground_spawning/area_spawner.iff	0	247.98	5.51823	1074.34	0.264359	0	0.964424	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_ugm_droidtech_10|strSpawnerType|4|area|strSpawns|4|naboo/ugm_droidtech|$|
--569880955	0	object/tangible/ground_spawning/area_spawner.iff	0	203.399	11.9131	943.231	0.430513	0	0.902584	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_ugm_flawed_droid_01|strSpawnerType|4|area|strSpawns|4|naboo/ugm_flawed_battle_droid|$|
--1356678922	0	object/tangible/ground_spawning/area_spawner.iff	0	186.562	9.81687	927.989	-0.154414	0	0.988006	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|nabooo_ugm_flawed_droid_02|strSpawnerType|4|area|strSpawns|4|naboo/ugm_flawed_battle_droid|$|
--1162778576	0	object/tangible/ground_spawning/area_spawner.iff	0	208.637	9.39208	908.916	0.995712	0	-0.092505	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_ugm_flawed_droid_03|strSpawnerType|4|area|strSpawns|4|naboo/ugm_flawed_battle_droid|$|
--1616403778	0	object/tangible/ground_spawning/area_spawner.iff	0	294.081	7.66244	904.745	0.998365	0	-0.0571525	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_ugm_flawed_battle_droid|strSpawnerType|4|area|strSpawns|4|naboo/ugm_flawed_battle_droid|$|
--429583432	0	object/tangible/ground_spawning/area_spawner.iff	0	278.534	5.60757	891.043	-0.286557	0	0.958063	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_flawed_battle_droid_05|strSpawnerType|4|area|strSpawns|4|naboo/ugm_flawed_battle_droid|$|
--34739677	0	object/tangible/ground_spawning/area_spawner.iff	0	301.376	7.04908	875.695	0.656466	0	0.754356	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|1|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_ugm_flawed_droid|strSpawnerType|4|area|strSpawns|4|naboo/ugm_flawed_battle_droid|$|
--1613720560	0	object/tangible/ground_spawning/area_spawner.iff	0	312.759	7.54576	894.993	0.714595	0	0.699539	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_ugm_flawed_droid_09|strSpawnerType|4|area|strSpawns|4|naboo/ugm_flawed_battle_droid|$|
--439644193	0	object/tangible/ground_spawning/area_spawner.iff	0	239.866	5.61752	819.309	0.568626	0	0.822596	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_ugm_flawed_droid_10|strSpawnerType|4|area|strSpawns|4|naboo/ugm_flawed_battle_droid|$|
--716264461	0	object/tangible/ground_spawning/area_spawner.iff	0	236.479	5.70455	844.196	0.993684	0	-0.112219	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_ugm_flawed_droid_11|strSpawnerType|4|area|strSpawns|4|naboo/ugm_flawed_battle_droid|$|
--1875891102	0	object/tangible/ground_spawning/area_spawner.iff	0	215.99	5.19956	836.347	-0.551982	0	0.833856	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_ugm_flawed_droid|strSpawnerType|4|area|strSpawns|4|naboo/ugm_flawed_battle_droid|$|
--2023151318	0	object/tangible/ground_spawning/area_spawner.iff	0	217.058	4.93907	814.076	-0.175324	0	0.984511	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_ugm_flawed_droid_15|strSpawnerType|4|area|strSpawns|4|naboo/ugm_flawed_battle_droid|$|
--523388355	0	object/tangible/ground_spawning/area_spawner.iff	0	405.808	5.85726	794.312	0.994689	0	0.102924	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_skaak_pariah_04|strSpawnerType|4|area|strSpawns|4|naboo/skaak_tipper_pariah|$|
--37147851	0	object/tangible/ground_spawning/area_spawner.iff	0	429.969	9.06549	783.505	0.443272	0	0.896387	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_skaak_raider_05|strSpawnerType|4|area|strSpawns|4|naboo/skaak_tipper_pariah|$|
--712828036	0	object/tangible/ground_spawning/area_spawner.iff	0	437.07	10.577	764.438	-0.282502	0	0.959267	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_skaak_pariah_06|strSpawnerType|4|area|strSpawns|4|naboo/skaak_tipper_pariah|$|
--1076248091	0	object/tangible/ground_spawning/area_spawner.iff	0	422.94	7.36752	740.549	0.889254	0	-0.457414	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_skaak_pariah_07|strSpawnerType|4|area|strSpawns|4|naboo/skaak_tipper_pariah|$|
--786273856	0	object/tangible/ground_spawning/area_spawner.iff	0	384.625	5.33514	742.057	0.999547	0	-0.0301027	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_skaak_pariah_07|strSpawnerType|4|area|strSpawns|4|naboo/skaak_tipper_pariah|$|
--364184673	0	object/tangible/ground_spawning/area_spawner.iff	0	367.7	6.46383	771.54	0.960528	0	-0.278182	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_skaak_tipper_08|strSpawnerType|4|area|strSpawns|4|naboo/skaak_tipper_pariah|$|
--499883139	0	object/tangible/ground_spawning/area_spawner.iff	0	367.757	5.52781	802.545	0.999744	0	0.0226433	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_skaak_pariah_09|strSpawnerType|4|area|strSpawns|4|naboo/skaak_tipper_pariah|$|
--209886889	0	object/tangible/ground_spawning/area_spawner.iff	0	317.762	7.26711	378.553	0.896131	0	-0.44379	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|305.000000|fltMinSpawnTime|2|301.000000|fltRadius|2|0.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_muskeg_flossin_noz|strSpawnerType|4|area|strSpawns|4|naboo/muskeg_flossin_noz|$|
--353750992	0	object/tangible/ground_spawning/area_spawner.iff	0	335.592	5.07208	388.894	0.971481	0	0.237119	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_muskeg_reactionary_01|strSpawnerType|4|area|strSpawns|4|naboo/muskeg_reactionary|$|
--695159862	0	object/tangible/ground_spawning/area_spawner.iff	0	316.146	5.67382	403.425	0.803391	0	-0.595453	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_muskeg_reactionary_02|strSpawnerType|4|area|strSpawns|4|naboo/muskeg_reactionary|$|
--1370964388	0	object/tangible/ground_spawning/area_spawner.iff	0	293.134	7.81863	406.387	0.769172	0	-0.639042	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_muskeg_reactionary_03|strSpawnerType|4|area|strSpawns|4|naboo/muskeg_reactionary|$|
--1049727060	0	object/tangible/ground_spawning/area_spawner.iff	0	279.632	7.08265	374.977	-0.107636	0	0.99419	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_muskeg_reactionary_04|strSpawnerType|4|area|strSpawns|4|naboo/muskeg_reactionary|$|
--767877765	0	object/tangible/ground_spawning/area_spawner.iff	0	293.908	5.45103	342.262	0.344881	0	0.938646	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_muskeg_reactionary_05|strSpawnerType|4|area|strSpawns|4|naboo/muskeg_reactionary|$|
--546346812	0	object/tangible/ground_spawning/area_spawner.iff	0	250.122	4.04866	381.056	0.804897	0	0.593414	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_muskeg_reactionary_06|strSpawnerType|4|area|strSpawns|4|naboo/muskeg_reactionary|$|
--879380035	0	object/tangible/ground_spawning/area_spawner.iff	0	258.408	5.57441	409.445	0.991478	0	0.130277	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_muskeg_reactionary_07|strSpawnerType|4|area|strSpawns|4|naboo/muskeg_reactionary|$|
--1451495140	0	object/static/structure/naboo/gungan_wall_ruined_lg_s01.iff	0	307.381	7.26571	455.508	1	0	0	0		$|
--1573657321	0	object/static/structure/naboo/gungan_damaged_narrow_arch_s01.iff	0	317.381	6.01037	459.508	1	0	0	0		$|
--702196270	0	object/static/structure/naboo/gungan_cleft_wall_lg_s01.iff	0	313.381	6.17167	463.508	0.70711	0	0.707103	0		$|
--643410940	0	object/static/structure/naboo/gungan_damaged_wall_lg_s01.iff	0	313.381	6.18875	447.508	0.70711	0	0.707103	0		$|
--521179973	0	object/static/structure/naboo/gungan_cleft_wall_lg_s01.iff	0	317.381	6.04043	451.508	1	0	0	0		$|
--1149873359	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	308.381	6.94203	463.508	1	0	0	0		$|
--602874551	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	308.381	6.62173	447.508	0.707107	0	0.707107	0		$|
--1394321782	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	312.443	3.41928	452.577	0.990216	-0.139543	0	0		$|
--1543734779	0	object/tangible/ground_spawning/area_spawner.iff	0	299.449	7.51037	446.845	0.904055	0	0.427417	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_muskeg_extremist_01|strSpawnerType|4|area|strSpawns|4|naboo/muskeg_extremist|$|
--334175302	0	object/tangible/ground_spawning/area_spawner.iff	0	327.472	5.0459	434.02	0.771818	0	0.635844	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_muskeg_extremist_02|strSpawnerType|4|area|strSpawns|4|naboo/muskeg_extremist|$|
--1395065707	0	object/tangible/ground_spawning/area_spawner.iff	0	339.078	4.96443	449.087	0.823132	0	0.56785	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_muskeg_extremist_03|strSpawnerType|4|area|strSpawns|4|naboo/muskeg_extremist|$|
--2028795835	0	object/tangible/ground_spawning/area_spawner.iff	0	335.377	5.82586	469.106	0.957169	0	-0.289531	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_muskeg_extremist_04|strSpawnerType|4|area|strSpawns|4|naboo/muskeg_extremist|$|
--783432665	0	object/tangible/ground_spawning/area_spawner.iff	0	313.114	4.98935	484.367	-0.370356	0	0.92889	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_muskeg_extremist_05|strSpawnerType|4|area|strSpawns|4|naboo/muskeg_extremist|$|
--734352716	0	object/tangible/ground_spawning/area_spawner.iff	0	278.497	6.67123	478.785	-0.0837506	0	0.996487	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_muskeg_extremist_06|strSpawnerType|4|area|strSpawns|4|naboo/muskeg_extremist|$|
--1953336326	0	object/tangible/ground_spawning/area_spawner.iff	0	266.879	5.79884	461.914	0.696042	0	0.718001	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_muskeg_extremist_07|strSpawnerType|4|area|strSpawns|4|naboo/muskeg_extremist|$|
--1875207363	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	423.719	6.59173	569.521	-0.0295978	0	0.999562	0		$|
--625955247	0	object/static/structure/naboo/gungan_damaged_narrow_arch_s01.iff	0	435.167	7.26384	559.827	0.685868	0	0.727726	0		$|
--767358220	0	object/static/structure/naboo/gungan_cleft_wall_lg_s01.iff	0	439.396	7.52467	563.583	-0.0295885	0	0.999562	0		$|
--2040015662	0	object/static/structure/naboo/gungan_damaged_wall_lg_s01.iff	0	423.424	6.56461	564.53	-0.0295885	0	0.999562	0		$|
--173874562	0	object/static/structure/naboo/gungan_cleft_wall_lg_s01.iff	0	427.181	6.77002	560.3	0.685868	0	0.727726	0		$|
--1883325350	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	439.692	7.53542	568.575	0.685868	0	0.727726	0		$|
--853963587	0	object/static/structure/naboo/gungan_damaged_wide_arch_s01.iff	0	426.833	6.75531	571.34	0.685868	0	0.727726	0		$|
--757772785	0	object/static/structure/naboo/gungan_damaged_wall_lg_s01.iff	0	418.847	6.40463	571.813	0.685868	0	0.727726	0		$|
--1710454771	0	object/static/structure/naboo/gungan_cleft_wall_lg_s01.iff	0	415.09	6.30178	576.043	-0.0295978	0	0.999562	0		$|
--471861534	0	object/static/structure/naboo/gungan_cleft_wall_lg_s01.iff	0	434.819	7.26599	570.866	0.685868	0	0.727726	0		$|
--1559854985	0	object/static/structure/naboo/gungan_damaged_wall_lg_s01.iff	0	439.049	7.41201	574.623	-0.0295978	0	0.999562	0		$|
--2140980212	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	439.81	7.51028	570.571	0.999562	0	0.0295972	0		$|
--1175824917	0	object/static/structure/naboo/gungan_relic_s02.iff	0	427.128	6.76494	576.331	0.685868	0	0.727726	0	structure.filler.filler	$|
--1909560444	0	object/static/structure/naboo/gungan_cleft_wall_lg_s01.iff	0	435.293	7.08135	578.854	0.727726	0	-0.685868	0		$|
--1859449028	0	object/static/structure/naboo/gungan_damaged_wall_lg_s01.iff	0	427.306	6.70474	579.326	0.685868	0	0.727726	0		$|
--1396262170	0	object/static/structure/naboo/gungan_damaged_wall_lg_s01.iff	0	419.32	6.41607	579.799	0.685868	0	0.727726	0		$|
--1755591820	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	427.654	6.80488	568.287	0.685868	0	0.727726	0		$|
--1751312921	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	430.648	6.98874	568.108	0.727726	0	-0.685868	0		$|
--69965529	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	431.647	7.05274	568.05	-0.0295978	0	0.999562	0		$|
--1340247337	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	434.642	7.24478	567.871	0.685868	0	0.727726	0		$|
--1101755378	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	426.478	6.7363	565.349	0.685868	0	0.727726	0		$|
--275175505	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	429.473	6.91587	565.174	0.727726	0	-0.685868	0		$|
--55285553	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	435.463	7.28751	564.818	0.999562	0	0.0295972	0		$|
--1553873841	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	432.469	7.10377	564.996	-0.0295978	0	0.999562	0		$|
--745896340	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	427.299	6.78002	562.296	0.685868	0	0.727726	0		$|
--698373178	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	434.287	7.21076	561.882	0.999562	0	0.0295972	0		$|
--551207602	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	430.293	6.96625	562.119	0.685868	0	0.727726	0		$|
--404013410	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	431.292	7.02859	562.06	-0.0295978	0	0.999562	0		$|
--1492344726	0	object/static/structure/naboo/gungan_statue_s01.iff	0	417.086	6.36445	575.923	0.685868	0	0.727726	0		$|
--765067769	0	object/static/structure/naboo/gungan_statue_s01.iff	0	437.052	7.32458	574.741	0.727726	0	-0.685868	0		$|
--1056131875	0	object/tangible/ground_spawning/area_spawner.iff	0	415.877	6.33522	543.162	-0.493898	0	0.86952	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|8.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|3|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_muskeg_anarchist_01|strSpawnerType|4|area|strSpawns|4|naboo/muskeg_anarchist|$|
--541374530	0	object/tangible/ground_spawning/area_spawner.iff	0	415.413	6.47494	604.759	0.976177	0	0.216976	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|8.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|3|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_muskeg_anarchst_02|strSpawnerType|4|area|strSpawns|4|naboo/muskeg_anarchist|$|
--1966790073	0	object/tangible/ground_spawning/area_spawner.iff	0	457.706	9.0598	605.163	0.638308	0	0.769781	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|9.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|3|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_muskeg_anarchist|strSpawnerType|4|area|strSpawns|4|naboo/muskeg_anarchist|$|
--181332954	0	object/tangible/ground_spawning/area_spawner.iff	0	466.032	10.3785	548.422	-0.0212887	0	0.999773	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|9.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|3|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_muskeg_anarchist_04|strSpawnerType|4|area|strSpawns|4|naboo/muskeg_anarchist|$|
--1412333275	0	object/tangible/ground_spawning/area_spawner.iff	0	451.263	8.23082	515.788	-0.251996	0	0.967728	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|9.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|3|intSpawnSystem|0|1|registerWithController|0|1|strName|4|naboo_muskeg_anarchist_05|strSpawnerType|4|area|strSpawns|4|naboo/muskeg_anarchist|$|
--774325041	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	40.7904	2.34105	718.633	0.898718	-0.359742	0.121742	0.219251		$|
--1908401984	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	52.7849	0.915991	709.145	-0.155604	-0.0513593	0.851856	0.497484		$|
--2093773463	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	50.0101	3.63253	741.973	-0.363972	0.0242648	0.920428	0.140528		$|
--555016066	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	27.1869	3.49589	739.689	-0.317036	-0.276961	0.898304	0.12582		$|
--1556862676	0	object/static/structure/naboo/gungan_relic_s02.iff	0	7.06189	4.71568	726.122	1	0	0	0		$|
--1621582391	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	165.544	4.09396	757.139	0.726992	0.177924	0.569496	0.339853		$|
--1668142224	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	176.195	3.86678	720.548	0.762767	-0.149004	0.589124	-0.221173		$|
--1847828235	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	128.743	5.83937	733.197	0.996802	0	-0.0799148	0		$|
--565923755	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	128.077	5.54129	737.76	0.996802	0	-0.0799148	0		$|
--1927376940	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	130.953	5.60721	738.208	0.996802	0	-0.0799148	0		$|
--694282569	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	131.58	5.8874	733.628	-0.648337	0	0.761354	0		$|
--556911782	0	object/static/structure/naboo/gungan_damaged_wide_arch_s01.iff	0	125.588	5.62533	735.146	0.997189	0	-0.0749296	0		$|
--231542615	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	137.699	3.17387	813.149	0.971338	0	0.237703	0		$|
--976317925	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	84.7926	2.80596	829.55	0.965092	0	0	0.261909		$|
--1960783934	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	64.3645	5.05219	829.268	0.922997	0.384808	0	0		$|
--879410635	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	39.0541	-0.514685	568.2	0.0965873	0.0864843	0.942084	0.309303		$|
--1241413427	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	78.6331	2.38393	580.588	-0.0610003	0.280579	0.761008	0.58174		$|
--2079230854	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	122.182	0.723856	581.889	0.130424	0	0.991458	0		$|
--2083494600	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	170.778	0.397427	631.317	0.550296	-0.152417	0.814456	-0.102982		$|
--1946274642	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	156.442	3.7636	799.154	0.832507	-0.165044	0.407293	-0.33735		$|
--1677962170	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	124.57	5.32706	741.305	0.997189	0	-0.0749296	0		$|
--1647848179	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	126.411	5.93816	729.532	0.997189	0	-0.0749296	0		$|
--1062241431	0	object/static/structure/naboo/gungan_statue_s01.iff	0	125.445	5.63358	734.969	-0.652136	0	0.758102	0		$|
--854658269	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	68.864	7.97181	777.386	-0.636844	0	0.770992	0		$|
--2090498086	0	object/static/structure/naboo/gungan_damaged_narrow_arch_s01.iff	0	67.2068	8.17021	773.59	-0.636844	0	0.770992	0		$|
--942219052	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	64.323	8.19676	776.584	-0.636844	0	0.770992	0		$|
--1720483051	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	63.7887	8.10927	779.445	-0.636844	0	0.770992	0		$|
--609843239	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	68.3488	7.78035	780.21	0.0948575	0	0.995491	0		$|
--751867451	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	61.7545	8.07525	772.715	-0.678264	0	0.734818	0		$|
--641399737	0	object/static/structure/naboo/gungan_relic_s02.iff	0	20.7853	1.00986	734.505	0.707108	0	-0.707105	0		$|
--977230724	0	object/static/structure/naboo/gungan_relic_s01.iff	0	21.8723	4.70105	726.89	-4.10541e-007	0	1	0		$|
--1246571693	0	object/static/structure/naboo/gungan_statue_s03.iff	0	67.2712	8.17211	773.362	0.0799147	0	0.996802	0		$|
--1674091023	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	72.7068	7.86289	774.805	0.995004	0	-0.0998333	0		$|
--1182814570	0	object/static/structure/naboo/gungan_damaged_narrow_arch_s01.iff	0	109.884	3.58463	659.654	0.860067	0	0.510182	0		$|
--882045225	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	113.544	2.69052	657.68	0.860067	0	0.510182	0		$|
--1550073655	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	114.9	1.94418	655.071	0.860067	0	0.510182	0		$|
--409244986	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	105.031	3.40692	657.17	0.973666	0	-0.227978	0		$|
--280675418	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	114.895	4.31196	662.315	0.980067	0	-0.198669	0		$|
--2133527664	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	111.065	1.8746	652.802	0.972514	0	-0.232843	0		$|
--517957242	0	object/static/structure/naboo/gungan_statue_s03.iff	0	109.937	3.96623	659.741	0.96639	0	-0.257081	0		$|
--416999969	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	35.7053	6.93944	772.755	0.99639	0	-0.0848977	0		$|
--1804617885	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	31.9563	6.4603	772.382	0.997888	0	-0.0649543	0		$|
--648240706	0	object/static/structure/naboo/gungan_statue_s02.iff	0	33.9639	6.7083	772.271	0.0657489	0	0.997836	0		$|
--1239926135	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	37.4165	7.19243	772.965	0.758362	0	0.651833	0		$|
--1416801220	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	30.0537	6.42294	772.138	0.751806	0	0.659385	0		$|
--1550759483	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	98.8239	4.68678	768.875	0.985585	0	0.169183	0		$|
--1813593959	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	95.3706	4.82396	770.38	0.982004	0	0.188858	0		$|
--1685100866	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	100.418	4.90035	768.222	0.569417	0	0.822049	0		$|
--91884238	0	object/static/structure/naboo/gungan_statue_s04.iff	0	97.0275	4.75476	769.446	-0.192985	0	0.981202	0		$|
--507892488	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	93.536	4.79602	771.145	0.984727	0	0.174108	0		$|
--1424652355	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	129.138	6.94708	691.468	0.666869	0	0.745175	0		$|
--1927988745	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	129.82	6.99817	695.172	0.651835	0	0.758361	0		$|
--1948313463	0	object/static/structure/naboo/gungan_statue_s02.iff	0	129.155	6.98158	693.274	0.757842	0	-0.652438	0		$|
--1331595969	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	128.864	6.89151	689.767	-0.0649538	0	0.997888	0		$|
--1939786804	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	130.111	6.99529	697.069	-0.0749298	0	0.997189	0		$|
--1376581304	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	1.36816	5.377	760.916	0.922997	0	-0.384808	0		$|
--327503350	0	object/static/structure/naboo/gungan_statue_s02.iff	0	0.232056	5.25242	759.51	0.367014	0	0.930215	0		$|
--1408844359	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	2.63855	5.48897	762.079	0.921061	0	0.389418	0		$|
--850991870	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	14.8563	2.66493	679.89	-0.184338	0	0.982863	0		$|
--1579429420	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	18.2596	2.78162	678.277	-0.203956	0	0.97898	0		$|
--414188864	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	13.282	1.75856	680.593	0.830719	0	-0.556692	0		$|
--2054174542	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	20.0197	2.95532	677.511	0.836245	0	-0.548357	0		$|
--580396567	0	object/static/structure/naboo/gungan_statue_s04.iff	0	16.6555	2.78529	679.169	0.980067	0	0.198669	0		$|
--1160876236	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	60.3276	1.92937	660.112	-0.0956505	0	0.995415	0		$|
--995942589	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	63.9641	1.96945	659.134	-0.115537	0	0.993303	0		$|
--1879421507	0	object/static/structure/naboo/gungan_statue_s02.iff	0	62.1256	1.95358	659.949	0.993395	0	0.114746	0		$|
--57733465	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	58.6553	1.91597	660.521	0.777572	0	-0.628793	0		$|
--166869423	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	65.8333	1.99461	658.687	0.798597	-0.00435668	-0.601158	0.0288545		$|
--1334587254	0	object/static/structure/naboo/gungan_damaged_wide_arch_s01.iff	0	14.4829	10.0104	726.733	-4.10541e-007	0	1	0		$|
--1978261515	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	80.8915	19.0687	729.189	-0.588494	0.00404246	0.808486	-0.00294249		$|
--961985415	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	92.8147	5.20783	694.916	0.160104	0	0.9871	0		$|
--1517888095	0	object/static/structure/naboo/gungan_damaged_narrow_arch_s01.iff	0	73.5072	3.77681	705.456	0.988012	0	-0.15438	0		$|
--366350694	0	object/static/structure/naboo/gungan_damaged_wide_arch_s01.iff	0	100.234	4.84009	714.993	0.985585	0	-0.169182	0		$|
--797489960	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	90.5763	2.73917	708.777	1	0	0	0		$|
--819222594	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	85.2446	3.03551	707.001	0.932328	0	-0.361615	0		$|
--245990504	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	78.2186	-1.90241	681.231	0.0207949	0	0.999784	0		$|
--296982175	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	109.46	2.43729	655.53	0.971338	0	-0.237703	0		$|
--1370878343	0	object/tangible/furniture/all/frn_all_tiki_torch_s1.iff	0	55.2217	5.56456	726.006	1	0	0	0		$|
--907629344	0	object/tangible/furniture/all/frn_all_tiki_torch_s1.iff	0	57.6704	4.67871	717.254	1	0	0	0		$|
--1734547049	0	object/tangible/furniture/all/frn_all_tiki_torch_s1.iff	0	92.8053	5.27221	685.587	1	0	0	0		$|
--634427143	0	object/tangible/furniture/all/frn_all_tiki_torch_s1.iff	0	98.6293	5.61018	687.526	1	0	0	0		$|
--1998115094	0	object/static/structure/naboo/poi_nboo_tent_med.iff	0	82.5161	6.22292	751.053	0.81942	0	0.573193	0		$|
--2049076531	0	object/static/item/item_container_energy_liquid.iff	0	81.3477	5.97123	748.722	1	0	0	0		$|
--727431475	0	object/static/item/item_container_energy_liquid.iff	0	80.7855	6.04752	748.775	1	0	0	0		$|
--1658075832	0	object/static/item/item_container_energy_liquid.iff	0	81.0785	6.03812	749.363	1	0	0	0		$|
--487332026	0	object/static/item/item_container_energy_radioactive.iff	0	82.2214	5.93437	749.592	0.867819	0	0.49688	0		$|
--1526027737	0	object/tangible/furniture/all/frn_all_professor_desk.iff	0	81.4427	6.18279	751.701	0.771005	-0.0159118	0.636339	-0.0192791		$|
--31736537	0	object/static/creature/droids_r5.iff	0	79.9941	6.20983	751.415	0.958959	-0.00552373	-0.280236	-0.0428371		$|
--1976131687	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	55.9767	5.32723	726.134	-0.63329	0	0.773914	0		$|
--310702828	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	58.4573	4.53026	717.502	-0.613746	0	0.789503	0		$|
--1647569027	0	object/static/structure/naboo/gungan_relic_s02.iff	0	28.7678	1.00986	726.038	1	0	0	0		$|
--286724134	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	77.813232	6.485096455	847.541016	1	0	0	0		$|
--1930584727	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	68.007202	6.348457813	853.328613	1	0	0	0		$|
--1331168788	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	80.995972	6.179118633	855.51709	1	0	0	0		$|
--1550539875	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	95.637695	6.583026886	847.953125	1	0	0	0		$|
--1173792438	0	object/tangible/npc/naboo_spawn/lob_dizz.iff	0	84	6.2	752	1	0	0	0		$|
+-774325041	0	object/static/structure/naboo/gungan_filler_building_s01.iff	0	75.5448	4.6122	728.338	-0.577593	0.00767594	0.815942	-0.0237815		$|
+-1908401984	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	40.7904	2.34105	718.633	0.898718	-0.359742	0.121742	0.219251		$|
+-2093773463	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	52.7849	0.915991	709.145	-0.155604	-0.0513593	0.851856	0.497484		$|
+-555016066	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	50.0101	3.63253	741.973	-0.363972	0.0242648	0.920428	0.140528		$|
+-1556862676	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	27.1869	3.49589	739.689	-0.317036	-0.276961	0.898304	0.12582		$|
+-1621582391	0	object/static/structure/naboo/gungan_relic_s02.iff	0	7.06189	4.71568	726.122	1	0	0	0		$|
+-1668142224	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	165.544	4.09396	757.139	0.726992	0.177924	0.569496	0.339853		$|
+-1847828235	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	176.195	3.86678	720.548	0.762767	-0.149004	0.589124	-0.221173		$|
+-565923755	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	128.743	5.83937	733.197	0.996802	0	-0.0799148	0		$|
+-1927376940	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	128.077	5.54129	737.76	0.996802	0	-0.0799148	0		$|
+-694282569	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	130.953	5.60721	738.208	0.996802	0	-0.0799148	0		$|
+-556911782	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	131.58	5.8874	733.628	-0.648337	0	0.761354	0		$|
+-231542615	0	object/static/structure/naboo/gungan_damaged_wide_arch_s01.iff	0	125.588	5.62533	735.146	0.997189	0	-0.0749296	0		$|
+-976317925	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	137.699	3.17387	813.149	0.971338	0	0.237703	0		$|
+-1960783934	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	84.7926	2.80596	829.55	0.965092	0	0	0.261909		$|
+-879410635	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	64.3645	5.05219	829.268	0.922997	0.384808	0	0		$|
+-1241413427	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	39.0541	-0.514685	568.2	0.0965873	0.0864843	0.942084	0.309303		$|
+-2079230854	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	78.6331	2.38393	580.588	-0.0610003	0.280579	0.761008	0.58174		$|
+-2083494600	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	122.182	0.723856	581.889	0.130424	0	0.991458	0		$|
+-1946274642	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	170.778	0.397427	631.317	0.550296	-0.152417	0.814456	-0.102982		$|
+-1677962170	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	156.442	3.7636	799.154	0.832507	-0.165044	0.407293	-0.33735		$|
+-1647848179	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	124.57	5.32706	741.305	0.997189	0	-0.0749296	0		$|
+-1062241431	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	126.411	5.93816	729.532	0.997189	0	-0.0749296	0		$|
+-854658269	0	object/static/structure/naboo/gungan_statue_s01.iff	0	125.445	5.63358	734.969	-0.652136	0	0.758102	0		$|
+-2090498086	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	68.864	7.97181	777.386	-0.636844	0	0.770992	0		$|
+-942219052	0	object/static/structure/naboo/gungan_damaged_narrow_arch_s01.iff	0	67.2068	8.17021	773.59	-0.636844	0	0.770992	0		$|
+-1720483051	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	64.323	8.19676	776.584	-0.636844	0	0.770992	0		$|
+-609843239	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	63.7887	8.10927	779.445	-0.636844	0	0.770992	0		$|
+-751867451	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	68.3488	7.78035	780.21	0.0948575	0	0.995491	0		$|
+-641399737	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	61.7545	8.07525	772.715	-0.678264	0	0.734818	0		$|
+-977230724	0	object/static/structure/naboo/gungan_relic_s02.iff	0	20.7853	1.00986	734.505	0.707108	0	-0.707105	0		$|
+-1246571693	0	object/static/structure/naboo/gungan_relic_s01.iff	0	21.8723	4.70105	726.89	-4.10541e-07	0	1	0		$|
+-1674091023	0	object/static/structure/naboo/gungan_statue_s03.iff	0	67.2712	8.17211	773.362	0.0799147	0	0.996802	0		$|
+-1182814570	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	72.7068	7.86289	774.805	0.995004	0	-0.0998333	0		$|
+-882045225	0	object/static/structure/naboo/gungan_damaged_narrow_arch_s01.iff	0	109.884	3.58463	659.654	0.860067	0	0.510182	0		$|
+-1550073655	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	113.544	2.69052	657.68	0.860067	0	0.510182	0		$|
+-409244986	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	114.9	1.94418	655.071	0.860067	0	0.510182	0		$|
+-280675418	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	105.031	3.40692	657.17	0.973666	0	-0.227978	0		$|
+-2133527664	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	114.895	4.31196	662.315	0.980067	0	-0.198669	0		$|
+-517957242	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	111.065	1.8746	652.802	0.972514	0	-0.232843	0		$|
+-416999969	0	object/static/structure/naboo/gungan_statue_s03.iff	0	109.937	3.96623	659.741	0.96639	0	-0.257081	0		$|
+-1804617885	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	35.7053	6.93944	772.755	0.99639	0	-0.0848977	0		$|
+-648240706	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	31.9563	6.4603	772.382	0.997888	0	-0.0649543	0		$|
+-1239926135	0	object/static/structure/naboo/gungan_statue_s02.iff	0	33.9639	6.7083	772.271	0.0657489	0	0.997836	0		$|
+-1416801220	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	37.4165	7.19243	772.965	0.758362	0	0.651833	0		$|
+-1550759483	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	30.0537	6.42294	772.138	0.751806	0	0.659385	0		$|
+-1813593959	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	98.8239	4.68678	768.875	0.985585	0	0.169183	0		$|
+-1685100866	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	95.3706	4.82396	770.38	0.982004	0	0.188858	0		$|
+-91884238	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	100.418	4.90035	768.222	0.569417	0	0.822049	0		$|
+-507892488	0	object/static/structure/naboo/gungan_statue_s04.iff	0	97.0275	4.75476	769.446	-0.192985	0	0.981202	0		$|
+-1424652355	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	93.536	4.79602	771.145	0.984727	0	0.174108	0		$|
+-1927988745	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	129.138	6.94708	691.468	0.666869	0	0.745175	0		$|
+-1948313463	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	129.82	6.99817	695.172	0.651835	0	0.758361	0		$|
+-1331595969	0	object/static/structure/naboo/gungan_statue_s02.iff	0	129.155	6.98158	693.274	0.757842	0	-0.652438	0		$|
+-1939786804	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	128.864	6.89151	689.767	-0.0649538	0	0.997888	0		$|
+-1376581304	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	130.111	6.99529	697.069	-0.0749298	0	0.997189	0		$|
+-327503350	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	1.36816	5.377	760.916	0.922997	0	-0.384808	0		$|
+-1408844359	0	object/static/structure/naboo/gungan_statue_s02.iff	0	0.232056	5.25242	759.51	0.367014	0	0.930215	0		$|
+-850991870	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	2.63855	5.48897	762.079	0.921061	0	0.389418	0		$|
+-1579429420	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	14.8563	2.66493	679.89	-0.184338	0	0.982863	0		$|
+-414188864	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	18.2596	2.78162	678.277	-0.203956	0	0.97898	0		$|
+-2054174542	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	13.282	1.75856	680.593	0.830719	0	-0.556692	0		$|
+-580396567	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	20.0197	2.95532	677.511	0.836245	0	-0.548357	0		$|
+-1160876236	0	object/static/structure/naboo/gungan_statue_s04.iff	0	16.6555	2.78529	679.169	0.980067	0	0.198669	0		$|
+-995942589	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	60.3276	1.92937	660.112	-0.0956505	0	0.995415	0		$|
+-1879421507	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	63.9641	1.96945	659.134	-0.115537	0	0.993303	0		$|
+-57733465	0	object/static/structure/naboo/gungan_statue_s02.iff	0	62.1256	1.95358	659.949	0.993395	0	0.114746	0		$|
+-166869423	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	58.6553	1.91597	660.521	0.777572	0	-0.628793	0		$|
+-1334587254	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	65.8333	1.99461	658.687	0.798597	-0.00435668	-0.601158	0.0288545		$|
+-1978261515	0	object/static/structure/naboo/gungan_damaged_wide_arch_s01.iff	0	14.4829	10.0104	726.733	-4.10541e-07	0	1	0		$|
+-961985415	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	80.8915	19.0687	729.189	-0.588494	0.00404246	0.808486	-0.00294249		$|
+-1517888095	0	object/static/structure/naboo/gungan_filler_building_s02.iff	0	91.3799	5.3283	698.555	0.169182	0	0.985585	0		$|
+-366350694	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	92.8147	5.20783	694.916	0.160104	0	0.9871	0		$|
+-797489960	0	object/static/structure/naboo/gungan_damaged_narrow_arch_s01.iff	0	73.5072	3.77681	705.456	0.988012	0	-0.15438	0		$|
+-819222594	0	object/static/structure/naboo/gungan_damaged_wide_arch_s01.iff	0	100.234	4.84009	714.993	0.985585	0	-0.169182	0		$|
+-245990504	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	90.5763	2.73917	708.777	1	0	0	0		$|
+-296982175	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	85.2446	3.03551	707.001	0.932328	0	-0.361615	0		$|
+-1370878343	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	78.2186	-1.90241	681.231	0.0207949	0	0.999784	0		$|
+-907629344	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	109.46	2.43729	655.53	0.971338	0	-0.237703	0		$|
+-1734547049	0	object/tangible/furniture/all/frn_all_tiki_torch_s1.iff	0	55.2217	5.56456	726.006	1	0	0	0		$|
+-634427143	0	object/tangible/furniture/all/frn_all_tiki_torch_s1.iff	0	57.6704	4.67871	717.254	1	0	0	0		$|
+-1998115094	0	object/tangible/furniture/all/frn_all_tiki_torch_s1.iff	0	92.8053	5.27221	685.587	1	0	0	0		$|
+-2049076531	0	object/tangible/furniture/all/frn_all_tiki_torch_s1.iff	0	98.6293	5.61018	687.526	1	0	0	0		$|
+-727431475	0	object/static/structure/naboo/poi_nboo_tent_med.iff	0	82.5161	6.22292	751.053	0.81942	0	0.573193	0		$|
+-1658075832	0	object/static/item/item_container_energy_liquid.iff	0	81.3477	5.97123	748.722	1	0	0	0		$|
+-487332026	0	object/static/item/item_container_energy_liquid.iff	0	80.7855	6.04752	748.775	1	0	0	0		$|
+-1526027737	0	object/static/item/item_container_energy_liquid.iff	0	81.0785	6.03812	749.363	1	0	0	0		$|
+-31736537	0	object/static/item/item_container_energy_radioactive.iff	0	82.2214	5.93437	749.592	0.867819	0	0.49688	0		$|
+-1976131687	0	object/tangible/furniture/all/frn_all_professor_desk.iff	0	81.4427	6.18279	751.701	0.771005	-0.0159118	0.636339	-0.0192791		$|
+-310702828	0	object/static/creature/droids_r5.iff	0	79.9941	6.20983	751.415	0.958959	-0.00552373	-0.280236	-0.0428371		$|
+-1647569027	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	55.9767	5.32723	726.134	-0.63329	0	0.773914	0		$|
+-286724134	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	58.4573	4.53026	717.502	-0.613746	0	0.789503	0		$|
+-1930584727	0	object/static/structure/naboo/gungan_relic_s02.iff	0	28.7678	1.00986	726.038	1	0	0	0		$|

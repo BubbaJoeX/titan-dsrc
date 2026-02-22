@@ -1,0 +1,9 @@
+objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
+i	i	h	i	f	f	f	f	f	f	f	s	p
+-774325041	0	object/static/installation/mockup_mining_liquid_harvester_style_1.iff	0	1691	53.7	1444.8	-4.37114e-08	2.60073e-10	1	-1.13682e-17		$|
+-1908401984	0	object/static/structure/tatooine/stone_hovel_tatooine_style_01.iff	0	1707.2	53.7	1438.1	-0.453991	2.31727e-10	0.891007	-1.18071e-10		$|
+-2093773463	0	object/static/installation/mockup_mining_liquid_moisture_harvester.iff	0	1679.2	53.7	1435.2	0.0348995	2.59915e-10	0.999391	9.07642e-12		$|
+-555016066	0	object/static/installation/mockup_farm_flora_style_1.iff	0	1691	53.7	1418.5	-4.37114e-08	2.60073e-10	1	-1.13682e-17		$|
+-1556862676	0	object/static/structure/tatooine/shed_junkshop_watto.iff	0	1676.3	53.7	1424.3	0.970296	-6.29174e-11	-0.241922	2.52348e-10		$|
+-1621582391	0	object/static/structure/tatooine/shed_junkshop_watto.iff	0	1712.4	53.7	1424.3	0.970296	-6.29174e-11	-0.241922	2.52348e-10		$|
+-1668142224	0	object/static/vehicle/e3/landspeeder.iff	0	1705.5	53.7	1428.8	0.97237	6.07129e-11	0.233445	2.52887e-10		$|

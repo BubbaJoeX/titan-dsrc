@@ -1,10 +1,7 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--402078838	0	object/tangible/collection/rare_melee_eventide_smasher.iff	0	1158	3.3652	743.538	0.750073	0.292026	0.277999	-0.524241	systems.collections.consume_click	collection.slotName|4|col_rare_melee_04:eventide_smasher_01|$|
--39088000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
--1401258197	0	object/tangible/collection/beetle_junk.iff	0	1121.55	2.21236	763.855	0.842259	-0.0878513	-0.15479	0.508844	systems.collections.consume_click	collection.slotName|4|col_beetle:junk_beetle|$|
 -774325041	0	object/tangible/container/loot/placable_loot_crate_trashpile.iff	0	1148.36	2.08686	770.379	1	0	0	0		$|
--1908401984	0	object/tangible/container/loot/placable_loot_crate_trashpile.iff	0	1145.01	1.95998	783.267	0.999476	0.0323126	-6.33491e-005	-0.00195948		$|
+-1908401984	0	object/tangible/container/loot/placable_loot_crate_trashpile.iff	0	1145.01	1.95998	783.267	0.999476	0.0323126	-6.33491e-05	-0.00195948		$|
 -2093773463	0	object/tangible/dungeon/corellian_corvette/corvette_search_imperial_rescue_02.iff	0	1127.37	1.81244	769.929	0.970917	0.0243987	-0.232358	-0.0522958		$|
 -555016066	0	object/static/structure/tatooine/debris_tatt_crate_1.iff	0	1127.11	1.76014	771.123	0.998442	0.032613	-0.00147785	-0.0452443		$|
 -1556862676	0	object/static/structure/dantooine/dant_large_rock_hut.iff	0	1156.48	2.84813	748.924	1	0	0	0		$|
@@ -158,28 +155,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -183507661	0	object/static/structure/general/tato_cave_rock_med.iff	0	1173.34	7.17251	754.197	0.839135	-0.201428	-0.253832	-0.436862		$|
 -766969766	0	object/static/structure/general/tato_cave_rock_large.iff	0	1171.99	6.6704	755.27	0.434154	-0.299156	0.751079	-0.397362		$|
 -1162106795	0	object/static/structure/general/tato_cave_rock_large.iff	0	1173.86	7.17973	751.713	-0.220389	-0.130526	-0.303598	0.917725		$|
--1840669246	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1120.875977	5.810419083	707.990234	1	0	0	0		$|
--1578657808	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1140.681641	4.254255295	707.788086	1	0	0	0		$|
--1847629809	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1045.955566	4.011343479	749.745117	1	0	0	0		$|
--1617855107	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1062.072266	10.94811058	808.338867	1	0	0	0		$|
--547631987	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1116.119629	21.35580635	851.707275	1	0	0	0		$|
--941954754	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1182.572266	18.09001923	874.418213	1	0	0	0		$|
--990038731	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1260.515137	52.29542923	792.88208	1	0	0	0		$|
--1583250337	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1223.387695	15.49811554	712.512695	1	0	0	0		$|
--543283708	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1094.857422	4.945233822	676.924316	1	0	0	0		$|
--892094787	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1161.863281	3.11151433	737.400879	1	0	0	0		$|
--1227429020	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1105.897949	1.903579831	768.627686	1	0	0	0		$|
--219423685	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1144.429687	2.152584791	764.818115	1	0	0	0		$|
--894356231	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1152.541016	2.472690821	762.875488	1	0	0	0		$|
--1289777588	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1140.89502	2.189572573	762.137207	1	0	0	0		$|
--1370102196	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1154.807617	2.602309465	759.576416	1	0	0	0		$|
--1676495907	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1176.313477	2.514341593	783.367432	1	0	0	0		$|
--5742861	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1130.550293	2.555664539	738.647461	1	0	0	0		$|
--5287943	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1161.737793	1.990106821	787.063232	1	0	0	0		$|
--1850418493	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1123.058594	2.035289764	772.31543	1	0	0	0		$|
--1053284267	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1147.200684	1.766235828	790.428467	1	0	0	0		$|
--1087666448	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1125.499512	2.405268431	751.801025	1	0	0	0		$|
--1952257171	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1092.967285	1.958497167	758.174072	1	0	0	0		$|
--524453818	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1170.29541	6.223174095	724.040527	1	0	0	0		$|
--2046302005	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1112.412109	15.05395222	808.863037	1	0	0	0		$|
--298279220	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1200.959961	10.79023361	775.115967	1	0	0	0		$|

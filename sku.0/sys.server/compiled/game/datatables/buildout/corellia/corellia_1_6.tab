@@ -1,7 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--27178000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
--477888388	0	object/tangible/collection/rare_rifle_disruptor.iff	0	1362.02	454.265	154.991	-0.376368	0.568709	0.643143	-0.348261	systems.collections.consume_click	collection.slotName|4|col_rare_rifle_02:disruptor_01|$|
 -774325041	0	object/static/structure/dantooine/dant_jedi_temple_pillar_med.iff	0	1354.82	452.575	158.815	1	0	0	0		$|
 -1908401984	0	object/static/particle/pt_poi_electricity_2x2.iff	0	1354.93	458.796	158.76	1	0	0	0		$|
 -2093773463	0	object/static/structure/dantooine/dant_jedi_temple_pillar_fallen.iff	0	1358.21	454.109	164.073	0.844589	0	-0.535416	0		$|
@@ -12,7 +10,7 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1847828235	0	object/static/structure/general/skeleton_bith_head.iff	0	1355.72	453.838	166.323	1	0	0	0		$|
 -565923755	0	object/static/structure/general/skeleton_human_head.iff	0	1351.53	454.357	161.483	0.926798	0	0	0.375559		$|
 -1927376940	0	object/static/structure/general/skeleton_human_head.iff	0	1363.08	454.424	163.596	0.940542	-0.210323	0.0582087	-0.260303		$|
--694282569	0	object/static/structure/dantooine/dant_large_rock_hut.iff	0	1360.56	454.044	156.223	3.20013e-008	0	1	0		$|
+-694282569	0	object/static/structure/dantooine/dant_large_rock_hut.iff	0	1360.56	454.044	156.223	3.20013e-08	0	1	0		$|
 -556911782	0	object/tangible/furniture/all/frn_all_tiki_torch_s1.iff	0	1360.35	453.084	156.487	1	0	0	0		$|
 -231542615	0	object/static/structure/general/skeleton_bith_head.iff	0	1360.35	454.394	156.531	0.997888	0	0	-0.0649542		$|
 -976317925	0	object/static/item/item_jar_guts.iff	0	1362.17	454.428	156.475	0.965092	0	0.261909	0		$|
@@ -29,4 +27,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -2090498086	0	object/static/particle/pt_miasma_of_fog_greenish.iff	0	1361.44	453.27	150.082	1	0	0	0		$|
 -942219052	0	object/static/particle/pt_miasma_of_fog_greenish.iff	0	1367.96	453.907	157.981	1	0	0	0		$|
 -1720483051	0	object/static/particle/pt_poi_electricity_2x2.iff	0	1354.94	456.307	158.66	1	0	0	0		$|
--609843239	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1364.926758	454.3373413	163.751465	1	0	0	0		$|

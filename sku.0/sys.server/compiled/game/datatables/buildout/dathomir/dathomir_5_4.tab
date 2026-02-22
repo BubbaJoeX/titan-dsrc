@@ -1,6 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--43078000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
 -774325041	0	object/static/structure/corellia/corl_power_bubble_node.iff	0	44.884	125.455	1878.88	1	0	0	0		$|
 -1908401984	0	object/static/structure/dathomir/nsister_gate_style_01.iff	0	1125.37	131.86	1029.04	0.678557	0	0.734548	0		$|
 -2093773463	0	object/static/structure/dathomir/nsister_gate_style_01.iff	0	1122.95	131.92	1025.08	0.227202	0	0.973848	0		$|

@@ -1,9 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1675884487	0	object/tangible/furniture/all/frn_all_plant_potted_lg_s2.iff	0	1842.23	29.5218	1348.11	1	0	0	0		$|
--1504874659	0	object/tangible/collection/plant_19.iff	0	1835.77	29.7237	1348.12	1	0	0	0	systems.collections.consume_click	collection.slotName|4|col_plant_01:plant_19|$|
--213209453	0	object/tangible/collection/rare_rifle_dawnsorrow.iff	0	286.813	38.9528	884.844	-0.221294	-0.565386	0.661676	0.439944	systems.collections.consume_click	collection.slotName|4|col_rare_rifle_02:dawnsorrow_01|$|
--37378000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
 -774325041	0	object/static/structure/tatooine/concrete_slab_tatooine_16x8.iff	0	398	-1.47524	435	1	0	0	0		$|
 -1908401984	0	object/static/structure/corellia/corl_fountain_brazier_square_s01.iff	0	398	6.62171	435	1	0	0	0		$|
 -2093773463	0	object/static/structure/corellia/corl_imprv_gate_sm_s03.iff	0	289.884	38.9104	888.827	0.958244	0	-0.285952	0		$|
@@ -24,6 +20,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -2079230854	0	object/static/structure/corellia/corl_imprv_arch_sm_s01.iff	0	1850	29.7999	1335	0.707107	0	0.707106	0		$|
 -2083494600	0	object/static/structure/corellia/corl_imprv_arch_sm_s01.iff	0	1850	29.3798	1343	0.707107	0	-0.707106	0		$|
 -1946274642	0	object/static/structure/corellia/corl_fountain_rectangle_s01.iff	0	1839	30.0562	1338	1	0	0	0		$|
--1677962170	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	292.563232	38.83329391	884.723633	1	0	0	0		$|
--1647848179	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1841.646484	29.87112999	1344.413818	1	0	0	0		$|
--1062241431	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1832.929443	30.04353142	1342.068604	1	0	0	0		$|

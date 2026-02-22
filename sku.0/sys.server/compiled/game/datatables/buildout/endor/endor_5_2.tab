@@ -1,7 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--46018000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
--1012064430	0	object/tangible/collection/flower_14.iff	0	1982.93	13.6361	854.089	1	0	0	0	systems.collections.consume_click	collection.slotName|4|col_flower_01:flower_14|$|
 -774325041	0	object/building/endor/endor_lake_platform_cap.iff	0	1994.2	12.4659	848.377	0.952602	0.114601	-0.254921	-0.120131		$|
 -1908401984	0	object/building/endor/endor_forest_hut.iff	0	1983.14	13.4482	852.694	0.281922	0	0.959437	0		$|
 -2093773463	0	object/building/endor/endor_forest_hut.iff	0	2032.59	13.8518	843.729	-0.422133	0	0.906534	0		$|

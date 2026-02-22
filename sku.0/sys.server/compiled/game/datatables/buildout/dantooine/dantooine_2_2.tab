@@ -1,8 +1,6 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--39298000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
--862709782	0	object/tangible/collection/plant_14.iff	0	165.413	2.06874	1564.62	1	0	0	0	systems.collections.consume_click	collection.slotName|4|col_plant_01:plant_14|$|
--774325041	0	object/static/structure/dantooine/dant_large_rock_hut.iff	0	166.616	2.30389	1567.38	0.771246	0	-0.636537	0	theme_park.dungeon.generic_spawner	spawn_table|4|datatables/spawning/poi_spawner/dantooine/dant_commoner.iff|$|
+-774325041	0	object/static/structure/dantooine/dant_large_rock_hut.iff	0	166.616	2.30389	1567.38	0.771246	0	-0.636537	0		$|
 -1908401984	0	object/static/structure/dantooine/dant_cooking_stone.iff	0	173.742	2.47343	1571.13	0.979258	0.102015	-0.121053	-0.12646		$|
 -2093773463	0	object/static/structure/dantooine/dant_fence_8m.iff	0	172.79	2.83447	1574	0.811837	0.089664	-0.573472	0.0633375		$|
 -555016066	0	object/static/structure/dantooine/dant_fence_8m.iff	0	175.049	2.74818	1581.65	0.790584	0.152045	-0.582503	0.112027		$|
@@ -18,4 +16,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -976317925	0	object/static/structure/general/campfire_ash.iff	0	177.995	2.2945	1565.72	1	0	0	0		$|
 -1960783934	0	object/static/structure/general/campfire_ash.iff	0	178.335	2.28936	1565.24	1	0	0	0		$|
 -879410635	0	object/building/endor/endr_lake_rail2m.iff	0	178.102	1.95839	1565.39	-0.703845	0	0.710353	0		$|
--1241413427	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	179.01416	2.688255787	1572.191895	1	0	0	0		$|

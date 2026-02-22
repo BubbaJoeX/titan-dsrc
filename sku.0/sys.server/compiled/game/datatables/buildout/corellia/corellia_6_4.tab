@@ -1,3 +1,4 @@
-server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
-h	i	f	f	f	f	f	f	f	s	p
+objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
+i	i	h	i	f	f	f	f	f	f	f	s	p
 object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		$|
+-774325041	0	unknown_-1761607680.iff	0	961.954	0.000203905	2048	-0.708713	0	3.45159e-27	0		$|

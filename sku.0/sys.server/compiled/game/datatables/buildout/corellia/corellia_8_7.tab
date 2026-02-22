@@ -1,6 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		$|
 -774325041	0	object/static/structure/corellia/corl_imprv_wall_4x16_s03.iff	0	133.965	26.7439	305.477	0.956802	0	-0.29074	0		$|
 -1908401984	0	object/static/structure/corellia/corl_imprv_wall_4x16_s03.iff	0	130.264	26.7144	311.417	0.956802	0	-0.29074	0		$|
 -2093773463	0	object/static/structure/military/military_wall_med_rebl_style_01.iff	0	138.923	27.0165	312.994	-0.470977	0	0.882145	0		$|
@@ -24,5 +23,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1677962170	0	object/static/structure/general/droid_r4_powerdown.iff	0	123.913	26.1343	301.865	-0.504797	0.0674443	0.85998	-0.0326455		$|
 -1647848179	0	object/static/structure/general/poi_powerdroid_powerdown.iff	0	123.466	26.2664	302.767	0.848615	-0.0289673	0.526147	-0.046721		$|
 -1062241431	0	object/tangible/furniture/all/frn_all_toolchest_lg_s01.iff	0	120.983	26.1666	302.661	0.413046	0	0.91071	0		$|
--854658269	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	155.759766	27.22945404	279.611816	1	0	0	0		$|
--2090498086	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	160.986816	27.41061211	272.912109	1	0	0	0		$|

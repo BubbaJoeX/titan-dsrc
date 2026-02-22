@@ -1,7 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--40348000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
--1805331910	0	object/tangible/collection/rock_glowing_06.iff	0	1018.97	5.03595	1210.26	1	0	0	0	systems.collections.consume_click	collection.slotName|4|col_rock_glowing:glowing_rock_06|$|
 -774325041	0	object/static/flora/flora_decd_scorched_tallbirch_broke.iff	0	50.9004	19.6308	30.9803	-0.699965	0.245558	0.552306	0.380405		$|
 -1908401984	0	object/static/flora/flora_decd_scorched_tallbirch_broke.iff	0	56.5852	19.847	38.2525	0.908966	-0.416871	0	0		$|
 -2093773463	0	object/static/flora/flora_decd_scorched_tallbirch_broke.iff	0	59.2478	20.6577	25.3739	0.464108	0.0353038	0.815807	0.343245		$|
@@ -27,5 +25,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1062241431	0	object/static/structure/general/tato_cave_stalagmite_small.iff	0	1808.55	14.8424	167.861	0.751573	0.271751	-0.536669	0.270696		$|
 -854658269	0	object/static/structure/general/tato_cave_stalagmite_small.iff	0	1810.36	14.7395	165.311	0.913894	-0.363828	0.155528	0.0907597		$|
 -2090498086	0	object/static/structure/general/tato_cave_stalagmite_small.iff	0	1812.49	14.5892	166.689	0.707364	0.240991	0.596157	-0.293523		$|
--942219052	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	102.559326	23.62393761	292.9499512	1	0	0	0		$|
--1720483051	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	63.093994	20.34606552	32.89024353	1	0	0	0		$|

@@ -1,6 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
 -774325041	0	object/static/item/item_bottle_pear.iff	0	1048.89	491.047	1184.08	0.700285	0	0	0.713864		$|
 -1908401984	0	object/static/item/item_bottle_tall.iff	0	1048.76	490.877	1183.38	0.735088	0	0	-0.677972		$|
 -2093773463	0	object/static/item/item_bowl_plain.iff	0	1049.5	491.113	1184.19	0.00420349	0.999991	0	0		$|
@@ -16,4 +15,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -231542615	0	object/static/structure/dantooine/dant_skull_thune.iff	0	1040.31	490.618	1181.52	0.516046	0.258898	0.709696	0.403733		$|
 -976317925	0	object/static/structure/general/streetlamp_small_green_style_01.iff	0	1042.69	488.925	1180.74	1	0	0	0		$|
 -1960783934	0	object/static/structure/general/campfire_ash.iff	0	1051.45	490.999	1182.55	1	0	0	0		$|
--879410635	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1052.772461	490.4089355	1179.190186	1	0	0	0		$|

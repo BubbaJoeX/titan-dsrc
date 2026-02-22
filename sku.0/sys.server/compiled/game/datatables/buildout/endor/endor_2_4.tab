@@ -1,6 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
 -774325041	0	object/tangible/jedi/force_shrine_stone.iff	0	1088.17	200.477	341.604	0.707107	0	0.707107	0		$|
 -1908401984	0	object/static/structure/dantooine/dant_jedi_temple_pillar_sm.iff	0	1083.75	201.513	340.007	0.707113	0	0.7071	0		$|
 -2093773463	0	object/static/structure/dantooine/dant_jedi_temple_pillar_sm.iff	0	1092.43	201.512	340.041	1	0	0	0		$|

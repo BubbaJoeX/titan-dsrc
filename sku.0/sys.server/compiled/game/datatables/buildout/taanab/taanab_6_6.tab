@@ -1,0 +1,8 @@
+objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
+i	i	h	i	f	f	f	f	f	f	f	s	p
+-774325041	0	object/static/structure/tatooine/concrete_slab_tatooine_16x8.iff	0	1262.2	37.4	190.1	1	0	0	0		$|
+-1908401984	0	object/static/structure/tatooine/guild_statue_free_style_01.iff	0	1262.2	43.4	190.1	1	0	0	0		$|
+-2093773463	0	object/static/structure/tatooine/wall_archway_tatooine_wide_style_01.iff	0	1262.2	45.4	190.1	0.92388	0	0.382683	0		$|
+-555016066	0	object/static/structure/tatooine/wall_archway_tatooine_wide_style_01.iff	0	1262.2	45.4	190.1	0.92388	0	-0.382683	0		$|
+-1556862676	0	object/static/structure/general/streetlamp_small_blue_style_01.iff	0	1262.2	43.4	190.1	1	0	0	0		$|
+-1621582391	0	object/static/particle/pt_waterfall_mist_small.iff	0	1262.2	45.4	190.1	1	0	0	0		$|

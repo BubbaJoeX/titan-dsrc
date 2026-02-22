@@ -1,8 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1453567605	0	object/tangible/collection/rare_melee_forward_commander_knuckler.iff	0	1782.67	63.5196	1508.85	0.710245	0.0328481	0.0283558	-0.702616	systems.collections.consume_click	collection.slotName|4|col_rare_melee_02:forward_commander_knuckler_01|$|
--52318000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
--1951872132	0	object/tangible/ground_spawning/area_spawner.iff	0	1773.67	63	1505.6	0.904074	0	0.427375	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|1.500000|fltMinSpawnTime|2|1.000000|fltRadius|2|0.000000|intDefaultBehavior|0|3|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|nym_themepark_injured_agent|strSpawnerType|4|area|strSpawns|4|nym_themepark_rei_reeven|$|
 -774325041	0	object/static/structure/general/poi_all_monolith_s01.iff	0	1418.87	64.3802	1664.86	0.902611	0	0.430458	0		$|
 -1908401984	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff	0	1806.63	63	1511.6	0.707103	0	0.70711	0		$|
 -2093773463	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff	0	1802.63	63	1519.6	1	0	0	0		$|
@@ -24,7 +21,7 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -2083494600	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff	0	1757.63	63	1485.6	-0.7071	0	0.707113	0		$|
 -1946274642	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff	0	1754.63	62.9972	1476.6	0.707119	0	0.707094	0		$|
 -1677962170	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff	0	1772.63	63	1495.6	0.707109	0	-0.707104	0		$|
--1647848179	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff	0	1768.63	63	1485.6	-5e-006	0	1	0		$|
+-1647848179	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff	0	1768.63	63	1485.6	-5e-06	0	1	0		$|
 -1062241431	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff	0	1768.63	63	1481.6	-0.7071	0	0.707113	0		$|
 -854658269	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff	0	1772.63	63	1491.6	1	0	0	0		$|
 -2090498086	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff	0	1776.63	63	1485.6	1	0	0	0		$|
@@ -33,7 +30,7 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -609843239	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff	0	1780.63	63	1480.6	1	0	0	0		$|
 -751867451	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff	0	1788.63	63	1479.6	0.707107	0	0.707107	0		$|
 -641399737	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff	0	1791.63	63	1483.6	0.707107	0	0.707107	0		$|
--977230724	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff	0	1799.63	63	1483.6	-6e-006	0	1	0		$|
+-977230724	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff	0	1799.63	63	1483.6	-6e-06	0	1	0		$|
 -1246571693	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff	0	1803.63	63	1480.6	1	0	0	0		$|
 -1674091023	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff	0	1786.63	63	1476.6	0.707113	0	0.7071	0		$|
 -1182814570	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff	0	1802.63	62.9284	1476.6	0.707109	0	0.707104	0		$|
@@ -41,11 +38,11 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1550073655	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff	0	1810.63	62.976	1484.6	0	0	1	0		$|
 -409244986	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff	0	1803.63	63	1487.6	0.707103	0	0.707111	0		$|
 -280675418	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff	0	1780.63	63	1491.6	1	0	0	0		$|
--2133527664	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff	0	1787.63	63	1491.6	-5e-006	0	1	0		$|
+-2133527664	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff	0	1787.63	63	1491.6	-5e-06	0	1	0		$|
 -517957242	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff	0	1798.63	63	1491.6	0.707107	0	0.707107	0		$|
 -416999969	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff	0	1783.63	63	1495.6	1	0	0	0		$|
 -1804617885	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff	0	1795.63	63	1495.6	0.707107	0	0.707107	0		$|
--648240706	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff	0	1806.63	63	1495.6	-5e-006	0	1	0		$|
+-648240706	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff	0	1806.63	63	1495.6	-5e-06	0	1	0		$|
 -1239926135	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff	0	1810.63	63	1500.6	0	0	1	0		$|
 -1416801220	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff	0	1806.63	63	1503.6	0.707103	0	0.70711	0		$|
 -1550759483	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff	0	1799.63	63	1499.6	0.707103	0	0.70711	0		$|
@@ -157,4 +154,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -247641049	0	object/static/structure/tatooine/shed_junkshop_watto.iff	0	1208.31	27.5106	590.202	1	0	0	0		$|
 -183507661	0	object/static/structure/tatooine/shed_junkshop_watto.iff	0	1208.42	27.5556	611.722	1	0	0	0		$|
 -766969766	0	object/static/structure/tatooine/wall_ruined_tatooine_large_style_02.iff	0	1208.33	27.2937	597.815	0.707108	0	-0.707106	0		$|
--1162106795	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1780.546143	63	1516.215271	1	0	0	0		$|

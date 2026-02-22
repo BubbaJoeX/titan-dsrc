@@ -1,6 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
 -774325041	0	object/static/structure/dantooine/dant_large_mudhut.iff	0	1172.32	12.7005	915.768	0.409561	0.118059	0.903025	0.0535449		$|
 -1908401984	0	object/static/structure/general/campfire_fresh.iff	0	1172.39	12.6025	916.188	0.998376	0.0449573	-0.00157415	-0.0349574		$|
 -2093773463	0	object/static/structure/dantooine/dant_rack_spears.iff	0	1185.72	11.228	908.416	-0.0257936	0	0.999667	0		$|
@@ -34,5 +33,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -977230724	0	object/static/structure/dantooine/dant_fence_8m.iff	0	1184.57	11.8921	904.078	1	0	0	0		$|
 -1246571693	0	object/static/structure/dantooine/dant_cooking_stone.iff	0	1186.55	11.4637	906.365	0.696707	0	0.717356	0		$|
 -1674091023	0	object/static/structure/dantooine/dant_fence_4m.iff	0	1189.11	10.9881	909.498	0.748499	0	-0.663136	0		$|
--1182814570	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	373.2793884	1.968140364	1089.990234	1	0	0	0		$|
--882045225	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1179.06665	12.95228577	905.39209	1	0	0	0		$|

@@ -1,6 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	-195	0	0	0	0	0		$|
 -774325041	0	object/static/structure/general/prp_junk_s1.iff	0	1689.53	14.4065	564.937	0.879969	0	0.475032	0		$|
 -1908401984	0	object/static/structure/general/prp_junk_s4.iff	0	1692.9	14.4575	564.714	0.935897	0	0	0.352274		$|
 -2093773463	0	object/static/structure/general/prp_junk_s8.iff	0	1692.95	14.3793	567.563	1	0	0	0		$|
@@ -19,8 +18,8 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -879410635	0	object/static/structure/naboo/gungan_wall_ruined_lg_s02.iff	0	367.76	77.8325	278.954	0.973666	0	-0.227977	0		$|
 -1241413427	0	object/static/structure/general/streetlamp_small_green_style_01.iff	0	362.528	78.8238	266.991	1	0	0	0		$|
 -2079230854	0	object/static/structure/general/trash_pile_s01.iff	0	1146.2	9.69369	1697.73	1	0	0	0		$|
--2083494600	0	object/static/structure/general/prp_junk_s7.iff	0	1144.93	14.69	1701.37	-0.382683	0.92388	4.18191e-009	1.0096e-008		$|
--1946274642	0	object/static/structure/general/prp_junk_s7.iff	0	1145.24	13.6933	1695.28	1.0096e-008	4.40112e-008	0.382684	0.92388		$|
+-2083494600	0	object/static/structure/general/prp_junk_s7.iff	0	1144.93	14.69	1701.37	-0.382683	0.92388	4.18191e-09	1.0096e-08		$|
+-1946274642	0	object/static/structure/general/prp_junk_s7.iff	0	1145.24	13.6933	1695.28	1.0096e-08	4.40112e-08	0.382684	0.92388		$|
 -1677962170	0	object/static/structure/general/trash_pile_s01.iff	0	1142.08	9.69851	1698.66	1	0	0	0		$|
 -1647848179	0	object/static/structure/general/campfire_ash.iff	0	1143.73	9.85708	1699.38	1	0	0	0		$|
 -1062241431	0	object/static/structure/general/prp_junk_s8.iff	0	1144.64	10.3267	1700.39	1	0	0	0		$|
@@ -42,7 +41,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -2133527664	0	object/static/structure/general/prp_junk_s7.iff	0	1898.36	14.3533	695.679	0.00160864	-0.00388362	0.38268	0.923871		$|
 -517957242	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	1917.04	11.0595	688.646	0.751806	0	0	0.659384		$|
 -416999969	0	object/static/structure/general/prp_engine.iff	0	1900.71	10.8085	701.92	1	0	0	0		$|
--1804617885	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1689.660645	14.31482124	569.291626	1	0	0	0		$|
--648240706	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	359.987305	80.63729858	257.7686462	1	0	0	0		$|
--1239926135	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1151.117187	10.76077747	1698.615601	1	0	0	0		$|
--1416801220	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1904.056396	11.86157322	689.824585	1	0	0	0		$|

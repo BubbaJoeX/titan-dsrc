@@ -1,7 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--52348000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
--439259721	0	object/tangible/collection/rock_bubbling_07.iff	0	64.0374	0.0587966	1935.61	1	0	0	0	systems.collections.consume_click	collection.slotName|4|col_rock_bubbling:bubbling_rock_07|$|
 -774325041	0	object/static/structure/general/tato_cave_rock_large.iff	0	192.454	1.67452	1904.52	0.700276	0.713855	0.00350141	0.0035693		$|
 -1908401984	0	object/static/structure/general/tato_cave_rock_large.iff	0	193.586	1.28978	1904.45	-0.625519	0	0.780209	0		$|
 -2093773463	0	object/static/structure/general/tato_cave_rock_large.iff	0	194.747	0.638591	1903.61	0.872745	0.488177	0	0		$|
@@ -27,7 +25,7 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1062241431	0	object/static/structure/tatooine/debris_tatt_crate_1.iff	0	1844.11	11.5045	598.433	0.912306	-0.0785951	0.208805	-0.343395		$|
 -854658269	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff	0	196.627	1.78617	1899.79	0.5	-0.5	-0.5	0.5		$|
 -2090498086	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff	0	196.634	1.28895	1899.53	-0.5	-0.5	0.5	0.5		$|
--942219052	0	object/static/structure/tatooine/wall_gate_tatooine_style_02.iff	0	190.867	1.79841	1899.73	3.20013e-008	0	1	0		$|
+-942219052	0	object/static/structure/tatooine/wall_gate_tatooine_style_02.iff	0	190.867	1.79841	1899.73	3.20013e-08	0	1	0		$|
 -1720483051	0	object/static/structure/tatooine/wall_gate_tatooine_style_03.iff	0	204.374	1.44186	1899.69	1	0	0	0		$|
 -609843239	0	object/static/structure/tatooine/pillar_pristine_tall_style_01.iff	0	204.652	-3.91459	1896.67	1	0	0	0		$|
 -751867451	0	object/static/structure/tatooine/pillar_pristine_tall_style_01.iff	0	204.661	-3.84588	1903.71	1	0	0	0		$|
@@ -55,9 +53,7 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1424652355	0	object/static/structure/tatooine/palette_tatooine_style_01.iff	0	202.85	2.63184	1902.09	0.644106	-0.267555	0.65496	0.290809		$|
 -1927988745	0	object/static/item/item_tank_gas.iff	0	168.506	3.12649	1881.14	1	0	0	0		$|
 -1948313463	0	object/static/structure/general/streetlamp_small_red_style_01.iff	0	204.116	5.19592	1903.61	0.707107	0.707107	0	0		$|
--1331595969	0	object/static/structure/general/streetlamp_small_green_style_01.iff	0	204.115	5.22683	1895.74	0.707107	-0.707106	7.72715e-009	7.72715e-009		$|
+-1331595969	0	object/static/structure/general/streetlamp_small_green_style_01.iff	0	204.115	5.22683	1895.74	0.707107	-0.707106	7.72715e-09	7.72715e-09		$|
 -1939786804	0	object/static/structure/tatooine/pillar_pristine_tall_style_01.iff	0	189.661	2.01767	1905.05	-0.554755	0.365154	0.589655	-0.459584		$|
 -1376581304	0	object/static/structure/tatooine/pillar_pristine_tall_style_01.iff	0	190.543	-1.0925	1896.89	1	0	0	0		$|
 -327503350	0	object/static/structure/tatooine/debris_tatt_drum_dented_1.iff	0	188.983	2.04885	1897.84	0.994736	-0.02167	-0.0442335	-0.0898536		$|
--1408844359	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1843.370117	11.95355988	591.569458	1	0	0	0		$|
--850991870	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	177.375732	3	1896.365967	1	0	0	0		$|

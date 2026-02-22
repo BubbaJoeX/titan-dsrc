@@ -1,0 +1,15 @@
+objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
+i	i	h	i	f	f	f	f	f	f	f	s	p
+-774325041	0	object/static/structure/general/camp_tent_s01.iff	0	1137.3	35.1	843.7	0.91706	0	-0.398749	0		$|
+-1908401984	0	object/static/item/eqp_camping_tent_s4.iff	0	1141	35.1	849.7	1	0	0	0		$|
+-2093773463	0	object/static/structure/general/camp_tent_s01.iff	0	1137.3	35.1	856.2	-0.398749	0	0.91706	0		$|
+-555016066	0	object/static/structure/dantooine/dant_fire_pit.iff	0	1134.4	35.1	849.7	0.707108	0	0.707106	0		$|
+-1556862676	0	object/static/particle/pt_campfire_s01.iff	0	1134.4	35.1	849.7	0.707108	0	0.707106	0		$|
+-1621582391	0	object/tangible/furniture/decorative/cafe_chair.iff	0	1134.4	35	846.2	1	0	0	0		$|
+-1668142224	0	object/tangible/furniture/decorative/cafe_chair.iff	0	1134.4	35	853.2	-4.37114e-08	0	1	0		$|
+-1847828235	0	object/tangible/furniture/decorative/cafe_chair.iff	0	1137.2	35	849.7	0.707108	0	-0.707106	0		$|
+-565923755	0	object/static/structure/general/palette_supply_01.iff	0	1141.8	35	855.7	-0.446198	0	0.894934	0		$|
+-1927376940	0	object/static/structure/general/palette_supply_02.iff	0	1141.8	35	844	0.887011	0	-0.461749	0		$|
+-694282569	0	object/static/worldbuilding/camping/frn_all_exceptional_meat_rack.iff	0	1131.9	35	847.5	-0.377841	0	0.925871	0		$|
+-556911782	0	object/static/structure/dantooine/dant_fish_rack.iff	0	1138.4	35	853.5	-0.515038	0	0.857167	0		$|
+-231542615	0	object/static/structure/dantooine/dant_fish_rack.iff	0	1139.1	35	845.8	0.887011	0	-0.461749	0		$|

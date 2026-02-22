@@ -1,6 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
 -774325041	0	object/static/structure/tatooine/beam_tatooine_overhead_style_01.iff	0	1805.74	12.3491	1573.12	0.707086	-0.00544413	0.707085	-0.0054438		$|
 -1908401984	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	1807	12.9441	1569.96	0	0.92388	0.382683	0		$|
 -2093773463	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	1809.76	12.9181	1571.01	1	0	0	0		$|
@@ -35,9 +34,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1246571693	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	1830.8	12.9417	1592.88	1	0	0	0		$|
 -1674091023	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff	0	1830.06	12.8964	1588.22	0	0	1	0		$|
 -1182814570	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff	0	1830.06	12.7293	1582.42	0	0	1	0		$|
--882045225	0	object/tangible/weather_object/weather_object_base.iff	0	0	195	0	1	0	0	0		$|
--1550073655	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1823.003494	12.91752052	1585.201935	1	0	0	0		$|
--409244986	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1820.217712	13.13605881	1589.801575	1	0	0	0		$|
--280675418	0	object/tangible/ground_spawning/mob_spawner.iff	0	1909	50	1695	1	0	0	0		$|
--2133527664	0	object/tangible/ground_spawning/mob_spawner.iff	0	1909	50	1695	1	0	0	0		$|
--517957242	0	object/tangible/ground_spawning/mob_spawner.iff	0	1909	50	1695	1	0	0	0		$|

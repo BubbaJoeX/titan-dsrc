@@ -1,6 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
 -774325041	0	object/static/particle/pt_flocking_glowzees.iff	0	908.969	6.15465	1106.59	1	0	0	0		$|
 -1908401984	0	object/static/particle/pt_lair_evil_fire_large_red.iff	0	910.654	16.1763	1108.07	1	0	0	0		$|
 -2093773463	0	object/static/particle/pt_flocking_glowzees.iff	0	910.863	20.6208	1108.31	1	0	0	0		$|
@@ -15,6 +14,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -556911782	0	object/static/item/item_bowl_shallow.iff	0	910.703	16.2644	1108.08	1	0	0	0		$|
 -231542615	0	object/static/structure/general/campfire_burnt.iff	0	910.675	16.5883	1108.05	1	0	0	0		$|
 -976317925	0	object/static/structure/general/streetlamp_small_red_style_01.iff	0	910.752	16.3813	1108.15	1	0	0	0		$|
--1960783934	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	918.57373	21.82620049	1136.126221	1	0	0	0		$|
--879410635	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	910.498779	22.92370224	1137.802734	1	0	0	0		$|
--1241413427	0	object/tangible/poi/tatooine/explore_dathomir_sarlaac.iff	0	2008	19	1103	1	0	0	0		$|

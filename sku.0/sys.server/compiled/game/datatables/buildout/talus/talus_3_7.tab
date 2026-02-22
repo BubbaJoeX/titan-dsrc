@@ -1,6 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
 -774325041	0	object/static/particle/pt_buzzing_insects_small.iff	0	1005.32	28.6233	509.4	1	0	0	0		$|
 -1908401984	0	object/static/structure/general/skeleton_human_headandbody.iff	0	1006.74	27.7812	508.684	0.183866	0.978256	0.0636438	0.0718189		$|
 -2093773463	0	object/static/structure/naboo/obelisk_naboo_theed_style_3.iff	0	175.509	-5.76826	32.2246	1	0	0	0		$|
@@ -49,7 +48,7 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1550759483	0	object/static/flora/flora_tree_rori_windswept_s00.iff	0	1005.6	28.3645	511.287	0.870735	-0.122894	-0.475685	-0.0209949		$|
 -1813593959	0	object/static/structure/general/tato_cave_rock_large.iff	0	865.114	33.3285	104.634	0.644827	0	0.764329	0		$|
 -1685100866	0	object/static/structure/general/tato_cave_rock_med.iff	0	866.378	33.4397	104.489	0.922997	0	0.384808	0		$|
--91884238	0	object/static/structure/general/tato_cave_rock_large.iff	0	866.563	32.8986	105.75	0.71791	0	-0.696136	0		$|
+-91884238	0	object/static/structure/general/tato_cave_rock_large.iff	0	866.562	32.8986	105.75	0.71791	0	-0.696136	0		$|
 -507892488	0	object/static/structure/general/tato_cave_rock_med.iff	0	865.476	33.4816	105.792	0.982004	0	-0.188859	0		$|
 -1424652355	0	object/static/structure/general/tato_cave_rock_large.iff	0	864.007	33.611	105.919	0.514176	0.0428471	-0.0257302	0.856228		$|
 -1927988745	0	object/static/structure/general/tato_cave_rock_large.iff	0	865.566	33.4363	107.048	-0.385543	0	0.92269	0		$|
@@ -65,6 +64,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -2054174542	0	object/static/structure/general/debris_deathstar_small_tube.iff	0	769.528	74.1006	1069.11	0.731176	0.00792499	0.667319	-0.141439		$|
 -580396567	0	object/static/structure/general/debris_deathstar_large_tube.iff	0	769.621	73.7041	1067.11	0.989554	-0.0918132	0.0102679	-0.110666		$|
 -1160876236	0	object/static/structure/dantooine/dant_totem_pole.iff	0	501.143	25.3181	1580.4	0.666258	0.0405375	0.742169	-0.060352		$|
--995942589	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	74.91333	30.06835938	525.344238	1	0	0	0		$|
--1879421507	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	901.68335	50.10965729	662.004883	1	0	0	0		$|
--57733465	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	763.6604	76.3720932	1074.76416	1	0	0	0		$|

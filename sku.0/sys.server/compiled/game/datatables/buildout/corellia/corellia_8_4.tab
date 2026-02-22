@@ -1,6 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		$|
 -774325041	0	object/tangible/furniture/tatooine/frn_tato_cafe_parasol.iff	0	1331.33	1.95187	265.244	0.972903	-0.162973	-0.0997587	-0.130181		$|
 -1908401984	0	object/static/structure/corellia/corl_tent_small.iff	0	1345.49	3.29537	275.751	0.978504	0.0174486	0.183117	0.0932385		$|
 -2093773463	0	object/tangible/furniture/tatooine/frn_tato_cafe_parasol.iff	0	1339.57	1.7441	278.421	0.977077	-0.0881751	-0.0174155	-0.192982		$|
@@ -15,5 +14,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -556911782	0	object/static/structure/tatooine/debris_tatt_crate_metal_1.iff	0	1336.68	2.94409	263.709	0.876001	0.0450601	0.47289	0.0834713		$|
 -231542615	0	object/static/structure/tatooine/debris_tatt_crate_metal_1.iff	0	1337.22	3.11484	262.976	0.880255	0.0465432	0.463879	0.0883201		$|
 -976317925	0	object/static/structure/tatooine/debris_tatt_drum_storage_2.iff	0	1344.5	3.98232	266.67	0.880876	-0.0375864	0.463178	0.0900596		$|
--1960783934	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1336.089844	1.931572437	272.42981	1	0	0	0		$|
--879410635	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1332.205078	1.67427814	268.947754	1	0	0	0		$|

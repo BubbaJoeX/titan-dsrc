@@ -1,10 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--48358000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
--1066599356	0	object/tangible/collection/plant_18.iff	0	624.997	12.0335	791.85	1	0	0	0	systems.collections.consume_click	collection.slotName|4|col_plant_01:plant_18|$|
--1633044993	0	object/tangible/ground_spawning/area_spawner.iff	0	626.373	12.6861	788.626	0.952312	0	0.305126	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|360.000000|fltMinSpawnTime|2|180.000000|fltRadius|2|1.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|yavin_smuggler_leader|strSpawnerType|4|area|strSpawns|4|yavin_smuggler_leader|$|
--1010449117	0	object/tangible/ground_spawning/area_spawner.iff	0	637.332	12.983	788.112	0.970884	0	-0.239551	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|360.000000|fltMinSpawnTime|2|180.000000|fltRadius|2|1.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|3|intSpawnSystem|0|1|registerWithController|0|1|strName|4|yavin_smuggler_member|strSpawnerType|4|area|strSpawns|4|yavin_smuggler_member|$|
--869414667	0	object/tangible/ground_spawning/area_spawner.iff	0	616.973	13.1576	785.223	0.924386	0	0.381457	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|360.000000|fltMinSpawnTime|2|180.000000|fltRadius|2|1.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|3|intSpawnSystem|0|1|registerWithController|0|1|strName|4|yavin_smuggler_member|strSpawnerType|4|area|strSpawns|4|yavin_smuggler_member|$|
 -774325041	0	object/tangible/camp/camp_tent_s5.iff	0	624.652	10.7369	795.91	0.734008	0	0.679141	0		$|
 -1908401984	0	object/static/structure/dantooine/dant_gate.iff	0	632.198	9.99407	803.239	0.998039	0.0549475	0.00164892	0.0299501		$|
 -2093773463	0	object/static/structure/dantooine/dant_fence_8m.iff	0	626.417	9.791	803.259	0.9996	0.0199947	0.000399947	0.0199947		$|
@@ -32,8 +27,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -2090498086	0	object/static/structure/general/streetlamp_small_green_style_01.iff	0	1950.67	84.3196	967.499	0.994493	0	-0.104807	0		$|
 -942219052	0	object/static/structure/dantooine/dant_skull_lizard.iff	0	1947.68	87.9216	967.958	0.677679	0.361466	0.565033	-0.301382		$|
 -1720483051	0	object/static/structure/general/skeleton_human_head.iff	0	1947.55	88.5609	967.216	0.649416	0.205567	0.723195	-0.113974		$|
--609843239	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	637.821777	11.7752676	795.079346	1	0	0	0		$|
--751867451	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1316.491211	12.94521141	618.258545	1	0	0	0		$|
--641399737	0	object/tangible/ground_spawning/mob_spawner.iff	0	554	0	1384	1	0	0	0		$|
--977230724	0	object/tangible/ground_spawning/mob_spawner.iff	0	554	0	1384	1	0	0	0		$|
--1246571693	0	object/tangible/ground_spawning/mob_spawner.iff	0	554	0	1384	1	0	0	0		$|

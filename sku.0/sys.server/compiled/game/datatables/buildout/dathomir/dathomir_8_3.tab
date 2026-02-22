@@ -1,8 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
 -774325041	0	object/static/structure/dathomir/mtn_clan_strong_fence_s01.iff	0	1292.4	551.967	1077.54	0.7485	0	0.663135	0		$|
 -1908401984	0	object/static/structure/dathomir/mtn_clan_strong_fence_s01.iff	0	1296.64	550.458	1069.11	-0.425219	0	0.905091	0		$|
 -2093773463	0	object/static/structure/dathomir/mtn_clan_strong_fence_s01.iff	0	1298.19	549.731	1059.77	0.685869	0	0.727726	0		$|
--555016066	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1292.271973	549.6482544	1064.387451	1	0	0	0		$|
--1556862676	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1295.004883	548.8052368	1052.110352	1	0	0	0		$|

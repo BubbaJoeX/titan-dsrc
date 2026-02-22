@@ -1,6 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
 -774325041	0	object/building/endor/endor_catwalk.iff	0	1168.3	6.53805	1607	0.924909	0	-0.380188	0		$|
 -1908401984	0	object/building/endor/endor_catwalk.iff	0	1161.53	6.51875	1613.78	0.922997	0	-0.384808	0		$|
 -2093773463	0	object/static/structure/general/tato_cave_rock_large.iff	0	1158	5.37455	1615.4	0.666436	0.604682	0.256206	-0.35296		$|

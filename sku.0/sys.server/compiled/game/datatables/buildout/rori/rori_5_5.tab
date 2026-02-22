@@ -1,6 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
 -774325041	0	object/static/structure/general/prp_junk_s1.iff	0	32.5046	76.1057	1979.89	1	0	0	0		$|
 -1908401984	0	object/static/structure/general/prp_junk_s2.iff	0	8.92088	75.938	1986.41	0.746105	0.0925359	-0.0598161	-0.656647		$|
 -2093773463	0	object/static/structure/general/prp_junk_s4.iff	0	2.53373	75.3539	1993.74	1	0	0	0		$|
@@ -19,31 +18,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -879410635	0	object/static/structure/naboo/gungan_statue_s02.iff	0	1163.29	90.2214	702.619	1	0	0	0		$|
 -1241413427	0	object/tangible/gravestone/gravestone02.iff	0	1164.27	90.3479	699.499	0.721382	0	0.692538	0		$|
 -2079230854	0	object/tangible/gravestone/gravestone03.iff	0	1163.68	90.3479	699.464	0.741831	0	-0.670587	0		$|
--2083494600	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1926.943359	80.82769775	1763.450195	1	0	0	0		$|
--1946274642	0	object/tangible/ground_spawning/mob_spawner.iff	0	0	74	2000	1	0	0	0		$|
--1677962170	0	object/tangible/ground_spawning/mob_spawner.iff	0	0	74	2000	1	0	0	0		$|
--1647848179	0	object/tangible/ground_spawning/mob_spawner.iff	0	0	74	2000	1	0	0	0		$|
--1062241431	0	object/tangible/ground_spawning/mob_spawner.iff	0	0	74	2000	1	0	0	0		$|
--854658269	0	object/tangible/ground_spawning/mob_spawner.iff	0	0	74	2000	1	0	0	0		$|
--2090498086	0	object/tangible/ground_spawning/mob_spawner.iff	0	0	74	2000	1	0	0	0		$|
--942219052	0	object/tangible/ground_spawning/mob_spawner.iff	0	0	74	2000	1	0	0	0		$|
--1720483051	0	object/tangible/ground_spawning/mob_spawner.iff	0	0	74	2000	1	0	0	0		$|
--609843239	0	object/tangible/ground_spawning/mob_spawner.iff	0	0	74	2000	1	0	0	0		$|
--751867451	0	object/tangible/ground_spawning/mob_spawner.iff	0	0	74	2000	1	0	0	0		$|
--641399737	0	object/tangible/ground_spawning/mob_spawner.iff	0	0	74	2000	1	0	0	0		$|
--977230724	0	object/tangible/ground_spawning/mob_spawner.iff	0	0	74	2000	1	0	0	0		$|
--1246571693	0	object/tangible/ground_spawning/mob_spawner.iff	0	0	74	2000	1	0	0	0		$|
--1674091023	0	object/tangible/ground_spawning/mob_spawner.iff	0	0	74	2000	1	0	0	0		$|
--1182814570	0	object/tangible/ground_spawning/mob_spawner.iff	0	0	74	2000	1	0	0	0		$|
--882045225	0	object/tangible/ground_spawning/mob_spawner.iff	0	0	74	2000	1	0	0	0		$|
--1550073655	0	object/tangible/ground_spawning/mob_spawner.iff	0	0	74	2000	1	0	0	0		$|
--409244986	0	object/tangible/ground_spawning/mob_spawner.iff	0	0	74	2000	1	0	0	0		$|
--280675418	0	object/tangible/ground_spawning/mob_spawner.iff	0	0	74	2000	1	0	0	0		$|
--2133527664	0	object/tangible/ground_spawning/mob_spawner.iff	0	0	74	2000	1	0	0	0		$|
--517957242	0	object/tangible/ground_spawning/mob_spawner.iff	0	1940	81	1778	1	0	0	0		$|
--416999969	0	object/tangible/ground_spawning/mob_spawner.iff	0	1940	81	1778	1	0	0	0		$|
--1804617885	0	object/tangible/ground_spawning/mob_spawner.iff	0	1158	90	691	1	0	0	0		$|
--648240706	0	object/tangible/ground_spawning/mob_spawner.iff	0	1158	90	691	1	0	0	0		$|
--1239926135	0	object/tangible/ground_spawning/mob_spawner.iff	0	1158	90	691	1	0	0	0		$|
--1416801220	0	object/tangible/ground_spawning/mob_spawner.iff	0	1158	90	691	1	0	0	0		$|
--1550759483	0	object/tangible/ground_spawning/mob_spawner.iff	0	1158	90	691	1	0	0	0		$|

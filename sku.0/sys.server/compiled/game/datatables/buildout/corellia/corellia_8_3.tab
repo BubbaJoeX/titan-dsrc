@@ -1,6 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		$|
 -774325041	0	object/static/structure/general/debris_deathstar_conduit.iff	0	151.352	172.36	138.856	0.656145	-0.00840732	0.754486	-0.0124218		$|
 -1908401984	0	object/static/structure/general/debris_deathstar_conduit.iff	0	151.277	171.863	139.484	-0.246605	0.0054244	0.969	-0.0139843		$|
 -2093773463	0	object/static/particle/pt_miasma_of_fog_mustard.iff	0	147.22	169.094	146.55	1	0	0	0		$|
@@ -16,4 +15,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -231542615	0	object/static/structure/tatooine/debris_tatt_drum_dented_1.iff	0	145.044	170.162	140.877	-0.505051	-0.289918	0.812737	0.0181843		$|
 -976317925	0	object/static/structure/tatooine/palette_tatooine_style_01.iff	0	146.677	169.447	145.369	0.985585	0.169182	0	0		$|
 -1960783934	0	object/static/structure/general/trash_pile_s01.iff	0	156.476	172.522	137.782	0.900117	0.140646	-0.407378	-0.0636541		$|
--879410635	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	146.810059	167.5739136	151.762451	1	0	0	0		$|

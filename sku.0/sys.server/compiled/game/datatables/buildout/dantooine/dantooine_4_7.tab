@@ -1,7 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--39928000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
--501524270	0	object/tangible/collection/shock_trooper_helmet.iff	0	1830.85	9.41795	780.895	1	0	0	0	systems.collections.consume_click	collection.slotName|4|col_shock_trooper_armor:shock_trooper_helmet|$|
 -774325041	0	object/static/structure/dantooine/dant_fence_8m.iff	0	1830.52	1.79077	1851.77	0.738469	0	-0.674288	0		$|
 -1908401984	0	object/static/structure/dantooine/dant_fence_8m.iff	0	1826.95	1.72384	1844.58	0.937647	0	-0.34759	0		$|
 -2093773463	0	object/static/structure/dantooine/dant_fence_8m.iff	0	1819.85	1.63641	1840.84	0.993395	0	-0.114747	0		$|
@@ -14,7 +12,7 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1927376940	0	object/static/structure/dantooine/dant_fence_8m.iff	0	1825.22	1.94294	1863.27	0.917121	0	0.398609	0		$|
 -694282569	0	object/static/structure/dantooine/dant_fence_4m.iff	0	1829.47	2.06959	1857.79	-0.539428	-0.0531432	0.839903	0.0274927		$|
 -556911782	0	object/static/structure/dantooine/dant_boundary_post.iff	0	1804.87	1.16844	1864.32	0.810963	0	-0.585097	0		$|
--231542615	0	object/static/structure/dantooine/dant_boundary_post.iff	0	1807.71	1.5427	1839.25	-0.0791207	-9.02035e-009	0.996865	8.53811e-010		$|
+-231542615	0	object/static/structure/dantooine/dant_boundary_post.iff	0	1807.71	1.5427	1839.25	-0.0791207	-9.02035e-09	0.996865	8.53811e-10		$|
 -976317925	0	object/static/structure/dantooine/dant_skull_lizard.iff	0	1828.95	1.39697	1849.37	1	0	0	0		$|
 -1960783934	0	object/static/structure/dantooine/dant_skull_thune.iff	0	1818.93	1.09878	1863.78	-0.150225	0	0.988652	0		$|
 -879410635	0	object/static/structure/dantooine/dant_skull_bol.iff	0	1803.19	1.06987	1844.73	0.941075	0	0	-0.338197		$|
@@ -49,9 +47,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1416801220	0	object/static/structure/general/planter_generic_style_2.iff	0	1831.52	11.5182	766.895	0.889293	0	0.457338	0		$|
 -1550759483	0	object/static/structure/dantooine/dant_jedi_temple_pillar_med.iff	0	860.678	7.1236	15.5571	1	0	0	0		$|
 -1813593959	0	object/static/structure/dantooine/dant_boundary_post.iff	0	857.829	22.5191	5.47803	1	0	0	0		$|
--1685100866	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1801.296982	1.203325272	1850.879395	1	0	0	0		$|
--91884238	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	120.301636	7.002457142	519.64209	1	0	0	0		$|
--507892488	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	485.911621	7	1367.487793	1	0	0	0		$|
--1424652355	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1841.48378	12.39100838	770.029785	1	0	0	0		$|
--1927988745	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1846.927734	12.3439188	765.415527	1	0	0	0		$|
--1948313463	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	861.138306	22.49269867	5.427734	1	0	0	0		$|

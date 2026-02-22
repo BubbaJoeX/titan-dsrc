@@ -1,7 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--31198000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
--2029120081	0	object/tangible/collection/rock_bubbling_02.iff	0	424.582	-209.993	829.808	1	0	0	0	systems.collections.consume_click	collection.slotName|4|col_rock_bubbling:bubbling_rock_02|$|
 -774325041	0	object/static/structure/general/escape_pod.iff	0	432.848	-208.76	833.655	0.0493788	-0.232543	0.97126	-0.0118225		$|
 -1908401984	0	object/static/structure/general/escape_pod_door.iff	0	432.269	-209.971	831.049	0.896052	0	0	0.443948		$|
 -2093773463	0	object/static/structure/tatooine/debris_tatt_crate_1.iff	0	427.409	-210.171	829.682	1	0	0	0		$|
@@ -17,7 +15,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -231542615	0	object/static/structure/naboo/gungan_statue_s04.iff	0	1952.74	-187.781	470.889	0.717911	0	-0.696135	0		$|
 -976317925	0	object/static/structure/naboo/gungan_statue_s03.iff	0	1943.35	-187.643	477.949	-0.0157957	0	0.999875	0		$|
 -1960783934	0	object/static/structure/naboo/gungan_statue_s02.iff	0	1932.38	-187.707	469.812	0.768054	0	0.640386	0		$|
--879410635	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1946.679077	-187.7405701	474.380859	1	0	0	0		$|
--1241413427	0	object/tangible/ground_spawning/mob_spawner.iff	0	434	-209	822	1	0	0	0		$|
--2079230854	0	object/tangible/ground_spawning/mob_spawner.iff	0	434	-209	822	1	0	0	0		$|
--2083494600	0	object/tangible/ground_spawning/mob_spawner.iff	0	434	-209	822	1	0	0	0		$|

@@ -1,19 +1,14 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--46078000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
--603662390	0	object/tangible/collection/rare_melee_white_thranta_katana.iff	0	1917.64	82.2416	89.0601	0.319968	0.400337	0.301619	0.803976	systems.collections.consume_click	collection.slotName|4|col_rare_melee_03:white_thranta_katana_01|$|
 -774325041	0	object/building/endor/endor_tiki_torch.iff	0	147.349	17.1561	2042.34	1	0	0	0		$|
 -1908401984	0	object/static/structure/tatooine/skeleton_krayt_ribcage.iff	0	272.06	23.2215	601.471	0.955337	0	-0.29552	0		$|
 -2093773463	0	object/static/structure/dantooine/dant_boundary_post.iff	0	271.803	23.3734	606.612	0.967663	0	-0.252245	0		$|
--555016066	0	object/static/structure/dantooine/dant_hide_tanning_s01.iff	0	275.342	22.7526	602.503	0.882333	0	-0.470626	0		$|
--1556862676	0	object/building/endor/endor_tiki_torch.iff	0	268.007	23.2817	604.909	0.92388	0	-0.382683	0		$|
--1621582391	0	object/static/structure/general/skeleton_human_head.iff	0	267.989	24.7538	604.907	0.947651	0	-0.319309	0		$|
--1668142224	0	object/tangible/furniture/all/frn_all_rug_rectangle_large_style_01.iff	0	274.81	23.7496	594.25	0.997436	0.0697653	-0.00573801	0.0148609		$|
--1847828235	0	object/static/structure/dantooine/dant_large_rock_hut.iff	0	1928.85	84.0907	95.6356	0.862807	0	0.505533	0		$|
--565923755	0	object/static/structure/dantooine/dant_large_rock_hut.iff	0	1908.86	80.1182	81.8805	-0.277121	0	0.960835	0		$|
--1927376940	0	object/static/structure/dantooine/dant_large_rock_hut.iff	0	1980.88	114.433	52.946	1	0	0	0		$|
--694282569	0	object/static/structure/dantooine/dant_large_rock_hut.iff	0	2025.64	122.666	51.1254	0.843735	0	0.536761	0		$|
--556911782	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	276.8842468	22.43898392	606.18042	1	0	0	0		$|
--231542615	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	265.5131836	23.54003906	606.063477	1	0	0	0		$|
--976317925	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1917.933228	82.57657623	91.854004	1	0	0	0		$|
--1960783934	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1982.291382	114.8188553	45.243408	1	0	0	0		$|
+-555016066	0	object/static/structure/dathomir/nsister_tent_house_style_01.iff	0	276.09	22.5068	595.444	0.289978	0	0.957033	0		$|
+-1556862676	0	object/static/structure/dantooine/dant_hide_tanning_s01.iff	0	275.342	22.7526	602.503	0.882333	0	-0.470626	0		$|
+-1621582391	0	object/building/endor/endor_tiki_torch.iff	0	268.007	23.2817	604.909	0.92388	0	-0.382683	0		$|
+-1668142224	0	object/static/structure/general/skeleton_human_head.iff	0	267.989	24.7538	604.907	0.947651	0	-0.319309	0		$|
+-1847828235	0	object/tangible/furniture/all/frn_all_rug_rectangle_large_style_01.iff	0	274.81	23.7496	594.25	0.997436	0.0697653	-0.00573801	0.0148609		$|
+-565923755	0	object/static/structure/dantooine/dant_large_rock_hut.iff	0	1928.85	84.0907	95.6356	0.862807	0	0.505533	0		$|
+-1927376940	0	object/static/structure/dantooine/dant_large_rock_hut.iff	0	1908.86	80.1182	81.8805	-0.277121	0	0.960835	0		$|
+-694282569	0	object/static/structure/dantooine/dant_large_rock_hut.iff	0	1980.88	114.433	52.946	1	0	0	0		$|
+-556911782	0	object/static/structure/dantooine/dant_large_rock_hut.iff	0	2025.64	122.666	51.1254	0.843735	0	0.536761	0		$|

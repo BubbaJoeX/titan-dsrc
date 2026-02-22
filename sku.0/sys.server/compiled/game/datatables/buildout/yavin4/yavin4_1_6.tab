@@ -1,6 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
 -774325041	0	object/static/structure/general/debris_deathstar_tractorbeam.iff	0	628.211	430.796	71.6282	0.69162	-0.207703	0.656197	0.218922		$|
 -1908401984	0	object/static/flora/flora_bush_yavin_blueleaf.iff	0	627.152	432.103	70.3103	1	0	0	0		$|
 -2093773463	0	object/static/flora/flora_bush_yavin_blueleaf.iff	0	627.571	431.261	69.9722	0.979061	0	0.203567	0		$|
@@ -36,12 +35,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1674091023	0	object/static/structure/general/streetlamp_small_green_style_01.iff	0	1688.78	326.717	1280.4	1	0	0	0		$|
 -1182814570	0	object/static/structure/military/military_column_weak_rebel_style_01.iff	0	732.071	341.685	885.696	0.799663	-0.0361054	-0.596036	-0.0630612		$|
 -882045225	0	object/static/structure/military/military_wall_weak_rebl_style_01.iff	0	729.729	341.737	881.776	0.876001	-0.0155804	-0.47289	-0.0935683		$|
--1550073655	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	640.374023	421.4223328	73.147705	1	0	0	0		$|
--409244986	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	698.635254	425.4785767	542.566895	1	0	0	0		$|
--280675418	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	737.318359	341.6951904	881.636963	1	0	0	0		$|
--2133527664	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	745.580566	224.5558624	1382.487549	1	0	0	0		$|
--517957242	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1142.883789	274.4571533	1381.574463	1	0	0	0		$|
--416999969	0	object/tangible/ground_spawning/mob_spawner.iff	0	1688	330	1273	1	0	0	0		$|
--1804617885	0	object/tangible/ground_spawning/mob_spawner.iff	0	1688	330	1273	1	0	0	0		$|
--648240706	0	object/tangible/ground_spawning/mob_spawner.iff	0	1688	330	1273	1	0	0	0		$|
--1239926135	0	object/tangible/ground_spawning/mob_spawner.iff	0	1688	330	1273	1	0	0	0		$|

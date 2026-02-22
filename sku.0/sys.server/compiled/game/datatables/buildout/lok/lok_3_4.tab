@@ -1,6 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--51598000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
 -774325041	0	object/building/general/lok_nymstheme_pirate_cave.iff	0	1099.73	17.3403	1379.94	-0.663731	0	0.747971	0		$|
 -1908401984	-774325041	object/cell/cell.iff	1	0	0	0	1	0	0	0		$|
 -2093773463	-774325041	object/cell/cell.iff	2	0	0	0	1	0	0	0		$|
@@ -30,7 +29,7 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1720483051	-774325041	object/cell/cell.iff	26	0	0	0	1	0	0	0		$|
 -609843239	-774325041	object/cell/cell.iff	27	0	0	0	1	0	0	0		$|
 -751867451	-774325041	object/cell/cell.iff	28	0	0	0	1	0	0	0		$|
--641399737	-751867451	object/tangible/collection/rare_melee_obsidian_lance.iff	28	-63.4067	-64.4187	-173.502	-0.261437	0.654319	-0.650354	0.283826		$|
+-641399737	-751867451	object/tangible/collection/rare_melee_obsidian_lance.iff	0	4032.59	-64.4187	1874.5	-0.261437	0.654319	-0.650354	0.283826		$|
 -977230724	-774325041	object/cell/cell.iff	29	0	0	0	1	0	0	0		$|
 -1246571693	0	object/static/structure/tatooine/pillar_watto_junkshop.iff	0	1071.68	12.0381	1382.83	0.687013	0.700334	0.138323	-0.135692		$|
 -1674091023	0	object/static/structure/tatooine/pillar_watto_junkshop.iff	0	1072.88	11.994	1371.35	1	0	0	0		$|
@@ -59,7 +58,7 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1376581304	0	object/static/structure/corellia/corl_power_arial_thin.iff	0	1212.5	17.0712	1808.78	1	0	0	0		$|
 -327503350	0	object/static/structure/corellia/corl_power_box_node.iff	0	1208.94	16.7822	1810.07	1	0	0	0		$|
 -1408844359	0	object/static/structure/general/debris_deathstar_storage.iff	0	454.741	11.9146	23.7126	-0.431177	0	0.902268	0		$|
--850991870	0	object/static/structure/general/prp_junk_s1.iff	0	447.313	12.0576	24.0056	0.636654	-0.339938	-0.328001	0.609532		$|
+-850991870	0	object/static/structure/general/prp_junk_s1.iff	0	447.312	12.0576	24.0056	0.636654	-0.339938	-0.328001	0.609532		$|
 -1579429420	0	object/static/structure/general/prp_junk_s8.iff	0	445.079	12.4529	23.1974	0.770827	0.167578	0.405653	-0.461724		$|
 -414188864	0	object/static/structure/general/prp_junk_s6.iff	0	445.6	12.497	17.7349	-0.448843	-0.473158	0.529349	0.542634		$|
 -2054174542	0	object/static/structure/general/prp_junk_s2.iff	0	446.761	11.7692	18.5955	0.0433939	0.981045	0.188674	-0.00834551		$|
@@ -83,9 +82,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1734547049	0	object/static/structure/tatooine/debris_tatt_crate_1.iff	0	451.743	12.0105	17.7828	0.728272	0	-0.685289	0		$|
 -634427143	0	object/tangible/camp/camp_cot.iff	0	453.713	12.195	15.2456	0.891568	0	-0.452886	0		$|
 -1998115094	0	object/static/structure/general/campfire_fresh.iff	0	449.394	11.9584	19.6254	1	0	0	0		$|
--2049076531	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1201.795166	15.80171013	1822.067505	1	0	0	0		$|
--727431475	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	448.955078	12.16427898	13.842407	1	0	0	0		$|
--1658075832	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	451.946045	12.10436726	12.686523	1	0	0	0		$|
--487332026	0	object/tangible/npc/storyline_npc/imperial_commander_spawner.iff	0	1525	18	1178	1	0	0	0		$|
--1526027737	0	object/tangible/npc/imperial_recruiter_spawner.iff	0	1525.83	21	1185.65	1	0	0	0		$|
--31736537	0	object/tangible/ground_spawning/area_spawner.iff	0	1526	18	1190	1	0	0	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|1.000000|fltMinSpawnTime|2|0.000000|fltRadius|2|3.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|3|intSpawnSystem|0|1|registerWithController|0|1|strName|4|imperial_trooper|strSpawnerType|4|area|strSpawns|4|imperial_trooper|$|

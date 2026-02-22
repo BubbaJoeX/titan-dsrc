@@ -1,6 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		$|
 -774325041	0	object/static/flora/flora_tree_rori_mkpodtree.iff	0	1741.61	4.15863	1849.49	1	0	0	0		$|
 -1908401984	0	object/static/structure/general/campfire_ash.iff	0	1746.33	4.57324	1852.7	1	0	0	0		$|
 -2093773463	0	object/static/structure/general/streetlamp_small_style_01.iff	0	1743.34	2.46944	1851.02	1	0	0	0		$|

@@ -1,6 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
 -774325041	0	object/static/structure/dathomir/mtn_clan_pillar_s01.iff	0	1137.44	392.135	1777.33	0.738465	0	-0.674292	0		$|
 -1908401984	0	object/building/endor/endor_tiki_torch.iff	0	1106.01	386.665	1824.17	1	0	0	0		$|
 -2093773463	0	object/building/endor/endor_tiki_torch.iff	0	1125.15	387.436	1823.67	1	0	0	0		$|
@@ -50,7 +49,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1813593959	0	object/static/structure/dantooine/dant_cooking_stone.iff	0	1108.93	389.616	1829.88	1	0	0	0		$|
 -1685100866	0	object/static/structure/dantooine/dant_hide_tanning_s02.iff	0	1119.16	388.549	1827.3	-0.0906717	0	0.995881	0		$|
 -91884238	0	object/static/structure/dantooine/dant_fence_8m.iff	0	1100.22	381.811	1795.51	0.719181	0.0858911	0.683546	0.0903687		$|
--507892488	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1110.945312	384.2415161	1812.715332	1	0	0	0		$|
--1424652355	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1109.499023	384.5938721	1767.165527	1	0	0	0		$|
--1927988745	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1125.320801	388.2139282	1825.424316	1	0	0	0		$|
--1948313463	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1110.521973	385.0592346	1734.932129	1	0	0	0		$|

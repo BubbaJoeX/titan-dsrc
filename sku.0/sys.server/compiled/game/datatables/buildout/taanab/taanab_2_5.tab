@@ -1,0 +1,28 @@
+objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
+i	i	h	i	f	f	f	f	f	f	f	s	p
+-774325041	0	object/static/structure/corellia/corl_imprv_wall_4x32_s03.iff	0	1509.4	48	480.7	0.707108	0	0.707106	0		$|
+-1908401984	0	object/static/structure/corellia/corl_imprv_column_s03.iff	0	1509.4	48	464.2	0.707108	0	0.707106	0		$|
+-2093773463	0	object/static/structure/corellia/corl_imprv_column_s03.iff	0	1509.4	48	497.2	0.707108	0	0.707106	0		$|
+-555016066	0	object/static/structure/corellia/corl_imprv_wall_4x16_s03.iff	0	1504.7	48	502.7	-0.422618	0	0.906308	0		$|
+-1556862676	0	object/static/structure/corellia/corl_imprv_wall_4x16_s03.iff	0	1505	48	458.4	0.894934	0	-0.446198	0		$|
+-1621582391	0	object/static/structure/corellia/corl_imprv_column_s03.iff	0	1499.9	48	451.6	0.951056	0	0.309017	0		$|
+-1668142224	0	object/static/structure/corellia/corl_imprv_column_s03.iff	0	1499.2	48.1	509.2	0.34202	0	0.939693	0		$|
+-1847828235	0	object/static/item/eqp_camping_tent_s4.iff	0	1505.1	48	479.9	1	0	0	0		$|
+-565923755	0	object/static/item/eqp_camping_tent_s4.iff	0	1499.6	48	461.3	0.942641	0	0.333807	0		$|
+-1927376940	0	object/static/item/eqp_camping_tent_s4.iff	0	1499.9	48	499.5	0.930418	0	-0.366501	0		$|
+-694282569	0	object/building/endor/endor_tiki_torch.iff	0	1503.3	48	470.2	1	0	0	0		$|
+-556911782	0	object/building/endor/endor_tiki_torch.iff	0	1503.3	48	489.6	1	0	0	0		$|
+-231542615	0	object/building/endor/endor_tiki_torch.iff	0	1498.4	48	508.5	1	0	0	0		$|
+-976317925	0	object/building/endor/endor_tiki_torch.iff	0	1499	48	452.2	1	0	0	0		$|
+-1960783934	0	object/static/structure/tatooine/palette_tatooine_food_crates_01.iff	0	1505.4	48	474.1	0.707108	0	-0.707106	0		$|
+-879410635	0	object/static/structure/tatooine/palette_supply_06.iff	0	1505.4	48	486.3	0.707108	0	-0.707106	0		$|
+-1241413427	0	object/static/structure/dantooine/dant_fire_pit.iff	0	1495.6	48	479.9	1	0	0	0		$|
+-2079230854	0	object/static/particle/pt_campfire_s01.iff	0	1495.6	48	479.9	1	0	0	0		$|
+-2083494600	0	object/static/structure/general/camp_lawn_chair_s01.iff	0	1497.2	48	482.1	-0.292372	0	0.956305	0		$|
+-1946274642	0	object/static/structure/general/camp_lawn_chair_s01.iff	0	1497.7	48	477.8	0.894934	0	-0.446198	0		$|
+-1677962170	0	object/static/structure/general/camp_lawn_chair_s01.iff	0	1493.9	48	477.8	0.96363	0	0.267238	0		$|
+-1647848179	0	object/static/structure/general/camp_lawn_chair_s01.iff	0	1493.1	48	481.6	0.446198	0	0.894934	0		$|
+-1062241431	0	object/static/structure/general/debris_deathstar_conduit.iff	0	1504.5	48	466.1	0.870356	0	0.492424	0		$|
+-854658269	0	object/static/structure/general/debris_deathstar_large_tube.iff	0	1503.1	48	495	0.970296	0	0.241922	0		$|
+-2090498086	0	object/static/structure/general/debris_deathstar_small_chunk.iff	0	1504.6	48	492.3	0.21644	0	0.976296	0		$|
+-942219052	0	object/static/structure/general/debris_deathstar_small_tube.iff	0	1504.3	48	493.9	0.942641	0	0.333807	0		$|

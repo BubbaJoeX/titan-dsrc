@@ -1,6 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		$|
 -774325041	0	object/static/particle/pt_miasma_of_fog_red.iff	0	244.779	475.872	568.758	1	0	0	0		$|
 -1908401984	0	object/static/structure/dantooine/dant_totem_pole.iff	0	1665.99	-3.22414	1451.59	0.90474	0.425934	0.00294571	-0.00404012		$|
 -2093773463	0	object/static/structure/general/poi_all_obelisk_s01.iff	0	243.259	454.488	570.677	0.942755	0	0.333487	0		$|

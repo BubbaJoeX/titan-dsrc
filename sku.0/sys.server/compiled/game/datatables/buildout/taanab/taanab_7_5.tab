@@ -1,0 +1,8 @@
+objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
+i	i	h	i	f	f	f	f	f	f	f	s	p
+-774325041	0	object/static/structure/naboo/gungan_relic_s02.iff	0	768.2	38	1275.3	1	0	0	0		$|
+-1908401984	0	object/static/structure/naboo/gungan_relic_s02.iff	0	773.6	38	1267.3	0.707108	0	0.707106	0		$|
+-2093773463	0	object/static/structure/naboo/gungan_relic_s02.iff	0	779.3	38	1275.3	1	0	0	0		$|
+-555016066	0	object/static/structure/naboo/gungan_relic_s02.iff	0	773.6	38	1283.4	0.707108	0	0.707106	0		$|
+-1556862676	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	773.8	42	1280.2	0.819152	-0.573577	0	0		$|
+-1621582391	0	object/static/structure/general/streetlamp_small_green_style_01.iff	0	773.8	44.5	1277	1	0	0	0		$|

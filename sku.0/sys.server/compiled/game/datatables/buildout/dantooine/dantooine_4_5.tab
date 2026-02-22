@@ -1,6 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
 -774325041	0	object/static/structure/dantooine/dant_totem_pole.iff	0	1967.83	4.88403	1904.14	0.593818	0	0.804599	0		$|
 -1908401984	0	object/static/structure/dantooine/dant_totem_pole.iff	0	1956.35	4.79673	1907.89	0.7991	0	-0.601198	0		$|
 -2093773463	0	object/static/structure/dantooine/dant_totem_pole.iff	0	1961.8	5.08912	1888.67	0.523366	0	0.852108	0		$|
@@ -44,7 +43,7 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -416999969	0	object/static/structure/dantooine/dant_skull_thune.iff	0	1331.98	2.6345	1448.47	1	0	0	0		$|
 -1804617885	0	object/static/structure/dantooine/dant_skull_bol.iff	0	1326.99	1.75127	1422.88	0.501902	0	0.864924	0		$|
 -648240706	0	object/static/structure/dantooine/dant_totem_pole.iff	0	101.754	-0.784179	850.08	0.0273279	-0.154583	0.978938	0.130531		$|
--1239926135	0	object/static/structure/dantooine/dant_totem_pole.iff	0	91.8649	0.0880638	844.016	0.241784	-2.69334e-010	0.97033	4.35229e-010		$|
+-1239926135	0	object/static/structure/dantooine/dant_totem_pole.iff	0	91.8649	0.0880638	844.016	0.241784	-2.69334e-10	0.97033	4.35229e-10		$|
 -1416801220	0	object/static/structure/dantooine/dant_totem_pole.iff	0	81.0494	-2.7714	839.485	0.381387	0.0079285	0.920515	0.0844558		$|
 -1550759483	0	object/static/structure/dantooine/dant_totem_pole.iff	0	84.735	-0.725243	818.939	0.696347	0.357359	0.618453	0.0700895		$|
 -1813593959	0	object/static/structure/dantooine/dant_jedi_temple_altar.iff	0	148.675	2.36335	548.766	0.986418	0	-0.164252	0		$|
@@ -73,7 +72,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1978261515	0	object/static/structure/dantooine/dant_fence_4m.iff	0	1606.48	13.273	574.852	-0.307925	0.350499	0.841482	-0.272471		$|
 -961985415	0	object/static/structure/dantooine/dant_boundary_post.iff	0	1585.86	2.67731	536.685	-0.267499	0	0.963558	0		$|
 -1517888095	0	object/static/structure/dantooine/dant_boundary_post.iff	0	1593.57	2.89743	526.828	-0.42666	0	0.904412	0		$|
--366350694	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	163.605713	2.731521368	500.7102966	1	0	0	0		$|
--797489960	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	94.585693	1.151305914	839.6627808	1	0	0	0		$|
--819222594	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1325.235107	2.756428957	1445.226318	1	0	0	0		$|
--245990504	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	46.745117	1.871530771	1494.426392	1	0	0	0		$|

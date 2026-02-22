@@ -1,7 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--25528000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	-195	0	1	0	0	0		$|
--864104663	0	object/tangible/collection/rock_glowing_07.iff	0	1836.9	180.097	276.237	1	0	0	0	systems.collections.consume_click	collection.slotName|4|col_rock_glowing:glowing_rock_07|$|
 -774325041	0	object/tangible/furniture/all/frn_all_chair_metal_s1.iff	0	1844.25	179.81	267.362	0.710914	0	-0.703279	0		$|
 -1908401984	0	object/tangible/furniture/all/frn_all_professor_desk.iff	0	1843.43	179.81	266.972	0.710914	0	0.703279	0		$|
 -2093773463	0	object/tangible/furniture/all/frn_all_toolchest_med_s01.iff	0	1843.39	179.589	268.884	0.689498	0	0.724287	0		$|
@@ -10,4 +8,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1621582391	0	object/static/structure/general/data_terminal_free_s1.iff	0	1844.56	179.747	265.154	1	0	0	0		$|
 -1668142224	0	object/static/structure/general/data_terminal_s2.iff	0	1845.64	179.715	265.491	1	0	0	0		$|
 -1847828235	0	object/static/structure/tatooine/jawa/tent_jawa_01_small.iff	0	1844.64	179.81	267.299	1	0	0	0		$|
--565923755	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1848.547363	180	268.218994	1	0	0	0		$|

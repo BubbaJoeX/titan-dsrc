@@ -1,0 +1,4 @@
+objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
+i	i	h	i	f	f	f	f	f	f	f	s	p
+-774325041	0	object/static/structure/general/xwing.iff	0	1726.7	82.3	1150.9	0.707108	0	-0.707106	0		$|
+-1908401984	0	object/static/particle/pt_poi_broken_electronics.iff	0	1732.2	84	1150.9	0.707108	0	-0.707106	0		$|

@@ -1,8 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--39688000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
--1876943442	0	object/tangible/quest/rebel/rtp_ackbar_wave_sympathizer_signal.iff	0	7.25415	35.4678	1870.3	0.707388	0	-0.706825	0	quest.task.ground.wave_event_controller	$|
--1934746442	0	object/static/structure/nobuild/noflora_5.iff	0	7.11133	35.4718	1870.2	1	0	0	0		$|
 -774325041	0	object/static/structure/general/planter_generic_style_4.iff	0	1477.24	21.9416	1177.54	1	0	0	0		$|
 -1908401984	0	object/static/structure/general/planter_generic_style_4.iff	0	1470.6	21.7469	1181.46	1	0	0	0		$|
 -2093773463	0	object/static/structure/general/prp_junk_s6.iff	0	1313.83	14.2866	1572.85	0.940166	0.257004	-0.138082	0.175984		$|
@@ -34,5 +31,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -751867451	0	object/static/structure/general/tato_cave_stalagmite_large.iff	0	1641.39	8.14315	480.779	0.921487	0.317529	0.184555	-0.126396		$|
 -641399737	0	object/static/structure/general/tato_cave_stalagmite_large.iff	0	1638.55	8.96224	478.859	0.875256	-0.318506	0.36067	0.0489676		$|
 -977230724	0	object/static/structure/general/tato_cave_stalagmite_large.iff	0	1640.82	8.9849	479.738	0.576336	0.194446	0.747998	-0.265571		$|
--1246571693	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1316.321777	13.58125401	1569.819336	1	0	0	0		$|
--1674091023	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1636.838135	6.406970978	484.846191	1	0	0	0		$|

@@ -1,6 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
 -774325041	0	object/static/structure/general/trash_pile_s01.iff	0	656.027	14.3375	27.6987	0.390152	0.920751	0	0		$|
 -1908401984	0	object/static/structure/general/trash_pile_s01.iff	0	653.093	13.8678	25.4695	-0.0291761	0.998774	-0.0381938	0.0118481		$|
 -2093773463	0	object/static/structure/general/trash_pile_s01.iff	0	655.54	14.4641	23.3552	0.531861	0	0.846832	0		$|

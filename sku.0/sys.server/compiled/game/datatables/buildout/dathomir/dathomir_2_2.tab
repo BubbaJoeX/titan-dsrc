@@ -1,7 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--42298000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
--1601272011	0	object/tangible/collection/rebel_battle_left_bicep.iff	0	1441.94	89.5781	1374.27	0.0733897	0.0823359	0.746273	-0.656438	systems.collections.consume_click	collection.slotName|4|col_rebel_battle_armor:rebel_battle_left_bicep|$|
 -774325041	0	object/static/structure/general/skeleton_human_headandbody.iff	0	1418.18	90.3084	1371.82	1	0	0	0		$|
 -1908401984	0	object/static/structure/general/skeleton_human_headandbody.iff	0	1442.21	89.752	1372.78	1	0	0	0		$|
 -2093773463	0	object/static/structure/general/skeleton_human_head.iff	0	1392.79	91.555	1391.76	1	0	0	0		$|
@@ -12,7 +10,7 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1847828235	0	object/static/structure/military/military_wall_strong_imperial_32_style_01.iff	0	1440.22	89.4083	1379	0.971326	0.2377	-0.00118851	0.00485667		$|
 -565923755	0	object/static/structure/military/military_wall_strong_imperial_16_style_01.iff	0	1423.58	87.9919	1370.7	-0.636567	0.333247	0.614344	0.326053		$|
 -1927376940	0	object/static/structure/military/military_wall_strong_imperial_16_style_01.iff	0	1456.17	89.076	1369.71	0.685869	0	0.727726	0		$|
--694282569	0	object/static/structure/military/military_wall_strong_imperial_16_style_01.iff	0	1446.99	89.0571	1361.19	3.20E-08	0	1	0		$|
+-694282569	0	object/static/structure/military/military_wall_strong_imperial_16_style_01.iff	0	1446.99	89.0571	1361.19	3.20013e-08	0	1	0		$|
 -556911782	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	1455.76	88.9636	1361.23	1	0	0	0		$|
 -231542615	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	1457.1	88.8244	1379.06	0.827767	0.2606	0.473948	-0.14921		$|
 -976317925	0	object/static/structure/military/military_wall_strong_imperial_16_style_01.iff	0	1430.39	85.7012	1359.77	0.099281	-0.0042274	0.801579	-0.589574		$|
@@ -32,5 +30,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -609843239	0	object/static/structure/tatooine/skeleton_krayt_ribcage.iff	0	1389.6	90.8165	1389.88	0.946042	0	-0.324043	0		$|
 -751867451	0	object/static/structure/tatooine/skeleton_krayt_tail.iff	0	1403.45	86.2769	1340.99	1	0	0	0		$|
 -641399737	0	object/static/structure/tatooine/skeleton_greater_krayt_spine_medium.iff	0	1427.26	90.6072	1391.12	0.870293	0	0.492535	0		$|
--977230724	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1433.704102	89.85951996	1368.359375	1	0	0	0		$|
--1246571693	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1405.018555	90.95259857	1381.476562	1	0	0	0		$|

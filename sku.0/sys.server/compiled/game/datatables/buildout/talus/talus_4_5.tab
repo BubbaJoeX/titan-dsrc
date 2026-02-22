@@ -1,6 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--36868000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
 -774325041	0	object/static/structure/general/campfire_burnt.iff	0	215.763	9.19767	1437.41	1	0	0	0		$|
 -1908401984	0	object/static/particle/pt_lair_evil_fire_large_red.iff	0	215.757	9.20998	1437.43	1	0	0	0		$|
 -2093773463	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	215.279	4.8069	1437.89	0.0257936	0	0.999668	0		$|
@@ -37,7 +36,7 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1182814570	0	object/static/structure/general/prp_junk_s8.iff	0	1485.08	55.0428	1268.62	0.893822	0	0	-0.448423		$|
 -882045225	0	object/static/structure/general/prp_junk_s8.iff	0	1485.06	55.0268	1271.1	0.900447	0	0	-0.434965		$|
 -1550073655	0	object/static/structure/general/debris_deathstar_small_chunk.iff	0	1481.47	53.6497	1269.58	0.984727	0	0	0.174108		$|
--409244986	0	object/static/flora/flora_decd_dath_azerontree.iff	0	1988.84	9.29552	982.133	0.898261	0	0.439462	0		$|
+-409244986	0	object/static/flora/flora_decd_dath_azerontree.iff	0	1988.85	9.29552	982.133	0.898261	0	0.439462	0		$|
 -280675418	0	object/static/structure/general/streetlamp_small_green_style_02.iff	0	1989.14	5.0327	982.369	1	0	0	0		$|
 -2133527664	0	object/static/structure/general/tato_cave_stalagmite_small.iff	0	1185.99	17.275	1018.86	0.577609	0	0.816314	0		$|
 -517957242	0	object/static/structure/general/tato_cave_stalagmite_small.iff	0	1185.99	16.2527	1020.77	1	0	0	0		$|
@@ -47,29 +46,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1239926135	0	object/static/structure/general/campfire_smoldering.iff	0	685.763	42.2538	1059.34	1	0	0	0		$|
 -1416801220	0	object/static/flora/flora_decd_dath_azerontree.iff	0	1349.22	42.9504	158.695	1	0	0	0		$|
 -1550759483	0	object/static/structure/tatooine/bridge_tatooine_small_style_03.iff	0	1898.09	-0.140366	323.183	0.744912	0	0.667163	0		$|
--1813593959	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	211.89563	7.920475006	1433.414185	1	0	0	0		$|
--1685100866	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1480.939758	53.49504089	1272.769531	1	0	0	0		$|
--91884238	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1993.736702	7.620039463	979.8873291	1	0	0	0		$|
--507892488	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1920.962692	2.583880424	325.4968567	1	0	0	0		$|
--1424652355	0	object/tangible/ground_spawning/mob_spawner.iff	0	426	0	618	1	0	0	0		$|
--1927988745	0	object/tangible/ground_spawning/mob_spawner.iff	0	426	0	619	1	0	0	0		$|
--1948313463	0	object/tangible/ground_spawning/mob_spawner.iff	0	426	0	620	1	0	0	0		$|
--1331595969	0	object/tangible/ground_spawning/mob_spawner.iff	0	426	0	621	1	0	0	0		$|
--1939786804	0	object/tangible/ground_spawning/mob_spawner.iff	0	426	0	622	1	0	0	0		$|
--1376581304	0	object/tangible/ground_spawning/mob_spawner.iff	0	426	0	623	1	0	0	0		$|
--327503350	0	object/tangible/ground_spawning/mob_spawner.iff	0	426	0	624	1	0	0	0		$|
--1408844359	0	object/tangible/ground_spawning/mob_spawner.iff	0	426	0	625	1	0	0	0		$|
--850991870	0	object/tangible/ground_spawning/mob_spawner.iff	0	426	0	626	1	0	0	0		$|
--1579429420	0	object/tangible/ground_spawning/mob_spawner.iff	0	426	0	627	1	0	0	0		$|
--414188864	0	object/tangible/ground_spawning/mob_spawner.iff	0	426	0	628	1	0	0	0		$|
--2054174542	0	object/tangible/ground_spawning/mob_spawner.iff	0	426	0	629	1	0	0	0		$|
--580396567	0	object/tangible/ground_spawning/mob_spawner.iff	0	426	0	630	1	0	0	0		$|
--1160876236	0	object/tangible/ground_spawning/mob_spawner.iff	0	426	0	631	1	0	0	0		$|
--995942589	0	object/tangible/ground_spawning/mob_spawner.iff	0	426	0	632	1	0	0	0		$|
--1879421507	0	object/tangible/ground_spawning/mob_spawner.iff	0	426	0	633	1	0	0	0		$|
--57733465	0	object/tangible/ground_spawning/mob_spawner.iff	0	426	0	634	1	0	0	0		$|
--166869423	0	object/tangible/ground_spawning/mob_spawner.iff	0	1171	15	1016	1	0	0	0		$|
--1334587254	0	object/tangible/ground_spawning/mob_spawner.iff	0	1171	15	1016	1	0	0	0		$|
--1978261515	0	object/tangible/ground_spawning/mob_spawner.iff	0	1171	15	1016	1	0	0	0		$|
--961985415	0	object/tangible/ground_spawning/mob_spawner.iff	0	1171	15	1016	1	0	0	0		$|
--1517888095	0	object/tangible/ground_spawning/mob_spawner.iff	0	1171	15	1016	1	0	0	0		$|

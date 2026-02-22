@@ -1,7 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--36418000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
--1088538682	0	object/tangible/collection/rare_carbine_kalranoos.iff	0	1008.9	37.5293	1658.41	0.24528	0.484248	0.738637	0.399696	systems.collections.consume_click	collection.slotName|4|col_rare_carbine_02:kalranoos_01|$|
 -774325041	0	object/static/item/item_container_inorganic_gas.iff	0	1001.45	36.8907	1658.13	0.961834	0.135544	-0.0331698	0.235377		$|
 -1908401984	0	object/static/item/item_container_inorganic_chemicals.iff	0	1002.89	36.471	1656.82	0.979097	0.0208531	-0.137976	-0.147976		$|
 -2093773463	0	object/static/particle/pt_buzzing_insects_large.iff	0	1003.45	37.0547	1658.79	1	0	0	0		$|
@@ -71,11 +69,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -57733465	0	object/static/structure/tatooine/skeleton_greater_krayt_spine_medium.iff	0	415.681	23.191	818.474	0.996802	0	-0.0799147	0		$|
 -166869423	0	object/static/structure/tatooine/skeleton_greater_krayt_spine_medium.iff	0	414.773	22.9519	822.901	0.984727	0	-0.174108	0		$|
 -1334587254	0	object/static/structure/tatooine/skeleton_krayt_tail.iff	0	413.132	24.109	796.023	1	0	0	0		$|
--1978261515	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1000.734375	36.77075958	1657.025635	1	0	0	0		$|
--961985415	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1384.144531	15.79618073	1884.915039	1	0	0	0		$|
--1517888095	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1683.624023	6.354609966	2016.202881	1	0	0	0		$|
--366350694	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1029.667969	19.60744476	1171.208008	1	0	0	0		$|
--797489960	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1026.536621	17.58282852	1157.9375	1	0	0	0		$|
--819222594	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1023.365234	19.54989243	1174.974854	1	0	0	0		$|
--245990504	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1000.701172	19.10380173	1188.037842	1	0	0	0		$|
--296982175	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	993.584473	13.0139637	1144.601807	1	0	0	0		$|

@@ -1,6 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
 -774325041	0	object/static/structure/general/campfire_burnt.iff	0	1085.82	0.322675	1948.64	1	0	0	0		$|
 -1908401984	0	object/static/structure/corellia/corl_imprv_column_s04.iff	0	636.202	13.7339	1552.12	1	0	0	0		$|
 -2093773463	0	object/static/structure/general/streetlamp_small_style_02.iff	0	636.831	16.517	1552.09	1	0	0	0		$|
@@ -12,9 +11,9 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -565923755	0	object/static/item/item_tool_hydrospanner.iff	0	637.43	17.8883	1551.9	-0.621672	-0.321583	0.629131	-0.338087		$|
 -1927376940	0	object/static/item/item_tool_hydrospanner.iff	0	634.951	17.9247	1552.35	-0.593007	0.388781	0.600794	0.369106		$|
 -694282569	0	object/static/item/item_tool_hydrospanner.iff	0	634.952	17.9167	1551.9	-0.593007	0.388781	0.600794	0.369106		$|
--556911782	0	object/static/item/item_tool_hydrospanner.iff	0	636.639	17.9121	1552.91	-0.000794138	5.96503e-005	0.838759	-0.544502		$|
--231542615	0	object/static/item/item_tool_hydrospanner.iff	0	635.7	17.9085	1552.92	-0.00079418	5.96771e-005	0.838758	-0.544503		$|
--976317925	0	object/static/item/item_tool_hydrospanner.iff	0	636.155	17.9047	1552.91	-0.00079418	5.96771e-005	0.838758	-0.544503		$|
+-556911782	0	object/static/item/item_tool_hydrospanner.iff	0	636.639	17.9121	1552.91	-0.000794138	5.96503e-05	0.838759	-0.544502		$|
+-231542615	0	object/static/item/item_tool_hydrospanner.iff	0	635.7	17.9085	1552.92	-0.00079418	5.96771e-05	0.838758	-0.544503		$|
+-976317925	0	object/static/item/item_tool_hydrospanner.iff	0	636.155	17.9047	1552.91	-0.00079418	5.96771e-05	0.838758	-0.544503		$|
 -1960783934	0	object/static/structure/general/campfire_ash.iff	0	636.524	13.7693	1550.94	0.875677	-0.114205	0.454195	-0.1177		$|
 -879410635	0	object/static/structure/general/skeleton_human_body.iff	0	636.573	13.6704	1550.71	0.985086	-0.123672	-0.00512342	-0.119517		$|
 -1241413427	0	object/static/structure/general/streetlamp_small_green_style_02.iff	0	1304.31	7.00526	912.666	1	0	0	0		$|
@@ -52,16 +51,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -91884238	0	object/static/structure/general/gravestone_generic_style_02.iff	0	1840.08	5.63268	886.602	0.998201	0	-0.059964	0		$|
 -507892488	0	object/static/structure/general/skeleton_ithorian_headandbody.iff	0	1836.58	5.39027	887.42	1	0	0	0		$|
 -1424652355	0	object/static/structure/general/droid_probedroid_powerdown.iff	0	1496.5	48.1553	100.602	0.98977	-0.00418567	0.13948	0.029702		$|
--1927988745	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1083.293213	0.870356798	1949.04126	1	0	0	0		$|
--1948313463	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	94.091553	1.364015222	971.4399414	1	0	0	0		$|
--1331595969	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1842.402344	5.459028721	897.9490356	1	0	0	0		$|
--1939786804	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1839.049805	5.265366554	900.6912842	1	0	0	0		$|
--1376581304	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1500.773926	47.01256561	101.2522583	1	0	0	0		$|
--327503350	0	object/tangible/ground_spawning/mob_spawner.iff	0	1707	23	2043	1	0	0	0		$|
--1408844359	0	object/tangible/ground_spawning/mob_spawner.iff	0	1707	23	2043	1	0	0	0		$|
--850991870	0	object/tangible/ground_spawning/mob_spawner.iff	0	1707	23	2043	1	0	0	0		$|
--1579429420	0	object/tangible/ground_spawning/mob_spawner.iff	0	1707	23	2043	1	0	0	0		$|
--414188864	0	object/tangible/ground_spawning/mob_spawner.iff	0	1707	23	2043	1	0	0	0		$|
--2054174542	0	object/tangible/ground_spawning/mob_spawner.iff	0	1707	23	2043	1	0	0	0		$|
--580396567	0	object/tangible/ground_spawning/mob_spawner.iff	0	1707	23	2043	1	0	0	0		$|
--1160876236	0	object/tangible/ground_spawning/mob_spawner.iff	0	1707	23	2043	1	0	0	0		$|

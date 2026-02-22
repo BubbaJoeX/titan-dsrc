@@ -1,6 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
 -774325041	0	object/building/endor/endor_forest_hut.iff	0	300.876	1.95735	1472.14	0.922997	0	-0.384808	0		$|
 -1908401984	0	object/building/endor/endor_forest_hut.iff	0	295.463	1.93415	1487.22	-0.209239	0	0.977865	0		$|
 -2093773463	0	object/building/endor/endor_forest_hut.iff	0	278.766	2.09708	1465.34	0.839192	0	0.543835	0		$|
@@ -65,10 +64,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -2054174542	0	object/static/structure/tatooine/debris_tatt_drum_dented_1.iff	0	1933.77	15.0428	125.021	0.840436	-0.307706	-0.406279	-0.184178		$|
 -580396567	0	object/static/structure/corellia/corl_power_arial_thin.iff	0	1935.59	16.3243	118.111	-0.0411976	0.00190028	0.941689	-0.333948		$|
 -1160876236	0	object/static/structure/general/prp_junk_s8.iff	0	1934.14	16.1267	118.466	0.835188	-0.216199	-0.438514	-0.251843		$|
--995942589	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1931.158569	15.67293835	121.145508	1	0	0	0		$|
--1879421507	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1940.624878	16.01924896	123.493408	1	0	0	0		$|
--57733465	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	972.9783325	14.52278709	371.004883	1	0	0	0		$|
--166869423	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	288.5037231	2.02589345	1475.183105	1	0	0	0		$|
--1334587254	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	285.6764832	2.512117863	1480.593506	1	0	0	0		$|
--1978261515	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1048.076538	0.197973818	1576.231201	1	0	0	0		$|
--961985415	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1788.137695	1.306868434	1153.193604	1	0	0	0		$|

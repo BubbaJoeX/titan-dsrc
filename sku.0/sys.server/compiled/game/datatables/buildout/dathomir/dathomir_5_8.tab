@@ -1,7 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--43198000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
--1909073442	0	object/tangible/collection/rock_bubbling_05.iff	0	953.811	0.298619	786.592	-0.314247	-0.0182884	0.949145	-0.00625034	systems.collections.consume_click	collection.slotName|4|col_rock_bubbling:bubbling_rock_05|$|
 -774325041	0	object/static/structure/general/tato_cave_rock_med.iff	0	923.472	17.3334	710.243	1	0	0	0		$|
 -1908401984	0	object/static/structure/general/tato_cave_rock_large.iff	0	926.539	14.6144	712.874	1	0	0	0		$|
 -2093773463	0	object/static/structure/dathomir/nsister_gate_style_01.iff	0	929.675	12.2961	718.785	0.8499	0	-0.526943	0		$|
@@ -9,5 +7,6 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1556862676	0	object/static/structure/general/tato_cave_rock_med.iff	0	929.625	15.8304	713.491	1	0	0	0		$|
 -1621582391	0	object/static/structure/general/tato_cave_rock_large.iff	0	927.216	19.7184	710.238	0.370855	0.610626	-0.363222	-0.598057		$|
 -1668142224	0	object/static/structure/general/tato_cave_rock_med.iff	0	924.044	23.4101	710.671	-0.290869	0.697902	0.531426	0.381988		$|
--1847828235	0	object/static/structure/dathomir/nsister_fence_style_01.iff	0	933.267	14.6689	706.359	0.975897	0	0.21823	0		$|
--565923755	0	object/static/structure/dathomir/nsister_fence_style_01.iff	0	918.631	14.0554	714.802	0.972514	0	0.232843	0		$|
+-1847828235	0	object/static/structure/dathomir/nsister_guard_tower_style_01.iff	0	912.832	14.9034	715.507	1	0	0	0		$|
+-565923755	0	object/static/structure/dathomir/nsister_fence_style_01.iff	0	933.267	14.6689	706.359	0.975897	0	0.21823	0		$|
+-1927376940	0	object/static/structure/dathomir/nsister_fence_style_01.iff	0	918.631	14.0554	714.802	0.972514	0	0.232843	0		$|

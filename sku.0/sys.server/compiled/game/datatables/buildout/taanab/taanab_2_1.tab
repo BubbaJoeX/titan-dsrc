@@ -1,0 +1,15 @@
+objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
+i	i	h	i	f	f	f	f	f	f	f	s	p
+-774325041	0	object/static/item/eqp_camping_tent_s4.iff	0	271.6	35.2	1984	0.707108	0	0.707106	0		$|
+-1908401984	0	object/static/item/eqp_camping_tent_s4.iff	0	279.1	35.2	1988.1	0.930418	0	0.366501	0		$|
+-2093773463	0	object/static/item/eqp_camping_tent_s4.iff	0	264.1	35.2	1988.1	0.430511	0	0.902585	0		$|
+-555016066	0	object/static/structure/general/banner_rebel_style_01.iff	0	274.5	35.2	1987.2	1	0	0	0		$|
+-1556862676	0	object/static/structure/general/banner_rebel_style_01.iff	0	268.7	35.2	1987.2	1	0	0	0		$|
+-1621582391	0	object/static/worldbuilding/camping/camping_cot.iff	0	277.3	35.2	1993.4	0.994522	0	0.104528	0		$|
+-1668142224	0	object/static/worldbuilding/camping/camping_cot.iff	0	265	35.2	1992.7	0.898794	0	-0.438371	0		$|
+-1847828235	0	object/static/structure/general/campfire_burnt.iff	0	271.3	35.3	1990.2	1	0	0	0		$|
+-565923755	0	object/static/particle/pt_campfire_s01.iff	0	271.3	35.3	1990.2	1	0	0	0		$|
+-1927376940	0	object/static/worldbuilding/camping/eqp_camping_chair_s1.iff	0	272.9	35.2	1989.3	0.878817	0	-0.477159	0		$|
+-694282569	0	object/static/worldbuilding/camping/eqp_camping_chair_s1.iff	0	269.7	35.2	1989.3	0.913545	0	0.406737	0		$|
+-556911782	0	object/static/worldbuilding/camping/eqp_camping_chair_s1.iff	0	271.3	35.2	1992.2	-4.37114e-08	0	1	0		$|
+-231542615	0	object/static/item/eqp_camping_grill_s2.iff	0	275.1	35.2	1988.3	0.390731	0	0.920505	0		$|

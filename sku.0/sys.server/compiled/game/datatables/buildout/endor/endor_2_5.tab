@@ -1,6 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
 -774325041	0	object/building/endor/endor_village_tree.iff	0	1349.94	-0.128208	1143.59	1	0	0	0		$|
 -1908401984	0	object/building/endor/endor_tiki_torch.iff	0	1346.42	19.7956	1154.32	0.605074	0.0266868	0.795547	-0.0166987		$|
 -2093773463	0	object/static/item/item_bowl_shallow.iff	0	1342.08	19.8613	1146.38	1	0	0	0		$|
@@ -20,4 +19,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1241413427	0	object/building/endor/endor_village_tree_viewpoint.iff	0	1318.12	0.385679	1161.3	0.793048	0	0.609159	0		$|
 -2079230854	0	object/building/endor/endor_tiki_torch.iff	0	1317.81	2.13764	1159.47	0.744675	-0.187652	0.596056	-0.234441		$|
 -2083494600	0	object/building/endor/endor_tiki_torch.iff	0	1316.93	2.04359	1162.68	-0.598276	-0.176143	0.769604	0.136931		$|
--1946274642	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1303.262207	6.623184204	1150.625488	1	0	0	0		$|

@@ -1,6 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
 -774325041	0	object/static/particle/pt_flocking_glowzees.iff	0	1219.6	95.3277	1102.09	1	0	0	0		$|
 -1908401984	0	object/static/particle/pt_flocking_glowzees.iff	0	1219.35	113.35	1101.5	1	0	0	0		$|
 -2093773463	0	object/static/particle/pt_flocking_glowzees.iff	0	1218.55	106.041	1103.35	1	0	0	0		$|
@@ -13,4 +12,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1927376940	0	object/static/structure/general/skeleton_human_headandbody.iff	0	1214.9	95.0928	1125.29	0.0157957	0	0	0.999875		$|
 -694282569	0	object/static/structure/general/skeleton_human_head.iff	0	1225.5	94.5873	1115.33	1	0	0	0		$|
 -556911782	0	object/static/structure/general/skeleton_human_body.iff	0	1225.21	94.5828	1119.29	1	0	0	0		$|
--231542615	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1229.064026	94.52524567	1109.287109	1	0	0	0		$|

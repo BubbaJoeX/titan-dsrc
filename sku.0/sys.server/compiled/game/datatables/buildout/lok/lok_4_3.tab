@@ -1,46 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1876094345	0	object/tangible/ground_spawning/patrol_waypoint.iff	0	86.3125	11.873	713.076	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|Smuggler_Enemy_Patrol_10150114_2|registerWithController|0|1|$|
--1822028886	0	object/tangible/ground_spawning/patrol_waypoint.iff	0	130.702	11.9488	691.058	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|Smuggler_Enemy_Patrol_10150114_1|registerWithController|0|1|$|
--1737467980	0	object/tangible/ground_spawning/patrol_spawner.iff	0	118.683	11.9772	736.031	1	0	0	0	systems.spawning.spawner_patrol	fltMaxSpawnTime|2|120.000000|fltMinSpawnTime|2|60.000000|fltRadius|2|1.000000|intDefaultBehavior|0|3|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|patrolPathType|4|cycle|registerWithController|0|1|strName|4|Smuggler_Enemy_Patrol|strPatrolPointNames|5|Smuggler_Enemy_Patrol_10150114_1:Smuggler_Enemy_Patrol_10150114_2:Smuggler_Enemy_Patrol_10150114_3:Smuggler_Enemy_Patrol_10150114_4:Smuggler_Enemy_Patrol_10150114_5:|strSpawnerType|4|patrol|strSpawns|4|lok/smuggler_patrol_4|$|
--1396423064	0	object/tangible/ground_spawning/area_spawner.iff	0	56.2662	11.2449	750.121	0.886404	0	0.462912	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|120.000000|fltMinSpawnTime|2|60.000000|fltRadius|2|1.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|3|intSpawnSystem|0|1|registerWithController|0|1|strName|4|Smuggler_Enemy_patrol|strSpawnerType|4|area|strSpawns|4|lok/smuggler_patrol_4|$|
--1243955310	0	object/tangible/ground_spawning/patrol_waypoint.iff	0	46.4375	8.49971	728.738	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|Smuggler_Enemy_Patrol_10150114_4|registerWithController|0|1|$|
--789235722	0	object/tangible/ground_spawning/area_spawner.iff	0	81	11.9448	731	0.997285	0	0.0736341	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|2.000000|fltMinSpawnTime|2|1.000000|fltRadius|2|0.000000|intDefaultBehavior|0|3|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|Smuggler_Fence_Emmett|strSpawnerType|4|area|strSpawns|4|lok/smuggler_fence_emmett|$|
--775792536	0	object/tangible/ground_spawning/patrol_waypoint.iff	0	82.3843	12.0462	757.571	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|Smuggler_Enemy_Patrol_10150114_5|registerWithController|0|1|$|
--480856927	0	object/building/poi/lok_nymshenchman_small3.iff	0	72.2427	11.8067	718.358	1	0	0	0	poi.template.scene.base.base_theater	intPrespawned|0|1|poi.fltSize|0|82|theater.children|7|22250049:22250054:22250061:22250062:22250064:|theater.objMobSpawners|7|22250049:|theater.objObjectiveSpawners|7|22250054:|theater.spawnMethod|0|1|theater.tbl|4|datatables/poi/lok_nymshenchman_small3.iff|$|
--207651551	0	object/tangible/ground_spawning/patrol_waypoint.iff	0	72.8516	11.857	703.425	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|Smuggler_Enemy_Patrol_10150114_3|registerWithController|0|1|$|
--188751418	0	object/tangible/ground_spawning/area_spawner.iff	0	66.4836	11.1221	688.856	0.980144	0	0.198287	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|120.000000|fltMinSpawnTime|2|60.000000|fltRadius|2|1.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|3|intSpawnSystem|0|1|registerWithController|0|1|strName|4|Smuggler_Enemy_Patrol|strSpawnerType|4|area|strSpawns|4|lok/smuggler_patrol_4|$|
--138992953	0	object/tangible/ground_spawning/area_spawner.iff	0	111.497	12.0917	709.161	0.941659	0	-0.336569	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|120.000000|fltMinSpawnTime|2|60.000000|fltRadius|2|1.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|3|intSpawnSystem|0|1|registerWithController|0|1|strName|4|Smuggler_Enemy_Patrol|strSpawnerType|4|area|strSpawns|4|lok/smuggler_patrol_4|$|
--51808000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
--1216607106	0	object/tangible/quest/rebel/rtp_hansolo_imperial_generator.iff	0	221.219	12	979.018	1	0	0	0	quest.task.ground.retrieve_item_on_item	$|
--1477369382	0	object/tangible/quest/rebel/rtp_hansolo_imperial_generator.iff	0	108.597	12	1001.96	1	0	0	0	quest.task.ground.retrieve_item_on_item	$|
--1670711887	0	object/tangible/quest/rebel/rtp_hansolo_imperial_generator.iff	0	81.9335	12	1066.53	1	0	0	0	quest.task.ground.retrieve_item_on_item	$|
--1912497552	0	object/tangible/quest/rebel/rtp_hansolo_imperial_generator.iff	0	137.62	12	1112	1	0	0	0	quest.task.ground.retrieve_item_on_item	$|
--1607551631	0	object/tangible/theme_park/rebel/rtp_hansolo_banners.iff	0	228.258	12	1046.02	0.707107	0	0.707106	0	theme_park.rebel.rtp_han_solo_banners	imperialBannerSpawned|0|1|$|
--262538721	0	object/tangible/theme_park/rebel/rtp_hansolo_banners.iff	0	155.51	12	922.193	0.707107	0	0.707106	0	theme_park.rebel.rtp_han_solo_banners	imperialBannerSpawned|0|1|$|
--476714909	0	object/tangible/theme_park/rebel/rtp_hansolo_banners.iff	0	142.681	12	958.428	0.707107	0	-0.707106	0	theme_park.rebel.rtp_han_solo_banners	imperialBannerSpawned|0|1|$|
--191315093	0	object/tangible/theme_park/rebel/rtp_hansolo_banners.iff	0	153.895	12	1046.1	0.707107	0	-0.707107	0	theme_park.rebel.rtp_han_solo_banners	imperialBannerSpawned|0|1|$|
--1734938312	0	object/tangible/theme_park/rebel/rtp_hansolo_banners.iff	0	73.8956	12	1098.06	0.382683	0	0.92388	0	theme_park.rebel.rtp_han_solo_banners	imperialBannerSpawned|0|1|$|
--1034765632	0	object/tangible/theme_park/rebel/rtp_hansolo_banners.iff	0	49.9567	12	1022.21	0.707107	0	0.707107	0	theme_park.rebel.rtp_han_solo_banners	imperialBannerSpawned|0|1|$|
--419157425	0	object/tangible/theme_park/rebel/rtp_hansolo_banners.iff	0	77.9324	12	945.981	0.707107	0	0.707107	0	theme_park.rebel.rtp_han_solo_banners	imperialBannerSpawned|0|1|$|
--345291173	0	object/tangible/theme_park/rebel/rtp_hansolo_banners.iff	0	90.1563	12	1019.56	0.707107	0	-0.707107	0	theme_park.rebel.rtp_han_solo_banners	imperialBannerSpawned|0|1|$|
--1007129790	0	object/tangible/theme_park/rebel/rtp_hansolo_banners.iff	0	147.004	12	1016.97	1	0	0	0	theme_park.rebel.rtp_han_solo_banners	imperialBannerSpawned|0|1|$|
--2113158848	0	object/tangible/theme_park/rebel/rtp_hansolo_banners.iff	0	176.096	12	972.268	1	0	0	0	theme_park.rebel.rtp_han_solo_banners	imperialBannerSpawned|0|1|$|
--628482504	0	object/tangible/ground_spawning/area_spawner.iff	0	78.5157	12	1094.4	0.588976	0	0.808151	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|320.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|hansolo_otto_01|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_88|$|
--785447011	0	object/tangible/ground_spawning/area_spawner.iff	0	147.573	12	1111.61	0.530998	0	0.847373	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|320.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|hansolo_otto_02|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_88|$|
--699443061	0	object/tangible/ground_spawning/area_spawner.iff	0	144.262	12	1037.95	0.999524	0	0.0308509	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|320.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|hansolo_otto_03|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_88|$|
--1900942549	0	object/tangible/ground_spawning/area_spawner.iff	0	142.502	12	986.706	-0.374703	0	0.927145	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|320.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|hansolo_04|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_88|$|
--772564135	0	object/tangible/ground_spawning/area_spawner.iff	0	131.581	12	960.354	-0.133396	0	0.991063	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|320.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|hansolo_otto_05|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_88|$|
--1760444530	0	object/tangible/ground_spawning/area_spawner.iff	0	219.794	12	969.391	-0.586827	0	0.809712	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|320.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|hansolo_otto_05|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_88|$|
--776187444	0	object/tangible/ground_spawning/area_spawner.iff	0	108.353	12	994.253	0.757189	0	-0.653196	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|320.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|hansolo_otto_06|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_88|$|
--702941233	0	object/tangible/ground_spawning/area_spawner.iff	0	71.8134	12	1065.13	-0.373706	0	0.927547	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|320.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|hansolo_otto_07|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_88|$|
--1439362039	0	object/tangible/ground_spawning/area_spawner.iff	0	215.468	12	1046.67	0.529702	0	0.848184	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|320.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|hansolo_otto_08|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_87|$|
--1334599367	0	object/tangible/ground_spawning/area_spawner.iff	0	217.571	12	1009.06	0.584607	0	0.811317	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|320.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|hansolo_otto_10|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_87|$|
--316172388	0	object/tangible/ground_spawning/area_spawner.iff	0	181.415	12	981.229	-0.651284	0	0.758834	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|320.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|hansolo_09|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_87|$|
--277615464	0	object/tangible/ground_spawning/area_spawner.iff	0	130.731	12	920.285	0.0507607	0	0.998711	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|320.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|hansolo_otto_11|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_87|$|
--1829467671	0	object/tangible/ground_spawning/area_spawner.iff	0	90.3013	12	946.474	0.962093	0	-0.272721	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|320.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|hansolo_otto_12|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_87|$|
--1725103939	0	object/tangible/ground_spawning/area_spawner.iff	0	43.9922	12	1021.85	0.897204	0	-0.441616	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|320.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|hansolo_otto_13|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_87|$|
--2090718147	0	object/tangible/ground_spawning/area_spawner.iff	0	160.679	12	920.709	0.792175	0	0.610294	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|320.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|hansolo_otto_14|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_87|$|
 -774325041	0	object/tangible/collection/shock_trooper_chest.iff	0	23.9227	17.762	1006.4	0.996157	-0.0871524	-0.000760568	-0.00869333		$|
 -1908401984	0	object/static/structure/tatooine/debris_tatt_drum_dented_1.iff	0	157.776	12	1062.2	-0.647576	0	0.762001	0		$|
 -2093773463	0	object/static/structure/tatooine/debris_tatt_crate_metal_1.iff	0	155.892	12	1062.06	0.804506	0	0.593945	0		$|
@@ -57,7 +16,7 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -976317925	-556911782	object/cell/cell.iff	2	0	0	0	1	0	0	0		$|
 -1960783934	0	object/static/structure/military/military_wall_strong_imperial_style_01.iff	0	17	12	1042	0.707107	0	-0.707106	0		$|
 -879410635	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	17	12	1037	1	0	0	0		$|
--1241413427	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	17	12	1027	-3.20E-08	0	1	0		$|
+-1241413427	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	17	12	1027	-3.20013e-08	0	1	0		$|
 -2079230854	0	object/static/structure/military/military_wall_strong_imperial_style_01.iff	0	17	12	1022	0.707113	0	-0.7071	0		$|
 -2083494600	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	28	12	1066	1	0	0	0		$|
 -1946274642	0	object/static/structure/military/military_wall_strong_imperial_style_01.iff	0	28	12	1062	0.707107	0	-0.707106	0		$|
@@ -116,53 +75,53 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -366350694	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	220	12	1073	0.382683	0	0.92388	0		$|
 -797489960	0	object/static/structure/military/military_wall_strong_imperial_style_01.iff	0	223	12.0018	1070	0.923878	0	0.382686	0		$|
 -819222594	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	198	12	1095	0.92388	0	0.382683	0		$|
--245990504	0	object/building/military/military_outpost_guard_house_imperial.iff	0	238	12.0671	989	-3.20E-08	0	1	0		$|
+-245990504	0	object/building/military/military_outpost_guard_house_imperial.iff	0	238	12.0671	989	-3.20013e-08	0	1	0		$|
 -296982175	-245990504	object/cell/cell.iff	1	0	0	0	1	0	0	0		$|
 -1370878343	-245990504	object/cell/cell.iff	2	0	0	0	1	0	0	0		$|
 -907629344	0	object/building/military/military_outpost_guard_house_imperial.iff	0	238	11.9502	1029	0.707105	0	0.707108	0		$|
 -1734547049	-907629344	object/cell/cell.iff	1	0	0	0	1	0	0	0		$|
 -634427143	-907629344	object/cell/cell.iff	2	0	0	0	1	0	0	0		$|
 -1998115094	0	object/static/structure/military/military_wall_strong_imperial_style_01.iff	0	243	12.1559	999	0.707105	0	0.707108	0		$|
--2049076531	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	243	12.1559	1004	-3.20E-08	0	1	0		$|
+-2049076531	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	243	12.1559	1004	-3.20013e-08	0	1	0		$|
 -727431475	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	243	12.1559	1014	1	0	0	0		$|
 -1658075832	0	object/static/structure/military/military_wall_strong_imperial_style_01.iff	0	243	12.1559	1019	0.707099	0	0.707114	0		$|
 -487332026	0	object/static/structure/military/military_wall_strong_imperial_style_01.iff	0	233	12.0018	1047	0.707105	0	0.707109	0		$|
--1526027737	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	233	12	1043	-7.48E-07	0	1	0		$|
+-1526027737	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	233	12	1043	-7.48498e-07	0	1	0		$|
 -31736537	0	object/static/structure/military/military_wall_strong_imperial_style_01.iff	0	233	12.0018	1039	0.707105	0	0.707109	0		$|
 -1976131687	0	object/static/structure/military/military_wall_strong_imperial_style_01.iff	0	233	12.0018	1055	0.707105	0	0.707109	0		$|
--310702828	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	233	12	1051	-1.00E-06	0	1	0		$|
+-310702828	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	233	12	1051	-1e-06	0	1	0		$|
 -1647569027	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	226	12	1067	0.382683	0	0.92388	0		$|
 -286724134	0	object/static/structure/military/military_wall_strong_imperial_style_01.iff	0	229	12.0018	1064	0.923879	0	0.382686	0		$|
 -1930584727	0	object/building/military/military_outpost_guard_tower_1.iff	0	232	12.1998	1060	0.193766	0	0.981048	0		$|
--1331168788	0	object/building/military/mun_all_military_tower_impl_guard_s01.iff	0	141	12.0544	905	-3.20E-08	0	1	0		$|
+-1331168788	0	object/building/military/mun_all_military_tower_impl_guard_s01.iff	0	141	12.0544	905	-3.20013e-08	0	1	0		$|
 -1550539875	-1331168788	object/cell/cell.iff	1	0	0	0	1	0	0	0		$|
 -1173792438	0	object/building/military/military_outpost_guard_tower_1.iff	0	177	11.883	906	-0.558602	0	0.829436	0		$|
--782361704	0	object/building/military/mun_all_military_tower_impl_guard_s01.iff	0	125	11.96	905	-3.20E-08	0	1	0		$|
+-782361704	0	object/building/military/mun_all_military_tower_impl_guard_s01.iff	0	125	11.96	905	-3.20013e-08	0	1	0		$|
 -356245136	-782361704	object/cell/cell.iff	1	0	0	0	1	0	0	0		$|
 -1364012511	0	object/building/military/military_outpost_guard_tower_1.iff	0	75	12.1291	905	0.832218	0	-0.554449	0		$|
--1798186635	0	object/static/structure/military/military_wall_strong_imperial_style_01.iff	0	163	12.135	904	-3.20E-08	0	1	0		$|
+-1798186635	0	object/static/structure/military/military_wall_strong_imperial_style_01.iff	0	163	12.135	904	-3.20013e-08	0	1	0		$|
 -1352526075	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	191	12.1205	917	-0.382683	0	0.92388	0		$|
 -1384545622	0	object/static/structure/military/military_wall_strong_imperial_style_01.iff	0	188	12.1192	914	0.382681	0	0.92388	0		$|
 -1697570728	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	159	12.1163	904	-0.707107	0	0.707107	0		$|
--708293421	0	object/static/structure/military/military_wall_strong_imperial_style_01.iff	0	155	12.1181	904	-3.05E-06	0	1	0		$|
--1574153149	0	object/static/structure/military/military_wall_strong_imperial_style_01.iff	0	119	12.1191	904	-3.20E-08	0	1	0		$|
+-708293421	0	object/static/structure/military/military_wall_strong_imperial_style_01.iff	0	155	12.1181	904	-3.0455e-06	0	1	0		$|
+-1574153149	0	object/static/structure/military/military_wall_strong_imperial_style_01.iff	0	119	12.1191	904	-3.20013e-08	0	1	0		$|
 -640336000	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	115	12.1191	904	-0.707107	0	0.707107	0		$|
--136033243	0	object/static/structure/military/military_wall_strong_imperial_style_01.iff	0	111	12.1209	904	-3.05E-06	0	1	0		$|
+-136033243	0	object/static/structure/military/military_wall_strong_imperial_style_01.iff	0	111	12.1209	904	-3.0455e-06	0	1	0		$|
 -679576211	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	151	12.1191	904	-0.707107	0	0.707107	0		$|
--755838250	0	object/static/structure/military/military_wall_strong_imperial_style_01.iff	0	147	12.1209	904	-3.05E-06	0	1	0		$|
+-755838250	0	object/static/structure/military/military_wall_strong_imperial_style_01.iff	0	147	12.1209	904	-3.0455e-06	0	1	0		$|
 -1994147924	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	99	12.1191	904	-0.707107	0	0.707107	0		$|
--839384774	0	object/static/structure/military/military_wall_strong_imperial_style_01.iff	0	95	12.1209	904	-3.05E-06	0	1	0		$|
+-839384774	0	object/static/structure/military/military_wall_strong_imperial_style_01.iff	0	95	12.1209	904	-3.0455e-06	0	1	0		$|
 -783878158	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	107	12.1191	904	-0.707107	0	0.707107	0		$|
--1779966207	0	object/static/structure/military/military_wall_strong_imperial_style_01.iff	0	103	12.1209	904	-3.05E-06	0	1	0		$|
+-1779966207	0	object/static/structure/military/military_wall_strong_imperial_style_01.iff	0	103	12.1209	904	-3.0455e-06	0	1	0		$|
 -1000427004	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	91	12.1191	904	-0.707107	0	0.707107	0		$|
--581695765	0	object/static/structure/military/military_wall_strong_imperial_style_01.iff	0	87	12.1209	904	-3.05E-06	0	1	0		$|
+-581695765	0	object/static/structure/military/military_wall_strong_imperial_style_01.iff	0	87	12.1209	904	-3.0455e-06	0	1	0		$|
 -1621756186	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	83	12.1191	904	-0.707107	0	0.707107	0		$|
--1796579464	0	object/static/structure/military/military_wall_strong_imperial_style_01.iff	0	80	12.1209	904	-3.05E-06	0	1	0		$|
+-1796579464	0	object/static/structure/military/military_wall_strong_imperial_style_01.iff	0	80	12.1209	904	-3.0455e-06	0	1	0		$|
 -1154787398	0	object/building/military/military_outpost_guard_tower_1.iff	0	232	11.9914	960	-0.198669	0	0.980067	0		$|
--1332609284	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	233	12.0375	975	-3.20E-08	0	1	0		$|
+-1332609284	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	233	12.0375	975	-3.20013e-08	0	1	0		$|
 -1567775110	0	object/static/structure/military/military_wall_strong_imperial_style_01.iff	0	233	12.0375	979	0.707107	0	0.707107	0		$|
 -22498444	0	object/static/structure/military/military_wall_strong_imperial_style_01.iff	0	233	12.0375	971	0.707105	0	0.707108	0		$|
--160221230	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	233	12.0375	967	-3.20E-08	0	1	0		$|
+-160221230	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	233	12.0375	967	-3.20013e-08	0	1	0		$|
 -773094635	0	object/static/structure/military/military_wall_strong_imperial_style_01.iff	0	233	12.0375	963	0.707103	0	0.70711	0		$|
 -669667101	0	object/static/structure/military/military_wall_strong_imperial_style_01.iff	0	230	12.0373	956	0.382681	0	0.923881	0		$|
 -951443171	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	227	12.0389	953	-0.382683	0	0.92388	0		$|
@@ -255,7 +214,7 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1416962376	0	object/static/installation/mockup_mining_liquid_harvester_style_1.iff	0	141.425	12	1089.84	-0.707106	0	0.707107	0		$|
 -1907927179	0	object/static/installation/mockup_mining_ore_harvester_style_2.iff	0	69.8091	12	1107.63	0.382684	0	0.923879	0		$|
 -1517196923	0	object/static/installation/mockup_mining_ore_harvester_style_1.iff	0	78.8358	12	924.548	0.707107	0	0.707106	0		$|
--1213832370	0	object/building/corellia/filler_building_corellia_style_02.iff	0	176.012	12	958.746	1.84E-06	0	1	0		$|
+-1213832370	0	object/building/corellia/filler_building_corellia_style_02.iff	0	176.012	12	958.746	1.84354e-06	0	1	0		$|
 -1807842458	0	object/static/structure/military/military_wall_weak_imperial_style_01.iff	0	204.022	12	1018.33	1	0	0	0		$|
 -1173119406	0	object/static/structure/military/military_wall_weak_imperial_style_01.iff	0	204.022	12	1004.33	1	0	0	0		$|
 -2140514387	0	object/static/structure/military/military_column_med_imperial_style_01.iff	0	208.022	12	1004.33	1	0	0	0		$|
@@ -265,9 +224,9 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -601981178	0	object/building/corellia/filler_slum_16x32_s01.iff	0	118	12	1010	0.707097	0	0.707116	0		$|
 -1581859982	0	object/building/corellia/filler_slum_16x32_s01.iff	0	118	12	980	0.707097	0	0.707116	0		$|
 -60369850	0	object/static/installation/mockup_mining_liquid_harvester_style_1.iff	0	77.2467	12	981.26	1	0	0	0		$|
--1072483152	0	object/static/structure/military/military_column_weak_imperial_style_01.iff	0	125.73	12	1083.88	-3.48E-07	0	1	0		$|
+-1072483152	0	object/static/structure/military/military_column_weak_imperial_style_01.iff	0	125.73	12	1083.88	-3.48103e-07	0	1	0		$|
 -511182280	0	object/static/installation/mockup_power_generator_solar_style_1.iff	0	124.73	12	1091.88	0.707107	0	0.707106	0		$|
--1763831653	0	object/static/installation/mockup_power_generator_solar_style_1.iff	0	110.73	12	1090.88	1.84E-06	0	1	0		$|
+-1763831653	0	object/static/installation/mockup_power_generator_solar_style_1.iff	0	110.73	12	1090.88	1.84353e-06	0	1	0		$|
 -1057245553	0	object/static/structure/military/military_column_weak_imperial_style_01.iff	0	133.73	12	1099.88	0.707107	0	0.707106	0		$|
 -187630280	0	object/static/structure/military/military_wall_weak_imperial_style_01.iff	0	133.73	12	1095.88	0.707107	0	0.707106	0		$|
 -1918968145	0	object/static/structure/military/military_wall_weak_imperial_style_01.iff	0	133.73	12	1087.88	0.707107	0	0.707106	0		$|
@@ -278,17 +237,17 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -775350060	0	object/static/structure/military/military_wall_weak_imperial_style_01.iff	0	101.73	12	1087.88	0.707107	0	0.707106	0		$|
 -1057285909	0	object/static/structure/military/military_column_weak_imperial_style_01.iff	0	101.73	12	1083.88	0.707107	0	0.707106	0		$|
 -839730076	0	object/static/structure/military/military_column_weak_imperial_style_01.iff	0	101.73	12	1091.88	0.707107	0	0.707106	0		$|
--1720325307	0	object/static/structure/military/military_wall_weak_imperial_style_01.iff	0	113.73	12	1099.88	1.84E-06	0	1	0		$|
--1819263809	0	object/static/structure/military/military_wall_weak_imperial_style_01.iff	0	105.73	12	1099.88	1.84E-06	0	1	0		$|
--1344509769	0	object/static/structure/military/military_column_weak_imperial_style_01.iff	0	109.73	12	1099.88	1.84E-06	0	1	0		$|
--510004175	0	object/static/structure/military/military_wall_weak_imperial_style_01.iff	0	129.73	12	1099.88	-3.48E-07	0	1	0		$|
--1800559733	0	object/static/structure/military/military_wall_weak_imperial_style_01.iff	0	121.73	12	1099.88	-3.48E-07	0	1	0		$|
--989176014	0	object/static/structure/military/military_column_weak_imperial_style_01.iff	0	125.73	12	1099.88	-3.48E-07	0	1	0		$|
+-1720325307	0	object/static/structure/military/military_wall_weak_imperial_style_01.iff	0	113.73	12	1099.88	1.84353e-06	0	1	0		$|
+-1819263809	0	object/static/structure/military/military_wall_weak_imperial_style_01.iff	0	105.73	12	1099.88	1.84353e-06	0	1	0		$|
+-1344509769	0	object/static/structure/military/military_column_weak_imperial_style_01.iff	0	109.73	12	1099.88	1.84353e-06	0	1	0		$|
+-510004175	0	object/static/structure/military/military_wall_weak_imperial_style_01.iff	0	129.73	12	1099.88	-3.48103e-07	0	1	0		$|
+-1800559733	0	object/static/structure/military/military_wall_weak_imperial_style_01.iff	0	121.73	12	1099.88	-3.48103e-07	0	1	0		$|
+-989176014	0	object/static/structure/military/military_column_weak_imperial_style_01.iff	0	125.73	12	1099.88	-3.48103e-07	0	1	0		$|
 -99858528	0	object/static/structure/military/military_column_weak_imperial_style_01.iff	0	117.73	12	1099.88	0.707107	0	0.707106	0		$|
--475396024	0	object/static/structure/military/military_wall_weak_imperial_style_01.iff	0	113.73	12	1083.88	4.71E-06	0	1	0		$|
--166571549	0	object/static/structure/military/military_wall_weak_imperial_style_01.iff	0	105.73	12	1083.88	4.71E-06	0	1	0		$|
--1008557808	0	object/static/structure/military/military_column_weak_imperial_style_01.iff	0	109.73	12	1083.88	4.71E-06	0	1	0		$|
--175033873	0	object/static/structure/military/military_wall_weak_imperial_style_01.iff	0	129.73	12	1083.88	-3.48E-07	0	1	0		$|
+-475396024	0	object/static/structure/military/military_wall_weak_imperial_style_01.iff	0	113.73	12	1083.88	4.70952e-06	0	1	0		$|
+-166571549	0	object/static/structure/military/military_wall_weak_imperial_style_01.iff	0	105.73	12	1083.88	4.70952e-06	0	1	0		$|
+-1008557808	0	object/static/structure/military/military_column_weak_imperial_style_01.iff	0	109.73	12	1083.88	4.70952e-06	0	1	0		$|
+-175033873	0	object/static/structure/military/military_wall_weak_imperial_style_01.iff	0	129.73	12	1083.88	-3.48103e-07	0	1	0		$|
 -2146255511	0	object/static/structure/military/military_column_weak_imperial_style_01.iff	0	117.73	12	1083.88	0.707107	0	0.707106	0		$|
 -861259941	0	object/static/installation/mockup_mining_ore_harvester_style_2.iff	0	86.498	12	1110.45	0.382684	0	0.923879	0		$|
 -1451363810	0	object/static/structure/tatooine/antenna_tatt_style_2.iff	0	207	12	1020	1	0	0	0		$|
@@ -323,7 +282,7 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -730679545	-514102941	object/cell/cell.iff	5	0	0	0	1	0	0	0		$|
 -1126822512	-514102941	object/cell/cell.iff	6	0	0	0	1	0	0	0		$|
 -114141593	0	object/building/corellia/filler_slum_16x16_s01.iff	0	165.736	11.9659	1044.87	0.707107	0	0.707106	0		$|
--966789415	0	object/static/structure/corellia/corl_imprv_wall_4x16_s03.iff	0	160	12	1093	1.25E-06	0	1	0		$|
+-966789415	0	object/static/structure/corellia/corl_imprv_wall_4x16_s03.iff	0	160	12	1093	1.25348e-06	0	1	0		$|
 -1792876202	0	object/static/structure/corellia/corl_imprv_wall_4x16_s03.iff	0	160	12	1061	1	0	0	0		$|
 -1578278878	0	object/static/structure/corellia/corl_imprv_gate_sm_s03.iff	0	172	12	1061	1	0	0	0		$|
 -1014312830	0	object/static/structure/corellia/corl_imprv_column_s03.iff	0	152	12	1061	1	0	0	0		$|
@@ -340,15 +299,15 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1715515024	0	object/static/structure/corellia/corl_imprv_wall_4x16_s03.iff	0	160	12	1085	0.707107	0	0.707106	0		$|
 -616437388	0	object/static/structure/corellia/corl_imprv_column_s03.iff	0	184	12	1093	1	0	0	0		$|
 -1478078002	0	object/static/structure/corellia/corl_imprv_column_s03.iff	0	160	12	1093	1	0	0	0		$|
--1290654210	0	object/static/structure/corellia/corl_imprv_gate_sm_s03.iff	0	188	12	1077	-3.20E-08	0	1	0		$|
--10416672	0	object/static/structure/corellia/corl_imprv_gate_sm_s03.iff	0	180	12	1077	-3.20E-08	0	1	0		$|
--705046883	0	object/static/structure/corellia/corl_imprv_gate_sm_s03.iff	0	156	12	1077	-3.20E-08	0	1	0		$|
--751881144	0	object/static/structure/corellia/corl_imprv_gate_sm_s03.iff	0	164	12	1077	-3.20E-08	0	1	0		$|
+-1290654210	0	object/static/structure/corellia/corl_imprv_gate_sm_s03.iff	0	188	12	1077	-3.20013e-08	0	1	0		$|
+-10416672	0	object/static/structure/corellia/corl_imprv_gate_sm_s03.iff	0	180	12	1077	-3.20013e-08	0	1	0		$|
+-705046883	0	object/static/structure/corellia/corl_imprv_gate_sm_s03.iff	0	156	12	1077	-3.20013e-08	0	1	0		$|
+-751881144	0	object/static/structure/corellia/corl_imprv_gate_sm_s03.iff	0	164	12	1077	-3.20013e-08	0	1	0		$|
 -1345569223	0	object/static/structure/corellia/corl_imprv_column_s03.iff	0	168	12	1077	0.707107	0	0.707106	0		$|
 -1206670895	0	object/static/structure/corellia/corl_imprv_column_s03.iff	0	176	12	1077	0.707107	0	0.707106	0		$|
--215577114	0	object/static/structure/corellia/corl_imprv_gate_sm_s03.iff	0	172	12	1093	-3.20E-08	0	1	0		$|
+-215577114	0	object/static/structure/corellia/corl_imprv_gate_sm_s03.iff	0	172	12	1093	-3.20013e-08	0	1	0		$|
 -1035997989	0	object/tangible/terminal/terminal_mission_imperial.iff	0	120.757	12	1115.27	0.707107	0	-0.707106	0		$|
--1177924536	0	object/tangible/terminal/terminal_mission_imperial.iff	0	35.2549	12	1043.77	3.20E-08	0	1	0		$|
+-1177924536	0	object/tangible/terminal/terminal_mission_imperial.iff	0	35.2549	12	1043.77	3.20013e-08	0	1	0		$|
 -1887629108	0	object/tangible/terminal/terminal_mission_imperial.iff	0	138.363	12	919.325	0.707107	0	-0.707106	0		$|
 -1615110385	0	object/tangible/dungeon/corellian_corvette/corvette_search_rebel_destroy_01.iff	0	156.721	12	1062.21	1	0	0	0		$|
 -1664949784	0	object/static/structure/general/streetlamp_medium_style_01.iff	0	244.997	12	1016.35	0.707107	0	-0.707106	0		$|
@@ -388,7 +347,7 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1132430339	0	object/static/structure/tatooine/pillar_pristine_small_style_01.iff	0	1729	11.8481	873	1	0	0	0		$|
 -1625651051	0	object/static/structure/tatooine/pillar_pristine_small_style_01.iff	0	1734	12.0016	873	1	0	0	0		$|
 -462526256	0	object/static/structure/tatooine/pillar_pristine_small_style_01.iff	0	1740	11.9711	873	1	0	0	0		$|
--1131781999	0	object/building/military/military_base_police_station_imperial_lok_otto.iff	0	176.98	12	1011.47	0.707107	0	0.707106	0	theme_park.lok.imperial_base	$|
+-1131781999	0	object/building/military/military_base_police_station_imperial_lok_otto.iff	0	176.98	12	1011.47	0.707107	0	0.707106	0		$|
 -413397041	-1131781999	object/cell/cell.iff	1	0	0	0	1	0	0	0		$|
 -1273329030	-1131781999	object/cell/cell.iff	2	0	0	0	1	0	0	0		$|
 -1738581456	-1131781999	object/cell/cell.iff	3	0	0	0	1	0	0	0		$|
@@ -408,7 +367,7 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -34004951	-581805170	object/cell/cell.iff	4	0	0	0	1	0	0	0		$|
 -759823199	-581805170	object/cell/cell.iff	5	0	0	0	1	0	0	0		$|
 -1936132872	-581805170	object/cell/cell.iff	6	0	0	0	1	0	0	0		$|
--2017318920	0	object/building/military/small_imperial_cloning_facility.iff	0	204	12	1068	-3.20E-08	0	1	0	structure.municipal.cloning_facility:structure.municipal.cloning_base	healing.canhealshock|0|1|$|
+-2017318920	0	object/building/military/small_imperial_cloning_facility.iff	0	204	12	1068	-3.20013e-08	0	1	0		$|
 -1282861026	-2017318920	object/cell/cell.iff	1	0	0	0	1	0	0	0		$|
 -583656874	-2017318920	object/cell/cell.iff	2	0	0	0	1	0	0	0		$|
 -1418836860	-2017318920	object/cell/cell.iff	3	0	0	0	1	0	0	0		$|
@@ -422,7 +381,7 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1184093377	-1613498237	object/cell/cell.iff	4	0	0	0	1	0	0	0		$|
 -1846444453	-1613498237	object/cell/cell.iff	5	0	0	0	1	0	0	0		$|
 -1241499727	-1613498237	object/cell/cell.iff	6	0	0	0	1	0	0	0		$|
--1753446084	0	object/building/military/military_base_shed_imperial_barracks_s01.iff	0	38.74	12	1051.04	-3.20E-08	0	1	0		$|
+-1753446084	0	object/building/military/military_base_shed_imperial_barracks_s01.iff	0	38.74	12	1051.04	-3.20013e-08	0	1	0		$|
 -1549312499	-1753446084	object/cell/cell.iff	1	0	0	0	1	0	0	0		$|
 -1153997429	-1753446084	object/cell/cell.iff	2	0	0	0	1	0	0	0		$|
 -1611028384	-1753446084	object/cell/cell.iff	3	0	0	0	1	0	0	0		$|
@@ -444,5 +403,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -66580030	0	object/static/structure/tatooine/pillar_pristine_tall_style_01.iff	0	1376.43	21.4336	1967.28	-0.653282	0.65328	-0.270598	-0.270598		$|
 -1947203364	0	object/static/structure/tatooine/pillar_pristine_small_style_01.iff	0	1374.69	21.0644	1964.84	0.92388	0	-0.382683	0		$|
 -158125707	0	object/static/structure/tatooine/pillar_pristine_small_style_01.iff	0	1376.13	21.7904	1968.41	0.92388	0	-0.382683	0		$|
--529214055	0	object/tangible/poi/tatooine/explore_lok_imp_outpost.iff	0	234	12	1010	1	0	0	0		$|
--324923437	0	object/tangible/spawning/static_npc/herald_lok_canyon_corsair_stronghold.iff	0	174.34	12	975.32	1	0	0	0		$|

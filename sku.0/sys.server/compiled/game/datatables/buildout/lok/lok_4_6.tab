@@ -1,11 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1573049623	0	object/static/structure/general/camp_lawn_chair_s01.iff	0	1990.26	12.0135	686.344	-0.0757238	0	0.997129	0		$|
--1229681759	0	object/static/structure/tatooine/debris_tatt_drum_storage_1.iff	0	1991.21	11.9051	685.985	1	0	0	0		$|
--1046730138	0	object/tangible/ground_spawning/area_spawner.iff	0	1964.53	12	671.779	0.9426	0	0.333925	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|3.000000|fltMinSpawnTime|2|1.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|nym_themepark_cale_serasai|strSpawnerType|4|area|strSpawns|4|nym_themepark_cale_serasai|$|
--574185991	0	object/tangible/collection/hanging_light_06.iff	0	1991.18	12.8086	685.969	0.71442	0	-0.699717	0	systems.collections.consume_click	collection.slotName|4|col_hanging_light_01:hanging_light_06|$|
--329714190	0	object/static/structure/tatooine/debris_tatt_drum_dented_1.iff	0	1992.14	11.9746	685.942	1	0	0	0		$|
--239901608	0	object/tangible/ground_spawning/area_spawner.iff	0	1934.73	12	665.988	0.984411	0	0.175885	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|nein_bounty_hunter|strSpawnerType|4|area|strSpawns|4|rtp_nien_nunb_bounty_hunter|$|
 -774325041	0	object/static/structure/general/trash_pile_s01.iff	0	1039.51	12.015	1614.32	1	0	0	0		$|
 -1908401984	0	object/static/structure/general/trash_pile_s01.iff	0	1057.39	12.0102	1641.81	0.667463	0	0.744643	0		$|
 -2093773463	0	object/static/structure/general/trash_pile_s01.iff	0	1079.8	12.0476	1610.29	-0.435683	0	0.9001	0		$|
@@ -109,9 +103,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1352526075	0	object/static/structure/general/debris_deathstar_small_chunk.iff	0	1053.42	11.9505	1600.65	1	0	0	0		$|
 -1384545622	0	object/static/structure/general/prp_junk_s5.iff	0	1042.9	12.0081	1636.45	0.953558	0.121023	0.107836	0.253873		$|
 -1697570728	0	object/static/structure/general/prp_junk_s2.iff	0	1084.79	11.9719	1640.21	-0.192986	0	0.981202	0		$|
--708293421	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1057.556641	12.05202198	1638.524414	1	0	0	0		$|
--1574153149	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1963.614235	12	662.4021	1	0	0	0		$|
--640336000	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1961.687393	12	636.190674	1	0	0	0		$|
--136033243	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1992.913071	12	670.21582	1	0	0	0		$|
--679576211	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	2037.541564	12.41289425	662.840576	1	0	0	0		$|
--755838250	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1930.087654	12	703.021484	1	0	0	0		$|

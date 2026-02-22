@@ -1,10 +1,6 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--34348000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
--965844963	0	object/tangible/collection/datapad_10.iff	0	1545.46	80.6814	349.565	0.924909	0	0.380188	0	systems.collections.consume_click	collection.slotName|4|col_datapad_01:datapad_10|$|
 -774325041	0	object/static/structure/naboo/gungan_relic_s01.iff	0	1538.03	73.9392	349.381	1	0	0	0		$|
 -1908401984	0	object/static/structure/general/skeleton_human_head.iff	0	1545.57	80.6505	350.547	1	0	0	0		$|
 -2093773463	0	object/static/structure/general/skeleton_human_body.iff	0	1544.82	80.5547	348.764	1	0	0	0		$|
 -555016066	0	object/static/structure/general/skeleton_ithorian_head.iff	0	1544.75	80.6834	350.405	1	0	0	0		$|
--1556862676	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1543.468018	80.53492737	366.8275146	1	0	0	0		$|
--1621582391	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1527.872803	81.54036713	371.6214905	1	0	0	0		$|

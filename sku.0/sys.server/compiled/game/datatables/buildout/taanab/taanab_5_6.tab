@@ -1,0 +1,14 @@
+objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
+i	i	h	i	f	f	f	f	f	f	f	s	p
+-774325041	0	object/static/installation/mockup_mining_liquid_moisture_harvester.iff	0	1374.1	51.4	920.7	0.67559	0	0.737277	0		$|
+-1908401984	0	object/static/particle/pt_poi_broken_electronics.iff	0	1374.1	51.4	920.7	0.67559	0	0.737277	0		$|
+-2093773463	0	object/static/installation/mockup_power_generator_wind_style_1.iff	0	1369.5	51.4	939.7	0.707108	0	0.707106	0		$|
+-555016066	0	object/static/particle/pt_poi_broken_electronics.iff	0	1371.1	51.4	939.9	0.707108	0	0.707106	0		$|
+-1556862676	0	object/static/structure/tatooine/stone_hovel_tatooine_style_01.iff	0	1366.7	51.4	926.7	0.848048	0	0.529919	0		$|
+-1621582391	0	object/static/installation/mockup_farm_flora_style_1.iff	0	1390.8	51.4	929	0.656059	0	0.75471	0		$|
+-1668142224	0	object/static/particle/pt_poi_broken_electronics.iff	0	1386.4	51.4	930.1	0.707108	0	0.707106	0		$|
+-1847828235	0	object/static/worldbuilding/decal/mun_decal_blast_lg.iff	0	1379.2	51.4	929.5	1	0	0	0		$|
+-565923755	0	object/static/structure/general/skeleton_human_headandbody.iff	0	1372.1	51.4	930	0.182236	0	0.983255	0		$|
+-1927376940	0	object/static/structure/general/skeleton_human_headandbody.iff	0	1372.2	51.4	938.4	0.97237	0	-0.233445	0		$|
+-694282569	0	object/static/worldbuilding/battle_droid_powerdown.iff	0	1384.5	51.5	929.7	0.688984	-0.159064	-0.159064	0.688984		$|
+-556911782	0	object/static/worldbuilding/battle_droid_powerdown.iff	0	1370.4	51.4	925	0.62932	0	0.777146	0		$|

@@ -1,6 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
 -774325041	0	object/static/structure/general/streetlamp_small_red_style_02.iff	0	281.542	58.3286	1214.74	1	0	0	0		$|
 -1908401984	0	object/static/structure/general/tato_cave_rock_med.iff	0	281.578	61.1596	1215	0.954782	0.0188848	-0.290126	-0.0621484		$|
 -2093773463	0	object/static/structure/general/tato_cave_rock_med.iff	0	281.809	61.1613	1215.31	0.954782	0.0188848	-0.290126	-0.0621484		$|
@@ -35,7 +34,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1246571693	0	object/static/structure/general/skeleton_ithorian_head.iff	0	1373.82	40.916	74.4023	0.485454	0.104907	0.802194	-0.331381		$|
 -1674091023	0	object/static/structure/general/skeleton_bith_headandbody.iff	0	1375.99	40.3514	75.8667	1	0	0	0		$|
 -1182814570	0	object/static/structure/general/skeleton_ithorian_headandbody.iff	0	1375.8	40.6253	74.5532	1	0	0	0		$|
--882045225	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1375.431396	40.39792633	73.967285	1	0	0	0		$|
--1550073655	0	object/tangible/ground_spawning/mob_spawner.iff	0	1956	109	1831	1	0	0	0		$|
--409244986	0	object/tangible/ground_spawning/mob_spawner.iff	0	1956	109	1831	1	0	0	0		$|
--280675418	0	object/tangible/ground_spawning/mob_spawner.iff	0	1956	109	1831	1	0	0	0		$|

@@ -1,0 +1,5 @@
+objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
+i	i	h	i	f	f	f	f	f	f	f	s	p
+-774325041	0	object/static/vehicle/static_tie_fighter.iff	0	78.3999	37	530.4	-0.499315	0.0453243	0.864839	-0.026168		$|
+-1908401984	0	object/static/creature/droids_imperial_it0.iff	0	80.5	34.7	530.7	-0.649448	0	0.760406	0		$|
+-2093773463	0	object/static/particle/pt_poi_droid_weld_sparks.iff	0	80.3	36.3	530.6	-0.459229	-0.459229	0.537688	-0.537688		$|

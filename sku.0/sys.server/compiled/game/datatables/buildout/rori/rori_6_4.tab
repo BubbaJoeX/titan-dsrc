@@ -16,3 +16,4 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -436098176	0	object/tangible/ground_spawning/patrol_waypoint.iff	0	840.019	107.258	759.002	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|Smuggler_Enemy_Patrol_10152424_1|registerWithController|0|1|$|
 -1079177311	0	object/tangible/ground_spawning/patrol_waypoint.iff	0	813.406	106.371	754.578	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|Smuggler_Enemy_Patrol_10152424_2|registerWithController|0|1|$|
 -59391051	0	object/tangible/ground_spawning/patrol_waypoint.iff	0	816.932	106.115	727.989	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|Smuggler_Enemy_Patrol_10152424_3|registerWithController|0|1|$|
+-774325041	0	unknown_1493172224.iff	0	567.267	1.78635e+12	2048	-746868	-1.15208e+12	-4762.34	-1.16914e-13		$|

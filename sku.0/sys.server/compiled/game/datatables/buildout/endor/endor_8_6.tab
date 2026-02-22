@@ -1,6 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
 -774325041	0	object/static/structure/general/tato_cave_rock_large.iff	0	144.719	263.382	151.655	0.507115	-0.209726	0.761657	0.344571		$|
 -1908401984	0	object/static/structure/general/tato_cave_rock_large.iff	0	147.491	263.17	149.395	-0.264572	-0.37391	0.513453	0.725644		$|
 -2093773463	0	object/static/structure/general/tato_cave_rock_large.iff	0	145.796	264.365	151.621	0.130953	0.716401	-0.123224	-0.674119		$|
@@ -31,4 +30,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -609843239	0	object/static/structure/general/skeleton_ithorian_head.iff	0	145.5	262.525	143.177	0.852525	0	0.522687	0		$|
 -751867451	0	object/static/structure/general/skeleton_ithorian_head.iff	0	141.443	262.909	146.778	0.613746	0.789504	0	0		$|
 -641399737	0	object/static/structure/general/skeleton_bith_headandbody.iff	0	143.467	262.704	146.269	0.978031	0	0.20846	0		$|
--977230724	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	142.577637	262.2683716	140.48584	1	0	0	0		$|

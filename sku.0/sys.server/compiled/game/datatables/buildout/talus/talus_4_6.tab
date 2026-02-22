@@ -1,6 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--36898000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
 -774325041	0	object/static/structure/general/streetlamp_small_blue_style_02.iff	0	4.22986	138.672	762.131	1	0	0	0		$|
 -1908401984	0	object/static/structure/dantooine/dant_fire_pit.iff	0	1949.43	72.5907	561.284	1	0	0	0		$|
 -2093773463	0	object/static/item/item_container_energy_liquid.iff	0	7.56775	20.6399	204.261	0.707389	0	-0.706824	0		$|
@@ -46,10 +45,3 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -648240706	0	object/static/structure/general/skeleton_human_body.iff	0	930.586	15.2282	1704.06	1	0	0	0		$|
 -1239926135	0	object/static/structure/general/skeleton_bith_head.iff	0	931.24	15.2308	1704.31	0.908966	0	0.416871	0		$|
 -1416801220	0	object/static/structure/corellia/corl_power_arial_thin.iff	0	396.321	114.162	1334.13	0.993509	-0.109729	-0.00329285	0.0298142		$|
--1550759483	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	650.845215	22.38784981	70.893799	1	0	0	0		$|
--1813593959	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1947.102692	73.300354	555.956787	1	0	0	0		$|
--1685100866	0	object/tangible/ground_spawning/mob_spawner.iff	0	17	141	759	1	0	0	0		$|
--91884238	0	object/tangible/ground_spawning/mob_spawner.iff	0	17	141	759	1	0	0	0		$|
--507892488	0	object/tangible/ground_spawning/mob_spawner.iff	0	17	141	759	1	0	0	0		$|
--1424652355	0	object/tangible/ground_spawning/mob_spawner.iff	0	17	141	759	1	0	0	0		$|
--1927988745	0	object/tangible/ground_spawning/mob_spawner.iff	0	17	141	759	1	0	0	0		$|

@@ -1,6 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
 -774325041	0	object/tangible/jedi/force_shrine_stone.iff	0	592.765	11.222	508.221	0.707107	0	0.707107	0		$|
 -1908401984	0	object/static/structure/dantooine/dant_jedi_temple_pillar_sm.iff	0	588.344	11.2255	506.624	0.707112	0	0.707101	0		$|
 -2093773463	0	object/static/structure/dantooine/dant_jedi_temple_pillar_sm.iff	0	597.028	11.2255	506.658	1	0	0	0		$|
@@ -16,4 +15,4 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -231542615	0	object/static/item/item_container_energy_liquid.iff	0	451.985	7.12833	3.5304	-0.689499	0.724287	0	0		$|
 -976317925	0	object/static/item/item_container_organic_food.iff	0	449.672	7	2.69031	1	0	0	0		$|
 -1960783934	0	object/static/item/item_container_organic_food.iff	0	449.205	7	2.69556	0.707388	0	-0.706825	0		$|
--879410635	0	object/tangible/furniture/all/frn_all_desk_radar_topology_screen.iff	0	452.642	13.9267	0.0446777	3.20013e-008	0	1	0		$|
+-879410635	0	object/tangible/furniture/all/frn_all_desk_radar_topology_screen.iff	0	452.642	13.9267	0.0446777	3.20013e-08	0	1	0		$|
