@@ -82,6 +82,6 @@ undead_weapon_imp	object/weapon/ranged/carbine/carbine_e11.iff	object/weapon/ran
 undead_weapon_reb	object/weapon/ranged/rifle/rifle_t21.iff	object/weapon/ranged/rifle/rifle_dlt20a.iff	object/weapon/ranged/rifle/rifle_laser.iff	object/weapon/ranged/rifle/rifle_sg82.iff
 undead_melee_01	object/weapon/melee/sword/sword_02.iff	object/weapon/melee/baton/baton_stun.iff	object/weapon/melee/sword/sword_nyax_force.iff	object/weapon/melee/baton/baton_gaderiffi.iff
 undead_melee_02	object/weapon/melee/sword/sword_01.iff	object/weapon/melee/knife/knife_stone.iff	object/weapon/melee/sword/sword_nyax_force.iff	object/weapon/melee/knife/knife_survival.iff
-tusken_iso_rifle	object/weapon/ranged/rifle/rifle_tusken_isolationist.iff			
-tusken_iso_carbine	object/weapon/ranged/carbine/carbine_tusken_slugthrower.iff			
-tusken_iso_sword	object/weapon/melee/2h_sword/2h_sword_krayt.iff			
+tusken_iso_rifle	object/weapon/ranged/rifle/rifle_tusken_elite.iff			
+tusken_iso_carbine	object/weapon/ranged/carbine/carbine_nym_slugthrower.iff			
+tusken_iso_sword	object/weapon/melee/2h_sword/2h_sword_kashyyk.iff			
