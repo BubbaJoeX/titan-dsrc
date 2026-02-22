@@ -1,5 +1,6 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
+object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0
 -774325041	0	object/building/tatooine/starport_tatooine.iff	0	1281	80	1795	-4.37114e-08	0	1	-0		$|
 -1908401984	-774325041	object/cell/cell.iff	1	0	0	0	1	0	0	0		$|
 -2093773463	-774325041	object/cell/cell.iff	2	0	0	0	1	0	0	0		$|

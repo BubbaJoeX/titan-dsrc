@@ -1,8 +1,19 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
+-1075622464	0	object/tangible/quest/imperial/itp_kaja_tower_access_terminal.iff	0	74.9023	293.957	1961.55	0.993999	-0.0746901	-0.0796901	-0.00598799	quest.task.ground.retrieve_item_on_item	questRequireActiveDuty|4|true|$|
+-507094559	0	object/tangible/quest/imperial/itp_kaja_tower_access_terminal.iff	0	323.575	324.981	2046.32	0.995943	-0.0748361	0.0498387	0.00374492	quest.task.ground.retrieve_item_on_item	questRequireActiveDuty|4|true|$|
+-31258000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
 -774325041	0	object/building/military/mun_all_military_tower_impl_guard_s01.iff	0	321.256	325.034	2043.52	-0.0491837	0	0.99879	0		$|
 -1908401984	-774325041	object/cell/cell.iff	1	0	0	0	1	0	0	0		$|
 -2093773463	0	object/building/military/mun_all_military_tower_impl_guard_s01.iff	0	73.4055	294.134	1958.23	0.0807085	0	0.996738	0		$|
 -555016066	-2093773463	object/cell/cell.iff	1	0	0	0	1	0	0	0		$|
 -1556862676	0	object/static/structure/general/streetlamp_small_style_01.iff	0	73.0144	298.209	1960.55	-0.500199	-0.499801	0.500199	0.499801		$|
 -1621582391	0	object/static/structure/general/streetlamp_small_style_01.iff	0	321.447	328.974	2045.9	-0.523744	-0.479025	0.47827	0.517191		$|
+-1668142224	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	168.837891	225.9378052	1955.794922	1	0	0	0		$|
+-1847828235	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	67.338867	291.5395508	1980.509277	1	0	0	0		$|
+-565923755	0	object/building/military/mun_all_military_tower_impl_guard_s01.iff	0	321.256	325.034	2043.52	-0.0491837	0	0.99879	0		$|
+-1927376940	-565923755	object/cell/cell.iff	1	0	0	0	1	0	0	0		$|
+-694282569	0	object/building/military/mun_all_military_tower_impl_guard_s01.iff	0	73.4055	294.134	1958.23	0.0807085	0	0.996738	0		$|
+-556911782	-694282569	object/cell/cell.iff	1	0	0	0	1	0	0	0		$|
+-231542615	0	object/static/structure/general/streetlamp_small_style_01.iff	0	73.0144	298.209	1960.55	-0.500199	-0.499801	0.500199	0.499801		$|
+-976317925	0	object/static/structure/general/streetlamp_small_style_01.iff	0	321.447	328.974	2045.9	-0.523744	-0.479025	0.47827	0.517191		$|

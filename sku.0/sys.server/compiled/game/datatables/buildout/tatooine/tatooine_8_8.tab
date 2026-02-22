@@ -1,5 +1,10 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
+-25918000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
+-697658252	0	object/tangible/ground_spawning/area_spawner.iff	0	946.185	95.622	974.494	0.897926	0	0.440146	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|900.000000|fltMinSpawnTime|2|600.000000|fltRadius|2|1.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|adolescent_krayt_05|strSpawnerType|4|area|strSpawns|4|krayt_dragon_adolescent|$|
+-1524039288	0	object/tangible/ground_spawning/area_spawner.iff	0	926.646	96.9047	995.953	0.791258	0	0.611483	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|900.000000|fltMinSpawnTime|2|600.000000|fltRadius|2|2.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|grand_krayt_dragon_01|strSpawnerType|4|area|strSpawns|4|krayt_dragon_grand|$|
+-1036948835	0	object/tangible/ground_spawning/area_spawner.iff	0	905.926	97.476	984.748	-0.424281	0	0.90553	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|900.000000|fltMinSpawnTime|2|600.000000|fltRadius|2|2.000000|intDefaultBehavior|0|0|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|zucca_boar_elder_01|strSpawnerType|4|area|strSpawns|4|zucca_boar_elder|$|
+-1109688713	0	object/tangible/ground_spawning/area_spawner.iff	0	969.166	89.9594	964.225	0.878006	0	-0.47865	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|900.000000|fltMinSpawnTime|2|600.000000|fltRadius|2|2.000000|intDefaultBehavior|0|0|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|zucca_boar_elder_02|strSpawnerType|4|area|strSpawns|4|zucca_boar_elder|$|
 -774325041	0	object/tangible/camp/camp_tent_s1.iff	0	901.111	70.794	894.116	-0.696707	0	0.717356	0		$|
 -1908401984	0	object/tangible/camp/camp_light_s2.iff	0	898.438	69.8398	892.271	1	0	0	0		$|
 -2093773463	0	object/tangible/camp/camp_lantern_s3.iff	0	901.56	70.6456	896.476	1	0	0	0		$|
@@ -8,13 +13,32 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1621582391	0	object/static/structure/tatooine/wall_damaged_tatooine_large_style_01.iff	0	901.304	70.4443	891.807	0.707109	0	-0.707104	0		$|
 -1668142224	0	object/static/structure/tatooine/concrete_slab_tatooine_16x8.iff	0	901.026	62.5838	896.339	1	0	0	0		$|
 -1847828235	0	object/static/structure/tatooine/wall_ruined_tatooine_large_style_02.iff	0	905.071	70.3573	895.723	0.707109	0	-0.707105	0		$|
--565923755	0	object/static/structure/tatooine/wall_ruined_tatooine_small_style_01.iff	0	897.304	70.4331	893.758	-6.63422e-07	0	1	0		$|
+-565923755	0	object/static/structure/tatooine/wall_ruined_tatooine_small_style_01.iff	0	897.304	70.4331	893.758	-6.63422e-007	0	1	0		$|
 -1927376940	0	object/static/structure/tatooine/wall_damaged_tatooine_large_style_01.iff	0	897.042	70.2548	904.671	0.70713	0	-0.707083	0		$|
 -694282569	0	object/static/structure/tatooine/pillar_ruined_large_style_01.iff	0	896.544	67.7414	888.2	-0.653283	0.65328	-0.270598	-0.270599		$|
 -556911782	0	object/static/structure/tatooine/pillar_ruined_small_style_01.iff	0	908.204	70.5218	890.052	1	0	0	0		$|
 -231542615	0	object/static/structure/tatooine/wall_damaged_tatooine_large_style_01.iff	0	905.027	70.2546	904.663	0.707142	0	-0.707071	0		$|
--976317925	0	object/static/structure/tatooine/wall_damaged_tatooine_large_style_01.iff	0	908.524	70.2452	900.606	-2.88175e-05	0	1	0		$|
+-976317925	0	object/static/structure/tatooine/wall_damaged_tatooine_large_style_01.iff	0	908.524	70.2452	900.606	-2.88175e-005	0	1	0		$|
 -1960783934	0	object/static/structure/tatooine/wall_damaged_tatooine_large_style_01.iff	0	893.545	70.2579	900.165	1	0	0	0		$|
 -879410635	0	object/static/structure/tatooine/wall_ruined_tatooine_large_style_01.iff	0	901.403	72.8066	914.561	0.707108	0	-0.707105	0		$|
 -1241413427	0	object/static/structure/tatooine/wall_ruined_tatooine_large_style_02.iff	0	951.352	95.3141	979.311	0.707112	0	-0.707101	0		$|
 -2079230854	0	object/static/structure/tatooine/pillar_pristine_tall_style_01.iff	0	909.1	90.8314	959.558	-0.653282	0.653282	0.270598	0.270598		$|
+-2083494600	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	888.805176	67.64884186	893.743164	1	0	0	0		$|
+-1946274642	0	object/tangible/camp/camp_tent_s1.iff	0	901.111	70.794	894.116	-0.696707	0	0.717356	0		$|
+-1677962170	0	object/tangible/camp/camp_light_s2.iff	0	898.438	69.8398	892.271	1	0	0	0		$|
+-1647848179	0	object/tangible/camp/camp_lantern_s3.iff	0	901.56	70.6456	896.476	1	0	0	0		$|
+-1062241431	0	object/static/structure/general/droid_probedroid_powerdown.iff	0	892.207	71.8764	906.149	1	0	0	0		$|
+-854658269	0	object/static/particle/pt_poi_broken_electronics.iff	0	892.446	71.7485	906.345	1	0	0	0		$|
+-2090498086	0	object/static/structure/tatooine/wall_damaged_tatooine_large_style_01.iff	0	901.304	70.4443	891.807	0.707109	0	-0.707104	0		$|
+-942219052	0	object/static/structure/tatooine/concrete_slab_tatooine_16x8.iff	0	901.026	62.5838	896.339	1	0	0	0		$|
+-1720483051	0	object/static/structure/tatooine/wall_ruined_tatooine_large_style_02.iff	0	905.071	70.3573	895.723	0.707109	0	-0.707105	0		$|
+-609843239	0	object/static/structure/tatooine/wall_ruined_tatooine_small_style_01.iff	0	897.304	70.4331	893.758	-6.63422e-07	0	1	0		$|
+-751867451	0	object/static/structure/tatooine/wall_damaged_tatooine_large_style_01.iff	0	897.042	70.2548	904.671	0.70713	0	-0.707083	0		$|
+-641399737	0	object/static/structure/tatooine/pillar_ruined_large_style_01.iff	0	896.544	67.7414	888.2	-0.653283	0.65328	-0.270598	-0.270599		$|
+-977230724	0	object/static/structure/tatooine/pillar_ruined_small_style_01.iff	0	908.204	70.5218	890.052	1	0	0	0		$|
+-1246571693	0	object/static/structure/tatooine/wall_damaged_tatooine_large_style_01.iff	0	905.027	70.2546	904.663	0.707142	0	-0.707071	0		$|
+-1674091023	0	object/static/structure/tatooine/wall_damaged_tatooine_large_style_01.iff	0	908.524	70.2452	900.606	-2.88175e-05	0	1	0		$|
+-1182814570	0	object/static/structure/tatooine/wall_damaged_tatooine_large_style_01.iff	0	893.545	70.2579	900.165	1	0	0	0		$|
+-882045225	0	object/static/structure/tatooine/wall_ruined_tatooine_large_style_01.iff	0	901.403	72.8066	914.561	0.707108	0	-0.707105	0		$|
+-1550073655	0	object/static/structure/tatooine/wall_ruined_tatooine_large_style_02.iff	0	951.352	95.3141	979.311	0.707112	0	-0.707101	0		$|
+-409244986	0	object/static/structure/tatooine/pillar_pristine_tall_style_01.iff	0	909.1	90.8314	959.558	-0.653282	0.653282	0.270598	0.270598		$|

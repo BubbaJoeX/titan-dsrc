@@ -1,6 +1,13 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
+-34438000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
+-842174832	0	object/tangible/collection/rock_bubbling_08.iff	0	476.864	74.3531	1112.75	1	0	0	0	systems.collections.consume_click	collection.slotName|4|col_rock_bubbling:bubbling_rock_08|$|
 -774325041	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	479.581	72.869	1111.33	-0.563932	0.315854	0.703181	0.296231		$|
 -1908401984	0	object/static/structure/naboo/gungan_wall_ruined_lg_s02.iff	0	478.647	73.5129	1123.75	0.833712	0	0.552199	0		$|
 -2093773463	0	object/static/structure/naboo/gungan_cleft_wall_lg_s01.iff	0	469.165	72.782	1111.39	1	0	0	0		$|
 -555016066	0	object/static/structure/naboo/gungan_relic_s02.iff	0	472.157	72.978	1114.34	0.995953	0	0	-0.0898786		$|
+-1556862676	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	459.473389	81.63926697	1172.540527	1	0	0	0		$|
+-1621582391	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	479.581	72.869	1111.33	-0.563932	0.315854	0.703181	0.296231		$|
+-1668142224	0	object/static/structure/naboo/gungan_wall_ruined_lg_s02.iff	0	478.647	73.5129	1123.75	0.833712	0	0.552199	0		$|
+-1847828235	0	object/static/structure/naboo/gungan_cleft_wall_lg_s01.iff	0	469.165	72.782	1111.39	1	0	0	0		$|
+-565923755	0	object/static/structure/naboo/gungan_relic_s02.iff	0	472.157	72.978	1114.34	0.995953	0	0	-0.0898786		$|

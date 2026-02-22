@@ -1,5 +1,16 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
+-2066236947	0	object/static/structure/general/atst_debris_01.iff	0	910.854	104.863	1304.12	1	0	0	0		$|
+-1376579963	0	object/static/structure/tatooine/debris_tatt_crate_1.iff	0	912.187	105.265	1296.79	1	0	0	0		$|
+-1276137913	0	object/static/structure/general/web_06.iff	0	1623.88	104.464	122.676	0.658066	0.14371	0.62739	0.390741		$|
+-1196188596	0	object/tangible/ground_spawning/area_spawner.iff	0	918.745	104.615	1302.55	-0.247819	0	0.968806	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|360.000000|fltMinSpawnTime|2|180.000000|fltRadius|2|1.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|4|intSpawnSystem|0|1|registerWithController|0|1|strName|4|treasure_guard_jedi_elder|strSpawnerType|4|area|strSpawns|4|treasure_guard_jedi_elder|$|
+-1031842606	0	object/tangible/collection/datapad_07.iff	0	912.337	105.974	1296.97	1	0	0	0	systems.collections.consume_click	collection.slotName|4|col_datapad_01:datapad_07|$|
+-1000436373	0	object/static/structure/general/camp_lawn_chair_s01.iff	0	912.952	105.273	1296.3	1	0	0	0		$|
+-910130617	0	object/static/structure/general/atst_destroyed.iff	0	914.246	104.62	1306.97	1	0	0	0		$|
+-843905609	0	object/tangible/collection/col_family_story_grave_02.iff	0	1629.64	103.682	122.824	0.252521	0.0503224	0.96628	-0.00171984	systems.collections.consume_click	collection.slotName|4|family_story_grave:family_grave_02|$|
+-439668703	0	object/static/structure/tatooine/palette_supply_01.iff	0	909.36	105.221	1298.24	1	0	0	0		$|
+-48658000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
+-495315198	0	object/static/structure/general/web_05.iff	0	1629.37	103.768	122.49	0.909022	0.205724	-0.32572	0.158943		$|
 -774325041	0	object/static/structure/dantooine/dant_jedi_wall_2.iff	0	360.258	158.487	118.389	0.929101	-0.0201348	-0.365719	0.0511521		$|
 -1908401984	0	object/static/structure/dantooine/dant_jedi_wall_1.iff	0	365.615	158.157	107.007	0.120406	-0.0396979	0.991919	-0.00481883		$|
 -2093773463	0	object/static/flora/flora_decd_scorched_massassi_broke.iff	0	249.994	103.29	1017.17	0.0142072	-0.428879	0.722497	-0.542087		$|
@@ -9,3 +20,15 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1668142224	0	object/static/structure/dantooine/dant_gate.iff	0	842.623	82.3173	1788.31	0.968912	0	0.247404	0		$|
 -1847828235	0	object/static/structure/general/skeleton_bith_headandbody.iff	0	843.607	82.3369	1789.85	0.877357	0.0195406	-0.47916	0.0163708		$|
 -565923755	0	object/static/structure/general/streetlamp_small_green_style_01.iff	0	844.247	80.2011	1791.22	1	0	0	0		$|
+-1927376940	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	355.731445	158.8389282	113.542969	1	0	0	0		$|
+-694282569	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	257.079102	103.8823776	1017.801514	1	0	0	0		$|
+-556911782	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	915.717529	105.1941376	1294.521484	1	0	0	0		$|
+-231542615	0	object/static/structure/dantooine/dant_jedi_wall_2.iff	0	360.258	158.487	118.389	0.929101	-0.0201348	-0.365719	0.0511521		$|
+-976317925	0	object/static/structure/dantooine/dant_jedi_wall_1.iff	0	365.615	158.157	107.007	0.120406	-0.0396979	0.991919	-0.00481883		$|
+-1960783934	0	object/static/flora/flora_decd_scorched_massassi_broke.iff	0	249.994	103.29	1017.17	0.0142072	-0.428879	0.722497	-0.542087		$|
+-879410635	0	object/static/structure/general/campfire_ash.iff	0	914.783	104.939	1301.35	1	0	0	0		$|
+-1241413427	0	object/static/structure/tatooine/jawa/tent_jawa_01_small.iff	0	912.419	105.225	1296.58	0.974794	0	0.223106	0		$|
+-2079230854	0	object/tangible/furniture/all/frn_all_rug_rectangle_large_style_01.iff	0	912.709	105.253	1296.71	1	0	0	0		$|
+-2083494600	0	object/static/structure/dantooine/dant_gate.iff	0	842.623	82.3173	1788.31	0.968912	0	0.247404	0		$|
+-1946274642	0	object/static/structure/general/skeleton_bith_headandbody.iff	0	843.607	82.3369	1789.85	0.877357	0.0195406	-0.47916	0.0163708		$|
+-1677962170	0	object/static/structure/general/streetlamp_small_green_style_01.iff	0	844.247	80.2011	1791.22	1	0	0	0		$|

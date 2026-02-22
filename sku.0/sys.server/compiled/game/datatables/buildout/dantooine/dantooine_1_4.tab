@@ -1,5 +1,22 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
+-1126953397	0	object/tangible/ground_spawning/area_spawner.iff	0	1014.12	3	1198.93	0.903194	0	0.429233	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|90.000000|fltMinSpawnTime|2|60.000000|fltRadius|2|2.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|kunga_village_s1|strSpawnerType|4|area|strSpawns|4|dantooine/kunga_villagers|$|
+-466934111	0	object/tangible/ground_spawning/area_spawner.iff	0	1030.76	3	1203.91	-0.610805	0	0.791781	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|90.000000|fltMinSpawnTime|2|60.000000|fltRadius|2|2.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|kunga_village_s2|strSpawnerType|4|area|strSpawns|4|dantooine/kunga_villagers|$|
+-106199976	0	object/tangible/ground_spawning/area_spawner.iff	0	1039.02	3	1183.85	0.981322	0	-0.192373	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|90.000000|fltMinSpawnTime|2|60.000000|fltRadius|2|2.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|kunga_village_s3|strSpawnerType|4|area|strSpawns|4|dantooine/kunga_villagers|$|
+-1361763198	0	object/tangible/ground_spawning/area_spawner.iff	0	1041.54	3	1139.13	0.441429	0	0.897296	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|90.000000|fltMinSpawnTime|2|60.000000|fltRadius|2|2.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|kunga_village_s4|strSpawnerType|4|area|strSpawns|4|dantooine/kunga_villagers|$|
+-1256805377	0	object/tangible/ground_spawning/area_spawner.iff	0	1020.26	3	1119.07	0.14953	0	0.988757	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|90.000000|fltMinSpawnTime|2|60.000000|fltRadius|2|2.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|kunga_village_s5|strSpawnerType|4|area|strSpawns|4|dantooine/kunga_villagers|$|
+-1846444911	0	object/tangible/ground_spawning/area_spawner.iff	0	1009.88	3	1121.37	-0.139655	0	0.9902	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|90.000000|fltMinSpawnTime|2|60.000000|fltRadius|2|2.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|kunga_village_s6|strSpawnerType|4|area|strSpawns|4|dantooine/kunga_villagers|$|
+-215271480	0	object/tangible/ground_spawning/area_spawner.iff	0	972.833	3	1158.42	0.817589	0	-0.575803	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|90.000000|fltMinSpawnTime|2|60.000000|fltRadius|2|2.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|kunga_village_s7|strSpawnerType|4|area|strSpawns|4|dantooine/kunga_villagers|$|
+-1661897648	0	object/tangible/ground_spawning/area_spawner.iff	0	964.629	3	1164.72	-0.612586	0	0.790404	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|90.000000|fltMinSpawnTime|2|60.000000|fltRadius|2|2.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|kunga_village_s8|strSpawnerType|4|area|strSpawns|4|dantooine/kunga_villagers|$|
+-217431190	0	object/tangible/ground_spawning/area_spawner.iff	0	958.487	3	1177.79	0.879801	0	-0.475342	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|90.000000|fltMinSpawnTime|2|60.000000|fltRadius|2|2.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|kunga_village_s9|strSpawnerType|4|area|strSpawns|4|dantooine/kunga_villagers|$|
+-532750254	0	object/tangible/ground_spawning/area_spawner.iff	0	973.569	3	1178.21	0.992909	0	-0.118876	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|90.000000|fltMinSpawnTime|2|60.000000|fltRadius|2|2.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|kunga_village_s10|strSpawnerType|4|area|strSpawns|4|dantooine/kunga_villagers|$|
+-49490700	0	object/tangible/ground_spawning/area_spawner.iff	0	971.957	6.95932	1264.16	0.241491	0	0.970403	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|90.000000|fltMinSpawnTime|2|60.000000|fltRadius|2|2.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|kunga_village_s11|strSpawnerType|4|area|strSpawns|4|dantooine/kunga_villagers|$|
+-349327730	0	object/tangible/ground_spawning/area_spawner.iff	0	946.469	2.31068	1224.6	0.918353	0	-0.395761	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|90.000000|fltMinSpawnTime|2|60.000000|fltRadius|2|4.000000|intDefaultBehavior|0|0|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|kunga_village_s17|strSpawnerType|4|area|strSpawns|4|kunga_scout|$|
+-535963499	0	object/tangible/ground_spawning/area_spawner.iff	0	1067.32	3	1106.77	0.0850428	0	0.996377	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|90.000000|fltMinSpawnTime|2|60.000000|fltRadius|2|4.000000|intDefaultBehavior|0|0|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|kunga_village_s12|strSpawnerType|4|area|strSpawns|4|kunga_scout|$|
+-1138731696	0	object/tangible/ground_spawning/area_spawner.iff	0	992.667	3	1139.85	0.842063	0	0.53938	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|90.000000|fltMinSpawnTime|2|60.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|kunga_village_s13|strSpawnerType|4|area|strSpawns|4|kunga_warrior|$|
+-1382997207	0	object/tangible/ground_spawning/area_spawner.iff	0	996.506	3	1134.87	0.944332	0	0.328995	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|90.000000|fltMinSpawnTime|2|60.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|kunga_village_s14|strSpawnerType|4|area|strSpawns|4|kunga_warrior|$|
+-1758333272	0	object/tangible/ground_spawning/area_spawner.iff	0	982.117	3	1124.99	0.920569	0	0.390579	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|90.000000|fltMinSpawnTime|2|60.000000|fltRadius|2|2.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|kunga_village_s15|strSpawnerType|4|area|strSpawns|4|kunga_clan_leader|$|
+-1585177051	0	object/tangible/ground_spawning/area_spawner.iff	0	1059.13	3	1157.76	-0.629348	0	0.777123	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|90.000000|fltMinSpawnTime|2|60.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|3|intSpawnSystem|0|1|registerWithController|0|1|strName|4|kunga_village_s16|strSpawnerType|4|area|strSpawns|4|dantooine/kunga_villagers|$|
 -774325041	0	object/static/structure/dantooine/dant_large_rock_hut.iff	0	966.257	3	1148.55	-0.357693	0	0.933839	0		$|
 -1908401984	0	object/static/structure/dantooine/dant_large_communal.iff	0	984.31	3	1127.24	-0.382683	0	0.92388	0		$|
 -2093773463	0	object/static/structure/dantooine/dant_large_rock_hut.iff	0	1005.64	3	1106.45	-0.000795386	0	1	0		$|
@@ -109,3 +126,113 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -136033243	0	object/static/structure/dantooine/dant_boundary_post.iff	0	975.819	3	1170.39	0.601835	0	0.798621	0		$|
 -679576211	0	object/static/structure/dantooine/dant_hide_tanning_s01.iff	0	966.604	3	1155.17	0.827255	0	0.561827	0		$|
 -755838250	0	object/static/structure/dantooine/dant_fish_rack.iff	0	956.562	3	1159.03	0.99995	0	0.00999988	0		$|
+-1994147924	0	object/tangible/poi/tatooine/explore_dan_dantari_village2.iff	0	1040	3	1165	1	0	0	0		$|
+-839384774	0	object/static/structure/dantooine/dant_large_rock_hut.iff	0	966.257	3	1148.55	-0.357693	0	0.933839	0		$|
+-783878158	0	object/static/structure/dantooine/dant_large_communal.iff	0	984.31	3	1127.24	-0.382683	0	0.92388	0		$|
+-1779966207	0	object/static/structure/dantooine/dant_large_rock_hut.iff	0	1005.64	3	1106.45	-0.000795386	0	1	0		$|
+-1000427004	0	object/static/structure/dantooine/dant_large_communal.iff	0	1057.16	3	1157.4	0.789992	0	0.613117	0		$|
+-581695765	0	object/static/structure/dantooine/dant_large_rock_hut.iff	0	1025.32	3	1108.93	0.19789	0	0.980224	0		$|
+-1621756186	0	object/static/structure/dantooine/dant_large_rock_hut.iff	0	1033.74	3	1212.39	0.978031	0	0.208459	0		$|
+-1796579464	0	object/static/structure/dantooine/dant_large_rock_hut.iff	0	1011.37	3	1206.74	0.984726	0	-0.17411	0		$|
+-1154787398	0	object/static/structure/dantooine/dant_large_rock_hut.iff	0	1046.07	3	1189.84	0.900447	0	0.434965	0		$|
+-1332609284	0	object/static/structure/dantooine/dant_large_rock_hut.iff	0	1049.93	3	1134.34	0.483112	0	0.875559	0		$|
+-1567775110	0	object/static/structure/dantooine/dant_large_rock_hut.iff	0	949.25	2.99356	1184.14	0.904751	0	-0.42594	0		$|
+-22498444	0	object/static/structure/dantooine/dant_large_rock_hut.iff	0	948.71	3	1161.08	-0.678556	0	0.734549	0		$|
+-160221230	0	object/static/structure/dantooine/dant_large_rock_hut.iff	0	970.81	2.9975	1191.92	0.988771	0	-0.149439	0		$|
+-773094635	0	object/static/structure/dantooine/dant_large_rock_hut.iff	0	979.333	7	1254.48	0.407035	0	0.913413	0		$|
+-669667101	0	object/static/structure/general/rock_forestriverrock_lg.iff	0	978.602	7	1266.97	0.00579638	0	0.999983	0		$|
+-951443171	0	object/static/structure/dantooine/dant_totem_pole.iff	0	901.573	8	1262.18	-0.11057	0	0.993868	0		$|
+-1675863660	0	object/static/structure/dantooine/dant_fish_rack.iff	0	958.146	2.61458	1226.97	0.891568	0	0.452886	0		$|
+-677285736	0	object/static/structure/dantooine/dant_fish_rack.iff	0	958.113	2.58859	1224.61	0.884675	0	0.466208	0		$|
+-1451091776	0	object/static/structure/dantooine/dant_fish_rack.iff	0	959.019	2.74413	1222.49	0.884675	0	0.466208	0		$|
+-337472941	0	object/static/structure/dantooine/dant_fish_rack.iff	0	958.232	2.77424	1219.8	0.870293	0	0.492535	0		$|
+-497542809	0	object/static/structure/dantooine/dant_cooking_stone.iff	0	979.677	7	1264.68	0.997784	0	-0.0665435	0		$|
+-481036515	0	object/static/structure/dantooine/dant_rack_spears.iff	0	979.058	7	1260.91	1	0	0	0		$|
+-2027357817	0	object/static/structure/dantooine/dant_rack_spears.iff	0	980.555	7	1260.58	0.988771	0	0.149438	0		$|
+-1655606659	0	object/static/structure/general/campfire_smoldering.iff	0	972.29	7.0851	1260.47	1	0	0	0		$|
+-382676010	0	object/static/item/item_basket_closed.iff	0	901.841	8	1264.97	1	0	0	0		$|
+-2078548910	0	object/static/item/item_basket_closed.iff	0	968.765	3	1155.72	1	0	0	0		$|
+-418660952	0	object/static/item/item_basket_shallow.iff	0	958.378	3	1180.27	1	0	0	0		$|
+-1470053377	0	object/static/structure/dantooine/dant_mud_oven.iff	0	975.824	3	1167.47	0.721382	0	-0.692537	0		$|
+-1285988818	0	object/static/structure/dantooine/dant_fire_pit.iff	0	1056.32	3	1157.37	0.77442	0	0.632672	0		$|
+-1572514480	0	object/static/structure/dantooine/dant_fire_pit.iff	0	985.064	3	1127.9	0.922997	0	0.384808	0		$|
+-2005344703	0	object/static/structure/dantooine/dant_mud_oven.iff	0	1021.78	3	1187.68	0.984726	0	0.174108	0		$|
+-1694401449	0	object/static/structure/general/campfire_fresh.iff	0	1014.31	3	1114.72	1	0	0	0		$|
+-186538767	0	object/static/structure/general/campfire_fresh.iff	0	954.01	3	1178.69	1	0	0	0		$|
+-122600461	0	object/static/structure/general/campfire_fresh.iff	0	1021.85	3.50597	1188.03	1	0	0	0		$|
+-929473760	0	object/static/structure/general/campfire_fresh.iff	0	1044.37	3	1139.11	1	0	0	0		$|
+-265498504	0	object/building/endor/endor_tiki_torch.iff	0	998.31	3	1134.71	1	0	0	0		$|
+-605774488	0	object/building/endor/endor_tiki_torch.iff	0	991.443	3	1141.25	1	0	0	0		$|
+-1471718036	0	object/building/endor/endor_tiki_torch.iff	0	1042.85	3	1148.19	0.959662	0	0.281158	0		$|
+-1690871624	0	object/building/endor/endor_tiki_torch.iff	0	1040.6	3	1157.4	0.959662	0	0.281158	0		$|
+-739939829	0	object/building/endor/endor_tiki_torch.iff	0	976.172	7.51256	1260.23	1	0	0	0		$|
+-1075392679	0	object/building/endor/endor_tiki_torch.iff	0	905.959	8	1266.93	1	0	0	0		$|
+-1297870615	0	object/building/endor/endor_tiki_torch.iff	0	898.575	8	1267.48	1	0	0	0		$|
+-247641049	0	object/building/endor/endor_tiki_torch.iff	0	1007.73	3.53759	1112.6	1	0	0	0		$|
+-183507661	0	object/building/endor/endor_tiki_torch.iff	0	1015.12	3.47434	1202.24	1	0	0	0		$|
+-766969766	0	object/static/structure/dantooine/dant_cooking_stone.iff	0	1015.21	3	1108.19	0.745174	0	0.66687	0		$|
+-1162106795	0	object/static/structure/dantooine/dant_hide_tanning_s01.iff	0	1026.05	3	1117.01	0.884675	0	-0.466209	0		$|
+-1840669246	0	object/static/structure/dantooine/dant_skull_thune.iff	0	1002.27	3	1113.53	0.875175	0	0.483807	0		$|
+-1578657808	0	object/static/item/item_bottle_fat.iff	0	1027.22	3	1106.75	1	0	0	0		$|
+-1847629809	0	object/static/item/item_basket_closed.iff	0	1026.26	3	1106.81	0.449134	0	0.893464	0		$|
+-1617855107	0	object/static/item/item_basket_shallow.iff	0	1007.14	3	1104.6	1	0	0	0		$|
+-547631987	0	object/static/item/item_fruit_melon.iff	0	1007.24	3.03162	1104.58	1	0	0	0		$|
+-941954754	0	object/static/item/item_fruit_melon.iff	0	1007.07	3.03162	1104.46	1	0	0	0		$|
+-990038731	0	object/static/item/item_fruit_melon.iff	0	1007.09	3.03162	1104.64	1	0	0	0		$|
+-1583250337	0	object/static/structure/dantooine/dant_rack_spears.iff	0	989.431	3	1136.28	0.105599	0	0.994409	0		$|
+-543283708	0	object/static/structure/dantooine/dant_rack_spears.iff	0	993.025	3	1132.14	0.789992	0	-0.613117	0		$|
+-892094787	0	object/static/structure/general/tato_cave_rock_med.iff	0	989.607	3	1128.57	-0.356205	0.934408	0	0		$|
+-1227429020	0	object/static/structure/general/tato_cave_rock_med.iff	0	987.549	3	1131.83	0.652799	0.139139	0.728284	-0.155228		$|
+-219423685	0	object/static/structure/general/tato_cave_rock_med.iff	0	982.473	3	1132.08	-0.692421	-0.104649	0.705848	-0.106678		$|
+-894356231	0	object/static/structure/general/tato_cave_rock_med.iff	0	989.089	3	1124.27	0.902611	0.430458	0	0		$|
+-1289777588	0	object/static/structure/general/tato_cave_rock_med.iff	0	979.47	3	1127.64	-0.692452	0.30923	0.595182	0.265792		$|
+-1370102196	0	object/static/structure/general/tato_cave_rock_med.iff	0	984.603	3	1121.16	0.828149	0	-0.560509	0		$|
+-1676495907	0	object/static/structure/general/tato_cave_rock_med.iff	0	980.22	3	1123.34	0.194548	0.980893	0	0		$|
+-5742861	0	object/static/item/item_basket_shallow.iff	0	1049.55	3.34232	1131.01	0.908966	0.416871	0	0		$|
+-5287943	0	object/static/item/item_con_tato_bowl_full_s01.iff	0	1050.13	3	1132.17	1	0	0	0		$|
+-1850418493	0	object/static/item/item_con_tato_bowl_full_s02.iff	0	1052.37	3	1133.23	1	0	0	0		$|
+-1053284267	0	object/static/structure/dantooine/dant_hide_tanning_s02.iff	0	1042.84	3	1156.63	-0.466913	0	0.884303	0		$|
+-1087666448	0	object/static/structure/dantooine/dant_hide_tanning_s01.iff	0	1044.63	3	1150.86	-0.685868	0	0.727726	0		$|
+-1952257171	0	object/static/item/item_basket_frame.iff	0	1063.19	3	1162.49	1	0	0	0		$|
+-524453818	0	object/static/item/item_basket_shallow.iff	0	1063.11	3.66408	1162.45	1	0	0	0		$|
+-2046302005	0	object/static/item/item_bottle_fat.iff	0	1063.97	3	1161.79	1	0	0	0		$|
+-298279220	0	object/static/item/item_bowl_plain.iff	0	1062.41	3	1163.25	1	0	0	0		$|
+-1912013925	0	object/static/structure/general/tato_cave_rock_med.iff	0	1054.77	3	1162.34	0.882333	0.470626	0	0		$|
+-1819259408	0	object/static/structure/general/tato_cave_rock_med.iff	0	1050.11	3	1156.17	0.617686	0	0.786425	0		$|
+-800053533	0	object/static/structure/general/tato_cave_rock_med.iff	0	1056.92	3	1152.01	0.703845	0.710353	0	0		$|
+-1803924927	0	object/static/structure/general/tato_cave_rock_med.iff	0	1060.91	3	1158.16	0.801935	-0.597166	-0.00597185	0.0160408		$|
+-446506169	0	object/static/item/item_basket_closed.iff	0	1048.37	3	1190.54	-0.105599	0	0.994409	0		$|
+-686161365	0	object/static/item/item_fruit_melon.iff	0	1048.43	3	1189.94	1	0	0	0		$|
+-1240902027	0	object/static/item/item_fruit_melon.iff	0	1048.25	3	1190.08	1	0	0	0		$|
+-866704997	0	object/static/item/item_fruit_melon.iff	0	1048.71	3	1189.72	1	0	0	0		$|
+-2011058935	0	object/static/item/item_basket_shallow.iff	0	1048.61	3.50597	1191.82	0.678849	-0.0544344	-0.501639	0.533441		$|
+-1321202141	0	object/static/structure/dantooine/dant_fence_8m.iff	0	1015.78	3	1221.7	0.143704	0	0.989621	0		$|
+-1327962478	0	object/static/structure/dantooine/dant_fence_8m.iff	0	1018.68	3	1214.26	0.989506	0	-0.144493	0		$|
+-867823003	0	object/static/structure/dantooine/dant_fence_8m.iff	0	1013.37	3	1216.71	-0.561168	0	0.827702	0		$|
+-8329267	0	object/static/structure/dantooine/dant_fence_8m.iff	0	1021.1	3	1219.1	0.830941	0	0.556361	0		$|
+-1142354174	0	object/static/item/item_basket_closed.iff	0	1008.69	3	1206.3	-0.334238	0	0.942489	0		$|
+-1011219243	0	object/static/item/item_basket_frame.iff	0	1009.59	3	1205.37	1	0	0	0		$|
+-1607575945	0	object/static/flora/potted_plant_flowers_orange.iff	0	1013.52	2.5889	1219.66	0.959662	0	-0.281157	0		$|
+-62108707	0	object/static/flora/potted_plant_flowers_orange.iff	0	1014.15	2.5889	1218.19	0.886995	0	0.461779	0		$|
+-959440082	0	object/static/flora/potted_plant_flowers_orange.iff	0	1014.41	2.5889	1217.24	0.953847	0	-0.300293	0		$|
+-298973321	0	object/static/flora/potted_plant_flowers_orange.iff	0	1014.91	2.5889	1215.91	0.904752	0	-0.425939	0		$|
+-123628776	0	object/static/flora/potted_plant_flowers_orange.iff	0	1015.37	2.5889	1214.68	0.949235	0	0.314567	0		$|
+-2122828343	0	object/static/flora/potted_plant_leaves_fern.iff	0	1015.93	2.36754	1220.57	1	0	0	0		$|
+-686586156	0	object/static/flora/potted_plant_leaves_fern.iff	0	1016.4	2.36754	1218.99	1	0	0	0		$|
+-599745315	0	object/static/flora/potted_plant_leaves_fern.iff	0	1016.97	2.36754	1217.84	1	0	0	0		$|
+-1901485658	0	object/static/flora/potted_plant_leaves_fern.iff	0	1017.42	2.36754	1216.37	1	0	0	0		$|
+-683521780	0	object/static/flora/potted_plant_leaves_fern.iff	0	1017.83	2.36754	1214.92	1	0	0	0		$|
+-247414913	0	object/static/flora/potted_plant_leaves_small.iff	0	1018.12	2.50455	1221.43	1	0	0	0		$|
+-994348645	0	object/static/flora/potted_plant_leaves_small.iff	0	1018.77	2.50455	1219.65	1	0	0	0		$|
+-534985847	0	object/static/flora/potted_plant_leaves_small.iff	0	1019.4	2.50455	1218.21	1	0	0	0		$|
+-1574480923	0	object/static/flora/potted_plant_leaves_small.iff	0	1019.75	2.50455	1216.99	1	0	0	0		$|
+-496930446	0	object/static/flora/potted_plant_leaves_small.iff	0	1020.33	2.50455	1215.52	1	0	0	0		$|
+-771028662	0	object/static/item/item_basket_shallow.iff	0	949.888	3	1186.91	1	0	0	0		$|
+-1416962376	0	object/static/item/item_basket_shallow.iff	0	951.096	3	1185.56	1	0	0	0		$|
+-1907927179	0	object/static/item/item_fruit_melon.iff	0	949.875	3.03162	1187.06	1	0	0	0		$|
+-1517196923	0	object/static/item/item_fruit_melon.iff	0	950.03	3.03162	1186.83	1	0	0	0		$|
+-1213832370	0	object/static/item/item_fruit_melon.iff	0	949.856	3.03162	1186.86	1	0	0	0		$|
+-1807842458	0	object/static/item/item_meat_hunk.iff	0	951.255	3.06325	1185.63	0.911039	0	-0.412321	0		$|
+-1173119406	0	object/static/structure/dantooine/dant_boundary_post.iff	0	975.819	3	1170.39	0.601835	0	0.798621	0		$|
+-2140514387	0	object/static/structure/dantooine/dant_hide_tanning_s01.iff	0	966.604	3	1155.17	0.827255	0	0.561827	0		$|
+-99179545	0	object/static/structure/dantooine/dant_fish_rack.iff	0	956.562	3	1159.03	0.99995	0	0.00999988	0		$|

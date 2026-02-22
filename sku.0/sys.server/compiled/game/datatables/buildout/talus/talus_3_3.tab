@@ -1,5 +1,41 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
+-2099226515	0	object/static/item/wp_mle_lance_staff_metal_s01.iff	0	617.17	21.2313	852.318	0.9979	0.0291755	-0.0196274	0.0544029		$|
+-1954415181	0	object/tangible/ground_spawning/area_spawner.iff	0	615.958	21.9917	849.022	0.901476	0	-0.43283	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|329.000000|fltMinSpawnTime|2|219.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|veers_rebel_base_11|strSpawnerType|4|area|strSpawns|4|itp_rebel_trooper_elite_90|$|
+-1848385755	0	object/static/structure/corellia/corl_tent_large.iff	0	617.014	22.6869	852.414	0.921282	0.069226	-0.381608	0.0286744		$|
+-1796885252	0	object/static/structure/tatooine/antenna_tatt_style_2.iff	0	625.725	22	855.523	-0.548706	0	0.836015	0		$|
+-1445055266	0	object/static/structure/nobuild/noflora_10.iff	0	620.783	22	849.034	1	0	0	0		$|
+-1341622845	0	object/static/structure/general/skeleton_human_headandbody.iff	0	1654.88	35.0654	1886.49	-0.00234148	0.83049	-0.00349105	-0.557018		$|
+-985330369	0	object/static/item/wp_mle_lance_staff_metal_s01.iff	0	613.759	21.2562	848.796	0.993934	0.028158	-0.021061	0.104209		$|
+-807362460	0	object/tangible/collection/rebel_marine_left_bracer.iff	0	734.69	33.0208	283.797	-0.489499	-0.508702	0.52989	-0.469926	systems.collections.consume_click	collection.slotName|4|col_rebel_marine_armor:rebel_marine_left_bracer|$|
+-540650986	0	object/static/item/wp_mle_lance_staff_metal_s01.iff	0	620.718	21.2437	855.844	0.997823	0.0392339	-0.018687	0.0496137		$|
+-529664187	0	object/tangible/ground_spawning/area_spawner.iff	0	620.241	22	853.349	0.910571	0	-0.413353	-0	systems.spawning.spawner_area	fltMaxSpawnTime|2|329.000000|fltMinSpawnTime|2|219.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|veers_rebel_base_13|strSpawnerType|4|area|strSpawns|4|itp_rebel_trooper_elite_90|$|
+-522043082	0	object/building/military/military_rebel_tactical_center.iff	0	627.396	21.9999	842.346	0.921061	0	-0.389418	0		portalProperty.crc|0|655023661|$|
+-1394551779	-522043082	object/cell/cell.iff	1	0	0	0	1	0	0	0		$|
+-1292841515	-522043082	object/cell/cell.iff	2	0	0	0	1	0	0	0		$|
+-1186601739	-1292841515	object/tangible/ground_spawning/area_spawner.iff	2	0.153291	0.25	2.17387	0.999528	0	-0.0307321	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|329.000000|fltMinSpawnTime|2|219.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|veers_rebel_base_12|strSpawnerType|4|area|strSpawns|4|itp_rebel_trooper_elite_90|$|
+-1657960628	-522043082	object/cell/cell.iff	3	0	0	0	1	0	0	0		$|
+-304615700	-522043082	object/cell/cell.iff	4	0	0	0	1	0	0	0		$|
+-412057932	-304615700	object/tangible/ground_spawning/area_spawner.iff	4	-4.39463	-6.75	5.09922	0.760771	0	0.64902	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|329.000000|fltMinSpawnTime|2|219.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|veers_rebel_base_10|strSpawnerType|4|area|strSpawns|4|itp_rebel_trooper_elite_90|$|
+-79934465	-522043082	object/cell/cell.iff	5	0	0	0	1	0	0	0		$|
+-295435120	-522043082	object/cell/cell.iff	6	0	0	0	1	0	0	0		$|
+-1837821046	-295435120	object/tangible/ground_spawning/area_spawner.iff	6	3.38288	-13.75	-0.323743	2.38576e-005	0	1	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|329.000000|fltMinSpawnTime|2|219.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|veers_rebel_base_09|strSpawnerType|4|area|strSpawns|4|itp_rebel_trooper_elite_90|$|
+-913125691	-522043082	object/cell/cell.iff	7	0	0	0	1	0	0	0		$|
+-2125505638	-913125691	object/tangible/ground_spawning/area_spawner.iff	7	-2.06962	-13.75	5.71962	0.0138326	0	0.999904	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|329.000000|fltMinSpawnTime|2|219.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|veers_rebel_base_07|strSpawnerType|4|area|strSpawns|4|itp_rebel_trooper_elite_90|$|
+-1408995054	-913125691	object/tangible/ground_spawning/area_spawner.iff	7	4.57218	-13.75	7.96983	-0.259538	0	0.965733	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|329.000000|fltMinSpawnTime|2|219.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|veers_rebel_base_08|strSpawnerType|4|area|strSpawns|4|itp_rebel_trooper_elite_90|$|
+-631283888	-913125691	object/tangible/ground_spawning/area_spawner.iff	7	-9.25832	-13.75	6.14556	-0.0214779	0	0.999769	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|329.000000|fltMinSpawnTime|2|219.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|veers_rebel_base_06|strSpawnerType|4|area|strSpawns|4|itp_rebel_trooper_elite_90|$|
+-1226702266	-522043082	object/cell/cell.iff	8	0	0	0	1	0	0	0		$|
+-1693925515	-522043082	object/cell/cell.iff	9	0	0	0	1	0	0	0		$|
+-1488752094	-1693925515	object/tangible/ground_spawning/area_spawner.iff	9	4.92924	-20.7332	5.21583	0.738059	0	0.674736	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|329.000000|fltMinSpawnTime|2|219.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|veers_rebel_base_03|strSpawnerType|4|area|strSpawns|4|itp_rebel_trooper_elite_90|$|
+-1447278376	-1693925515	object/tangible/ground_spawning/area_spawner.iff	9	-1.7643	-20.7332	4.71948	0.800268	0	-0.599642	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|329.000000|fltMinSpawnTime|2|219.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|veers_rebel_base_05|strSpawnerType|4|area|strSpawns|4|itp_rebel_trooper_elite_90|$|
+-767925414	-1693925515	object/tangible/ground_spawning/area_spawner.iff	9	-1.59534	-20.7332	7.31594	-0.387538	0	0.921854	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|329.000000|fltMinSpawnTime|2|219.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|veers_rebel_base_04|strSpawnerType|4|area|strSpawns|4|itp_rebel_trooper_elite_90|$|
+-1400937641	-522043082	object/cell/cell.iff	10	0	0	0	1	0	0	0		$|
+-1169891412	-1400937641	object/tangible/ground_spawning/area_spawner.iff	10	5.89176	-20.75	23.2218	-0.53296	0	0.84614	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|329.000000|fltMinSpawnTime|2|219.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|veers_rebel_base_01|strSpawnerType|4|area|strSpawns|4|itp_rebel_trooper_elite_90|$|
+-899136004	-1400937641	object/tangible/ground_spawning/area_spawner.iff	10	-2.64308	-20.75	19.7365	0.687487	0	0.726197	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|329.000000|fltMinSpawnTime|2|219.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|veers_rebel_base_02|strSpawnerType|4|area|strSpawns|4|itp_rebel_trooper_elite_90|$|
+-824589589	-1400937641	object/tangible/ground_spawning/area_spawner.iff	10	1.41577	-20.75	30.9227	0.0198561	0	0.999803	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|339.000000|fltMinSpawnTime|2|229.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|veers_rebel_base_commander|strSpawnerType|4|area|strSpawns|4|itp_veers_rebel_commander|$|
+-767620211	-1400937641	object/tangible/quest/imperial/itp_veers_rebel_server.iff	10	7.31824	-20.75	26.7904	0.707109	0	-0.707104	0	quest.task.ground.retrieve_item_on_item	questRequireActiveDuty|4|true|$|
+-36568000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
+-207545375	0	object/tangible/collection/shock_trooper_belt.iff	0	1653.82	36.1858	1885.59	-0.00644784	0.88568	-0.0407502	-0.462459	systems.collections.consume_click	collection.slotName|4|col_shock_trooper_armor:shock_trooper_belt|$|
 -774325041	0	object/static/item/item_crate_spice.iff	0	732.79	32.275	283.675	0.9998	0.0199987	0	0		$|
 -1908401984	0	object/static/item/item_crate_spice.iff	0	732.77	32.3214	283.028	0.9998	0.0199987	0	0		$|
 -2093773463	0	object/static/item/item_crate_spice.iff	0	732.742	32.3655	282.405	0.9998	0.0199987	0	0		$|
@@ -18,3 +54,23 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -879410635	0	object/tangible/camp/camp_tent_s1.iff	0	1378.48	33.2739	1832.6	0.501902	0	0.864925	0		$|
 -1241413427	0	object/tangible/camp/campfire_logs_burnt.iff	0	1379.79	33.0303	1830.47	1	0	0	0		$|
 -2079230854	0	object/static/structure/tatooine/debris_tatt_crate_metal_1.iff	0	1378.56	33.1335	1830.77	1	0	0	0		$|
+-2083494600	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	730.165527	32.2374649	283.887939	1	0	0	0		$|
+-1946274642	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1373.644043	33.3350563	1830.990967	1	0	0	0		$|
+-1677962170	0	object/static/item/item_crate_spice.iff	0	732.79	32.275	283.675	0.9998	0.0199987	0	0		$|
+-1647848179	0	object/static/item/item_crate_spice.iff	0	732.77	32.3214	283.028	0.9998	0.0199987	0	0		$|
+-1062241431	0	object/static/item/item_crate_spice.iff	0	732.742	32.3655	282.405	0.9998	0.0199987	0	0		$|
+-854658269	0	object/static/item/item_crate_spice.iff	0	732.728	32.3814	281.777	0.9998	0.0199987	0	0		$|
+-2090498086	0	object/static/structure/general/atat_destroyed.iff	0	1657.1	34.7489	1877.26	1	0	0	0		$|
+-942219052	0	object/static/flora/flora_tree_rori_windswept_s00.iff	0	1656.89	33.6853	1888.39	1	0	0	0		$|
+-1720483051	0	object/static/flora/flora_tree_rori_windswept_s00.iff	0	1657.14	37.1475	1881.15	0.99242	0.114046	0.0414405	0.0194766		$|
+-609843239	0	object/static/flora/flora_tree_rori_windswept_s00.iff	0	1660.38	32.415	1875.44	0.74813	-0.0527773	-0.647162	0.136738		$|
+-751867451	0	object/static/flora/flora_tree_rori_windswept_s00.iff	0	1656.48	33.4993	1872.41	0.998488	0	-0.0549723	0		$|
+-641399737	0	object/static/flora/flora_tree_rori_windswept_s00.iff	0	1663.66	32.0916	1864.99	1	0	0	0		$|
+-977230724	0	object/static/flora/flora_tree_rori_windswept_s00.iff	0	1658.92	38.79	1874.19	0.722044	-0.603737	0.323201	0.0984647		$|
+-1246571693	0	object/static/structure/tatooine/palette_tatooine_style_01.iff	0	733.406	32.1928	282.776	0.999838	0.0149874	-0.000599818	-0.00999871		$|
+-1674091023	0	object/static/structure/tatooine/debris_tatt_drum_dented_1.iff	0	733.68	32.3054	282.538	0.71428	0.0139933	0.699574	0.0142875		$|
+-1182814570	0	object/static/structure/tatooine/debris_tatt_drum_storage_1.iff	0	733.643	32.2568	283.476	0.9998	0.0199987	0	0		$|
+-882045225	0	object/tangible/camp/camp_tent_s1.iff	0	1378.39	33.081	1828.1	0.919102	0	0.394019	0		$|
+-1550073655	0	object/tangible/camp/camp_tent_s1.iff	0	1378.48	33.2739	1832.6	0.501902	0	0.864925	0		$|
+-409244986	0	object/tangible/camp/campfire_logs_burnt.iff	0	1379.79	33.0303	1830.47	1	0	0	0		$|
+-280675418	0	object/static/structure/tatooine/debris_tatt_crate_metal_1.iff	0	1378.56	33.1335	1830.77	1	0	0	0		$|

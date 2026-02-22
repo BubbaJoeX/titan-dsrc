@@ -1,12 +1,14 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
+-39958000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
+-1966088692	0	object/tangible/collection/rare_rifle_ld1.iff	0	1123.1	15.0202	765.494	0.731242	0.0238525	0.0256039	-0.68122	systems.collections.consume_click	collection.slotName|4|col_rare_rifle_02:ld1_01|$|
 -774325041	0	object/static/structure/general/skeleton_human_head.iff	0	1124.68	15.0026	764.234	0.847255	0	0.531186	0		$|
 -1908401984	0	object/static/structure/general/skeleton_human_head.iff	0	1123.65	14.9099	766.233	0.847255	0	0.531186	0		$|
 -2093773463	0	object/static/particle/pt_lair_evil_fire_small.iff	0	1123.93	15.0084	765.005	1	0	0	0		$|
 -555016066	0	object/static/structure/general/campfire_burnt.iff	0	1123.87	14.9745	764.994	0.978031	0	-0.20846	0		$|
 -1556862676	0	object/static/structure/naboo/gungan_relic_s01.iff	0	1117.34	8.8195	761.417	0.9716	0.0292548	-0.232415	-0.0334889		$|
 -1621582391	0	object/static/structure/dantooine/dant_boundary_post.iff	0	1573.58	9.42043	420.982	0.320064	0	0.947396	0		$|
--1668142224	0	object/static/structure/dantooine/dant_skull_lizard.iff	0	1573.98	12.2711	420.546	0.320064	-1.90039e-11	0.947396	-4.79348e-10		$|
+-1668142224	0	object/static/structure/dantooine/dant_skull_lizard.iff	0	1573.98	12.2711	420.546	0.320064	-1.90039e-011	0.947396	-4.79348e-010		$|
 -1847828235	0	object/static/structure/general/tato_cave_rock_med.iff	0	1571.63	9.06163	418.816	0.859268	0.237809	0.120799	0.436479		$|
 -565923755	0	object/static/structure/general/tato_cave_rock_med.iff	0	1573.95	8.52739	418.083	0.945798	-0.297759	0.0389283	-0.123651		$|
 -1927376940	0	object/static/structure/general/tato_cave_rock_med.iff	0	1575.66	8.27143	419.224	0.946004	0.152666	-0.0455574	-0.2823		$|
@@ -17,3 +19,22 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1960783934	0	object/static/structure/general/tato_cave_rock_med.iff	0	1570.43	9.80966	420.974	0.967663	0	0	0.252245		$|
 -879410635	0	object/static/structure/dantooine/dant_totem_pole.iff	0	1759.17	23.3337	752.928	0.793048	0	0.609159	0		$|
 -1241413427	0	object/static/structure/dantooine/dant_totem_pole.iff	0	1745.96	24.1845	746.788	-0.241426	-0.0143801	0.773503	0.585832		$|
+-2079230854	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1125.463928	7.913491726	771.993164	1	0	0	0		$|
+-2083494600	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1569.378723	8.087823868	416.371582	1	0	0	0		$|
+-1946274642	0	object/static/structure/general/skeleton_human_head.iff	0	1124.68	15.0026	764.234	0.847255	0	0.531186	0		$|
+-1677962170	0	object/static/structure/general/skeleton_human_head.iff	0	1123.65	14.9099	766.233	0.847255	0	0.531186	0		$|
+-1647848179	0	object/static/particle/pt_lair_evil_fire_small.iff	0	1123.93	15.0084	765.005	1	0	0	0		$|
+-1062241431	0	object/static/structure/general/campfire_burnt.iff	0	1123.87	14.9745	764.994	0.978031	0	-0.20846	0		$|
+-854658269	0	object/static/structure/naboo/gungan_relic_s01.iff	0	1117.34	8.8195	761.417	0.9716	0.0292548	-0.232415	-0.0334889		$|
+-2090498086	0	object/static/structure/dantooine/dant_boundary_post.iff	0	1573.58	9.42043	420.982	0.320064	0	0.947396	0		$|
+-942219052	0	object/static/structure/dantooine/dant_skull_lizard.iff	0	1573.98	12.2711	420.546	0.320064	-1.90039e-11	0.947396	-4.79348e-10		$|
+-1720483051	0	object/static/structure/general/tato_cave_rock_med.iff	0	1571.63	9.06163	418.816	0.859268	0.237809	0.120799	0.436479		$|
+-609843239	0	object/static/structure/general/tato_cave_rock_med.iff	0	1573.95	8.52739	418.083	0.945798	-0.297759	0.0389283	-0.123651		$|
+-751867451	0	object/static/structure/general/tato_cave_rock_med.iff	0	1575.66	8.27143	419.224	0.946004	0.152666	-0.0455574	-0.2823		$|
+-641399737	0	object/static/structure/general/tato_cave_rock_med.iff	0	1576.44	8.65967	420.941	0.857054	-0.362357	0.142633	0.337359		$|
+-977230724	0	object/static/structure/general/tato_cave_rock_med.iff	0	1575.58	9.23862	422.567	0.906539	0.310512	-0.0926608	-0.270523		$|
+-1246571693	0	object/static/structure/general/tato_cave_rock_med.iff	0	1573.81	9.9198	423.75	0.903136	-0.117632	0.317839	-0.263603		$|
+-1674091023	0	object/static/structure/general/tato_cave_rock_med.iff	0	1571.53	10.0593	423.087	-0.535142	-0.379975	0.292349	0.695539		$|
+-1182814570	0	object/static/structure/general/tato_cave_rock_med.iff	0	1570.43	9.80966	420.974	0.967663	0	0	0.252245		$|
+-882045225	0	object/static/structure/dantooine/dant_totem_pole.iff	0	1759.17	23.3337	752.928	0.793048	0	0.609159	0		$|
+-1550073655	0	object/static/structure/dantooine/dant_totem_pole.iff	0	1745.96	24.1845	746.788	-0.241426	-0.0143801	0.773503	0.585832		$|

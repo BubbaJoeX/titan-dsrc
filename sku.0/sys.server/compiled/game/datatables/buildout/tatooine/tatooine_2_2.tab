@@ -1,5 +1,63 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
+-2074721329	0	object/static/structure/tatooine/palette_tatooine_style_01.iff	0	692.64	38.737	32.353	0.707117	0	0.707096	0		$|
+-2059335443	0	object/static/item/item_container_weapon.iff	0	692.08	39.741	32.4731	0	0	1	0		$|
+-1974131746	0	object/tangible/ground_spawning/area_spawner.iff	0	252.606	49.5238	176.594	0.89987	0	-0.436159	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|190.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|12.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|6|intSpawnSystem|0|1|registerWithController|0|1|strName|4|porcellus_dune_lizards_03|strSpawnerType|4|area|strSpawns|4|tatooine/porcellus_dune_lizzards|$|
+-1908370778	0	object/static/item/item_container_electronics.iff	0	692.871	37.9192	28.3047	0.999447	0.0270426	-0.000524032	-0.0193673		$|
+-1896261226	0	object/static/item/item_container_electronics.iff	0	691.387	38.0944	26.9395	0.000905654	0.018951	0.99868	0.0477285		$|
+-1802463285	0	object/static/structure/tatooine/jawa/tent_jawa_01_small.iff	0	692.343	37.9762	27.7988	0.998579	0.049641	-0.000962	-0.019351		$|
+-1800498010	0	object/tangible/ground_spawning/area_spawner.iff	0	1538.08	45.4367	1406.72	0.747274	0	-0.664516	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|190.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|12.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|6|intSpawnSystem|0|1|registerWithController|0|1|strName|4|porcellus_dragonet_06|strSpawnerType|4|area|strSpawns|4|tatooine/porcellus_dragonet|$|
+-1792733855	0	object/static/item/item_container_electronics.iff	0	692.805	38.0502	26.8643	0.998708	0.0477351	-0.000832649	-0.0174206		$|
+-1790294714	0	object/static/item/item_food_dish_01.iff	0	701.449	38.4821	27.8101	0.998067	0.0619241	-0.000326922	-0.00526919		$|
+-1697718285	0	object/static/structure/tatooine/palette_tatooine_style_01.iff	0	692.642	37.867	32.3511	0.707117	0	0.707096	0		$|
+-1674730979	0	object/static/structure/tatooine/jawa/tent_jawa_01_large.iff	0	700.519	37.6699	29.4497	2.73955e-007	0	1	0		$|
+-1532420674	0	object/tangible/furniture/tatooine/frn_tato_tbl_cafe_table_style_01.iff	0	701.644	37.7199	27.8955	0.998221	0.0590892	-0.000469212	-0.00792662		$|
+-1511252110	0	object/tangible/ground_spawning/area_spawner.iff	0	662.752	44.1032	56.3545	0.178598	0	0.983922	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|190.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|alkhara_bandit_09|strSpawnerType|4|area|strSpawns|4|tatooine/tatooine_alkhara_bandits|$|
+-1494881224	0	object/static/item/item_container_weapon.iff	0	692.08	38.867	32.4434	0	0	1	0		$|
+-1472538052	0	object/tangible/ground_spawning/area_spawner.iff	0	698.663	38.2716	39.3765	-0.363304	0	0.931671	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|190.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|alkhara_bandit_02|strSpawnerType|4|area|strSpawns|4|tatooine/tatooine_alkhara_bandits|$|
+-1387192906	0	object/static/item/item_bottle_fat.iff	0	702.238	37.7442	27.6104	0.998219	0.0590887	-0.000481941	-0.00814171		$|
+-1375965087	0	object/static/structure/general/all_foodcart_s01.iff	0	702.219	38.1074	24.9458	0.704268	0.0576471	0.705479	0.0546054		$|
+-1351533227	0	object/tangible/ground_spawning/area_spawner.iff	0	684.222	38.8552	38.6953	0.275617	0	0.961268	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|190.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|alkhara_bandit_03|strSpawnerType|4|area|strSpawns|4|tatooine/tatooine_alkhara_bandits|$|
+-1174790134	0	object/tangible/ground_spawning/area_spawner.iff	0	174.336	53.1977	183.555	0.715466	0	0.698647	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|190.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|12.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|6|intSpawnSystem|0|1|registerWithController|0|1|strName|4|porcellus_dune_lizards_05|strSpawnerType|4|area|strSpawns|4|tatooine/porcellus_dune_lizzards|$|
+-1072843552	0	object/tangible/ground_spawning/area_spawner.iff	0	1453.9	39.146	1371.72	-0.579597	0	0.814903	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|190.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|12.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|6|intSpawnSystem|0|1|registerWithController|0|1|strName|4|porcellus_dragonet_02|strSpawnerType|4|area|strSpawns|4|tatooine/porcellus_dragonet|$|
+-1072786267	0	object/static/item/item_bottle_tall.iff	0	701.841	38.4334	28.1675	0.999344	0.0352912	-0.000287844	-0.00815088		$|
+-1009587936	0	object/tangible/ground_spawning/area_spawner.iff	0	1519.97	39.8323	1436.93	-0.472675	0	0.881237	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|190.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|12.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|6|intSpawnSystem|0|1|registerWithController|0|1|strName|4|porcellus_dragonet_05|strSpawnerType|4|area|strSpawns|4|tatooine/porcellus_dragonet|$|
+-922228655	0	object/tangible/ground_spawning/area_spawner.iff	0	216.79	49.4681	212.782	0.990452	0	0.137858	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|190.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|12.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|6|intSpawnSystem|0|1|registerWithController|0|1|strName|4|porcellus_dune_lizards_01|strSpawnerType|4|area|strSpawns|4|tatooine/porcellus_dune_lizzards|$|
+-885689980	0	object/tangible/ground_spawning/area_spawner.iff	0	670.075	39.5917	28.8784	0.668296	0	0.743895	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|190.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|alkhara_bandit_04|strSpawnerType|4|area|strSpawns|4|tatooine/tatooine_alkhara_bandits|$|
+-877081070	0	object/static/item/item_container_weapon.iff	0	693.25	38.867	32.2432	1	0	0	0		$|
+-844523043	0	object/tangible/ground_spawning/area_spawner.iff	0	1469.91	28.2568	1454.81	0.110891	0	0.993833	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|190.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|12.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|6|intSpawnSystem|0|1|registerWithController|0|1|strName|4|porcellus_dragonet_04|strSpawnerType|4|area|strSpawns|4|tatooine/porcellus_dragonet|$|
+-819976124	0	object/tangible/ground_spawning/area_spawner.iff	0	709.751	43.2032	57.9673	-0.215632	0	0.976475	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|190.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|alkhara_bandit_08|strSpawnerType|4|area|strSpawns|4|tatooine/tatooine_alkhara_bandits|$|
+-810204355	0	object/tangible/ground_spawning/area_spawner.iff	0	713.345	37.3484	30.8208	0.727717	0	0.685878	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|190.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|alkhara_bandit_01|strSpawnerType|4|area|strSpawns|4|tatooine/tatooine_alkhara_bandits|$|
+-752107793	0	object/static/item/item_container_weapon.iff	0	692.078	37.993	32.4448	0	0	1	0		$|
+-664726299	0	object/tangible/ground_spawning/area_spawner.iff	0	207.036	51.7315	169.683	0.924463	0	0.381271	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|190.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|12.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|6|intSpawnSystem|0|1|registerWithController|0|1|strName|4|porcellus_dune_lizards_04|strSpawnerType|4|area|strSpawns|4|tatooine/porcellus_dune_lizzards|$|
+-615730914	0	object/static/item/item_con_tato_bowl_full_s02.iff	0	698.438	38.3762	32.2085	0.999765	-0.0145429	0.000233621	-0.0160605		$|
+-580972756	0	object/tangible/furniture/tatooine/frn_tato_tbl_cafe_table_style_01.iff	0	698.137	37.6273	32.1694	0.999765	-0.0145429	0.000233621	-0.0160605		$|
+-577632755	0	object/static/structure/tatooine/palette_tatooine_style_01.iff	0	692.64	39.607	32.353	0.707107	0	0.707107	0		$|
+-564003293	0	object/tangible/ground_spawning/area_spawner.iff	0	1497.65	42.3001	1384.9	0.720155	0	-0.693813	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|190.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|12.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|6|intSpawnSystem|0|1|registerWithController|0|1|strName|4|porcellus_dragonet_01|strSpawnerType|4|area|strSpawns|4|tatooine/porcellus_dragonet|$|
+-500638200	0	object/static/item/item_con_tato_bowl_full_s01.iff	0	697.901	38.3801	31.8979	0.999839	0.00790391	-0.000127287	-0.0161017		$|
+-452716833	0	object/tangible/ground_spawning/area_spawner.iff	0	680.93	41.182	13.7822	0.984709	0	0.174205	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|190.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|alkhara_bandit_05|strSpawnerType|4|area|strSpawns|4|tatooine/tatooine_alkhara_bandits|$|
+-412874748	0	object/static/item/item_bottle_fat.iff	0	702.064	38.4477	27.9131	0.999344	0.0352912	-0.000287844	-0.00815088		$|
+-325522546	0	object/static/item/item_container_weapon.iff	0	693.249	37.993	32.2471	1	0	0	0		$|
+-307414938	0	object/tangible/ground_spawning/area_spawner.iff	0	699.607	41.2258	12.8828	0.984994	0	-0.17259	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|190.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|alkhara_bandit_06|strSpawnerType|4|area|strSpawns|4|tatooine/tatooine_alkhara_bandits|$|
+-303129743	0	object/tangible/ground_spawning/area_spawner.iff	0	263.513	50.4735	211.17	0.718488	0	-0.695539	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|190.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|12.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|6|intSpawnSystem|0|1|registerWithController|0|1|strName|4|porcellus_dune_lizards_02|strSpawnerType|4|area|strSpawns|4|tatooine/porcellus_dune_lizzards|$|
+-183630496	0	object/static/item/item_container_electronics.iff	0	691.449	37.9792	28.2686	0.000498932	0.0206554	0.999495	0.0241449		$|
+-138160428	0	object/tangible/ground_spawning/area_spawner.iff	0	1445.24	27.9129	1411.96	0.440903	0	0.897555	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|190.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|12.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|6|intSpawnSystem|0|1|registerWithController|0|1|strName|4|porcellus_dragonet_03|strSpawnerType|4|area|strSpawns|4|tatooine/porcellus_dragonet|$|
+-104571007	0	object/building/poi/tatooine_hutt_businessmen_camp_small2.iff	0	206.313	58.73	113.943	1	0	0	0	poi.template.scene.base.base_theater	intPrespawned|0|1|poi.fltSize|0|82|theater.children|7|10115280:10115285:10115305:10115306:|theater.objMobSpawners|7|10115285:|theater.objObjectiveSpawners|7|10115280:|theater.spawnMethod|0|1|theater.tbl|4|datatables/poi/tatooine_hutt_businessmen_camp_small2.iff|$|
+-104568118	0	object/tangible/ground_spawning/area_spawner.iff	0	719.687	44.911	5.35156	0.952964	0	-0.303084	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|190.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|alkhara_bandit_07|strSpawnerType|4|area|strSpawns|4|tatooine/tatooine_alkhara_bandits|$|
+-90001796	0	object/building/military/military_outpost_guard_tower_1.iff	0	684.434	38.9584	27.9453	1	0	0	0		$|
+-50414759	0	object/tangible/quest/legacy_head_dragon.iff	0	1491.64	56.3172	1779.25	1	0	0	0	quest.task.ground.retrieve_item_on_item	$|
+-37082871	0	object/static/item/item_container_weapon.iff	0	693.25	39.741	32.2432	1	0	0	0		$|
+-10	0	object/tangible/ground_spawning/area_spawner.iff	0	1211.58	31.0028	601.472	0.835604	-4.62e-009	-0.549333	1.71e-008	systems.spawning.spawner_area	fltMaxSpawnTime|2|600.000000|fltMinSpawnTime|2|300.000000|fltRadius|2|1.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|tyrok|strSpawnerType|4|area|strSpawns|4|tatooine/tyrok|$|
+-9	0	object/tangible/ground_spawning/area_spawner.iff	0	1812.89	22.9211	1116.87	0.0786063	-1.28e-008	0.996906	-1.23e-008	systems.spawning.spawner_area	fltMaxSpawnTime|2|600.000000|fltMinSpawnTime|2|300.000000|fltRadius|2|1.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|delrice|strSpawnerType|4|area|strSpawns|4|tatooine/delrice_capreece|$|
+-8	0	object/tangible/ground_spawning/patrol_waypoint.iff	0	1091.04	41.8105	27.5405	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|tatooine_valarian_thief_camp_10033755_4|registerWithController|0|1|$|
+-7	0	object/tangible/ground_spawning/patrol_waypoint.iff	0	1158.43	35.1225	17.23	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|tatooine_valarian_thief_camp_10033755_3|registerWithController|0|1|$|
+-6	0	object/tangible/ground_spawning/patrol_waypoint.iff	0	1105.75	39.8445	33.5542	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|tatooine_valarian_thief_camp_10033755_1|registerWithController|0|1|$|
+-5	0	object/tangible/ground_spawning/patrol_spawner.iff	0	1102.55	39.7892	7.99561	1	0	0	0	systems.spawning.spawner_patrol	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|2.000000|intDefaultBehavior|0|3|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|patrolPathType|4|cycle|registerWithController|0|1|strName|4|tatooine_valarian_thief_camp|strPatrolPointNames|5|tatooine_valarian_thief_camp_10033755_1:tatooine_valarian_thief_camp_10033755_2:tatooine_valarian_thief_camp_10033755_3:tatooine_valarian_thief_camp_10033755_4:tatooine_valarian_thief_camp_10033755_5:|strSpawnerType|4|patrol|strSpawns|4|tatooine/tatooine_valarian_thief_camp|$|
+-4	0	object/tangible/ground_spawning/area_spawner.iff	0	1119.58	41.3857	34.5435	-0.239715	0	0.970843	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|3.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|3|intSpawnSystem|0|1|registerWithController|0|1|strName|4|tatooine_valarian_thief_camp|strSpawnerType|4|area|strSpawns|4|tatooine/tatooine_valarian_thief_camp|$|
+-3	0	object/tangible/ground_spawning/area_spawner.iff	0	1134.74	39.8445	14.0918	-0.659959	0	0.751301	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|180.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|3.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|4|intSpawnSystem|0|1|registerWithController|0|1|strName|4|tatooine_valarian_thief_camp|strSpawnerType|4|area|strSpawns|4|tatooine/tatooine_valarian_thief_camp|$|
+-2	0	object/building/poi/tatooine_fugitive_camp_medium.iff	0	1124.31	39.8445	21.9268	1	0	0	0	poi.template.scene.base.base_theater	intPrespawned|0|1|poi.fltSize|0|82|theater.children|7|10116484:10116489:10116505:|theater.objMobSpawners|7|10116489:|theater.objObjectiveSpawners|7|10116484:|theater.spawnMethod|0|1|theater.tbl|4|datatables/poi/tatooine_fugitive_camp_medium.iff|$|
+-1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
+-1074227820	0	object/tangible/ground_spawning/area_spawner.iff	0	200.267	58.7302	107.142	0.405101	0	0.914272	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|2.000000|fltMinSpawnTime|2|1.000000|fltRadius|2|0.000000|intDefaultBehavior|0|3|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|Smuggler_Broker_Gotan|strSpawnerType|4|area|strSpawns|4|tatooine/smuggler_broker_gotan|$|
 -774325041	0	object/static/structure/tatooine/jawa/tent_jawa_01_small.iff	0	1200.75	29.3627	599.327	0.989506	0	0	0.144492		$|
 -1908401984	0	object/static/structure/tatooine/debris_tatt_crate_1.iff	0	1202.83	29.8011	593.1	0.947651	0	0	-0.319309		$|
 -2093773463	0	object/static/structure/tatooine/debris_tatt_crate_metal_1.iff	0	1205.36	30.5129	597.783	0.993395	0	0	-0.114747		$|
@@ -59,7 +117,7 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -327503350	0	object/static/structure/tatooine/wall_cleft_tatooine_large_style_01.iff	0	839.24	39.9175	1664.73	0.777168	0.0180292	0.628	0.0360639		$|
 -1408844359	0	object/static/structure/tatooine/wall_ruined_tatooine_large_style_01.iff	0	854.406	39.5766	1728.69	0.867793	0	-0.496926	0		$|
 -850991870	0	object/static/structure/tatooine/wall_ruined_tatooine_large_style_01.iff	0	865.244	39.5766	1716.75	0.246632	0	0.969109	0		$|
--1579429420	0	object/static/structure/tatooine/wall_ruined_tatooine_large_style_02.iff	0	842.99	39.5769	1734.4	0.98202	6.21105e-06	0.188776	-3.23102e-05		$|
+-1579429420	0	object/static/structure/tatooine/wall_ruined_tatooine_large_style_02.iff	0	842.99	39.5769	1734.4	0.98202	6.21105e-006	0.188776	-3.23102e-005		$|
 -414188864	0	object/static/structure/tatooine/wall_ruined_tatooine_large_style_02.iff	0	826.922	39.578	1738.2	-0.0312484	-0.0114344	0.999427	-0.00621254		$|
 -2054174542	0	object/static/structure/tatooine/wall_cleft_tatooine_large_style_01.iff	0	835.292	39.6468	1737.27	0.791931	-0.00818902	-0.610554	-0.00103559		$|
 -580396567	0	object/static/structure/tatooine/wall_cleft_tatooine_large_style_01.iff	0	784.544	39.5697	1715.22	-0.163894	-0.00111603	0.986477	0.00105564		$|
@@ -81,7 +139,7 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -907629344	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	831.726	39.9015	1738.25	0.993482	-0.0105555	0.1135	-0.000558339		$|
 -1734547049	0	object/static/structure/tatooine/pillar_damaged_large_style_01.iff	0	784.821	39.8358	1703.07	0.992809	0	-0.119712	0		$|
 -634427143	0	object/static/structure/tatooine/pillar_damaged_large_style_01.iff	0	784.028	39.8358	1710.47	0.758362	0	0.651834	0		$|
--1998115094	0	object/static/structure/tatooine/pillar_damaged_large_style_01.iff	0	785.699	39.8205	1719.54	0.807767	0.00153594	-0.589499	2.78356e-05		$|
+-1998115094	0	object/static/structure/tatooine/pillar_damaged_large_style_01.iff	0	785.699	39.8205	1719.54	0.807767	0.00153594	-0.589499	2.78356e-005		$|
 -2049076531	0	object/static/structure/tatooine/pillar_ruined_large_style_01.iff	0	788.18	39.7075	1727.54	0.782005	0.00638483	-0.623218	-0.00519873		$|
 -727431475	0	object/static/structure/tatooine/pillar_ruined_large_style_01.iff	0	795.44	39.6033	1731.03	0.229561	0.000728423	0.973071	0.0208279		$|
 -1658075832	0	object/static/structure/tatooine/pillar_damaged_large_style_01.iff	0	802.875	39.5408	1735.09	-0.561439	-0.0195506	0.827217	0.0107405		$|
@@ -170,33 +228,244 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -894356231	0	object/static/item/wp_mle_baton_gaderiffi.iff	0	837.798	40.2214	1720.81	-0.296277	0.955089	0.004775	0.001481		$|
 -1289777588	0	object/static/item/wp_mle_lance_vibrolance.iff	0	807.663	40.5687	1712.11	0.957746	0.239458	0.038644	0.154561		$|
 -1370102196	0	object/static/item/wp_mle_axe_heavy_duty.iff	0	808.8	40	1680.68	0.71791	0	0	-0.696136		$|
--1676495907	0	object/static/structure/general/r3_head.iff	0	824.552	40	1681.19	0.486133	0.714962	-0.500383	-0.046054		$|
--5742861	0	object/static/structure/general/r2_torso.iff	0	824.556	40	1681.22	-0.283395	-0.304846	-0.636467	0.649358		$|
--5287943	0	object/static/structure/general/r3_leg.iff	0	824.833	40	1680.52	1	0	0	0		$|
--1850418493	0	object/static/particle/pt_poi_broken_electronics.iff	0	824.411	40	1681.27	1	0	0	0		$|
--1053284267	0	object/static/structure/general/skeleton_human_head.iff	0	793.724	40	1699.44	0.819403	-0.172998	0.538724	-0.0917945		$|
--1087666448	0	object/static/item/wp_rifle_bowcaster_combined.iff	0	792.24	40.3162	1698.4	-0.530044	0.351593	0.629349	0.446492		$|
--1952257171	0	object/static/structure/tatooine/skeleton_greater_krayt_head.iff	0	1479.56	51.9422	1790.35	0.923937	-0.00533804	-0.22498	0.309347		$|
--524453818	0	object/static/structure/tatooine/skeleton_greater_krayt_spine_large.iff	0	1481.67	53.0562	1788.12	0.887468	0.0329943	-0.408018	0.21174		$|
--2046302005	0	object/static/structure/tatooine/skeleton_greater_krayt_spine_medium.iff	0	1485.34	54.1092	1785.64	0.807217	0.00233304	-0.522998	0.273622		$|
--298279220	0	object/static/structure/tatooine/skeleton_greater_krayt_spine_medium.iff	0	1489.03	55.2413	1783.47	0.819666	0.0184967	-0.525601	0.227044		$|
--1912013925	0	object/static/structure/tatooine/skeleton_greater_krayt_spine_medium.iff	0	1496.26	56.0394	1778.51	0.857111	-0.130948	-0.497415	0.0281485		$|
--1819259408	0	object/static/structure/tatooine/skeleton_greater_krayt_spine_medium.iff	0	1500.1	55.0993	1776.33	0.839157	-0.088568	-0.536324	-0.0181195		$|
--800053533	0	object/static/structure/tatooine/skeleton_greater_krayt_spine_medium.iff	0	1508.03	53.5472	1772.76	0.83165	-0.142112	-0.526523	0.104575		$|
--1803924927	0	object/static/structure/tatooine/skeleton_greater_krayt_spine_small.iff	0	1515.85	52.6422	1769.34	0.809559	-0.142863	-0.546956	0.158249		$|
--446506169	0	object/static/structure/tatooine/skeleton_greater_krayt_spine_medium.iff	0	1512.28	52.9744	1771.13	0.811052	-0.152817	-0.553132	0.11352		$|
--686161365	0	object/static/structure/tatooine/skeleton_greater_krayt_spine_medium.iff	0	1503.97	54.2789	1774.46	0.825221	-0.188595	-0.508941	0.156276		$|
--1240902027	0	object/static/structure/tatooine/skeleton_greater_krayt_spine_medium.iff	0	1492.88	56.1489	1781.02	0.844131	0.015886	-0.513899	0.151983		$|
--866704997	0	object/static/structure/general/tankfarm_s01.iff	0	1818.59	22.002	1123.44	0.994493	-0.104807	0	0		$|
--2011058935	0	object/static/structure/corellia/corl_fountain_circle_s01.iff	0	1817.74	20.4433	1123.31	0.797087	0.131534	0.561765	0.178244		$|
--1321202141	0	object/static/flora/flora_plant_tato_pika.iff	0	1817.32	23.7736	1126.87	1	0	0	0		$|
--1327962478	0	object/static/flora/flora_plant_tato_pika_tri.iff	0	1816.18	23.8147	1127.44	1	0	0	0		$|
--867823003	0	object/static/flora/flora_flower_tato_funnel_med.iff	0	1818.43	23.3967	1127.3	1	0	0	0		$|
--8329267	0	object/static/flora/flora_flower_tato_funnel_med.iff	0	1817.6	23.507	1128.4	1	0	0	0		$|
--1142354174	0	object/static/flora/flora_flower_tato_funnel_med.iff	0	1816.24	23.7772	1128.1	1	0	0	0		$|
--1011219243	0	object/static/flora/flora_flower_tato_funnel_med.iff	0	1815.14	23.1983	1126.3	1	0	0	0		$|
--1607575945	0	object/static/flora/flora_flower_tato_funnel_med.iff	0	1815.58	23.083	1128.11	1	0	0	0		$|
--62108707	0	object/static/flora/flora_flower_tato_funnel_med.iff	0	1818.23	23.8324	1128.42	1	0	0	0		$|
--959440082	0	object/static/flora/flora_flower_tato_funnel_med.iff	0	1817.16	23.9404	1129.36	1	0	0	0		$|
--298973321	0	object/static/flora/flora_flower_tato_funnel_med.iff	0	1815.25	23.4642	1125.05	1	0	0	0		$|
--123628776	0	object/static/flora/flora_flower_tato_funnel_med.iff	0	1816.1	23.4356	1124.68	1	0	0	0		$|
+-1676495907	0	object/static/particle/pt_poi_broken_electronics.iff	0	824.411	40	1681.27	1	0	0	0		$|
+-5742861	0	object/static/structure/general/skeleton_human_head.iff	0	793.724	40	1699.44	0.819403	-0.172998	0.538724	-0.0917945		$|
+-5287943	0	object/static/item/wp_rifle_bowcaster_combined.iff	0	792.24	40.3162	1698.4	-0.530044	0.351593	0.629349	0.446492		$|
+-1850418493	0	object/static/structure/tatooine/skeleton_greater_krayt_head.iff	0	1479.56	51.9422	1790.35	0.923937	-0.00533804	-0.22498	0.309347		$|
+-1053284267	0	object/static/structure/tatooine/skeleton_greater_krayt_spine_large.iff	0	1481.67	53.0562	1788.13	0.887468	0.0329943	-0.408018	0.21174		$|
+-1087666448	0	object/static/structure/tatooine/skeleton_greater_krayt_spine_medium.iff	0	1485.34	54.1092	1785.64	0.807217	0.00233304	-0.522998	0.273622		$|
+-1952257171	0	object/static/structure/tatooine/skeleton_greater_krayt_spine_medium.iff	0	1489.03	55.2413	1783.47	0.819666	0.0184967	-0.525601	0.227044		$|
+-524453818	0	object/static/structure/tatooine/skeleton_greater_krayt_spine_medium.iff	0	1496.26	56.0394	1778.51	0.857111	-0.130948	-0.497415	0.0281485		$|
+-2046302005	0	object/static/structure/tatooine/skeleton_greater_krayt_spine_medium.iff	0	1500.1	55.0993	1776.33	0.839157	-0.088568	-0.536324	-0.0181195		$|
+-298279220	0	object/static/structure/tatooine/skeleton_greater_krayt_spine_medium.iff	0	1508.03	53.5472	1772.76	0.83165	-0.142112	-0.526523	0.104575		$|
+-1912013925	0	object/static/structure/tatooine/skeleton_greater_krayt_spine_small.iff	0	1515.85	52.6422	1769.34	0.809559	-0.142863	-0.546956	0.158249		$|
+-1819259408	0	object/static/structure/tatooine/skeleton_greater_krayt_spine_medium.iff	0	1512.28	52.9744	1771.13	0.811052	-0.152817	-0.553132	0.11352		$|
+-800053533	0	object/static/structure/tatooine/skeleton_greater_krayt_spine_medium.iff	0	1503.97	54.2789	1774.46	0.825221	-0.188595	-0.508941	0.156276		$|
+-1803924927	0	object/static/structure/tatooine/skeleton_greater_krayt_spine_medium.iff	0	1492.88	56.1489	1781.02	0.844131	0.015886	-0.513899	0.151983		$|
+-446506169	0	object/static/structure/general/tankfarm_s01.iff	0	1818.59	22.002	1123.44	0.994493	-0.104807	0	0		$|
+-686161365	0	object/static/structure/corellia/corl_fountain_circle_s01.iff	0	1817.74	20.4433	1123.31	0.797087	0.131534	0.561765	0.178244		$|
+-1240902027	0	object/static/flora/flora_plant_tato_pika.iff	0	1817.32	23.7736	1126.87	1	0	0	0		$|
+-866704997	0	object/static/flora/flora_plant_tato_pika_tri.iff	0	1816.18	23.8147	1127.44	1	0	0	0		$|
+-2011058935	0	object/static/flora/flora_flower_tato_funnel_med.iff	0	1818.43	23.3967	1127.3	1	0	0	0		$|
+-1321202141	0	object/static/flora/flora_flower_tato_funnel_med.iff	0	1817.6	23.507	1128.4	1	0	0	0		$|
+-1327962478	0	object/static/flora/flora_flower_tato_funnel_med.iff	0	1816.24	23.7772	1128.1	1	0	0	0		$|
+-867823003	0	object/static/flora/flora_flower_tato_funnel_med.iff	0	1815.14	23.1983	1126.3	1	0	0	0		$|
+-8329267	0	object/static/flora/flora_flower_tato_funnel_med.iff	0	1815.58	23.083	1128.11	1	0	0	0		$|
+-1142354174	0	object/static/flora/flora_flower_tato_funnel_med.iff	0	1818.23	23.8324	1128.42	1	0	0	0		$|
+-1011219243	0	object/static/flora/flora_flower_tato_funnel_med.iff	0	1817.16	23.9404	1129.36	1	0	0	0		$|
+-1607575945	0	object/static/flora/flora_flower_tato_funnel_med.iff	0	1815.25	23.4642	1125.05	1	0	0	0		$|
+-62108707	0	object/static/flora/flora_flower_tato_funnel_med.iff	0	1816.1	23.4356	1124.68	1	0	0	0		$|
+-959440082	0	object/static/structure/general/droid_r3_head.iff	0	824.552	40	1681.19	0.486133	0.714962	-0.500383	-0.046054		$|
+-298973321	0	object/static/structure/general/droid_r2_torso.iff	0	824.556	40	1681.22	-0.283395	-0.304846	-0.636467	0.649358		$|
+-123628776	0	object/static/structure/general/droid_r3_leg.iff	0	824.833	40	1680.52	1	0	0	0		$|
+-2122828343	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1207.447754	29.76093674	591.117187	1	0	0	0		$|
+-686586156	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	820.758789	40	1700.378418	1	0	0	0		$|
+-599745315	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	803.578125	40	1691.573242	1	0	0	0		$|
+-1901485658	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	854.546387	40	1702.711914	1	0	0	0		$|
+-683521780	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	828.03418	40	1699.205078	1	0	0	0		$|
+-247414913	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	811.964355	40	1688.060059	1	0	0	0		$|
+-994348645	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	825.697266	40	1716.710449	1	0	0	0		$|
+-534985847	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	861.109375	40	1701.143555	1	0	0	0		$|
+-1574480923	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	806.041016	40	1709.104492	1	0	0	0		$|
+-496930446	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	726.671387	41.60870361	99.500977	1	0	0	0		$|
+-771028662	0	object/tangible/poi/tatooine/explore_krayt_skeleton.iff	0	1496	56	1781	1	0	0	0		$|
+-1416962376	0	object/static/structure/tatooine/jawa/tent_jawa_01_small.iff	0	1200.75	29.3627	599.327	0.989506	0	0	0.144492		$|
+-1907927179	0	object/static/structure/tatooine/debris_tatt_crate_1.iff	0	1202.83	29.8011	593.1	0.947651	0	0	-0.319309		$|
+-1517196923	0	object/static/structure/tatooine/debris_tatt_crate_metal_1.iff	0	1205.36	30.5129	597.783	0.993395	0	0	-0.114747		$|
+-1213832370	0	object/static/structure/tatooine/debris_tatt_drum_storage_1.iff	0	1202.4	30.2696	597.741	1	0	0	0		$|
+-1807842458	0	object/static/structure/tatooine/debris_tatt_drum_storage_2.iff	0	1202.51	31.0426	599.864	1	0	0	0		$|
+-1173119406	0	object/tangible/camp/camp_cot_s1.iff	0	1201.83	31.0344	595.213	0.0242012	0.999707	0	0		$|
+-2140514387	0	object/tangible/camp/camp_tent_s5.iff	0	1211.99	28.9323	596.033	1	0	0	0		$|
+-99179545	0	object/static/particle/pt_poi_broken_electronics.iff	0	1213.58	30.5121	592.873	1	0	0	0		$|
+-596802758	0	object/static/structure/general/skeleton_human_headandbody.iff	0	1211.21	29.6464	590.677	0.999126	-0.0416757	0.00013237	-0.00317341		$|
+-266603785	0	object/building/tatooine/housing_tatt_style02_small.iff	0	817.1	40.0104	1671.99	1	0	0	0		$|
+-601981178	-266603785	object/cell/cell.iff	1	0	0	0	1	0	0	0		$|
+-1581859982	-266603785	object/cell/cell.iff	2	0	0	0	1	0	0	0		$|
+-60369850	-266603785	object/cell/cell.iff	3	0	0	0	1	0	0	0		$|
+-1072483152	-266603785	object/cell/cell.iff	4	0	0	0	1	0	0	0		$|
+-511182280	-266603785	object/cell/cell.iff	5	0	0	0	1	0	0	0		$|
+-1763831653	-266603785	object/cell/cell.iff	6	0	0	0	1	0	0	0		$|
+-1057245553	-266603785	object/cell/cell.iff	7	0	0	0	1	0	0	0		$|
+-187630280	-266603785	object/cell/cell.iff	8	0	0	0	1	0	0	0		$|
+-1918968145	-266603785	object/cell/cell.iff	9	0	0	0	1	0	0	0		$|
+-278059252	-266603785	object/cell/cell.iff	10	0	0	0	1	0	0	0		$|
+-804661704	0	object/building/tatooine/housing_tatt_style02_small.iff	0	806.987	39.9599	1722.49	0.198669	0	0.980067	0		$|
+-1506578347	-804661704	object/cell/cell.iff	1	0	0	0	1	0	0	0		$|
+-340012484	-804661704	object/cell/cell.iff	2	0	0	0	1	0	0	0		$|
+-775350060	-804661704	object/cell/cell.iff	3	0	0	0	1	0	0	0		$|
+-1057285909	-804661704	object/cell/cell.iff	4	0	0	0	1	0	0	0		$|
+-839730076	-804661704	object/cell/cell.iff	5	0	0	0	1	0	0	0		$|
+-1720325307	-804661704	object/cell/cell.iff	6	0	0	0	1	0	0	0		$|
+-1819263809	-804661704	object/cell/cell.iff	7	0	0	0	1	0	0	0		$|
+-1344509769	-804661704	object/cell/cell.iff	8	0	0	0	1	0	0	0		$|
+-510004175	-804661704	object/cell/cell.iff	9	0	0	0	1	0	0	0		$|
+-1800559733	-804661704	object/cell/cell.iff	10	0	0	0	1	0	0	0		$|
+-989176014	0	object/building/tatooine/housing_tatt_style02_small.iff	0	853.835	40	1686.96	0.92388	0	-0.382683	0		$|
+-99858528	-989176014	object/cell/cell.iff	1	0	0	0	1	0	0	0		$|
+-475396024	-989176014	object/cell/cell.iff	2	0	0	0	1	0	0	0		$|
+-166571549	-989176014	object/cell/cell.iff	3	0	0	0	1	0	0	0		$|
+-1008557808	-989176014	object/cell/cell.iff	4	0	0	0	1	0	0	0		$|
+-175033873	-989176014	object/cell/cell.iff	5	0	0	0	1	0	0	0		$|
+-2146255511	-989176014	object/cell/cell.iff	6	0	0	0	1	0	0	0		$|
+-861259941	-989176014	object/cell/cell.iff	7	0	0	0	1	0	0	0		$|
+-1451363810	-989176014	object/cell/cell.iff	8	0	0	0	1	0	0	0		$|
+-1098210877	-989176014	object/cell/cell.iff	9	0	0	0	1	0	0	0		$|
+-2105657662	-989176014	object/cell/cell.iff	10	0	0	0	1	0	0	0		$|
+-1907249538	0	object/tangible/furniture/tatooine/frn_tato_chair_cafe_style_02.iff	0	828.677	40.0001	1727.79	0.204347	0	0.978899	0		$|
+-152259559	0	object/tangible/container/loot/placable_loot_crate.iff	0	793.922	40	1705.16	1	0	-0.000355	0		$|
+-1367988389	0	object/static/structure/tatooine/tent_house_tatooine_style_01.iff	0	830.186	40	1727.33	0.999726	0	-0.023406	0		$|
+-260442791	0	object/static/structure/tatooine/stone_hovel_tatooine_style_01.iff	0	841.852	40	1724.06	-0.160104	0	0.9871	0		$|
+-31522106	0	object/static/installation/mockup_mining_liquid_moisture_harvester.iff	0	823.626	40	1699.65	1	0	0	0		$|
+-361495523	0	object/static/structure/tatooine/stone_hovel_tatooine_style_01.iff	0	794.4	40	1710.67	0.551534	0	0.834152	0		$|
+-414947945	0	object/static/structure/tatooine/stone_hovel_tatooine_style_01.iff	0	803.122	40	1678.55	0.937092	0	0.349083	0		$|
+-1487102080	0	object/static/structure/tatooine/tent_house_tatooine_style_01.iff	0	852.663	40	1718.1	0.92044	0	0.390885	0		$|
+-1633263716	0	object/static/structure/tatooine/wall_ruined_tatooine_large_style_01.iff	0	869.793	39.628	1685.65	0.972129	0.0183711	0.232975	0.0186882		$|
+-2023090290	0	object/static/structure/tatooine/wall_ruined_tatooine_large_style_02.iff	0	873.177	39.5766	1698.49	0.738471	0	0.674285	0		$|
+-1630215851	0	object/static/structure/tatooine/wall_ruined_tatooine_large_style_02.iff	0	792.163	39.4438	1729.5	0.298388	0.00109975	0.954389	0.0102015		$|
+-261972387	0	object/static/structure/tatooine/wall_ruined_tatooine_large_style_01.iff	0	858.532	39.9036	1674.1	-0.484098	-0.0370135	0.873981	0.0209058		$|
+-929093902	0	object/static/structure/tatooine/wall_ruined_tatooine_large_style_02.iff	0	847.374	39.9623	1667.52	0.977123	0.0421881	-0.208286	0.00819128		$|
+-113925188	0	object/static/structure/tatooine/wall_damaged_tatooine_large_style_01.iff	0	831.074	39.752	1662.92	0.777659	0.00934407	0.627636	0.0350986		$|
+-1978354172	0	object/static/structure/tatooine/wall_cleft_tatooine_large_style_01.iff	0	839.24	39.9175	1664.73	0.777168	0.0180292	0.628	0.0360639		$|
+-1963544267	0	object/static/structure/tatooine/wall_ruined_tatooine_large_style_01.iff	0	854.406	39.5766	1728.69	0.867793	0	-0.496926	0		$|
+-575724056	0	object/static/structure/tatooine/wall_ruined_tatooine_large_style_01.iff	0	865.244	39.5766	1716.75	0.246632	0	0.969109	0		$|
+-1103827087	0	object/static/structure/tatooine/wall_ruined_tatooine_large_style_02.iff	0	842.99	39.5769	1734.4	0.98202	6.21105e-06	0.188776	-3.23102e-05		$|
+-395087055	0	object/static/structure/tatooine/wall_ruined_tatooine_large_style_02.iff	0	826.922	39.578	1738.2	-0.0312484	-0.0114344	0.999427	-0.00621254		$|
+-1998850907	0	object/static/structure/tatooine/wall_cleft_tatooine_large_style_01.iff	0	835.292	39.6468	1737.27	0.791931	-0.00818902	-0.610554	-0.00103559		$|
+-47277951	0	object/static/structure/tatooine/wall_cleft_tatooine_large_style_01.iff	0	784.544	39.5697	1715.22	-0.163894	-0.00111603	0.986477	0.00105564		$|
+-514102941	0	object/static/structure/tatooine/wall_cleft_tatooine_large_style_01.iff	0	814.102	39.5944	1661.66	-0.696637	-0.0045154	0.717405	0.00254944		$|
+-1003505868	0	object/static/structure/tatooine/wall_cleft_tatooine_large_style_01.iff	0	799.476	39.2942	1733.59	-0.557644	-0.00467633	0.829815	0.0204377		$|
+-502866725	0	object/static/structure/tatooine/wall_ruined_tatooine_large_style_02.iff	0	807.287	39.4174	1736.21	0.987173	0.0218476	-0.157637	0.0127383		$|
+-1877414999	0	object/static/structure/tatooine/wall_damaged_tatooine_large_style_01.iff	0	783.643	39.5766	1706.72	0.045697	0	0.998955	0		$|
+-1871765073	0	object/static/structure/tatooine/wall_cleft_tatooine_large_style_01.iff	0	785.516	39.5766	1698.2	0.155166	0	0.987888	0		$|
+-730679545	0	object/static/structure/tatooine/wall_ruined_tatooine_large_style_02.iff	0	789.217	39.5766	1690.63	0.865324	0	0.501213	0		$|
+-1126822512	0	object/static/structure/tatooine/wall_damaged_tatooine_large_style_01.iff	0	787.065	39.522	1722.82	-0.147653	-0.00198365	0.989012	0.00700308		$|
+-114141593	0	object/static/structure/tatooine/pillar_ruined_small_style_01.iff	0	790.519	39.8358	1686.89	-0.531861	0	0.846832	0		$|
+-966789415	0	object/static/structure/tatooine/pillar_ruined_large_style_01.iff	0	787.815	39.8358	1694.25	0.849901	0	0.526942	0		$|
+-1792876202	0	object/static/structure/tatooine/wall_damaged_tatooine_large_style_01.iff	0	822.832	39.6158	1662.12	-0.674771	-0.0122689	0.73791	0.00473712		$|
+-1578278878	0	object/static/structure/tatooine/wall_ruined_tatooine_large_style_02.iff	0	806.763	39.5782	1663.51	-0.310592	-0.000515394	0.950542	0.00157732		$|
+-1014312830	0	object/static/structure/tatooine/wall_ruined_tatooine_large_style_01.iff	0	798.424	39.5766	1672.82	0.270781	0	0.962641	0		$|
+-273947954	0	object/static/structure/tatooine/pillar_damaged_large_style_01.iff	0	810.567	39.8511	1661.83	0.996383	0.00349868	0.0849066	0.00029814		$|
+-844833132	0	object/static/structure/tatooine/pillar_ruined_large_style_01.iff	0	795.247	39.8358	1679.18	0.849901	0	0.526942	0		$|
+-1238801840	0	object/static/structure/tatooine/pillar_ruined_large_style_01.iff	0	822.833	39.8257	1738.79	0.999874	-0.00307165	0.00392432	0.0150522		$|
+-76530079	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	831.726	39.9015	1738.25	0.993482	-0.0105555	0.1135	-0.000558339		$|
+-1692650479	0	object/static/structure/tatooine/pillar_damaged_large_style_01.iff	0	784.821	39.8358	1703.07	0.992809	0	-0.119712	0		$|
+-152657104	0	object/static/structure/tatooine/pillar_damaged_large_style_01.iff	0	784.028	39.8358	1710.47	0.758362	0	0.651834	0		$|
+-989354114	0	object/static/structure/tatooine/pillar_damaged_large_style_01.iff	0	785.699	39.8205	1719.54	0.807767	0.00153594	-0.589499	2.78356e-05		$|
+-525563990	0	object/static/structure/tatooine/pillar_ruined_large_style_01.iff	0	788.18	39.7075	1727.54	0.782005	0.00638483	-0.623218	-0.00519873		$|
+-579968618	0	object/static/structure/tatooine/pillar_ruined_large_style_01.iff	0	795.44	39.6033	1731.03	0.229561	0.000728423	0.973071	0.0208279		$|
+-666004177	0	object/static/structure/tatooine/pillar_damaged_large_style_01.iff	0	802.875	39.5408	1735.09	-0.561439	-0.0195506	0.827217	0.0107405		$|
+-1715515024	0	object/static/structure/tatooine/pillar_ruined_small_style_01.iff	0	811.455	39.6482	1737.91	-0.568418	-0.0116788	0.822657	0.000238368		$|
+-616437388	0	object/static/structure/tatooine/pillar_ruined_large_style_01.iff	0	802.005	39.8358	1666.4	-0.329521	0	0.944148	0		$|
+-1478078002	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	827.474	39.9309	1662.84	0.996176	0.0204031	-0.084856	0.00404076		$|
+-1290654210	0	object/static/structure/tatooine/pillar_damaged_large_style_01.iff	0	840.006	39.8406	1736.18	0.98869	-0.0113337	0.149409	-0.00642505		$|
+-10416672	0	object/static/structure/tatooine/pillar_ruined_large_style_01.iff	0	860.994	39.8358	1723.54	0.165038	0	0.986287	0		$|
+-705046883	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	873.25	39.8358	1703.31	0.998488	0	-0.054972	0		$|
+-751881144	0	object/static/structure/tatooine/pillar_damaged_large_style_01.iff	0	873.103	39.8358	1693.81	0.847192	0	-0.531287	0		$|
+-1345569223	0	object/static/structure/tatooine/pillar_ruined_large_style_01.iff	0	868.506	39.8358	1710.11	-0.536088	0	0.844162	0		$|
+-1206670895	0	object/static/structure/tatooine/pillar_ruined_large_style_01.iff	0	852.074	40.174	1670.42	0.954577	0.0384818	-0.295312	0.00960877		$|
+-215577114	0	object/static/structure/tatooine/pillar_ruined_small_style_01.iff	0	865.686	40.1199	1679.13	0.933178	0.0416923	-0.35697	0.00358503		$|
+-1035997989	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	818.917	39.8637	1662	0.999776	0.0069766	-0.0200057	-0.000139604		$|
+-1177924536	0	object/static/structure/tatooine/pillar_damaged_large_style_01.iff	0	843.71	40.1721	1666.57	0.990799	0.0384817	-0.129243	0.0115563		$|
+-1887629108	0	object/static/structure/general/tankfarm_s01.iff	0	847.967	40	1681.62	-0.385543	0	0.92269	0		$|
+-1615110385	0	object/static/structure/tatooine/pillar_damaged_large_style_01.iff	0	834.696	40.1158	1663.48	0.110366	-0.0125089	0.993229	0.0340411		$|
+-1664949784	0	object/static/structure/tatooine/debris_tatt_drum_dented_1.iff	0	795.909	40	1704.79	0.793982	0	0.607941	0		$|
+-2009989073	0	object/static/structure/tatooine/debris_tatt_drum_storage_1.iff	0	793.64	40	1704.17	0.792195	0	0.610268	0		$|
+-1421450418	0	object/static/structure/general/campfire_burnt.iff	0	829.089	40	1720.59	1	0	0	0		$|
+-2102312915	0	object/static/structure/general/skeleton_human_headandbody.iff	0	838.188	40	1720.89	-0.458046	0	0.888928	0		$|
+-884100302	0	object/static/structure/general/skeleton_bith_headandbody.iff	0	831.315	40	1725.35	1	0	0	0		$|
+-957946238	0	object/static/structure/tatooine/luke_farm_garage.iff	0	833.509	40.0442	1675.33	1	0	0	0		$|
+-1653316022	0	object/static/particle/pt_smoke_small.iff	0	823.104	40	1699.91	1	0	0	0		$|
+-883818118	0	object/static/particle/pt_smoke_small.iff	0	805.364	40	1681.21	1	0	0	0		$|
+-1674570404	0	object/static/structure/general/skeleton_bith_headandbody.iff	0	845.531	40	1692.86	1	0	0	0		$|
+-2132041428	0	object/static/structure/general/skeleton_human_headandbody.iff	0	808.495	40	1681.63	-0.471328	0	0.881958	0		$|
+-1995027156	0	object/static/structure/general/skeleton_human_headandbody.iff	0	807.902	40	1711.42	1	0	0	0		$|
+-627406792	0	object/static/structure/general/skeleton_human_headandbody.iff	0	821.825	40	1682.5	-0.277121	0	0.960835	0		$|
+-792200356	0	object/static/particle/particle_newbie_hanging_smoke.iff	0	831.504	40	1682.07	1	0	0	0		$|
+-2021053199	0	object/static/particle/particle_smoke.iff	0	847.704	40	1683.55	1	0	0	0		$|
+-1655834901	0	object/static/item/item_kitchen_pot_style_03.iff	0	815.681	40	1681.58	0.90393	0.113584	-0.051406	-0.409104		$|
+-2002742556	0	object/static/item/item_kitchen_pot_style_01.iff	0	817.337	40	1681.35	0.734563	0.497169	-0.258831	-0.382422		$|
+-203108972	0	object/static/particle/pt_smoke_large.iff	0	811.714	39.9809	1716.65	1	0	0	0		$|
+-2080024834	0	object/static/particle/particle_newbie_hanging_smoke.iff	0	809.131	39.9862	1715.09	1	0	0	0		$|
+-301430687	0	object/static/structure/tatooine/jawa/tent_jawa_01_med.iff	0	793.746	40	1701.3	0.99999	0	-0.004449	0		$|
+-1437893857	0	object/static/item/item_kitchen_chair_01.iff	0	815.171	40	1692.65	-0.639705	0.134305	0.707022	0.269925		$|
+-1995318646	0	object/static/item/item_kitchen_pot_style_02.iff	0	815.98	40	1682.18	0.357684	0.578895	0.721301	-0.129106		$|
+-1043341783	0	object/static/structure/tatooine/debris_tatt_drum_dented_1.iff	0	791.662	40	1698.19	0.097459	0	0.99524	0		$|
+-1636372585	0	object/static/structure/general/campfire_fresh.iff	0	815.355	40	1691.86	1	0	0	0		$|
+-1549458274	0	object/static/item/item_kitchen_chair_01.iff	0	815.872	40	1693.12	0.809489	-0.506373	0.215341	-0.204797		$|
+-710864812	0	object/static/item/item_jar_empty.iff	0	819.777	40	1681.27	0.849836	0.339436	-0.149551	-0.374428		$|
+-1105063948	0	object/static/item/item_chair_metal_wheeled_01.iff	0	807.424	40	1704.28	0.830055	-0.556246	-0.03322	-0.022262		$|
+-1687413602	0	object/static/item/item_bowl_carved.iff	0	830.94	40	1721.58	0.867819	0	0	0.49688		$|
+-989487590	0	object/static/item/item_bottle_pear.iff	0	799.266	40	1695.84	0.870859	0.327794	0.129028	-0.342793		$|
+-1863346120	0	object/static/item/item_bottle_fat.iff	0	798.865	40	1709.81	0.944818	0.144223	0.039438	0.291484		$|
+-594095850	0	object/static/structure/general/trash_pile_s01.iff	0	815.29	40	1691.74	0.844588	0	0.535417	0		$|
+-138482116	0	object/static/item/item_bottle_fat.iff	0	794.912	40.6957	1703.81	1	0	0	0		$|
+-252580430	0	object/static/item/item_bottle_pear.iff	0	795.583	41.1384	1704.94	1	0	0	0		$|
+-921177938	0	object/static/structure/tatooine/debris_tatt_drum_storage_1.iff	0	792.192	40	1704.06	-0.2536	0	0.967309	0		$|
+-910078558	0	object/static/structure/tatooine/debris_tatt_drum_storage_1.iff	0	792.877	40	1703.09	0.984132	0	-0.177437	0		$|
+-1132430339	0	object/static/structure/tatooine/debris_tatt_drum_storage_2.iff	0	791.996	40	1699.19	0.976509	0	0.215478	0		$|
+-1625651051	0	object/static/structure/tatooine/debris_tatt_drum_storage_2.iff	0	791.97	40	1699.99	0.997941	0	0.064142	0		$|
+-462526256	0	object/static/structure/tatooine/debris_tatt_drum_storage_2.iff	0	791.83	40	1700.83	0.99322	0	-0.116253	0		$|
+-1131781999	0	object/static/structure/tatooine/debris_tatt_crate_metal_1.iff	0	795.81	40	1701.86	-0.63885	0	0.769331	0		$|
+-413397041	0	object/static/structure/tatooine/debris_tatt_crate_1.iff	0	794.838	40	1704.02	0.999999	0	-0.001542	0		$|
+-1273329030	0	object/static/item/item_bottle_pear.iff	0	796.282	41.1384	1704.58	1	0	0	0		$|
+-1738581456	0	object/static/structure/general/campfire_fresh.iff	0	848.617	40	1713.56	1	0	0	0		$|
+-1944920533	0	object/static/structure/general/trash_pile_s01.iff	0	848.53	40	1713.28	-0.380925	0	0.924606	0		$|
+-1939326314	0	object/static/item/item_bottle_fat.iff	0	796.199	41.1384	1704.92	1	0	0	0		$|
+-732328962	0	object/static/item/item_jar_empty.iff	0	811.824	39.9945	1713.24	0.857054	0.337359	0.142633	0.362357		$|
+-1221808278	0	object/static/item/item_jar_empty.iff	0	811.434	39.9958	1712.93	0.790441	-0.386713	0.208759	-0.426703		$|
+-1386635408	0	object/static/item/item_jar_empty.iff	0	811.466	39.9944	1713.26	0.970231	-0.151602	0.029156	-0.186595		$|
+-1237855479	0	object/static/item/item_meat_hunk.iff	0	792.706	40.8222	1702.86	0.759731	-0.0255051	0.648486	-0.0402984		$|
+-1264648225	0	object/static/item/item_kitchen_chair_01.iff	0	840.102	40	1695.7	-0.415486	-0.241544	0.677919	0.556286		$|
+-1144555814	0	object/static/item/item_kitchen_chair_01.iff	0	839.65	40	1692.68	0.809489	-0.506373	0.215341	-0.204797		$|
+-292408361	0	object/static/item/item_chair_metal_wheeled_01.iff	0	849.286	40	1698.26	0.783511	-0.417837	0.121327	-0.443624		$|
+-581805170	0	object/static/particle/pt_smoke_small.iff	0	840.684	40	1720.73	1	0	0	0		$|
+-2031151916	0	object/static/structure/general/trash_pile_s01.iff	0	848.813	40	1713.68	0.994493	0	0.104808	0		$|
+-701444302	0	object/static/item/item_bottle_pear.iff	0	845.44	40	1714.17	0.804532	0.55041	-0.026709	0.221503		$|
+-744198680	0	object/static/item/item_bottle_fat.iff	0	836.227	40	1719.75	0.911858	0.356845	0.096843	0.178321		$|
+-34004951	0	object/static/item/item_kitchen_chair_01.iff	0	852.175	40	1720.22	-0.415486	-0.241544	0.677919	0.556286		$|
+-759823199	0	object/static/item/item_kitchen_chair_01.iff	0	851.723	40	1717.2	0.809489	-0.506373	0.215341	-0.204797		$|
+-1936132872	0	object/static/item/item_mockup_bank_terminal.iff	0	845.757	39.2615	1690.94	-0.668426	0.080365	0.61439	0.411429		$|
+-2017318920	0	object/static/particle/pt_poi_broken_electronics.iff	0	846.489	40	1691.69	1	0	0	0		$|
+-1282861026	0	object/static/particle/particle_newbie_hanging_smoke.iff	0	817.911	40.0069	1679.27	1	0	0	0		$|
+-583656874	0	object/static/particle/pt_smoke_large.iff	0	818.456	40.0233	1666.68	1	0	0	0		$|
+-1418836860	0	object/static/item/wp_mle_baton_gaderiffi.iff	0	821.979	40.1581	1682.37	-0.226404	0.431578	0.835158	0.254937		$|
+-428224327	0	object/static/structure/tatooine/debris_tatt_drum_dented_1.iff	0	833.853	40	1724.51	1	0	0	0		$|
+-297055952	0	object/static/item/item_bottle_pear.iff	0	846.725	40	1711.32	0.803236	0.298402	0.23405	-0.459335		$|
+-1912830188	0	object/static/item/item_jar_empty.iff	0	847.225	40	1698.92	0.857055	0.337359	0.142633	0.362357		$|
+-1613498237	0	object/static/item/item_jar_empty.iff	0	846.26	40	1698.52	0.790441	-0.386713	0.208759	-0.426703		$|
+-1736047103	0	object/static/item/item_jar_empty.iff	0	846.197	40	1699.2	0.970231	-0.151602	0.029156	-0.186595		$|
+-1739013128	0	object/static/item/wp_pistol_dl44_combined.iff	0	845.145	40	1692.12	0.31092	0.627047	-0.626777	-0.342477		$|
+-995818765	0	object/static/item/wp_mle_baton_gaderiffi.iff	0	845.414	40.2585	1693.2	0.985044	0.143841	0.013706	0.093862		$|
+-1184093377	0	object/static/item/wp_mle_baton_gaderiffi.iff	0	837.798	40.2214	1720.81	-0.296277	0.955089	0.004775	0.001481		$|
+-1846444453	0	object/static/item/wp_mle_lance_vibrolance.iff	0	807.663	40.5687	1712.11	0.957746	0.239458	0.038644	0.154561		$|
+-1241499727	0	object/static/item/wp_mle_axe_heavy_duty.iff	0	808.8	40	1680.68	0.71791	0	0	-0.696136		$|
+-1753446084	0	object/static/structure/general/r3_head.iff	0	824.552	40	1681.19	0.486133	0.714962	-0.500383	-0.046054		$|
+-1549312499	0	object/static/structure/general/r2_torso.iff	0	824.556	40	1681.22	-0.283395	-0.304846	-0.636467	0.649358		$|
+-1153997429	0	object/static/structure/general/r3_leg.iff	0	824.833	40	1680.52	1	0	0	0		$|
+-1611028384	0	object/static/particle/pt_poi_broken_electronics.iff	0	824.411	40	1681.27	1	0	0	0		$|
+-269539360	0	object/static/structure/general/skeleton_human_head.iff	0	793.724	40	1699.44	0.819403	-0.172998	0.538724	-0.0917945		$|
+-164785857	0	object/static/item/wp_rifle_bowcaster_combined.iff	0	792.24	40.3162	1698.4	-0.530044	0.351593	0.629349	0.446492		$|
+-1985595830	0	object/static/structure/tatooine/skeleton_greater_krayt_head.iff	0	1479.56	51.9422	1790.35	0.923937	-0.00533804	-0.22498	0.309347		$|
+-1195867621	0	object/static/structure/tatooine/skeleton_greater_krayt_spine_large.iff	0	1481.67	53.0562	1788.12	0.887468	0.0329943	-0.408018	0.21174		$|
+-412269090	0	object/static/structure/tatooine/skeleton_greater_krayt_spine_medium.iff	0	1485.34	54.1092	1785.64	0.807217	0.00233304	-0.522998	0.273622		$|
+-297750540	0	object/static/structure/tatooine/skeleton_greater_krayt_spine_medium.iff	0	1489.03	55.2413	1783.47	0.819666	0.0184967	-0.525601	0.227044		$|
+-309308744	0	object/static/structure/tatooine/skeleton_greater_krayt_spine_medium.iff	0	1496.26	56.0394	1778.51	0.857111	-0.130948	-0.497415	0.0281485		$|
+-965669038	0	object/static/structure/tatooine/skeleton_greater_krayt_spine_medium.iff	0	1500.1	55.0993	1776.33	0.839157	-0.088568	-0.536324	-0.0181195		$|
+-1937226253	0	object/static/structure/tatooine/skeleton_greater_krayt_spine_medium.iff	0	1508.03	53.5472	1772.76	0.83165	-0.142112	-0.526523	0.104575		$|
+-2038846035	0	object/static/structure/tatooine/skeleton_greater_krayt_spine_small.iff	0	1515.85	52.6422	1769.34	0.809559	-0.142863	-0.546956	0.158249		$|
+-747013155	0	object/static/structure/tatooine/skeleton_greater_krayt_spine_medium.iff	0	1512.28	52.9744	1771.13	0.811052	-0.152817	-0.553132	0.11352		$|
+-1540885	0	object/static/structure/tatooine/skeleton_greater_krayt_spine_medium.iff	0	1503.97	54.2789	1774.46	0.825221	-0.188595	-0.508941	0.156276		$|
+-986579903	0	object/static/structure/tatooine/skeleton_greater_krayt_spine_medium.iff	0	1492.88	56.1489	1781.02	0.844131	0.015886	-0.513899	0.151983		$|
+-352128071	0	object/static/structure/general/tankfarm_s01.iff	0	1818.59	22.002	1123.44	0.994493	-0.104807	0	0		$|
+-2115791403	0	object/static/structure/corellia/corl_fountain_circle_s01.iff	0	1817.74	20.4433	1123.31	0.797087	0.131534	0.561765	0.178244		$|
+-66580030	0	object/static/flora/flora_plant_tato_pika.iff	0	1817.32	23.7736	1126.87	1	0	0	0		$|
+-1947203364	0	object/static/flora/flora_plant_tato_pika_tri.iff	0	1816.18	23.8147	1127.44	1	0	0	0		$|
+-158125707	0	object/static/flora/flora_flower_tato_funnel_med.iff	0	1818.43	23.3967	1127.3	1	0	0	0		$|
+-529214055	0	object/static/flora/flora_flower_tato_funnel_med.iff	0	1817.6	23.507	1128.4	1	0	0	0		$|
+-324923437	0	object/static/flora/flora_flower_tato_funnel_med.iff	0	1816.24	23.7772	1128.1	1	0	0	0		$|
+-1639862559	0	object/static/flora/flora_flower_tato_funnel_med.iff	0	1815.14	23.1983	1126.3	1	0	0	0		$|
+-1790333262	0	object/static/flora/flora_flower_tato_funnel_med.iff	0	1815.58	23.083	1128.11	1	0	0	0		$|
+-1274716098	0	object/static/flora/flora_flower_tato_funnel_med.iff	0	1818.23	23.8324	1128.42	1	0	0	0		$|
+-1104577268	0	object/static/flora/flora_flower_tato_funnel_med.iff	0	1817.16	23.9404	1129.36	1	0	0	0		$|
+-1113774304	0	object/static/flora/flora_flower_tato_funnel_med.iff	0	1815.25	23.4642	1125.05	1	0	0	0		$|
+-1688464831	0	object/static/flora/flora_flower_tato_funnel_med.iff	0	1816.1	23.4356	1124.68	1	0	0	0		$|

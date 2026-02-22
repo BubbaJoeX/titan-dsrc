@@ -1,3 +1,11 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
+-36778000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
+-1933671620	0	object/tangible/collection/rock_bubbling_09.iff	0	292.428	-0.155675	1215.69	1	0	0	0	systems.collections.consume_click	collection.slotName|4|col_rock_bubbling:bubbling_rock_09|$|
 -774325041	0	object/static/structure/general/prp_junk_s3.iff	0	1040.48	-0.809511	1051.15	0.89661	-0.00819156	-0.426133	-0.120142		$|
+-1908401984	0	object/tangible/ground_spawning/mob_spawner.iff	0	1030	1	1057	1	0	0	0		$|
+-2093773463	0	object/tangible/ground_spawning/mob_spawner.iff	0	1030	1	1057	1	0	0	0		$|
+-555016066	0	object/tangible/ground_spawning/mob_spawner.iff	0	1030	1	1057	1	0	0	0		$|
+-1556862676	0	object/tangible/ground_spawning/mob_spawner.iff	0	1030	1	1057	1	0	0	0		$|
+-1621582391	0	object/tangible/ground_spawning/mob_spawner.iff	0	1030	1	1057	1	0	0	0		$|
+-1668142224	0	object/static/structure/general/prp_junk_s3.iff	0	1040.48	-0.809511	1051.15	0.89661	-0.00819156	-0.426133	-0.120142		$|

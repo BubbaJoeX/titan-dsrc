@@ -1,5 +1,13 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
+-1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
+-2	0	object/tangible/quest/typho_gravemarker.iff	0	1262.28	10.9226	196.292	0.990708	0.0400485	0.099942	-0.0831021	quest.task.ground.retrieve_item_on_item	$|
+-3	0	object/tangible/ground_spawning/area_spawner.iff	0	1249.87	10.6148	191.951	0.724091	0	-0.689705	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|15.000000|fltMinSpawnTime|2|10.000000|fltRadius|2|1.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|officer_nok|strSpawnerType|4|area|strSpawns|4|naboo/officer_nok|$|
+-4	0	object/tangible/ground_spawning/area_spawner.iff	0	1040.03	-165.801	720.572	0.999784	0	-0.0207751	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|600.000000|fltMinSpawnTime|2|300.000000|fltRadius|2|1.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|doogal_belstar|strSpawnerType|4|area|strSpawns|4|naboo/doogal|$|
+-5	0	object/tangible/ground_spawning/area_spawner.iff	0	1044.17	-157.566	714.936	0.928164	0	0.372171	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|400.000000|fltMinSpawnTime|2|200.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|4|intSpawnSystem|0|1|registerWithController|0|1|strName|4|doogals_guards|strSpawnerType|4|area|strSpawns|4|naboo/doogals_guards|$|
+-6	0	object/tangible/ground_spawning/area_spawner.iff	0	1131.49	-187.953	770.354	0.988131	0	-0.153614	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|600.000000|fltMinSpawnTime|2|300.000000|fltRadius|2|3.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|doogal|strSpawnerType|4|area|strSpawns|4|naboo/doogal|$|
+-7	0	object/tangible/ground_spawning/area_spawner.iff	0	1129.37	-189.838	776.603	0.0734682	0	0.997297	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|240.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|2.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|doogal_guards|strSpawnerType|4|area|strSpawns|4|naboo/doogals_guards|$|
+-8	0	object/tangible/ground_spawning/area_spawner.iff	0	1130.4	-188.578	759.054	-0.0132986	0	0.999911	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|120.000000|fltMinSpawnTime|2|60.000000|fltRadius|2|3.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|doogals_guards_2|strSpawnerType|4|area|strSpawns|4|naboo/doogals_guards|$|
 -774325041	0	object/static/structure/naboo/nboo_imprv_tall_curved_wall_large_s01.iff	0	1255.3	11.6282	191.606	0.77341	0	0.633907	0		$|
 -1908401984	0	object/static/structure/general/gravestone_generic_style_02.iff	0	1266.09	11.3916	192.551	0.841901	0	-0.539632	0		$|
 -2093773463	0	object/static/structure/general/gravestone_generic_style_05.iff	0	1260.1	11.32	194.596	1	0	0	0		$|
@@ -18,3 +26,23 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -879410635	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	1221.42	-196.548	1415.86	0.993956	0	0.109778	0		$|
 -1241413427	0	object/static/structure/naboo/gungan_relic_s02.iff	0	1228.34	-210.86	1419.82	0.924909	0	-0.380188	0		$|
 -2079230854	0	object/static/structure/naboo/gungan_statue_s02.iff	0	1228.55	-197.935	1416.63	0.699191	-0.236706	0.619451	0.267176		$|
+-2083494600	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1253.269531	10.67560863	199.044434	1	0	0	0		$|
+-1946274642	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1234.162354	-196.0768433	1414.05957	1	0	0	0		$|
+-1677962170	0	object/static/structure/naboo/nboo_imprv_tall_curved_wall_large_s01.iff	0	1255.3	11.6282	191.606	0.77341	0	0.633907	0		$|
+-1647848179	0	object/static/structure/general/gravestone_generic_style_02.iff	0	1266.09	11.3916	192.551	0.841901	0	-0.539632	0		$|
+-1062241431	0	object/static/structure/general/gravestone_generic_style_05.iff	0	1260.1	11.32	194.596	1	0	0	0		$|
+-854658269	0	object/static/structure/general/gravestone_generic_style_03.iff	0	1261.06	11.2985	187.882	0.748499	0	-0.663136	0		$|
+-2090498086	0	object/static/structure/general/gravestone_generic_style_04.iff	0	1260.35	11.3133	190.916	0.728271	0	-0.685289	0		$|
+-942219052	0	object/static/structure/general/gravestone_generic_style_03.iff	0	1264.21	11.3572	189.345	-0.682221	0	0.731146	0		$|
+-1720483051	0	object/static/structure/general/gravestone_generic_style_01.iff	0	1264.61	11.2188	195.552	0.90687	0	-0.42141	0		$|
+-609843239	0	object/static/structure/naboo/nboo_imprv_tall_curved_wall_large_s01.iff	0	1268.45	11.6381	196.248	-0.385543	0	0.92269	0		$|
+-751867451	0	object/static/structure/naboo/nboo_imprv_pillar_pillar_s03.iff	0	1264.92	13.0335	185.821	0.979061	0	-0.203567	0		$|
+-641399737	0	object/static/structure/naboo/nboo_imprv_pillar_pillar_s03.iff	0	1268.87	13.0528	195.677	0.952334	0	-0.305058	0		$|
+-977230724	0	object/static/structure/naboo/nboo_imprv_tall_curved_wall_large_s01.iff	0	1264.8	11.6942	185.464	0.979061	0	-0.203567	0		$|
+-1246571693	0	object/static/structure/naboo/gate_narrow_s02.iff	0	1256.04	10.9007	193.882	0.816773	0	-0.576959	0		$|
+-1674091023	0	object/static/structure/naboo/gungan_cleft_wall_lg_s01.iff	0	1230.62	-198.039	1424.98	0.802096	0	-0.597195	0		$|
+-1182814570	0	object/static/structure/naboo/gungan_damaged_narrow_arch_s01.iff	0	1233.36	-198.068	1420.16	0.990216	0	0.139543	0		$|
+-882045225	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	1226.83	-197.787	1426.04	0.982936	0	0.183947	0		$|
+-1550073655	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	1221.42	-196.548	1415.86	0.993956	0	0.109778	0		$|
+-409244986	0	object/static/structure/naboo/gungan_relic_s02.iff	0	1228.34	-210.86	1419.82	0.924909	0	-0.380188	0		$|
+-280675418	0	object/static/structure/naboo/gungan_statue_s02.iff	0	1228.55	-197.935	1416.63	0.699191	-0.236706	0.619451	0.267176		$|

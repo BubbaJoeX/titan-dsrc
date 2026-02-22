@@ -1,5 +1,7 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
+-27868000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
+-728696655	0	object/tangible/collection/datapad_03.iff	0	626.289	85.9901	1986.21	0.921061	0	-0.389418	0	systems.collections.consume_click	collection.slotName|4|col_datapad_01:datapad_03|$|
 -774325041	0	object/static/structure/tatooine/concrete_slab_tatooine_16x8.iff	0	628.581	77.2821	1982.59	1	0	0	0		$|
 -1908401984	0	object/static/structure/corellia/corl_tent_small.iff	0	626.864	85.4017	1985.63	0.9998	0	0.0199987	0		$|
 -2093773463	0	object/tangible/furniture/all/frn_all_chair_metal_s1.iff	0	626.798	85.2283	1985.9	1	0	0	0		$|
@@ -7,3 +9,11 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1556862676	0	object/static/structure/tatooine/antenna_tatt_style_2.iff	0	626.886	84.1642	1988.34	0.99995	0	0.0099997	0		$|
 -1621582391	0	object/static/structure/tatooine/debris_tatt_crate_metal_1.iff	0	628.081	85.9623	1986.61	-0.663731	0	0.747971	0		$|
 -1668142224	0	object/static/structure/tatooine/debris_tatt_crate_1.iff	0	628.036	85.2784	1986.6	-0.663731	0	0.747971	0		$|
+-1847828235	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	634.670044	87.33275604	1977.252808	1	0	0	0		$|
+-565923755	0	object/static/structure/tatooine/concrete_slab_tatooine_16x8.iff	0	628.581	77.2821	1982.59	1	0	0	0		$|
+-1927376940	0	object/static/structure/corellia/corl_tent_small.iff	0	626.864	85.4017	1985.63	0.9998	0	0.0199987	0		$|
+-694282569	0	object/tangible/furniture/all/frn_all_chair_metal_s1.iff	0	626.798	85.2283	1985.9	1	0	0	0		$|
+-556911782	0	object/tangible/furniture/all/frn_all_professor_desk.iff	0	626.544	85.2445	1986.63	-0.000398576	-0.000596609	0.999987	-0.00496429		$|
+-231542615	0	object/static/structure/tatooine/antenna_tatt_style_2.iff	0	626.886	84.1642	1988.34	0.99995	0	0.0099997	0		$|
+-976317925	0	object/static/structure/tatooine/debris_tatt_crate_metal_1.iff	0	628.081	85.9623	1986.61	-0.663731	0	0.747971	0		$|
+-1960783934	0	object/static/structure/tatooine/debris_tatt_crate_1.iff	0	628.036	85.2784	1986.6	-0.663731	0	0.747971	0		$|

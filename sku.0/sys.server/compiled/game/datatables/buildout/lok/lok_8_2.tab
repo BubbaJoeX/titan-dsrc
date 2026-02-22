@@ -1,5 +1,6 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
+-1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
 -774325041	0	object/static/item/item_metal_staff.iff	0	38.2695	19.0475	591.694	-0.00420361	0	0	0.999991		$|
 -1908401984	0	object/static/item/wp_mle_lance_s01.iff	0	38.3032	15.9679	591.717	1	0	0	0		$|
 -2093773463	0	object/static/item/wp_mle_lance_s01.iff	0	38.3032	14.6713	591.717	1	0	0	0		$|
@@ -11,3 +12,14 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -565923755	0	object/static/structure/tatooine/pillar_pristine_tall_style_01.iff	0	42.1978	11.924	592.233	0.707108	0	-0.707106	0		$|
 -1927376940	0	object/static/structure/tatooine/pillar_pristine_tall_style_01.iff	0	32.9839	11.9628	592.218	0.707108	0	-0.707105	0		$|
 -694282569	0	object/static/structure/tatooine/pillar_pristine_tall_style_01.iff	0	33.9541	20.1898	592.226	-0.5	0.5	0.5	0.5		$|
+-556911782	0	object/static/item/item_metal_staff.iff	0	38.2695	19.0475	591.694	-0.00420361	0	0	0.999991		$|
+-231542615	0	object/static/item/wp_mle_lance_s01.iff	0	38.3032	15.9679	591.717	1	0	0	0		$|
+-976317925	0	object/static/item/wp_mle_lance_s01.iff	0	38.3032	14.6713	591.717	1	0	0	0		$|
+-1960783934	0	object/static/particle/pt_poi_electricity_2x2.iff	0	38.3457	16.5442	591.673	1	0	0	0		$|
+-879410635	0	object/static/structure/tatooine/pillar_pristine_small_style_01.iff	0	38.7998	11.9241	592.214	1	0	0	0		$|
+-1241413427	0	object/static/structure/tatooine/pillar_pristine_tall_style_01.iff	0	38.7783	11.9973	587.359	1	0	0	0		$|
+-2079230854	0	object/static/structure/tatooine/pillar_pristine_tall_style_01.iff	0	38.7725	12.0678	596.565	1	0	0	0		$|
+-2083494600	0	object/static/structure/tatooine/pillar_pristine_tall_style_01.iff	0	38.7715	20.2967	595.615	0.707108	-0.707105	0	0		$|
+-1946274642	0	object/static/structure/tatooine/pillar_pristine_tall_style_01.iff	0	42.1978	11.924	592.233	0.707108	0	-0.707106	0		$|
+-1677962170	0	object/static/structure/tatooine/pillar_pristine_tall_style_01.iff	0	32.9839	11.9628	592.218	0.707108	0	-0.707105	0		$|
+-1647848179	0	object/static/structure/tatooine/pillar_pristine_tall_style_01.iff	0	33.9541	20.1898	592.226	-0.5	0.5	0.5	0.5		$|

@@ -1,5 +1,6 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
+-1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		$|
 -774325041	0	object/static/structure/general/skeleton_ithorian_headandbody.iff	0	1915.49	29.7018	1919.87	0.830276	-0.0222485	0.555916	-0.0332288		$|
 -1908401984	0	object/static/structure/general/skeleton_ithorian_head.iff	0	1917.56	29.7186	1920.17	0.969559	0.0706463	0.111088	-0.206455		$|
 -2093773463	0	object/static/structure/general/skeleton_human_body.iff	0	1916.47	29.8758	1921.87	-0.663731	0	0.747971	0		$|
@@ -23,3 +24,27 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1677962170	0	object/static/structure/tatooine/skeleton_krayt_arm_style_02.iff	0	1980.27	34.6031	958.963	0.995491	-0.0948572	0	0		$|
 -1647848179	0	object/static/structure/tatooine/skeleton_krayt_foot.iff	0	1989.54	34.3502	963.904	0.977266	0.0999071	0.186779	-0.00909943		$|
 -1062241431	0	object/static/structure/tatooine/skeleton_krayt_tail.iff	0	1991.98	34.9326	956.286	0.844545	-0.0424496	-0.529487	0.0677081		$|
+-854658269	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1989.254395	34.46037674	964.157227	1	0	0	0		$|
+-2090498086	0	object/static/structure/general/skeleton_ithorian_headandbody.iff	0	1915.49	29.7018	1919.87	0.830276	-0.0222485	0.555916	-0.0332288		$|
+-942219052	0	object/static/structure/general/skeleton_ithorian_head.iff	0	1917.56	29.7186	1920.17	0.969559	0.0706463	0.111088	-0.206455		$|
+-1720483051	0	object/static/structure/general/skeleton_human_body.iff	0	1916.47	29.8758	1921.87	-0.663731	0	0.747971	0		$|
+-609843239	0	object/static/structure/general/skeleton_human_head.iff	0	1916.75	29.8798	1921.9	-0.663731	0	0.747971	0		$|
+-751867451	0	object/static/structure/general/skeleton_human_headandbody.iff	0	1917.72	29.7767	1920.87	0.819648	0	-0.572868	0		$|
+-641399737	0	object/static/structure/general/skeleton_bith_head.iff	0	1917.54	29.8346	1921.36	0.886995	0	-0.461779	0		$|
+-977230724	0	object/static/structure/general/skeleton_bith_headandbody.iff	0	1916.76	29.7234	1920.21	0.917364	-0.0866241	-0.382725	0.066796		$|
+-1246571693	0	object/static/structure/general/gravestone_generic_style_02.iff	0	1996.73	33.2892	1011.69	0.990901	-0.13459	0	0		$|
+-1674091023	0	object/static/structure/general/gravestone_generic_style_02.iff	0	1998.12	33.1517	1011.9	0.997551	0.0699428	0	0		$|
+-1182814570	0	object/static/structure/general/gravestone_generic_style_03.iff	0	1997.75	32.815	1013.26	0.982334	0.183834	0.00643681	-0.0343957		$|
+-882045225	0	object/static/structure/general/gravestone_generic_style_04.iff	0	1996.68	33.0215	1013.31	0.987227	0.159318	0	0		$|
+-1550073655	0	object/static/flora/flora_tree_tato_touchnot.iff	0	1994.52	33.1184	1013.34	0.833294	0.144305	0.532816	0.0300639		$|
+-409244986	0	object/static/structure/general/distant_ship_controller2.iff	0	1992.53	31.6903	1798.33	1	0	0	0		$|
+-280675418	0	object/static/structure/general/campfire_ash.iff	0	2015.77	31.38	1792.02	1	0	0	0		$|
+-2133527664	0	object/static/structure/general/escape_pod.iff	0	2020.81	30.8992	1790.98	0.826635	-0.137136	-0.495509	0.228778		$|
+-517957242	0	object/tangible/gravestone/gravestone03.iff	0	2017.4	31.0787	1788.61	0.867819	0	-0.49688	0		$|
+-416999969	0	object/tangible/gravestone/gravestone01.iff	0	2017.29	30.8098	1787.49	0.774419	0	-0.632673	0		$|
+-1804617885	0	object/static/structure/tatooine/skeleton_krayt_head_style_01.iff	0	1979.87	34.6008	960.478	0.886995	0	0	0.461779		$|
+-648240706	0	object/static/structure/tatooine/skeleton_greater_krayt_spine_small.iff	0	1982.72	34.9667	959.548	0.747291	-0.17377	-0.604305	0.214887		$|
+-1239926135	0	object/static/structure/tatooine/skeleton_krayt_arm_style_01.iff	0	1980.68	35.5779	962.861	0.860424	0.0790983	0.243043	-0.440846		$|
+-1416801220	0	object/static/structure/tatooine/skeleton_krayt_arm_style_02.iff	0	1980.27	34.6031	958.963	0.995491	-0.0948572	0	0		$|
+-1550759483	0	object/static/structure/tatooine/skeleton_krayt_foot.iff	0	1989.54	34.3502	963.904	0.977266	0.0999071	0.186779	-0.00909943		$|
+-1813593959	0	object/static/structure/tatooine/skeleton_krayt_tail.iff	0	1991.98	34.9326	956.286	0.844545	-0.0424496	-0.529487	0.0677081		$|

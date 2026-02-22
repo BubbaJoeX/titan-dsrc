@@ -1,8 +1,16 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
+-998716267	0	object/static/structure/general/escape_pod.iff	0	1832.17	125.5	1727.28	0.13363	-0.322715	0.912019	0.214989		$|
+-1566971157	0	object/static/structure/general/escape_pod_door.iff	0	1833.06	124.447	1722.68	-0.685579	0.727998	0	0		$|
+-1485782681	0	object/static/structure/nobuild/noflora_5.iff	0	1833.31	124.522	1725.1	1	0	0	0		$|
+-1869899197	0	object/tangible/quest/township/star_destroyer_intro_security_console.iff	0	1830.4	124.328	1721.37	-0.62001	0.678481	-0.265798	-0.290865	quest.task.ground.retrieve_item_on_item	$|
+-1341863896	0	object/static/structure/tatooine/debris_tatt_crate_metal_1.iff	0	1835.45	124.342	1723.29	0.798169	0	-0.602433	0		$|
+-377272763	0	object/static/structure/tatooine/debris_tatt_drum_storage_2.iff	0	1834.72	124.312	1722.49	0.780926	0	-0.624624	0		$|
+-440780164	0	object/static/structure/tatooine/debris_tatt_drum_storage_2.iff	0	1829.97	124.51	1724.69	-0.267046	0	0.963684	0		$|
+-658918096	0	object/static/particle/pt_poi_broken_electronics.iff	0	1829.64	124.579	1720.63	1	0	0	0		$|
 -774325041	0	object/static/structure/general/prp_junk_s7.iff	0	325.845	6.62613	212.415	0.0261123	0.00932651	0.940845	0.337701		$|
 -1908401984	0	object/static/structure/general/prp_junk_s3.iff	0	325.76	7.25207	211.599	-0.360825	0.58269	0.603141	0.408042		$|
--2093773463	0	object/static/structure/general/skeleton_bith_headandbody.iff	0	180.82	416.741	1900.19	0.879969	-2.32839e-08	-0.472161	0.0521482		$|
+-2093773463	0	object/static/structure/general/skeleton_bith_headandbody.iff	0	180.82	416.741	1900.19	0.879969	-2.32839e-008	-0.472161	0.0521482		$|
 -555016066	0	object/static/structure/general/skeleton_human_headandbody.iff	0	179.824	415.684	1897.92	-0.113662	-0.0412934	0.973281	-0.195194		$|
 -1556862676	0	object/static/structure/military/military_wall_weak_rebl_style_01.iff	0	1105.54	68.0997	929.005	0.997709	0.046153	-0.0365092	-0.0333628		$|
 -1621582391	0	object/static/structure/military/military_column_weak_rebel_style_01.iff	0	1110.07	67.7403	929.245	0.99737	0.0538658	-0.0318546	-0.0365721		$|
@@ -16,3 +24,27 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -976317925	0	object/static/structure/dantooine/dant_jedi_temple_pillar_fallen.iff	0	1384.75	150.461	1881.32	0.924841	-0.0243942	-0.374766	0.0601995		$|
 -1960783934	0	object/static/structure/dantooine/dant_jedi_temple_pillar_fallen.iff	0	1386.83	151.6	1885.51	-0.514698	0.471285	0.592432	0.402492		$|
 -879410635	0	object/static/structure/general/streetlamp_small_green_style_01.iff	0	1376.85	148.866	1882.41	1	0	0	0		$|
+-1241413427	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	180.618408	416.7828674	1901.582916	1	0	0	0		$|
+-2079230854	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1104.69873	68.36123657	931.760864	1	0	0	0		$|
+-2083494600	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1109.270264	68.42873383	931.327271	1	0	0	0		$|
+-1946274642	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1252.9	81.9099	870.04	1	0	0	0		$|
+-1677962170	0	object/tangible/ground_spawning/mob_spawner.iff	0	1377	151	1883	1	0	0	0		$|
+-1647848179	0	object/tangible/ground_spawning/mob_spawner.iff	0	1377	151	1883	1	0	0	0		$|
+-1062241431	0	object/tangible/ground_spawning/mob_spawner.iff	0	1377	151	1883	1	0	0	0		$|
+-854658269	0	object/tangible/ground_spawning/mob_spawner.iff	0	1377	151	1883	1	0	0	0		$|
+-2090498086	0	object/static/structure/general/prp_junk_s7.iff	0	325.845	6.62613	212.415	0.0261123	0.00932651	0.940845	0.337701		$|
+-942219052	0	object/static/structure/general/prp_junk_s3.iff	0	325.76	7.25207	211.599	-0.360825	0.58269	0.603141	0.408042		$|
+-1720483051	0	object/static/structure/general/skeleton_bith_headandbody.iff	0	180.82	416.741	1900.19	0.879969	-2.32839e-08	-0.472161	0.0521482		$|
+-609843239	0	object/static/structure/general/skeleton_human_headandbody.iff	0	179.824	415.684	1897.92	-0.113662	-0.0412934	0.973281	-0.195194		$|
+-751867451	0	object/static/structure/military/military_wall_weak_rebl_style_01.iff	0	1105.54	68.0997	929.005	0.997709	0.046153	-0.0365092	-0.0333628		$|
+-641399737	0	object/static/structure/military/military_column_weak_rebel_style_01.iff	0	1110.07	67.7403	929.245	0.99737	0.0538658	-0.0318546	-0.0365721		$|
+-977230724	0	object/static/structure/military/military_column_weak_rebel_style_01.iff	0	1100.92	68.366	928.799	0.997128	0.0274238	-0.048397	-0.0513915		$|
+-1246571693	0	object/static/structure/general/data_terminal_wall_s2.iff	0	1106.99	68.4456	929.818	0.99696	0.048216	-0.0486422	-0.0371557		$|
+-1674091023	0	object/static/structure/general/data_terminal_s1.iff	0	1104.33	68.2908	929.87	0.998192	0.0288318	-0.0263098	-0.0456996		$|
+-1182814570	0	object/static/structure/general/banner_rebel_style_01.iff	0	1102.51	67.9286	927.476	0.997049	0.0371607	-0.0466482	-0.0483258		$|
+-882045225	0	object/static/structure/dantooine/dant_jedi_temple_altar.iff	0	1377.52	136.113	1885.19	-0.129634	0	0.991562	0		$|
+-1550073655	0	object/static/structure/dantooine/dant_jedi_temple_pillar_med.iff	0	1370.86	149.859	1882.64	0.593498	0	0.804835	0		$|
+-409244986	0	object/static/structure/dantooine/dant_jedi_temple_pillar_sm.iff	0	1382.08	149.579	1879.42	0.991562	0	0.129634	0		$|
+-280675418	0	object/static/structure/dantooine/dant_jedi_temple_pillar_fallen.iff	0	1384.75	150.461	1881.32	0.924841	-0.0243942	-0.374766	0.0601995		$|
+-2133527664	0	object/static/structure/dantooine/dant_jedi_temple_pillar_fallen.iff	0	1386.83	151.6	1885.51	-0.514698	0.471285	0.592432	0.402492		$|
+-517957242	0	object/static/structure/general/streetlamp_small_green_style_01.iff	0	1376.85	148.866	1882.41	1	0	0	0		$|

@@ -1,5 +1,6 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
+-1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
 -774325041	0	object/static/structure/naboo/gungan_relic_s02.iff	0	1480.26	61.5302	1088.26	1	0	0	0		$|
 -1908401984	0	object/static/structure/naboo/gungan_relic_s02.iff	0	1475.29	65.7732	1080.55	0.731689	0	-0.681639	0		$|
 -2093773463	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	1480.7	76.4208	1097.39	1	0	0	0		$|
@@ -7,3 +8,15 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1556862676	0	object/static/structure/naboo/gungan_wall_ruined_lg_s02.iff	0	1474.58	75.7804	1091.54	0.707107	0	0.707106	0		$|
 -1621582391	0	object/static/structure/naboo/gungan_damaged_wall_lg_s01.iff	0	1468.96	75.9349	1086.27	0.997951	0.00199863	0.0399394	-0.0499392		$|
 -1668142224	0	object/static/structure/naboo/gungan_relic_s01.iff	0	1473.55	66.7983	1100.41	1	0	0	0		$|
+-1847828235	0	object/tangible/ground_spawning/mob_spawner.iff	0	1461	81	1082	1	0	0	0		$|
+-565923755	0	object/tangible/ground_spawning/mob_spawner.iff	0	1461	81	1082	1	0	0	0		$|
+-1927376940	0	object/tangible/ground_spawning/mob_spawner.iff	0	1461	81	1082	1	0	0	0		$|
+-694282569	0	object/tangible/ground_spawning/mob_spawner.iff	0	1461	81	1082	1	0	0	0		$|
+-556911782	0	object/tangible/ground_spawning/mob_spawner.iff	0	1461	81	1082	1	0	0	0		$|
+-231542615	0	object/static/structure/naboo/gungan_relic_s02.iff	0	1480.26	61.5302	1088.26	1	0	0	0		$|
+-976317925	0	object/static/structure/naboo/gungan_relic_s02.iff	0	1475.29	65.7732	1080.55	0.731689	0	-0.681639	0		$|
+-1960783934	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	1480.7	76.4208	1097.39	1	0	0	0		$|
+-879410635	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	1480.84	76.2063	1094.62	1	0	0	0		$|
+-1241413427	0	object/static/structure/naboo/gungan_wall_ruined_lg_s02.iff	0	1474.58	75.7804	1091.54	0.707107	0	0.707106	0		$|
+-2079230854	0	object/static/structure/naboo/gungan_damaged_wall_lg_s01.iff	0	1468.96	75.9349	1086.27	0.997951	0.00199863	0.0399394	-0.0499392		$|
+-2083494600	0	object/static/structure/naboo/gungan_relic_s01.iff	0	1473.55	66.7983	1100.41	1	0	0	0		$|

@@ -1,5 +1,7 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
+-2073417500	0	object/tangible/collection/storm_trooper_right_bracer.iff	0	1607.72	50.9311	548.598	0.600217	0.732262	-0.26176	-0.187116	systems.collections.consume_click	collection.slotName|4|col_storm_trooper_armor:storm_trooper_right_bracer|$|
+-49048000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
 -774325041	0	object/static/structure/dantooine/dant_mud_oven.iff	0	1.00291	163.643	172.463	0.796084	0	-0.605186	0		$|
 -1908401984	0	object/static/structure/military/military_wall_med_imperial_16_style_01.iff	0	1611.32	51.739	546.148	0.883413	0	-0.468594	0		$|
 -2093773463	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	1606.76	51.9261	539.362	0.470977	0	0.882145	0		$|
@@ -19,7 +21,7 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1241413427	0	object/tangible/camp/camp_tent_s6.iff	0	1580.6	50.5	558.939	0.380925	0	0.924606	0		$|
 -2079230854	0	object/tangible/camp/camp_tent_s6.iff	0	1597.91	50.5	548.163	0.678557	0	0.734548	0		$|
 -2083494600	0	object/static/structure/general/banner_imperial_style_01.iff	0	1589.47	50.5	555.171	0.954535	0	0.298098	0		$|
--1946274642	0	object/static/structure/naboo/arbor_corner_45_s01.iff	0	938.002	39.9121	1597.05	3.20013e-08	0	1	0		$|
+-1946274642	0	object/static/structure/naboo/arbor_corner_45_s01.iff	0	938.002	39.9121	1597.05	3.20013e-008	0	1	0		$|
 -1677962170	0	object/static/structure/naboo/gungan_damaged_wall_lg_s01.iff	0	934.523	39.4898	1600.71	0.973666	0	-0.227978	0		$|
 -1647848179	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	916.828	101.437	582.381	0.707107	0	-0.707106	0		$|
 -1062241431	0	object/tangible/gravestone/gravestone01.iff	0	339.968	173.924	1056.67	1	0	0	0		$|
@@ -32,3 +34,39 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -641399737	0	object/tangible/gravestone/gravestone02.iff	0	338.647	174.41	1060.38	1	0	0	0		$|
 -977230724	0	object/tangible/gravestone/gravestone03.iff	0	340.307	174.095	1060.32	1	0	0	0		$|
 -1246571693	0	object/static/structure/general/debris_deathstar_tractorbeam.iff	0	316.377	183.735	952.912	0.924495	-0.0855107	0.345722	-0.135916		$|
+-1674091023	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	322.4275513	184.5551758	953.82373	1	0	0	0		$|
+-1182814570	0	object/tangible/npc/storyline_npc/imperial_commander_spawner.iff	0	1587	50	562	1	0	0	0		$|
+-882045225	0	object/tangible/npc/imperial_recruiter_spawner.iff	0	1597.48	50	554.99	1	0	0	0		$|
+-1550073655	0	object/tangible/ground_spawning/area_spawner.iff	0	1596	50	563	1	0	0	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|1.000000|fltMinSpawnTime|2|0.000000|fltRadius|2|3.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|3|intSpawnSystem|0|1|registerWithController|0|1|strName|4|imperial_trooper|strSpawnerType|4|area|strSpawns|4|imperial_trooper|$|
+-409244986	0	object/static/structure/dantooine/dant_mud_oven.iff	0	1.00291	163.643	172.463	0.796084	0	-0.605186	0		$|
+-280675418	0	object/static/structure/military/military_wall_med_imperial_16_style_01.iff	0	1611.32	51.739	546.148	0.883413	0	-0.468594	0		$|
+-2133527664	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	1606.76	51.9261	539.362	0.470977	0	0.882145	0		$|
+-517957242	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	1615.89	51.7106	552.919	0.470977	0	0.882145	0		$|
+-416999969	0	object/static/structure/military/military_wall_med_imperial_16_style_01.iff	0	1579.71	50.5001	576.801	0.331316	0	0.94352	0		$|
+-1804617885	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	1586.07	50.5	581.936	0.942622	0	-0.333862	0		$|
+-648240706	0	object/static/structure/military/military_column_strong_imperial_style_01.iff	0	1573.34	50.5481	571.682	0.942622	0	-0.333862	0		$|
+-1239926135	0	object/static/structure/general/streetlamp_medium_style_01.iff	0	1597.52	49.25	553.72	0.995953	0	-0.0898786	0		$|
+-1416801220	0	object/static/structure/general/streetlamp_medium_style_01.iff	0	1586.19	49.25	559.584	0.761612	0	0.648033	0		$|
+-1550759483	0	object/static/creature/imperial_at_st.iff	0	1584.44	50.5	573.552	0.440178	0	0.897911	0		$|
+-1813593959	0	object/static/structure/corellia/corl_power_transformer_s02.iff	0	1589.87	50.5099	546.645	0.996157	0	-0.0875866	0		$|
+-1685100866	0	object/static/creature/imperial_at_st.iff	0	1607.42	50.5	548.068	0.89791	0	-0.440178	0		$|
+-91884238	0	object/building/military/mun_all_military_tower_impl_guard_s01.iff	0	1613.8	50.5342	556.938	0.92388	0	0.382683	0		$|
+-507892488	-91884238	object/cell/cell.iff	1	0	0	0	1	0	0	0		$|
+-1424652355	0	object/building/military/mun_all_military_tower_impl_guard_s01.iff	0	1590.07	50.5	580.234	0.92388	0	0.382683	0		$|
+-1927988745	-1424652355	object/cell/cell.iff	1	0	0	0	1	0	0	0		$|
+-1948313463	0	object/tangible/camp/camp_tent_s6.iff	0	1580.6	50.5	558.939	0.380925	0	0.924606	0		$|
+-1331595969	0	object/tangible/camp/camp_tent_s6.iff	0	1597.91	50.5	548.163	0.678557	0	0.734548	0		$|
+-1939786804	0	object/static/structure/general/banner_imperial_style_01.iff	0	1589.47	50.5	555.171	0.954535	0	0.298098	0		$|
+-1376581304	0	object/static/structure/naboo/arbor_corner_45_s01.iff	0	938.002	39.9121	1597.05	3.20013e-08	0	1	0		$|
+-327503350	0	object/static/structure/naboo/gungan_damaged_wall_lg_s01.iff	0	934.523	39.4898	1600.71	0.973666	0	-0.227978	0		$|
+-1408844359	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	916.828	101.437	582.381	0.707107	0	-0.707106	0		$|
+-850991870	0	object/tangible/gravestone/gravestone01.iff	0	339.968	173.924	1056.67	1	0	0	0		$|
+-1579429420	0	object/tangible/gravestone/gravestone02.iff	0	338.75	174.124	1056.61	1	0	0	0		$|
+-414188864	0	object/tangible/gravestone/gravestone03.iff	0	336.869	174.512	1056.77	1	0	0	0		$|
+-2054174542	0	object/tangible/gravestone/gravestone04.iff	0	336.959	174.627	1058.74	1	0	0	0		$|
+-580396567	0	object/tangible/gravestone/gravestone05.iff	0	338.671	174.247	1058.6	1	0	0	0		$|
+-1160876236	0	object/tangible/gravestone/gravestone03.iff	0	340.197	173.965	1058.36	1	0	0	0		$|
+-995942589	0	object/tangible/gravestone/gravestone01.iff	0	336.919	174.787	1060.41	1	0	0	0		$|
+-1879421507	0	object/tangible/gravestone/gravestone02.iff	0	338.647	174.41	1060.38	1	0	0	0		$|
+-57733465	0	object/tangible/gravestone/gravestone03.iff	0	340.307	174.095	1060.32	1	0	0	0		$|
+-166869423	0	object/static/structure/general/debris_deathstar_tractorbeam.iff	0	316.377	183.735	952.912	0.924495	-0.0855107	0.345722	-0.135916		$|

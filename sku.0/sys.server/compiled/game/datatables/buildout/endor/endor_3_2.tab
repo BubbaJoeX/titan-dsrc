@@ -1,5 +1,11 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
+-1939385928	0	object/tangible/ground_spawning/area_spawner.iff	0	1231.74	17.6613	1505.45	0.774649	0	-0.632392	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|360.000000|fltMinSpawnTime|2|180.000000|fltRadius|2|1.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|treasure_guard_jedi|strSpawnerType|4|area|strSpawns|4|treasure_guard_jedi|$|
+-1539373533	0	object/tangible/ground_spawning/area_spawner.iff	0	1226.3	16.7003	1522.27	0.00543158	0	0.999985	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|360.000000|fltMinSpawnTime|2|180.000000|fltRadius|2|1.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|treasure_guard_jedi|strSpawnerType|4|area|strSpawns|4|treasure_guard_jedi|$|
+-1016593063	0	object/static/structure/general/poi_all_monolith_s01.iff	0	1219.06	7.95329	1505.26	0.930507	0	-0.366273	0		$|
+-264006902	0	object/tangible/ground_spawning/area_spawner.iff	0	1207.54	21.5522	1503.52	0.760934	0	0.64883	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|360.000000|fltMinSpawnTime|2|180.000000|fltRadius|2|1.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|treasure_guard_jedi|strSpawnerType|4|area|strSpawns|4|treasure_guard_jedi|$|
+-52909907	0	object/tangible/ground_spawning/area_spawner.iff	0	1223.63	19.4297	1509.43	-0.368167	0	0.92976	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|360.000000|fltMinSpawnTime|2|180.000000|fltRadius|2|1.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|treasure_guard_jedi_elder|strSpawnerType|4|area|strSpawns|4|treasure_guard_jedi_elder|$|
+-45538000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
 -774325041	0	object/tangible/jedi/force_shrine_stone.iff	0	225.057	0.0019522	1673.49	0.707107	0	0.707107	0		$|
 -1908401984	0	object/static/structure/dantooine/dant_jedi_temple_pillar_sm.iff	0	220.635	1.86549	1671.89	0.707114	0	0.707099	0		$|
 -2093773463	0	object/static/structure/dantooine/dant_jedi_temple_pillar_sm.iff	0	229.32	1.86321	1671.93	1	0	0	0		$|
@@ -8,3 +14,12 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1621582391	0	object/static/structure/dantooine/dant_jedi_temple_altar.iff	0	224.998	-16.0915	1671.89	1	0	0	0		$|
 -1668142224	0	object/static/particle/pt_poi_electricity_2x2.iff	0	225.06	1.86576	1673.49	1	0	0	0		$|
 -1847828235	0	object/static/flora/flora_decd_endr_destree_dead.iff	0	531.661	7.07289	138.059	-0.538455	0.38705	0.561629	-0.494805		$|
+-565923755	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	535.179443	6.669077396	135.782715	1	0	0	0		$|
+-1927376940	0	object/tangible/jedi/force_shrine_stone.iff	0	225.057	0.0019522	1673.49	0.707107	0	0.707107	0		$|
+-694282569	0	object/static/structure/dantooine/dant_jedi_temple_pillar_sm.iff	0	220.635	1.86549	1671.89	0.707114	0	0.707099	0		$|
+-556911782	0	object/static/structure/dantooine/dant_jedi_temple_pillar_sm.iff	0	229.32	1.86321	1671.93	1	0	0	0		$|
+-231542615	0	object/static/structure/dantooine/dant_jedi_temple_pillar_base.iff	0	224.089	1.86165	1671.88	0	0	1	0		$|
+-976317925	0	object/static/structure/dantooine/dant_jedi_temple_pillar_base.iff	0	225.882	1.85381	1671.83	1	0	0	0		$|
+-1960783934	0	object/static/structure/dantooine/dant_jedi_temple_altar.iff	0	224.998	-16.0915	1671.89	1	0	0	0		$|
+-879410635	0	object/static/particle/pt_poi_electricity_2x2.iff	0	225.06	1.86576	1673.49	1	0	0	0		$|
+-1241413427	0	object/static/flora/flora_decd_endr_destree_dead.iff	0	531.661	7.07289	138.059	-0.538455	0.38705	0.561629	-0.494805		$|

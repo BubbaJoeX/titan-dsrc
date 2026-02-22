@@ -1,8 +1,17 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
+-46348000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
+-1097030298	0	object/tangible/collection/rare_rifle_trando_laser.iff	0	1962.87	17.7858	71.1045	-0.692249	-0.106973	0.112079	0.704831	systems.collections.consume_click	collection.slotName|4|col_rare_rifle_03:trando_laser_01|$|
 -774325041	0	object/static/structure/tatooine/jawa/tent_jawa_01_small.iff	0	1962.57	16.3614	70.5694	0.953847	0	-0.300293	0		$|
 -1908401984	0	object/static/item/item_crate_spice.iff	0	1964.1	16.88	71.0173	-0.384729	0.0599326	0.920741	-0.0250426		$|
 -2093773463	0	object/static/item/item_crate_spice.iff	0	1964.67	16.7216	70.1419	-0.363829	0.0410846	0.928679	-0.0591218		$|
 -555016066	0	object/static/item/item_crate_spice.iff	0	1962.95	16.9708	71.4204	0.365531	0	0.930799	0		$|
 -1556862676	0	object/tangible/camp/camp_tent_s1.iff	0	1963.22	16.0535	63.631	0.986375	-0.0761798	-0.14242	-0.0312703		$|
 -1621582391	0	object/static/structure/general/skeleton_bith_headandbody.iff	0	1970.11	15.9614	67.1153	0.0215315	-0.5303	0.110464	0.840307		$|
+-1668142224	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1965.06958	16.41264725	67.4961319	1	0	0	0		$|
+-1847828235	0	object/static/structure/tatooine/jawa/tent_jawa_01_small.iff	0	1962.57	16.3614	70.5694	0.953847	0	-0.300293	0		$|
+-565923755	0	object/static/item/item_crate_spice.iff	0	1964.1	16.88	71.0173	-0.384729	0.0599326	0.920741	-0.0250426		$|
+-1927376940	0	object/static/item/item_crate_spice.iff	0	1964.67	16.7216	70.1419	-0.363829	0.0410846	0.928679	-0.0591218		$|
+-694282569	0	object/static/item/item_crate_spice.iff	0	1962.95	16.9708	71.4204	0.365531	0	0.930799	0		$|
+-556911782	0	object/tangible/camp/camp_tent_s1.iff	0	1963.22	16.0535	63.631	0.986375	-0.0761798	-0.14242	-0.0312703		$|
+-231542615	0	object/static/structure/general/skeleton_bith_headandbody.iff	0	1970.11	15.9614	67.1153	0.0215315	-0.5303	0.110464	0.840307		$|

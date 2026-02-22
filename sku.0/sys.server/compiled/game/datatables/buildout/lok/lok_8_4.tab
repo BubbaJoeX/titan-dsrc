@@ -1,4 +1,8 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
+-1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
 -774325041	0	object/static/structure/general/atst_debris_01.iff	0	365.748	17.7005	34.9596	0.526266	0	0.85032	0		$|
 -1908401984	0	object/static/structure/general/atst_destroyed.iff	0	371.929	18.2625	34.1082	-0.403017	0.109372	0.876915	0.23798		$|
+-2093773463	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	369.429199	18.39399529	38.571899	1	0	0	0		$|
+-555016066	0	object/static/structure/general/atst_debris_01.iff	0	365.748	17.7005	34.9596	0.526266	0	0.85032	0		$|
+-1556862676	0	object/static/structure/general/atst_destroyed.iff	0	371.929	18.2625	34.1082	-0.403017	0.109372	0.876915	0.23798		$|

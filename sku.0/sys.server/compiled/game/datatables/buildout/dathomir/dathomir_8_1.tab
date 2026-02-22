@@ -1,4 +1,7 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
+-1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
 -774325041	0	object/static/structure/dathomir/mtn_clan_gate_s01.iff	0	926.654	563.703	1751.79	0.717911	0	0.696135	0		$|
 -1908401984	0	object/static/structure/general/streetlamp_small_green_style_01.iff	0	926.79	561.654	1751.99	1	0	0	0		$|
+-2093773463	0	object/static/structure/dathomir/mtn_clan_gate_s01.iff	0	926.654	563.703	1751.79	0.717911	0	0.696135	0		$|
+-555016066	0	object/static/structure/general/streetlamp_small_green_style_01.iff	0	926.79	561.654	1751.99	1	0	0	0		$|

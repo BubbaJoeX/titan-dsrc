@@ -1,5 +1,116 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
+-39388000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
+-202152218	0	object/building/content/rebel_theme_park/bunker_dantooine_generals_bunker.iff	0	505.69	15.5534	1952.7	0.707107	0	-0.707106	0		portalProperty.crc|0|-1266970242|$|
+-225953039	-202152218	object/cell/cell.iff	1	0	0	0	1	0	0	0		$|
+-1243216262	-202152218	object/cell/cell.iff	2	0	0	0	1	0	0	0		$|
+-819738100	-202152218	object/cell/cell.iff	3	0	0	0	1	0	0	0		$|
+-891172799	-202152218	object/cell/cell.iff	4	0	0	0	1	0	0	0		$|
+-1729378266	-202152218	object/cell/cell.iff	5	0	0	0	1	0	0	0		$|
+-1589958804	-202152218	object/cell/cell.iff	6	0	0	0	1	0	0	0		$|
+-187040804	-1589958804	object/tangible/ground_spawning/area_spawner.iff	6	17.2158	-12	29.084	-0.651384	0	0.758748	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|6.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mothma_07|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_89|$|
+-1098880904	-202152218	object/cell/cell.iff	7	0	0	0	1	0	0	0		$|
+-913892180	-202152218	object/cell/cell.iff	8	0	0	0	1	0	0	0		$|
+-1284885601	-202152218	object/cell/cell.iff	9	0	0	0	1	0	0	0		$|
+-1096518815	-1284885601	object/tangible/ground_spawning/area_spawner.iff	9	52.9096	-12	59.2027	-0.705484	0	0.708726	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|6.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mothma_08|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_89|$|
+-779201958	-1284885601	object/tangible/ground_spawning/area_spawner.iff	9	37.7249	-12	60.3618	-0.363915	0	0.931432	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|0.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mothma_10|strSpawnerType|4|area|strSpawns|4|rtp_imperial_first_lieutenant|$|
+-2085245039	-202152218	object/cell/cell.iff	10	0	0	0	1	0	0	0		$|
+-2128806693	-2085245039	object/tangible/ground_spawning/area_spawner.iff	10	4.12934	-12	57.8911	0.804655	0	0.593742	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|6.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mothma_09|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_89|$|
+-5759222	-2085245039	object/tangible/ground_spawning/area_spawner.iff	10	4.01788	-12	74.9287	0.855628	0	0.51759	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|0.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mothma_11|strSpawnerType|4|area|strSpawns|4|rtp_imperial_first_lieutenant|$|
+-638075068	-202152218	object/cell/cell.iff	11	0	0	0	1	0	0	0		$|
+-1665216454	-638075068	object/tangible/terminal/terminal_elevator_down.iff	11	-8.46253	-12	58.9562	0.707107	0	0.707106	0	systems.elevator.elevator_down	$|
+-797237769	-638075068	object/tangible/terminal/terminal_elevator_up.iff	11	-8.44895	-20	58.9755	0.707107	0	0.707106	0	systems.elevator.elevator_up	$|
+-734083109	-202152218	object/cell/cell.iff	12	0	0	0	1	0	0	0		$|
+-1411678873	-202152218	object/cell/cell.iff	13	0	0	0	1	0	0	0		$|
+-1172681695	-202152218	object/cell/cell.iff	14	0	0	0	1	0	0	0		$|
+-765990024	-1172681695	object/tangible/ground_spawning/area_spawner.iff	14	17.4637	-12	99.062	-0.698155	0	0.715947	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mothma_12|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_90|$|
+-1110461546	-202152218	object/cell/cell.iff	15	0	0	0	1	0	0	0		$|
+-1354818031	-1110461546	object/tangible/ground_spawning/area_spawner.iff	15	3.13723	-12	113.265	-0.061909	0	0.998082	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mothma_13|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_90|$|
+-1395972928	-202152218	object/cell/cell.iff	16	0	0	0	1	0	0	0		$|
+-69591243	-1395972928	object/tangible/ground_spawning/area_spawner.iff	16	-10.6329	-12	99.1133	0.720184	0	0.693783	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mothma_14|strSpawnerType|4|area|strSpawns|4|rtp_imperial_master_sergeant|$|
+-1082732821	-202152218	object/cell/cell.iff	17	0	0	0	1	0	0	0		$|
+-1572098215	-1082732821	object/tangible/ground_spawning/patrol_waypoint.iff	17	33.2187	-12	74.8052	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|mothma_32_22451099_4|registerWithController|0|1|$|
+-1481707920	-1082732821	object/tangible/ground_spawning/patrol_waypoint.iff	17	17.3304	-12	75.1898	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|mothma_32_22451099_5|registerWithController|0|1|$|
+-1452548278	-202152218	object/cell/cell.iff	18	0	0	0	1	0	0	0		$|
+-1031004878	-1452548278	object/tangible/ground_spawning/patrol_waypoint.iff	18	33.4594	-20	111.158	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|mothma_32_22451099_1|registerWithController|0|1|$|
+-733665045	-1452548278	object/tangible/ground_spawning/patrol_waypoint.iff	18	33.2779	-20	102.248	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|mothma_32_22451099_2|registerWithController|0|1|$|
+-630638938	-1452548278	object/tangible/ground_spawning/patrol_waypoint.iff	18	33.3252	-12	83.9416	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|mothma_32_22451099_3|registerWithController|0|1|$|
+-856847938	-202152218	object/cell/cell.iff	19	0	0	0	1	0	0	0		$|
+-2034631398	-856847938	object/tangible/ground_spawning/patrol_spawner.iff	19	48.2551	-20	110.986	1	0	0	0	systems.spawning.spawner_patrol	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|0.000000|intDefaultBehavior|0|3|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|patrolPathType|4|oscillate|registerWithController|0|1|strName|4|mothma_32|strPatrolPointNames|5|mothma_32_22451099_1:mothma_32_22451099_2:mothma_32_22451099_3:mothma_32_22451099_4:mothma_32_22451099_5:|strSpawnerType|4|patrol|strSpawns|4|rtp_stormtrooper_elite_90|$|
+-987502857	-202152218	object/cell/cell.iff	20	0	0	0	1	0	0	0		$|
+-279416918	-202152218	object/cell/cell.iff	21	0	0	0	1	0	0	0		$|
+-1559140072	-279416918	object/tangible/ground_spawning/area_spawner.iff	21	46.8891	-20	155.067	0.1974	0	0.980323	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mothma_20|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_90|$|
+-1607535917	-279416918	object/tangible/ground_spawning/area_spawner.iff	21	45.9172	-20	138.976	0.0560462	0	0.998428	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mothma_21|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_90|$|
+-784440075	-279416918	object/tangible/ground_spawning/area_spawner.iff	21	41.4608	-20	133.548	0.69618	0	0.717867	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mothma_22|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_90|$|
+-444303395	-202152218	object/cell/cell.iff	22	0	0	0	1	0	0	0		$|
+-1492806039	-202152218	object/cell/cell.iff	23	0	0	0	1	0	0	0		$|
+-128229408	-1492806039	object/tangible/ground_spawning/area_spawner.iff	23	83.5753	-20	109.7	0.998584	0	-0.0531933	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mothma_16|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_90|$|
+-1593916478	-1492806039	object/tangible/ground_spawning/patrol_waypoint.iff	23	82.1128	-20	130.791	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|mothma_18_22450789_2|registerWithController|0|1|$|
+-355206045	-1492806039	object/tangible/ground_spawning/patrol_waypoint.iff	23	88.5507	-20	130.876	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|mothma_18_22450789_3|registerWithController|0|1|$|
+-1119632499	-202152218	object/cell/cell.iff	24	0	0	0	1	0	0	0		$|
+-1263373136	-1119632499	object/tangible/ground_spawning/area_spawner.iff	24	99.9087	-20	152.023	-0.631753	0	0.77517	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mothma_17|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_90|$|
+-606502340	-202152218	object/cell/cell.iff	25	0	0	0	1	0	0	0		$|
+-1613487539	-606502340	object/tangible/ground_spawning/patrol_waypoint.iff	25	94.0112	-20	131.155	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|mothma_18_22450789_4|registerWithController|0|1|$|
+-1321576346	-606502340	object/tangible/ground_spawning/area_spawner.iff	25	98.4448	-20	131.207	-0.632045	0	0.774932	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mothma_19|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_90|$|
+-1592572582	-202152218	object/cell/cell.iff	26	0	0	0	1	0	0	0		$|
+-762188885	-1592572582	object/tangible/ground_spawning/area_spawner.iff	26	99.8733	-20	113.524	-0.462791	0	0.886467	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|0.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mothma_15|strSpawnerType|4|area|strSpawns|4|rtp_imperial_master_sergeant|$|
+-387874763	-202152218	object/cell/cell.iff	27	0	0	0	1	0	0	0		$|
+-1898702801	-387874763	object/tangible/ground_spawning/area_spawner.iff	27	67.6254	-20	111.445	0.701828	0	0.712346	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|319.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|0.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mothma_general_01|strSpawnerType|4|area|strSpawns|4|rtp_mon_mothma_imperial_general_01|$|
+-788519943	-202152218	object/cell/cell.iff	28	0	0	0	1	0	0	0		$|
+-1580919837	-788519943	object/tangible/ground_spawning/patrol_spawner.iff	28	66.2631	-20	130.863	1	0	0	0	systems.spawning.spawner_patrol	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|0.000000|intDefaultBehavior|0|3|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|patrolPathType|4|oscillate|registerWithController|0|1|strName|4|mothma_18|strPatrolPointNames|5|mothma_18_22450789_1:mothma_18_22450789_2:mothma_18_22450789_3:mothma_18_22450789_4:|strSpawnerType|4|patrol|strSpawns|4|rtp_stormtrooper_elite_90|$|
+-1576994146	-788519943	object/tangible/ground_spawning/patrol_waypoint.iff	28	74.1724	-20	131.125	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|mothma_18_22450789_1|registerWithController|0|1|$|
+-32429509	-202152218	object/cell/cell.iff	29	0	0	0	1	0	0	0		$|
+-1607381786	-32429509	object/tangible/ground_spawning/area_spawner.iff	29	34.9382	-20	59.1939	-0.676807	0	0.736161	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mothma_28|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_90|$|
+-246841019	-32429509	object/tangible/ground_spawning/area_spawner.iff	29	19.7647	-20	44.3491	0.966188	0	-0.25784	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mothma_29|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_90|$|
+-1467860093	-32429509	object/tangible/ground_spawning/area_spawner.iff	29	19.6074	-20	74.4043	-0.272064	0	0.962279	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mothma_30|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_90|$|
+-1930742184	-202152218	object/cell/cell.iff	30	0	0	0	1	0	0	0		$|
+-96839167	-1930742184	object/tangible/ground_spawning/patrol_waypoint.iff	30	19.4494	-20	93.6206	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|mothma_31_22451078_2|registerWithController|0|1|$|
+-1667721835	-1930742184	object/tangible/ground_spawning/patrol_waypoint.iff	30	19.641	-20	84.1544	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|mothma_31_22451078_3|registerWithController|0|1|$|
+-531338085	-202152218	object/cell/cell.iff	31	0	0	0	1	0	0	0		$|
+-568700163	-531338085	object/tangible/ground_spawning/area_spawner.iff	31	6.67336	-20	120.9	0.342759	0	0.939424	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|340.000000|fltMinSpawnTime|2|230.000000|fltRadius|2|0.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mothma_assassin|strSpawnerType|4|area|strSpawns|4|rtp_mon_mothma_imperial_assassin|$|
+-1256156305	-531338085	object/tangible/ground_spawning/patrol_spawner.iff	31	11.5578	-20	101.467	1	0	0	0	systems.spawning.spawner_patrol	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|0.000000|intDefaultBehavior|0|3|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|patrolPathType|4|oscillate|registerWithController|0|1|strName|4|mothma_31|strPatrolPointNames|5|mothma_31_22451078_1:mothma_31_22451078_2:mothma_31_22451078_3:|strSpawnerType|4|patrol|strSpawns|4|rtp_stormtrooper_elite_90|$|
+-1423691555	-531338085	object/tangible/ground_spawning/patrol_waypoint.iff	31	18.995	-20	102.088	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|mothma_31_22451078_1|registerWithController|0|1|$|
+-1444690783	-202152218	object/cell/cell.iff	32	0	0	0	1	0	0	0		$|
+-1498761608	-202152218	object/cell/cell.iff	33	0	0	0	1	0	0	0		$|
+-1341462057	-202152218	object/cell/cell.iff	34	0	0	0	1	0	0	0		$|
+-583641878	-1341462057	object/tangible/ground_spawning/patrol_spawner.iff	34	65.4825	-20	37.8301	1	0	0	0	systems.spawning.spawner_patrol	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|0.000000|intDefaultBehavior|0|3|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|patrolPathType|4|oscillate|registerWithController|0|1|strName|4|mothma_23|strPatrolPointNames|5|mothma_23_22450911_1:mothma_23_22450911_2:|strSpawnerType|4|patrol|strSpawns|4|rtp_imperial_master_sergeant|$|
+-1569301189	-1341462057	object/tangible/ground_spawning/patrol_waypoint.iff	34	58.9978	-20	37.9186	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|mothma_23_22450911_1|registerWithController|0|1|$|
+-611435191	-1341462057	object/tangible/ground_spawning/patrol_waypoint.iff	34	50.129	-20	37.922	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|mothma_23_22450911_2|registerWithController|0|1|$|
+-699194625	-1341462057	object/tangible/ground_spawning/area_spawner.iff	34	44.0583	-20	35.94	-0.598853	0	0.800859	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mothma_24|strSpawnerType|4|area|strSpawns|4|rtp_imperial_master_sergeant|$|
+-366904628	-1341462057	object/tangible/ground_spawning/area_spawner.iff	34	57.2323	-20	13.6539	0.997837	0	-0.0657362	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|329.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mon_mothma_general_02|strSpawnerType|4|area|strSpawns|4|rtp_mon_mothma_imperial_general_02|$|
+-313022918	-1341462057	object/tangible/ground_spawning/area_spawner.iff	34	65.221	-20	16.003	0.934599	0	-0.355704	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mothma_26|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_90|$|
+-204168643	-1341462057	object/tangible/ground_spawning/area_spawner.iff	34	48.8741	-20	14.0489	0.999826	0	0.0186641	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mothma_25|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_90|$|
+-2002314220	-202152218	object/cell/cell.iff	35	0	0	0	1	0	0	0		$|
+-478231355	-2002314220	object/tangible/ground_spawning/area_spawner.iff	35	64.9271	-20	59.3355	0.720714	0	-0.693233	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mothma_27|strSpawnerType|4|area|strSpawns|4|rtp_imperial_first_lieutenant|$|
+-1031879652	-202152218	object/cell/cell.iff	36	0	0	0	1	0	0	0		$|
+-1591996970	-202152218	object/cell/cell.iff	37	0	0	0	1	0	0	0		$|
+-1139728596	-202152218	object/cell/cell.iff	38	0	0	0	1	0	0	0		$|
+-53420097	-202152218	object/cell/cell.iff	39	0	0	0	1	0	0	0		$|
+-1643434994	-202152218	object/cell/cell.iff	40	0	0	0	1	0	0	0		$|
+-539632766	-202152218	object/cell/cell.iff	41	0	0	0	1	0	0	0		$|
+-1106966362	-202152218	object/cell/cell.iff	42	0	0	0	1	0	0	0		$|
+-182234141	-202152218	object/cell/cell.iff	43	0	0	0	1	0	0	0		$|
+-398092340	-202152218	object/cell/cell.iff	44	0	0	0	1	0	0	0		$|
+-2130413025	-202152218	object/cell/cell.iff	45	0	0	0	1	0	0	0		$|
+-1052214683	-202152218	object/cell/cell.iff	46	0	0	0	1	0	0	0		$|
+-1641840476	-202152218	object/cell/cell.iff	47	0	0	0	1	0	0	0		$|
+-1117519905	-202152218	object/cell/cell.iff	48	0	0	0	1	0	0	0		$|
+-2037249684	-202152218	object/cell/cell.iff	49	0	0	0	1	0	0	0		$|
+-1833052110	0	object/static/structure/nobuild/noflora_10.iff	0	493.811	15.461	1952.59	1	0	0	0		$|
+-1846086804	0	object/building/military/mun_all_military_tower_impl_guard_s01.iff	0	508.07	14.23	1940.64	0.707107	0	0.707106	0		portalProperty.crc|0|-443284577|$|
+-1803802540	-1846086804	object/cell/cell.iff	1	0	0	0	1	0	0	0		$|
+-876205660	0	object/building/military/mun_all_military_tower_impl_guard_s01.iff	0	504.025	14.23	1940.66	0.707107	0	-0.707106	0		portalProperty.crc|0|-443284577|$|
+-601956850	-876205660	object/cell/cell.iff	1	0	0	0	1	0	0	0		$|
+-423454969	0	object/building/military/mun_all_military_tower_impl_guard_s01.iff	0	508.369	15.1103	1965.08	0.707109	0	0.707104	0		portalProperty.crc|0|-443284577|$|
+-1093143335	-423454969	object/cell/cell.iff	1	0	0	0	1	0	0	0		$|
+-729014278	0	object/building/military/mun_all_military_tower_impl_guard_s01.iff	0	504.325	15.2299	1965.1	0.707109	0	-0.707104	0		portalProperty.crc|0|-443284577|$|
+-1656661574	-729014278	object/cell/cell.iff	1	0	0	0	1	0	0	0		$|
+-692676819	0	object/tangible/ground_spawning/area_spawner.iff	0	493.288	15.5219	1948.79	-0.672784	0	0.739838	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mothma_01|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_89|$|
+-1505963512	0	object/tangible/ground_spawning/area_spawner.iff	0	493.289	15.227	1956.05	-0.697021	0	0.71705	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mothma_02|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_89|$|
+-1681058549	0	object/tangible/ground_spawning/area_spawner.iff	0	466.724	15.4446	1950.34	-0.56605	0	0.824371	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|6.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mothma_03|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_89|$|
+-157774318	0	object/tangible/ground_spawning/area_spawner.iff	0	491.557	8.3987	1922.08	-0.24319	0	0.969979	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|6.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mothma_04|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_89|$|
+-1359462246	0	object/tangible/ground_spawning/area_spawner.iff	0	525.042	15.0994	1950.99	0.760771	0	0.64902	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|6.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mothma_05|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_89|$|
+-579900103	0	object/tangible/ground_spawning/area_spawner.iff	0	509.596	28.2204	1981.98	0.977215	0	-0.212251	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|210.000000|fltRadius|2|6.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mothma_06|strSpawnerType|4|area|strSpawns|4|rtp_stormtrooper_elite_89|$|
 -774325041	0	object/static/structure/dantooine/dant_jedi_temple_pillar.iff	0	1641	69.9624	1608	1	0	0	0		$|
 -1908401984	0	object/static/structure/dantooine/dant_jedi_temple_pillar.iff	0	1641	69.551	1618	0.707107	0	-0.707107	0		$|
 -2093773463	0	object/static/structure/dantooine/dant_jedi_temple_pillar.iff	0	1641	69.2661	1628	0.707107	0	0.707107	0		$|
@@ -80,3 +191,87 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1370878343	0	object/static/flora/flora_tree_lok_mkpud.iff	0	93.8701	3.33662	1137.8	1	0	0	0		$|
 -907629344	0	object/static/flora/flora_tree_lok_mkpud.iff	0	90.0078	3.92783	1144.39	1	0	0	0		$|
 -1734547049	0	object/static/flora/flora_tree_lok_mkpud.iff	0	85.4053	4.6237	1148.36	1	0	0	0		$|
+-634427143	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	88.603516	2.180938482	1133.086426	1	0	0	0		$|
+-1998115094	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	393.792969	35.49918365	1939.799438	1	0	0	0		$|
+-2049076531	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	399.505371	35.52125549	1918.626709	1	0	0	0		$|
+-727431475	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1637.599609	69.10892487	1614.923096	1	0	0	0		$|
+-1658075832	0	object/static/structure/dantooine/dant_jedi_temple_pillar.iff	0	1641	69.9624	1608	1	0	0	0		$|
+-487332026	0	object/static/structure/dantooine/dant_jedi_temple_pillar.iff	0	1641	69.551	1618	0.707107	0	-0.707107	0		$|
+-1526027737	0	object/static/structure/dantooine/dant_jedi_temple_pillar.iff	0	1641	69.2661	1628	0.707107	0	0.707107	0		$|
+-31736537	0	object/static/structure/dantooine/dant_jedi_temple_pillar.iff	0	1631	68.5835	1608	0.707107	0	-0.707107	0		$|
+-1976131687	0	object/static/structure/dantooine/dant_jedi_temple_pillar.iff	0	1631	68.9069	1618	1	0	0	0		$|
+-310702828	0	object/static/structure/dantooine/dant_jedi_temple_pillar.iff	0	1631	69.0426	1628	0.707107	0	-0.707107	0		$|
+-1647569027	0	object/static/structure/naboo/gungan_wall_ruined_sm_s01.iff	0	1641.76	68.9728	1610.88	-0.0107962	0	0.999942	0		$|
+-286724134	0	object/static/structure/naboo/gungan_wall_ruined_sm_s02.iff	0	1641.74	68.6506	1624.06	1	0	0	0		$|
+-1930584727	0	object/static/structure/naboo/gungan_wall_ruined_sm_s02.iff	0	1638.18	68.8109	1628.71	0.744965	0.0887468	-0.653385	-0.101186		$|
+-1331168788	0	object/static/structure/naboo/gungan_wall_ruined_sm_s01.iff	0	1630.06	68.6854	1621.16	1	0	0	0		$|
+-1550539875	0	object/static/structure/naboo/gungan_wall_ruined_sm_s02.iff	0	1630.43	68.1593	1614.32	1	0	0	0		$|
+-1173792438	0	object/static/structure/naboo/gungan_wall_ruined_sm_s01.iff	0	1634.24	68.5172	1607.09	0.714421	0	-0.699716	0		$|
+-782361704	0	object/static/structure/naboo/gungan_damaged_narrow_arch_s01.iff	0	1501.18	35.1986	1790	0.890074	-0.0909739	-0.397482	0.203716		$|
+-356245136	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	1503.22	32.334	1789.93	1	0	0	0		$|
+-1364012511	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	1502.16	32.8538	1790.53	1	0	0	0		$|
+-1798186635	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	1507.37	32.3228	1791.25	0.750309	-0.274937	-0.562316	-0.212714		$|
+-1352526075	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	1502.8	31.7346	1793.04	0.872971	0.126363	-0.47077	0.018141		$|
+-1384545622	0	object/static/structure/naboo/gungan_wall_ruined_sm_s01.iff	0	1506.6	34.5016	1784.71	1	0	0	0		$|
+-1697570728	0	object/static/structure/naboo/gungan_wall_ruined_sm_s01.iff	0	1501.11	34.5537	1798.88	0.54869	0	0.836026	0		$|
+-708293421	0	object/static/structure/naboo/gungan_wall_ruined_sm_s02.iff	0	1499.34	34.9111	1793.81	0.893822	0	-0.448423	0		$|
+-1574153149	0	object/static/structure/naboo/gungan_wall_ruined_sm_s01.iff	0	1511.43	34.4869	1795.54	-0.536088	0	0.844162	0		$|
+-640336000	0	object/static/flora/flora_tree_lok_mkpud.iff	0	1505.13	34.8909	1788.11	0.96654	0.246798	0.0677685	-0.0173041		$|
+-136033243	0	object/static/flora/flora_tree_lok_mkpud.iff	0	1502.1	35	1796.04	1	0	0	0		$|
+-679576211	0	object/static/flora/flora_tree_lok_mkpud.iff	0	1507.88	35.0056	1790.63	1	0	0	0		$|
+-755838250	0	object/static/flora/flora_tree_rori_windswept_s00.iff	0	1498.52	32.4055	1792.91	1	0	0	0		$|
+-1994147924	0	object/static/flora/flora_tree_rori_windswept_s00.iff	0	1504.68	31.8966	1796.41	1	0	0	0		$|
+-839384774	0	object/static/flora/flora_tree_rori_windswept_s00.iff	0	1510.26	31.8061	1789.39	1	0	0	0		$|
+-783878158	0	object/static/structure/general/tato_cave_rock_large.iff	0	745.414	42.7292	1398.09	-0.625519	0	0.780209	0		$|
+-1779966207	0	object/static/structure/general/tato_cave_rock_large.iff	0	752.587	39.8291	1393.24	0.688216	0.573819	0.340976	-0.284298		$|
+-1000427004	0	object/static/structure/general/tato_cave_rock_large.iff	0	747.327	37.7162	1387.92	-0.0271852	-0.593196	-0.0368348	0.803755		$|
+-581695765	0	object/static/structure/general/tato_cave_rock_med.iff	0	745.159	42.6872	1396.3	1	0	0	0		$|
+-1621756186	0	object/static/structure/general/tato_cave_rock_med.iff	0	753.807	43.5527	1397.16	1	0	0	0		$|
+-1796579464	0	object/static/structure/general/tato_cave_rock_med.iff	0	750.733	39.1132	1387.17	0.967663	0	0.252245	0		$|
+-1154787398	0	object/static/structure/general/tato_cave_rock_med.iff	0	749.428	39.1867	1394.24	0.771246	0	-0.636537	0		$|
+-1332609284	0	object/static/structure/general/tato_cave_rock_med.iff	0	743.725	39.9924	1383.71	0.663731	0	0.747971	0		$|
+-1567775110	0	object/static/structure/general/tato_cave_rock_med.iff	0	749.171	38.6351	1378.98	0.894971	0.301559	0.311558	-0.104979		$|
+-22498444	0	object/static/structure/general/tato_cave_rock_med.iff	0	743.476	37.8509	1375.51	0.486904	0.57714	-0.42276	-0.501107		$|
+-160221230	0	object/static/structure/general/tato_cave_rock_med.iff	0	748.841	38.802	1370.26	1	0	0	0		$|
+-773094635	0	object/static/structure/general/tato_cave_rock_med.iff	0	746.638	37.9475	1377.79	0.685868	0.727726	0	0		$|
+-669667101	0	object/static/structure/general/tato_cave_rock_med.iff	0	752.104	41.1542	1381.79	-0.540302	0	0.841471	0		$|
+-951443171	0	object/static/structure/general/tato_cave_rock_med.iff	0	751.765	39.4799	1369.46	-0.458047	0	0	0.888928		$|
+-1675863660	0	object/static/structure/general/tato_cave_rock_large.iff	0	742.955	39.1777	1380.41	1	0	0	0		$|
+-677285736	0	object/static/structure/general/tato_cave_rock_large.iff	0	746.96	38.4306	1381.66	-0.483296	0.345029	0.654846	0.4675		$|
+-1451091776	0	object/static/structure/general/tato_cave_rock_large.iff	0	747.183	38.1255	1374.16	0.696707	0.717356	0	0		$|
+-337472941	0	object/static/structure/general/tato_cave_rock_large.iff	0	753.574	39.7909	1369.76	0.204245	0.796423	0.472366	-0.317592		$|
+-497542809	0	object/static/structure/general/tato_cave_rock_large.iff	0	746.261	40.1125	1364.26	0.685868	0.727726	0	0		$|
+-481036515	0	object/static/structure/general/tato_cave_rock_large.iff	0	743.869	39.8624	1361.36	0.946042	0.324043	0	0		$|
+-2027357817	0	object/static/structure/dathomir/mtn_clan_pillar_s01.iff	0	749.233	39.337	1398.94	0.891568	0.452886	0	0		$|
+-1655606659	0	object/static/structure/general/tato_cave_stalagmite_large.iff	0	748.518	39.0408	1398.84	0.891568	0.452886	0	0		$|
+-382676010	0	object/static/structure/general/tato_cave_stalagmite_large.iff	0	750.244	39.2727	1398.77	0.891568	0.452886	0	0		$|
+-2078548910	0	object/static/structure/general/tato_cave_stalagmite_large.iff	0	749.079	38.5953	1397.82	0.891568	0.452886	0	0		$|
+-418660952	0	object/static/flora/flora_decd_scorched_tallbirch_broke.iff	0	759.421	45.6012	1383.09	0.976599	0.0543917	0.057159	-0.200071		$|
+-1470053377	0	object/static/flora/flora_decd_scorched_tallbirch_broke.iff	0	757.696	36.4837	1339.73	0.974892	0.132416	0.0240956	-0.177401		$|
+-1285988818	0	object/static/flora/flora_decd_scorched_tallbirch_broke.iff	0	737.974	42.2956	1384.32	0.9078	0.331373	0.0881524	0.241494		$|
+-1572514480	0	object/static/structure/naboo/gungan_relic_s01.iff	0	388.239	35.3337	1926.5	0.995953	0	-0.0898786	0		$|
+-2005344703	0	object/static/structure/dantooine/dant_skull_bol.iff	0	389.326	54.1215	1926.91	0.585192	0.539722	0.444865	-0.410299		$|
+-1694401449	0	object/static/structure/dantooine/dant_totem_pole.iff	0	388.821	46.5994	1926.79	-0.63329	0	0.773915	0		$|
+-186538767	0	object/building/endor/endor_tiki_torch.iff	0	391.048	44.9925	1927.15	1	0	0	0		$|
+-122600461	0	object/static/structure/general/skeleton_human_head.iff	0	395.978	42.0569	1926.53	0.444662	0	0.895699	0		$|
+-929473760	0	object/static/structure/general/skeleton_human_head.iff	0	395.531	42.0558	1929.44	0.963771	0	0.266731	0		$|
+-265498504	0	object/static/structure/dantooine/dant_large_rock_hut.iff	0	91.1392	3.60316	1141.95	0.9032	-0.0815082	0.419705	0.0378758		$|
+-605774488	0	object/static/structure/general/tato_cave_rock_med.iff	0	79.4438	1.72037	1132.53	0.777573	0	-0.628793	0		$|
+-1471718036	0	object/static/structure/general/tato_cave_rock_med.iff	0	79.8252	1.6255	1131.91	1	0	0	0		$|
+-1690871624	0	object/static/structure/general/tato_cave_rock_med.iff	0	80.6626	1.88367	1132.95	1	0	0	0		$|
+-739939829	0	object/static/structure/general/tato_cave_rock_med.iff	0	80.7866	1.73076	1131.93	0.833712	0	-0.552199	0		$|
+-1075392679	0	object/static/structure/general/tato_cave_rock_med.iff	0	80.1953	1.65759	1131.55	0.783822	0	0.620986	0		$|
+-1297870615	0	object/static/structure/general/tato_cave_rock_med.iff	0	79.9106	1.97784	1133.02	1	0	0	0		$|
+-247641049	0	object/static/structure/general/tato_cave_rock_med.iff	0	81.0195	1.73612	1132.42	1	0	0	0		$|
+-183507661	0	object/static/structure/general/tato_cave_rock_large.iff	0	82.0229	1.11163	1129.99	1	0	0	0		$|
+-766969766	0	object/static/structure/general/tato_cave_rock_large.iff	0	77.9185	1.95198	1134.74	0.739943	0.317213	0.545191	-0.233723		$|
+-1162106795	0	object/static/structure/general/campfire_ash.iff	0	80.166	2.11082	1132.45	1	0	0	0		$|
+-1840669246	0	object/static/structure/general/campfire_ash.iff	0	80.2061	2.13118	1132.59	1	0	0	0		$|
+-1578657808	0	object/static/structure/general/campfire_ash.iff	0	80.4634	2.10077	1132.38	1	0	0	0		$|
+-1847629809	0	object/static/structure/general/campfire_ash.iff	0	79.9497	2.07796	1132.25	1	0	0	0		$|
+-1617855107	0	object/static/structure/general/campfire_ash.iff	0	80.0229	2.14176	1132.65	1	0	0	0		$|
+-547631987	0	object/static/structure/general/campfire_ash.iff	0	80.0977	2.15722	1132.76	1	0	0	0		$|
+-941954754	0	object/static/flora/flora_tree_lok_mkpud.iff	0	86.1377	2.6824	1139.98	1	0	0	0		$|
+-990038731	0	object/static/flora/flora_tree_lok_mkpud.iff	0	93.8701	3.33662	1137.8	1	0	0	0		$|
+-1583250337	0	object/static/flora/flora_tree_lok_mkpud.iff	0	90.0078	3.92783	1144.39	1	0	0	0		$|
+-543283708	0	object/static/flora/flora_tree_lok_mkpud.iff	0	85.4053	4.6237	1148.36	1	0	0	0		$|

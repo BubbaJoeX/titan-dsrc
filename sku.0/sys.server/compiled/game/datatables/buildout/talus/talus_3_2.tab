@@ -1,5 +1,6 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
+-1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
 -774325041	0	object/static/structure/tatooine/jawa/tent_jawa_01_small.iff	0	715.099	37.9227	130.958	1	0	0	0		$|
 -1908401984	0	object/tangible/camp/camp_cot.iff	0	714.179	38.2453	131.769	0.898261	0	-0.439462	0		$|
 -2093773463	0	object/tangible/camp/camp_stool_short.iff	0	714.201	38.0517	127.687	1	0	0	0		$|
@@ -7,3 +8,11 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1556862676	0	object/static/structure/tatooine/debris_tatt_drum_dented_1.iff	0	716.423	37.8629	131.308	1	0	0	0		$|
 -1621582391	0	object/static/structure/tatooine/debris_tatt_drum_storage_2.iff	0	716.39	38.0071	130.581	1	0	0	0		$|
 -1668142224	0	object/static/structure/tatooine/debris_tatt_crate_metal_1.iff	0	715.539	38.0887	130.716	-0.671178	0	0.741296	0		$|
+-1847828235	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	712.944336	38.16680145	127.124512	1	0	0	0		$|
+-565923755	0	object/static/structure/tatooine/jawa/tent_jawa_01_small.iff	0	715.099	37.9227	130.958	1	0	0	0		$|
+-1927376940	0	object/tangible/camp/camp_cot.iff	0	714.179	38.2453	131.769	0.898261	0	-0.439462	0		$|
+-694282569	0	object/tangible/camp/camp_stool_short.iff	0	714.201	38.0517	127.687	1	0	0	0		$|
+-556911782	0	object/tangible/camp/campfire_logs_burnt.iff	0	715.156	38.0117	127.266	1	0	0	0		$|
+-231542615	0	object/static/structure/tatooine/debris_tatt_drum_dented_1.iff	0	716.423	37.8629	131.308	1	0	0	0		$|
+-976317925	0	object/static/structure/tatooine/debris_tatt_drum_storage_2.iff	0	716.39	38.0071	130.581	1	0	0	0		$|
+-1960783934	0	object/static/structure/tatooine/debris_tatt_crate_metal_1.iff	0	715.539	38.0887	130.716	-0.671178	0	0.741296	0		$|

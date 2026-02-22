@@ -1,5 +1,17 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
+-27598000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
+-445043415	0	object/static/structure/nobuild/noflora_10.iff	0	479.916	21.2165	1689.48	1	0	0	0		$|
+-1241755663	0	object/tangible/ground_spawning/area_spawner.iff	0	481.815	21.6411	1693.83	-0.0655554	0	0.997849	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|319.000000|fltMinSpawnTime|2|219.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|loam_meeting_rebel_leader|strSpawnerType|4|area|strSpawns|4|itp_loam_rebel_commander_02|$|
+-1914123915	0	object/tangible/ground_spawning/area_spawner.iff	0	478.033	20.8426	1671.6	0.998323	0	0.0578917	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|319.000000|fltMinSpawnTime|2|219.000000|fltRadius|2|3.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|loam_meeting_mugger_01|strSpawnerType|4|area|strSpawns|4|itp_loam_mugger|$|
+-742774577	0	object/tangible/ground_spawning/area_spawner.iff	0	462.421	21.9429	1688.37	0.788208	0	0.615409	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|319.000000|fltMinSpawnTime|2|219.000000|fltRadius|2|3.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|loam_meeting_mugger_02|strSpawnerType|4|area|strSpawns|4|itp_loam_mugger|$|
+-650897469	0	object/tangible/ground_spawning/area_spawner.iff	0	505.256	24.0013	1703.58	-0.479551	0	0.877514	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|319.000000|fltMinSpawnTime|2|219.000000|fltRadius|2|3.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|loam_meeting_mugger_03|strSpawnerType|4|area|strSpawns|4|itp_loam_mugger|$|
+-1940499498	0	object/tangible/ground_spawning/area_spawner.iff	0	480.877	27.2346	1726.6	0.724437	0	-0.689341	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|319.000000|fltMinSpawnTime|2|219.000000|fltRadius|2|3.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|loam_meeting_mugger_04|strSpawnerType|4|area|strSpawns|4|itp_loam_mugger|$|
+-507735529	0	object/tangible/ground_spawning/area_spawner.iff	0	493.852	24.5451	1719.77	0.242223	0	0.97022	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|329.000000|fltMinSpawnTime|2|219.000000|fltRadius|2|3.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|loam_meeting_rebel_01|strSpawnerType|4|area|strSpawns|4|itp_rebel_trooper_elite_87|$|
+-2095688525	0	object/tangible/ground_spawning/area_spawner.iff	0	509.585	23.8061	1686.47	0.756417	0	-0.65409	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|329.000000|fltMinSpawnTime|2|219.000000|fltRadius|2|3.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|loam_meeting_rebel_02|strSpawnerType|4|area|strSpawns|4|itp_rebel_trooper_elite_87|$|
+-1582583611	0	object/tangible/ground_spawning/area_spawner.iff	0	496.949	21.0835	1671.83	-0.706198	0	0.708014	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|329.000000|fltMinSpawnTime|2|219.000000|fltRadius|2|3.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|loam_meeting_rebel_03|strSpawnerType|4|area|strSpawns|4|itp_rebel_trooper_elite_87|$|
+-1562693166	0	object/tangible/ground_spawning/area_spawner.iff	0	463.009	20.6758	1665.33	0.971571	0	0.23675	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|329.000000|fltMinSpawnTime|2|219.000000|fltRadius|2|3.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|loam_meeting_rebel_03|strSpawnerType|4|area|strSpawns|4|itp_rebel_trooper_elite_87|$|
+-331154916	0	object/tangible/ground_spawning/area_spawner.iff	0	465.701	25.6333	1713.63	0.157589	0	0.987505	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|329.000000|fltMinSpawnTime|2|219.000000|fltRadius|2|3.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|loam_meeting_05|strSpawnerType|4|area|strSpawns|4|itp_rebel_trooper_elite_87|$|
 -774325041	0	object/static/structure/corellia/corl_power_transformer_s02.iff	0	476.066	21.2841	1694.05	1	0	0	0		$|
 -1908401984	0	object/static/structure/corellia/corl_imprv_gate_sm_s03.iff	0	484.853	20.9638	1681.16	1	0	0	0		$|
 -2093773463	0	object/static/structure/corellia/corl_imprv_wall_4x16_s03.iff	0	471.769	21.9456	1689.84	0.707107	0	-0.707106	0		$|
@@ -10,22 +22,53 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1847828235	0	object/static/structure/corellia/corl_imprv_wall_4x16_s03.iff	0	488.857	21.7874	1689.71	0.735087	0	0.677972	0		$|
 -565923755	0	object/static/structure/corellia/corl_imprv_column_s03.iff	0	489.451	21.9705	1681.25	1	0	0	0		$|
 -1927376940	0	object/static/structure/corellia/corl_banner_govt_angled_s01.iff	0	489.433	25.2976	1678.14	-0.0207949	0	0.999784	0		$|
--694282569	0	object/static/structure/general/flag_corellia_s01.iff	0	475.465	21.0465	1686.83	1	0	0	0		$|
--556911782	0	object/static/structure/corellia/corl_power_arial_thin.iff	0	486.913	21.3253	1693.18	-0.0142031	0	0.999899	0		$|
--231542615	0	object/static/structure/corellia/corl_power_transformer_s02.iff	0	1799.91	30.9188	717.344	0.949235	0	0	-0.314567		$|
--976317925	0	object/static/structure/corellia/corl_power_arial_prime.iff	0	1801.66	30.9431	712.129	0.624229	-0.347109	0.599269	0.361566		$|
--1960783934	0	object/static/structure/corellia/corl_power_box_node.iff	0	1801.14	33.0744	706.931	-0.50846	0.0458853	0.856382	0.0772832		$|
--879410635	0	object/static/structure/general/tato_cave_stalagmite_med.iff	0	1070.31	33.7466	214.542	-0.646207	0.260663	0.67205	-0.25064		$|
--1241413427	0	object/static/structure/general/tato_cave_stalagmite_med.iff	0	1062.05	34.0849	215.857	0.829583	-0.377998	0.408186	0.0478997		$|
--2079230854	0	object/static/structure/general/tato_cave_stalagmite_med.iff	0	1056.04	33.5184	218.713	0.498025	-0.247976	0.824536	-0.103052		$|
--2083494600	0	object/static/structure/general/tato_cave_stalagmite_med.iff	0	1054.9	32.9072	225.466	0.530944	-0.172535	0.771579	0.304952		$|
--1946274642	0	object/static/structure/general/tato_cave_stalagmite_med.iff	0	1061.53	32.6359	230.064	-0.0335385	-0.129675	0.873785	0.467503		$|
--1677962170	0	object/static/structure/general/tato_cave_stalagmite_med.iff	0	1070.67	32.3831	231.062	0.429759	0.292499	0.780005	0.348343		$|
--1647848179	0	object/static/structure/general/tato_cave_stalagmite_med.iff	0	1078.76	31.0311	226.494	0.100841	0.407112	0.906221	0.0534126		$|
--1062241431	0	object/static/structure/general/tato_cave_stalagmite_med.iff	0	1078.02	31.9464	218.357	0.559623	0.239457	0.737977	-0.291326		$|
--854658269	0	object/static/structure/general/tato_cave_stalagmite_large.iff	0	1066.17	34.2018	224.618	0.946042	0	0.324043	0		$|
--2090498086	0	object/static/structure/general/tato_cave_stalagmite_large.iff	0	1063.4	34.351	220.999	0.609791	0	0.792563	0		$|
--942219052	0	object/static/structure/general/tato_cave_stalagmite_large.iff	0	1068.26	34.337	220.466	0.9998	0	0.0199985	0		$|
--1720483051	0	object/tangible/furniture/all/frn_all_tiki_torch_s1.iff	0	1068.08	39.938	220.229	1	0	0	0		$|
--609843239	0	object/tangible/furniture/all/frn_all_tiki_torch_s1.iff	0	1063.18	39.9545	221.163	1	0	0	0		$|
--751867451	0	object/tangible/furniture/all/frn_all_tiki_torch_s1.iff	0	1065.92	39.7601	224.579	1	0	0	0		$|
+-694282569	0	object/static/structure/corellia/corl_power_arial_thin.iff	0	486.913	21.3253	1693.18	-0.0142031	0	0.999899	0		$|
+-556911782	0	object/static/structure/corellia/corl_power_transformer_s02.iff	0	1799.91	30.9188	717.344	0.949235	0	0	-0.314567		$|
+-231542615	0	object/static/structure/corellia/corl_power_arial_prime.iff	0	1801.66	30.9431	712.129	0.624229	-0.347109	0.599269	0.361566		$|
+-976317925	0	object/static/structure/corellia/corl_power_box_node.iff	0	1801.14	33.0744	706.931	-0.50846	0.0458853	0.856382	0.0772832		$|
+-1960783934	0	object/static/structure/general/tato_cave_stalagmite_med.iff	0	1070.31	33.7466	214.542	-0.646207	0.260663	0.67205	-0.25064		$|
+-879410635	0	object/static/structure/general/tato_cave_stalagmite_med.iff	0	1062.05	34.0849	215.857	0.829583	-0.377998	0.408186	0.0478997		$|
+-1241413427	0	object/static/structure/general/tato_cave_stalagmite_med.iff	0	1056.04	33.5184	218.713	0.498025	-0.247976	0.824536	-0.103052		$|
+-2079230854	0	object/static/structure/general/tato_cave_stalagmite_med.iff	0	1054.9	32.9072	225.466	0.530944	-0.172535	0.771579	0.304952		$|
+-2083494600	0	object/static/structure/general/tato_cave_stalagmite_med.iff	0	1061.53	32.6359	230.064	-0.0335385	-0.129675	0.873785	0.467503		$|
+-1946274642	0	object/static/structure/general/tato_cave_stalagmite_med.iff	0	1070.67	32.3831	231.062	0.429759	0.292499	0.780005	0.348343		$|
+-1677962170	0	object/static/structure/general/tato_cave_stalagmite_med.iff	0	1078.76	31.0311	226.494	0.100841	0.407112	0.906221	0.0534126		$|
+-1647848179	0	object/static/structure/general/tato_cave_stalagmite_med.iff	0	1078.02	31.9464	218.357	0.559623	0.239457	0.737977	-0.291326		$|
+-1062241431	0	object/static/structure/general/tato_cave_stalagmite_large.iff	0	1066.17	34.2018	224.618	0.946042	0	0.324043	0		$|
+-854658269	0	object/static/structure/general/tato_cave_stalagmite_large.iff	0	1063.4	34.351	220.999	0.609791	0	0.792563	0		$|
+-2090498086	0	object/static/structure/general/tato_cave_stalagmite_large.iff	0	1068.26	34.337	220.466	0.9998	0	0.0199985	0		$|
+-942219052	0	object/tangible/furniture/all/frn_all_tiki_torch_s1.iff	0	1068.08	39.938	220.229	1	0	0	0		$|
+-1720483051	0	object/tangible/furniture/all/frn_all_tiki_torch_s1.iff	0	1063.18	39.9545	221.163	1	0	0	0		$|
+-609843239	0	object/tangible/furniture/all/frn_all_tiki_torch_s1.iff	0	1065.92	39.7601	224.579	1	0	0	0		$|
+-751867451	0	object/static/structure/general/flag_corellia_style_01.iff	0	475.465	21.0465	1686.83	1	0	0	0		$|
+-641399737	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1070.477051	34.10200882	224.46228	1	0	0	0		$|
+-977230724	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	479.498291	21.12343216	1688.169128	1	0	0	0		$|
+-1246571693	0	object/static/structure/corellia/corl_power_transformer_s02.iff	0	476.066	21.2841	1694.05	1	0	0	0		$|
+-1674091023	0	object/static/structure/corellia/corl_imprv_gate_sm_s03.iff	0	484.853	20.9638	1681.16	1	0	0	0		$|
+-1182814570	0	object/static/structure/corellia/corl_imprv_wall_4x16_s03.iff	0	471.769	21.9456	1689.84	0.707107	0	-0.707106	0		$|
+-882045225	0	object/static/structure/corellia/corl_imprv_column_s03.iff	0	471.856	21.8704	1681.76	1	0	0	0		$|
+-1550073655	0	object/static/structure/corellia/corl_imprv_wall_4x16_s03.iff	0	479.96	21.9793	1698.07	1	0	0	0		$|
+-409244986	0	object/static/structure/corellia/corl_imprv_column_s03.iff	0	471.645	22.0609	1698.07	1	0	0	0		$|
+-280675418	0	object/static/structure/corellia/corl_imprv_column_s03.iff	0	488.207	22.3437	1698.06	1	0	0	0		$|
+-2133527664	0	object/static/structure/corellia/corl_imprv_wall_4x16_s03.iff	0	488.857	21.7874	1689.71	0.735087	0	0.677972	0		$|
+-517957242	0	object/static/structure/corellia/corl_imprv_column_s03.iff	0	489.451	21.9705	1681.25	1	0	0	0		$|
+-416999969	0	object/static/structure/corellia/corl_banner_govt_angled_s01.iff	0	489.433	25.2976	1678.14	-0.0207949	0	0.999784	0		$|
+-1804617885	0	object/static/structure/general/flag_corellia_s01.iff	0	475.465	21.0465	1686.83	1	0	0	0		$|
+-648240706	0	object/static/structure/corellia/corl_power_arial_thin.iff	0	486.913	21.3253	1693.18	-0.0142031	0	0.999899	0		$|
+-1239926135	0	object/static/structure/corellia/corl_power_transformer_s02.iff	0	1799.91	30.9188	717.344	0.949235	0	0	-0.314567		$|
+-1416801220	0	object/static/structure/corellia/corl_power_arial_prime.iff	0	1801.66	30.9431	712.129	0.624229	-0.347109	0.599269	0.361566		$|
+-1550759483	0	object/static/structure/corellia/corl_power_box_node.iff	0	1801.14	33.0744	706.931	-0.50846	0.0458853	0.856382	0.0772832		$|
+-1813593959	0	object/static/structure/general/tato_cave_stalagmite_med.iff	0	1070.31	33.7466	214.542	-0.646207	0.260663	0.67205	-0.25064		$|
+-1685100866	0	object/static/structure/general/tato_cave_stalagmite_med.iff	0	1062.05	34.0849	215.857	0.829583	-0.377998	0.408186	0.0478997		$|
+-91884238	0	object/static/structure/general/tato_cave_stalagmite_med.iff	0	1056.04	33.5184	218.713	0.498025	-0.247976	0.824536	-0.103052		$|
+-507892488	0	object/static/structure/general/tato_cave_stalagmite_med.iff	0	1054.9	32.9072	225.466	0.530944	-0.172535	0.771579	0.304952		$|
+-1424652355	0	object/static/structure/general/tato_cave_stalagmite_med.iff	0	1061.53	32.6359	230.064	-0.0335385	-0.129675	0.873785	0.467503		$|
+-1927988745	0	object/static/structure/general/tato_cave_stalagmite_med.iff	0	1070.67	32.3831	231.062	0.429759	0.292499	0.780005	0.348343		$|
+-1948313463	0	object/static/structure/general/tato_cave_stalagmite_med.iff	0	1078.76	31.0311	226.494	0.100841	0.407112	0.906221	0.0534126		$|
+-1331595969	0	object/static/structure/general/tato_cave_stalagmite_med.iff	0	1078.02	31.9464	218.357	0.559623	0.239457	0.737977	-0.291326		$|
+-1939786804	0	object/static/structure/general/tato_cave_stalagmite_large.iff	0	1066.17	34.2018	224.618	0.946042	0	0.324043	0		$|
+-1376581304	0	object/static/structure/general/tato_cave_stalagmite_large.iff	0	1063.4	34.351	220.999	0.609791	0	0.792563	0		$|
+-327503350	0	object/static/structure/general/tato_cave_stalagmite_large.iff	0	1068.26	34.337	220.466	0.9998	0	0.0199985	0		$|
+-1408844359	0	object/tangible/furniture/all/frn_all_tiki_torch_s1.iff	0	1068.08	39.938	220.229	1	0	0	0		$|
+-850991870	0	object/tangible/furniture/all/frn_all_tiki_torch_s1.iff	0	1063.18	39.9545	221.163	1	0	0	0		$|
+-1579429420	0	object/tangible/furniture/all/frn_all_tiki_torch_s1.iff	0	1065.92	39.7601	224.579	1	0	0	0		$|

@@ -1,4 +1,11 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
+-1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		$|
 -774325041	0	object/static/structure/general/poi_all_obelisk_s01.iff	0	893.465	3.91605	849.284	0.338946	0	0.940806	0		$|
--1908401984	0	object/static/terrain/corellia/rock_crystal_geyser_agrilat_medium.iff	0	690.477	-25.2673	686.223	1	0	0	0		$|
+-1908401984	0	object/static/corellia/rock_crystal_geyser_agrilat_small.iff	0	690.477	-25.2673	686.223	1	0	0	0		$|
+-2093773463	0	object/tangible/ground_spawning/mob_spawner.iff	0	896	4	866	1	0	0	0		$|
+-555016066	0	object/tangible/ground_spawning/mob_spawner.iff	0	896	4	866	1	0	0	0		$|
+-1556862676	0	object/tangible/ground_spawning/mob_spawner.iff	0	896	4	866	1	0	0	0		$|
+-1621582391	0	object/tangible/ground_spawning/mob_spawner.iff	0	896	4	866	1	0	0	0		$|
+-1668142224	0	object/static/structure/general/poi_all_obelisk_s01.iff	0	893.465	3.91605	849.284	0.338946	0	0.940806	0		$|
+-1847828235	0	object/static/terrain/corellia/rock_crystal_geyser_agrilat_medium.iff	0	690.477	-25.2673	686.223	1	0	0	0		$|

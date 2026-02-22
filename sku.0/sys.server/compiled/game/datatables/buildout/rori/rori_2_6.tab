@@ -1,5 +1,7 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
+-33418000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
+-826279755	0	object/tangible/collection/rebel_marine_leggings.iff	0	633.065	75.7282	51.3157	0.976908	-0.182124	-0.0681849	0.088497	systems.collections.consume_click	collection.slotName|4|col_rebel_marine_armor:rebel_marine_leggings|$|
 -774325041	0	object/static/structure/naboo/gungan_damaged_wide_arch_s01.iff	0	1431.13	72.8361	1530.67	1	0	0	0		$|
 -1908401984	0	object/static/structure/naboo/gungan_wall_ruined_lg_s01.iff	0	1439.59	73.5914	1537.25	0.738468	0	0.674288	0		$|
 -2093773463	0	object/static/structure/naboo/gungan_wall_ruined_lg_s02.iff	0	1437.16	72.9336	1526.28	-0.699167	0.105669	0.698075	0.112655		$|
@@ -9,3 +11,18 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1668142224	0	object/static/structure/naboo/gungan_statue_s01.iff	0	635.41	75.1774	46.5935	0.682221	0	0.731146	0		$|
 -1847828235	0	object/static/structure/naboo/gungan_statue_s02.iff	0	634.936	75.0461	51.2297	0.731689	0	0.681639	0		$|
 -565923755	0	object/tangible/gravestone/gravestone04.iff	0	635.834	75.4833	50.7117	0.63329	0	0.773915	0		$|
+-1927376940	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1443.503418	75.83508301	1521.55542	1	0	0	0		$|
+-694282569	0	object/tangible/ground_spawning/mob_spawner.iff	0	647	75	58	1	0	0	0		$|
+-556911782	0	object/tangible/ground_spawning/mob_spawner.iff	0	647	75	58	1	0	0	0		$|
+-231542615	0	object/tangible/ground_spawning/mob_spawner.iff	0	647	75	58	1	0	0	0		$|
+-976317925	0	object/tangible/ground_spawning/mob_spawner.iff	0	647	75	58	1	0	0	0		$|
+-1960783934	0	object/tangible/ground_spawning/mob_spawner.iff	0	647	75	58	1	0	0	0		$|
+-879410635	0	object/static/structure/naboo/gungan_damaged_wide_arch_s01.iff	0	1431.13	72.8361	1530.67	1	0	0	0		$|
+-1241413427	0	object/static/structure/naboo/gungan_wall_ruined_lg_s01.iff	0	1439.59	73.5914	1537.25	0.738468	0	0.674288	0		$|
+-2079230854	0	object/static/structure/naboo/gungan_wall_ruined_lg_s02.iff	0	1437.16	72.9336	1526.28	-0.699167	0.105669	0.698075	0.112655		$|
+-2083494600	0	object/static/structure/naboo/gungan_wall_ruined_sm_s02.iff	0	1440.11	74.7535	1535.56	1	0	0	0		$|
+-1946274642	0	object/static/structure/naboo/gungan_wall_ruined_sm_s01.iff	0	1445.19	74.4678	1527.55	-0.000796395	0	1	0		$|
+-1677962170	0	object/static/structure/naboo/gungan_shield_gen_s01.iff	0	633.764	75.9016	48.9624	1	0	0	0		$|
+-1647848179	0	object/static/structure/naboo/gungan_statue_s01.iff	0	635.41	75.1774	46.5935	0.682221	0	0.731146	0		$|
+-1062241431	0	object/static/structure/naboo/gungan_statue_s02.iff	0	634.936	75.0461	51.2297	0.731689	0	0.681639	0		$|
+-854658269	0	object/tangible/gravestone/gravestone04.iff	0	635.834	75.4833	50.7117	0.63329	0	0.773915	0		$|

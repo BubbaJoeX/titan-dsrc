@@ -1,3 +1,9 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
+-1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		$|
 -774325041	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	1016.08	21.7384	383.205	0.458533	-0.0765724	0.882475	0.0715626		$|
+-1908401984	0	object/tangible/ground_spawning/mob_spawner.iff	0	1023	23	378	1	0	0	0		$|
+-2093773463	0	object/tangible/ground_spawning/mob_spawner.iff	0	1023	23	378	1	0	0	0		$|
+-555016066	0	object/tangible/ground_spawning/mob_spawner.iff	0	1023	23	378	1	0	0	0		$|
+-1556862676	0	object/tangible/ground_spawning/mob_spawner.iff	0	1023	23	378	1	0	0	0		$|
+-1621582391	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	1016.08	21.7384	383.205	0.458533	-0.0765724	0.882475	0.0715626		$|

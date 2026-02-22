@@ -1,5 +1,6 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
+-1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
 -774325041	0	object/static/structure/general/streetlamp_small_red_style_02.iff	0	281.542	58.3286	1214.74	1	0	0	0		$|
 -1908401984	0	object/static/structure/general/tato_cave_rock_med.iff	0	281.578	61.1596	1215	0.954782	0.0188848	-0.290126	-0.0621484		$|
 -2093773463	0	object/static/structure/general/tato_cave_rock_med.iff	0	281.809	61.1613	1215.31	0.954782	0.0188848	-0.290126	-0.0621484		$|
@@ -34,3 +35,41 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1246571693	0	object/static/structure/general/skeleton_ithorian_head.iff	0	1373.82	40.916	74.4023	0.485454	0.104907	0.802194	-0.331381		$|
 -1674091023	0	object/static/structure/general/skeleton_bith_headandbody.iff	0	1375.99	40.3514	75.8667	1	0	0	0		$|
 -1182814570	0	object/static/structure/general/skeleton_ithorian_headandbody.iff	0	1375.8	40.6253	74.5532	1	0	0	0		$|
+-882045225	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1375.431396	40.39792633	73.967285	1	0	0	0		$|
+-1550073655	0	object/tangible/ground_spawning/mob_spawner.iff	0	1956	109	1831	1	0	0	0		$|
+-409244986	0	object/tangible/ground_spawning/mob_spawner.iff	0	1956	109	1831	1	0	0	0		$|
+-280675418	0	object/tangible/ground_spawning/mob_spawner.iff	0	1956	109	1831	1	0	0	0		$|
+-2133527664	0	object/static/structure/general/streetlamp_small_red_style_02.iff	0	281.542	58.3286	1214.74	1	0	0	0		$|
+-517957242	0	object/static/structure/general/tato_cave_rock_med.iff	0	281.578	61.1596	1215	0.954782	0.0188848	-0.290126	-0.0621484		$|
+-416999969	0	object/static/structure/general/tato_cave_rock_med.iff	0	281.809	61.1613	1215.31	0.954782	0.0188848	-0.290126	-0.0621484		$|
+-1804617885	0	object/static/structure/general/tato_cave_rock_med.iff	0	281.577	60.9936	1214.57	0.985669	0.118851	-0.118851	0.014331		$|
+-648240706	0	object/static/structure/general/tato_cave_rock_med.iff	0	281.609	60.9192	1214.04	0.893822	0	-0.448423	0		$|
+-1239926135	0	object/static/structure/general/tato_cave_rock_med.iff	0	281.348	61.2294	1215.24	0.992809	0	-0.119712	0		$|
+-1416801220	0	object/static/structure/general/tato_cave_rock_med.iff	0	281.671	61.2788	1215.46	0.992809	0	-0.119712	0		$|
+-1550759483	0	object/static/structure/general/tato_cave_rock_med.iff	0	281.348	61.1241	1214.75	0.992809	0	-0.119712	0		$|
+-1813593959	0	object/static/structure/general/tato_cave_rock_med.iff	0	281.97	61.1166	1214.95	0.954782	0.0188848	-0.290126	-0.0621484		$|
+-1685100866	0	object/static/structure/general/tato_cave_rock_med.iff	0	281.423	61.0359	1214.28	0.985669	0.118851	-0.118851	0.014331		$|
+-91884238	0	object/static/structure/general/tato_cave_rock_med.iff	0	281.905	61.0066	1214.44	0.992809	0	-0.119712	0		$|
+-507892488	0	object/static/structure/general/tato_cave_rock_med.iff	0	281.617	61.2273	1214.79	0.928543	0.023791	-0.365499	-0.0604404		$|
+-1424652355	0	object/static/structure/general/tato_cave_rock_med.iff	0	281.795	61.2287	1215.15	0.928543	0.023791	-0.365499	-0.0604404		$|
+-1927988745	0	object/static/structure/general/tato_cave_rock_med.iff	0	281.609	61.0963	1214.39	0.973019	0.117326	-0.197241	0.0237831		$|
+-1948313463	0	object/static/structure/general/tato_cave_rock_med.iff	0	281.808	60.9739	1213.97	0.855127	0	-0.518418	0		$|
+-1331595969	0	object/static/structure/general/tato_cave_rock_med.iff	0	282.147	61.0238	1214.37	0.0155171	0.939819	-0.0430704	-0.338591		$|
+-1939786804	0	object/static/structure/general/tato_cave_rock_med.iff	0	281.927	61.1039	1214.67	0.872744	0	0	-0.488177		$|
+-1376581304	0	object/static/structure/general/tato_cave_rock_med.iff	0	282.021	61.0647	1214.24	0.796084	0	0	-0.605186		$|
+-327503350	0	object/tangible/jedi/force_shrine_stone.iff	0	1963.23	105.294	1839.68	0.707107	0	0.707107	0		$|
+-1408844359	0	object/static/structure/dantooine/dant_jedi_temple_pillar_sm.iff	0	1958.81	106.38	1838.09	0.707113	0	0.7071	0		$|
+-850991870	0	object/static/structure/dantooine/dant_jedi_temple_pillar_sm.iff	0	1967.5	106.461	1838.12	1	0	0	0		$|
+-1579429420	0	object/static/structure/dantooine/dant_jedi_temple_pillar_base.iff	0	1962.26	106.405	1838.07	0	0	1	0		$|
+-414188864	0	object/static/structure/dantooine/dant_jedi_temple_pillar_base.iff	0	1964.06	106.384	1838.03	1	0	0	0		$|
+-2054174542	0	object/static/structure/dantooine/dant_jedi_temple_altar.iff	0	1963.17	88.4407	1838.09	1	0	0	0		$|
+-580396567	0	object/static/particle/pt_poi_electricity_2x2.iff	0	1963.24	106.417	1839.68	1	0	0	0		$|
+-1160876236	0	object/static/structure/general/tato_cave_stalagmite_small.iff	0	281.35	60.5193	1215.86	0.380925	0	0.924606	0		$|
+-995942589	0	object/static/structure/general/skeleton_human_head.iff	0	281.148	62.8802	1215.82	0.188636	-0.0900338	0.959968	-0.18647		$|
+-1879421507	0	object/static/structure/general/skeleton_human_body.iff	0	1376.33	40.9463	72.9038	1	0	0	0		$|
+-57733465	0	object/static/structure/general/skeleton_human_head.iff	0	1376.96	41.5109	72.2212	0.96639	0	0	-0.257081		$|
+-166869423	0	object/static/structure/general/skeleton_human_headandbody.iff	0	1374.8	40.4918	77.4468	-0.568705	-0.01784	0.821021	0.0466867		$|
+-1334587254	0	object/static/structure/general/skeleton_human_headandbody.iff	0	1374.61	40.5435	74.8506	0.930508	0	0.366273	0		$|
+-1978261515	0	object/static/structure/general/skeleton_ithorian_head.iff	0	1373.82	40.916	74.4023	0.485454	0.104907	0.802194	-0.331381		$|
+-961985415	0	object/static/structure/general/skeleton_bith_headandbody.iff	0	1375.99	40.3514	75.8667	1	0	0	0		$|
+-1517888095	0	object/static/structure/general/skeleton_ithorian_headandbody.iff	0	1375.8	40.6253	74.5532	1	0	0	0		$|

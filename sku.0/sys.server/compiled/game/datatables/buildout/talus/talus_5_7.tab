@@ -1,5 +1,7 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
+-37168000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
+-1604056558	0	object/tangible/collection/rare_carbine_grievance_striker.iff	0	1637.25	7.00229	1336.05	-0.589121	-0.402412	0.469228	0.520412	systems.collections.consume_click	collection.slotName|4|col_rare_carbine_01:grievance_striker_01|$|
 -774325041	0	object/tangible/jedi/force_shrine_stone.iff	0	318.107	13.6759	1743.76	0.707107	0	0.707107	0		$|
 -1908401984	0	object/static/structure/dantooine/dant_jedi_temple_pillar_sm.iff	0	313.685	14.8805	1742.17	0.707113	0	0.7071	0		$|
 -2093773463	0	object/static/structure/dantooine/dant_jedi_temple_pillar_sm.iff	0	322.369	14.9023	1742.2	1	0	0	0		$|
@@ -11,3 +13,16 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -565923755	0	object/static/structure/general/skeleton_ithorian_headandbody.iff	0	1639.05	6.90461	1336.6	0.9987	-0.00998734	0.000499783	-0.0499767		$|
 -1927376940	0	object/static/structure/tatooine/guild_statue_free_style_01.iff	0	912.069	78.5691	544.013	0.724836	0	-0.688921	0		$|
 -694282569	0	object/static/structure/general/streetlamp_small_red_style_01.iff	0	911.262	78.9659	544.031	1	0	0	0		$|
+-556911782	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1638.140381	7	1339.90332	1	0	0	0		$|
+-231542615	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	911.502	80.6824	547.62	1	0	0	0		$|
+-976317925	0	object/tangible/jedi/force_shrine_stone.iff	0	318.107	13.6759	1743.76	0.707107	0	0.707107	0		$|
+-1960783934	0	object/static/structure/dantooine/dant_jedi_temple_pillar_sm.iff	0	313.685	14.8805	1742.17	0.707113	0	0.7071	0		$|
+-879410635	0	object/static/structure/dantooine/dant_jedi_temple_pillar_sm.iff	0	322.369	14.9023	1742.2	1	0	0	0		$|
+-1241413427	0	object/static/structure/dantooine/dant_jedi_temple_pillar_base.iff	0	317.139	14.8853	1742.15	0	0	1	0		$|
+-2079230854	0	object/static/structure/dantooine/dant_jedi_temple_pillar_base.iff	0	318.932	14.8752	1742.11	1	0	0	0		$|
+-2083494600	0	object/static/structure/dantooine/dant_jedi_temple_altar.iff	0	318.048	-3.06836	1742.17	1	0	0	0		$|
+-1946274642	0	object/static/particle/pt_poi_electricity_2x2.iff	0	318.11	14.9759	1743.76	1	0	0	0		$|
+-1677962170	0	object/static/structure/general/skeleton_human_headandbody.iff	0	1637.39	7.0053	1335.19	0.974794	0	0.223106	0		$|
+-1647848179	0	object/static/structure/general/skeleton_ithorian_headandbody.iff	0	1639.05	6.90461	1336.6	0.9987	-0.00998734	0.000499783	-0.0499767		$|
+-1062241431	0	object/static/structure/tatooine/guild_statue_free_style_01.iff	0	912.069	78.5691	544.013	0.724836	0	-0.688921	0		$|
+-854658269	0	object/static/structure/general/streetlamp_small_red_style_01.iff	0	911.262	78.9659	544.031	1	0	0	0		$|
