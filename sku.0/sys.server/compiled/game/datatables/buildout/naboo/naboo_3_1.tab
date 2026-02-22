@@ -54,3 +54,10 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -771827785	0	object/static/structure/general/skeleton_human_headandbody.iff	0	1371.01	22.2878	929.32	1	0	0	0		$|
 -151516900	0	object/tangible/collection/storm_trooper_gloves.iff	0	1365.76	-8.84731	939.003	1	0	0	0	systems.collections.consume_click	collection.slotName|4|col_storm_trooper_armor:storm_trooper_gloves|$|
 -507578335	0	object/tangible/collection/storm_trooper_gloves.iff	0	1371.45	21.3893	929.693	-0.556361	0.386394	0.659468	-0.325981	systems.collections.consume_click	collection.slotName|4|col_storm_trooper_armor:storm_trooper_gloves|$|
+-774325041	0	object/tangible/jedi/force_shrine_stone.iff	0	1513.32	3.5139	2004.38	0.707107	0	0.707107	0		$|
+-1908401984	0	object/static/structure/dantooine/dant_jedi_temple_pillar_sm.iff	0	1508.9	4.33731	2002.79	0.707114	0	0.707099	0		$|
+-2093773463	0	object/static/structure/dantooine/dant_jedi_temple_pillar_sm.iff	0	1517.59	4.33731	2002.82	1	0	0	0		$|
+-555016066	0	object/static/structure/dantooine/dant_jedi_temple_pillar_base.iff	0	1512.36	4.33731	2002.77	0	0	1	0		$|
+-1556862676	0	object/static/structure/dantooine/dant_jedi_temple_pillar_base.iff	0	1514.15	4.3273	2002.73	1	0	0	0		$|
+-1621582391	0	object/static/structure/dantooine/dant_jedi_temple_altar.iff	0	1513.27	-13.6163	2002.79	1	0	0	0		$|
+-1668142224	0	object/static/particle/pt_poi_electricity_2x2.iff	0	1513.33	4.33731	2004.38	1	0	0	0		$|

@@ -79,3 +79,10 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -739332940	0	object/tangible/ground_spawning/area_spawner.iff	0	220.122	338	1227.39	0.544369	0	0.838845	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|230.000000|fltMinSpawnTime|2|190.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mtp_quest_ragtag_mid_17|strSpawnerType|4|area|strSpawns|4|mtp_quest_farles_ragtag|$|
 -1093261797	0	object/tangible/quest/meatlump/mtp_hideout_quest04_stash.iff	0	1134.98	367.542	729.341	0.891583	0.2237	0.39359	-0.0111676	quest.task.ground.retrieve_item_on_item	$|
 -393840773	0	object/tangible/quest/meatlump/mtp_hideout_quest04_stash.iff	0	298.126	286.443	1258.54	0.982097	-0.18771	0.00297661	-0.0155736	quest.task.ground.retrieve_item_on_item	$|
+-774325041	0	object/tangible/jedi/force_shrine_stone.iff	0	156.978	351.897	540.858	0.707107	0	0.707107	0		$|
+-1908401984	0	object/static/structure/dantooine/dant_jedi_temple_pillar_sm.iff	0	152.556	353.282	539.261	0.707113	0	0.7071	0		$|
+-2093773463	0	object/static/structure/dantooine/dant_jedi_temple_pillar_sm.iff	0	161.24	353.282	539.295	1	0	0	0		$|
+-555016066	0	object/static/structure/dantooine/dant_jedi_temple_pillar_base.iff	0	156.009	353.282	539.25	0	0	1	0		$|
+-1556862676	0	object/static/structure/dantooine/dant_jedi_temple_pillar_base.iff	0	157.803	353.272	539.202	1	0	0	0		$|
+-1621582391	0	object/static/structure/dantooine/dant_jedi_temple_altar.iff	0	156.918	335.329	539.261	1	0	0	0		$|
+-1668142224	0	object/static/particle/pt_poi_electricity_2x2.iff	0	156.98	353.282	540.855	1	0	0	0		$|

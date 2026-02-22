@@ -2,3 +2,14 @@ objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objv
 i	i	h	i	f	f	f	f	f	f	f	s	p
 -31798000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
 -622099210	0	object/tangible/collection/rare_pistol_liquidsilver_l7.iff	0	321.747	184.901	743.068	0.450719	0.586693	-0.466862	-0.484442	systems.collections.consume_click	collection.slotName|4|col_rare_pistol_02:liquidsilver_l7_01|$|
+-774325041	0	object/tangible/jedi/force_shrine_stone.iff	0	1038.27	329.573	1810.01	0.707107	0	0.707107	0		$|
+-1908401984	0	object/static/structure/dantooine/dant_jedi_temple_pillar_sm.iff	0	1033.85	329.653	1808.41	0.707113	0	0.7071	0		$|
+-2093773463	0	object/static/structure/dantooine/dant_jedi_temple_pillar_sm.iff	0	1042.54	329.66	1808.44	1	0	0	0		$|
+-555016066	0	object/static/structure/dantooine/dant_jedi_temple_pillar_base.iff	0	1037.31	329.645	1808.4	0	0	1	0		$|
+-1556862676	0	object/static/structure/dantooine/dant_jedi_temple_pillar_base.iff	0	1039.1	329.643	1808.35	1	0	0	0		$|
+-1621582391	0	object/static/structure/dantooine/dant_jedi_temple_altar.iff	0	1038.22	311.692	1808.41	1	0	0	0		$|
+-1668142224	0	object/static/particle/pt_poi_electricity_2x2.iff	0	1038.28	331.354	1810	1	0	0	0		$|
+-1847828235	0	object/static/structure/general/campfire_ash.iff	0	321.456	185.542	741.382	1	0	0	0		$|
+-565923755	0	object/static/flora/flora_tree_rori_mkpodtree.iff	0	317.959	185.901	741.653	0.714421	0	0.699716	0		$|
+-1927376940	0	object/static/structure/general/skeleton_human_headandbody.iff	0	322.799	184.868	742.672	-0.695394	-0.0862593	0.693549	0.167261		$|
+-694282569	0	object/tangible/furniture/all/frn_all_rug_rectangle_large_style_01.iff	0	319.833	185.639	741.712	0.979936	0.188431	0.00931355	-0.0642923		$|

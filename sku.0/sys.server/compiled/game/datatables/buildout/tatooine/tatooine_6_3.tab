@@ -8,3 +8,19 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1377520073	0	object/tangible/ground_spawning/area_spawner.iff	0	1529.99	54.4604	1604.43	0.925187	0	-0.379513	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|90.000000|fltMinSpawnTime|2|30.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|5|intSpawnSystem|0|1|registerWithController|0|1|strName|4|valarian_mechanics|strSpawnerType|4|area|strSpawns|4|tatooine/valarian_mechanics|$|
 -257190156	0	object/tangible/ground_spawning/area_spawner.iff	0	1497.91	54.5608	1631.86	0.858405	0	-0.512972	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|90.000000|fltMinSpawnTime|2|30.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|4|intSpawnSystem|0|1|registerWithController|0|1|strName|4|valarian_crew_chiefs2|strSpawnerType|4|area|strSpawns|4|tatooine/valarian_crew_chiefs|$|
 -478068615	0	object/tangible/ground_spawning/area_spawner.iff	0	1479.95	63.6119	1618.5	-0.0248745	0	0.999691	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|90.000000|fltMinSpawnTime|2|30.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|4|intSpawnSystem|0|1|registerWithController|0|1|strName|4|valarian_mechanics2|strSpawnerType|4|area|strSpawns|4|tatooine/valarian_mechanics|$|
+-774325041	0	object/static/structure/tatooine/wall_ruined_tatooine_large_style_01.iff	0	1221.79	171.984	431.813	-0.691972	0.51974	-0.39966	-0.302187		$|
+-1908401984	0	object/static/structure/tatooine/wall_ruined_tatooine_large_style_02.iff	0	1229.19	168.57	419.237	0.774097	-0.173628	-0.210076	0.571398		$|
+-2093773463	0	object/static/structure/tatooine/wall_ruined_tatooine_large_style_02.iff	0	1231.34	175.434	420.337	0.210076	-0.571398	0.774096	-0.173628		$|
+-555016066	0	object/static/structure/tatooine/wall_ruined_tatooine_large_style_01.iff	0	1227.71	178.709	427.689	0.9161	-0.0823879	-0.248614	0.303586		$|
+-1556862676	0	object/static/structure/tatooine/wall_ruined_tatooine_large_style_01.iff	0	1223.27	164.551	424.618	0.486352	-0.222108	-0.106649	0.838305		$|
+-1621582391	0	object/static/structure/tatooine/concrete_slab_tatooine_16x8.iff	0	1603.56	92.2847	714.938	1	0	0	0		$|
+-1668142224	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	1598.71	100.08	709.946	0.707117	0	-0.707096	0		$|
+-1847828235	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	1607.88	100.169	709.217	0.707114	0	-0.707099	0		$|
+-565923755	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	1598.72	100.073	709.2	0.707115	0	-0.707098	0		$|
+-1927376940	0	object/static/structure/tatooine/beam_tatooine_overhead_style_02.iff	0	1603.79	100.462	709.082	-2e-006	0	1	0		$|
+-694282569	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	1607.88	100.168	709.962	0.707115	0	-0.707098	0		$|
+-556911782	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	1598.57	100.083	721.757	0.707124	0	-0.707089	0		$|
+-231542615	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	1607.74	99.9596	721.028	0.707119	0	-0.707094	0		$|
+-976317925	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	1598.58	100.087	721.011	0.707121	0	-0.707092	0		$|
+-1960783934	0	object/static/structure/tatooine/beam_tatooine_overhead_style_02.iff	0	1603.65	100.713	718.749	-1.86374e-006	7.2679e-007	0.92388	0.382683		$|
+-879410635	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	1607.74	99.97	721.773	0.707119	0	-0.707094	0		$|

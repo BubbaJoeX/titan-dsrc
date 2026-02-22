@@ -101,3 +101,12 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -4	0	object/static/flora/flora_tree_palm_thk.iff	0	35.7856	25.1274	1949.13	1	0	0	0		$|
 -3	0	object/building/tatooine/filler_building_tatt_style01_06.iff	0	0.608398	23.5792	1952.11	-0.0106939	-0.0199433	0.99973	0.0052146	structure.filler.filler	$|
 -2	0	object/static/vehicle/static_sandcrawler.iff	0	35.7949	21.1744	1796.1	0.924877	0.00828503	0.38012	-0.00647498		$|
+-774325041	0	object/tangible/camp/camp_cot_s1.iff	0	1209.66	10.1818	1258.24	1	0	0	0		$|
+-1908401984	0	object/tangible/camp/camp_cot_s1.iff	0	1212	10.2664	1256.29	0.924909	0	-0.380188	0		$|
+-2093773463	0	object/static/structure/tatooine/debris_tatt_crate_1.iff	0	1207.96	10.0881	1260.13	1	0	0	0		$|
+-555016066	0	object/static/structure/tatooine/debris_tatt_crate_metal_1.iff	0	1207.79	10.0812	1260.84	1	0	0	0		$|
+-1556862676	0	object/static/structure/tatooine/debris_tatt_drum_dented_1.iff	0	1206.4	10.0324	1258.43	1	0	0	0		$|
+-1621582391	0	object/static/structure/general/prp_junk_s3.iff	0	1210	11.0116	1256.71	0.190316	0.249629	-0.637663	0.703457		$|
+-1668142224	0	object/static/structure/general/prp_junk_s7.iff	0	1216.05	9.98494	1265.06	0.901697	-0.0193641	-0.430022	0.0406038		$|
+-1847828235	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1206.853516	10.06877232	1264.475586	1	0	0	0		$|
+-565923755	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1216.341309	10.3499651	1254.258667	1	0	0	0		$|

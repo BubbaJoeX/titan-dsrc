@@ -74,3 +74,19 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -498205213	0	object/tangible/ground_spawning/area_spawner.iff	0	180.864	90.1046	1037.4	0.251927	0	0.967746	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|229.000000|fltRadius|2|0.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|u13_jurgen_bandit_06|strSpawnerType|4|area|strSpawns|4|u13_jurgen_bandit|$|
 -1412962047	0	object/tangible/ground_spawning/area_spawner.iff	0	164.818	108	1069.46	0.820957	0	-0.57099	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|229.000000|fltRadius|2|0.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|u13_jurgen_bandit_07|strSpawnerType|4|area|strSpawns|4|u13_jurgen_bandit|$|
 -1673577452	0	object/tangible/ground_spawning/area_spawner.iff	0	171.132	108	1077.96	0.925146	0	-0.379612	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|309.000000|fltMinSpawnTime|2|229.000000|fltRadius|2|0.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|u13_jurgen_bandit_08|strSpawnerType|4|area|strSpawns|4|u13_jurgen_bandit|$|
+-774325041	0	object/tangible/jedi/force_shrine_stone.iff	0	307.041	80.3581	1066.39	0.707107	0	0.707107	0		$|
+-1908401984	0	object/static/structure/dantooine/dant_jedi_temple_pillar_sm.iff	0	302.619	81.1398	1064.79	0.707113	0	0.7071	0		$|
+-2093773463	0	object/static/structure/dantooine/dant_jedi_temple_pillar_sm.iff	0	311.304	81.1398	1064.83	1	0	0	0		$|
+-555016066	0	object/static/structure/dantooine/dant_jedi_temple_pillar_base.iff	0	306.073	81.1398	1064.78	0	0	1	0		$|
+-1556862676	0	object/static/structure/dantooine/dant_jedi_temple_pillar_base.iff	0	307.867	81.1298	1064.73	1	0	0	0		$|
+-1621582391	0	object/static/structure/dantooine/dant_jedi_temple_altar.iff	0	306.982	63.1862	1064.79	1	0	0	0		$|
+-1668142224	0	object/static/particle/pt_poi_electricity_2x2.iff	0	307.044	81.1398	1066.39	1	0	0	0		$|
+-1847828235	0	object/static/structure/general/cave_wall_damprock_style_01.iff	0	801.248	77.7417	6.81531	0.979061	0	0.203567	0		$|
+-565923755	0	object/static/flora/flora_tree_rori_mkpodtree.iff	0	798.746	78.3095	12.9698	-0.343646	0	0.939099	0		$|
+-1927376940	0	object/static/flora/flora_bush_yavin_blueleaf.iff	0	797.366	78.4722	11.9105	1	0	0	0		$|
+-694282569	0	object/static/flora/flora_bush_yavin_blueleaf.iff	0	796.809	78.4926	10.9863	0.982004	0	-0.188859	0		$|
+-556911782	0	object/static/flora/flora_bush_yavin_blueleaf.iff	0	795.376	78.3917	3.6969	0.99995	0	-0.00999989	0		$|
+-231542615	0	object/static/flora/flora_bush_yavin_blueleaf.iff	0	801.413	77.9864	0.540161	0.917121	0	0.398609	0		$|
+-976317925	0	object/static/flora/flora_bush_yavin_blueleaf.iff	0	802.402	77.924	0.481567	1	0	0	0		$|
+-1960783934	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	790.6375122	78.94564819	11.191895	1	0	0	0		$|
+-879410635	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1926.943359	80.82769775	1763.450195	1	0	0	0		$|

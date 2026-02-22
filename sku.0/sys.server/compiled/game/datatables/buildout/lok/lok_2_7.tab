@@ -48,3 +48,20 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -1445968509	0	object/tangible/ground_spawning/area_spawner.iff	0	50.001	59.5471	1874.4	0.339049	0	0.940769	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|319.000000|fltMinSpawnTime|2|219.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|loam_rebel_camp_17|strSpawnerType|4|area|strSpawns|4|itp_rebel_trooper_elite_86|$|
 -78508814	0	object/tangible/ground_spawning/area_spawner.iff	0	74.0576	61.9403	1869.03	-0.260634	0	0.965438	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|319.000000|fltMinSpawnTime|2|219.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|loam_rebel_camp_19|strSpawnerType|4|area|strSpawns|4|itp_rebel_trooper_elite_86|$|
 -237317658	0	object/tangible/ground_spawning/area_spawner.iff	0	95.377	60.4059	1847.93	-0.610556	0	0.791973	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|319.000000|fltMinSpawnTime|2|219.000000|fltRadius|2|5.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|loam_rebel_camp_20|strSpawnerType|4|area|strSpawns|4|itp_rebel_trooper_elite_86|$|
+-774325041	0	object/static/structure/general/prp_engine.iff	0	50.1104	61.1597	1216.15	0.884675	0	0.466208	0		$|
+-1908401984	0	object/static/structure/general/prp_engine.iff	0	71.7021	56.5664	1222.53	0.856032	-0.284945	-0.232312	-0.363382		$|
+-2093773463	0	object/static/structure/general/prp_engine_component.iff	0	71.2964	56.3716	1214.81	0.882333	0	0.470626	0		$|
+-555016066	0	object/static/structure/general/prp_engine_component.iff	0	62.3442	57.0628	1214.01	1	0	0	0		$|
+-1556862676	0	object/static/structure/general/prp_junk_s8.iff	0	74.8433	56.8195	1227.12	0.893152	0.291033	-0.106235	0.326026		$|
+-1621582391	0	object/static/structure/general/debris_deathstar_small_chunk.iff	0	83.4424	56.2145	1225.63	-0.465517	0.128566	0.797629	0.361322		$|
+-1668142224	0	object/static/structure/general/debris_deathstar_small_tube.iff	0	62.625	57.3238	1218.37	-0.580787	0.100284	0.791713	0.160685		$|
+-1847828235	0	object/static/structure/tatooine/debris_tatt_crate_metal_1.iff	0	1140.59	15.5163	407.033	-0.4313	-0.577043	0.35524	0.595656		$|
+-565923755	0	object/tangible/camp/camp_tent_s1.iff	0	1137.78	15.6525	407.475	0.555699	0	0.831383	0		$|
+-1927376940	0	object/static/structure/general/tie_bomber_debris_01.iff	0	39.4575	61.5145	1214.35	-0.616812	-0.120418	0.776227	-0.0501312		$|
+-694282569	0	object/static/structure/general/skeleton_human_head.iff	0	1140.76	15.331	405.296	0.319106	0.118684	0.890126	0.302921		$|
+-556911782	0	object/static/structure/general/skeleton_human_headandbody.iff	0	1139.41	15.2809	404.606	0.999438	0.029992	0.014993	-0.00045		$|
+-231542615	0	object/static/item/item_armor_chitin_chestplate.iff	0	1139.42	15.2992	406.179	0.724694	-0.68889	0.014511	-0.00627711		$|
+-976317925	0	object/static/item/item_armor_composite_helmet.iff	0	1140.97	13.7959	405.167	0.990216	0.139543	0	0		$|
+-1960783934	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1140.934082	15.41119766	402.524902	1	0	0	0		$|
+-879410635	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	66.733887	56.55156708	1218.007813	1	0	0	0		$|
+-1241413427	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	63.416016	56.71060562	1212.021484	1	0	0	0		$|

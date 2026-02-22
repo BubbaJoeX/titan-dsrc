@@ -171,3 +171,28 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -2000048435	0	object/tangible/ground_spawning/patrol_waypoint.iff	0	164.239	6.33883	81.2317	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|valarian_vandal_11_10521291_2|registerWithController|0|1|$|
 -1489076764	0	object/tangible/ground_spawning/patrol_waypoint.iff	0	172.219	6.64834	71.7163	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|valarian_vandal_11_10521291_3|registerWithController|0|1|$|
 -65508462	0	object/tangible/ground_spawning/area_spawner.iff	0	142.493	5.57369	96.1206	0.732386	0	0.68089	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|190.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|4.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|valrian_enforcer_11_12|strSpawnerType|4|area|strSpawns|4|tatooine_valarian_enforcer|$|
+-774325041	0	object/tangible/camp/camp_tent_s2.iff	0	110.357	18.4559	1050.38	-0.0357887	0	0.999359	0		$|
+-1908401984	0	object/tangible/camp/camp_stool_tall.iff	0	106.586	18.1439	1049.36	1	0	0	0		$|
+-2093773463	0	object/tangible/camp/campfire_logs_ash.iff	0	108.803	16.125	1036.44	1	0	0	0		$|
+-555016066	0	object/tangible/camp/camp_lawn_chair.iff	0	117.23	16.9186	1038.28	0.959662	0	-0.281157	0		$|
+-1556862676	0	object/tangible/camp/camp_lantern_s3.iff	0	108.242	18.1823	1049.24	1	0	0	0		$|
+-1621582391	0	object/static/structure/tatooine/wall_archway_tatooine_wide_style_01.iff	0	124.066	16.2384	1049.76	0.879969	0	0.475032	0		$|
+-1668142224	0	object/static/structure/tatooine/bridge_tatooine_small_style_02.iff	0	122.872	17.3983	1051.75	0.877583	0	0.479425	0		$|
+-1847828235	0	object/static/structure/tatooine/wall_ruined_tatooine_large_style_01.iff	0	104.544	17.8449	1052.34	0.882333	0	0.470626	0		$|
+-565923755	0	object/static/structure/tatooine/wall_ruined_tatooine_small_style_01.iff	0	102.079	16.0124	1040.37	0.973666	0	-0.227978	0		$|
+-1927376940	0	object/static/structure/tatooine/wall_ruined_tatooine_large_style_01.iff	0	118.321	13.72	1035.92	-0.423724	-0.0311134	0.902143	0.075019		$|
+-694282569	0	object/static/structure/tatooine/wall_cleft_tatooine_large_style_01.iff	0	112.251	16.6367	1053.17	0.272313	0	0.962209	0		$|
+-556911782	0	object/static/structure/general/campfire_ash.iff	0	771.868	7.42678	378.413	1	0	0	0		$|
+-231542615	0	object/static/structure/tatooine/debris_tatt_drum_storage_2.iff	0	770.944	7.76859	379.319	0.993395	0	-0.114747	0		$|
+-976317925	0	object/static/structure/tatooine/debris_tatt_drum_dented_1.iff	0	770.754	7.78949	379.98	0.993395	0	-0.114747	0		$|
+-1960783934	0	object/tangible/camp/camp_tent_s1.iff	0	772.762	7.5639	381.035	-0.0591691	0	0.998248	0		$|
+-879410635	0	object/tangible/camp/camp_stool_short.iff	0	771.116	7.4786	377.884	1	0	0	0		$|
+-1241413427	0	object/tangible/camp/camp_stool_tall.iff	0	772.648	7.25419	377.561	1	0	0	0		$|
+-2079230854	0	object/static/structure/general/poi_tato_tent_s01.iff	0	1494.13	9.44172	1809.87	0.999221	-0.0252855	0.00323781	0.0301107		$|
+-2083494600	0	object/static/structure/tatooine/jawa/tent_jawa_01_small.iff	0	1494.12	9.11461	1803.86	0.996878	0.00292195	0.0448898	0.0648885		$|
+-1946274642	0	object/static/structure/general/campfire_ash.iff	0	1498.8	9.41091	1802.81	1	0	0	0		$|
+-1677962170	0	object/tangible/camp/camp_lawn_chair.iff	0	1497.88	9.45013	1803.42	0.256311	0	0.966594	0		$|
+-1647848179	0	object/tangible/camp/camp_lawn_chair.iff	0	1499.71	9.48752	1803.04	-0.380925	0	0.924606	0		$|
+-1062241431	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	113.42041	16.89082146	1039.669678	1	0	0	0		$|
+-854658269	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	769.013428	7.511413097	376.435059	1	0	0	0		$|
+-2090498086	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1488.251709	8.698589325	1804.448975	1	0	0	0		$|

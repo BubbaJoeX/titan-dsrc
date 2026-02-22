@@ -174,3 +174,16 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -97	-2	object/cell/cell.iff	21	0	0	0	1	0	0	0		$|
 -98	-2	object/cell/cell.iff	22	0	0	0	1	0	0	0		$|
 -607263385	0	object/tangible/collection/dancing_droid_03.iff	0	525.566	-208.873	1041.48	1	0	0	0	systems.collections.consume_click	collection.slotName|4|col_dancing_droid_01:dancing_droid_03|$|
+-774325041	0	object/static/structure/naboo/gungan_pillar_ruined_s01.iff	0	1428.41	-210.627	829.881	0.979061	0	0	-0.203567		$|
+-1908401984	0	object/static/structure/naboo/gungan_relic_s01.iff	0	1417.63	-222.044	838.245	1	0	0	0		$|
+-2093773463	0	object/static/structure/naboo/gungan_statue_s01.iff	0	1440.08	-210.911	840.06	-0.0757237	0	0.997129	0		$|
+-555016066	0	object/static/structure/naboo/gungan_cleft_wall_lg_s01.iff	0	1444.46	-211.485	841.726	0.71442	0	-0.699717	0		$|
+-1556862676	0	object/static/structure/naboo/gungan_pillar_damaged_s01.iff	0	1420.79	-210.842	823.348	1	0	0	0		$|
+-1621582391	0	object/static/structure/naboo/gungan_sacred_head_s01.iff	0	1416.94	-211.867	813.125	0.395367	-0.217121	0.887233	0.0967528		$|
+-1668142224	0	object/static/flora/flora_tree_palm_sm.iff	0	1414.43	-216.658	822.361	1	0	0	0		$|
+-1847828235	0	object/static/flora/flora_tree_palm_sm.iff	0	1436.41	-216.572	825.371	1	0	0	0		$|
+-565923755	0	object/static/flora/flora_tree_palm_sm.iff	0	1421.64	-214.594	852.156	1	0	0	0		$|
+-1927376940	0	object/static/structure/general/streetlamp_small_blue_style_01.iff	0	1418.48	-211.874	811.321	1	0	0	0		$|
+-694282569	0	object/static/structure/general/streetlamp_small_blue_style_01.iff	0	1417.77	-210.785	833.688	1	0	0	0		$|
+-556911782	0	object/static/structure/general/streetlamp_small_blue_style_01.iff	0	1439.91	-212.484	839.644	1	0	0	0		$|
+-231542615	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1444.390625	-209.8336182	804.178223	1	0	0	0		$|

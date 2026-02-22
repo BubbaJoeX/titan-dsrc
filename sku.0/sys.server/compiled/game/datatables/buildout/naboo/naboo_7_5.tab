@@ -32,3 +32,10 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -129101271	0	object/tangible/item/treasure_map/relic_buff_s02.iff	0	2012.28	185.622	71.7949	0.675682	-0.0620043	0.723023	0.129786		$|
 -71131318	0	object/static/structure/naboo/gungan_damaged_wall_lg_s01.iff	0	2011.69	159.366	74.0062	0.985494	0.018087	0.125	0.113357		$|
 -31588000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
+-774325041	0	object/static/structure/general/escape_pod.iff	0	943.384	11.3837	1440.9	0.997551	0	0	-0.0699428		$|
+-1908401984	0	object/static/structure/general/prp_junk_s1.iff	0	937.094	8.92721	1437	0.873326	0.0308553	0.0571577	-0.482786		$|
+-2093773463	0	object/static/structure/general/prp_junk_s1.iff	0	939.688	9.01512	1434.79	0.301175	-0.279252	0.896547	0.165878		$|
+-555016066	0	object/static/structure/general/prp_junk_s1.iff	0	937.564	9.04559	1436.49	0.551485	0.0419274	0.826132	-0.107761		$|
+-1556862676	0	object/static/structure/general/prp_junk_s2.iff	0	935.561	10.8286	1442.59	1	0	0	0		$|
+-1621582391	0	object/static/structure/general/prp_junk_s3.iff	0	933.177	10.0865	1438.79	0.894994	-0.355079	-0.117009	0.243338		$|
+-1668142224	0	object/static/structure/general/prp_junk_s8.iff	0	935.816	10.7518	1435.62	1	0	0	0		$|

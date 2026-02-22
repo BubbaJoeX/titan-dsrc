@@ -1,3 +1,19 @@
-server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
-h	i	f	f	f	f	f	f	f	s	p
-object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		$|
+objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
+i	i	h	i	f	f	f	f	f	f	f	s	p
+-1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		$|
+-774325041	0	object/static/structure/general/tato_cave_rock_large.iff	0	347.721	368.696	732.577	-0.154808	0.659539	0.186088	0.711628		$|
+-1908401984	0	object/static/structure/general/tato_cave_stalagmite_med.iff	0	348.482	366.935	734.921	0.937856	-0.310795	0.146543	0.0485628		$|
+-2093773463	0	object/static/structure/general/tato_cave_stalagmite_large.iff	0	346.101	362.722	732.975	0.98777	-0.00672245	0.0444797	-0.149287		$|
+-555016066	0	object/static/structure/general/tato_cave_stalagmite_large.iff	0	353.34	368.078	732	0.783898	0.195992	-0.142901	0.571552		$|
+-1556862676	0	object/static/structure/general/tato_cave_rock_large.iff	0	347.776	369.593	732.519	0.935897	0	0.352274	0		$|
+-1621582391	0	object/static/structure/general/tato_cave_rock_med.iff	0	345.1	363.815	733.174	1	0	0	0		$|
+-1668142224	0	object/static/structure/general/tato_cave_rock_large.iff	0	350.32	366.459	729.583	0.514819	0	0	0.857299		$|
+-1847828235	0	object/static/structure/general/tato_cave_rock_large.iff	0	345.723	366.083	735.972	1	0	0	0		$|
+-565923755	0	object/static/structure/general/tato_cave_rock_large.iff	0	350.376	370.169	735.934	1	0	0	0		$|
+-1927376940	0	object/static/structure/general/tato_cave_rock_large.iff	0	354.913	371.507	730.761	0.501902	0	0.864924	0		$|
+-694282569	0	object/static/structure/general/tato_cave_stalagmite_small.iff	0	344.831	367.288	739.577	0.781969	-0.148467	0.584821	-0.156414		$|
+-556911782	0	object/static/structure/general/tato_cave_stalagmite_large.iff	0	346.055	361.129	728.833	0.999687	0	0	0.0249973		$|
+-231542615	0	object/static/structure/general/tato_cave_stalagmite_med.iff	0	342.789	360.909	734.476	0.951149	-0.0485384	-0.227728	0.20273		$|
+-976317925	0	object/tangible/ground_spawning/mob_spawner.iff	0	355	370	728	1	0	0	0		$|
+-1960783934	0	object/tangible/ground_spawning/mob_spawner.iff	0	355	370	728	1	0	0	0		$|
+-879410635	0	object/tangible/ground_spawning/mob_spawner.iff	0	355	370	728	1	0	0	0		$|

@@ -193,3 +193,11 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -24147828	0	object/static/structure/general/skeleton_ithorian_headandbody.iff	0	1989.63	24.3029	1844.15	1	0	0	0		$|
 -24147827	0	object/static/structure/general/skeleton_human_head.iff	0	1986.54	24.2525	1844.31	1	0	0	0		$|
 -941347731	0	object/tangible/ground_spawning/area_spawner.iff	0	2034	23.5853	1836	0.145329	0	0.989383	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|5.000000|fltMinSpawnTime|2|3.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|jawa_fortress_prot_droid_spawn|strSpawnerType|4|area|strSpawns|4|jawa_fortress_droid_3po_silver|$|
+-774325041	0	object/tangible/camp/camp_cot_s1.iff	0	1300.81	68.9905	1512.12	1	0	0	0		$|
+-1908401984	0	object/static/structure/tatooine/jawa/tent_jawa_01_small.iff	0	1301.99	68.5516	1507.97	1	0	0	0		$|
+-2093773463	0	object/static/structure/tatooine/debris_tatt_drum_storage_1.iff	0	1302.26	68.6446	1509.56	-0.214125	0	0.976806	0		$|
+-555016066	0	object/static/structure/tatooine/debris_tatt_crate_metal_1.iff	0	1302.04	68.7544	1509.01	0.979061	0	0.203567	0		$|
+-1556862676	0	object/static/structure/tatooine/debris_tatt_drum_storage_2.iff	0	1301.49	68.79	1509.41	0.540302	0	0.841471	0		$|
+-1621582391	0	object/static/structure/tatooine/debris_tatt_drum_storage_2.iff	0	1302.88	68.612	1509.53	0.59501	-0.382051	-0.382051	0.59501		$|
+-1668142224	0	object/static/structure/general/droid_r3_powerdown.iff	0	1302.87	68.5286	1506.97	0.999275	-0.000524873	0.0149903	-0.0349889		$|
+-1847828235	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1302.109863	68.80459595	1514.347534	1	0	0	0		$|

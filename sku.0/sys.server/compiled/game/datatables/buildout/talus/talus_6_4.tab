@@ -101,3 +101,12 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -300225846	-640550653	object/tangible/ground_spawning/area_spawner.iff	21	-2.12237	-20	74.4143	0.721819	0	-0.692082	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|1400.000000|fltMinSpawnTime|2|1260.000000|fltRadius|2|0.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|littleroom1|strSpawnerType|4|area|strSpawns|4|talus/syren5_rebel_bunker|$|
 -267222998	-640550653	object/tangible/ground_spawning/area_spawner.iff	21	-1.84403	-20	66.7135	0.701995	0	0.712182	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|1400.000000|fltMinSpawnTime|2|1260.000000|fltRadius|2|0.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|littleroom2|strSpawnerType|4|area|strSpawns|4|talus/syren5_rebel_bunker|$|
 -1222856031	-1883027082	object/cell/cell.iff	22	0	0	0	1	0	0	0		$|
+-774325041	0	object/static/installation/mockup_mining_liquid_moisture_harvester.iff	0	2040.19	7.12448	1993.26	0.999275	-0.0149903	-0.000524873	0.0349889		$|
+-1908401984	0	object/static/installation/mockup_mining_liquid_moisture_harvester.iff	0	2040.71	7.20679	1990.19	0.999275	-0.01499	-0.000525	0.034989		$|
+-2093773463	0	object/static/structure/corellia/corl_power_bubble_node.iff	0	2044.08	7.84439	1994.43	0.996878	-0.0448898	-0.00292195	0.0648885		$|
+-555016066	0	object/static/flora/flora_tree_rori_mkpodtree.iff	0	2040.48	7.63794	1996.37	0.875174	0	-0.483807	0		$|
+-1556862676	0	object/static/flora/flora_tree_rori_mkpodtree.iff	0	2042.52	7.57488	1987.85	0.748499	0	0.663135	0		$|
+-1621582391	0	object/static/structure/corellia/corl_power_arial_prime.iff	0	2045.8	7.74091	1991.81	1	0	0	0		$|
+-1668142224	0	object/tangible/camp/camp_tent_s3.iff	0	2047.42	8.43391	1986.63	0.971272	-0.0306753	0.227186	0.0638413		$|
+-1847828235	0	object/static/structure/general/streetlamp_small_red_style_01.iff	0	2043.64	7.62925	1989.87	0.995491	0	0	0.0948572		$|
+-565923755	0	object/static/item/item_tool_power_output_analyzer.iff	0	2042.61	7.98862	1992.92	0.262123	-0.0626733	0.962846	-0.017062		$|

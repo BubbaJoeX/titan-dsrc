@@ -2,3 +2,20 @@ objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objv
 i	i	h	i	f	f	f	f	f	f	f	s	p
 -24478000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
 -1729295486	0	object/tangible/collection/rare_rifle_cy_m_ink.iff	0	420.548	23.1876	336.934	0.684934	-0.0723445	0.0817896	0.720376	systems.collections.consume_click	collection.slotName|4|col_rare_rifle_01:cy_m_ink_01|$|
+-774325041	0	object/static/structure/tatooine/pillar_ruined_small_style_01.iff	0	422.774	22.7245	334.728	-0.692245	-0.0360265	0.71993	0.0346411		$|
+-1908401984	0	object/static/structure/tatooine/wall_cleft_tatooine_large_style_01.iff	0	423.779	20.0663	338.482	1	0	0	0		$|
+-2093773463	0	object/static/structure/tatooine/wall_cleft_tatooine_large_style_01.iff	0	419.457	19.5621	333.848	0.707108	0	0.707105	0		$|
+-555016066	0	object/static/structure/tatooine/pillar_ruined_small_style_01.iff	0	415.562	21.2224	334.213	0.965465	0.110024	0.123608	-0.20123		$|
+-1556862676	0	object/static/structure/general/skeleton_human_body.iff	0	421.285	23.263	336.746	1	0	0	0		$|
+-1621582391	0	object/static/structure/general/skeleton_human_headandbody.iff	0	419.779	22.999	336.949	0.900447	0	0.434966	0		$|
+-1668142224	0	object/static/structure/general/skeleton_human_headandbody.iff	0	1319.68	28.3659	386.576	0.703323	0.670825	-0.18011	0.151298		$|
+-1847828235	0	object/static/structure/general/streetlamp_large_style_02.iff	0	1319.68	28.7177	386.473	-0.0136885	-0.266154	0.0175373	0.963674		$|
+-565923755	0	object/static/structure/general/streetlamp_large_blue_style_01.iff	0	1484.99	33.7707	212.153	1	0	0	0		$|
+-1927376940	0	object/static/structure/general/skeleton_ithorian_headandbody.iff	0	1319.06	26.6315	386.81	1	0	0	0		$|
+-694282569	0	object/static/structure/general/skeleton_bith_head.iff	0	1319.9	26.4877	386.74	1	0	0	0		$|
+-556911782	0	object/static/tatooine/rock_spire_lumpy_tatooine.iff	0	1679.5	10.2772	1339.43	1	0	0	0		$|
+-231542615	0	object/static/tatooine/rock_spire_lumpy_tatooine_style_2.iff	0	1699.32	9.22242	1300.26	1	0	0	0		$|
+-976317925	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	418.811035	23.50596809	340.336914	1	0	0	0		$|
+-1960783934	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1318.771484	26.65001869	384.963867	1	0	0	0		$|
+-879410635	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1317.719727	26.77096748	388.400879	1	0	0	0		$|
+-1241413427	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1322.677246	26.39130592	385.914063	1	0	0	0		$|

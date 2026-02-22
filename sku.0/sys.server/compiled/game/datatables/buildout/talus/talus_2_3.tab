@@ -390,3 +390,20 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -14832673	0	object/static/installation/mockup_power_generator_fusion_style_1.iff	0	1192.88	66	990.64	0	0	1	0		$|
 -6650778	0	object/tangible/ground_spawning/patrol_waypoint.iff	0	1514.14	18	885.26	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|talus_lag_enf_srgt_pat_gs1_11356743_4|registerWithController|0|1|$|
 -4907108	0	object/static/structure/corellia/corl_power_transformer_s02.iff	0	1189.8	66	960.732	1	0	0	0		$|
+-774325041	0	object/tangible/jedi/force_shrine_stone.iff	0	649.802	105.39	853.23	0.707107	0	0.707107	0		$|
+-1908401984	0	object/static/structure/dantooine/dant_jedi_temple_pillar_sm.iff	0	645.38	106.297	851.634	0.707114	0	0.707099	0		$|
+-2093773463	0	object/static/structure/dantooine/dant_jedi_temple_pillar_sm.iff	0	654.064	106.268	851.667	1	0	0	0		$|
+-555016066	0	object/static/structure/dantooine/dant_jedi_temple_pillar_base.iff	0	648.833	106.255	851.622	0	0	1	0		$|
+-1556862676	0	object/static/structure/dantooine/dant_jedi_temple_pillar_base.iff	0	650.627	106.254	851.574	1	0	0	0		$|
+-1621582391	0	object/static/structure/dantooine/dant_jedi_temple_altar.iff	0	649.743	88.3015	851.633	1	0	0	0		$|
+-1668142224	0	object/static/particle/pt_poi_electricity_2x2.iff	0	649.804	106.259	853.227	1	0	0	0		$|
+-1847828235	0	object/static/structure/corellia/corl_power_connector.iff	0	499.894	80.2333	1725.94	1	0	0	0		$|
+-565923755	0	object/static/structure/corellia/corl_power_transformer_s02.iff	0	496.394	76.5856	1725.98	1	0	0	0		$|
+-1927376940	0	object/static/installation/mockup_power_generator_wind_style_1.iff	0	1585.26	139.832	1192.24	-0.625519	0	0.780209	0		$|
+-694282569	0	object/static/installation/mockup_power_generator_wind_style_1.iff	0	1587.25	139.559	1184.13	-0.625519	0	0.780209	0		$|
+-556911782	0	object/static/structure/corellia/corl_power_connector.iff	0	1586.24	141.173	1187.96	-0.625519	0	0.780209	0		$|
+-231542615	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1588.503418	140.34198	1192.752441	1	0	0	0		$|
+-976317925	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1218.661133	66.07276917	967.179687	1	0	0	0		$|
+-1960783934	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1231.047363	66.08342743	976.860107	1	0	0	0		$|
+-879410635	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1232.236816	65.89779663	957.902832	1	0	0	0		$|
+-1241413427	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1225.72	66	985.55	1	0	0	0		$|

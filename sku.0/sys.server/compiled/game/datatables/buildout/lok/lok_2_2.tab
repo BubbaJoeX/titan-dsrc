@@ -1,3 +1,20 @@
-server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
-h	i	f	f	f	f	f	f	f	s	p
-object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
+objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
+i	i	h	i	f	f	f	f	f	f	f	s	p
+-1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
+-774325041	0	object/tangible/camp/camp_light_s1.iff	0	961.785	17.9706	1324.19	1	0	0	0		$|
+-1908401984	0	object/tangible/camp/camp_light_s1.iff	0	955.002	17.9706	1330.95	1	0	0	0		$|
+-2093773463	0	object/tangible/camp/camp_light_s1.iff	0	961.828	17.9706	1330.59	1	0	0	0		$|
+-555016066	0	object/tangible/camp/camp_light_s1.iff	0	955.18	17.9706	1324.35	1	0	0	0		$|
+-1556862676	0	object/static/structure/tatooine/wall_ruined_tatooine_small_style_01.iff	0	1715.61	11.7146	395.417	0.707107	0	-0.707106	0		$|
+-1621582391	0	object/static/structure/tatooine/wall_ruined_tatooine_large_style_02.iff	0	1705.11	11.9407	394.892	1	0	0	0		$|
+-1668142224	0	object/static/structure/tatooine/pillar_ruined_small_style_01.iff	0	1719.61	11.8756	395.718	1	0	0	0		$|
+-1847828235	0	object/static/structure/tatooine/pillar_ruined_large_style_01.iff	0	1711.77	11.8701	395.355	1	0	0	0		$|
+-565923755	0	object/static/structure/tatooine/pillar_pristine_tall_style_01.iff	0	955.508	10.9788	1331.43	1	0	0	0		$|
+-1927376940	0	object/static/structure/tatooine/pillar_pristine_tall_style_01.iff	0	962.352	11.0383	1331.08	1	0	0	0		$|
+-694282569	0	object/static/structure/tatooine/pillar_pristine_tall_style_01.iff	0	955.657	10.8561	1324.9	1	0	0	0		$|
+-556911782	0	object/static/structure/tatooine/pillar_pristine_tall_style_01.iff	0	962.281	10.9656	1324.75	1	0	0	0		$|
+-231542615	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	958.495605	11.99057865	1325.877441	1	0	0	0		$|
+-976317925	0	object/tangible/ground_spawning/mob_spawner.iff	0	1651	43	341	1	0	0	0		$|
+-1960783934	0	object/tangible/ground_spawning/mob_spawner.iff	0	1651	43	341	1	0	0	0		$|
+-879410635	0	object/tangible/ground_spawning/mob_spawner.iff	0	1651	43	341	1	0	0	0		$|
+-1241413427	0	object/tangible/ground_spawning/mob_spawner.iff	0	1651	43	341	1	0	0	0		$|

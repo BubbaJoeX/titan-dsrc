@@ -217,3 +217,11 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -101043380	0	object/tangible/ground_spawning/area_spawner.iff	0	1047.67	298.547	1151.49	0.998674	0	-0.0514826	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|360.000000|fltMinSpawnTime|2|180.000000|fltRadius|2|1.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|fallen_guard|strSpawnerType|4|area|strSpawns|4|fallen_guard|$|
 -27148000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
 -11694962	0	object/tangible/ground_spawning/area_spawner.iff	0	1025.69	72.4813	140.327	0.925552	0	0.378621	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|230.000000|fltMinSpawnTime|2|190.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mtp_quest_rogue_corsec_high_01|strSpawnerType|4|area|strSpawns|4|mtp_quest_rogue_corsec_01_high|$|
+-774325041	0	object/tangible/furniture/all/frn_all_tiki_torch_s1.iff	0	1027	99.1744	133.997	1	0	0	0		$|
+-1908401984	0	object/tangible/furniture/all/frn_all_tiki_torch_s1.iff	0	1024.97	99.2685	136.013	1	0	0	0		$|
+-2093773463	0	object/tangible/furniture/all/frn_all_tiki_torch_s1.iff	0	1027.01	99.2487	138.004	1	0	0	0		$|
+-555016066	0	object/tangible/furniture/all/frn_all_tiki_torch_s1.iff	0	1029.02	99.1827	135.989	1	0	0	0		$|
+-1556862676	0	object/static/structure/naboo/obelisk_naboo_theed_style_3.iff	0	1027	70.2715	134	1	0	0	0		$|
+-1621582391	0	object/static/structure/naboo/obelisk_naboo_theed_style_3.iff	0	1027	70.4043	138	1	0	0	0		$|
+-1668142224	0	object/static/structure/naboo/obelisk_naboo_theed_style_3.iff	0	1025	70.2927	136	1	0	0	0		$|
+-1847828235	0	object/static/structure/naboo/obelisk_naboo_theed_style_3.iff	0	1029	70.2452	136	1	0	0	0		$|

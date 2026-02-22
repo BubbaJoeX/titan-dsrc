@@ -22,3 +22,10 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -489776127	0	object/tangible/ground_spawning/area_spawner.iff	0	2003.79	10.8551	1017	-0.230199	0	0.973144	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|360.000000|fltMinSpawnTime|2|180.000000|fltRadius|2|1.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mokk_hunter|strSpawnerType|4|area|strSpawns|4|mokk_hunter|$|
 -491261134	0	object/tangible/ground_spawning/area_spawner.iff	0	2021.95	10.6522	999.266	0.921481	0	0.388424	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|360.000000|fltMinSpawnTime|2|180.000000|fltRadius|2|1.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mokk_hunter|strSpawnerType|4|area|strSpawns|4|mokk_hunter|$|
 -1886967682	0	object/tangible/ground_spawning/area_spawner.iff	0	2006.05	12.5206	1002.28	-0.312229	0	0.950007	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|360.000000|fltMinSpawnTime|2|180.000000|fltRadius|2|1.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|mokk_hunter|strSpawnerType|4|area|strSpawns|4|mokk_hunter|$|
+-774325041	0	object/static/structure/general/atat_destroyed.iff	0	1790.8	-2.8287	232.882	1	0	0	0		$|
+-1908401984	0	object/static/flora/flora_tree_rori_windswept_s00.iff	0	1790.37	-3.86159	244.365	1	0	0	0		$|
+-2093773463	0	object/static/flora/flora_tree_rori_windswept_s00.iff	0	1791.32	-1.58263	238.76	1	0	0	0		$|
+-555016066	0	object/static/flora/flora_tree_rori_windswept_s00.iff	0	1790.29	-0.148682	232.168	0.610472	0.37202	0.62521	-0.31311		$|
+-1556862676	0	object/static/flora/flora_tree_rori_windswept_s00.iff	0	1790.25	0.969353	233.066	0.978351	0.0824291	0.060618	0.179888		$|
+-1621582391	0	object/static/flora/flora_tree_rori_windswept_s00.iff	0	1791.74	0.291054	232.887	0.644235	0.0643643	-0.249818	0.720007		$|
+-1668142224	0	object/static/flora/flora_tree_rori_windswept_s00.iff	0	1789.73	0.595888	230.079	0.0802431	-0.0672985	0.706165	-0.70026		$|

@@ -128,3 +128,16 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -67928864	0	object/tangible/ground_spawning/patrol_spawner.iff	0	1107.08	112.728	431.342	1	0	0	0	systems.spawning.spawner_patrol	fltMaxSpawnTime|2|75.000000|fltMinSpawnTime|2|60.000000|fltRadius|2|2.000000|intDefaultBehavior|0|3|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|patrolPathType|4|oscillate|registerWithController|0|1|strName|4|ac_hov_bandit_walk|strPatrolPointNames|5|ac_hov_bandit_walk_10702591_1:ac_hov_bandit_walk_10702591_2:ac_hov_bandit_walk_10702591_3:ac_hov_bandit_walk_10702591_4:|strSpawnerType|4|patrol|strSpawns|4|azure_cabal_hoverdale_bandit|$|
 -24688000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
 -1971167662	0	object/tangible/collection/col_tatooine_vistas_marker_05.iff	0	275.997	271.297	1981.67	0.947651	0	-0.319309	0	systems.collections.trigger_volume_vistas	collection.marker|4|tatooine_vistas_05|$|
+-774325041	0	object/static/particle/pt_buzzing_insects_large.iff	0	1265.71	278.224	1962.6	1	0	0	0		$|
+-1908401984	0	object/tangible/jedi/force_shrine_stone.iff	0	473.123	247.121	1181.99	0.707107	0	0.707107	0		$|
+-2093773463	0	object/static/structure/dantooine/dant_jedi_temple_pillar_sm.iff	0	468.701	248.162	1180.4	0.707116	0	0.707097	0		$|
+-555016066	0	object/static/structure/dantooine/dant_jedi_temple_pillar_sm.iff	0	477.386	248.162	1180.43	1	0	0	0		$|
+-1556862676	0	object/static/structure/dantooine/dant_jedi_temple_pillar_base.iff	0	472.155	248.162	1180.38	0	0	1	0		$|
+-1621582391	0	object/static/structure/dantooine/dant_jedi_temple_pillar_base.iff	0	473.948	248.152	1180.34	1	0	0	0		$|
+-1668142224	0	object/static/structure/dantooine/dant_jedi_temple_altar.iff	0	473.064	230.209	1180.4	1	0	0	0		$|
+-1847828235	0	object/static/particle/pt_poi_electricity_2x2.iff	0	473.126	248.162	1181.99	1	0	0	0		$|
+-565923755	0	object/static/structure/tatooine/skeleton_greater_krayt_head.iff	0	1268.96	275.853	1967.26	0.861199	0.304939	0.375752	0.155433		$|
+-1927376940	0	object/static/structure/tatooine/skeleton_krayt_ribcage.iff	0	1264.58	276.567	1963.97	0.905327	-0.0831063	0.411359	0.0652699		$|
+-694282569	0	object/static/structure/tatooine/skeleton_krayt_tail.iff	0	1260.35	274.798	1958.13	0.831324	-0.0900644	0.46018	0.298367		$|
+-556911782	0	object/static/structure/tatooine/skeleton_krayt_leg_style_02.iff	0	1263.34	272.989	1969.16	0.877178	0.442294	-0.165995	0.0859063		$|
+-231542615	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1269.180664	277.9603577	1961.762695	1	0	0	0		$|

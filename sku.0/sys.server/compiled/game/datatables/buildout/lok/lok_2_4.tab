@@ -2,3 +2,30 @@ objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objv
 i	i	h	i	f	f	f	f	f	f	f	s	p
 -51358000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
 -869197296	0	object/tangible/collection/flower_15.iff	0	1261.36	12.9056	997.109	1	0	0	0	systems.collections.consume_click	collection.slotName|4|col_flower_01:flower_15|$|
+-774325041	0	object/static/item/item_crate_spice.iff	0	108.17	12.7141	1756.77	-0.640997	0	0.767543	0		$|
+-1908401984	0	object/static/item/item_crate_spice.iff	0	108.205	12.741	1755.65	-0.640997	0	0.767543	0		$|
+-2093773463	0	object/static/item/item_jar_spice_blue.iff	0	106.862	13.5557	1757.9	1	0	0	0		$|
+-555016066	0	object/static/item/item_jar_spice_blue.iff	0	107.122	13.5545	1757.7	0.867819	0	-0.49688	0		$|
+-1556862676	0	object/static/item/item_jar_empty.iff	0	106.91	13.5345	1757.55	1	0	0	0		$|
+-1621582391	0	object/static/structure/tatooine/shed_junkshop_watto.iff	0	1252.3	13.3172	999.692	1	0	0	0		$|
+-1668142224	0	object/static/structure/corellia/corl_tent_hut_s01.iff	0	105.529	12.6202	1755.45	0.942755	0	-0.333487	0		$|
+-1847828235	0	object/building/endor/endr_lake_rail8m.iff	0	107.806	12.8405	1760.21	-0.382683	0	0.92388	0		$|
+-565923755	0	object/building/endor/endr_lake_rail8m.iff	0	110.932	13.0602	1763.01	-0.382683	0	0.92388	0		$|
+-1927376940	0	object/building/endor/endr_lake_rail4m.iff	0	106.555	12.9065	1764.3	0.92388	0	-0.382683	0		$|
+-694282569	0	object/building/endor/endr_lake_rail4m.iff	0	112.053	13.0095	1758.92	0.923464	-0.0114788	-0.382511	0.0277122		$|
+-556911782	0	object/static/flora/potted_plant_leaves_ivy.iff	0	106.627	12.586	1762.43	1	0	0	0		$|
+-231542615	0	object/static/flora/potted_plant_leaves_ivy.iff	0	107.705	12.5483	1761.47	1	0	0	0		$|
+-976317925	0	object/static/flora/potted_plant_leaves_ivy.iff	0	108.758	12.5575	1760.45	1	0	0	0		$|
+-1960783934	0	object/static/flora/potted_plant_leaves_ivy.iff	0	109.913	12.5502	1759.32	1	0	0	0		$|
+-879410635	0	object/static/flora/potted_plant_leaves_ivy.iff	0	108.194	12.6415	1763.97	1	0	0	0		$|
+-1241413427	0	object/static/flora/potted_plant_leaves_ivy.iff	0	109.272	12.6039	1763	1	0	0	0		$|
+-2079230854	0	object/static/flora/potted_plant_leaves_ivy.iff	0	110.325	12.613	1761.99	1	0	0	0		$|
+-2083494600	0	object/static/flora/potted_plant_leaves_ivy.iff	0	111.48	12.6057	1760.86	1	0	0	0		$|
+-1946274642	0	object/static/structure/tatooine/concrete_slab_tatooine_16x8.iff	0	1290.51	9.39295	991.516	1	0	0	0		$|
+-1677962170	0	object/static/structure/tatooine/concrete_slab_tatooine_16x8.iff	0	1252.73	8.24614	1000.09	1	0	0	0		$|
+-1647848179	0	object/static/structure/tatooine/shed_junkshop_watto.iff	0	1290.54	14.4223	991.339	1	0	0	0		$|
+-1062241431	0	object/static/structure/tatooine/stone_hovel_tatooine_style_01.iff	0	1257.43	12.0992	1004.39	0.707117	0	0.707096	0		$|
+-854658269	0	object/static/structure/tatooine/stone_hovel_tatooine_style_01.iff	0	1295.25	12.7238	994.196	0.707123	0	0.70709	0		$|
+-2090498086	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	112.569336	12.91759586	1755.336975	1	0	0	0		$|
+-942219052	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1277.278809	13.00529766	1000.600952	1	0	0	0		$|
+-1720483051	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1270.765625	12.93009853	1005.27124	1	0	0	0		$|

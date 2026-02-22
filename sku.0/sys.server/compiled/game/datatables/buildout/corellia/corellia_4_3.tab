@@ -167,3 +167,21 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -2	0	object/tangible/ground_spawning/area_spawner.iff	0	1843.75	0.137246	253.096	0.502073	0	0.864825	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|300.000000|fltMinSpawnTime|2|120.000000|fltRadius|2|1.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|aldalad|strSpawnerType|4|area|strSpawns|4|corellia/aldalad|$|
 -1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
 -1040214258	0	object/building/invisible_dynamic_region_controller.iff	0	1724	27.8053	12	1	0	0	0	event.aprilfools.starport_april_fools	aprilFools.city|4|coronet|aprilFools.lastSpawn|0|0|pathfinding.waypoint.type|0|7|$|
+-774325041	0	object/static/structure/corellia/corl_imprv_wall_4x32_s02.iff	0	1875.34	28.3782	23.0142	-0.382683	0	0.92388	0		$|
+-1908401984	0	object/static/structure/corellia/corl_imprv_wall_4x32_s02.iff	0	1806.02	28.1522	23.01	0.92388	0	-0.382683	0		$|
+-2093773463	0	object/static/structure/corellia/corl_imprv_column_s01.iff	0	1817.68	28.67	34.6914	0.92388	0	-0.382683	0		$|
+-555016066	0	object/static/structure/corellia/corl_imprv_column_s01.iff	0	1863.66	28.7808	34.5754	0.92388	0	0.382683	0		$|
+-1556862676	0	object/tangible/furniture/modern/table_modern_style_01.iff	0	1874.13	28	2.68555	0.417596	0	0.908633	0		$|
+-1621582391	0	object/tangible/furniture/modern/chair_modern_style_01.iff	0	1877.06	28	2.69165	-0.662541	0	0.749026	0		$|
+-1668142224	0	object/tangible/furniture/modern/chair_modern_style_01.iff	0	1872	28	1.51489	0.839194	0	0.543833	0		$|
+-1847828235	0	object/tangible/furniture/modern/chair_modern_style_01.iff	0	1873.23	28	5.19556	0.0956499	0	0.995415	0		$|
+-565923755	0	object/tangible/sign/all_sign_city_s02.iff	0	1843.03	28	19.0691	1	0	0	0		$|
+-1927376940	0	object/static/structure/general/streetlamp_large_style_01.iff	0	1818.39	28.4059	35.5522	0.92388	0	0.382683	0		$|
+-694282569	0	object/static/structure/general/streetlamp_large_style_01.iff	0	1862.95	27.9527	35.1631	0.92388	0	-0.382683	0		$|
+-556911782	0	object/static/structure/general/streetlamp_large_style_01.iff	0	1883.8	28	1.22168	0.707107	0	-0.707107	0		$|
+-231542615	0	object/static/structure/general/escape_pod.iff	0	295.847	-0.257033	799.456	0.543353	-0.048185	-0.0435575	0.836988		$|
+-976317925	0	object/static/structure/general/escape_pod_door.iff	0	297.748	0.0854916	804.326	0.707107	0.707106	0	0		$|
+-1960783934	0	object/static/structure/tatooine/debris_tatt_crate_1.iff	0	290.888	-0.320913	801.769	0.768054	0.640385	0	0		$|
+-879410635	0	object/static/structure/tatooine/debris_tatt_drum_storage_2.iff	0	292.828	-0.38606	807.083	0.892832	0.0986096	0.436806	-0.0482434		$|
+-1241413427	0	object/static/structure/tatooine/debris_tatt_drum_dented_1.iff	0	301.342	-0.962396	803.22	0.863643	-0.128555	-0.276649	-0.401323		$|
+-2079230854	0	object/building/corellia/filler_slum_24x16_s02.iff	0	1889.43	28.0989	1.09668	1	0	0	0	theme_park.dungeon.generic_spawner	spawn_table|4|datatables/spawning/poi_spawner/corellia/corellia_commoner.iff|$|

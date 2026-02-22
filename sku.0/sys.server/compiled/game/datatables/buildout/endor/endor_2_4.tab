@@ -1,3 +1,13 @@
-server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
-h	i	f	f	f	f	f	f	f	s	p
-object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
+objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
+i	i	h	i	f	f	f	f	f	f	f	s	p
+-1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
+-774325041	0	object/tangible/jedi/force_shrine_stone.iff	0	1088.17	200.477	341.604	0.707107	0	0.707107	0		$|
+-1908401984	0	object/static/structure/dantooine/dant_jedi_temple_pillar_sm.iff	0	1083.75	201.513	340.007	0.707113	0	0.7071	0		$|
+-2093773463	0	object/static/structure/dantooine/dant_jedi_temple_pillar_sm.iff	0	1092.43	201.512	340.041	1	0	0	0		$|
+-555016066	0	object/static/structure/dantooine/dant_jedi_temple_pillar_base.iff	0	1087.2	201.513	339.996	0	0	1	0		$|
+-1556862676	0	object/static/structure/dantooine/dant_jedi_temple_pillar_base.iff	0	1089	201.503	339.948	1	0	0	0		$|
+-1621582391	0	object/static/structure/dantooine/dant_jedi_temple_altar.iff	0	1088.11	183.559	340.007	1	0	0	0		$|
+-1668142224	0	object/static/particle/pt_poi_electricity_2x2.iff	0	1088.17	201.513	341.601	1	0	0	0		$|
+-1847828235	0	object/static/structure/general/tato_cave_rock_large.iff	0	765.861	14.434	1990.58	0.974633	0.00152453	0.223249	0.015736		$|
+-565923755	0	object/static/structure/general/tato_cave_rock_med.iff	0	767.578	16.991	1989.7	-0.697786	0.575908	-0.328504	-0.271126		$|
+-1927376940	0	object/static/structure/general/tato_cave_rock_large.iff	0	767.494	19.8634	1991.57	-0.414801	-0.493463	0.587858	-0.48873		$|
