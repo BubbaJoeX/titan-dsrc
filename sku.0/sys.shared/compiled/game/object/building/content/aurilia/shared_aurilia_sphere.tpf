@@ -1,6 +1,6 @@
 //        
 
-@base object/static/structure/base/shared_static_structure_base.iff
+@base object/building/base/shared_base_building.iff
 
 @class static_object_template 0
 

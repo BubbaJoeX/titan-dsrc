@@ -6,11 +6,13 @@
 //
 // 1/27/2005 Cinco Barnes
 
-@base object/static/structure/base/shared_static_structure_base.iff
+@base object/building/base/shared_base_building.iff
 
-@class static_object_template 0
+@class building_object_template 1
 
-@class object_template 6
+@class tangible_object_template 9
+
+@class object_template 10
 surfaceType = ST_wood
 
 appearanceFilename = "appearance/poi_kash_rryatt_bridge_sm_base_s01.apt"

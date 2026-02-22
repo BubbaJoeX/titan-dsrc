@@ -4,7 +4,7 @@
 //
 // No, I made these.  Toadius Maximus, Tres de Mayo, Two Thousand and a nickel
 
-@base object/static/structure/base/shared_static_structure_base.iff
+@base object/building/base/shared_base_building.iff
 
 @class static_object_template 0
 
