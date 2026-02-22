@@ -64,7 +64,6 @@ i	i	h	i	f	f	f	f	f	f	f	s	p
 -66745393	0	object/tangible/ground_spawning/patrol_waypoint.iff	0	1748.74	12.6186	304.051	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|smuggler_enemy_patrol_10036396_2|registerWithController|0|1|$|
 -44880874	0	object/static/structure/tatooine/orchard_tatooine_style_02.iff	0	1914.46	8.84965	367.393	1	0	0	0		$|
 -25378000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
--762551927	1154123	object/tangible/collection/hanging_light_02_05.iff	3	-3.34267	4.73339	6.81257	1	0	0	0	systems.collections.consume_click	collection.aggro|4|false|collection.slotName|4|col_hanging_light_02:hanging_light_02_05|$|
 -1700728953	0	object/tangible/spawning/city_sign_spawner.iff	0	1664.64	5.77537	339.667	1	0	0	0	systems.spawning.spawn_tangible	spawn.object|4|object/tangible/sign/all_sign_city_s01.iff|$|
 -1043760948	0	object/tangible/spawning/city_sign_spawner.iff	0	1834.07	9.78521	399.893	1	0	0	0	systems.spawning.spawn_tangible	spawn.object|4|object/tangible/sign/all_sign_city_s01.iff|$|
 -19844657	0	object/tangible/planet_map_location/city.iff	0	1809.4033	28	305.294	0.938444	0	0.345432	0		$|
