@@ -1,63 +1,28 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1328685	0		0	1024	0	1024	1	0	0	0	poi.exterior_spawner.exterior_spawner	buildoutObjectId|0|-1328685|$|
--100729265	0		0	1475.19	5	1371.49	1	0	0	0	fishing.master_object	elusive_fish.count_rewarded_total|0|0|elusive_fish.count_table.fish_blackfish_corellia|0|0|elusive_fish.count_table.fish_blackfish_dantooine|0|0|elusive_fish.count_table.fish_blackfish_dathomir|0|0|elusive_fish.count_table.fish_blackfish_endor|0|0|elusive_fish.count_table.fish_blackfish_lok|0|0|elusive_fish.count_table.fish_blackfish_naboo|0|0|elusive_fish.count_table.fish_blackfish_rori|0|0|elusive_fish.count_table.fish_blackfish_talus|0|0|elusive_fish.count_table.fish_blackfish_tatooine|0|0|elusive_fish.count_table.fish_blackfish_yavin4|0|0|elusive_fish.count_table.fish_blowfish_corellia|0|0|elusive_fish.count_table.fish_blowfish_dantooine|0|0|elusive_fish.count_table.fish_blowfish_dathomir|0|0|elusive_fish.count_table.fish_blowfish_endor|0|0|elusive_fish.count_table.fish_blowfish_lok|0|0|elusive_fish.count_table.fish_blowfish_naboo|0|0|elusive_fish.count_table.fish_blowfish_rori|0|0|elusive_fish.count_table.fish_blowfish_talus|0|0|elusive_fish.count_table.fish_blowfish_tatooine|0|0|elusive_fish.count_table.fish_blowfish_yavin4|0|0|elusive_fish.count_table.fish_bluefish_corellia|0|0|elusive_fish.count_table.fish_bluefish_dantooine|0|0|elusive_fish.count_table.fish_bluefish_dathomir|0|0|elusive_fish.count_table.fish_bluefish_endor|0|0|elusive_fish.count_table.fish_bluefish_lok|0|0|elusive_fish.count_table.fish_bluefish_naboo|0|0|elusive_fish.count_table.fish_bluefish_rori|0|0|elusive_fish.count_table.fish_bluefish_talus|0|0|elusive_fish.count_table.fish_bluefish_tatooine|0|0|elusive_fish.count_table.fish_bluefish_yavin4|0|0|elusive_fish.count_table.fish_faa_corellia|0|0|elusive_fish.count_table.fish_faa_dantooine|0|0|elusive_fish.count_table.fish_faa_dathomir|0|0|elusive_fish.count_table.fish_faa_endor|0|0|elusive_fish.count_table.fish_faa_lok|0|0|elusive_fish.count_table.fish_faa_naboo|0|0|elusive_fish.count_table.fish_faa_rori|0|0|elusive_fish.count_table.fish_faa_talus|0|0|elusive_fish.count_table.fish_faa_tatooine|0|0|elusive_fish.count_table.fish_faa_yavin4|0|0|elusive_fish.count_table.fish_laa_corellia|0|0|elusive_fish.count_table.fish_laa_dantooine|0|0|elusive_fish.count_table.fish_laa_dathomir|0|0|elusive_fish.count_table.fish_laa_endor|0|0|elusive_fish.count_table.fish_laa_lok|0|0|elusive_fish.count_table.fish_laa_naboo|0|0|elusive_fish.count_table.fish_laa_rori|0|0|elusive_fish.count_table.fish_laa_talus|0|0|elusive_fish.count_table.fish_laa_tatooine|0|0|elusive_fish.count_table.fish_laa_yavin4|0|0|elusive_fish.count_table.fish_ray_corellia|0|0|elusive_fish.count_table.fish_ray_dantooine|0|0|elusive_fish.count_table.fish_ray_dathomir|0|0|elusive_fish.count_table.fish_ray_endor|0|0|elusive_fish.count_table.fish_ray_lok|0|0|elusive_fish.count_table.fish_ray_naboo|0|0|elusive_fish.count_table.fish_ray_rori|0|0|elusive_fish.count_table.fish_ray_talus|0|0|elusive_fish.count_table.fish_ray_tatooine|0|0|elusive_fish.count_table.fish_ray_yavin4|0|0|elusive_fish.count_table.fish_striped_corellia|0|0|elusive_fish.count_table.fish_striped_dantooine|0|0|elusive_fish.count_table.fish_striped_dathomir|0|0|elusive_fish.count_table.fish_striped_endor|0|0|elusive_fish.count_table.fish_striped_lok|0|0|elusive_fish.count_table.fish_striped_naboo|0|0|elusive_fish.count_table.fish_striped_rori|0|0|elusive_fish.count_table.fish_striped_talus|0|0|elusive_fish.count_table.fish_striped_tatooine|0|0|elusive_fish.count_table.fish_striped_yavin4|0|0|elusive_fish.count_table_made|0|1|ignoreInBuildoutArray|0|1|leaderboards_last_updated|0|1771636786|master_fishing_object_created|0|1758900112|registerWithController|0|1|$|
--140465892	0		0	1479.93	4.03862	1340.08	1	0	0	0	systems.spawning.spawn_tangible	$|
--81462960	0		0	1503.49	4.65661	1349.69	0	0	1	0		portalProperty.crc|0|-1537017197|$|
--81462959	-81462960		1	0	0	0	1	0	0	0		$|
--81462958	-81462960		2	0	0	0	1	0	0	0	systems.crafting.station_cell	$|
--81445837	-81462958		2	-7.16908	0.408271	1.74234	0.707107	0	-0.707107	0	systems.crafting.base_station	crafting.private|0|0|crafting.station|0|1|crafting.type|0|10|$|
--81445834	-81462958		2	4.12992	0.408271	2.11081	0	0	1	0	systems.crafting.base_station	crafting.private|0|0|crafting.station|0|1|crafting.type|0|8644|$|
--81445831	-81462958		2	-7.21729	0.408271	-6.00797	0.707107	0	0.707107	0	systems.crafting.base_station	crafting.private|0|0|crafting.station|0|1|crafting.type|0|393216|$|
--81445828	-81462958		2	-1.05897	0.408271	-10.2029	1	0	0	0	systems.crafting.base_station	crafting.private|0|0|crafting.station|0|1|crafting.type|0|1536|$|
--81445825	-81462958		2	5.74158	0.408271	-10.0177	1	0	0	0	systems.crafting.base_station	crafting.private|0|0|crafting.station|0|1|crafting.type|0|526369|$|
--81462957	-81462960		3	0	0	0	1	0	0	0		$|
--81462956	-81462960		4	0	0	0	1	0	0	0		$|
--81462955	-81462960		5	0	0	0	1	0	0	0		$|
--81462954	-81462960		6	0	0	0	1	0	0	0		$|
--81462953	-81462960		7	0	0	0	1	0	0	0		$|
--81462952	-81462960		8	0	0	0	1	0	0	0		$|
--81462951	-81462960		9	0	0	0	1	0	0	0		$|
--81462950	-81462960		10	0	0	0	1	0	0	0		$|
--81462949	-81462960		11	0	0	0	1	0	0	0		$|
--81462948	-81462960		12	0	0	0	1	0	0	0		$|
--81462722	0		0	1491.68	5	1347.12	0.707107	0	-0.707106	0	terminal.terminal_character_builder	$|
--81462645	0		0	1491.86	5	1351.88	0.707107	0	-0.707106	0	terminal.bank:planet_map.map_loc	banking_bankid|4|tatooine|$|
--81462589	0		0	1491.82	5	1356.79	0.707107	0	-0.707106	0	terminal.bazaar:planet_map.map_loc:planet_map.map_loc_attach	$|
--81462134	0		0	1499.19	5	1330.55	1	0	0	0		$|
--81462108	0		0	1504.92	5	1330.35	1	0	0	0		$|
--81462059	0		0	1511.13	5	1330.38	1	0	0	0		$|
--81461956	0		0	1499.16	11.5536	1330.66	1	0	0	0		$|
--81461887	0		0	1504.96	11.8007	1330.38	1	0	0	0		$|
--81461753	0		0	1511.19	12.3325	1330.37	1	0	0	0		$|
--81461236	0		0	1503.49	16.5593	1349.69	1	0	0	0		$|
--81460396	0		0	1501	5	1313	0	0	1	0		portalProperty.crc|0|1684078020|salon|0|1|$|
--81460395	-81460396		1	0	0	0	1	0	0	0		$|
--81460336	0		0	1497	5	1322	0.707107	0	0.707106	0		$|
--81460258	0		0	1505	5	1322	0.70711	0	0.707103	0		$|
--81460235	0		0	1513	5	1322	0.707112	0	0.707101	0		$|
--81459894	0		0	1518	5	1323	1	0	0	0		$|
--81459842	0		0	1517	5	1318	8.9258e-006	0	1	0		$|
--81459812	0		0	1517	5	1310	9e-006	0	1	0		$|
--81459756	0		0	1517	5	1302	9e-006	0	1	0		$|
--81459755	0		0	1517	5	1294	9e-006	0	1	0		$|
--81459426	0		0	1505	5	1289.5	0.707113	0	0.7071	0		$|
--81459425	0		0	1513	5	1289.5	0.707115	0	0.707098	0		$|
--81459424	0		0	1497	5	1289.5	0.70711	0	0.707103	0		$|
--81458953	0		0	1518	5	1290	1	0	0	0		$|
--81458853	0		0	1510.48	5	1297.37	1	0	0	0	systems.spawning.spawn_tangible	$|
--81458629	0		0	1493	5	1310	1	0	0	0		$|
--81458595	0		0	1493	5	1323	1	0	0	0		$|
--81458554	0		0	1492.5	5	1318	9e-006	0	1	0		$|
--81458475	0		0	1493	5	1302	1	0	0	0		$|
--81458414	0		0	1492.5	5	1294	9e-006	0	1	0		$|
--81458387	0		0	1493	5	1290	1	0	0	0		$|
--81458286	0		0	1521.5	5	1356	1	0	0	0		$|
--81455467	0		0	1530.5	5	1350	0.841901	0	0.539632	0		$|
--81454399	0		0	1503.5	5.06885	1312	0	0	1	0	systems.missions.base.mission_terminal:planet_map.map_loc:planet_map.map_loc_attach	intEntertainer|0|1|$|
--81448235	0		0	1492.49	6.66329	1317.56	0.707108	0	-0.707106	0		$|
--81447954	0		0	1492.41	7.42946	1317.84	0.707108	0	-0.707106	0		$|
--81447826	0		0	1492.41	7.83178	1317.12	0.707108	0	0.707105	0		$|
--81446855	0		0	1492	5	1317.5	-0.707107	0	0.707107	0	systems.gcw.newsnet_terminal:systems.gcw.gcw_data_updater	Imperial.controlScore|0|78|Rebel.controlScore|0|22|$|
--81446617	0		0	1492	5	1319.5	0.707107	0	-0.707106	0	systems.missions.base.mission_terminal:planet_map.map_loc:planet_map.map_loc_attach	intScout|0|1|$|
--81446509	0		0	1492	5	1316	0.707107	0	-0.707106	0	systems.missions.base.mission_terminal:planet_map.map_loc:planet_map.map_loc_attach	$|
+-140465892	0		0	1479.96	4.03687	1340.01	1	0	0	0	systems.spawning.spawn_tangible	$|
+-2144715877	0		0	1465.25	5	1347.88	0.548358	0	0.836243	0	terminal.terminal_character_builder	$|
+-982723297	0		0	1480.2	4.1	1360.5	1	0	0	0	systems.spawning.spawner_patrol	fltMaxSpawnTime|2|1200.000000|fltMinSpawnTime|2|1.000000|fltRadius|2|1.000000|intDefaultBehavior|0|3|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|patrolPathType|4|oscillate|registerWithController|0|1|strName|4|thug_test|strPatrolPointNames|5|thug_test_4582524011_1:thug_test_4582524011_2:thug_test_4582524011_3:thug_test_4582524011_4:thug_test_4582524011_5:|strSpawnerType|4|patrol|strSpawns|4|thug|$|
+-1390650825	0		0	1479.6	4	1344.9	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|thug_test_4582524011_1|registerWithController|0|1|$|
+-1975981331	0		0	1470.8	4	1344.7	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|thug_test_4582524011_2|registerWithController|0|1|$|
+-1037252856	0		0	1480.7	4.3	1328.1	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|thug_test_4582524011_3|registerWithController|0|1|$|
+-385757974	0		0	1471.1	4.1	1328.8	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|thug_test_4582524011_4|registerWithController|0|1|$|
+-539749638	0		0	1460.5	4.1	1336.8	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|thug_test_4582524011_5|registerWithController|0|1|$|
+-1523205591	0		0	1464.67	5	1354.27	1	0	0	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|1200.000000|fltMinSpawnTime|2|1.000000|fltRadius|2|1.000000|intDefaultBehavior|0|3|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|thug_test|strSpawnerType|4|area|strSpawns|4|thug|$|
+-377222092	0		0	1464.88	5	1354.17	1	0	0	0	systems.combat.credit_for_kills:ai.ai:ai.creature_combat:systems.combat.combat_actions:systems.skills.stealth.player_stealth:ai.thug:systems.spawning.spawned_tracker	_notskill.mods.carbine_accuracy|0|18|_notskill.mods.force_accuracy|0|18|_notskill.mods.heavyweapon_accuracy|0|18|_notskill.mods.melee_defense|0|18|_notskill.mods.onehandlightsaber_accuracy|0|18|_notskill.mods.onehandmelee_accuracy|0|18|_notskill.mods.pistol_accuracy|0|18|_notskill.mods.polearm_accuracy|0|18|_notskill.mods.polearmlightsaber_accuracy|0|18|_notskill.mods.ranged_defense|0|18|_notskill.mods.rifle_accuracy|0|18|_notskill.mods.thrown_accuracy|0|18|_notskill.mods.toHitChance|0|18|_notskill.mods.twohandlightsaber_accuracy|0|18|_notskill.mods.twohandmelee_accuracy|0|18|_notskill.mods.unarmed_accuracy|0|18|ai.chatMood|4|emotionless|ai.chatType|4|ramble|ai.defaultCalmBehavior|0|3|ai.yaw|2|-166.689743|armor.armorCategory|0|1|armor.armorLevel|0|1|armor.general_protection|2|0.000000|combat.intCombatXP|0|76|creature_type|4|thug|difficultyClass|0|0|faction|4|thug|fltRespawnTime|2|162.532761|intCombatDifficulty|0|4|loot.lootTable|4|npc/npc_1_10|loot.numItems|0|1|objParent|6|4582524609|socialGroup|4|thug|$|
+-927491735	0		0	1446.8	4.6	1365.6	1	0	0	0	systems.spawning.spawner_patrol	fltMaxSpawnTime|2|120.000000|fltMinSpawnTime|2|1.000000|fltRadius|2|2.000000|intDefaultBehavior|0|3|intGoodLocationSpawner|0|0|intSpawnCount|0|6|intSpawnSystem|0|1|patrolPathType|4|oscillate|registerWithController|0|1|strName|4|jawa_thiefs|strPatrolPointNames|5|jawa_thiefs_4634501697_1:jawa_thiefs_4634501697_2:jawa_thiefs_4634501697_3:jawa_thiefs_4634501697_4:jawa_thiefs_4634501697_5:jawa_thiefs_4634501697_6:jawa_thiefs_4634501697_7:jawa_thiefs_4634501697_8:jawa_thiefs_4634501697_9:jawa_thiefs_4634501697_10:jawa_thiefs_4634501697_11:jawa_thiefs_4634501697_12:jawa_thiefs_4634501697_13:|strSpawnerType|4|patrol|strSpawns|4|jawa_thief|$|
+-1718062953	0		0	1444.6	5	1396.1	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|jawa_thiefs_4634501697_1|registerWithController|0|1|$|
+-1180080533	0		0	1466	5	1398.7	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|jawa_thiefs_4634501697_2|registerWithController|0|1|$|
+-1775116455	0		0	1467.4	5	1377.6	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|jawa_thiefs_4634501697_3|registerWithController|0|1|$|
+-1903031696	0		0	1451.1	4.1	1373.7	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|jawa_thiefs_4634501697_4|registerWithController|0|1|$|
+-1049862187	0		0	1450.4	5	1391.9	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|jawa_thiefs_4634501697_5|registerWithController|0|1|$|
+-1156465164	0		0	1464.3	5	1393.2	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|jawa_thiefs_4634501697_6|registerWithController|0|1|$|
+-650524633	0		0	1463.4	5	1381.8	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|jawa_thiefs_4634501697_7|registerWithController|0|1|$|
+-614724281	0		0	1453.2	5	1381.4	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|jawa_thiefs_4634501697_8|registerWithController|0|1|$|
+-571307389	0		0	1457.3	5	1386.2	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|jawa_thiefs_4634501697_9|registerWithController|0|1|$|
+-1505216715	0		0	1455.4	5	1404.4	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|jawa_thiefs_4634501697_10|registerWithController|0|1|$|
+-916786579	0		0	1438.8	5	1401.3	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|jawa_thiefs_4634501697_11|registerWithController|0|1|$|
+-864726404	0		0	1439.8	5	1384.9	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|jawa_thiefs_4634501697_12|registerWithController|0|1|$|
+-212474605	0		0	1442.7	5	1373.8	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|jawa_thiefs_4634501697_13|registerWithController|0|1|$|
+-331475449	0		0	1479.91	57.2393	1340.1	1	0	0	0	theme_park.poi.launch	$|
+-685525531	0		0	1507.21	5	1345.61	1	0	0	0		$|
