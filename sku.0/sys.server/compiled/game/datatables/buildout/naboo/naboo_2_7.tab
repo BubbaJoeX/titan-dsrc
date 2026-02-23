@@ -1,3 +1,19 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--469828	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1024.0	0.0	1024.0	1	0	0	0		$|
+-469828	0		0	1024	0	1024	1	0	0	0	poi.exterior_spawner.exterior_spawner	buildoutObjectId|0|-469828|$|
+-125465744	0		0	1026.54	6	249.049	0.707107	0	-0.707106	0	planet_map.map_loc:npc.skillteacher.hospital_trainer_spawner:structure.municipal.hospital:systems.elevator.hospital_elevators	alreadySpawned|0|1|healing.canhealwound|0|1|portalProperty.crc|0|-647578944|terminal1|6|4169501569|terminal3|6|4169501578|terminal4|6|4169501581|terminal6|6|4169501590|terminalA1|6|4169501572|terminalA2|6|4169501575|terminalB1|6|4169501584|terminalB2|6|4169501587|$|
+-125465743	-125465744		1	0	0	0	1	0	0	0		$|
+-125465742	-125465744		2	0	0	0	1	0	0	0		$|
+-125465741	-125465744		3	0	0	0	1	0	0	0		$|
+-125465740	-125465744		4	0	0	0	1	0	0	0		$|
+-125465739	-125465744		5	0	0	0	1	0	0	0		$|
+-125465738	-125465744		6	0	0	0	1	0	0	0		$|
+-125465737	-125465744		7	0	0	0	1	0	0	0		$|
+-125465736	-125465744		8	0	0	0	1	0	0	0		$|
+-125465735	-125465744		9	0	0	0	1	0	0	0		$|
+-125465734	-125465744		10	0	0	0	1	0	0	0		$|
+-125465733	-125465744		11	0	0	0	1	0	0	0		$|
+-125465732	-125465744		12	0	0	0	1	0	0	0		$|
+-125465731	-125465744		13	0	0	0	1	0	0	0	systems.elevator.button_check	$|
+-125465730	-125465744		14	0	0	0	1	0	0	0	systems.elevator.button_check_2	$|
+-125462345	0		0	1363.07	0.161983	4.36377	0.982004	0	0.188859	0		$|
