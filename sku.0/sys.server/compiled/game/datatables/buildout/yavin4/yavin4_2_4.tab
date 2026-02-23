@@ -1,3 +1,37 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--378373	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1024.0	0.0	1024.0	1	0	0	0		$|
+-48358000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
+-1066599356	0	object/tangible/collection/plant_18.iff	0	624.997	12.0335	791.85	1	0	0	0	systems.collections.consume_click	collection.slotName|4|col_plant_01:plant_18|$|
+-1633044993	0	object/tangible/ground_spawning/area_spawner.iff	0	626.373	12.6861	788.626	0.952312	0	0.305126	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|360.000000|fltMinSpawnTime|2|180.000000|fltRadius|2|1.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|yavin_smuggler_leader|strSpawnerType|4|area|strSpawns|4|yavin_smuggler_leader|$|
+-1010449117	0	object/tangible/ground_spawning/area_spawner.iff	0	637.332	12.983	788.112	0.970884	0	-0.239551	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|360.000000|fltMinSpawnTime|2|180.000000|fltRadius|2|1.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|3|intSpawnSystem|0|1|registerWithController|0|1|strName|4|yavin_smuggler_member|strSpawnerType|4|area|strSpawns|4|yavin_smuggler_member|$|
+-869414667	0	object/tangible/ground_spawning/area_spawner.iff	0	616.973	13.1576	785.223	0.924386	0	0.381457	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|360.000000|fltMinSpawnTime|2|180.000000|fltRadius|2|1.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|3|intSpawnSystem|0|1|registerWithController|0|1|strName|4|yavin_smuggler_member|strSpawnerType|4|area|strSpawns|4|yavin_smuggler_member|$|
+-774325041	0	object/tangible/camp/camp_tent_s5.iff	0	624.652	10.7369	795.91	0.734008	0	0.679141	0		$|
+-1908401984	0	object/static/structure/dantooine/dant_gate.iff	0	632.198	9.99407	803.239	0.998039	0.0549475	0.00164892	0.0299501		$|
+-2093773463	0	object/static/structure/dantooine/dant_fence_8m.iff	0	626.417	9.791	803.259	0.9996	0.0199947	0.000399947	0.0199947		$|
+-555016066	0	object/static/structure/dantooine/dant_fence_8m.iff	0	618.389	9.8433	802.026	0.985991	-0.0740883	-0.149018	-0.0111974		$|
+-1556862676	0	object/static/structure/dantooine/dant_fence_8m.iff	0	610.938	9.91949	799.137	0.970355	-0.0436955	-0.237462	-0.010693		$|
+-1621582391	0	object/static/structure/dantooine/dant_fence_8m.iff	0	604.207	10.069	794.709	0.941075	0	-0.338197	0		$|
+-1668142224	0	object/static/structure/dantooine/dant_fence_8m.iff	0	637.902	10.1964	803.334	0.999388	0.0349929	0	0		$|
+-1847828235	0	object/static/structure/dantooine/dant_fence_8m.iff	0	646.218	10.4831	802.203	0.862279	-0.496266	0.069369	0.0733703		$|
+-565923755	0	object/static/structure/dantooine/dant_fence_8m.iff	0	654.007	11.4309	799.383	0.974164	-0.0530551	0.216306	0.0374328		$|
+-1927376940	0	object/static/structure/dantooine/dant_fence_8m.iff	0	661.22	12.1567	795.117	0.939373	0	0.342898	0		$|
+-694282569	0	object/static/structure/dantooine/dant_boundary_post.iff	0	553.014	65.8158	1383.45	0.497571	0	0.867423	0		$|
+-556911782	0	object/static/structure/general/skeleton_human_head.iff	0	552.793	65.8856	1382.71	0.384979	-0.604537	0.684582	0.132944		$|
+-231542615	0	object/static/structure/general/skeleton_human_head.iff	0	553.334	65.8917	1382.23	0.0274466	-0.0279788	0.699747	0.713315		$|
+-976317925	0	object/static/structure/general/skeleton_human_head.iff	0	553.495	65.8382	1382.92	0.590362	-0.0529943	0.619888	0.514201		$|
+-1960783934	0	object/static/structure/general/skeleton_human_head.iff	0	554.034	65.7816	1383.41	0.445642	0.00564963	0.869759	0.211876		$|
+-879410635	0	object/static/structure/general/skeleton_human_head.iff	0	553.782	65.7521	1383.95	0.789942	0.208259	0.43669	0.376726		$|
+-1241413427	0	object/static/structure/general/streetlamp_small_green_style_01.iff	0	553.891	64.3666	1382.8	1	0	0	0		$|
+-2079230854	0	object/static/structure/general/campfire_ash.iff	0	1315.05	13.0784	618.566	1	0	0	0		$|
+-2083494600	0	object/static/structure/tatooine/jawa/tent_jawa_01_small.iff	0	1313.65	12.9567	614.911	0.948062	0.104668	0.249104	0.167842		$|
+-1946274642	0	object/tangible/furniture/all/frn_all_rug_rectangle_large_style_01.iff	0	1314.43	13.489	616.771	0.995429	0.0901347	-0.00741698	-0.0306841		$|
+-1677962170	0	object/static/structure/dantooine/dant_boundary_post.iff	0	1216.35	64.9058	1417.79	0.989506	0	0	-0.144492		$|
+-1647848179	0	object/static/structure/dantooine/dant_boundary_post.iff	0	1217.48	64.8896	1417.52	-0.00896113	-0.227968	0.973625	-0.00209819		$|
+-1062241431	0	object/static/structure/general/streetlamp_small_green_style_01.iff	0	1217.07	63.1485	1417.37	1	0	0	0		$|
+-854658269	0	object/static/structure/general/skeleton_human_head.iff	0	1947.7	88.5031	968.555	0.828195	0.169663	0.514845	-0.142276		$|
+-2090498086	0	object/static/structure/general/streetlamp_small_green_style_01.iff	0	1950.67	84.3196	967.499	0.994493	0	-0.104807	0		$|
+-942219052	0	object/static/structure/dantooine/dant_skull_lizard.iff	0	1947.68	87.9216	967.958	0.677679	0.361466	0.565033	-0.301382		$|
+-1720483051	0	object/static/structure/general/skeleton_human_head.iff	0	1947.55	88.5609	967.216	0.649416	0.205567	0.723195	-0.113974		$|
+-609843239	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	637.821777	11.7752676	795.079346	1	0	0	0		$|
+-751867451	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1316.491211	12.94521141	618.258545	1	0	0	0		$|
+-641399737	0	object/tangible/ground_spawning/mob_spawner.iff	0	554	0	1384	1	0	0	0		$|

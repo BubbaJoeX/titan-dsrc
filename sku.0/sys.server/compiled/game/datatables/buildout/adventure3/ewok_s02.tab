@@ -1,3 +1,17 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--277018	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1900.0	0.0	1900.0	1	0	0	0		$|
+-1800026324	0	object/building/endor/endr_lake_rail16m.iff	0	1900	0	1892	1.78814e-007	0	1	0		$|
+-138163901	0	object/building/endor/endr_lake_rail16m.iff	0	1892	0	1900	0.707107	0	-0.707106	0		$|
+-1195507078	0	object/building/endor/endr_lake_rail16m.iff	0	1908	0	1900	0.707105	0	0.707108	0		$|
+-497720665	0	object/building/endor/endr_lake_rail4m.iff	0	1894	0	1908	1	0	0	0		$|
+-1431366538	0	object/building/endor/endr_lake_rail4m.iff	0	1906	0	1908	1	0	0	0		$|
+-1598316011	0	object/building/endor/endr_lake_rail4m.iff	0	1897.35	0	1909.36	0.92388	0	-0.382683	0		$|
+-521125081	0	object/building/endor/endr_lake_rail4m.iff	0	1902.79	0	1909.33	0.92388	0	0.382683	0		$|
+-707210725	0	object/building/endor/endor_tiki_torch.iff	0	1898.81	0	1910.8	1	0	0	0	structure.filler.filler	$|
+-1782810528	0	object/building/endor/endor_tiki_torch.iff	0	1901.37	0	1910.78	1	0	0	0	structure.filler.filler	$|
+-2113903697	0	object/building/endor/endor_village_tree.iff	0	1902.1	0	1915.45	0.707107	0	-0.707107	0	structure.filler.filler	$|
+-1995568441	0	object/building/endor/endor_catwalk.iff	0	1902.18	20.0765	1941.16	1	0	0	0		$|
+-1332026955	0	object/building/endor/endor_catwalk.iff	0	1902.18	20.0673	1931.16	1	0	0	0		$|
+-541386762	0	object/building/endor/endor_catwalk.iff	0	1902.18	20.0765	1951.16	1	0	0	0		$|
+-1283838871	0	object/building/endor/endor_catwalk_cap.iff	0	1891.38	19.6914	1915.61	1	0	0	0		$|
+-94203746	0	object/building/endor/endor_village_tree.iff	0	1902.18	0	1967.08	1	0	0	0	structure.filler.filler	$|

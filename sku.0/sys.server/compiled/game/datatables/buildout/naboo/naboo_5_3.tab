@@ -1,3 +1,19 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1097417	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1024.0	0.0	1024.0	1	0	0	0		$|
+-1555487403	0	object/tangible/quest/imperial/itp_kaja_tower_access_terminal.iff	0	1908.16	394.971	74.0679	0.964023	-0.067592	0.256451	0.017981	quest.task.ground.retrieve_item_on_item	questRequireActiveDuty|4|true|$|
+-325778619	0	object/tangible/quest/imperial/itp_kaja_tower_access_terminal.iff	0	1710.49	384.989	421.362	0.292496	-0.0219785	0.953326	0.0716338	quest.task.ground.retrieve_item_on_item	questRequireActiveDuty|4|true|$|
+-31048000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
+-774325041	0	object/building/military/mun_all_military_tower_impl_guard_s01.iff	0	1904.91	395.093	72.4521	-0.256311	0	0.966595	0		$|
+-1908401984	-774325041	object/cell/cell.iff	1	0	0	0	1	0	0	0		$|
+-2093773463	0	object/building/military/mun_all_military_tower_impl_guard_s01.iff	0	1710.48	385	425.01	0.954865	0	-0.297042	0		$|
+-555016066	-2093773463	object/cell/cell.iff	1	0	0	0	1	0	0	0		$|
+-1556862676	0	object/static/structure/general/streetlamp_small_style_01.iff	0	1905.98	399.025	74.5642	-0.612931	-0.347809	0.345981	0.619388		$|
+-1621582391	0	object/static/flora/flora_bush_yavin_blueleaf.iff	0	1007.31	184.735	638.436	1	0	0	0		$|
+-1668142224	0	object/static/flora/flora_bush_yavin_blueleaf.iff	0	1003.38	184.394	637.4	1	0	0	0		$|
+-1847828235	0	object/static/flora/flora_bush_yavin_blueleaf.iff	0	1015.37	185.263	638.392	1	0	0	0		$|
+-565923755	0	object/static/flora/flora_bush_yavin_blueleaf.iff	0	1004.6	183.698	625.765	1	0	0	0		$|
+-1927376940	0	object/static/structure/general/streetlamp_medium_style_02.iff	0	1011.35	193.645	632.61	0.0142031	0	0	0.999899		$|
+-694282569	0	object/static/structure/general/bench_generic_style_1.iff	0	1017.07	185.323	633.557	-0.597834	0	0.80162	0		$|
+-556911782	0	object/static/structure/general/bench_generic_style_1.iff	0	1007.91	185.309	630.363	0.807088	0	0.590431	0		$|
+-231542615	0	object/building/naboo/filler_building_naboo_theed_style_2.iff	0	1012.5	184.471	631.973	0.932327	0	-0.361616	0		$|
+-976317925	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1007.372375	184.610199	642.671875	1	0	0	0		$|

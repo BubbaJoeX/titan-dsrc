@@ -1,3 +1,36 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--545913	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1024.0	0.0	1024.0	1	0	0	0		$|
+-51538000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
+-464193092	0	object/tangible/collection/dancing_droid_04.iff	0	205.877	12.107	1647.18	1	0	0	0	systems.collections.consume_click	collection.slotName|4|col_dancing_droid_01:dancing_droid_04|$|
+-774325041	0	object/tangible/jedi/force_shrine_stone.iff	0	454.856	16.6314	110.197	0.707107	0	0.707107	0		$|
+-1908401984	0	object/static/structure/dantooine/dant_jedi_temple_pillar_sm.iff	0	450.435	17.7009	108.6	0.707113	0	0.7071	0		$|
+-2093773463	0	object/static/structure/dantooine/dant_jedi_temple_pillar_sm.iff	0	459.119	17.3885	108.634	1	0	0	0		$|
+-555016066	0	object/static/structure/dantooine/dant_jedi_temple_pillar_base.iff	0	453.888	17.3885	108.589	0	0	1	0		$|
+-1556862676	0	object/static/structure/dantooine/dant_jedi_temple_pillar_base.iff	0	455.682	17.3785	108.541	1	0	0	0		$|
+-1621582391	0	object/static/structure/dantooine/dant_jedi_temple_altar.iff	0	454.797	-0.565099	108.6	1	0	0	0		$|
+-1668142224	0	object/static/particle/pt_poi_electricity_2x2.iff	0	454.859	17.3885	110.194	1	0	0	0		$|
+-1847828235	0	object/static/structure/general/skeleton_bith_headandbody.iff	0	210.469	11.9832	1649.23	1	0	0	0		$|
+-565923755	0	object/static/structure/general/skeleton_human_headandbody.iff	0	204.525	11.9396	1642.41	-0.617686	0	0.786425	0		$|
+-1927376940	0	object/static/item/item_cage_bamboo.iff	0	210.135	11.7205	1644.27	-0.700062	-0.116807	0.693734	-0.122484		$|
+-694282569	0	object/static/structure/corellia/corl_tent_med.iff	0	207.459	12.1195	1645	0.707107	0	-0.707106	0		$|
+-556911782	0	object/static/structure/tatooine/debris_tatt_drum_dented_1.iff	0	205.798	11.3788	1647.93	0.917355	0.0754538	0.20996	-0.329672		$|
+-231542615	0	object/tangible/camp/camp_cot.iff	0	203.357	12.5513	1646.49	-0.00410033	-0.706813	0.00409702	0.707376		$|
+-976317925	0	object/tangible/camp/camp_cot.iff	0	206.844	11.9327	1642.09	0.841901	0	-0.539632	0		$|
+-1960783934	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	777.12	11.8383	507.807	0.70711	0	-0.707103	0		$|
+-879410635	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	786.289	12.127	507.078	0.70711	0	-0.707103	0		$|
+-1241413427	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	777.124	11.8305	507.062	0.70711	0	-0.707103	0		$|
+-2079230854	0	object/static/structure/tatooine/beam_tatooine_overhead_style_02.iff	0	782.198	11.9051	506.943	-2e-006	0	1	0		$|
+-2083494600	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	786.285	12.1287	507.823	0.707111	0	-0.707102	0		$|
+-1946274642	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	768.1	11.6987	507.817	0.707111	0	-0.707102	0		$|
+-1677962170	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	768.104	11.7084	507.071	0.707111	0	-0.707102	0		$|
+-1647848179	0	object/static/structure/tatooine/beam_tatooine_overhead_style_02.iff	0	773.178	11.7818	506.953	-2e-006	0	1	0		$|
+-1062241431	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	1889.71	11.9717	1583.55	0.707109	0	-0.707104	0		$|
+-854658269	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	1898.88	11.9809	1582.57	0.707113	0	-0.7071	0		$|
+-2090498086	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	1889.69	12.0345	1582.56	1.29585e-006	1.3113e-006	-0.707107	0.707107		$|
+-942219052	0	object/static/structure/tatooine/beam_tatooine_overhead_style_02.iff	0	1894.78	9.39639	1582.69	-2e-006	0	1	0		$|
+-1720483051	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	1898.87	11.9894	1583.57	0.707112	0	-0.707101	0		$|
+-609843239	0	object/static/item/item_armor_bone_chestplate.iff	0	210.477	12.0148	1650.74	0.71442	-0.699717	0	0		$|
+-751867451	0	object/static/item/item_armor_bone_helmet.iff	0	210.888	12.0055	1650.2	-0.704354	0.636473	-0.145399	-0.278652		$|
+-641399737	0	object/static/item/item_armor_chitin_chestplate.iff	0	202.973	11.9251	1642.18	-0.455817	0.488001	0.570971	0.477575		$|
+-977230724	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	209.366699	11.99524117	1647.428223	1	0	0	0		$|
+-1246571693	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	780.700439	12.19129753	510.154297	1	0	0	0		$|

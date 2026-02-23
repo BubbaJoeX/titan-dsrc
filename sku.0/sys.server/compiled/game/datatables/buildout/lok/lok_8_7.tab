@@ -1,3 +1,5 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1960975	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1024.0	0.0	1024.0	1	0	0	0		$|
+-1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
+-774325041	0	object/static/corellia/rock_bowl_agrilat_double.iff	0	256.67	93.6374	1006.48	1	0	0	0		$|
+-1908401984	0	object/tangible/ground_spawning/mob_spawner.iff	0	264	43	921	1	0	0	0		$|

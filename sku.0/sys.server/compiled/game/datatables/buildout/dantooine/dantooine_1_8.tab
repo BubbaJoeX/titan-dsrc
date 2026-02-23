@@ -1,3 +1,44 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--264991	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1024.0	0.0	1024.0	1	0	0	0		$|
+-1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
+-774325041	0	object/static/structure/dantooine/dant_totem_pole.iff	0	1969.14	51.9395	1252.33	1	0	0	0		$|
+-1908401984	0	object/static/structure/dantooine/dant_boundary_post.iff	0	1969.64	47.8379	1242.89	0.0291995	0	0.999574	0		$|
+-2093773463	0	object/static/structure/dantooine/dant_boundary_post.iff	0	1958.63	49.569	1243.29	-0.253017	0	0.967462	0		$|
+-555016066	0	object/static/structure/dantooine/dant_boundary_post.iff	0	1951.69	52.5174	1247.21	-0.480125	0	0.8772	0		$|
+-1556862676	0	object/static/structure/dantooine/dant_boundary_post.iff	0	1979.07	51.4555	1243.03	0.227202	0	0.973848	0		$|
+-1621582391	0	object/static/structure/dantooine/dant_boundary_post.iff	0	1984.4	57.5851	1248.1	0.407033	0	0.913414	0		$|
+-1668142224	0	object/static/structure/dantooine/dant_boundary_post.iff	0	1969.36	42.8573	1226.8	0.029199	0	0.999574	0		$|
+-1847828235	0	object/static/structure/dantooine/dant_boundary_post.iff	0	1957.02	43.3986	1229.57	-0.2675	0	0.963558	0		$|
+-565923755	0	object/static/structure/dantooine/dant_boundary_post.iff	0	1939.83	50.8373	1236.31	-0.462487	0	0.886627	0		$|
+-1927376940	0	object/static/structure/dantooine/dant_boundary_post.iff	0	1946.91	46.2154	1232.85	-0.301053	0	0.953608	0		$|
+-694282569	0	object/static/structure/dantooine/dant_boundary_post.iff	0	1983.74	47.0935	1227.71	0.163466	0	0.986549	0		$|
+-556911782	0	object/static/structure/dantooine/dant_boundary_post.iff	0	1991.66	52.5132	1231.93	0.346844	0	0.937924	0		$|
+-231542615	0	object/static/structure/dantooine/dant_boundary_post.iff	0	1999.7	59.7882	1236.06	0.474331	0	0.880347	0		$|
+-976317925	0	object/building/general/dantooine_force_crystal_hunter_sd_cave.iff	0	1951.85	56.0141	1261.22	3.20013e-008	0	1	0		$|
+-1960783934	-976317925	object/cell/cell.iff	1	0	0	0	1	0	0	0		$|
+-879410635	-1960783934	object/tangible/poi/spawnegg/interior_spawnegg.iff	1	23.54712296	-29.80154419	-15.05016613	1	0	0	0		intRandomYaw|0|1|$|
+-1241413427	-976317925	object/cell/cell.iff	2	0	0	0	1	0	0	0		$|
+-2079230854	-1241413427	object/tangible/poi/spawnegg/interior_spawnegg.iff	2	22.75145531	-40.60446548	-47.28037643	1	0	0	0		intRandomYaw|0|1|$|
+-2083494600	-1241413427	object/tangible/poi/spawnegg/interior_spawnegg.iff	2	51.5237999	-48.65758896	-64.42123413	1	0	0	0		intRandomYaw|0|1|$|
+-1946274642	-1241413427	object/tangible/poi/spawnegg/interior_spawnegg.iff	2	45.69174576	-47.80649567	-62.10869217	1	0	0	0		intRandomYaw|0|1|$|
+-1677962170	-1241413427	object/tangible/poi/spawnegg/interior_spawnegg.iff	2	49.6161232	-48.02411652	-18.92257118	1	0	0	0		intRandomYaw|0|1|$|
+-1647848179	-1241413427	object/tangible/poi/spawnegg/interior_spawnegg.iff	2	48.93991852	-47.07242584	-7.141627789	1	0	0	0		intRandomYaw|0|1|$|
+-1062241431	-1241413427	object/tangible/poi/spawnegg/interior_spawnegg.iff	2	52.62257385	-67.93469238	-42.07501221	1	0	0	0		intRandomYaw|0|1|$|
+-854658269	-1241413427	object/tangible/container/loot/placable_loot_crate.iff	2	45.6698	-47.059	-6.79665	0.00920352	0	0.999958	0		$|
+-2090498086	-976317925	object/cell/cell.iff	3	0	0	0	1	0	0	0		$|
+-942219052	-2090498086	object/tangible/poi/spawnegg/interior_spawnegg.iff	3	89.23966217	-65.22011566	-30.80838585	1	0	0	0		intRandomYaw|0|1|$|
+-1720483051	-976317925	object/cell/cell.iff	4	0	0	0	1	0	0	0		$|
+-609843239	-1720483051	object/tangible/poi/spawnegg/interior_spawnegg.iff	4	69.39627838	-75.52272797	-57.49768066	1	0	0	0		intRandomYaw|0|1|$|
+-751867451	-1720483051	object/tangible/poi/spawnegg/interior_spawnegg.iff	4	65.21089172	-75.5415802	-65.63469696	1	0	0	0		intRandomYaw|0|1|$|
+-641399737	-1720483051	object/tangible/poi/spawnegg/interior_spawnegg.iff	4	86.42470551	-76.56774139	-65.32893372	1	0	0	0		intRandomYaw|0|1|$|
+-977230724	-1720483051	object/tangible/poi/spawnegg/interior_spawnegg.iff	4	91.80693054	-76.24759674	-83.33487701	1	0	0	0		intRandomYaw|0|1|$|
+-1246571693	-1720483051	object/tangible/poi/spawnegg/interior_spawnegg.iff	4	73.31215668	-77.06681824	-88.07292175	1	0	0	0		intRandomYaw|0|1|$|
+-1674091023	-1720483051	object/tangible/collection/rare_melee_white_thranta_knuckler.iff	4	92.0613	-75.169	-62.7524	-0.0743107	0.750478	-0.652659	-0.0727811		$|
+-1182814570	-1720483051	object/tangible/container/loot/placable_loot_crate.iff	4	61.0221	-75.2442	-57.589	-0.291502	0	0.95657	0		$|
+-882045225	-976317925	object/cell/cell.iff	5	0	0	0	1	0	0	0		$|
+-1550073655	-976317925	object/cell/cell.iff	6	0	0	0	1	0	0	0		$|
+-409244986	-976317925	object/cell/cell.iff	7	0	0	0	1	0	0	0		$|
+-280675418	-976317925	object/cell/cell.iff	8	0	0	0	1	0	0	0		$|
+-2133527664	-976317925	object/cell/cell.iff	9	0	0	0	1	0	0	0		$|
+-517957242	-976317925	object/cell/cell.iff	10	0	0	0	1	0	0	0		$|
+-416999969	-976317925	object/cell/cell.iff	11	0	0	0	1	0	0	0		$|

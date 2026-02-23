@@ -1,3 +1,48 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--441534	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1024.0	0.0	1024.0	1	0	0	0		$|
+-48418000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
+-1155807650	0	object/static/flora/potted_plant_flowers_orange.iff	0	1805.06	98.4161	1923.57	1	0	0	0		$|
+-1811085771	0	object/static/flora/potted_plant_leaves_fern.iff	0	1805.96	99.2653	1918.72	1	0	0	0		$|
+-1245532770	0	object/static/flora/potted_plant_leaves_ivy.iff	0	1804.7	99.7493	1929.51	1	0	0	0		$|
+-997769999	0	object/static/flora/potted_plant_leaves_small.iff	0	1805.68	98.4217	1929.22	1	0	0	0		$|
+-863949798	0	object/static/structure/naboo/nboo_imprv_short_curved_wall_small_s01.iff	0	1806.02	98.5827	1918.64	0.997888	0	-0.0649542	0		$|
+-1131787963	0	object/static/structure/naboo/nboo_imprv_short_curved_wall_small_s01.iff	0	1801.61	98.3242	1922.04	0.751466	-0.0197787	0.65909	0.0225509		$|
+-91360154	0	object/static/structure/naboo/nboo_imprv_short_curved_wall_small_s01.iff	0	1809.14	98.8073	1925.97	-0.663731	0	0.747971	0		$|
+-1131399085	0	object/static/structure/naboo/nboo_imprv_short_curved_wall_small_s01.iff	0	1804.74	98.7963	1929.44	0.0507482	-0.0299573	0.998261	0.00152285		$|
+-1961712967	0	object/static/flora/potted_plant_flowers_purple.iff	0	1806.03	98.5182	1923.58	1	0	0	0		$|
+-703979070	0	object/static/flora/potted_plant_flowers_orange.iff	0	1806.02	98.6435	1924.6	1	0	0	0		$|
+-1004432068	0	object/tangible/collection/flower_20.iff	0	1805.21	98.418	1924.57	1	0	0	0	systems.collections.consume_click	collection.slotName|4|col_flower_01:flower_20|$|
+-1074576117	0	object/tangible/ground_spawning/area_spawner.iff	0	1809.41	98.8505	1924.36	0.663584	0	0.748102	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|360.000000|fltMinSpawnTime|2|180.000000|fltRadius|2|1.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|jedi_elder|strSpawnerType|4|area|strSpawns|4|treasure_guard_jedi_elder|$|
+-335053515	0	object/tangible/ground_spawning/area_spawner.iff	0	1801.42	98.1639	1923.64	-0.6628	0	0.748797	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|360.000000|fltMinSpawnTime|2|180.000000|fltRadius|2|1.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|jedi_elder|strSpawnerType|4|area|strSpawns|4|treasure_guard_jedi_elder|$|
+-496261758	0	object/tangible/ground_spawning/area_spawner.iff	0	1805.95	97.9433	1915.48	0.576316	0	0.817227	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|360.000000|fltMinSpawnTime|2|180.000000|fltRadius|2|1.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|jedi_elder|strSpawnerType|4|area|strSpawns|4|treasure_guard_jedi_elder|$|
+-470776244	0	object/tangible/ground_spawning/area_spawner.iff	0	1804.99	98.8957	1932.17	0.900137	0	0.435608	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|360.000000|fltMinSpawnTime|2|180.000000|fltRadius|2|1.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|2|intSpawnSystem|0|1|registerWithController|0|1|strName|4|jedi_elder|strSpawnerType|4|area|strSpawns|4|treasure_guard_jedi_elder|$|
+-774325041	0	object/static/structure/general/banner_rebel_style_01.iff	0	1908.11	182.908	237.148	0.852525	0	0.522687	0		$|
+-1908401984	0	object/static/structure/general/banner_rebel_style_01.iff	0	1899.32	183.401	231.293	1	0	0	0		$|
+-2093773463	0	object/static/structure/tatooine/debris_tatt_crate_1.iff	0	1906.68	183.618	224.191	1	0	0	0		$|
+-555016066	0	object/static/structure/tatooine/debris_tatt_crate_metal_1.iff	0	1906.84	184.326	224.245	0.965092	0	0.261909	0		$|
+-1556862676	0	object/static/structure/tatooine/debris_tatt_drum_storage_2.iff	0	1906.9	183.578	225.88	0.956802	0	0.29074	0		$|
+-1621582391	0	object/static/structure/tatooine/debris_tatt_drum_storage_1.iff	0	1906.31	183.544	225.218	1	0	0	0		$|
+-1668142224	0	object/tangible/camp/camp_light_s2.iff	0	1900.77	183.216	237.056	1	0	0	0		$|
+-1847828235	0	object/tangible/camp/camp_light_s2.iff	0	1905.37	183.682	222.996	1	0	0	0		$|
+-565923755	0	object/static/structure/corellia/corl_power_arial_thin.iff	0	1900.96	185.855	225.874	1	0	0	0		$|
+-1927376940	0	object/tangible/camp/camp_tent_s6.iff	0	1900.72	183.668	225.244	0.50622	0	0.862404	0		$|
+-694282569	0	object/tangible/camp/camp_tent_s5.iff	0	1904.37	183.041	239.947	-0.597834	0	0.80162	0		$|
+-556911782	0	object/static/item/item_tool_sensor_beacon.iff	0	1905.29	182.918	260.594	1	0	0	0		$|
+-231542615	0	object/static/item/item_tool_sensor_beacon.iff	0	1886.81	184.118	278.872	1	0	0	0		$|
+-976317925	0	object/static/item/item_tool_sensor_beacon.iff	0	1900.11	185.163	181.962	1	0	0	0		$|
+-1960783934	0	object/static/item/item_tool_sensor_beacon.iff	0	1931.98	182.752	186.13	1	0	0	0		$|
+-879410635	0	object/static/structure/dantooine/dant_jedi_temple_altar.iff	0	706.628	293.284	818.766	0.990901	0	-0.13459	0		$|
+-1241413427	0	object/static/structure/dantooine/dant_jedi_temple_pillar_med.iff	0	709.799	313.22	815.719	0.996802	0	-0.0799147	0		$|
+-2079230854	0	object/static/structure/dantooine/dant_jedi_temple_pillar_med.iff	0	704.864	312.847	815.023	0.758362	0	0.651834	0		$|
+-2083494600	0	object/static/structure/dantooine/dant_jedi_temple_pillar_sm.iff	0	699.505	313.297	814.577	0.998201	0	-0.059964	0		$|
+-1946274642	0	object/static/structure/dantooine/dant_jedi_temple_pillar_fallen.iff	0	700.462	316.236	810.42	0.498923	0.145904	0.849972	0.0856436		$|
+-1677962170	0	object/static/structure/dantooine/dant_jedi_temple_pillar_base.iff	0	714.747	312.475	816.721	0.995491	0	-0.0948572	0		$|
+-1647848179	0	object/static/structure/dantooine/dant_jedi_temple_pillar_fallen.iff	0	718.111	313.594	813.986	0.858497	0.0504691	0.503008	0.086137		$|
+-1062241431	0	object/static/structure/dantooine/dant_jedi_temple_pillar_fallen.iff	0	717.45	313.589	810.398	0.760128	-0.107691	-0.627361	0.130481		$|
+-854658269	0	object/static/structure/general/streetlamp_small_green_style_01.iff	0	705.863	310.137	821.245	1	0	0	0		$|
+-2090498086	0	object/static/structure/dantooine/dant_totem_pole.iff	0	440.896	208.766	1432.13	-0.568705	-0.0237767	0.821022	-0.0439612		$|
+-942219052	0	object/static/structure/naboo/gungan_relic_s01.iff	0	1515.79	126.69	1383.23	3.20013e-008	0	1	0		$|
+-1720483051	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1503.827148	130.3489075	1387.290039	1	0	0	0		$|
+-609843239	0	object/tangible/npc/storyline_npc/rebel_commander_spawner.iff	0	1906	183	229	1	0	0	0		$|
+-751867451	0	object/tangible/npc/rebel_recruiter_spawner.iff	0	1906.88	183	227.33	1	0	0	0		$|
+-641399737	0	object/tangible/ground_spawning/area_spawner.iff	0	1906	183	229	1	0	0	0	systems.spawning.spawner_area	fltMaxSpawnTime|2|1.000000|fltMinSpawnTime|2|0.000000|fltRadius|2|3.000000|intDefaultBehavior|0|2|intGoodLocationSpawner|0|0|intSpawnCount|0|3|intSpawnSystem|0|1|registerWithController|0|1|strName|4|rebel_trooper|strSpawnerType|4|area|strSpawns|4|rebel_trooper|$|

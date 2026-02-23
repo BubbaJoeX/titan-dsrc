@@ -1,3 +1,11 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--929332	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1024.0	0.0	1024.0	1	0	0	0		$|
+-36838000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
+-2113999392	0	object/building/faction_perk/hq/planet_base_register.iff	0	2018.87	2.22613	2033.5	1	0	0	0	faction_perk.hq.planetary_base_register	$|
+268517830	0	object/tangible/weather_object/weather_object_base.iff	0	0	195	0	1	0	0	0		$|
+-774325041	0	object/static/structure/naboo/gungan_wall_ruined_lg_s01.iff	0	450.999	36.7472	1503.35	1	0	0	0		$|
+-1908401984	0	object/static/structure/naboo/gungan_wall_ruined_sm_s01.iff	0	442.568	37.6721	1494.11	0.707107	0	0.707106	0		$|
+-2093773463	0	object/static/structure/naboo/gungan_wall_ruined_lg_s02.iff	0	443.94	36.6223	1519.02	0.707388	0	-0.706826	0		$|
+-555016066	0	object/static/structure/general/prp_junk_s7.iff	0	413.837	28.8425	1724.48	1	0	0	0		$|
+-1556862676	0	object/static/structure/general/prp_junk_s1.iff	0	389.932	29.8339	1705.73	0.984727	0	0	0.174108		$|
+-1621582391	0	object/tangible/ground_spawning/mob_spawner.iff	0	405	29	1713	1	0	0	0		$|

@@ -1,3 +1,10 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--1635205	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1024.0	0.0	1024.0	1	0	0	0		$|
+-1	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	0	0	0	0		
+-774325041	0	object/static/structure/general/streetlamp_small_red_style_01.iff	0	791.26	111.541	1230.13	1	0	0	0		$|
+-1908401984	0	object/static/structure/general/campfire_ash.iff	0	783.263	112.944	1230.89	1	0	0	0		$|
+-2093773463	0	object/static/structure/general/skeleton_human_head.iff	0	786.128	115.425	1233.27	0.761612	0	-0.648034	0		$|
+-555016066	0	object/static/structure/general/skeleton_human_head.iff	0	785.652	114.899	1232.76	0.780707	0	-0.624897	0		$|
+-1556862676	0	object/static/structure/general/skeleton_human_head.iff	0	785.481	114.6	1228.91	0.710913	0	-0.70328	0		$|
+-1621582391	0	object/static/structure/general/skeleton_human_head.iff	0	785.607	115.177	1228.36	0.738469	0	-0.674288	0		$|
+-1668142224	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	781.324707	112.550209	1235.296143	1	0	0	0		$|

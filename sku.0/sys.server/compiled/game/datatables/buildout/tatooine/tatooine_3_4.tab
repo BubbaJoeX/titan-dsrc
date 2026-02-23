@@ -1,3 +1,38 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--647857	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1024.0	0.0	1024.0	1	0	0	0		$|
+-268051288	0	object/tangible/collection/col_family_story_grave_05.iff	0	557.928	31.2374	918.664	0.958061	-0.0558612	-0.245735	0.136429	systems.collections.consume_click	collection.slotName|4|family_story_grave:family_grave_05|$|
+-24598000	0	object/building/kashyyyk/thm_kash_rodian_bannerpole_s01.iff	0	0	195	0	1	0	0	0		$|
+-248173553	0	object/tangible/gravestone/random_grave.iff	0	559.106	30.968	915.004	0.977905	-0.0317604	-0.177067	0.106487		$|
+-1598473102	0	object/tangible/gravestone/random_grave.iff	0	555.745	30.9453	922.185	0.956059	-0.0409604	-0.242357	0.159799		$|
+-245466615	0	object/tangible/gravestone/gravestone01.iff	0	556.854	31.7054	922.137	-0.577609	8.35129e-010	0.816314	3.85171e-010		$|
+-1447228838	0	object/tangible/gravestone/gravestone03.iff	0	560.109	31.3189	914.783	-0.629412	0	0.777072	0		$|
+-1599029170	0	object/static/structure/general/skeleton_human_headandbody.iff	0	556.439	31.4131	922.021	-0.555184	-0.0221445	0.819204	-0.142075		$|
+-1529271451	0	object/static/structure/general/web_06.iff	0	560.361	31.5879	914.912	0.331545	0.763631	-0.504007	-0.230048		$|
+-369109453	0	object/static/structure/general/web_05.iff	0	559.162	31.9678	918.756	0.626045	-0.235074	0.446585	0.594449		$|
+-774325041	0	object/static/structure/general/tato_cave_stalagmite_tiny.iff	0	427.573	39.28	378.059	1	0	0	0		$|
+-1908401984	0	object/static/structure/general/tato_cave_stalagmite_tiny.iff	0	411.257	38.3623	384.848	1	0	0	0		$|
+-2093773463	0	object/static/structure/general/tato_cave_stalagmite_med.iff	0	412.382	39.9952	400	1	0	0	0		$|
+-555016066	0	object/static/structure/general/tato_cave_stalagmite_large.iff	0	428.865	37.0561	403.139	1	0	0	0		$|
+-1556862676	0	object/static/structure/general/tato_cave_stalagmite_med.iff	0	436.146	38.1709	381.435	1	0	0	0		$|
+-1621582391	0	object/static/structure/general/tato_cave_stalagmite_small.iff	0	420.026	38.5511	377.389	1	0	0	0		$|
+-1668142224	0	object/static/structure/general/tato_cave_stalagmite_large.iff	0	424.08	39.0146	389.53	1	0	0	0		$|
+-1847828235	0	object/static/structure/general/tato_cave_stalagmite_med.iff	0	437.566	38.2676	395.438	1	0	0	0		$|
+-565923755	0	object/static/structure/general/tato_cave_rock_large.iff	0	417.599	38.093	394.573	1	0	0	0		$|
+-1927376940	0	object/static/structure/general/tato_cave_rock_med.iff	0	424.984	38.0444	396.437	1	0	0	0		$|
+-694282569	0	object/static/structure/general/tato_cave_rock_med.iff	0	431.454	37.8502	392.292	1	0	0	0		$|
+-556911782	0	object/static/structure/general/tato_cave_rock_large.iff	0	431.275	37.8948	384.739	1	0	0	0		$|
+-231542615	0	object/static/structure/general/tato_cave_rock_large.iff	0	416.133	37.4941	386.796	1	0	0	0		$|
+-976317925	0	object/static/structure/general/tato_cave_rock_med.iff	0	422.387	37.758	382.902	1	0	0	0		$|
+-1960783934	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	1432.58	21.7992	1633.92	0.789992	0	-0.613117	0		$|
+-879410635	0	object/static/structure/tatooine/beam_tatooine_overhead_style_01.iff	0	1433.41	22.4196	1635.18	0.789992	0	-0.613117	0		$|
+-1241413427	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	1433.54	21.7561	1637.64	0.789992	0	-0.613117	0		$|
+-2079230854	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	1432.34	22.2214	1640.82	-0.338946	0	0.940806	0		$|
+-2083494600	0	object/static/structure/tatooine/beam_tatooine_overhead_style_01.iff	0	1431.55	22.3135	1642.11	-0.338946	0	0.940806	0		$|
+-1946274642	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	1429.38	22.2018	1643.28	-0.338946	0	0.940806	0		$|
+-1677962170	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	1425.87	22.9316	1641.24	0.356206	0	0.934408	0		$|
+-1647848179	0	object/static/structure/tatooine/beam_tatooine_overhead_style_01.iff	0	1424.48	23.0811	1640.66	0.356206	0	0.934408	0		$|
+-1062241431	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	1423	22.884	1638.69	0.356206	0	0.934408	0		$|
+-854658269	0	object/static/structure/tatooine/pillar_ruined_large_style_01.iff	0	1423.56	22.1255	1634.51	-0.328017	0	0.944672	0		$|
+-2090498086	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	1426.9	20.4814	1631.53	-0.267485	-0.00963542	0.96351	0.00267494		$|
+-942219052	0	object/static/structure/tatooine/beam_tatooine_overhead_style_01.iff	0	1423.68	22.4815	1631.66	-0.390836	0.135007	0.45861	0.786573		$|
+-1720483051	0	object/tangible/poi/spawnegg/exterior_spawnegg.iff	0	1428.510986	22.63690186	1637.126526	1	0	0	0		$|
