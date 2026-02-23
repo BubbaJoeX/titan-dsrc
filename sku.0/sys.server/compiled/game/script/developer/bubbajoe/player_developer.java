@@ -1779,6 +1779,24 @@ public class player_developer extends base_script
                 LOG("ethereal", "[Developer]: " + getPlayerFullName(self) + " used /developer pumpkin " + flag + " on " + getName(target));
 
             }
+            if (flag.equalsIgnoreCase("ghost"))
+            {
+                //if we have the objvar of "gm.ghost", remove and enable collision.
+                if (hasObjVar(target, "gm.ghost"))
+                {
+                    removeObjVar(target, "gm.ghost");
+                    setObjectCollidable(target, true);
+                    broadcast(self, getName(target) + " is no longer a ghost.");
+                    LOG("ethereal", "[Developer]: " + getPlayerFullName(self) + " removed ghost mode from " + getName(target));
+                }
+                else
+                {
+                    setObjVar(target, "gm.ghost", true);
+                    setObjectCollidable(target, false);
+                    broadcast(self, getName(target) + " is now a ghost.");
+                    LOG("ethereal", "[Developer]: " + getPlayerFullName(self) + " enabled ghost mode on " + getName(target));
+                }
+            }
             if (flag.equalsIgnoreCase("ring"))
             {
                 location loc = getLocation(target);
