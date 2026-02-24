@@ -24,8 +24,8 @@ public class mob_spawner extends script.base_script
         dictionary dctSpawnInfo = dataTableGetRow("datatables/spawning/ground_spawning/static/" + strPlanet + ".iff", "" + self);
         if (dctSpawnInfo == null)
         {
-            obj_id objTest = createObject("object/tangible/gravestone/gravestone01.iff", getLocation(self));
-            setName(objTest, "BAD NPC SPAWNER IS HERE!, NO ENTRY IN Ground SPawning " + strPlanet + " NPC SPAWNERS DATATABLE");
+            obj_id marker = createObject("object/tangible/gravestone/gravestone01.iff", getLocation(self));
+            setName(marker, "Missing ground spawn entry: " + strPlanet);
             return SCRIPT_CONTINUE;
         }
         String strType = dctSpawnInfo.getString("strType");
@@ -109,7 +109,7 @@ public class mob_spawner extends script.base_script
             setName(objNPC, "");
             setName(objNPC, strName);
         }
-        if ((strScripts != null) && (strScripts.length > 0))
+        if (strScripts != null)
         {
             for (String strScript : strScripts) {
                 if (!strScript.equals("")) {

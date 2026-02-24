@@ -14,7 +14,7 @@ s	c	s	s	s	f	f	s	s	s	s
 4725621	1494 173 -1948		brigand_leader		1500	1800				
 4725622	1494 173 -1948		brigand		1500	1800				
 4725623	1494 173 -1948		brigand		1500	1800				
-4725624	QuestGiver lf_safetyquestgiver.cnv -1254 12 -3617		commoner_human_male				conversation.lf_safetyquestgiver
+-918235	QuestGiver lf_safetyquestgiver.cnv -1254 12 -3617		commoner_human_male				conversation.lf_safetyquestgiver
 1340501	Broken Walls 6471 9 -2229		zucca_boar_elder		600	900	
 1340502	Broken Walls 6471 9 -2229		zucca_boar_elder		600	900	
 1340503	Broken Walls 6471 9 -2229		zucca_boar_elder		600	900	
