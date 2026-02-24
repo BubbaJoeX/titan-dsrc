@@ -6,7 +6,7 @@
 
 @class object_template 10
 
-objectName = "static_item_n" "armor_gcw_imperial_stromtrooper_chest_plate"
-detailedDescription = "static_item_d" "armor_gcw_imperial_stromtrooper_chest_plate"
+objectName = "static_item_n" "armor_gcw_imperial_stormtrooper_chest_plate"
+detailedDescription = "static_item_d" "armor_gcw_imperial_stormtrooper_chest_plate"
 appearanceFilename = "appearance/armor_stormtrooper_chest_plate_gcw_f.sat"
 
