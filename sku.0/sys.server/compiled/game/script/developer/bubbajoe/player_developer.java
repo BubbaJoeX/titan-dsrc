@@ -1683,6 +1683,32 @@ public class player_developer extends base_script
             LOG("ethereal", "[Developer]: ***" + getName(self) + "*** used /developer magicPaintingUrl " + url + " on " + getName(target));
             return SCRIPT_CONTINUE;
         }
+        else if (cmd.equalsIgnoreCase("setCondition"))
+        {
+            if (!tok.hasMoreTokens())
+            {
+                broadcast(self, "Usage: /developer setCondition <conditionBitmask>");
+                return SCRIPT_CONTINUE;
+            }
+
+            if (!isTangible(target))
+            {
+                broadcast(self, "Target must be a tangible object.");
+                return SCRIPT_CONTINUE;
+            }
+
+            int condition = stringToInt(tok.nextToken());
+            if (condition <= 0)
+            {
+                broadcast(self, "Condition bitmask must be a positive integer.");
+                return SCRIPT_CONTINUE;
+            }
+
+            setCondition(target, condition);
+            broadcast(self, "Set condition " + condition + " on target: " + getName(target));
+            LOG("ethereal", "[Developer]: ***" + getName(self) + "*** used /developer setCondition " + condition + " on " + getName(target));
+            return SCRIPT_CONTINUE;
+        }
         else if (cmd.equalsIgnoreCase("craft"))
         {
             String template = tok.nextToken();

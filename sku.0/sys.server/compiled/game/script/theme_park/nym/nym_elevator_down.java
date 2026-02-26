@@ -57,7 +57,7 @@ public class nym_elevator_down extends script.base_script
     }
     public int makeElevatorWork(obj_id self, dictionary params) throws InterruptedException
     {
-        String stronghold = "6595508";
+        String stronghold = "-2080024834";
         obj_id building = utils.stringToObjId(stronghold);
         if (!isValidId(building) || !exists(building))
         {
