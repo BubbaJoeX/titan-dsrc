@@ -11,6 +11,7 @@ public class magic_painting_url extends script.base_script
     private static final int MENU_MAGIC_PAINTING_MODE = menu_info_types.SERVER_MENU15;
     private static final String OBJVAR_TEXTURE_MODE = "texture.mode";
     private static final String MODE_IMAGE_ONLY = "IMAGE_ONLY";
+    private static final String MODE_IMAGE_ONLY_TWO_SIDED = "IMAGE_ONLY_TWO_SIDED";
     private static final String MODE_DEFAULT = "DEFAULT";
 
     public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi) throws InterruptedException
@@ -37,13 +38,17 @@ public class magic_painting_url extends script.base_script
                 mode = getStringObjVar(self, OBJVAR_TEXTURE_MODE);
             }
 
-            if (mode.equalsIgnoreCase(MODE_IMAGE_ONLY))
+            if (mode.equalsIgnoreCase(MODE_DEFAULT))
             {
-                setObjVar(self, OBJVAR_TEXTURE_MODE, MODE_DEFAULT);
+                setObjVar(self, OBJVAR_TEXTURE_MODE, MODE_IMAGE_ONLY);
+            }
+            else if (mode.equalsIgnoreCase(MODE_IMAGE_ONLY))
+            {
+                setObjVar(self, OBJVAR_TEXTURE_MODE, MODE_IMAGE_ONLY_TWO_SIDED);
             }
             else
             {
-                setObjVar(self, OBJVAR_TEXTURE_MODE, MODE_IMAGE_ONLY);
+                setObjVar(self, OBJVAR_TEXTURE_MODE, MODE_DEFAULT);
             }
         }
 
