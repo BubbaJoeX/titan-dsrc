@@ -1677,6 +1677,9 @@ public class player_developer extends base_script
             setCondition(target, CONDITION_MAGIC_PAINTING_URL);
             setObjVar(target, "texture.url", url);
             setObjVar(target, "texture.mode", "IMAGE_ONLY");
+            setObjVar(target, "texture.displayMode", "CUBE");
+            setObjVar(target, "texture.scrollH", "0");
+            setObjVar(target, "texture.scrollV", "0");
 
             broadcast(self, "Enabled magic painting URL on target: " + getName(target));
             broadcast(self, "URL: " + url);
