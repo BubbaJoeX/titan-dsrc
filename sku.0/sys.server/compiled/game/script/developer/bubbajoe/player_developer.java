@@ -1711,7 +1711,7 @@ public class player_developer extends base_script
             if (scale > 20.0f) scale = 20.0f;
 
             location loc = getLocation(self);
-            obj_id tv = createObject("object/tangible/furniture/decorative/painting_starships_01.iff", loc);
+            obj_id tv = createObject("object/tangible/painting/painting_starmap.iff", loc);
             if (!isIdValid(tv))
             {
                 broadcast(self, "Failed to create television object.");
