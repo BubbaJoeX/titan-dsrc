@@ -1721,6 +1721,7 @@ public class player_developer extends base_script
             setCondition(tv, CONDITION_MAGIC_VIDEO_PLAYER);
             setObjVar(tv, "stream.url", url);
             setObjVar(tv, "timestamp", "0");
+            setObjVar(tv, "stream.loop", "1");
             setName(tv, "Video Player");
             setScale(tv, scale);
 
