@@ -10,9 +10,9 @@ import script.string_id;
 
 public class video_player_manager extends script.base_script
 {
-    private static final int MENU_MANAGER_ROOT = menu_info_types.SERVER_MENU50;
-    private static final int MENU_MANAGER_LIST = menu_info_types.SERVER_MENU51;
-    private static final int MENU_MANAGER_LIST_SPEAKERS = menu_info_types.SERVER_MENU52;
+    private static final int MENU_MANAGER_ROOT = menu_info_types.SERVER_MENU1;
+    private static final int MENU_MANAGER_LIST = menu_info_types.SERVER_MENU2;
+    private static final int MENU_MANAGER_LIST_SPEAKERS = menu_info_types.SERVER_MENU3;
 
     private static final String OBJVAR_STREAM_URL = "stream.url";
     private static final String OBJVAR_STREAM_LOOP = "stream.loop";

@@ -220,8 +220,6 @@ public class menu_info_types
 	public static final int SERVER_MENU48		  	                = index++; // Used for Galactic Reserve Withdrawl
 	public static final int SERVER_MENU49		  	                = index++; // Used for Autostack and Galactic Reserve Deposit
 	public static final int SERVER_MENU50		  	                = index++; // Used for Autostack root and Galatic Reserve Root
-	public static final int SERVER_MENU51		  	                = index++;
-	public static final int SERVER_MENU52		  	                = index++;
 
 	public static final int SERVER_HARVESTER_MANAGE                 = index++;
 	public static final int SERVER_HOUSE_MANAGE                     = index++;
