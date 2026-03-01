@@ -1,19 +1,15 @@
-# SWG: Titan Data / Script Repository
+# SWG: Bubba Joe's Flavor
 
-This repository contains the **data and script sources for SWG: Titan**=## Contribution Guidelines
+This repository and its sibling repositories (`client`, `src`) contain internal tooling and development for **Bubba Joe's flavor of Star Wars Galaxies**. No support or assistance will be given.
 
-We welcome and encourage pull requests! To keep the repo organized and maintain high code quality, please follow these practices:
+Code is provided as/is and may be updated at any moment. Many features from these repositories may be missing contents from other repositories.
 
-- **Fork and branch**: Always create a feature branch from `main` before making changes.
-- **Commit messages**: Write clear, concise commit messages that describe *what* was changed and *why*.
-- **Code style**: Match the existing formatting and conventions of the project.
-- **Pull requests**:
-    - Keep them focused on a single change or feature.
-    - Reference any related issues.
-    - Provide context or testing notes in the PR description.
-- **Reviews**: Be open to feedback. Reviews are for maintaining project quality, not personal criticism.
+## Credits
 
-## Licensing & Credit
+- **Aconite**: Various implementation
+- **Cekis**: Snapshot dumper / Stella Bellum
+- **SWG Source**: All maintainers, past and present
 
-- This project builds upon the Stella Bellum fork. Please credit them (notably **Cekis**) if you reuse or adapt any of this work.
-- Contributions to this repository will be under the same license as the project.  
+---
+
+*If you would of did it differently, why the hell are you here?*
