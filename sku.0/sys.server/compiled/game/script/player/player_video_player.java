@@ -18,6 +18,7 @@ public class player_video_player extends script.base_script
     private static final String OBJVAR_TIMESTAMP = "timestamp";
     private static final String OBJVAR_STREAM_LOOP = "stream.loop";
     private static final String OBJVAR_STREAM_ASPECT = "stream.aspect";
+    private static final String OBJVAR_STREAM_START_TIME = "stream.startTime";
     private static final String OBJVAR_EMITTER_PARENT_ID = "video_emitter.parent_id";
 
     private static final int MENU_VP_ROOT = menu_info_types.SERVER_MENU40;
@@ -145,6 +146,7 @@ public class player_video_player extends script.base_script
         {
             if (hasObjVar(self, OBJVAR_STREAM_URL))
             {
+                setObjVar(self, OBJVAR_STREAM_START_TIME, String.valueOf(getCalendarTime()));
                 setCondition(self, CONDITION_MAGIC_VIDEO_PLAYER);
                 sendSystemMessage(player, string_id.unlocalized("Video playing."));
             }
@@ -193,6 +195,7 @@ public class player_video_player extends script.base_script
             setObjVar(self, OBJVAR_STREAM_LOOP, "1");
         if (!hasObjVar(self, OBJVAR_STREAM_ASPECT))
             setObjVar(self, OBJVAR_STREAM_ASPECT, "4:3");
+        setObjVar(self, OBJVAR_STREAM_START_TIME, String.valueOf(getCalendarTime()));
 
         sendSystemMessage(player, string_id.unlocalized("Video URL set to: " + url));
         LOG("video_player", "[PlayerVideoPlayer] " + getName(player) + " (" + player + ") set stream URL on " + self + " to: " + url);
