@@ -82,7 +82,7 @@ public class magic_video_player extends script.base_script
         if (params == null)
             return SCRIPT_CONTINUE;
 
-        int event = sui.getIntResult(params);
+        int event = sui.getIntButtonPressed(params);
         if (event == sui.BP_CANCEL)
             return SCRIPT_CONTINUE;
 
@@ -116,7 +116,7 @@ public class magic_video_player extends script.base_script
         if (params == null)
             return SCRIPT_CONTINUE;
 
-        int event = sui.getIntResult(params);
+        int event = sui.getIntButtonPressed(params);
         if (event == sui.BP_CANCEL)
             return SCRIPT_CONTINUE;
 
