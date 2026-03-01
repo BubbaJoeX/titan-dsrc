@@ -7,6 +7,7 @@ import script.menu_info;
 import script.menu_info_types;
 import script.obj_id;
 import script.string_id;
+import script.sui_event_type;
 
 public class magic_video_player extends script.base_script
 {
@@ -14,15 +15,31 @@ public class magic_video_player extends script.base_script
     private static final int MENU_VIDEO_MANAGE = menu_info_types.SERVER_MENU31;
     private static final int MENU_VIDEO_INFO = menu_info_types.SERVER_MENU32;
 
+    private static final String SUI_VIDEO_PLAYER = "Script.videoPlayer";
+
     private static final String OBJVAR_STREAM_URL = "stream.url";
     private static final String OBJVAR_TIMESTAMP = "timestamp";
     private static final String OBJVAR_STREAM_LOOP = "stream.loop";
     private static final String OBJVAR_STREAM_ASPECT = "stream.aspect";
     private static final String OBJVAR_STREAM_START_TIME = "stream.startTime";
+
     private static final String MASTER_ENTERTAINER_SKILL = "social_entertainer_master";
 
-    private static final String SV_PREFIX = "video_mgmt.";
-    private static final String SV_PID = SV_PREFIX + "pid";
+    private static final String SV_PID = "video_mgmt.pid";
+
+    private static final String COMP = "comp.";
+    private static final String LBL_STATUS   = COMP + "statusSection.lblStatus";
+    private static final String LBL_URL      = COMP + "statusSection.lblUrl";
+    private static final String LBL_LOOP     = COMP + "statusSection.lblLoop";
+    private static final String LBL_ASPECT   = COMP + "statusSection.lblAspect";
+    private static final String LBL_ELAPSED  = COMP + "statusSection.lblElapsed";
+    private static final String LBL_ID       = COMP + "statusSection.lblId";
+    private static final String LBL_NAME     = COMP + "statusSection.lblName";
+    private static final String LBL_FEEDBACK = COMP + "feedbackSection.lblFeedback";
+    private static final String BTN_PLAY     = COMP + "playbackControls.btnPlay";
+    private static final String BTN_STOP     = COMP + "playbackControls.btnStop";
+    private static final String BTN_LOOP     = COMP + "playbackControls.btnLoop";
+    private static final String BTN_ASPECT   = COMP + "playbackControls.btnAspect";
 
     // ======================================================================
     // Radial menu
@@ -67,14 +84,37 @@ public class magic_video_player extends script.base_script
     }
 
     // ======================================================================
-    // Control Panel (table-based SUI for authorized users)
+    // Control Panel
     // ======================================================================
 
     private void showControlPanel(obj_id self, obj_id player) throws InterruptedException
     {
+        int pid = createSUIPage(SUI_VIDEO_PLAYER, self, player, "handlePanelClose");
+
+        if (pid < 0)
+        {
+            sendSystemMessage(player, string_id.unlocalized("Failed to open video player panel."));
+            return;
+        }
+
+        subscribeToSUIEvent(pid, sui_event_type.SET_onButton, BTN_PLAY, "handlePlay");
+        subscribeToSUIEvent(pid, sui_event_type.SET_onButton, BTN_STOP, "handleStop");
+        subscribeToSUIEvent(pid, sui_event_type.SET_onButton, BTN_LOOP, "handleToggleLoop");
+        subscribeToSUIEvent(pid, sui_event_type.SET_onButton, BTN_ASPECT, "handleToggleAspect");
+        subscribeToSUIEvent(pid, sui_event_type.SET_onButton, COMP + "actionControls.btnSetUrl", "handleSetUrlPrompt");
+        subscribeToSUIEvent(pid, sui_event_type.SET_onButton, COMP + "actionControls.btnSetTimestamp", "handleSetTimestampPrompt");
+        subscribeToSUIEvent(pid, sui_event_type.SET_onButton, COMP + "actionControls.btnSpawnSpeaker", "handleSpawnSpeaker");
+
+        populatePanel(self, pid);
+
+        showSUIPage(pid);
+        utils.setScriptVar(player, SV_PID, pid);
+    }
+
+    private void populatePanel(obj_id self, int pid) throws InterruptedException
+    {
         String url = hasObjVar(self, OBJVAR_STREAM_URL) ? getStringObjVar(self, OBJVAR_STREAM_URL) : "";
         if (url == null) url = "";
-
         boolean isPlaying = hasCondition(self, CONDITION_MAGIC_VIDEO_PLAYER) && !url.isEmpty();
 
         String loop = "Off";
@@ -89,13 +129,6 @@ public class magic_video_player extends script.base_script
         {
             String av = getStringObjVar(self, OBJVAR_STREAM_ASPECT);
             if (av != null && !av.isEmpty()) aspect = av;
-        }
-
-        String timestamp = "0";
-        if (hasObjVar(self, OBJVAR_TIMESTAMP))
-        {
-            String tv = getStringObjVar(self, OBJVAR_TIMESTAMP);
-            if (tv != null && !tv.isEmpty()) timestamp = tv;
         }
 
         String elapsed = "-";
@@ -121,107 +154,217 @@ public class magic_video_player extends script.base_script
         String name = getName(self);
         if (name == null || name.isEmpty()) name = "(unnamed)";
 
-        String urlDisplay = url.isEmpty() ? "(none)" : url;
+        String urlDisplay = url.isEmpty() ? "(none)" : (url.length() > 55 ? url.substring(0, 55) + "..." : url);
 
-        String[] columnNames = { "Setting", "Value" };
-        String[] columnTypes = { "text", "text" };
+        setSUIProperty(pid, LBL_STATUS, sui.PROP_TEXT, "Status: " + (isPlaying ? "\\#00FF00 PLAYING" : "\\#FF4444 STOPPED"));
+        setSUIProperty(pid, LBL_URL, sui.PROP_TEXT, "URL: " + urlDisplay);
+        setSUIProperty(pid, LBL_LOOP, sui.PROP_TEXT, "Loop: " + loop);
+        setSUIProperty(pid, LBL_ASPECT, sui.PROP_TEXT, "Aspect: " + aspect);
+        setSUIProperty(pid, LBL_ELAPSED, sui.PROP_TEXT, "Elapsed: " + elapsed);
+        setSUIProperty(pid, LBL_ID, sui.PROP_TEXT, "ID: " + self);
+        setSUIProperty(pid, LBL_NAME, sui.PROP_TEXT, name);
 
-        String[][] tableData = {
-            { "Status",       isPlaying ? "\\#00FF00 PLAYING" : "\\#FF4444 STOPPED" },
-            { "URL",          urlDisplay },
-            { "Loop",         loop },
-            { "Aspect Ratio", aspect },
-            { "Seek Offset",  timestamp + "s" },
-            { "Elapsed",      elapsed },
-            { "Object ID",    self.toString() },
-            { "Object Name",  name },
-            { "---",          "--- ACTIONS ---" },
-            { "Set URL",      "Enter a new stream URL" },
-            { "Set Timestamp","Enter seek offset in seconds" },
-            { isPlaying ? "Stop Video" : "Play Video", isPlaying ? "Stop playback" : "Resume playback" },
-            { "Toggle Loop",  "Currently: " + loop },
-            { "Toggle Aspect","Currently: " + aspect },
-            { "Spawn Speaker","Create linked audio emitter" }
-        };
+        setSUIProperty(pid, BTN_LOOP, sui.PROP_TEXT, "Loop: " + loop);
+        setSUIProperty(pid, BTN_ASPECT, sui.PROP_TEXT, "Aspect: " + aspect);
 
-        int pid = sui.tableRowMajor(self, player, sui.OK_CANCEL_REFRESH, "Video Player Control Panel", "handleControlPanelOk", null, columnNames, columnTypes, tableData);
-
-        setSUIProperty(pid, sui.TABLE_TABLE, "Selectable", "true");
-        setSUIProperty(pid, sui.TABLE_TABLE, "SelectionAllowedMultiRow", "false");
-
-        sui.tableButtonSetup(pid, sui.OK_CANCEL_REFRESH);
-        setSUIProperty(pid, sui.TABLE_BTN_OK, sui.PROP_TEXT, "Execute");
-        setSUIProperty(pid, sui.TABLE_BTN_OTHER, sui.PROP_TEXT, "Refresh");
-
-        flushSUIPage(pid);
-        showSUIPage(pid);
-
-        utils.setScriptVar(player, SV_PID, pid);
+        setSUIProperty(pid, "bg.caption.lblTitle", sui.PROP_TEXT, "Video Player - " + name);
     }
 
-    public int handleControlPanelOk(obj_id self, dictionary params) throws InterruptedException
+    private void refreshPanel(obj_id self, obj_id player, String feedback) throws InterruptedException
+    {
+        int pid = utils.getIntScriptVar(player, SV_PID);
+        if (pid <= 0)
+            return;
+
+        populatePanel(self, pid);
+
+        if (feedback != null && !feedback.isEmpty())
+            setSUIProperty(pid, LBL_FEEDBACK, sui.PROP_TEXT, feedback);
+
+        flushSUIPage(pid);
+    }
+
+    // ======================================================================
+    // Button Handlers
+    // ======================================================================
+
+    public int handlePlay(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        if (!isIdValid(player) || !canModifyVideoPlayer(player))
+            return SCRIPT_CONTINUE;
+
+        String url = hasObjVar(self, OBJVAR_STREAM_URL) ? getStringObjVar(self, OBJVAR_STREAM_URL) : "";
+        if (url == null || url.isEmpty())
+        {
+            refreshPanel(self, player, "\\#FF4444 No URL set. Use Set URL first.");
+            return SCRIPT_CONTINUE;
+        }
+
+        setObjVar(self, OBJVAR_STREAM_START_TIME, String.valueOf(getCalendarTime()));
+        setCondition(self, CONDITION_MAGIC_VIDEO_PLAYER);
+        refreshPanel(self, player, "\\#00FF00 Video playing.");
+        return SCRIPT_CONTINUE;
+    }
+
+    public int handleStop(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        if (!isIdValid(player) || !canModifyVideoPlayer(player))
+            return SCRIPT_CONTINUE;
+
+        clearCondition(self, CONDITION_MAGIC_VIDEO_PLAYER);
+        refreshPanel(self, player, "\\#FFFF00 Video stopped.");
+        return SCRIPT_CONTINUE;
+    }
+
+    public int handleToggleLoop(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        if (!isIdValid(player) || !canModifyVideoPlayer(player))
+            return SCRIPT_CONTINUE;
+
+        String currentLoop = "0";
+        if (hasObjVar(self, OBJVAR_STREAM_LOOP))
+            currentLoop = getStringObjVar(self, OBJVAR_STREAM_LOOP);
+
+        String newLoop = (currentLoop != null && currentLoop.equals("1")) ? "0" : "1";
+        setObjVar(self, OBJVAR_STREAM_LOOP, newLoop);
+        refreshPanel(self, player, "Loop " + (newLoop.equals("1") ? "\\#00FF00 enabled" : "\\#FFFF00 disabled") + ".");
+        return SCRIPT_CONTINUE;
+    }
+
+    public int handleToggleAspect(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        if (!isIdValid(player) || !canModifyVideoPlayer(player))
+            return SCRIPT_CONTINUE;
+
+        String currentAspect = "4:3";
+        if (hasObjVar(self, OBJVAR_STREAM_ASPECT))
+            currentAspect = getStringObjVar(self, OBJVAR_STREAM_ASPECT);
+
+        String newAspect = (currentAspect != null && currentAspect.equals("16:9")) ? "4:3" : "16:9";
+        setObjVar(self, OBJVAR_STREAM_ASPECT, newAspect);
+        refreshPanel(self, player, "Aspect set to " + newAspect + ".");
+        return SCRIPT_CONTINUE;
+    }
+
+    public int handleSetUrlPrompt(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        if (!isIdValid(player) || !canModifyVideoPlayer(player))
+            return SCRIPT_CONTINUE;
+
+        sui.inputbox(self, player, "Enter the video stream URL:", sui.OK_CANCEL, "Set Video URL", sui.INPUT_NORMAL, null, "handleSetVideoUrl", null);
+        return SCRIPT_CONTINUE;
+    }
+
+    public int handleSetTimestampPrompt(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        if (!isIdValid(player) || !canModifyVideoPlayer(player))
+            return SCRIPT_CONTINUE;
+
+        sui.inputbox(self, player, "Enter the timestamp in seconds to seek to:", sui.OK_CANCEL, "Set Timestamp", sui.INPUT_NORMAL, null, "handleSetVideoTimestamp", null);
+        return SCRIPT_CONTINUE;
+    }
+
+    public int handleSpawnSpeaker(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        if (!isIdValid(player) || !canModifyVideoPlayer(player))
+            return SCRIPT_CONTINUE;
+
+        obj_id speaker = utils.spawnVideoSpeaker(player, self);
+        if (!isIdValid(speaker))
+        {
+            refreshPanel(self, player, "\\#FF4444 Failed to create speaker.");
+            return SCRIPT_CONTINUE;
+        }
+
+        refreshPanel(self, player, "\\#00FF00 Speaker spawned.");
+        return SCRIPT_CONTINUE;
+    }
+
+    public int handlePanelClose(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        if (isIdValid(player))
+            utils.removeScriptVar(player, SV_PID);
+        return SCRIPT_CONTINUE;
+    }
+
+    // ======================================================================
+    // Input Box Callbacks
+    // ======================================================================
+
+    public int handleSetVideoUrl(obj_id self, dictionary params) throws InterruptedException
     {
         if (params == null)
             return SCRIPT_CONTINUE;
 
-        obj_id player = sui.getPlayerId(params);
-        if (!isIdValid(player))
+        int event = sui.getIntButtonPressed(params);
+        if (event == sui.BP_CANCEL)
             return SCRIPT_CONTINUE;
 
-        if (!canModifyVideoPlayer(player))
+        obj_id player = sui.getPlayerId(params);
+        if (!isIdValid(player) || !canModifyVideoPlayer(player))
+            return SCRIPT_CONTINUE;
+
+        String url = sui.getInputBoxText(params);
+        if (url == null || url.isEmpty())
         {
-            sendSystemMessage(player, string_id.unlocalized("You do not have permission to modify this video player."));
+            refreshPanel(self, player, "\\#FF4444 Invalid URL.");
             return SCRIPT_CONTINUE;
         }
+
+        url = url.trim();
+        setObjVar(self, OBJVAR_STREAM_URL, url);
+        if (!hasObjVar(self, OBJVAR_TIMESTAMP))
+            setObjVar(self, OBJVAR_TIMESTAMP, "0");
+        if (!hasObjVar(self, OBJVAR_STREAM_LOOP))
+            setObjVar(self, OBJVAR_STREAM_LOOP, "1");
+        if (!hasObjVar(self, OBJVAR_STREAM_ASPECT))
+            setObjVar(self, OBJVAR_STREAM_ASPECT, "4:3");
+        setObjVar(self, OBJVAR_STREAM_START_TIME, String.valueOf(getCalendarTime()));
+        setCondition(self, CONDITION_MAGIC_VIDEO_PLAYER);
+
+        LOG("video_player", "[VideoPlayer] " + getName(player) + " (" + player + ") set stream URL on " + self + " to: " + url);
+        refreshPanel(self, player, "\\#00FF00 URL set. Playing.");
+        return SCRIPT_CONTINUE;
+    }
+
+    public int handleSetVideoTimestamp(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (params == null)
+            return SCRIPT_CONTINUE;
 
         int event = sui.getIntButtonPressed(params);
-
         if (event == sui.BP_CANCEL)
+            return SCRIPT_CONTINUE;
+
+        obj_id player = sui.getPlayerId(params);
+        if (!isIdValid(player) || !canModifyVideoPlayer(player))
+            return SCRIPT_CONTINUE;
+
+        String timestampStr = sui.getInputBoxText(params);
+        if (timestampStr == null || timestampStr.isEmpty())
         {
-            utils.removeScriptVar(player, SV_PID);
+            refreshPanel(self, player, "\\#FF4444 Invalid timestamp.");
             return SCRIPT_CONTINUE;
         }
 
-        if (event == sui.BP_REVERT)
+        try
         {
-            showControlPanel(self, player);
-            return SCRIPT_CONTINUE;
+            int timestamp = Integer.parseInt(timestampStr.trim());
+            if (timestamp < 0) timestamp = 0;
+            setObjVar(self, OBJVAR_TIMESTAMP, String.valueOf(timestamp));
+            refreshPanel(self, player, "Timestamp set to " + timestamp + "s.");
         }
-
-        int row = sui.getTableSelectedRow(params);
-        if (row < 0)
+        catch (NumberFormatException e)
         {
-            sendSystemMessage(player, string_id.unlocalized("Select an action row and press Execute."));
-            return SCRIPT_CONTINUE;
-        }
-
-        switch (row)
-        {
-            case 9:
-                sui.inputbox(self, player, "Enter the video stream URL:", sui.OK_CANCEL, "Set Video URL", sui.INPUT_NORMAL, null, "handleSetVideoUrl", null);
-                break;
-            case 10:
-                sui.inputbox(self, player, "Enter the timestamp in seconds to seek to:", sui.OK_CANCEL, "Set Timestamp", sui.INPUT_NORMAL, null, "handleSetVideoTimestamp", null);
-                break;
-            case 11:
-                executePlayStop(self, player);
-                showControlPanel(self, player);
-                break;
-            case 12:
-                executeToggleLoop(self, player);
-                showControlPanel(self, player);
-                break;
-            case 13:
-                executeToggleAspect(self, player);
-                showControlPanel(self, player);
-                break;
-            case 14:
-                executeSpawnSpeaker(self, player);
-                showControlPanel(self, player);
-                break;
-            default:
-                sendSystemMessage(player, string_id.unlocalized("Select an action row (Set URL, Set Timestamp, Play/Stop, etc.) and press Execute."));
-                break;
+            refreshPanel(self, player, "\\#FF4444 Invalid number.");
         }
 
         return SCRIPT_CONTINUE;
@@ -265,161 +408,9 @@ public class magic_video_player extends script.base_script
         sui.msgbox(self, player, info, sui.OK_ONLY, "Video Player Info", sui.MSG_NORMAL, "noHandler");
     }
 
-    // ======================================================================
-    // SUI Callbacks
-    // ======================================================================
-
-    public int handleSetVideoUrl(obj_id self, dictionary params) throws InterruptedException
-    {
-        if (params == null)
-            return SCRIPT_CONTINUE;
-
-        int event = sui.getIntButtonPressed(params);
-        if (event == sui.BP_CANCEL)
-            return SCRIPT_CONTINUE;
-
-        obj_id player = sui.getPlayerId(params);
-        if (!isIdValid(player))
-            return SCRIPT_CONTINUE;
-
-        if (!canModifyVideoPlayer(player))
-        {
-            sendSystemMessage(player, string_id.unlocalized("You do not have permission to modify this video player."));
-            return SCRIPT_CONTINUE;
-        }
-
-        String url = sui.getInputBoxText(params);
-        if (url == null || url.isEmpty())
-        {
-            sendSystemMessage(player, string_id.unlocalized("Invalid URL."));
-            return SCRIPT_CONTINUE;
-        }
-
-        url = url.trim();
-        setObjVar(self, OBJVAR_STREAM_URL, url);
-        if (!hasObjVar(self, OBJVAR_TIMESTAMP))
-            setObjVar(self, OBJVAR_TIMESTAMP, "0");
-        if (!hasObjVar(self, OBJVAR_STREAM_LOOP))
-            setObjVar(self, OBJVAR_STREAM_LOOP, "1");
-        if (!hasObjVar(self, OBJVAR_STREAM_ASPECT))
-            setObjVar(self, OBJVAR_STREAM_ASPECT, "4:3");
-        setObjVar(self, OBJVAR_STREAM_START_TIME, String.valueOf(getCalendarTime()));
-        setCondition(self, CONDITION_MAGIC_VIDEO_PLAYER);
-        sendSystemMessage(player, string_id.unlocalized("Video URL set to: " + url));
-        LOG("video_player", "[VideoPlayer] " + getName(player) + " (" + player + ") set stream URL on " + self + " to: " + url);
-
-        showControlPanel(self, player);
-        return SCRIPT_CONTINUE;
-    }
-
-    public int handleSetVideoTimestamp(obj_id self, dictionary params) throws InterruptedException
-    {
-        if (params == null)
-            return SCRIPT_CONTINUE;
-
-        int event = sui.getIntButtonPressed(params);
-        if (event == sui.BP_CANCEL)
-            return SCRIPT_CONTINUE;
-
-        obj_id player = sui.getPlayerId(params);
-        if (!isIdValid(player))
-            return SCRIPT_CONTINUE;
-
-        if (!canModifyVideoPlayer(player))
-        {
-            sendSystemMessage(player, string_id.unlocalized("You do not have permission to modify this video player."));
-            return SCRIPT_CONTINUE;
-        }
-
-        String timestampStr = sui.getInputBoxText(params);
-        if (timestampStr == null || timestampStr.isEmpty())
-        {
-            sendSystemMessage(player, string_id.unlocalized("Invalid timestamp."));
-            return SCRIPT_CONTINUE;
-        }
-
-        try
-        {
-            int timestamp = Integer.parseInt(timestampStr.trim());
-            if (timestamp < 0)
-                timestamp = 0;
-            setObjVar(self, OBJVAR_TIMESTAMP, String.valueOf(timestamp));
-            sendSystemMessage(player, string_id.unlocalized("Timestamp set to: " + timestamp + " seconds."));
-        }
-        catch (NumberFormatException e)
-        {
-            sendSystemMessage(player, string_id.unlocalized("Invalid timestamp. Please enter a number in seconds."));
-        }
-
-        showControlPanel(self, player);
-        return SCRIPT_CONTINUE;
-    }
-
     public int noHandler(obj_id self, dictionary params) throws InterruptedException
     {
         return SCRIPT_CONTINUE;
-    }
-
-    // ======================================================================
-    // Action executors
-    // ======================================================================
-
-    private void executePlayStop(obj_id self, obj_id player) throws InterruptedException
-    {
-        String url = hasObjVar(self, OBJVAR_STREAM_URL) ? getStringObjVar(self, OBJVAR_STREAM_URL) : "";
-        boolean isPlaying = hasCondition(self, CONDITION_MAGIC_VIDEO_PLAYER) && url != null && !url.isEmpty();
-
-        if (isPlaying)
-        {
-            clearCondition(self, CONDITION_MAGIC_VIDEO_PLAYER);
-            sendSystemMessage(player, string_id.unlocalized("Video stopped."));
-        }
-        else
-        {
-            if (url != null && !url.isEmpty())
-            {
-                setObjVar(self, OBJVAR_STREAM_START_TIME, String.valueOf(getCalendarTime()));
-                setCondition(self, CONDITION_MAGIC_VIDEO_PLAYER);
-                sendSystemMessage(player, string_id.unlocalized("Video playing."));
-            }
-            else
-            {
-                sendSystemMessage(player, string_id.unlocalized("No URL set. Use Set URL first."));
-            }
-        }
-    }
-
-    private void executeToggleLoop(obj_id self, obj_id player) throws InterruptedException
-    {
-        String currentLoop = "0";
-        if (hasObjVar(self, OBJVAR_STREAM_LOOP))
-            currentLoop = getStringObjVar(self, OBJVAR_STREAM_LOOP);
-
-        String newLoop = (currentLoop != null && currentLoop.equals("1")) ? "0" : "1";
-        setObjVar(self, OBJVAR_STREAM_LOOP, newLoop);
-        sendSystemMessage(player, string_id.unlocalized("Loop " + (newLoop.equals("1") ? "enabled" : "disabled") + "."));
-    }
-
-    private void executeToggleAspect(obj_id self, obj_id player) throws InterruptedException
-    {
-        String currentAspect = "4:3";
-        if (hasObjVar(self, OBJVAR_STREAM_ASPECT))
-            currentAspect = getStringObjVar(self, OBJVAR_STREAM_ASPECT);
-
-        String newAspect = (currentAspect != null && currentAspect.equals("16:9")) ? "4:3" : "16:9";
-        setObjVar(self, OBJVAR_STREAM_ASPECT, newAspect);
-        sendSystemMessage(player, string_id.unlocalized("Aspect ratio set to " + newAspect + "."));
-    }
-
-    private void executeSpawnSpeaker(obj_id self, obj_id player) throws InterruptedException
-    {
-        obj_id speaker = utils.spawnVideoSpeaker(player, self);
-        if (!isIdValid(speaker))
-        {
-            sendSystemMessage(player, string_id.unlocalized("Failed to create speaker object."));
-            return;
-        }
-        sendSystemMessage(player, string_id.unlocalized("Speaker spawned and linked to this video player."));
     }
 
     // ======================================================================
