@@ -266,7 +266,7 @@ public class player_vehicle extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int onAutoPilotWaypoint(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException
+    public int handleAutoPilotWaypoint(obj_id self, dictionary params) throws InterruptedException
     {
         obj_id vehicleObj = getMountId(self);
         if (!isIdValid(vehicleObj) || getState(self, STATE_RIDING_MOUNT) != 1)
@@ -276,13 +276,8 @@ public class player_vehicle extends script.base_script
             sendSystemMessageTestingOnly(self, "You must be in skyway mode to use auto-pilot.");
             return SCRIPT_CONTINUE;
         }
-        if (params == null || params.length() == 0)
-            return SCRIPT_CONTINUE;
-        String[] parts = params.split(",");
-        if (parts.length < 2)
-            return SCRIPT_CONTINUE;
-        float x = Float.parseFloat(parts[0].trim());
-        float z = Float.parseFloat(parts[1].trim());
+        float x = params.getFloat("x");
+        float z = params.getFloat("z");
         dictionary wpParams = new dictionary();
         wpParams.put("x", x);
         wpParams.put("z", z);
