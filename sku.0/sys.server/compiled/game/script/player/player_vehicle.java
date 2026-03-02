@@ -220,6 +220,16 @@ public class player_vehicle extends script.base_script
             {
                 playClientEffectObj(nearby, "sound/veh_horn.snd", vehicleObj, "");
             }
+            String[] hornQuips = {
+                "Watch it!",
+                "Hey, watch where you're going!",
+                "Out of the way!",
+                "Move it!",
+                "Are you crazy?!",
+                "Whoa! Easy there!",
+                "Hey! I'm walkin' here!",
+                "Learn to drive!"
+            };
             obj_id[] npcs = getNPCsInRange(vehicleObj, 32.0f);
             if (npcs != null)
             {
@@ -231,8 +241,14 @@ public class player_vehicle extends script.base_script
                         continue;
                     if (isInCombat(npcs[i]))
                         continue;
+                    if (hasCondition(npcs[i], CONDITION_INVULNERABLE) || hasCondition(npcs[i], CONDITION_CONVERSABLE))
+                        continue;
                     setMovementRun(npcs[i]);
                     ai_lib.pathAwayFrom(npcs[i], vehicleObj);
+                    if (ai_lib.isHumanoid(npcs[i]) && rand(1, 100) <= 30)
+                    {
+                        showFlyText(npcs[i], string_id.unlocalized(hornQuips[rand(0, hornQuips.length - 1)]), 1.5f, 255, 255, 255);
+                    }
                 }
             }
         }
