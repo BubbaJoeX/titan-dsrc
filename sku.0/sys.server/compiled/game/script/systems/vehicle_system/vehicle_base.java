@@ -34,9 +34,9 @@ public class vehicle_base extends script.base_script
     public static final float AIRSPEEDER_DECEL = 30.0f;
     public static final float AIRSPEEDER_TURN_RATE_MAX = 180.0f;
     public static final float AIRSPEEDER_BANKING_ANGLE = 60.0f;
-    public static final float AIRSPEEDER_CLIMB_RATE = 2.0f;
-    public static final float AIRSPEEDER_TICK_INTERVAL = 0.25f;
-    public static final float AIRSPEEDER_HELIX_TURNS = 1.0f;
+    public static final float AIRSPEEDER_CLIMB_RATE = 25.0f;
+    public static final float AIRSPEEDER_TICK_INTERVAL = 0.1f;
+    public static final float AIRSPEEDER_HELIX_TURNS = 0.5f;
 
     public static final String OV_AUTOPILOT_ACTIVE = "autopilot.active";
     public static final String OV_AUTOPILOT_INDEX = "autopilot.currentIndex";
