@@ -24,6 +24,7 @@ public class vehicle_base extends script.base_script
     public static final String OV_AIRSPEEDER_SAVED_ACCEL_MAX = "airspeeder.savedAccelMax";
     public static final String OV_AIRSPEEDER_SAVED_DECEL = "airspeeder.savedDecel";
     public static final String OV_AIRSPEEDER_SAVED_TURN_MAX = "airspeeder.savedTurnMax";
+    public static final String OV_AIRSPEEDER_SAVED_BANKING = "airspeeder.savedBanking";
     public static final float AIRSPEEDER_HOVER_HEIGHT = 50.0f;
     public static final float AIRSPEEDER_SPEED = 80.0f;
     public static final float AIRSPEEDER_MIN_SPEED = 10.0f;
@@ -31,6 +32,7 @@ public class vehicle_base extends script.base_script
     public static final float AIRSPEEDER_ACCEL_MAX = 50.0f;
     public static final float AIRSPEEDER_DECEL = 30.0f;
     public static final float AIRSPEEDER_TURN_RATE_MAX = 180.0f;
+    public static final float AIRSPEEDER_BANKING_ANGLE = 60.0f;
     public static final float AIRSPEEDER_ASCENT_DURATION = 5.0f;
     public static final float AIRSPEEDER_DESCENT_DURATION = 5.0f;
     public static final float AIRSPEEDER_ASCENT_INTERVAL = 0.25f;
@@ -199,12 +201,14 @@ public class vehicle_base extends script.base_script
             setObjVar(self, OV_AIRSPEEDER_SAVED_ACCEL_MAX, vehicle.getAccelMax(self));
             setObjVar(self, OV_AIRSPEEDER_SAVED_DECEL, vehicle.getDecel(self));
             setObjVar(self, OV_AIRSPEEDER_SAVED_TURN_MAX, vehicle.getTurnRateMax(self));
+            setObjVar(self, OV_AIRSPEEDER_SAVED_BANKING, vehicle.getBankingAngle(self));
             vehicle.setMaximumSpeed(self, AIRSPEEDER_SPEED);
             vehicle.setMinimumSpeed(self, AIRSPEEDER_MIN_SPEED);
             vehicle.setAccelMin(self, AIRSPEEDER_ACCEL_MIN);
             vehicle.setAccelMax(self, AIRSPEEDER_ACCEL_MAX);
             vehicle.setDecel(self, AIRSPEEDER_DECEL);
             vehicle.setTurnRateMax(self, AIRSPEEDER_TURN_RATE_MAX);
+            vehicle.setBankingAngle(self, AIRSPEEDER_BANKING_ANGLE);
         }
         else
         {
@@ -301,6 +305,11 @@ public class vehicle_base extends script.base_script
         {
             vehicle.setTurnRateMax(veh, getFloatObjVar(veh, OV_AIRSPEEDER_SAVED_TURN_MAX));
             removeObjVar(veh, OV_AIRSPEEDER_SAVED_TURN_MAX);
+        }
+        if (hasObjVar(veh, OV_AIRSPEEDER_SAVED_BANKING))
+        {
+            vehicle.setBankingAngle(veh, getFloatObjVar(veh, OV_AIRSPEEDER_SAVED_BANKING));
+            removeObjVar(veh, OV_AIRSPEEDER_SAVED_BANKING);
         }
         setObjectCollidable(veh, true);
         obj_id rider = getRiderId(veh);
