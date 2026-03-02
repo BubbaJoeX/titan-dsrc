@@ -146,6 +146,15 @@ public class space_transition extends script.base_script
         }
         else
         {
+            obj_id launchedShip = getObjIdObjVar(player, "space.launch.ship");
+            if (isIdValid(launchedShip) && launchedShip.isLoaded() && getOwner(launchedShip) == player && getContainedBy(getContainedBy(launchedShip)) == utils.getDatapad(player))
+            {
+                if (unpackShipForPlayer(player, launchedShip))
+                {
+                    removeObjVar(player, "space.launch");
+                    return;
+                }
+            }
             removeObjVar(player, "space.launch");
             if (isIdValid(containingShip))
             {

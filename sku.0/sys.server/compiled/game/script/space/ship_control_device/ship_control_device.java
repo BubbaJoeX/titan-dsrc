@@ -93,6 +93,11 @@ public class ship_control_device extends script.base_script
                 string_id strSpam = new string_id("space/space_interaction", "repair");
                 mi.addRootMenu(menu_info_types.ITEM_USE, strSpam);
             }
+            else if (!isSpaceScene())
+            {
+                string_id strLaunch = new string_id("space/space_interaction", "launch");
+                mi.addRootMenu(menu_info_types.ITEM_USE, strLaunch);
+            }
             if (isShipSlotInstalled(objShip, ship_chassis_slot_type.SCST_cargo_hold))
             {
                 string_id strSpam = new string_id("space/space_interaction", "view");
@@ -120,6 +125,11 @@ public class ship_control_device extends script.base_script
                     string_id strSpam = new string_id("space/space_interaction", "complete_repair");
                     sendSystemMessage(player, strSpam);
                     space_crafting.repairDamage(player, objShip, 1.0f);
+                }
+                else if (!isSpaceScene())
+                {
+                    setObjVar(player, "space.launch.ship", objShip);
+                    space_transition.handlePotentialSceneChange(player);
                 }
             }
         }
