@@ -360,8 +360,6 @@ public class magic_video_player extends script.base_script
 
         url = url.trim();
 
-        destroyLinkedSpeakers(self);
-
         setObjVar(self, OBJVAR_STREAM_URL, url);
         if (!hasObjVar(self, OBJVAR_TIMESTAMP))
             setObjVar(self, OBJVAR_TIMESTAMP, "0");
@@ -401,8 +399,6 @@ public class magic_video_player extends script.base_script
         {
             int timestamp = Integer.parseInt(timestampStr.trim());
             if (timestamp < 0) timestamp = 0;
-
-            destroyLinkedSpeakers(self);
 
             setObjVar(self, OBJVAR_TIMESTAMP, String.valueOf(timestamp));
             refreshPanel(self, player, "Timestamp set to " + timestamp + "s.");

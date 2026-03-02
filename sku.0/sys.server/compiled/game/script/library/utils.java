@@ -7285,9 +7285,15 @@ public class utils extends script.base_script
         if (!isIdValid(spawner) || !isIdValid(videoPlayer))
             return null;
 
-        location loc = getLocation(spawner);
+        location loc = getLocation(videoPlayer);
         if (loc == null)
             return null;
+
+        float yaw = getYaw(videoPlayer);
+        float offsetX = (float)Math.sin(yaw) * 1.5f;
+        float offsetZ = (float)Math.cos(yaw) * 1.5f;
+        loc.x += offsetX;
+        loc.z += offsetZ;
 
         obj_id speaker = createObject("object/tangible/loot/misc/speaker_s01.iff", loc);
         if (!isIdValid(speaker))
@@ -7295,6 +7301,7 @@ public class utils extends script.base_script
 
         setObjVar(speaker, "video_emitter.parent_id", videoPlayer.toString());
         setName(speaker, "Video Speaker");
+        setScale(speaker, 0.5f);
         attachScript(speaker, "terminal.magic_video_emitter");
 
         LOG("video_player", "[spawnVideoSpeaker] " + getName(spawner) + " (" + spawner + ") spawned speaker " + speaker + " linked to " + videoPlayer);
