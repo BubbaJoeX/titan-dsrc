@@ -219,7 +219,8 @@ public class player_vehicle extends script.base_script
             obj_id[] nearby = getPlayerCreaturesInRange(vehicleObj, 128.0f);
             if (nearby != null && nearby.length > 0)
             {
-                playClientEffectObj(nearby, "sound/veh_horn.snd", vehicleObj, "");
+                for (int i = 0; i < nearby.length; i++)
+                    play2dNonLoopingMusic(nearby[i], "sound/veh_horn.snd");
             }
             String[] hornQuips = {
                 "Watch it!",
