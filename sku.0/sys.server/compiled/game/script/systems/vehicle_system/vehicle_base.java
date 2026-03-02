@@ -135,10 +135,10 @@ public class vehicle_base extends script.base_script
         }
         boolean hasPanelRider = hasObjVar(self, vehicle.OBJVAR_AIRSPEEDER_PANEL_RIDER);
         boolean isOwner = rider == getMaster(self);
-        LOG("airspeeder", "handleAirspeederCheck: rider=" + rider + " hasPanelRider=" + hasPanelRider + " isOwner=" + isOwner);
+        debugServerConsoleMsg(self, "handleAirspeederCheck: rider=" + rider + " hasPanelRider=" + hasPanelRider + " isOwner=" + isOwner);
         if (!hasPanelRider && isOwner)
         {
-            LOG("airspeeder", "handleAirspeederCheck: auto-showing panel for " + rider);
+            debugServerConsoleMsg(self, "handleAirspeederCheck: auto-showing panel for " + rider);
             showAirspeederPanel(rider, true);
             setObjVar(self, vehicle.OBJVAR_AIRSPEEDER_PANEL_RIDER, rider);
             if (!hasScript(rider, "player.player_vehicle"))
@@ -296,7 +296,7 @@ public class vehicle_base extends script.base_script
         boolean isHover = vehicle.isHoverVehicle(self);
         boolean isJetPack = vehicle.isJetPackVehicle(self);
         boolean isSpace = isSpaceScene();
-        LOG("airspeeder", "OnObjectMenuRequest: isHover=" + isHover + " isJetPack=" + isJetPack + " isSpace=" + isSpace + " got=" + getObjType(self));
+        debugServerConsoleMsg(self, "OnObjectMenuRequest: isHover=" + isHover + " isJetPack=" + isJetPack + " isSpace=" + isSpace + " got=" + getObjType(self));
         if (isHover && !isJetPack && !isSpace)
         {
             mi.addRootMenu(menu_info_types.SERVER_MENU2, string_id.unlocalized("Advanced Piloting"));
