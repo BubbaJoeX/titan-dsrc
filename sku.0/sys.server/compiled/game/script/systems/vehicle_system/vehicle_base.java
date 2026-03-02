@@ -40,7 +40,17 @@ public class vehicle_base extends script.base_script
 
     public static final String OV_AUTOPILOT_ACTIVE = "autopilot.active";
     public static final String OV_AUTOPILOT_INDEX = "autopilot.currentIndex";
+    public static final String OV_GPS_MUTED = "airspeeder.gpsMuted";
     public static final float AUTOPILOT_BOARDING_DELAY = 15.0f;
+
+    public void sendGpsMessage(obj_id vehicle, obj_id rider, String message) throws InterruptedException
+    {
+        if (!isIdValid(rider))
+            return;
+        if (hasObjVar(vehicle, OV_GPS_MUTED))
+            return;
+        sendSystemMessageTestingOnly(rider, message);
+    }
     public int revertVehicleMod(obj_id self, dictionary params) throws InterruptedException
     {
         if (params == null || !params.containsKey("type"))
@@ -430,7 +440,7 @@ public class vehicle_base extends script.base_script
         obj_id rider = getRiderId(self);
         if (isIdValid(rider))
         {
-            sendSystemMessageTestingOnly(rider, "Auto-Pilot: Waypoint added (" + queue.length + " in queue)");
+            sendGpsMessage(self, rider, "Auto-Pilot: Waypoint added (" + queue.length + " in queue)");
         }
 
         if (!hasObjVar(self, OV_AUTOPILOT_ACTIVE))
@@ -454,7 +464,7 @@ public class vehicle_base extends script.base_script
         if (!isIdValid(rider))
             return SCRIPT_CONTINUE;
 
-        sendSystemMessageTestingOnly(rider, "Auto-Pilot engaged.");
+        sendGpsMessage(self, rider, "Auto-Pilot engaged.");
         sendAutoPilotCurrentWaypoint(self, rider);
         return SCRIPT_CONTINUE;
     }
@@ -470,14 +480,14 @@ public class vehicle_base extends script.base_script
         if (queue == null || idx >= queue.length)
         {
             cancelAutoPilotLocal(self);
-            sendSystemMessageTestingOnly(rider, "Auto-Pilot: All waypoints reached.");
+            sendGpsMessage(self, rider, "Auto-Pilot: All waypoints reached.");
             return;
         }
 
         location target = queue[idx];
         int remaining = queue.length - idx;
         sendAutoPilotEngage(rider, target.x, target.z);
-        sendSystemMessageTestingOnly(rider, "Auto-Pilot: Heading to waypoint " + (idx + 1) + " of " + queue.length + ".");
+        sendGpsMessage(self, rider, "Auto-Pilot: Heading to waypoint " + (idx + 1) + " of " + queue.length + ".");
     }
 
     public int handleAutoPilotArrived(obj_id self, dictionary params) throws InterruptedException
@@ -503,13 +513,13 @@ public class vehicle_base extends script.base_script
 
         if (remaining <= 0)
         {
-            sendSystemMessageTestingOnly(rider, "Auto-Pilot: All waypoints reached. Descending.");
+            sendGpsMessage(self, rider, "Auto-Pilot: All waypoints reached. Descending.");
             cancelAutoPilotLocal(self);
             messageTo(self, "startSkywayDescent", null, 0, false);
             return SCRIPT_CONTINUE;
         }
 
-        sendSystemMessageTestingOnly(rider, "Auto-Pilot: Arrived. Departing in " + (int) AUTOPILOT_BOARDING_DELAY + " seconds. (" + remaining + " waypoint" + (remaining == 1 ? "" : "s") + " remaining)");
+        sendGpsMessage(self, rider, "Auto-Pilot: Arrived. Departing in " + (int) AUTOPILOT_BOARDING_DELAY + " seconds. (" + remaining + " waypoint" + (remaining == 1 ? "" : "s") + " remaining)");
         beginAutoPilotDescent(self);
         messageTo(self, "autoPilotResumeNext", null, AUTOPILOT_BOARDING_DELAY, false);
         return SCRIPT_CONTINUE;
@@ -587,7 +597,7 @@ public class vehicle_base extends script.base_script
             return SCRIPT_CONTINUE;
         }
 
-        sendSystemMessageTestingOnly(rider, "Auto-Pilot: Resuming. Ascending...");
+        sendGpsMessage(self, rider, "Auto-Pilot: Resuming. Ascending...");
         messageTo(self, "startSkywayAscent", null, 0, false);
         return SCRIPT_CONTINUE;
     }
@@ -597,7 +607,7 @@ public class vehicle_base extends script.base_script
         obj_id rider = getRiderId(self);
         cancelAutoPilotLocal(self);
         if (isIdValid(rider))
-            sendSystemMessageTestingOnly(rider, "Auto-Pilot disengaged.");
+            sendGpsMessage(self, rider, "Auto-Pilot disengaged.");
         return SCRIPT_CONTINUE;
     }
 

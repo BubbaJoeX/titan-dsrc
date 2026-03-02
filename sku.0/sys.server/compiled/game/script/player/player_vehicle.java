@@ -209,6 +209,14 @@ public class player_vehicle extends script.base_script
             boolean enable = !hasObjVar(vehicleObj, "airspeeder.trafficActive");
             vehicle.setTrafficMode(vehicleObj, enable);
         }
+        else if (action.equals("gps_mute"))
+        {
+            setObjVar(vehicleObj, "airspeeder.gpsMuted", 1);
+        }
+        else if (action.equals("gps_unmute"))
+        {
+            removeObjVar(vehicleObj, "airspeeder.gpsMuted");
+        }
         else if (action.equals("horn"))
         {
             int lastHorn = getIntObjVar(vehicleObj, "airspeeder.lastHorn");
