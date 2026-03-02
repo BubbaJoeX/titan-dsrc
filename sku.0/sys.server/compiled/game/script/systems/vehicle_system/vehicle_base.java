@@ -14,6 +14,18 @@ public class vehicle_base extends script.base_script
     public static final string_id SID_CITY_GARAGE_BANNED = new string_id("city/city", "garage_banned");
     public static final string_id SID_NO_GROUND_VEHICLE_IN_SPACE = new string_id("space/space_interaction", "no_ground_vehicle_in_space");
     public static final boolean debug = false;
+
+    public static final String OV_AIRSPEEDER_ACTIVE = "airspeeder.active";
+    public static final String OV_AIRSPEEDER_PANEL_RIDER = "airspeeder.panelRider";
+    public static final String OV_AIRSPEEDER_SAVED_HOVER = "airspeeder.savedHoverHeight";
+    public static final String OV_AIRSPEEDER_SAVED_SPEED = "airspeeder.savedSpeed";
+    public static final float AIRSPEEDER_HOVER_HEIGHT = 15.0f;
+    public static final float AIRSPEEDER_SPEED_MULTIPLIER = 1.5f;
+    public static final float AIRSPEEDER_ASCENT_DURATION = 5.0f;
+    public static final float AIRSPEEDER_DESCENT_DURATION = 5.0f;
+    public static final float AIRSPEEDER_ASCENT_INTERVAL = 0.25f;
+    public static final float AIRSPEEDER_DESCENT_INTERVAL = 0.25f;
+    public static final float AIRSPEEDER_HELIX_TURNS = 1.0f;
     public int revertVehicleMod(obj_id self, dictionary params) throws InterruptedException
     {
         if (params == null || !params.containsKey("type"))
@@ -52,6 +64,7 @@ public class vehicle_base extends script.base_script
             attachScript(self, VCDPING_VEHICLE_SCRIPT_NAME);
         }
         sendDestroyUnattendedVehicleSignal(self);
+        messageTo(self, "handleAirspeederCheck", null, 1.0f, false);
         return SCRIPT_CONTINUE;
     }
     public int checkForJetpack(obj_id self, dictionary params) throws InterruptedException
@@ -98,147 +111,126 @@ public class vehicle_base extends script.base_script
         obj_id rider = getRiderId(self);
         if (!isIdValid(rider))
         {
-            if (hasObjVar(self, vehicle.OBJVAR_AIRSPEEDER_PANEL_RIDER))
+            if (hasObjVar(self, "airspeeder.panelRider"))
             {
-                obj_id panelRider = getObjIdObjVar(self, vehicle.OBJVAR_AIRSPEEDER_PANEL_RIDER);
+                obj_id panelRider = getObjIdObjVar(self, "airspeeder.panelRider");
                 if (isIdValid(panelRider))
                 {
                     showAirspeederPanel(panelRider, false);
                 }
-                removeObjVar(self, vehicle.OBJVAR_AIRSPEEDER_PANEL_RIDER);
+                removeObjVar(self, "airspeeder.panelRider");
             }
-            if (hasObjVar(self, vehicle.OBJVAR_AIRSPEEDER_ACTIVE))
+            if (hasObjVar(self, "airspeeder.active"))
             {
-                vehicle.exitAirspeederMode(self);
+                removeObjVar(self, "airspeeder.active");
+                setObjectCollidable(self, true);
             }
-            if (vehicle.isHoverVehicle(self) && !vehicle.isJetPackVehicle(self) && !isSpaceScene())
-            {
-                messageTo(self, "handleAirspeederCheck", null, 2.0f, false);
-            }
+            messageTo(self, "handleAirspeederCheck", null, 2.0f, false);
             return SCRIPT_CONTINUE;
         }
-        if (!vehicle.isHoverVehicle(self) || vehicle.isJetPackVehicle(self))
+        if (!hasObjVar(self, "airspeeder.panelRider") && rider == getMaster(self))
         {
-            messageTo(self, "handleAirspeederCheck", null, 0.5f, false);
-            return SCRIPT_CONTINUE;
-        }
-        if (isSpaceScene())
-        {
-            messageTo(self, "handleAirspeederCheck", null, 0.5f, false);
-            return SCRIPT_CONTINUE;
-        }
-        location loc = getLocation(self);
-        if (loc == null || isIdValid(loc.cell))
-        {
-            messageTo(self, "handleAirspeederCheck", null, 0.5f, false);
-            return SCRIPT_CONTINUE;
-        }
-        boolean hasPanelRider = hasObjVar(self, vehicle.OBJVAR_AIRSPEEDER_PANEL_RIDER);
-        boolean isOwner = rider == getMaster(self);
-        debugConsoleMsg(self, "handleAirspeederCheck: rider=" + rider + " hasPanelRider=" + hasPanelRider + " isOwner=" + isOwner);
-        if (!hasPanelRider && isOwner)
-        {
-            debugConsoleMsg(self, "handleAirspeederCheck: auto-showing panel for " + rider);
             showAirspeederPanel(rider, true);
-            setObjVar(self, vehicle.OBJVAR_AIRSPEEDER_PANEL_RIDER, rider);
+            setObjVar(self, "airspeeder.panelRider", rider);
             if (!hasScript(rider, "player.player_vehicle"))
             {
                 attachScript(rider, "player.player_vehicle");
             }
         }
-        messageTo(self, "handleAirspeederCheck", null, 0.5f, false);
+        messageTo(self, "handleAirspeederCheck", null, 1.0f, false);
         return SCRIPT_CONTINUE;
     }
     public int startSkywayAscent(obj_id self, dictionary params) throws InterruptedException
     {
         obj_id rider = getRiderId(self);
-        if (!isIdValid(rider) || !vehicle.isHoverVehicle(self) || vehicle.isJetPackVehicle(self) || isSpaceScene())
+        if (!isIdValid(rider) || isSpaceScene())
             return SCRIPT_CONTINUE;
-        if (hasObjVar(self, vehicle.OBJVAR_AIRSPEEDER_ACTIVE))
+        if (hasObjVar(self, OV_AIRSPEEDER_ACTIVE))
             return SCRIPT_CONTINUE;
         float currentHover = vehicle.getHoverHeight(self);
-        if (currentHover >= vehicle.AIRSPEEDER_HOVER_HEIGHT)
+        if (currentHover >= AIRSPEEDER_HOVER_HEIGHT)
         {
-            vehicle.enterAirspeederMode(self);
+            setObjVar(self, OV_AIRSPEEDER_ACTIVE, 1);
+            setObjectCollidable(self, false);
             return SCRIPT_CONTINUE;
         }
-        if (!hasObjVar(self, vehicle.OBJVAR_AIRSPEEDER_SAVED_HOVER))
+        if (!hasObjVar(self, OV_AIRSPEEDER_SAVED_HOVER))
         {
-            setObjVar(self, vehicle.OBJVAR_AIRSPEEDER_SAVED_HOVER, currentHover);
+            setObjVar(self, OV_AIRSPEEDER_SAVED_HOVER, currentHover);
         }
-        setObjVar(self, vehicle.OBJVAR_AIRSPEEDER_ACTIVE, 1);
+        setObjVar(self, OV_AIRSPEEDER_ACTIVE, 1);
         setObjectCollidable(self, false);
         dictionary ascentParams = new dictionary();
         ascentParams.put("startHover", currentHover);
         ascentParams.put("startYaw", getYaw(self));
         ascentParams.put("startTime", getGameTime());
-        messageTo(self, "continueSkywayAscent", ascentParams, vehicle.AIRSPEEDER_ASCENT_INTERVAL, false);
+        messageTo(self, "continueSkywayAscent", ascentParams, AIRSPEEDER_ASCENT_INTERVAL, false);
         return SCRIPT_CONTINUE;
     }
     public int continueSkywayAscent(obj_id self, dictionary params) throws InterruptedException
     {
-        if (!hasObjVar(self, vehicle.OBJVAR_AIRSPEEDER_ACTIVE))
+        if (!hasObjVar(self, OV_AIRSPEEDER_ACTIVE))
             return SCRIPT_CONTINUE;
         float startHover = params.getFloat("startHover");
         float startYaw = params.getFloat("startYaw");
         float startTime = params.getFloat("startTime");
         float elapsed = getGameTime() - startTime;
-        float t = Math.min(1.0f, elapsed / vehicle.AIRSPEEDER_ASCENT_DURATION);
-        float newHover = startHover + (vehicle.AIRSPEEDER_HOVER_HEIGHT - startHover) * t;
+        float t = Math.min(1.0f, elapsed / AIRSPEEDER_ASCENT_DURATION);
+        float newHover = startHover + (AIRSPEEDER_HOVER_HEIGHT - startHover) * t;
         vehicle.setHoverHeight(self, newHover);
-        float newYaw = startYaw + (360.0f * vehicle.AIRSPEEDER_HELIX_TURNS * t);
+        float newYaw = startYaw + (360.0f * AIRSPEEDER_HELIX_TURNS * t);
         setYaw(self, newYaw);
         if (t >= 1.0f)
         {
             float savedSpeed = vehicle.getMaximumSpeed(self);
-            setObjVar(self, vehicle.OBJVAR_AIRSPEEDER_SAVED_SPEED, savedSpeed);
-            vehicle.setMaximumSpeed(self, savedSpeed * vehicle.AIRSPEEDER_SPEED_MULTIPLIER);
+            setObjVar(self, OV_AIRSPEEDER_SAVED_SPEED, savedSpeed);
+            vehicle.setMaximumSpeed(self, savedSpeed * AIRSPEEDER_SPEED_MULTIPLIER);
         }
         else
         {
             params.put("startHover", startHover);
             params.put("startYaw", startYaw);
             params.put("startTime", startTime);
-            messageTo(self, "continueSkywayAscent", params, vehicle.AIRSPEEDER_ASCENT_INTERVAL, false);
+            messageTo(self, "continueSkywayAscent", params, AIRSPEEDER_ASCENT_INTERVAL, false);
         }
         return SCRIPT_CONTINUE;
     }
     public int startSkywayDescent(obj_id self, dictionary params) throws InterruptedException
     {
         obj_id rider = getRiderId(self);
-        if (!isIdValid(rider) || !vehicle.isHoverVehicle(self) || vehicle.isJetPackVehicle(self) || isSpaceScene())
+        if (!isIdValid(rider) || isSpaceScene())
             return SCRIPT_CONTINUE;
-        if (!hasObjVar(self, vehicle.OBJVAR_AIRSPEEDER_ACTIVE))
+        if (!hasObjVar(self, OV_AIRSPEEDER_ACTIVE))
             return SCRIPT_CONTINUE;
         float currentHover = vehicle.getHoverHeight(self);
-        float targetHover = vehicle.AIRSPEEDER_HOVER_HEIGHT;
-        if (hasObjVar(self, vehicle.OBJVAR_AIRSPEEDER_SAVED_HOVER))
-            targetHover = getFloatObjVar(self, vehicle.OBJVAR_AIRSPEEDER_SAVED_HOVER);
+        float targetHover = AIRSPEEDER_HOVER_HEIGHT;
+        if (hasObjVar(self, OV_AIRSPEEDER_SAVED_HOVER))
+            targetHover = getFloatObjVar(self, OV_AIRSPEEDER_SAVED_HOVER);
         dictionary descentParams = new dictionary();
         descentParams.put("startHover", currentHover);
         descentParams.put("targetHover", targetHover);
         descentParams.put("startYaw", getYaw(self));
         descentParams.put("startTime", getGameTime());
-        messageTo(self, "continueSkywayDescent", descentParams, vehicle.AIRSPEEDER_DESCENT_INTERVAL, false);
+        messageTo(self, "continueSkywayDescent", descentParams, AIRSPEEDER_DESCENT_INTERVAL, false);
         return SCRIPT_CONTINUE;
     }
     public int continueSkywayDescent(obj_id self, dictionary params) throws InterruptedException
     {
-        if (!hasObjVar(self, vehicle.OBJVAR_AIRSPEEDER_ACTIVE))
+        if (!hasObjVar(self, OV_AIRSPEEDER_ACTIVE))
             return SCRIPT_CONTINUE;
         float startHover = params.getFloat("startHover");
         float targetHover = params.getFloat("targetHover");
         float startYaw = params.getFloat("startYaw");
         float startTime = params.getFloat("startTime");
         float elapsed = getGameTime() - startTime;
-        float t = Math.min(1.0f, elapsed / vehicle.AIRSPEEDER_DESCENT_DURATION);
+        float t = Math.min(1.0f, elapsed / AIRSPEEDER_DESCENT_DURATION);
         float newHover = startHover + (targetHover - startHover) * t;
         vehicle.setHoverHeight(self, newHover);
-        float newYaw = startYaw + (360.0f * vehicle.AIRSPEEDER_HELIX_TURNS * t);
+        float newYaw = startYaw + (360.0f * AIRSPEEDER_HELIX_TURNS * t);
         setYaw(self, newYaw);
         if (t >= 1.0f)
         {
-            vehicle.exitAirspeederMode(self);
+            exitAirspeederModeLocal(self);
         }
         else
         {
@@ -246,9 +238,24 @@ public class vehicle_base extends script.base_script
             params.put("targetHover", targetHover);
             params.put("startYaw", startYaw);
             params.put("startTime", startTime);
-            messageTo(self, "continueSkywayDescent", params, vehicle.AIRSPEEDER_DESCENT_INTERVAL, false);
+            messageTo(self, "continueSkywayDescent", params, AIRSPEEDER_DESCENT_INTERVAL, false);
         }
         return SCRIPT_CONTINUE;
+    }
+    public void exitAirspeederModeLocal(obj_id veh) throws InterruptedException
+    {
+        removeObjVar(veh, OV_AIRSPEEDER_ACTIVE);
+        if (hasObjVar(veh, OV_AIRSPEEDER_SAVED_HOVER))
+        {
+            vehicle.setHoverHeight(veh, getFloatObjVar(veh, OV_AIRSPEEDER_SAVED_HOVER));
+            removeObjVar(veh, OV_AIRSPEEDER_SAVED_HOVER);
+        }
+        if (hasObjVar(veh, OV_AIRSPEEDER_SAVED_SPEED))
+        {
+            vehicle.setMaximumSpeed(veh, getFloatObjVar(veh, OV_AIRSPEEDER_SAVED_SPEED));
+            removeObjVar(veh, OV_AIRSPEEDER_SAVED_SPEED);
+        }
+        setObjectCollidable(veh, true);
     }
     public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi) throws InterruptedException
     {
@@ -293,11 +300,7 @@ public class vehicle_base extends script.base_script
         {
             return SCRIPT_CONTINUE;
         }
-        boolean isHover = vehicle.isHoverVehicle(self);
-        boolean isJetPack = vehicle.isJetPackVehicle(self);
-        boolean isSpace = isSpaceScene();
-        debugConsoleMsg(self, "OnObjectMenuRequest: isHover=" + isHover + " isJetPack=" + isJetPack + " isSpace=" + isSpace + " got=" + getObjType(self));
-        if (isHover && !isJetPack && !isSpace)
+        if (!isSpaceScene())
         {
             mi.addRootMenu(menu_info_types.SERVER_MENU2, string_id.unlocalized("Advanced Piloting"));
         }
@@ -384,14 +387,11 @@ public class vehicle_base extends script.base_script
         }
         else if (item == menu_info_types.SERVER_MENU2)
         {
-            if (vehicle.isHoverVehicle(self) && !vehicle.isJetPackVehicle(self) && !isSpaceScene())
+            showAirspeederPanel(player, true);
+            setObjVar(self, "airspeeder.panelRider", player);
+            if (!hasScript(player, "player.player_vehicle"))
             {
-                showAirspeederPanel(player, true);
-                setObjVar(self, vehicle.OBJVAR_AIRSPEEDER_PANEL_RIDER, player);
-                if (!hasScript(player, "player.player_vehicle"))
-                {
-                    attachScript(player, "player.player_vehicle");
-                }
+                attachScript(player, "player.player_vehicle");
             }
         }
         else if (item == menu_info_types.SERVER_MENU1)
@@ -521,9 +521,9 @@ public class vehicle_base extends script.base_script
     }
     public int OnObjectDisabled(obj_id self, obj_id killer) throws InterruptedException
     {
-        if (hasObjVar(self, vehicle.OBJVAR_AIRSPEEDER_ACTIVE))
+        if (hasObjVar(self, OV_AIRSPEEDER_ACTIVE))
         {
-            vehicle.exitAirspeederMode(self);
+            exitAirspeederModeLocal(self);
         }
         obj_id owner = getMaster(self);
         if (isIdValid(owner))
@@ -602,9 +602,9 @@ public class vehicle_base extends script.base_script
                 callable.setCDCallable(petControlDevice, null);
             }
         }
-        if (hasObjVar(self, vehicle.OBJVAR_AIRSPEEDER_ACTIVE))
+        if (hasObjVar(self, OV_AIRSPEEDER_ACTIVE))
         {
-            vehicle.exitAirspeederMode(self);
+            exitAirspeederModeLocal(self);
         }
         return SCRIPT_CONTINUE;
     }

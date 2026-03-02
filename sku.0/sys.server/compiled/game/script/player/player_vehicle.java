@@ -177,16 +177,14 @@ public class player_vehicle extends script.base_script
         obj_id vehicleObj = getMountId(self);
         if (!isIdValid(vehicleObj) || getState(self, STATE_RIDING_MOUNT) != 1)
             return SCRIPT_CONTINUE;
-        if (!vehicle.isHoverVehicle(vehicleObj) || vehicle.isJetPackVehicle(vehicleObj))
-            return SCRIPT_CONTINUE;
-        if (!hasObjVar(vehicleObj, vehicle.OBJVAR_AIRSPEEDER_PANEL_RIDER) || getObjIdObjVar(vehicleObj, vehicle.OBJVAR_AIRSPEEDER_PANEL_RIDER) != self)
+        if (!hasObjVar(vehicleObj, "airspeeder.panelRider") || getObjIdObjVar(vehicleObj, "airspeeder.panelRider") != self)
             return SCRIPT_CONTINUE;
         if (params == null || params.length() == 0)
             return SCRIPT_CONTINUE;
         String action = params.trim().toLowerCase();
         if (action.equals("skyway"))
         {
-            if (hasObjVar(vehicleObj, vehicle.OBJVAR_AIRSPEEDER_ACTIVE))
+            if (hasObjVar(vehicleObj, "airspeeder.active"))
             {
                 messageTo(vehicleObj, "startSkywayDescent", null, 0, false);
             }
@@ -197,12 +195,12 @@ public class player_vehicle extends script.base_script
         }
         else if (action.equals("boost"))
         {
-            boolean enable = !hasObjVar(vehicleObj, vehicle.OBJVAR_AIRSPEEDER_BOOST_ACTIVE);
+            boolean enable = !hasObjVar(vehicleObj, "airspeeder.boostActive");
             vehicle.setBoostMode(vehicleObj, enable);
         }
         else if (action.equals("traffic"))
         {
-            boolean enable = !hasObjVar(vehicleObj, vehicle.OBJVAR_AIRSPEEDER_TRAFFIC_ACTIVE);
+            boolean enable = !hasObjVar(vehicleObj, "airspeeder.trafficActive");
             vehicle.setTrafficMode(vehicleObj, enable);
         }
         return SCRIPT_CONTINUE;
