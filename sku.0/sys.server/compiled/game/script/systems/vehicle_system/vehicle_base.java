@@ -133,7 +133,15 @@ public class vehicle_base extends script.base_script
             messageTo(self, "handleAirspeederCheck", null, 0.5f, false);
             return SCRIPT_CONTINUE;
         }
-        // Panel is shown via radial "Advanced Piloting" only; here we just keep the poll running and hide panel when rider dismounts
+        if (!hasObjVar(self, vehicle.OBJVAR_AIRSPEEDER_PANEL_RIDER) && rider == getMaster(self))
+        {
+            showAirspeederPanel(rider, true);
+            setObjVar(self, vehicle.OBJVAR_AIRSPEEDER_PANEL_RIDER, rider);
+            if (!hasScript(rider, "player.player_vehicle"))
+            {
+                attachScript(rider, "player.player_vehicle");
+            }
+        }
         messageTo(self, "handleAirspeederCheck", null, 0.5f, false);
         return SCRIPT_CONTINUE;
     }
