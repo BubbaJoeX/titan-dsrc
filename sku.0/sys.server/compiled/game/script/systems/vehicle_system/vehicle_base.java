@@ -19,8 +19,18 @@ public class vehicle_base extends script.base_script
     public static final String OV_AIRSPEEDER_PANEL_RIDER = "airspeeder.panelRider";
     public static final String OV_AIRSPEEDER_SAVED_HOVER = "airspeeder.savedHoverHeight";
     public static final String OV_AIRSPEEDER_SAVED_SPEED = "airspeeder.savedSpeed";
+    public static final String OV_AIRSPEEDER_SAVED_MIN_SPEED = "airspeeder.savedMinSpeed";
+    public static final String OV_AIRSPEEDER_SAVED_ACCEL_MIN = "airspeeder.savedAccelMin";
+    public static final String OV_AIRSPEEDER_SAVED_ACCEL_MAX = "airspeeder.savedAccelMax";
+    public static final String OV_AIRSPEEDER_SAVED_DECEL = "airspeeder.savedDecel";
+    public static final String OV_AIRSPEEDER_SAVED_TURN_MAX = "airspeeder.savedTurnMax";
     public static final float AIRSPEEDER_HOVER_HEIGHT = 50.0f;
-    public static final float AIRSPEEDER_SPEED_MULTIPLIER = 1.5f;
+    public static final float AIRSPEEDER_SPEED = 80.0f;
+    public static final float AIRSPEEDER_MIN_SPEED = 10.0f;
+    public static final float AIRSPEEDER_ACCEL_MIN = 25.0f;
+    public static final float AIRSPEEDER_ACCEL_MAX = 50.0f;
+    public static final float AIRSPEEDER_DECEL = 30.0f;
+    public static final float AIRSPEEDER_TURN_RATE_MAX = 180.0f;
     public static final float AIRSPEEDER_ASCENT_DURATION = 5.0f;
     public static final float AIRSPEEDER_DESCENT_DURATION = 5.0f;
     public static final float AIRSPEEDER_ASCENT_INTERVAL = 0.25f;
@@ -183,9 +193,18 @@ public class vehicle_base extends script.base_script
         setYaw(self, newYaw);
         if (t >= 1.0f)
         {
-            float savedSpeed = vehicle.getMaximumSpeed(self);
-            setObjVar(self, OV_AIRSPEEDER_SAVED_SPEED, savedSpeed);
-            vehicle.setMaximumSpeed(self, savedSpeed * AIRSPEEDER_SPEED_MULTIPLIER);
+            setObjVar(self, OV_AIRSPEEDER_SAVED_SPEED, vehicle.getMaximumSpeed(self));
+            setObjVar(self, OV_AIRSPEEDER_SAVED_MIN_SPEED, vehicle.getMinimumSpeed(self));
+            setObjVar(self, OV_AIRSPEEDER_SAVED_ACCEL_MIN, vehicle.getAccelMin(self));
+            setObjVar(self, OV_AIRSPEEDER_SAVED_ACCEL_MAX, vehicle.getAccelMax(self));
+            setObjVar(self, OV_AIRSPEEDER_SAVED_DECEL, vehicle.getDecel(self));
+            setObjVar(self, OV_AIRSPEEDER_SAVED_TURN_MAX, vehicle.getTurnRateMax(self));
+            vehicle.setMaximumSpeed(self, AIRSPEEDER_SPEED);
+            vehicle.setMinimumSpeed(self, AIRSPEEDER_MIN_SPEED);
+            vehicle.setAccelMin(self, AIRSPEEDER_ACCEL_MIN);
+            vehicle.setAccelMax(self, AIRSPEEDER_ACCEL_MAX);
+            vehicle.setDecel(self, AIRSPEEDER_DECEL);
+            vehicle.setTurnRateMax(self, AIRSPEEDER_TURN_RATE_MAX);
         }
         else
         {
@@ -245,6 +264,8 @@ public class vehicle_base extends script.base_script
     }
     public void exitAirspeederModeLocal(obj_id veh) throws InterruptedException
     {
+        vehicle.setBoostMode(veh, false);
+        vehicle.setTrafficMode(veh, false);
         removeObjVar(veh, OV_AIRSPEEDER_ACTIVE);
         if (hasObjVar(veh, OV_AIRSPEEDER_SAVED_HOVER))
         {
@@ -255,6 +276,31 @@ public class vehicle_base extends script.base_script
         {
             vehicle.setMaximumSpeed(veh, getFloatObjVar(veh, OV_AIRSPEEDER_SAVED_SPEED));
             removeObjVar(veh, OV_AIRSPEEDER_SAVED_SPEED);
+        }
+        if (hasObjVar(veh, OV_AIRSPEEDER_SAVED_MIN_SPEED))
+        {
+            vehicle.setMinimumSpeed(veh, getFloatObjVar(veh, OV_AIRSPEEDER_SAVED_MIN_SPEED));
+            removeObjVar(veh, OV_AIRSPEEDER_SAVED_MIN_SPEED);
+        }
+        if (hasObjVar(veh, OV_AIRSPEEDER_SAVED_ACCEL_MIN))
+        {
+            vehicle.setAccelMin(veh, getFloatObjVar(veh, OV_AIRSPEEDER_SAVED_ACCEL_MIN));
+            removeObjVar(veh, OV_AIRSPEEDER_SAVED_ACCEL_MIN);
+        }
+        if (hasObjVar(veh, OV_AIRSPEEDER_SAVED_ACCEL_MAX))
+        {
+            vehicle.setAccelMax(veh, getFloatObjVar(veh, OV_AIRSPEEDER_SAVED_ACCEL_MAX));
+            removeObjVar(veh, OV_AIRSPEEDER_SAVED_ACCEL_MAX);
+        }
+        if (hasObjVar(veh, OV_AIRSPEEDER_SAVED_DECEL))
+        {
+            vehicle.setDecel(veh, getFloatObjVar(veh, OV_AIRSPEEDER_SAVED_DECEL));
+            removeObjVar(veh, OV_AIRSPEEDER_SAVED_DECEL);
+        }
+        if (hasObjVar(veh, OV_AIRSPEEDER_SAVED_TURN_MAX))
+        {
+            vehicle.setTurnRateMax(veh, getFloatObjVar(veh, OV_AIRSPEEDER_SAVED_TURN_MAX));
+            removeObjVar(veh, OV_AIRSPEEDER_SAVED_TURN_MAX);
         }
         setObjectCollidable(veh, true);
         obj_id rider = getRiderId(veh);

@@ -951,7 +951,7 @@ public class vehicle extends script.base_script
     }
     public static void setBoostMode(obj_id vehicle, boolean enable) throws InterruptedException
     {
-        if (!isValidId(vehicle) || !isHoverVehicle(vehicle))
+        if (!isValidId(vehicle))
             return;
         if (enable)
         {
@@ -972,9 +972,9 @@ public class vehicle extends script.base_script
             setObjVar(vehicle, OBJVAR_AIRSPEEDER_SAVED_DECEL, baseDecel);
             setMaximumSpeed(vehicle, baseSpeed * AIRSPEEDER_BOOST_SPEED_MULTIPLIER);
             setMinimumSpeed(vehicle, baseMin * AIRSPEEDER_BOOST_SPEED_MULTIPLIER);
-            setAccelMin(vehicle, baseAccelMin * 2.0f);
-            setAccelMax(vehicle, baseAccelMax * 2.0f);
-            setDecel(vehicle, baseDecel * 2.0f);
+            setAccelMin(vehicle, baseAccelMin * 4.0f);
+            setAccelMax(vehicle, baseAccelMax * 4.0f);
+            setDecel(vehicle, baseDecel * 3.0f);
         }
         else
         {
@@ -1010,7 +1010,7 @@ public class vehicle extends script.base_script
     }
     public static void setTrafficMode(obj_id vehicle, boolean enable) throws InterruptedException
     {
-        if (!isValidId(vehicle) || !isHoverVehicle(vehicle))
+        if (!isValidId(vehicle))
             return;
         if (enable)
         {
