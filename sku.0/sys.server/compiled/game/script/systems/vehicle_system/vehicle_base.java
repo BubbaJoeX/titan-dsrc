@@ -37,6 +37,12 @@ public class vehicle_base extends script.base_script
     public static final float AIRSPEEDER_CLIMB_RATE = 2.0f;
     public static final float AIRSPEEDER_TICK_INTERVAL = 0.25f;
     public static final float AIRSPEEDER_HELIX_TURNS = 1.0f;
+
+    public static final String OV_AUTOPILOT_ACTIVE = "autopilot.active";
+    public static final String OV_AUTOPILOT_INDEX = "autopilot.currentIndex";
+    public static final float AUTOPILOT_TICK_INTERVAL = 0.5f;
+    public static final float AUTOPILOT_ARRIVAL_THRESHOLD = 10.0f;
+    public static final float AUTOPILOT_SPEED = 40.0f;
     public int revertVehicleMod(obj_id self, dictionary params) throws InterruptedException
     {
         if (params == null || !params.containsKey("type"))
@@ -307,6 +313,7 @@ public class vehicle_base extends script.base_script
     }
     public void exitAirspeederModeLocal(obj_id veh) throws InterruptedException
     {
+        cancelAutoPilotLocal(veh);
         vehicle.setBoostMode(veh, false);
         vehicle.setTrafficMode(veh, false);
         removeObjVar(veh, OV_AIRSPEEDER_ACTIVE);
@@ -369,6 +376,7 @@ public class vehicle_base extends script.base_script
     public int handleSkywayCollision(obj_id self, dictionary params) throws InterruptedException
     {
         obj_id rider = getRiderId(self);
+        cancelAutoPilotLocal(self);
         exitAirspeederModeLocal(self);
         if (isIdValid(rider))
         {
@@ -388,6 +396,155 @@ public class vehicle_base extends script.base_script
         }
         return SCRIPT_CONTINUE;
     }
+
+    public int addAutoPilotWaypoint(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (params == null)
+            return SCRIPT_CONTINUE;
+        float x = params.getFloat("x");
+        float z = params.getFloat("z");
+        location vehicleLoc = getLocation(self);
+        location dest = new location(x, vehicleLoc.y, z, vehicleLoc.area, vehicleLoc.cell);
+
+        location[] queue = null;
+        if (hasObjVar(self, "autopilot.queue"))
+            queue = getLocationArrayObjVar(self, "autopilot.queue");
+
+        if (queue == null)
+        {
+            queue = new location[]{dest};
+        }
+        else
+        {
+            location[] newQueue = new location[queue.length + 1];
+            for (int i = 0; i < queue.length; i++)
+                newQueue[i] = queue[i];
+            newQueue[queue.length] = dest;
+            queue = newQueue;
+        }
+        setObjVar(self, "autopilot.queue", queue);
+
+        obj_id rider = getRiderId(self);
+        if (isIdValid(rider))
+        {
+            sendSystemMessageTestingOnly(rider, "Auto-Pilot: Waypoint added (" + queue.length + " in queue)");
+        }
+
+        if (!hasObjVar(self, OV_AUTOPILOT_ACTIVE))
+        {
+            messageTo(self, "startAutoPilot", null, 0, false);
+        }
+        return SCRIPT_CONTINUE;
+    }
+
+    public int startAutoPilot(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (!hasObjVar(self, OV_AIRSPEEDER_ACTIVE))
+            return SCRIPT_CONTINUE;
+        if (!hasObjVar(self, "autopilot.queue"))
+            return SCRIPT_CONTINUE;
+
+        setObjVar(self, OV_AUTOPILOT_ACTIVE, 1);
+        setObjVar(self, OV_AUTOPILOT_INDEX, 0);
+
+        obj_id rider = getRiderId(self);
+        if (isIdValid(rider))
+            sendSystemMessageTestingOnly(rider, "Auto-Pilot engaged.");
+
+        messageTo(self, "autoPilotTick", null, AUTOPILOT_TICK_INTERVAL, false);
+        return SCRIPT_CONTINUE;
+    }
+
+    public int autoPilotTick(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (!hasObjVar(self, OV_AUTOPILOT_ACTIVE))
+            return SCRIPT_CONTINUE;
+        if (!hasObjVar(self, OV_AIRSPEEDER_ACTIVE))
+        {
+            cancelAutoPilotLocal(self);
+            return SCRIPT_CONTINUE;
+        }
+
+        obj_id rider = getRiderId(self);
+        if (!isIdValid(rider))
+        {
+            cancelAutoPilotLocal(self);
+            return SCRIPT_CONTINUE;
+        }
+
+        location[] queue = getLocationArrayObjVar(self, "autopilot.queue");
+        int idx = getIntObjVar(self, OV_AUTOPILOT_INDEX);
+
+        if (queue == null || idx >= queue.length)
+        {
+            cancelAutoPilotLocal(self);
+            sendSystemMessageTestingOnly(rider, "Auto-Pilot: All waypoints reached.");
+            return SCRIPT_CONTINUE;
+        }
+
+        location target = queue[idx];
+        location myLoc = getLocation(self);
+
+        float dx = target.x - myLoc.x;
+        float dz = target.z - myLoc.z;
+        float dist = (float) Math.sqrt(dx * dx + dz * dz);
+
+        if (dist <= AUTOPILOT_ARRIVAL_THRESHOLD)
+        {
+            idx++;
+            setObjVar(self, OV_AUTOPILOT_INDEX, idx);
+            int remaining = queue.length - idx;
+            if (remaining <= 0)
+            {
+                cancelAutoPilotLocal(self);
+                sendSystemMessageTestingOnly(rider, "Auto-Pilot: All waypoints reached.");
+                return SCRIPT_CONTINUE;
+            }
+            sendSystemMessageTestingOnly(rider, "Auto-Pilot: Waypoint reached. " + remaining + " remaining.");
+            messageTo(self, "autoPilotTick", null, AUTOPILOT_TICK_INTERVAL, false);
+            return SCRIPT_CONTINUE;
+        }
+
+        float step = AUTOPILOT_SPEED * AUTOPILOT_TICK_INTERVAL;
+        if (step > dist)
+            step = dist;
+
+        float nx = dx / dist;
+        float nz = dz / dist;
+
+        float newX = myLoc.x + nx * step;
+        float newZ = myLoc.z + nz * step;
+
+        location newLoc = new location(newX, myLoc.y, newZ, myLoc.area, myLoc.cell);
+        setLocation(self, newLoc);
+
+        float yawRad = (float) Math.atan2(nx, nz);
+        float yawDeg = (float)(yawRad * 180.0 / Math.PI);
+        setYaw(self, yawDeg);
+
+        messageTo(self, "autoPilotTick", null, AUTOPILOT_TICK_INTERVAL, false);
+        return SCRIPT_CONTINUE;
+    }
+
+    public int cancelAutoPilot(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id rider = getRiderId(self);
+        cancelAutoPilotLocal(self);
+        if (isIdValid(rider))
+            sendSystemMessageTestingOnly(rider, "Auto-Pilot disengaged.");
+        return SCRIPT_CONTINUE;
+    }
+
+    public void cancelAutoPilotLocal(obj_id veh) throws InterruptedException
+    {
+        if (hasObjVar(veh, OV_AUTOPILOT_ACTIVE))
+            removeObjVar(veh, OV_AUTOPILOT_ACTIVE);
+        if (hasObjVar(veh, OV_AUTOPILOT_INDEX))
+            removeObjVar(veh, OV_AUTOPILOT_INDEX);
+        if (hasObjVar(veh, "autopilot.queue"))
+            removeObjVar(veh, "autopilot.queue");
+    }
+
     public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi) throws InterruptedException
     {
         if (isDead(self) || ai_lib.aiIsDead(player) || self == null || self == obj_id.NULL_ID || !isIdValid(self))
