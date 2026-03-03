@@ -32,6 +32,10 @@ public class base_terminal extends script.base_script
         }
         return SCRIPT_CONTINUE;
     }
+    public int OnObjectMenuSelect(obj_id self, obj_id player, int item) throws InterruptedException
+    {
+        return SCRIPT_CONTINUE;
+    }
     public boolean playerMounted(obj_id player) throws InterruptedException
     {
         debugServerConsoleMsg(null, "+++ terminal.base.base_terminal playerMounted +++ entered playerMounted function");
