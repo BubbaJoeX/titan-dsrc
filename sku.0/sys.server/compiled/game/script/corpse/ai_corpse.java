@@ -97,7 +97,10 @@ public class ai_corpse extends script.base_script
             sendSystemMessage(player, SID_NOT_IN_COMBAT);
             return SCRIPT_OVERRIDE;
         }
-        if (utils.getDistance2D(self, player) > 10)
+        float maxLootDist = 10;
+        if (isAtmosphericFlightScene() && isIdValid(space_transition.getContainingShip(player)))
+            maxLootDist = 150;
+        if (utils.getDistance2D(self, player) > maxLootDist)
         {
             return SCRIPT_OVERRIDE;
         }
