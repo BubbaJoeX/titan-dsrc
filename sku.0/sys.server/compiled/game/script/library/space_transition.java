@@ -690,8 +690,9 @@ public class space_transition extends script.base_script
             {
                 location worldLoc = getWorldLocation(player);
                 shipLoc.x = worldLoc.x;
-                shipLoc.y = worldLoc.y + 200.0f;
                 shipLoc.z = worldLoc.z;
+                float groundY = getHeightAtLocation(worldLoc.x, worldLoc.z);
+                shipLoc.y = groundY + 200.0f;
                 shipLoc.cell = null;
             }
             setLocation(ship, shipLoc);
