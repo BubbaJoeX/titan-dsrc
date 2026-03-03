@@ -267,8 +267,10 @@ public class space_transition extends script.base_script
         {
             return;
         }
+        location worldLoc = getWorldLocation(player);
         setObjVar(player, "space.launch.ship", ship);
         setObjVar(player, "space.launch.scd", shipControlDevice);
+        setObjVar(player, "space.launch.worldLoc", worldLoc);
         handlePotentialSceneChange(player);
     }
     public static void setLaunchInfo(obj_id player, obj_id ship, int startLocationIndex, location groundLoc) throws InterruptedException
@@ -688,12 +690,22 @@ public class space_transition extends script.base_script
             location shipLoc = getLocation(player);
             if (isAtmosphericFlightScene())
             {
-                location worldLoc = getWorldLocation(player);
+                location worldLoc = null;
+                if (hasObjVar(player, "space.launch.worldLoc"))
+                {
+                    worldLoc = getLocationObjVar(player, "space.launch.worldLoc");
+                }
+                if (worldLoc == null)
+                {
+                    worldLoc = getWorldLocation(player);
+                }
                 shipLoc.x = worldLoc.x;
                 shipLoc.z = worldLoc.z;
                 float groundY = getHeightAtLocation(worldLoc.x, worldLoc.z);
                 shipLoc.y = groundY + 200.0f;
                 shipLoc.cell = null;
+                setObjVar(ship, "space.atmo.launchLoc", shipLoc);
+                LOG("space_transition", "unpackShipForPlayer atmospheric: placing ship at " + shipLoc.x + ", " + shipLoc.y + ", " + shipLoc.z);
             }
             setLocation(ship, shipLoc);
             setObjVar(shipControlDevice, "ship", ship);
@@ -707,6 +719,13 @@ public class space_transition extends script.base_script
             if (isIdValid(pilotSlotObject) && pilotShip(player, pilotSlotObject))
             {
                 LOG("space", "I think i piloted");
+                if (isAtmosphericFlightScene() && hasObjVar(ship, "space.atmo.launchLoc"))
+                {
+                    location launchLoc = getLocationObjVar(ship, "space.atmo.launchLoc");
+                    setLocation(ship, launchLoc);
+                    removeObjVar(ship, "space.atmo.launchLoc");
+                    LOG("space_transition", "unpackShipForPlayer: re-applied launch position after pilot: " + launchLoc.x + ", " + launchLoc.y + ", " + launchLoc.z);
+                }
                 updateShipFaction(ship, player);
                 doAIImmunityCheck(ship);
                 obj_id droidControlDevice = getDroidControlDeviceForShip(ship);

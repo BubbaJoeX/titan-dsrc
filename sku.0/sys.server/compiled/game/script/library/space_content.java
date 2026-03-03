@@ -54,7 +54,13 @@ public class space_content extends script.base_script
     }
     public static void descendToPlanet(obj_id objPlayer, obj_id objStation) throws InterruptedException
     {
-        float fltDistance = getDistance(objStation, space_transition.getContainingShip(objPlayer));
+        obj_id objShip = space_transition.getContainingShip(objPlayer);
+        if (!isIdValid(objShip))
+        {
+            sendSystemMessage(objPlayer, new string_id("space/space_interaction", "land_ship_failed"));
+            return;
+        }
+        float fltDistance = getDistance(objStation, objShip);
         if (fltDistance > space_transition.STATION_COMM_MAX_DISTANCE)
         {
             string_id strSpam = new string_id("space/space_interaction", "too_far");
@@ -68,14 +74,9 @@ public class space_content extends script.base_script
             sendSystemMessage(objPlayer, new string_id("space/space_interaction", "no_planet_below"));
             return;
         }
-        obj_id objShip = space_transition.getContainingShip(objPlayer);
-        if (isIdValid(objShip))
-        {
-            space_combat.clearHyperspace(objShip);
-            space_transition.clearOvertStatus(objShip);
-            space_transition.packShip(objShip);
-        }
-        warpPlayer(objPlayer, groundScene, 0.0f, 2000.0f, 0.0f, null, 0.0f, 2000.0f, 0.0f);
+        space_combat.clearHyperspace(objShip);
+        space_transition.clearOvertStatus(objShip);
+        warpPlayer(objShip, groundScene, 0.0f, 2000.0f, 0.0f, null, 0.0f, 2000.0f, 0.0f);
     }
     public static String getGroundSceneForSpaceScene(String spaceScene) throws InterruptedException
     {

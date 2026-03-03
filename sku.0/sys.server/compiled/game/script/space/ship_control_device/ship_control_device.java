@@ -101,9 +101,10 @@ public class ship_control_device extends script.base_script
         obj_id unpackedShip = space_transition.getUnpackedShipForShipControlDevice(self, player);
         boolean isAtmo = !isSpaceScene() && space_transition.isAtmosphericFlightScene();
         obj_id currentShip = space_transition.getContainingShip(player);
-        boolean playerInAnotherShip = isIdValid(currentShip) && currentShip != objShip;
-        boolean hasLaunch = isIdValid(objShip) && isAtmo && !playerInAnotherShip;
-        boolean hasLand = isIdValid(unpackedShip) && isAtmo && !playerInAnotherShip;
+        boolean thisScdsShipIsOut = isIdValid(unpackedShip);
+        boolean playerInAnotherShip = isIdValid(currentShip) && !thisScdsShipIsOut;
+        boolean hasLaunch = isIdValid(objShip) && isAtmo && !isIdValid(currentShip);
+        boolean hasLand = thisScdsShipIsOut && isAtmo;
         boolean hasRepairGM = isIdValid(objShip) && getShipChassisType(objShip).equals("player_sorosuub_space_yacht") && isGod(player);
         if (hasLaunch || hasLand || hasRepairGM)
         {
@@ -125,9 +126,6 @@ public class ship_control_device extends script.base_script
         }
         if (item == menu_info_types.SERVER_MENU6)
         {
-            obj_id objShip = space_transition.getShipFromShipControlDevice(self);
-            if (!isIdValid(objShip))
-                return SCRIPT_CONTINUE;
             if (!space_transition.isAtmosphericFlightScene())
             {
                 sendSystemMessage(player, new string_id("space/space_interaction", "no_atmospheric_flight"));
@@ -138,9 +136,7 @@ public class ship_control_device extends script.base_script
                 sendSystemMessage(player, new string_id("travel", "not_in_combat"));
                 return SCRIPT_CONTINUE;
             }
-            setObjVar(player, "space.launch.ship", objShip);
-            setObjVar(player, "space.launch.scd", self);
-            space_transition.handlePotentialSceneChange(player);
+            space_transition.launchToAtmosphere(player, self);
             return SCRIPT_CONTINUE;
         }
         if (item == menu_info_types.SERVER_MENU7)
