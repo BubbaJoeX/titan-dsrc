@@ -256,10 +256,36 @@ public class space_transition extends script.base_script
         }
         return true;
     }
+    public static obj_id getDeployedShipForPlayer(obj_id player) throws InterruptedException
+    {
+        obj_id[] scds = findShipControlDevicesForPlayer(player);
+        if (scds == null)
+            return null;
+        for (obj_id scd : scds)
+        {
+            if (!isIdValid(scd))
+                continue;
+            obj_id[] contents = getContents(scd);
+            if (contents != null && contents.length > 0)
+                continue;
+            if (!hasObjVar(scd, "ship"))
+                continue;
+            obj_id ship = getObjIdObjVar(scd, "ship");
+            if (isIdValid(ship) && exists(ship))
+                return ship;
+        }
+        return null;
+    }
     public static void launchToAtmosphere(obj_id player, obj_id shipControlDevice) throws InterruptedException
     {
         if (!isAtmosphericFlightScene())
         {
+            return;
+        }
+        obj_id existingShip = getDeployedShipForPlayer(player);
+        if (isIdValid(existingShip))
+        {
+            sendSystemMessageTestingOnly(player, "You already have a ship deployed. Store it before launching another.");
             return;
         }
         obj_id ship = getShipFromShipControlDevice(shipControlDevice);

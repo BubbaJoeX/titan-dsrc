@@ -103,7 +103,9 @@ public class ship_control_device extends script.base_script
         obj_id currentShip = space_transition.getContainingShip(player);
         boolean thisScdsShipIsOut = isIdValid(unpackedShip);
         boolean playerInAnotherShip = isIdValid(currentShip) && !thisScdsShipIsOut;
-        boolean hasLaunch = isIdValid(objShip) && isAtmo && !isIdValid(currentShip);
+        obj_id deployedShip = isAtmo ? space_transition.getDeployedShipForPlayer(player) : null;
+        boolean anotherShipDeployed = isIdValid(deployedShip) && !thisScdsShipIsOut;
+        boolean hasLaunch = isIdValid(objShip) && isAtmo && !isIdValid(currentShip) && !anotherShipDeployed;
         boolean hasLand = thisScdsShipIsOut && isAtmo;
         boolean hasRepairGM = isIdValid(objShip) && getShipChassisType(objShip).equals("player_sorosuub_space_yacht") && isGod(player);
         if (hasLaunch || hasLand || hasRepairGM)
