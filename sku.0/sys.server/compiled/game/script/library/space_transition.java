@@ -548,6 +548,8 @@ public class space_transition extends script.base_script
             return;
         }
         removeObjVar(ship, "space.altitude");
+        if (hasScript(ship, "space.ship.ship_atmospheric_boarding"))
+            detachScript(ship, "space.ship.ship_atmospheric_boarding");
         boolean inSpace = isSpaceScene();
         boolean teleportFixup = hasObjVar(ship, "teleportFixup");
         obj_id pilot = getPilotId(ship);
@@ -799,6 +801,8 @@ public class space_transition extends script.base_script
                 if (isAtmosphericFlightScene())
                 {
                     messageTo(ship, "checkAtmosphericAltitude", null, 2.0f, false);
+                    if (!hasScript(ship, "space.ship.ship_atmospheric_boarding"))
+                        attachScript(ship, "space.ship.ship_atmospheric_boarding");
                 }
                 LOG("space", "AOK");
                 return true;
@@ -1365,5 +1369,106 @@ public class space_transition extends script.base_script
         setLocation(objPlayer, locTest);
         LOG("space", "sending player to " + locTest);
         setTransform_o2p(objPlayer, trTest);
+    }
+    public static void disembarkShip(obj_id player, obj_id ship) throws InterruptedException
+    {
+        if (!isIdValid(player) || !isIdValid(ship))
+            return;
+        obj_id pilot = getPilotId(ship);
+        if (pilot == player)
+            unpilotShip(player);
+        setState(player, STATE_SITTING_ON_CHAIR, false);
+        int posture = getPosture(player);
+        if (posture == POSTURE_SITTING || posture == POSTURE_PRONE)
+            setPostureClientImmediate(player, POSTURE_UPRIGHT);
+        location shipLoc = getLocation(ship);
+        float terrainY = getHeightAtLocation(shipLoc.x, shipLoc.z);
+        location groundLoc = new location(shipLoc.x, terrainY, shipLoc.z, shipLoc.area, null);
+        float theta = rand() * (2.0f * (float)Math.PI);
+        groundLoc.x += 3.0f * (float)StrictMath.cos(theta);
+        groundLoc.z += 3.0f * (float)StrictMath.sin(theta);
+        warpPlayer(player, groundLoc.area, groundLoc.x, groundLoc.y, groundLoc.z, null, groundLoc.x, groundLoc.y, groundLoc.z, null, false);
+    }
+    public static boolean boardShipFromGround(obj_id player, obj_id ship) throws InterruptedException
+    {
+        if (!isIdValid(player) || !isIdValid(ship))
+            return false;
+        if (!space_utils.isShipWithInterior(ship))
+        {
+            sendSystemMessage(player, new string_id("space/space_interaction", "not_boardable"));
+            return false;
+        }
+        obj_id pilot = getPilotId(ship);
+        if (isIdValid(pilot))
+        {
+            sendSystemMessage(player, new string_id("space/space_interaction", "ship_in_flight"));
+            return false;
+        }
+        String[] bannedList = permissionsGetBanned(ship);
+        if (bannedList != null)
+        {
+            String playerName = getFirstName(getName(player)).toLowerCase();
+            for (String banned : bannedList)
+            {
+                if (banned.toLowerCase().equals(playerName))
+                {
+                    sendSystemMessage(player, new string_id("space/space_interaction", "boarding_denied"));
+                    return false;
+                }
+            }
+        }
+        if (!permissionsIsPublic(ship))
+        {
+            obj_id owner = getOwner(ship);
+            if (owner != player)
+            {
+                String[] allowedList = permissionsGetAllowed(ship);
+                boolean found = false;
+                if (allowedList != null)
+                {
+                    String playerName = getFirstName(getName(player)).toLowerCase();
+                    for (String allowed : allowedList)
+                    {
+                        if (allowed.toLowerCase().equals(playerName))
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+                if (!found)
+                {
+                    sendSystemMessage(player, new string_id("space/space_interaction", "boarding_denied"));
+                    return false;
+                }
+            }
+        }
+        location boardingDest = getShipBoardingDestination(ship);
+        if (boardingDest == null)
+        {
+            obj_id[] cells = getContents(ship);
+            if (cells == null || cells.length == 0)
+            {
+                sendSystemMessage(player, new string_id("space/space_interaction", "not_boardable"));
+                return false;
+            }
+            location loc = new location();
+            loc.cell = cells[0];
+            setLocation(player, loc);
+        }
+        else
+        {
+            setLocation(player, boardingDest);
+        }
+        return true;
+    }
+    public static boolean isShipParkedInWorld(obj_id ship) throws InterruptedException
+    {
+        if (!isIdValid(ship))
+            return false;
+        if (getTopMostContainer(ship) != ship)
+            return false;
+        obj_id pilot = getPilotId(ship);
+        return !isIdValid(pilot);
     }
 }

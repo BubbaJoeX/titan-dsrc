@@ -15,22 +15,47 @@ public class escape_hatch extends script.base_script
     }
     public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi) throws InterruptedException
     {
-        menu_info_data data = mi.getMenuItemByType(menu_info_types.ITEM_USE);
-        string_id strSpam = new string_id("space/space_interaction", "eject");
-        mi.addRootMenu(menu_info_types.ITEM_USE, strSpam);
+        mi.addRootMenu(menu_info_types.ITEM_USE, new string_id("space/space_interaction", "eject"));
+
+        obj_id objShip = space_transition.getContainingShip(player);
+        if (isIdValid(objShip) && space_transition.isAtmosphericFlightScene())
+        {
+            mi.addRootMenu(menu_info_types.SERVER_MENU1, string_id.unlocalized("Depart through Boarding Ramp"));
+        }
         return SCRIPT_CONTINUE;
     }
     public int OnObjectMenuSelect(obj_id self, obj_id objPlayer, int item) throws InterruptedException
     {
-        LOG("space", "ESCAPE POD");
+        if (item == menu_info_types.SERVER_MENU1)
+        {
+            obj_id objShip = space_transition.getContainingShip(objPlayer);
+            if (!isIdValid(objShip))
+                return SCRIPT_CONTINUE;
+
+            if (!space_transition.isAtmosphericFlightScene())
+            {
+                sendSystemMessage(objPlayer, new string_id("space/space_interaction", "no_atmospheric_flight"));
+                return SCRIPT_CONTINUE;
+            }
+
+            obj_id pilot = getPilotId(objShip);
+            if (isIdValid(pilot))
+            {
+                sendSystemMessage(objPlayer, new string_id("space/space_interaction", "ship_in_flight"));
+                return SCRIPT_CONTINUE;
+            }
+
+            sendSystemMessage(objPlayer, new string_id("space/space_interaction", "disembarking"));
+            space_transition.disembarkShip(objPlayer, objShip);
+            return SCRIPT_CONTINUE;
+        }
+
         if (item == menu_info_types.ITEM_USE)
         {
             obj_id objShip = space_transition.getContainingShip(objPlayer);
             obj_id objOwner = getOwner(objShip);
-            LOG("space", "objOwner is " + objOwner + " player is " + objPlayer);
             if (objOwner == objPlayer)
             {
-                LOG("space", "Queing command ");
                 string_id strSpam = new string_id("space/space_interaction", "ejecting");
                 sendSystemMessage(objPlayer, strSpam);
                 utils.setLocalVar(objShip, "intEjecting", 1);
@@ -39,7 +64,7 @@ public class escape_hatch extends script.base_script
                 messageTo(objShip, "megaDamage", dctParams, 2, false);
                 return SCRIPT_CONTINUE;
             }
-            else 
+            else
             {
                 string_id strSpam = new string_id("space/space_interaction", "ejecting");
                 sendSystemMessage(objPlayer, strSpam);
