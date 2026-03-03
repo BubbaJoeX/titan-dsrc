@@ -169,7 +169,8 @@ public class combat_ship_player extends script.base_script
         obj_id container = getContainedBy(self);
         if (isIdValid(container))
         {
-            if (!isGod(self) && !isIdValid(getContainedBy(container)) && !space_transition.isAtmosphericFlightScene())
+            boolean isNonPob = !isIdValid(getContainedBy(container));
+            if (isNonPob)
             {
                 return SCRIPT_CONTINUE;
             }
