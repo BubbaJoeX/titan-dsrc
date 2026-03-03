@@ -169,7 +169,7 @@ public class combat_ship_player extends script.base_script
         obj_id container = getContainedBy(self);
         if (isIdValid(container))
         {
-            if (!isGod(self) && !isIdValid(getContainedBy(container)))
+            if (!isGod(self) && !isIdValid(getContainedBy(container)) && !space_transition.isAtmosphericFlightScene())
             {
                 return SCRIPT_CONTINUE;
             }
@@ -183,7 +183,7 @@ public class combat_ship_player extends script.base_script
                 obj_id building = getTopMostContainer(self);
                 messageTo(building, "continueMainTable", null, 0, false);
             }
-            if (getObjectInSlot(container, POB_SHIP_PILOT_SLOT_NAME) == self)
+            if (getObjectInSlot(container, POB_SHIP_PILOT_SLOT_NAME) == self || getObjectInSlot(container, space_transition.SHIP_PILOT_SLOT_NAME) == self)
             {
                 unpilotShip(self);
             }
@@ -2919,7 +2919,7 @@ public class combat_ship_player extends script.base_script
     }
     public int OnNewbieTutorialResponse(obj_id self, String strAction) throws InterruptedException
     {
-        if (!isSpaceScene())
+        if (!space_transition.isShipScene())
         {
             return SCRIPT_CONTINUE;
         }

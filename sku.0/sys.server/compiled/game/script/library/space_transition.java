@@ -41,6 +41,11 @@ public class space_transition extends script.base_script
         }
         return true;
     }
+    /** Returns true when space commands/behavior should apply: space scene OR atmospheric flight. Use this instead of isSpaceScene() when the intent is "ships can operate". */
+    public static boolean isShipScene() throws InterruptedException
+    {
+        return isSpaceScene() || isAtmosphericFlightScene();
+    }
     public static void handlePotentialSceneChange(obj_id player) throws InterruptedException
     {
         if (utils.hasLocalVar(player, "loggingOut"))
@@ -49,18 +54,19 @@ public class space_transition extends script.base_script
         }
         obj_id containingShip = getContainingShip(player);
         LIVE_LOG("TeleportFixup", "containingShip is " + containingShip);
+        if (isShipScene() && isIdValid(containingShip))
+        {
+            if (isSpaceScene())
+                adjustShipTeleportFixupInSpaceScene(containingShip);
+            if (getOwner(containingShip) == player)
+            {
+                updateShipFaction(containingShip, player);
+            }
+            doAIImmunityCheck(containingShip);
+            return;
+        }
         if (isSpaceScene())
         {
-            if (isIdValid(containingShip))
-            {
-                adjustShipTeleportFixupInSpaceScene(containingShip);
-                if (getOwner(containingShip) == player)
-                {
-                    updateShipFaction(containingShip, player);
-                }
-                doAIImmunityCheck(containingShip);
-                return;
-            }
             obj_id launchedShip = getObjIdObjVar(player, "space.launch.ship");
             int launchedShipStartIndex = getIntObjVar(player, "space.launch.startIndex") - 1;
             if ((!isGod(player) || (!utils.checkConfigFlag("ScriptFlags", "e3Demo")) && shouldSendToGroundOnLogout()))

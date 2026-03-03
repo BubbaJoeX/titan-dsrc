@@ -10,7 +10,7 @@ public class piracy extends script.base_script
     }
     public int startBeacon(obj_id self, dictionary params) throws InterruptedException
     {
-        if (!isSpaceScene())
+        if (!space_transition.isShipScene())
         {
             return SCRIPT_CONTINUE;
         }
