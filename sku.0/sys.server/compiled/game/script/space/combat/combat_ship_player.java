@@ -2919,7 +2919,7 @@ public class combat_ship_player extends script.base_script
     }
     public int OnNewbieTutorialResponse(obj_id self, String strAction) throws InterruptedException
     {
-        if (!space_transition.isShipScene())
+        if (!space_transition.isSpaceOrAtmosphericScene())
         {
             return SCRIPT_CONTINUE;
         }

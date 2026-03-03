@@ -41,8 +41,8 @@ public class space_transition extends script.base_script
         }
         return true;
     }
-    /** Returns true when space commands/behavior should apply: space scene OR atmospheric flight. Use this instead of isSpaceScene() when the intent is "ships can operate". */
-    public static boolean isShipScene() throws InterruptedException
+    /** Returns true when space commands/behavior should apply: space scene OR atmospheric flight. Use instead of isSpaceScene() when the intent is "ships can operate". */
+    public static boolean isSpaceOrAtmosphericScene() throws InterruptedException
     {
         return isSpaceScene() || isAtmosphericFlightScene();
     }
@@ -54,7 +54,7 @@ public class space_transition extends script.base_script
         }
         obj_id containingShip = getContainingShip(player);
         LIVE_LOG("TeleportFixup", "containingShip is " + containingShip);
-        if (isShipScene() && isIdValid(containingShip))
+        if (isSpaceOrAtmosphericScene() && isIdValid(containingShip))
         {
             if (isSpaceScene())
                 adjustShipTeleportFixupInSpaceScene(containingShip);
