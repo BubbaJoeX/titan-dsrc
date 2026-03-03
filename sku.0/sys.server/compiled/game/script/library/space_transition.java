@@ -46,6 +46,24 @@ public class space_transition extends script.base_script
     {
         return isSpaceScene() || isAtmosphericFlightScene();
     }
+    public static location getSpaceZoneForGroundScene(String groundScene) throws InterruptedException
+    {
+        String dt = "datatables/space_zones/launch_locations.iff";
+        int numRows = dataTableGetNumRows(dt);
+        for (int i = 0; i < numRows; ++i)
+        {
+            String scene = dataTableGetString(dt, i, "groundScene");
+            if (scene != null && scene.equals(groundScene))
+            {
+                dictionary row = dataTableGetRow(dt, i);
+                if (row != null)
+                {
+                    return new location(row.getFloat("spaceX"), row.getFloat("spaceY"), row.getFloat("spaceZ"), row.getString("spaceScene"));
+                }
+            }
+        }
+        return null;
+    }
     public static void handlePotentialSceneChange(obj_id player) throws InterruptedException
     {
         if (utils.hasLocalVar(player, "loggingOut"))
@@ -527,6 +545,7 @@ public class space_transition extends script.base_script
         {
             return;
         }
+        removeObjVar(ship, "space.altitude");
         boolean inSpace = isSpaceScene();
         boolean teleportFixup = hasObjVar(ship, "teleportFixup");
         obj_id pilot = getPilotId(ship);
@@ -738,6 +757,10 @@ public class space_transition extends script.base_script
                             messageTo(shipContent, "OnShipUnpack", null, 1.0f, false);
                         }
                     }
+                }
+                if (isAtmosphericFlightScene())
+                {
+                    messageTo(ship, "checkAtmosphericAltitude", null, 2.0f, false);
                 }
                 LOG("space", "AOK");
                 return true;

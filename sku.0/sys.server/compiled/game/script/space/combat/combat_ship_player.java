@@ -3086,4 +3086,44 @@ public class combat_ship_player extends script.base_script
         LOG("space", "transform is " + trTest);
         return SCRIPT_CONTINUE;
     }
+    public static final float ATMOSPHERIC_WARN_ALTITUDE = 4000.0f;
+    public static final float ATMOSPHERIC_WARP_ALTITUDE = 5000.0f;
+    public int checkAtmosphericAltitude(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (!isAtmosphericFlightScene())
+            return SCRIPT_CONTINUE;
+        obj_id pilot = getPilotId(self);
+        if (!isIdValid(pilot))
+            return SCRIPT_CONTINUE;
+        location shipLoc = getLocation(self);
+        float altitude = shipLoc.y;
+        if (altitude >= ATMOSPHERIC_WARP_ALTITUDE)
+        {
+            location spaceDest = space_transition.getSpaceZoneForGroundScene(shipLoc.area);
+            if (spaceDest == null)
+            {
+                sendSystemMessage(pilot, "No adjacent space zone found for this planet.", null);
+                messageTo(self, "checkAtmosphericAltitude", null, 2.0f, false);
+                return SCRIPT_CONTINUE;
+            }
+            removeObjVar(self, "space.altitude");
+            hyperspacePlayerToLocation(pilot, spaceDest.area, spaceDest.x, spaceDest.y, spaceDest.z, null, spaceDest.x, spaceDest.y, spaceDest.z, null, false);
+            return SCRIPT_CONTINUE;
+        }
+        if (altitude >= ATMOSPHERIC_WARN_ALTITUDE)
+        {
+            if (!hasObjVar(self, "space.altitude.warned"))
+            {
+                setObjVar(self, "space.altitude.warned", true);
+                sendSystemMessage(pilot, "\\#ff4444You are reaching the lithosphere, make the ascent or turn back now!", null);
+            }
+        }
+        else
+        {
+            if (hasObjVar(self, "space.altitude.warned"))
+                removeObjVar(self, "space.altitude.warned");
+        }
+        messageTo(self, "checkAtmosphericAltitude", null, 2.0f, false);
+        return SCRIPT_CONTINUE;
+    }
 }
