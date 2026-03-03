@@ -1143,6 +1143,10 @@ public class combat_ship extends script.base_script
     public static final int AP_DESCENDING = 3;
     public static final int AP_ARRIVED    = 4;
 
+    public static final String SND_COMM    = "sound/sys_comm_generic.snd";
+    public static final String SND_ALARM   = "sound/cbt_msl_alarm_incoming.snd";
+    public static final float  ELEVATOR_SPEED = 30.0f;
+
     private void broadcastToShip(obj_id ship, String message) throws InterruptedException
     {
         Vector players = space_transition.getContainedPlayers(ship, null);
@@ -1153,6 +1157,20 @@ public class combat_ship extends script.base_script
                 obj_id player = (obj_id) p;
                 if (isIdValid(player))
                     sendSystemMessageTestingOnly(player, message);
+            }
+        }
+    }
+
+    private void playSoundOnShipOccupants(obj_id ship, String sound) throws InterruptedException
+    {
+        Vector players = space_transition.getContainedPlayers(ship, null);
+        if (players != null)
+        {
+            for (Object p : players)
+            {
+                obj_id player = (obj_id) p;
+                if (isIdValid(player))
+                    play2dNonLoopingSound(player, sound);
             }
         }
     }
@@ -1189,6 +1207,19 @@ public class combat_ship extends script.base_script
         float seconds = distMeters / speedMps;
         int mins = (int)(seconds / 60.0f);
         int secs = (int)(seconds % 60.0f);
+        if (mins > 0)
+            return mins + "m " + secs + "s";
+        return secs + "s";
+    }
+
+    private String formatFullETA(float horizDist, float cruiseSpeed, float takeoffAlt, float landingAlt)
+    {
+        float ascentTime = takeoffAlt / ELEVATOR_SPEED;
+        float descentTime = (takeoffAlt - landingAlt) / ELEVATOR_SPEED;
+        float cruiseTime = (cruiseSpeed > 0.0f) ? (horizDist / cruiseSpeed) : 0.0f;
+        float totalSeconds = ascentTime + cruiseTime + descentTime;
+        int mins = (int)(totalSeconds / 60.0f);
+        int secs = (int)(totalSeconds % 60.0f);
         if (mins > 0)
             return mins + "m " + secs + "s";
         return secs + "s";
@@ -1245,11 +1276,13 @@ public class combat_ship extends script.base_script
         float bearing = getDirectionBearing(dx, dz);
         String cardinal = getBearingCardinal(bearing);
 
-        float estSpeed = getShipEngineSpeedMaximum(self) * 1.5f;
-        String eta = formatETA(dist, estSpeed);
+        float estSpeed = getShipEngineSpeedMaximum(self) * 2.5f;
+        String eta = formatFullETA(dist, estSpeed, AUTOPILOT_TAKEOFF_ALT, AUTOPILOT_LANDING_ALT);
 
         float terrainAtDest = getHeightAtLocation(targetX, targetZ);
         float landingY = terrainAtDest + AUTOPILOT_LANDING_ALT;
+
+        playSoundOnShipOccupants(self, SND_COMM);
 
         broadcastToShip(self, " ");
         broadcastToShip(self, "\\#00ccff========================================");
@@ -1314,14 +1347,16 @@ public class combat_ship extends script.base_script
             switch (phase)
             {
                 case AP_ASCENDING:
+                    playSoundOnShipOccupants(self, SND_COMM);
                     broadcastToShip(self, "\\#aaddff[Navicomputer]: Ascending to cruise altitude...");
                     break;
                 case AP_CRUISING:
                 {
                     float bearing = getDirectionBearing(dx, dz);
                     String cardinal = getBearingCardinal(bearing);
-                    float estSpeed = getShipEngineSpeedMaximum(self) * 1.5f;
+                    float estSpeed = getShipEngineSpeedMaximum(self) * 2.5f;
                     String eta = formatETA(horizDist, estSpeed);
+                    playSoundOnShipOccupants(self, SND_COMM);
                     broadcastToShip(self, " ");
                     broadcastToShip(self, "\\#00ccff[Navicomputer]: Cruise altitude reached. Departing now.");
                     broadcastToShip(self, "\\#aaddff  Heading: " + formatCoord(bearing) + " deg (" + cardinal + ") | Distance: " + formatCoord(horizDist) + "m | ETA: " + eta);
@@ -1331,6 +1366,7 @@ public class combat_ship extends script.base_script
                     break;
                 }
                 case AP_DESCENDING:
+                    playSoundOnShipOccupants(self, SND_COMM);
                     broadcastToShip(self, " ");
                     broadcastToShip(self, "\\#aaddff[Navicomputer]: Approaching destination. Beginning descent...");
                     broadcastToShip(self, " ");
@@ -1345,6 +1381,8 @@ public class combat_ship extends script.base_script
                     boolean wasSummon = hasObjVar(self, OV_SUMMON_OWNER);
                     obj_id summonOwner = wasSummon ? getObjIdObjVar(self, OV_SUMMON_OWNER) : null;
 
+                    playSoundOnShipOccupants(self, SND_COMM);
+
                     broadcastToShip(self, " ");
                     broadcastToShip(self, "\\#00ff88========================================");
                     broadcastToShip(self, "\\#00ff88[Navicomputer]: Destination reached. Auto-pilot disengaged.");
@@ -1358,6 +1396,7 @@ public class combat_ship extends script.base_script
                         broadcastToShip(self, "\\#88ddaa  \"The ship has arrived at the summoned location.\"");
                         if (isIdValid(summonOwner) && exists(summonOwner))
                         {
+                            play2dNonLoopingSound(summonOwner, SND_COMM);
                             sendSystemMessageTestingOnly(summonOwner, "\\#00ff88[Navicomputer]: Your ship has arrived at your location.");
                             sendSystemMessageTestingOnly(summonOwner, "\\#88ddaa  Coordinates: [" + formatCoord(shipLoc.x) + ", " + formatCoord(shipLoc.y) + ", " + formatCoord(shipLoc.z) + "]");
                             sendSystemMessageTestingOnly(summonOwner, "\\#88ddaa  You may now board your ship.");
@@ -1380,16 +1419,27 @@ public class combat_ship extends script.base_script
         {
             float bearing = getDirectionBearing(dx, dz);
             String cardinal = getBearingCardinal(bearing);
-            float estSpeed = getShipEngineSpeedMaximum(self) * 1.5f;
-            String eta = formatETA(horizDist, estSpeed);
+            float estSpeed = getShipEngineSpeedMaximum(self) * 2.5f;
+            float descentTime = 0.0f;
+            if (hasObjVar(self, OV_SUMMON_OWNER))
+                descentTime = (SUMMON_TAKEOFF_ALT - SUMMON_LANDING_ALT) / ELEVATOR_SPEED;
+            else
+                descentTime = (AUTOPILOT_TAKEOFF_ALT - AUTOPILOT_LANDING_ALT) / ELEVATOR_SPEED;
+            float cruiseTime = (estSpeed > 0.0f) ? (horizDist / estSpeed) : 0.0f;
+            String eta = formatETA(cruiseTime + descentTime, 1.0f);
             String statusMsg = "\\#778899[Navicomputer]: " + formatCoord(horizDist) + "m remaining | " + cardinal + " | Alt " + formatCoord(shipLoc.y) + "m | ETA: " + eta;
+
+            playSoundOnShipOccupants(self, SND_COMM);
             broadcastToShip(self, statusMsg);
 
             if (hasObjVar(self, OV_SUMMON_OWNER))
             {
                 obj_id summonOwner = getObjIdObjVar(self, OV_SUMMON_OWNER);
                 if (isIdValid(summonOwner) && exists(summonOwner))
+                {
+                    play2dNonLoopingSound(summonOwner, SND_COMM);
                     sendSystemMessageTestingOnly(summonOwner, statusMsg);
+                }
             }
         }
 
@@ -1482,8 +1532,11 @@ public class combat_ship extends script.base_script
         float bearing = getDirectionBearing(dx, dz);
         String cardinal = getBearingCardinal(bearing);
 
-        float estSpeed = getShipEngineSpeedMaximum(self) * 1.5f;
-        String eta = formatETA(dist, estSpeed);
+        float estSpeed = getShipEngineSpeedMaximum(self) * 2.5f;
+        String eta = formatFullETA(dist, estSpeed, SUMMON_TAKEOFF_ALT, SUMMON_LANDING_ALT);
+
+        play2dNonLoopingSound(owner, SND_ALARM);
+        playSoundOnShipOccupants(self, SND_ALARM);
 
         sendSystemMessageTestingOnly(owner, "\\#00ccff[Navicomputer]: Ship summoned. En route to your location.");
         sendSystemMessageTestingOnly(owner, "\\#aaddff  Distance: " + formatCoord(dist) + "m | Bearing: " + cardinal + " | ETA: " + eta);
