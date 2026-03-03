@@ -727,6 +727,21 @@ public class space_transition extends script.base_script
                     LOG("space_transition", "unpackShipForPlayer: re-applied launch position after pilot: " + launchLoc.x + ", " + launchLoc.y + ", " + launchLoc.z);
                 }
                 updateShipFaction(ship, player);
+                if (space_utils.isShipWithInterior(ship))
+                {
+                    String[] cellNames = getCellNames(ship);
+                    if (cellNames != null)
+                    {
+                        for (String cellName : cellNames)
+                        {
+                            obj_id cellId = getCellId(ship, cellName);
+                            if (isIdValid(cellId))
+                            {
+                                permissionsMakePublic(cellId);
+                            }
+                        }
+                    }
+                }
                 doAIImmunityCheck(ship);
                 obj_id droidControlDevice = getDroidControlDeviceForShip(ship);
                 if (isIdValid(droidControlDevice))
