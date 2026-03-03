@@ -1,10 +1,7 @@
 package script.space.content_tools;
 
-import script.dictionary;
-import script.library.space_quest;
-import script.library.utils;
-import script.obj_id;
-import script.string_id;
+import script.*;
+import script.library.*;
 
 import java.util.Vector;
 
@@ -12,6 +9,32 @@ public class spacestation extends script.base_script
 {
     public spacestation()
     {
+    }
+    public static final string_id SID_DESCEND = string_id.unlocalized("Descend to Planet");
+    public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi) throws InterruptedException
+    {
+        obj_id containingShip = space_transition.getContainingShip(player);
+        if (isIdValid(containingShip))
+        {
+            float dist = getDistance(self, containingShip);
+            if (dist <= space_transition.STATION_COMM_MAX_DISTANCE)
+            {
+                String groundScene = space_content.getGroundSceneForSpaceScene(getCurrentSceneName());
+                if (groundScene != null && !groundScene.isEmpty())
+                {
+                    mi.addRootMenu(menu_info_types.SERVER_MENU9, SID_DESCEND);
+                }
+            }
+        }
+        return SCRIPT_CONTINUE;
+    }
+    public int OnObjectMenuSelect(obj_id self, obj_id player, int item) throws InterruptedException
+    {
+        if (item == menu_info_types.SERVER_MENU9)
+        {
+            space_content.descendToPlanet(player, self);
+        }
+        return SCRIPT_CONTINUE;
     }
     public int OnAttach(obj_id self) throws InterruptedException
     {

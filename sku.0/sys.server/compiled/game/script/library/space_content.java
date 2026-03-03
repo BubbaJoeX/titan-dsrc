@@ -37,10 +37,9 @@ public class space_content extends script.base_script
             obj_id objShip = space_transition.getContainingShip(objPlayer);
             if (isIdValid(objShip))
             {
-                obj_id objOwner = getOwner(objShip);
                 space_combat.clearHyperspace(objShip);
                 space_transition.clearOvertStatus(objShip);
-                obj_id objControlDevice = space_transition.findEmptyShipControlDeviceForPlayer(objOwner);
+                space_transition.packShip(objShip);
             }
             String groundScene = dataTableGetString(LAUNCH_LOCATION_DATATABLE_NAME, row, LAUNCH_LOCATION_COLUMN_GROUND_SCENE);
             float groundX = dataTableGetFloat(LAUNCH_LOCATION_DATATABLE_NAME, row, LAUNCH_LOCATION_COLUMN_GROUND_X);
@@ -52,6 +51,44 @@ public class space_content extends script.base_script
             groundZ += radius * StrictMath.sin(theta);
             warpPlayer(objPlayer, groundScene, groundX, groundY, groundZ, null, groundX, groundY, groundZ);
         }
+    }
+    public static void descendToPlanet(obj_id objPlayer, obj_id objStation) throws InterruptedException
+    {
+        float fltDistance = getDistance(objStation, space_transition.getContainingShip(objPlayer));
+        if (fltDistance > space_transition.STATION_COMM_MAX_DISTANCE)
+        {
+            string_id strSpam = new string_id("space/space_interaction", "too_far");
+            sendSystemMessage(objPlayer, strSpam);
+            return;
+        }
+        String spaceScene = getCurrentSceneName();
+        String groundScene = getGroundSceneForSpaceScene(spaceScene);
+        if (groundScene == null || groundScene.isEmpty())
+        {
+            sendSystemMessage(objPlayer, new string_id("space/space_interaction", "no_planet_below"));
+            return;
+        }
+        obj_id objShip = space_transition.getContainingShip(objPlayer);
+        if (isIdValid(objShip))
+        {
+            space_combat.clearHyperspace(objShip);
+            space_transition.clearOvertStatus(objShip);
+            space_transition.packShip(objShip);
+        }
+        warpPlayer(objPlayer, groundScene, 0.0f, 2000.0f, 0.0f, null, 0.0f, 2000.0f, 0.0f);
+    }
+    public static String getGroundSceneForSpaceScene(String spaceScene) throws InterruptedException
+    {
+        int numRows = dataTableGetNumRows(LAUNCH_LOCATION_DATATABLE_NAME);
+        for (int i = 0; i < numRows; ++i)
+        {
+            String scene = dataTableGetString(LAUNCH_LOCATION_DATATABLE_NAME, i, "spaceScene");
+            if (scene != null && scene.equals(spaceScene))
+            {
+                return dataTableGetString(LAUNCH_LOCATION_DATATABLE_NAME, i, LAUNCH_LOCATION_COLUMN_GROUND_SCENE);
+            }
+        }
+        return null;
     }
     public static String getPlanetForLaunchLocation(String pointName) throws InterruptedException
     {
@@ -103,9 +140,9 @@ public class space_content extends script.base_script
             obj_id objShip = space_transition.getContainingShip(objPlayer);
             if (isIdValid(objShip))
             {
-                obj_id objOwner = getOwner(objShip);
                 space_combat.clearHyperspace(objShip);
                 space_transition.clearOvertStatus(objShip);
+                space_transition.packShip(objShip);
             }
             String groundScene = getStringObjVar(objPlayer, "homingBeacon.planet");
             location houseLoc = getLocationObjVar(objPlayer, "homingBeacon.houseLoc");
