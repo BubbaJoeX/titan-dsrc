@@ -57,12 +57,41 @@ public class ship_control_device extends script.base_script
             return;
         }
 
-        if (getTopMostContainer(ship) == ship)
+        removeObjVar(ship, "space.packPending");
+
+        if (getTopMostContainer(ship) != ship)
+            return;
+
+        if (!isAtmosphericFlightScene())
         {
-            LOG("space_transition", "recoverOrphanedShip: SCD " + scd + " has orphaned ship " + ship + " in world, packing.");
-            removeObjVar(ship, "space.packPending");
+            LOG("space_transition", "recoverOrphanedShip: SCD " + scd + " has ship " + ship + " in world on non-atmo scene, packing.");
             space_transition.packShipFinalize(ship);
+            return;
         }
+
+        LOG("space_transition", "recoverOrphanedShip: SCD " + scd + " restoring deployed ship " + ship + " in atmospheric flight.");
+
+        shipClearAutopilot(ship);
+        removeObjVar(ship, "space.autopilot");
+
+        if (space_utils.isShipWithInterior(ship))
+        {
+            String[] cellNames = getCellNames(ship);
+            if (cellNames != null)
+            {
+                for (String cellName : cellNames)
+                {
+                    obj_id cellId = getCellId(ship, cellName);
+                    if (isIdValid(cellId))
+                        permissionsMakePublic(cellId);
+                }
+            }
+        }
+
+        if (!hasScript(ship, "space.ship.ship_atmospheric_boarding"))
+            attachScript(ship, "space.ship.ship_atmospheric_boarding");
+
+        messageTo(ship, "checkAtmosphericAltitude", null, 5.0f, false);
     }
     public int OnGetAttributes(obj_id self, obj_id objPlayer, String[] strNames, String[] strAttribs) throws InterruptedException
     {
