@@ -1048,29 +1048,29 @@ public class player_building extends script.base_script
             LOG("LOG_CHANNEL", "y ->" + y + " dist ->" + dist_scaled);
             move_loc = new location(loc.x, y + loc.y, loc.z, loc.area, loc.cell);
             LOG("LOG_CHANNEL", "move_loc ->" + move_loc);
-            obj_id building = getTopMostContainer(target);
-            String bldgstr = getTemplateName(building);
-            String cellname = getCellName(building, loc.cell);
-            float new_y = y + loc.y;
-            if (!utils.hasScriptVar(target, "vertical.template") || !utils.hasScriptVar(target, "vertical.cell") || !utils.hasScriptVar(target, "vertical.min_height") || !utils.hasScriptVar(target, "vertical.max_height") || !(utils.getStringScriptVar(target, "vertical.template")).equals(bldgstr) || !(utils.getStringScriptVar(target, "vertical.cell")).equals(cellname))
-            {
-                String[] template = dataTableGetStringColumn(DATATABLE_HEIGHT, "template");
-                String[] cell = dataTableGetStringColumn(DATATABLE_HEIGHT, "cell");
-                float[] max_height = dataTableGetFloatColumn(DATATABLE_HEIGHT, "max_height");
-                float[] min_height = dataTableGetFloatColumn(DATATABLE_HEIGHT, "min_height");
-                for (int i = 0; i < template.length; i++)
-                {
-                    if ((template[i].equals(bldgstr)) && (cell[i].equals(cellname)))
-                    {
-                        utils.setScriptVar(target, "vertical.template", template[i]);
-                        utils.setScriptVar(target, "vertical.cell", cell[i]);
-                        utils.setScriptVar(target, "vertical.min_height", min_height[i]);
-                        utils.setScriptVar(target, "vertical.max_height", max_height[i]);
-                    }
-                }
-            }
             if (!isGod(self))
             {
+                obj_id building = getTopMostContainer(target);
+                String bldgstr = getTemplateName(building);
+                String cellname = getCellName(building, loc.cell);
+                float new_y = y + loc.y;
+                if (!utils.hasScriptVar(target, "vertical.template") || !utils.hasScriptVar(target, "vertical.cell") || !utils.hasScriptVar(target, "vertical.min_height") || !utils.hasScriptVar(target, "vertical.max_height") || !(utils.getStringScriptVar(target, "vertical.template")).equals(bldgstr) || !(utils.getStringScriptVar(target, "vertical.cell")).equals(cellname))
+                {
+                    String[] template = dataTableGetStringColumn(DATATABLE_HEIGHT, "template");
+                    String[] cell = dataTableGetStringColumn(DATATABLE_HEIGHT, "cell");
+                    float[] max_height = dataTableGetFloatColumn(DATATABLE_HEIGHT, "max_height");
+                    float[] min_height = dataTableGetFloatColumn(DATATABLE_HEIGHT, "min_height");
+                    for (int i = 0; i < template.length; i++)
+                    {
+                        if ((template[i].equals(bldgstr)) && (cell[i].equals(cellname)))
+                        {
+                            utils.setScriptVar(target, "vertical.template", template[i]);
+                            utils.setScriptVar(target, "vertical.cell", cell[i]);
+                            utils.setScriptVar(target, "vertical.min_height", min_height[i]);
+                            utils.setScriptVar(target, "vertical.max_height", max_height[i]);
+                        }
+                    }
+                }
                 if (!utils.hasScriptVar(target, "vertical.min_height") || !utils.hasScriptVar(target, "vertical.max_height"))
                 {
                     sendSystemMessage(self, new string_id(STF, "error_move_item"));
@@ -5506,7 +5506,15 @@ public class player_building extends script.base_script
     }
     public String getCellName(obj_id building, obj_id cell) throws InterruptedException
     {
+        if (building == null || !isIdValid(building) || cell == null || !isIdValid(cell))
+        {
+            return "";
+        }
         String[] cellNames = getCellNames(building);
+        if (cellNames == null)
+        {
+            return "";
+        }
         for (String cellName : cellNames) {
             obj_id thisCell = getCellId(building, cellName);
             if (thisCell == cell) {
