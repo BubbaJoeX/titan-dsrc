@@ -374,13 +374,15 @@ public class ship_control_device extends script.base_script
     }
     public int OnDestroy(obj_id self) throws InterruptedException
     {
-        if (!hasObjVar(self, IN_USE_OBJVAR))
+        obj_id ship = space_transition.getShipFromShipControlDevice(self);
+        if (isIdValid(ship))
         {
-            obj_id ship = space_transition.getShipFromShipControlDevice(self);
-            if (isIdValid(ship))
+            obj_id player = utils.getContainingPlayer(self);
+            if (getTopMostContainer(ship) == ship)
             {
-                String type = getShipChassisType(ship);
-                obj_id player = utils.getContainingPlayer(self);
+                if (isIdValid(player))
+                    sendSystemMessage(player, string_id.unlocalized("You cannot delete a ship control device while the ship is deployed. Land your ship first."));
+                return SCRIPT_OVERRIDE;
             }
         }
         return SCRIPT_CONTINUE;
