@@ -92,7 +92,7 @@ public class terminal_space extends script.terminal.base.base_terminal
             shipNames[i] = isIdValid(ship) ? getAssignedName(shipControlDevices[i]) != null ? getAssignedName(shipControlDevices[i]) : getName(ship) : "Unknown";
         }
         utils.setScriptVar(player, "space.terminal.launchAtmosphereScds", shipControlDevices);
-        sui.listbox(self, player, "Select a ship to launch", sui.OK_CANCEL, "Select Ship", shipNames, SUI_LAUNCH_ATMOSPHERE_CALLBACK, false, false);
+        sui.listbox(self, player, "Select a ship to launch", sui.OK_CANCEL, "Select Ship", shipNames, SUI_LAUNCH_ATMOSPHERE_CALLBACK, true, false);
     }
     public int launchAtmosphereCallback(obj_id self, dictionary params) throws InterruptedException
     {
