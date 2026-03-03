@@ -25,6 +25,22 @@ public class space_transition extends script.base_script
     public static final String SHIP_PILOT_SLOT_NAME = "ship_pilot";
     public static final string_id SID_PVP_NOW_OVERT = new string_id("space/space_interaction", "pvp_now_overt");
     public static final string_id SID_PVP_NOW_NEUTRAL = new string_id("space/space_interaction", "pvp_now_neutral");
+    public static boolean isAtmosphericFlightAllowed(String sceneName) throws InterruptedException
+    {
+        if (sceneName == null || sceneName.startsWith("space_"))
+        {
+            return false;
+        }
+        if (sceneName.toLowerCase().startsWith("kashyyyk_"))
+        {
+            return false;
+        }
+        if (sceneName.equalsIgnoreCase("mustafar"))
+        {
+            return false;
+        }
+        return true;
+    }
     public static void handlePotentialSceneChange(obj_id player) throws InterruptedException
     {
         if (utils.hasLocalVar(player, "loggingOut"))
@@ -158,11 +174,14 @@ public class space_transition extends script.base_script
             removeObjVar(player, "space.launch");
             if (isIdValid(containingShip))
             {
-                if (debugSpaceTransition)
+                if (!isAtmosphericFlightScene())
                 {
-                    LIVE_LOG("TeleportFixup", "Player " + player + " in a ship but not in space, packing the ship.");
+                    if (debugSpaceTransition)
+                    {
+                        LIVE_LOG("TeleportFixup", "Player " + player + " in a ship but not in ship scene, packing the ship.");
+                    }
+                    packShip(containingShip);
                 }
-                packShip(containingShip);
             }
         }
     }
@@ -203,6 +222,20 @@ public class space_transition extends script.base_script
             return false;
         }
         return true;
+    }
+    public static void launchToAtmosphere(obj_id player, obj_id shipControlDevice) throws InterruptedException
+    {
+        if (!isAtmosphericFlightScene())
+        {
+            return;
+        }
+        obj_id ship = getShipFromShipControlDevice(shipControlDevice);
+        if (!isIdValid(ship) || getOwner(ship) != player || getContainedBy(getContainedBy(ship)) != utils.getDatapad(player))
+        {
+            return;
+        }
+        setObjVar(player, "space.launch.ship", ship);
+        handlePotentialSceneChange(player);
     }
     public static void setLaunchInfo(obj_id player, obj_id ship, int startLocationIndex, location groundLoc) throws InterruptedException
     {

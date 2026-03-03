@@ -12,12 +12,155 @@ public class terminal_space extends script.terminal.base.base_terminal
     }
     public static final float TERMINAL_USE_DISTANCE = 8.0f;
     public static final string_id SID_LAUNCH_SHIP = new string_id("space/space_terminal", "launch_ship");
+    public static final string_id SID_LAUNCH_TO_ATMOSPHERE = new string_id("space/space_interaction", "launch_to_atmosphere");
     public static final string_id SID_MUSTAFAR = new string_id("space/space_terminal", "mustafar_exception");
     public static final string_id SID_NOT_IN_COMBAT = new string_id("travel", "not_in_combat");
+    public static final String SUI_LAUNCH_ATMOSPHERE_CALLBACK = "launchAtmosphereCallback";
     public int OnInitialize(obj_id self) throws InterruptedException
     {
         requestPreloadCompleteTrigger(self);
         return SCRIPT_CONTINUE;
+    }
+    public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi) throws InterruptedException
+    {
+        int result = super.OnObjectMenuRequest(self, player, mi);
+        if (result == SCRIPT_CONTINUE && space_transition.isAtmosphericFlightScene())
+        {
+            obj_id[] shipControlDevices = space_transition.findShipControlDevicesForPlayer(player);
+            if (shipControlDevices != null && shipControlDevices.length > 0)
+            {
+                mi.addRootMenu(menu_info_types.SERVER_MENU5, SID_LAUNCH_TO_ATMOSPHERE);
+            }
+        }
+        return result;
+    }
+    public int OnObjectMenuSelect(obj_id self, obj_id player, int item) throws InterruptedException
+    {
+        if (item == menu_info_types.SERVER_MENU5)
+        {
+            handleLaunchToAtmosphere(self, player);
+            return SCRIPT_CONTINUE;
+        }
+        return super.OnObjectMenuSelect(self, player, item);
+    }
+    public void handleLaunchToAtmosphere(obj_id self, obj_id player) throws InterruptedException
+    {
+        if (!doSpacePrecheck(player))
+        {
+            return;
+        }
+        if (!features.isSpaceEdition(player))
+        {
+            string_id strSpam = new string_id("space/space_interaction", "no_space_expansion");
+            sendSystemMessage(player, strSpam);
+            if (!isGod(player))
+            {
+                return;
+            }
+        }
+        if (ai_lib.isInCombat(player))
+        {
+            sendSystemMessage(player, SID_NOT_IN_COMBAT);
+            return;
+        }
+        if (travel.isTravelBlocked(player, true))
+        {
+            return;
+        }
+        obj_id[] shipControlDevices = space_transition.findShipControlDevicesForPlayer(player);
+        if (shipControlDevices == null || shipControlDevices.length == 0)
+        {
+            string_id strSpam = new string_id("space/space_interaction", "no_ship");
+            sendSystemMessage(player, strSpam);
+            return;
+        }
+        if (shipControlDevices.length == 1)
+        {
+            doLaunchToAtmosphere(player, shipControlDevices[0]);
+        }
+        else
+        {
+            showLaunchToAtmosphereShipPicker(self, player, shipControlDevices);
+        }
+    }
+    public void showLaunchToAtmosphereShipPicker(obj_id self, obj_id player, obj_id[] shipControlDevices) throws InterruptedException
+    {
+        String[] shipNames = new String[shipControlDevices.length];
+        for (int i = 0; i < shipControlDevices.length; i++)
+        {
+            obj_id ship = space_transition.getShipFromShipControlDevice(shipControlDevices[i]);
+            shipNames[i] = isIdValid(ship) ? getAssignedName(shipControlDevices[i]) != null ? getAssignedName(shipControlDevices[i]) : getName(ship) : "Unknown";
+        }
+        utils.setScriptVar(player, "space.terminal.launchAtmosphereScds", shipControlDevices);
+        sui.listbox(self, player, "Select a ship to launch", sui.OK_CANCEL, "Select Ship", shipNames, SUI_LAUNCH_ATMOSPHERE_CALLBACK, false, false);
+    }
+    public int launchAtmosphereCallback(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (params == null)
+        {
+            return SCRIPT_CONTINUE;
+        }
+        obj_id player = sui.getPlayerId(params);
+        if (!isIdValid(player))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        int btn = sui.getIntButtonPressed(params);
+        if (btn != sui.BP_OK)
+        {
+            return SCRIPT_CONTINUE;
+        }
+        int idx = sui.getListboxSelectedRow(params);
+        obj_id[] shipControlDevices = utils.getObjIdArrayScriptVar(player, "space.terminal.launchAtmosphereScds");
+        utils.removeScriptVar(player, "space.terminal.launchAtmosphereScds");
+        if (shipControlDevices == null || idx < 0 || idx >= shipControlDevices.length)
+        {
+            return SCRIPT_CONTINUE;
+        }
+        doLaunchToAtmosphere(player, shipControlDevices[idx]);
+        return SCRIPT_CONTINUE;
+    }
+    public void doLaunchToAtmosphere(obj_id player, obj_id shipControlDevice) throws InterruptedException
+    {
+        obj_id ship = space_transition.getShipFromShipControlDevice(shipControlDevice);
+        if (!space_utils.isShipUsable(ship, player))
+        {
+            return;
+        }
+        float currentShipMass = getChassisComponentMassCurrent(ship);
+        float maxAllowableShipMass = getChassisComponentMassMaximum(ship);
+        if ((currentShipMass > maxAllowableShipMass) && !isGod(player))
+        {
+            string_id strSpam = new string_id("space/space_interaction", "too_heavy");
+            sendSystemMessage(player, strSpam);
+            return;
+        }
+        if (space_utils.isShipWithInterior(ship))
+        {
+            obj_id[] objControlDevices = space_transition.findShipControlDevicesForPlayer(player, true);
+            int intCount = 0;
+            for (obj_id objControlDevice : objControlDevices)
+            {
+                obj_id objTestShip = space_transition.getShipFromShipControlDevice(objControlDevice);
+                if (space_utils.isShipWithInterior(objTestShip) && objTestShip != ship)
+                {
+                    int intItemCount = player_structure.getStructureNumItems(objTestShip);
+                    if (intItemCount > 0)
+                    {
+                        intCount++;
+                        if (intCount >= 2)
+                        {
+                            string_id strSpam = new string_id("space/space_interaction", "too_many_pobs");
+                            sendSystemMessage(player, strSpam);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+        vehicle.storeAllVehicles(player);
+        callable.storeCallables(player);
+        space_transition.launchToAtmosphere(player, shipControlDevice);
     }
     public int OnPreloadComplete(obj_id self) throws InterruptedException
     {

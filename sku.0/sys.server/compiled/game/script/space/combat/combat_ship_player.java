@@ -132,6 +132,38 @@ public class combat_ship_player extends script.base_script
         }
         return SCRIPT_CONTINUE;
     }
+    public static final int TERRAIN_COLLISION_SEVERE_THRESHOLD = 5;
+    public static final int TERRAIN_COLLISION_DISABLE_THRESHOLD = 8;
+    public static final float TERRAIN_COLLISION_SEVERE_DAMAGE_PERCENT = 0.5f;
+    public int onShipTerrainCollision(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException
+    {
+        if (!space_transition.isAtmosphericFlightScene())
+        {
+            return SCRIPT_CONTINUE;
+        }
+        obj_id ship = space_transition.getContainingShip(self);
+        if (!isIdValid(ship) || getOwner(ship) != self)
+        {
+            return SCRIPT_CONTINUE;
+        }
+        int count = getIntObjVar(ship, "space.terrainCollisionCount");
+        count++;
+        setObjVar(ship, "space.terrainCollisionCount", count);
+        if (count >= TERRAIN_COLLISION_DISABLE_THRESHOLD)
+        {
+            float maxChassis = getShipMaximumChassisHitPoints(ship);
+            space_combat.doChassisDamage(obj_id.NULL_ID, ship, 0, maxChassis + 1);
+            space_combat.targetDestroyed(ship);
+            removeObjVar(ship, "space.terrainCollisionCount");
+        }
+        else if (count >= TERRAIN_COLLISION_SEVERE_THRESHOLD)
+        {
+            float maxChassis = getShipMaximumChassisHitPoints(ship);
+            float damage = maxChassis * TERRAIN_COLLISION_SEVERE_DAMAGE_PERCENT;
+            space_combat.doChassisDamage(obj_id.NULL_ID, ship, 0, damage);
+        }
+        return SCRIPT_CONTINUE;
+    }
     public int cmdLeaveStation(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException
     {
         obj_id container = getContainedBy(self);

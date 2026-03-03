@@ -854,8 +854,11 @@ public class space_utils extends script.base_script
                 if (isIdValid(ship))
                 {
                     setOwner(ship, player);
-                    setObjVar(player, "space.launch.ship", ship);
-                    space_transition.handlePotentialSceneChange(player);
+                    if (isSpaceScene() || space_transition.isAtmosphericFlightScene())
+                    {
+                        setObjVar(player, "space.launch.ship", ship);
+                        space_transition.handlePotentialSceneChange(player);
+                    }
                 }
             }
         }

@@ -25925,6 +25925,8 @@ public class base_class
     }
     public static native boolean isSpaceBattlefieldZone();
     public static native boolean isSpaceScene();
+    public static native boolean isAtmosphericFlightScene();
+    public static native boolean isShipScene();
 
     /**
     *
