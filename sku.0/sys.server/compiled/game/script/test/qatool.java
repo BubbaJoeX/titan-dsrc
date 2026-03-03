@@ -157,6 +157,7 @@ public class qatool extends script.base_script
         "* (command driven tool) clearHeroicTimer -- Removes all heroic lockout timers from the character",
         "* (command driven tool) iso or qaiso [color] -- Creates an Isomerase Enzyme with a quality of 90.00. Optional parameter [color]",
         "* (command driven tool) spawnShip <ship spawn string> <number of ships> -- Creates a ship in front of you.(For example: /qat spawnShip awing_tier6 3)",
+        "* (command driven tool) spawnAtmoShip <type> <count> <behavior> <altitude> -- Spawns AI ships in atmospheric flight. Behaviors: loiter, patrol, idle, follow, attack. (Example: /qat spawnAtmoShip awing_tier6 3 loiter 200)",
         " qatcg or tcg - Brings up a menu of options for the SWG Trading Card Game"
     };
     public static final String[] QATOOL_MAIN_MENU = dataTableGetStringColumn("datatables/test/qa_tool_menu.iff", "main_tool");
@@ -1910,15 +1911,31 @@ public class qatool extends script.base_script
         }
         else if ((toLower(command)).equals("spawnship") || (toLower(command)).equals("qaspawnship"))
         {
-            if (!isSpaceScene() || !isAtmosphericFlightScene())
+            if (!isSpaceScene() && !isAtmosphericFlightScene())
             {
-                sendSystemMessage(self, "You must be in space to use this tool", null);
+                sendSystemMessage(self, "You must be in a space or atmospheric flight scene to use this tool", null);
                 return SCRIPT_CONTINUE;
             }
-            transform gloc = getTransform_o2w(space_transition.getContainingShip(self));
+            obj_id containingShip = space_transition.getContainingShip(self);
+            transform gloc;
+            if (isIdValid(containingShip))
+            {
+                gloc = getTransform_o2w(containingShip);
+            }
+            else
+            {
+                gloc = getTransform_o2w(self);
+            }
             float dist = 200.0f;
             vector n = ((gloc.getLocalFrameK_p()).normalize()).multiply(dist);
             gloc = gloc.move_p(n);
+            if (isAtmosphericFlightScene())
+            {
+                vector pos = gloc.getPosition_p();
+                float terrainY = getHeightAtLocation(pos.x, pos.z);
+                if (pos.y < terrainY + 50.0f)
+                    gloc = gloc.setPosition_p(pos.x, terrainY + 200.0f, pos.z);
+            }
             String targetShipType = "blacksun_bomber_s03_tier5";
             int numShips = 1;
             if (st.hasMoreTokens())
@@ -1936,8 +1953,112 @@ public class qatool extends script.base_script
             }
             for (int i = 0; i < numShips; i++)
             {
-                obj_id targetShip = space_create.createShipHyperspace(targetShipType, gloc);
+                obj_id targetShip;
+                if (isAtmosphericFlightScene())
+                    targetShip = space_create.createShip(targetShipType, gloc);
+                else
+                    targetShip = space_create.createShipHyperspace(targetShipType, gloc);
                 sendSystemMessage(self, "Spawned ship - OID: " + targetShip, null);
+            }
+            return SCRIPT_CONTINUE;
+        }
+        else if ((toLower(command)).equals("spawnatmoship"))
+        {
+            if (!isAtmosphericFlightScene())
+            {
+                sendSystemMessage(self, "You must be in an atmospheric flight scene to use this tool.", null);
+                return SCRIPT_CONTINUE;
+            }
+            String targetShipType = "blacksun_bomber_s03_tier5";
+            int numShips = 1;
+            String behavior = "loiter";
+            float cruiseAlt = 200.0f;
+            if (st.hasMoreTokens())
+                targetShipType = st.nextToken();
+            if (st.hasMoreTokens())
+            {
+                try { numShips = Integer.parseInt(st.nextToken()); } catch (Exception e) { numShips = 1; }
+                if (numShips < 1) numShips = 1;
+                if (numShips > 10) numShips = 10;
+            }
+            if (st.hasMoreTokens())
+                behavior = st.nextToken();
+            if (st.hasMoreTokens())
+            {
+                try { cruiseAlt = Float.parseFloat(st.nextToken()); } catch (Exception e) { cruiseAlt = 200.0f; }
+            }
+
+            location myLoc = getLocation(self);
+            obj_id containingShip = space_transition.getContainingShip(self);
+            if (isIdValid(containingShip))
+                myLoc = getLocation(containingShip);
+
+            for (int i = 0; i < numShips; i++)
+            {
+                float offsetX = rand(-500.0f, 500.0f);
+                float offsetZ = rand(-500.0f, 500.0f);
+                float spawnX = myLoc.x + offsetX;
+                float spawnZ = myLoc.z + offsetZ;
+                float terrainY = getHeightAtLocation(spawnX, spawnZ);
+                float spawnY = terrainY + cruiseAlt;
+
+                transform spawnTransform = new transform();
+                spawnTransform = spawnTransform.setPosition_p(spawnX, spawnY, spawnZ);
+
+                obj_id aiShip = space_create.createShip(targetShipType, spawnTransform);
+                if (!isIdValid(aiShip))
+                {
+                    sendSystemMessage(self, "Failed to spawn atmospheric ship: " + targetShipType, null);
+                    continue;
+                }
+
+                setObjVar(aiShip, "atmo.spawned", true);
+
+                switch (behavior)
+                {
+                    case "loiter":
+                    {
+                        transform[] path = script.space.ship.ship_atmospheric_spawner.createAtmosphericPatrolLoiter(
+                            myLoc.x, myLoc.z, 500.0f, 2000.0f, cruiseAlt, 12);
+                        ship_ai.unitPatrol(aiShip, path);
+                        break;
+                    }
+                    case "patrol":
+                    {
+                        transform[] path = script.space.ship.ship_atmospheric_spawner.createAtmosphericPatrolCircle(
+                            myLoc.x, myLoc.z, 2000.0f, cruiseAlt, 12);
+                        ship_ai.unitPatrol(aiShip, path);
+                        break;
+                    }
+                    case "idle":
+                        ship_ai.unitIdle(aiShip);
+                        break;
+                    case "follow":
+                    {
+                        if (isIdValid(containingShip))
+                            ship_ai.spaceFollow(aiShip, containingShip, 50.0f);
+                        else
+                            ship_ai.unitIdle(aiShip);
+                        break;
+                    }
+                    case "attack":
+                    {
+                        if (isIdValid(containingShip))
+                            ship_ai.spaceAttack(aiShip, containingShip);
+                        else
+                            ship_ai.unitIdle(aiShip);
+                        break;
+                    }
+                    default:
+                    {
+                        transform[] path = script.space.ship.ship_atmospheric_spawner.createAtmosphericPatrolLoiter(
+                            myLoc.x, myLoc.z, 500.0f, 2000.0f, cruiseAlt, 12);
+                        ship_ai.unitPatrol(aiShip, path);
+                        break;
+                    }
+                }
+
+                sendSystemMessage(self, "Spawned atmospheric AI ship [" + targetShipType + "] OID: " + aiShip + " behavior: " + behavior + " alt: " + cruiseAlt + "m", null);
             }
             return SCRIPT_CONTINUE;
         }
