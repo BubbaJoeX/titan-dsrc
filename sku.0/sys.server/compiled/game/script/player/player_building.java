@@ -1034,10 +1034,13 @@ public class player_building extends script.base_script
                 move_loc = new location(x + loc.x, loc.y, z + loc.z, loc.area, loc.cell);
             }
             LOG("LOG_CHANNEL", "move_loc ->" + move_loc);
-            if (!isGod(self) && !isValidInteriorLocation(move_loc))
+            if (!isGod(self))
             {
-                sendSystemMessage(self, new string_id(STF, "not_valid_location"));
-                return SCRIPT_CONTINUE;
+                if (!isValidInteriorLocation(move_loc))
+                {
+                    sendSystemMessage(self, new string_id(STF, "not_valid_location"));
+                    return SCRIPT_CONTINUE;
+                }
             }
         }
         else if (direction.equals("UP") || direction.equals("DOWN"))
