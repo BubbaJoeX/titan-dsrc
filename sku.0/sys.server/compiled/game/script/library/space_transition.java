@@ -387,6 +387,37 @@ public class space_transition extends script.base_script
         }
         return null;
     }
+    /** Returns the unpacked ship associated with this SCD (ship in world with shipControlDevice objvar), or null. */
+    public static obj_id getUnpackedShipForShipControlDevice(obj_id shipControlDevice, obj_id player) throws InterruptedException
+    {
+        if (!isIdValid(shipControlDevice) || !isIdValid(player))
+            return null;
+        obj_id containingShip = getContainingShip(player);
+        if (isIdValid(containingShip) && hasObjVar(containingShip, "shipControlDevice"))
+        {
+            if (getObjIdObjVar(containingShip, "shipControlDevice") == shipControlDevice)
+                return containingShip;
+        }
+        obj_id[] objects = getObjectsInRange(player, 128.0f);
+        if (objects != null)
+        {
+            for (obj_id obj : objects)
+            {
+                if (!isIdValid(obj) || getTopMostContainer(obj) != obj)
+                    continue;
+                if (getOwner(obj) != player)
+                    continue;
+                if (!hasObjVar(obj, "shipControlDevice"))
+                    continue;
+                if (getObjIdObjVar(obj, "shipControlDevice") != shipControlDevice)
+                    continue;
+                String chassisType = getShipChassisType(obj);
+                if (chassisType != null && chassisType.length() > 0)
+                    return obj;
+            }
+        }
+        return null;
+    }
     public static int countShipControlDevicesForPlayer(obj_id player) throws InterruptedException
     {
         int count = -1;

@@ -10,6 +10,7 @@ public class ship_control_device extends script.base_script
     }
     public static final string_id RENAME_SHIP = new string_id("sui", "rename_ship");
     public static final string_id PACK_SHIP = new string_id("sui", "pack_ship");
+    public static final string_id LAND_SHIP = new string_id("space/space_interaction", "land_ship");
     public static final string_id PROMPT1 = new string_id("sui", "rename_ship_text");
     public static final String[] ignoreRules = new String[]
     {
@@ -105,6 +106,11 @@ public class ship_control_device extends script.base_script
                 mi.addRootMenu(menu_info_types.SERVER_MENU4, strSpam2);
             }
         }
+        obj_id unpackedShip = space_transition.getUnpackedShipForShipControlDevice(self, player);
+        if (isIdValid(unpackedShip) && !isSpaceScene() && space_transition.isAtmosphericFlightScene())
+        {
+            mi.addRootMenu(menu_info_types.SERVER_MENU5, LAND_SHIP);
+        }
         return SCRIPT_CONTINUE;
     }
     public int OnObjectMenuSelect(obj_id self, obj_id player, int item) throws InterruptedException
@@ -141,6 +147,32 @@ public class ship_control_device extends script.base_script
                     space_transition.handlePotentialSceneChange(player);
                 }
             }
+        }
+        if (item == menu_info_types.SERVER_MENU5)
+        {
+            obj_id unpackedShip = space_transition.getUnpackedShipForShipControlDevice(self, player);
+            if (!isIdValid(unpackedShip))
+            {
+                sendSystemMessage(player, new string_id("space/space_interaction", "land_ship_failed"));
+                return SCRIPT_CONTINUE;
+            }
+            if (!space_transition.isAtmosphericFlightScene())
+            {
+                sendSystemMessage(player, new string_id("space/space_interaction", "no_atmospheric_flight"));
+                return SCRIPT_CONTINUE;
+            }
+            if (ai_lib.isInCombat(player))
+            {
+                sendSystemMessage(player, new string_id("travel", "not_in_combat"));
+                return SCRIPT_CONTINUE;
+            }
+            if (getOwner(unpackedShip) != player)
+            {
+                return SCRIPT_CONTINUE;
+            }
+            space_transition.packShip(unpackedShip);
+            sendSystemMessage(player, new string_id("space/space_interaction", "ship_landed"));
+            return SCRIPT_CONTINUE;
         }
         if (item == menu_info_types.SERVER_MENU1)
         {
