@@ -20,6 +20,7 @@ public class terminal_pob_ship extends script.base_script
     public static final string_id SID_STORAGE_INCREASE_REDEED_TITLE = new string_id("player_structure", "sui_storage_redeed_title");
     public static final string_id SID_STORAGE_INCREASE_REDEED_PROMPT = new string_id("player_structure", "sui_storage_redeed_prompt");
     public static final string_id SID_BOARDING_PERMISSIONS = string_id.unlocalized("Boarding Permissions");
+    private static final String BOARDING_PERMISSIONS_PID = "boardingPermissions.pid";
     public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi) throws InterruptedException
     {
         obj_id ship = space_transition.getContainingShip(self);
@@ -207,6 +208,12 @@ public class terminal_pob_ship extends script.base_script
     }
     public void showBoardingPermissionsMenu(obj_id self, obj_id player, obj_id ship) throws InterruptedException
     {
+        int oldPid = sui.getPid(player, BOARDING_PERMISSIONS_PID);
+        if (oldPid > -1)
+        {
+            forceCloseSUIPage(oldPid);
+            sui.removePid(player, BOARDING_PERMISSIONS_PID);
+        }
         boolean isPublic = permissionsIsPublic(ship);
         String[] allowedList = permissionsGetAllowed(ship);
         String[] bannedList = permissionsGetBanned(ship);
@@ -234,6 +241,7 @@ public class terminal_pob_ship extends script.base_script
         utils.setScriptVar(self, "boardingPermissions.bannedCount", bannedList != null ? bannedList.length : 0);
 
         int pid = sui.listbox(self, player, "Manage who can board your ship when parked.", sui.OK_CANCEL, "Boarding Permissions", entryArray, "handleBoardingPermissions", true, false);
+        sui.setPid(player, pid, BOARDING_PERMISSIONS_PID);
         showSUIPage(pid);
     }
     public int handleBoardingPermissions(obj_id self, dictionary params) throws InterruptedException
