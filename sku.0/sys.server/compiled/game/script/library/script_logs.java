@@ -90,7 +90,7 @@ public class script_logs extends script.base_script
         if (page < 0)
             return false;
         setSUIProperty(page, "pageText.text", "Text", content);
-        setSUIProperty(page, "pageText.text", "Editable", "False");
+        setSUIProperty(page, "pageText.text", "Editable", "True");
         setSUIProperty(page, "bg.caption.text", "LocalText", SUI_TITLE);
         setSUIProperty(page, "bg.caption.lblTitle", "Text", SUI_TITLE);
         setSUIAssociatedObject(page, player);
