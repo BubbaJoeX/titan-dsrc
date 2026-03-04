@@ -31,6 +31,17 @@ public class space_transition extends script.base_script
     private static final String OBJVAR_BOARDING_ALLOWED_PACKED = "boardingPermissions.allowedPacked";
     private static final String OBJVAR_BOARDING_BANNED_PACKED = "boardingPermissions.bannedPacked";
     private static final String BOARDING_LIST_DELIM = "\t";
+    private static final String SCRIPT_PLAYER_VEHICLE = "player.player_vehicle";
+
+    /** Ensures the player has the player_vehicle script (e.g. for planet map autopilot). Call when a player enters a ship. */
+    public static void ensurePlayerVehicleScript(obj_id player)
+    {
+        if (!isIdValid(player) || !isPlayer(player))
+            return;
+        if (!hasScript(player, SCRIPT_PLAYER_VEHICLE))
+            attachScript(player, SCRIPT_PLAYER_VEHICLE);
+    }
+
     public static boolean getBoardingIsPublic(obj_id ship) throws InterruptedException
     {
         return isIdValid(ship) && hasObjVar(ship, OBJVAR_BOARDING_IS_PUBLIC) && getIntObjVar(ship, OBJVAR_BOARDING_IS_PUBLIC) != 0;
@@ -296,6 +307,7 @@ public class space_transition extends script.base_script
                                 LOG("space_transition", "Player [" + player + "] in space, going to an already unpacked ship [" + launchedShip + "] at location [" + loc + "].");
                             }
                             setLocation(player, loc);
+                            ensurePlayerVehicleScript(player);
                             return;
                         }
                     }
@@ -308,6 +320,7 @@ public class space_transition extends script.base_script
                         start.cell = cell;
                         LOG("space_transition", "Sending player " + player + " to dungeon " + dungeon + " " + launchedShip);
                         setLocation(player, start);
+                        ensurePlayerVehicleScript(player);
                         return;
                     }
                     else if (debugSpaceTransition)
@@ -965,6 +978,7 @@ public class space_transition extends script.base_script
             LOG("space", "Trying to pilot the ship for slot " + pilotSlotObject);
             if (isIdValid(pilotSlotObject) && pilotShip(player, pilotSlotObject))
             {
+                ensurePlayerVehicleScript(player);
                 LOG("space", "I think i piloted");
                 if (isAtmosphericFlightScene() && hasObjVar(ship, "space.atmo.launchLoc"))
                 {
@@ -1614,6 +1628,7 @@ public class space_transition extends script.base_script
         location locTest = new location();
         locTest.cell = objCell;
         setLocation(objPlayer, locTest);
+        ensurePlayerVehicleScript(objPlayer);
         LOG("space", "sending player to " + locTest);
         setTransform_o2p(objPlayer, trTest);
     }
@@ -1729,6 +1744,7 @@ public class space_transition extends script.base_script
         {
             setLocation(player, boardingDest);
         }
+        ensurePlayerVehicleScript(player);
         return true;
     }
     public static boolean isShipParkedInWorld(obj_id ship) throws InterruptedException
