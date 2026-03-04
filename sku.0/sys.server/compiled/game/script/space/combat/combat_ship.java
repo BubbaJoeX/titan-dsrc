@@ -1294,8 +1294,8 @@ public class combat_ship extends script.base_script
         broadcastToShip(self, "\\#aaddff  Distance: " + formatCoord(dist) + "m");
         broadcastToShip(self, "\\#aaddff  Est. Arrival: " + eta);
         broadcastToShip(self, " ");
-        broadcastToShip(self, "\\#88bbdd  \"All hands, prepare for departure.");
-        broadcastToShip(self, "\\#88bbdd   Ascending to cruise altitude " + formatCoord(AUTOPILOT_TAKEOFF_ALT) + "m...\"");
+        broadcastToShip(self, "\\#88bbdd   All hands, prepare for departure.");
+        broadcastToShip(self, "\\#88bbdd   Ascending to cruise altitude " + formatCoord(AUTOPILOT_TAKEOFF_ALT) + "m...");
         broadcastToShip(self, " ");
 
         messageTo(self, "shipAutoPilotTick", null, AUTOPILOT_MONITOR_RATE, false);
@@ -1361,7 +1361,7 @@ public class combat_ship extends script.base_script
                     broadcastToShip(self, "\\#00ccff[Navicomputer]: Cruise altitude reached. Departing now.");
                     broadcastToShip(self, "\\#aaddff  Heading: " + formatCoord(bearing) + " deg (" + cardinal + ") | Distance: " + formatCoord(horizDist) + "m | ETA: " + eta);
                     broadcastToShip(self, " ");
-                    broadcastToShip(self, "\\#88bbdd  \"We have reached cruise altitude. You are free to move about the cabin.\"");
+                    broadcastToShip(self, "\\#88bbdd  We have reached cruise altitude. You are free to move about the cabin.");
                     broadcastToShip(self, " ");
                     break;
                 }
@@ -1370,8 +1370,8 @@ public class combat_ship extends script.base_script
                     broadcastToShip(self, " ");
                     broadcastToShip(self, "\\#aaddff[Navicomputer]: Approaching destination. Beginning descent...");
                     broadcastToShip(self, " ");
-                    broadcastToShip(self, "\\#88bbdd  \"Attention passengers, we are beginning our descent.");
-                    broadcastToShip(self, "\\#88bbdd   Please prepare for arrival.\"");
+                    broadcastToShip(self, "\\#88bbdd  Attention passengers, we are beginning our descent.");
+                    broadcastToShip(self, "\\#88bbdd   Please prepare for arrival.");
                     broadcastToShip(self, " ");
                     break;
                 case AP_ARRIVED:
@@ -1393,7 +1393,7 @@ public class combat_ship extends script.base_script
 
                     if (wasSummon)
                     {
-                        broadcastToShip(self, "\\#88ddaa  \"The ship has arrived at the summoned location.\"");
+                        broadcastToShip(self, "\\#88ddaa  The ship has arrived at the summoned location.");
                         if (isIdValid(summonOwner) && exists(summonOwner))
                         {
                             play2dNonLoopingSound(summonOwner, SND_COMM);
@@ -1404,8 +1404,8 @@ public class combat_ship extends script.base_script
                     }
                     else
                     {
-                        broadcastToShip(self, "\\#88ddaa  \"We have arrived at our destination. You may now disembark");
-                        broadcastToShip(self, "\\#88ddaa   or land the vessel. Thank you for flying with us.\"");
+                        broadcastToShip(self, "\\#88ddaa  We have arrived at our destination. You may now disembark");
+                        broadcastToShip(self, "\\#88ddaa   or land the vessel. Thank you for flying with us.");
                     }
                     broadcastToShip(self, " ");
 
@@ -1468,8 +1468,8 @@ public class combat_ship extends script.base_script
             broadcastToShip(ship, "\\#ffaa44[Navicomputer]: Auto-pilot disengaged by the captain.");
         broadcastToShip(ship, "\\#ffaa44========================================");
         broadcastToShip(ship, " ");
-        broadcastToShip(ship, "\\#ddbb88  \"Attention passengers, the captain has taken manual control.");
-        broadcastToShip(ship, "\\#ddbb88   Please remain seated until further notice.\"");
+        broadcastToShip(ship, "\\#ddbb88  Attention passengers, the captain has taken manual control.");
+        broadcastToShip(ship, "\\#ddbb88   Please remain seated until further notice.");
         broadcastToShip(ship, " ");
     }
 
@@ -1547,8 +1547,8 @@ public class combat_ship extends script.base_script
         broadcastToShip(self, "\\#00ccff  Destination: [" + formatCoord(targetX) + ", " + formatCoord(targetZ) + "]");
         broadcastToShip(self, "\\#00ccff========================================");
         broadcastToShip(self, " ");
-        broadcastToShip(self, "\\#88bbdd  \"Attention: the ship has been summoned remotely.");
-        broadcastToShip(self, "\\#88bbdd   Ascending to cruise altitude " + formatCoord(SUMMON_TAKEOFF_ALT) + "m...\"");
+        broadcastToShip(self, "\\#88bbdd  Attention: the ship has been summoned remotely.");
+        broadcastToShip(self, "\\#88bbdd   Ascending to cruise altitude " + formatCoord(SUMMON_TAKEOFF_ALT) + "m...");
         broadcastToShip(self, " ");
 
         messageTo(self, "shipAutoPilotTick", null, AUTOPILOT_MONITOR_RATE, false);
