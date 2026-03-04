@@ -1498,7 +1498,7 @@ public class space_transition extends script.base_script
             String playerName = getFirstName(player);
             for (String banned : bannedList)
             {
-                if (banned.toLowerCase().equals(playerName))
+                if (banned != null && banned.equalsIgnoreCase(playerName))
                 {
                     broadcast(player, "Airlock access denied.");
                     return false;
@@ -1517,7 +1517,7 @@ public class space_transition extends script.base_script
                     String playerName = getFirstName(player);
                     for (String allowed : allowedList)
                     {
-                        if (allowed.toLowerCase().equals(playerName))
+                        if (allowed != null && allowed.equalsIgnoreCase(playerName))
                         {
                             found = true;
                             break;
@@ -1534,12 +1534,13 @@ public class space_transition extends script.base_script
         String[] cellNames = getCellNames(ship);
         if (cellNames != null)
         {
+            String boarderName = getFirstName(player);
             for (String cellName : cellNames)
             {
                 obj_id cellId = getCellId(ship, cellName);
                 if (isIdValid(cellId))
                 {
-                    permissionsMakePublic(cellId);
+                    permissionsAddAllowed(cellId, boarderName);
                     sendDirtyCellPermissionsUpdate(cellId, player, true);
                 }
             }
