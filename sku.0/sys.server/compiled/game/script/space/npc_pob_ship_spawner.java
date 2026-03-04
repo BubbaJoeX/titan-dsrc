@@ -66,6 +66,48 @@ public class npc_pob_ship_spawner extends script.base_script
     {
     }
 
+    public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi) throws InterruptedException
+    {
+        if (space_transition.isAtmosphericFlightScene() && isGod(player))
+            mi.addRootMenu(menu_info_types.SERVER_MENU1, string_id.unlocalized("Reset Shuttle"));
+        return SCRIPT_CONTINUE;
+    }
+
+    public int OnObjectMenuSelect(obj_id self, obj_id player, int item) throws InterruptedException
+    {
+        if (item == menu_info_types.SERVER_MENU1 && isGod(player))
+        {
+            if (!space_transition.isAtmosphericFlightScene())
+            {
+                sendSystemMessage(player, string_id.unlocalized("Shuttle can only be reset in atmospheric flight."));
+                return SCRIPT_CONTINUE;
+            }
+            obj_id oldShip = hasObjVar(self, OBJVAR_SHIP) ? getObjIdObjVar(self, OBJVAR_SHIP) : null;
+            if (isIdValid(oldShip) && exists(oldShip))
+                destroyObject(oldShip);
+            removeObjVar(self, OBJVAR_SHIP);
+            removeObjVar(self, OBJVAR_WAYPOINT_INDEX);
+            removeObjVar(self, OBJVAR_LAST_ARRIVAL);
+            int numWaypoints = getNumWaypoints(self);
+            if (numWaypoints <= 0)
+            {
+                sendSystemMessage(player, string_id.unlocalized("No shuttle route data; cannot spawn."));
+                return SCRIPT_CONTINUE;
+            }
+            obj_id ship = spawnShip(self);
+            if (isIdValid(ship))
+            {
+                setObjVar(self, OBJVAR_SHIP, ship);
+                setObjVar(self, OBJVAR_WAYPOINT_INDEX, 0);
+                flyToWaypoint(self, ship, 0);
+                sendSystemMessage(player, string_id.unlocalized("Shuttle reset and spawned at waypoint 0."));
+            }
+            else
+                sendSystemMessage(player, string_id.unlocalized("Failed to spawn shuttle."));
+        }
+        return SCRIPT_CONTINUE;
+    }
+
     public int OnAttach(obj_id self) throws InterruptedException
     {
         if (!space_transition.isAtmosphericFlightScene())
