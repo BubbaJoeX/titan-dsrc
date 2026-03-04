@@ -16,7 +16,7 @@ import script.space.npc_pob_ship_controller;
 public class terminal_npc_pob_shuttle extends script.base_script
 {
     private static final String OBJVAR_LINKED_SHIP = "npc_pob.linkedShip";
-    private static final float BOARD_RANGE = 128.0f;
+    private static final float BOARD_RANGE = 512.0f;
     private static final String DATATABLE_PREFIX = "datatables/npc_shuttle/";
     private static final String DATATABLE_SUFFIX = ".iff";
     private static final int TRAVEL_COST = 2500;
@@ -96,7 +96,7 @@ public class terminal_npc_pob_shuttle extends script.base_script
 
         if (isGod(player) && space_transition.isAtmosphericFlightScene())
         {
-            obj_id[] nearby = getObjectsInRange(self, 128.0f);
+            obj_id[] nearby = getObjectsInRange(self, 512.0f);
             if (nearby != null)
             {
                 for (obj_id o : nearby)

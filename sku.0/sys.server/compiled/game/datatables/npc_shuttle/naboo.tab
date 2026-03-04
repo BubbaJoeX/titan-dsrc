@@ -1,5 +1,5 @@
 ﻿city	x	y	z	landingDuration
-s	f	f	f	i
+s	f	f	f	i[60]
 Theed	-4858.0	6.0	4164.0	60
 Lake Retreat	-5477.0	6.0	1.0	60
 Keren	1440.0	0.0	2800.0	60
