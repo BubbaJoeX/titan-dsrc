@@ -222,7 +222,7 @@ public class npc_pob_ship_spawner extends script.base_script
                             int nextIdx = (idx + 1) % numWaypoints;
                             setObjVar(self, OBJVAR_WAYPOINT_INDEX, nextIdx);
                             setObjVar(self, OBJVAR_LAST_ARRIVAL, 0);
-                            setObjVar(self, OBJVAR_AUTOPILOT_WAS_ACTIVE, 1);
+                            removeObjVar(self, OBJVAR_AUTOPILOT_WAS_ACTIVE);
                             flyToWaypointWithPath(self, ship, dtPath, nextIdx);
                             script_logs.logToGodsInRange(self, SHUTTLE_LOG_RANGE, "Shuttle: advancing to waypoint " + nextIdx + "/" + numWaypoints + ", sent flyTo");
                         }
