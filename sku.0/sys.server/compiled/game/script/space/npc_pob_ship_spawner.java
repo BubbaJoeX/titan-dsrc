@@ -125,11 +125,11 @@ public class npc_pob_ship_spawner extends script.base_script
             if (isIdValid(ship))
             {
                 setObjVar(self, OBJVAR_SHIP, ship);
-                setObjVar(self, OBJVAR_WAYPOINT_INDEX, 0);
-                setObjVar(self, OBJVAR_LAST_ARRIVAL, 0);
-                removeObjVar(self, OBJVAR_AUTOPILOT_WAS_ACTIVE);
-                scheduleFlyToWaypoint(self, ship, 0);
-                script_logs.log(player, "Shuttle: reset, spawned ship " + ship + ", scheduled fly to waypoint 0");
+                // Set controller objvar to enable autonomous waypoint cycling in combat_ship.java
+                setObjVar(ship, "npc_pob.controller", 1);
+                // Trigger the waypoint tick on the ship (same as OnAttach)
+                messageTo(ship, "npcWaypointTick", null, 0, false);
+                script_logs.logToGodsInRange(self, SHUTTLE_LOG_RANGE, "Shuttle: reset, spawned ship " + ship + " with autonomous waypoint control");
                 sendSystemMessage(player, string_id.unlocalized("Shuttle reset and spawned at waypoint 0."));
             }
             else
