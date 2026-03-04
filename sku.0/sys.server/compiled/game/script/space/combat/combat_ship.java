@@ -1123,6 +1123,9 @@ public class combat_ship extends script.base_script
 
     // =====================================================================
     // Server-Side Atmospheric Auto-Pilot (physics-driven)
+    // Separate from planet-map autopilot: planet map uses sendAutoPilotEngage(player)
+    // and vehicle_base objvars (autopilot.active). This path uses shipSetAutopilotTarget(ship)
+    // and space.autopilot.* objvars; used by summon_ship and NPC POB shuttle.
     // =====================================================================
 
     public static final String OV_AUTOPILOT_ROOT     = "space.autopilot";
@@ -1136,6 +1139,8 @@ public class combat_ship extends script.base_script
     public static final float  AUTOPILOT_LANDING_ALT  = 200.0f;
     public static final float  AUTOPILOT_MONITOR_RATE = 2.0f;
     public static final int    AUTOPILOT_STATUS_INTERVAL = 10;
+    /** Max tick count to wait for engine to report autopilot active after shipSetAutopilotTarget (server-driven only). Planet map uses client sendAutoPilotEngage and does not use this tick. */
+    private static final int   AUTOPILOT_WAIT_ACTIVE_TICKS = 5;
 
     public static final int AP_NONE       = 0;
     public static final int AP_ASCENDING  = 1;
@@ -1325,9 +1330,26 @@ public class combat_ship extends script.base_script
             script_logs.logToGodsInRange(self, SHUTTLE_LOG_RANGE, "Shuttle combat_ship: shipAutoPilotTick running (first time)");
         }
 
+        int ticks = hasObjVar(self, OV_AUTOPILOT_TICKS) ? getIntObjVar(self, OV_AUTOPILOT_TICKS) : 0;
+        int lastPhase = hasObjVar(self, OV_AUTOPILOT_LAST_PHASE) ? getIntObjVar(self, OV_AUTOPILOT_LAST_PHASE) : AP_NONE;
+
         if (!shipIsAutopilotActive(self))
         {
-            removeObjVar(self, OV_AUTOPILOT_ROOT);
+            if (lastPhase != AP_NONE)
+            {
+                removeObjVar(self, OV_AUTOPILOT_ROOT);
+                return SCRIPT_CONTINUE;
+            }
+            ticks++;
+            setObjVar(self, OV_AUTOPILOT_TICKS, ticks);
+            if (ticks >= AUTOPILOT_WAIT_ACTIVE_TICKS)
+            {
+                if (hasObjVar(self, "npc_pob.controller"))
+                    script_logs.logToGodsInRange(self, SHUTTLE_LOG_RANGE, "Shuttle combat_ship: shipAutoPilotTick autopilot never became active, giving up after " + ticks + " ticks");
+                removeObjVar(self, OV_AUTOPILOT_ROOT);
+                return SCRIPT_CONTINUE;
+            }
+            messageTo(self, "shipAutoPilotTick", null, AUTOPILOT_MONITOR_RATE, false);
             return SCRIPT_CONTINUE;
         }
 
@@ -1346,12 +1368,10 @@ public class combat_ship extends script.base_script
 
         float targetX = getFloatObjVar(self, OV_AUTOPILOT_TARGET_X);
         float targetZ = getFloatObjVar(self, OV_AUTOPILOT_TARGET_Z);
-        int ticks = hasObjVar(self, OV_AUTOPILOT_TICKS) ? getIntObjVar(self, OV_AUTOPILOT_TICKS) : 0;
         ticks++;
         setObjVar(self, OV_AUTOPILOT_TICKS, ticks);
 
         int phase = shipGetAutopilotPhase(self);
-        int lastPhase = hasObjVar(self, OV_AUTOPILOT_LAST_PHASE) ? getIntObjVar(self, OV_AUTOPILOT_LAST_PHASE) : AP_NONE;
 
         location shipLoc = getLocation(self);
         float dx = targetX - shipLoc.x;
