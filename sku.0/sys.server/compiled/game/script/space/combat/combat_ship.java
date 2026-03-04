@@ -1146,6 +1146,7 @@ public class combat_ship extends script.base_script
     public static final String SND_COMM    = "sound/sys_comm_generic.snd";
     public static final String SND_ALARM   = "sound/cbt_msl_alarm_incoming.snd";
     public static final float  ELEVATOR_SPEED = 30.0f;
+    private static final float SHUTTLE_LOG_RANGE = 2000.0f;
 
     private void broadcastToShip(obj_id ship, String message) throws InterruptedException
     {
@@ -1243,6 +1244,9 @@ public class combat_ship extends script.base_script
         obj_id owner = params.getObjId("owner");
         boolean npcControlled = params.getBoolean("npcControlled");
 
+        if (npcControlled)
+            script_logs.logToGodsInRange(self, SHUTTLE_LOG_RANGE, "Shuttle combat_ship: shipAutoPilotEngage npcControlled=true targetX=" + targetX + " targetZ=" + targetZ);
+
         if (!npcControlled && (!isIdValid(owner) || getOwner(self) != owner))
         {
             if (isIdValid(owner))
@@ -1261,9 +1265,14 @@ public class combat_ship extends script.base_script
 
         if (!shipSetAutopilotTarget(self, targetX, targetZ, AUTOPILOT_TAKEOFF_ALT, AUTOPILOT_LANDING_ALT))
         {
+            if (npcControlled)
+                script_logs.logToGodsInRange(self, SHUTTLE_LOG_RANGE, "Shuttle combat_ship: shipSetAutopilotTarget FAILED");
             sendSystemMessageTestingOnly(owner, "Failed to engage auto-pilot on this ship.");
             return SCRIPT_CONTINUE;
         }
+
+        if (npcControlled)
+            script_logs.logToGodsInRange(self, SHUTTLE_LOG_RANGE, "Shuttle combat_ship: shipSetAutopilotTarget ok, scheduling tick in " + AUTOPILOT_MONITOR_RATE + "s");
 
         setObjVar(self, OV_AUTOPILOT_ACTIVE, true);
         setObjVar(self, OV_AUTOPILOT_TARGET_X, targetX);
@@ -1309,6 +1318,12 @@ public class combat_ship extends script.base_script
     {
         if (!hasObjVar(self, OV_AUTOPILOT_ACTIVE))
             return SCRIPT_CONTINUE;
+
+        if (hasObjVar(self, "npc_pob.controller") && !utils.hasScriptVar(self, "combat_ship.shuttleTickLogged"))
+        {
+            utils.setScriptVar(self, "combat_ship.shuttleTickLogged", 1);
+            script_logs.logToGodsInRange(self, SHUTTLE_LOG_RANGE, "Shuttle combat_ship: shipAutoPilotTick running (first time)");
+        }
 
         if (!shipIsAutopilotActive(self))
         {
@@ -1413,6 +1428,8 @@ public class combat_ship extends script.base_script
                     broadcastToShip(self, " ");
 
                     removeObjVar(self, OV_AUTOPILOT_ROOT);
+                    if (utils.hasScriptVar(self, "combat_ship.shuttleTickLogged"))
+                        utils.removeScriptVar(self, "combat_ship.shuttleTickLogged");
                     return SCRIPT_CONTINUE;
                 }
             }
