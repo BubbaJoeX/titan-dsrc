@@ -1333,7 +1333,8 @@ public class combat_ship extends script.base_script
         int ticks = hasObjVar(self, OV_AUTOPILOT_TICKS) ? getIntObjVar(self, OV_AUTOPILOT_TICKS) : 0;
         int lastPhase = hasObjVar(self, OV_AUTOPILOT_LAST_PHASE) ? getIntObjVar(self, OV_AUTOPILOT_LAST_PHASE) : AP_NONE;
 
-        if (!shipIsAutopilotActive(self))
+        boolean npcShuttle = hasObjVar(self, "npc_pob.controller");
+        if (!npcShuttle && !shipIsAutopilotActive(self))
         {
             if (lastPhase != AP_NONE)
             {
@@ -1344,8 +1345,6 @@ public class combat_ship extends script.base_script
             setObjVar(self, OV_AUTOPILOT_TICKS, ticks);
             if (ticks >= AUTOPILOT_WAIT_ACTIVE_TICKS)
             {
-                if (hasObjVar(self, "npc_pob.controller"))
-                    script_logs.logToGodsInRange(self, SHUTTLE_LOG_RANGE, "Shuttle combat_ship: shipAutoPilotTick autopilot never became active, giving up after " + ticks + " ticks");
                 removeObjVar(self, OV_AUTOPILOT_ROOT);
                 return SCRIPT_CONTINUE;
             }
