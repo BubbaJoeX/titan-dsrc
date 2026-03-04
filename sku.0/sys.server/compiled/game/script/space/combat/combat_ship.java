@@ -1752,22 +1752,31 @@ public class combat_ship extends script.base_script
         int landingEndTime = hasObjVar(self, NPC_LANDING_END_TIME) ? getIntObjVar(self, NPC_LANDING_END_TIME) : 0;
         int now = getGameTime();
 
+        int currentIdx = hasObjVar(self, NPC_CURRENT_WAYPOINT_INDEX) ? getIntObjVar(self, NPC_CURRENT_WAYPOINT_INDEX) : -1;
+        script_logs.logToGodsInRange(self, NPC_SHUTTLE_LOG_RANGE, "NPC Shuttle DEBUG: tick - landingEndTime=" + landingEndTime + " now=" + now + " currentIdx=" + currentIdx + " autopilot=" + shipIsAutopilotActive(self));
+
         if (landingEndTime > 0)
         {
             // Currently landing, check if landing duration expired
             if (now >= landingEndTime)
             {
+                script_logs.logToGodsInRange(self, NPC_SHUTTLE_LOG_RANGE, "NPC Shuttle: landing expired at waypoint " + currentIdx);
                 removeObjVar(self, NPC_LANDING_END_TIME);
                 // Advance to next waypoint and fly
                 String dtPath = npcGetDatatablePathForCurrentScene(self);
                 int numWaypoints = npcGetNumWaypointsForPath(dtPath);
+                script_logs.logToGodsInRange(self, NPC_SHUTTLE_LOG_RANGE, "NPC Shuttle: dtPath=" + dtPath + " numWaypoints=" + numWaypoints);
+
                 if (numWaypoints > 0)
                 {
-                    int currentIdx = hasObjVar(self, NPC_CURRENT_WAYPOINT_INDEX) ? getIntObjVar(self, NPC_CURRENT_WAYPOINT_INDEX) : 0;
                     int nextIdx = (currentIdx + 1) % numWaypoints;
                     setObjVar(self, NPC_CURRENT_WAYPOINT_INDEX, nextIdx);
-                    script_logs.logToGodsInRange(self, NPC_SHUTTLE_LOG_RANGE, "NPC Shuttle: landing expired at waypoint " + currentIdx + ", advancing to waypoint " + nextIdx);
+                    script_logs.logToGodsInRange(self, NPC_SHUTTLE_LOG_RANGE, "NPC Shuttle: advancing from waypoint " + currentIdx + " to " + nextIdx + ", calling npcFlyToNextWaypoint");
                     npcFlyToNextWaypoint(self);
+                }
+                else
+                {
+                    script_logs.logToGodsInRange(self, NPC_SHUTTLE_LOG_RANGE, "NPC Shuttle ERROR: numWaypoints is 0 or less!");
                 }
             }
             return SCRIPT_CONTINUE;
@@ -1775,20 +1784,25 @@ public class combat_ship extends script.base_script
 
         // Check if ship is currently flying (autopilot active)
         boolean autopilotActive = shipIsAutopilotActive(self);
+        int phase = shipGetAutopilotPhase(self);
 
-        if (autopilotActive)
+        script_logs.logToGodsInRange(self, NPC_SHUTTLE_LOG_RANGE, "NPC Shuttle DEBUG: phase=" + phase + " autopilotActive=" + autopilotActive);
+
+        if (autopilotActive || phase != 0)
         {
-            // Currently flying, do nothing
+            // Currently flying or in autopilot system, do nothing
+            script_logs.logToGodsInRange(self, NPC_SHUTTLE_LOG_RANGE, "NPC Shuttle: autopilot active at waypoint " + currentIdx + ", flying (phase=" + phase + ")");
             return SCRIPT_CONTINUE;
         }
 
         // Ship is not flying and not landing
         // Check if this is first initialization or if we should start/continue waypoint loop
-        if (!hasObjVar(self, NPC_CURRENT_WAYPOINT_INDEX))
+        if (currentIdx < 0 || !hasObjVar(self, NPC_CURRENT_WAYPOINT_INDEX))
         {
             // Initialize waypoint queue
             String dtPath = npcGetDatatablePathForCurrentScene(self);
             int numWaypoints = npcGetNumWaypointsForPath(dtPath);
+            script_logs.logToGodsInRange(self, NPC_SHUTTLE_LOG_RANGE, "NPC Shuttle: INITIALIZING - dtPath=" + dtPath + " numWaypoints=" + numWaypoints);
 
             if (numWaypoints > 0)
             {
