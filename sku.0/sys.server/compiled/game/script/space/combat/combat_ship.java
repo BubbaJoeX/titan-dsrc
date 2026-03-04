@@ -1779,6 +1779,10 @@ public class combat_ship extends script.base_script
                     script_logs.logToGodsInRange(self, NPC_SHUTTLE_LOG_RANGE, "NPC Shuttle ERROR: numWaypoints is 0 or less!");
                 }
             }
+            else
+            {
+                script_logs.logToGodsInRange(self, NPC_SHUTTLE_LOG_RANGE, "NPC Shuttle: landing in progress - " + (landingEndTime - now) + "s remaining");
+            }
             return SCRIPT_CONTINUE;
         }
 
@@ -1795,8 +1799,8 @@ public class combat_ship extends script.base_script
             return SCRIPT_CONTINUE;
         }
 
-        // Ship is not flying and not landing
-        // Check if this is first initialization or if we should start/continue waypoint loop
+        // Ship has completed autopilot and is not in any phase - set up landing
+        // First check if we need to initialize
         if (currentIdx < 0 || !hasObjVar(self, NPC_CURRENT_WAYPOINT_INDEX))
         {
             // Initialize waypoint queue
@@ -1813,6 +1817,28 @@ public class combat_ship extends script.base_script
             else
             {
                 script_logs.logToGodsInRange(self, NPC_SHUTTLE_LOG_RANGE, "NPC Shuttle: ERROR - no waypoints found, check datatable " + dtPath);
+            }
+        }
+        else
+        {
+            // Ship has landed, start the landing timer if not already started
+            if (landingEndTime == 0)
+            {
+                String dtPath = npcGetDatatablePathForCurrentScene(self);
+                try
+                {
+                    int landingDuration = dataTableGetInt(dtPath, currentIdx, "landingDuration");
+                    if (landingDuration <= 0)
+                        landingDuration = 60;
+
+                    int newLandingEndTime = getGameTime() + landingDuration;
+                    setObjVar(self, NPC_LANDING_END_TIME, newLandingEndTime);
+                    script_logs.logToGodsInRange(self, NPC_SHUTTLE_LOG_RANGE, "NPC Shuttle: ship landed at waypoint " + currentIdx + ", starting " + landingDuration + "s landing timer");
+                }
+                catch (Throwable t)
+                {
+                    script_logs.logToGodsInRange(self, NPC_SHUTTLE_LOG_RANGE, "NPC Shuttle: ERROR setting landing timer - " + t.getMessage());
+                }
             }
         }
 
