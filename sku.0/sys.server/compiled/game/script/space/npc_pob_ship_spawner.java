@@ -206,6 +206,8 @@ public class npc_pob_ship_spawner extends script.base_script
             attachScript(ship, "space.npc_pob_ship_controller");
         if (!hasScript(ship, "space.ship.ship_atmospheric_boarding"))
             attachScript(ship, "space.ship.ship_atmospheric_boarding");
+        if (!hasScript(ship, "space.combat.combat_ship"))
+            attachScript(ship, "space.combat.combat_ship");
 
         space_utils.notifyObject(ship, "doInteriorBuildout", new dictionary());
 
