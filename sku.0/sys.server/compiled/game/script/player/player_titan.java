@@ -1128,13 +1128,34 @@ public class player_titan extends base_script
     public int OnSetGodModeOn(obj_id self)
     {
         LOG("ethereal", "[God Mode]: " + "Player " + getPlayerFullName(self) + " has enabled God Mode.");
+        refreshShipCellPermissions(self);
         return SCRIPT_CONTINUE;
     }
 
     public int OnSetGodModeOff(obj_id self)
     {
         LOG("ethereal", "[God Mode]: " + "Player " + getPlayerFullName(self) + " has disabled God Mode.");
+        refreshShipCellPermissions(self);
         return SCRIPT_CONTINUE;
+    }
+
+    private void refreshShipCellPermissions(obj_id player) throws InterruptedException
+    {
+        obj_id ship = space_transition.getContainingShip(player);
+        if (!isIdValid(ship))
+            return;
+        String[] cellNames = getCellNames(ship);
+        if (cellNames == null)
+            return;
+        for (String cellName : cellNames)
+        {
+            obj_id cellId = getCellId(ship, cellName);
+            if (isIdValid(cellId))
+            {
+                permissionsMakePublic(cellId);
+                sendDirtyCellPermissionsUpdate(cellId, player, true);
+            }
+        }
     }
 
     public int OnChangedAppearance(obj_id self, obj_id player)
