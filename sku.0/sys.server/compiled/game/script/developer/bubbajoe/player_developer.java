@@ -790,6 +790,15 @@ public class player_developer extends base_script
                 broadcast(self, "Failed to create Corellian Corvette ship control device (check datapad and ship templates).");
             return SCRIPT_CONTINUE;
         }
+        else if (cmd.equalsIgnoreCase("gimmeLambda"))
+        {
+            obj_id scd = space_utils.createShipControlDevice(self, "lambda", true);
+            if (isIdValid(scd))
+                broadcast(self, "Lambda Shuttle ship control device added to your datapad.");
+            else
+                broadcast(self, "Failed to create Lambda Shuttle  ship control device (check datapad and ship templates).");
+            return SCRIPT_CONTINUE;
+        }
         else if (cmd.equalsIgnoreCase("awardBadge"))
         {
             String parameter = tok.nextToken();
