@@ -14,6 +14,8 @@ package script.library;/*
 
 import script.*;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -78,290 +80,107 @@ public class titan_player extends base_script
         return false;
     }
 
+    /** Dynamically create and execute a Discord webhook. No-op if DiscordWebhook is missing or throws. */
+    private static void executeDiscordWebhook(String webhookUrl, String content, String username, boolean tts)
+    {
+        if (webhookUrl == null || webhookUrl.length() == 0)
+            return;
+        try
+        {
+            Class<?> clazz = Class.forName("script.DiscordWebhook");
+            Constructor<?> ctor = clazz.getConstructor(String.class);
+            Object hook = ctor.newInstance(webhookUrl);
+            if (content != null)
+            {
+                Method setContent = clazz.getMethod("setContent", String.class);
+                setContent.invoke(hook, content);
+            }
+            if (username != null)
+            {
+                Method setUsername = clazz.getMethod("setUsername", String.class);
+                setUsername.invoke(hook, username);
+            }
+            Method setTts = clazz.getMethod("setTts", boolean.class);
+            setTts.invoke(hook, Boolean.valueOf(tts));
+            Method setAvatarUrl = clazz.getMethod("setAvatarUrl", String.class);
+            setAvatarUrl.invoke(hook, PUSH_AVATAR);
+            Method execute = clazz.getMethod("execute");
+            execute.invoke(hook);
+        }
+        catch (Throwable t)
+        {
+            // Webhook failures must never break gameplay.
+        }
+    }
+
     public static void sendToDiscord(obj_id context, String action)  //this one is for user info (private)
     {
         if (isGod(context))
         {
-            DiscordWebhook hook = new DiscordWebhook(PUSH_WEBHOOK_PRIVATE);
-            hook.setContent("(" + getCalendarTimeStringLocal_YYYYMMDDHHMMSS(getCalendarTime()) + ") " + action);
-            if (isPlayer(context))
-            {
-                hook.setUsername(getPlayerFullName(context));
-            }
-            else
-            {
-                hook.setUsername("Judicator");
-            }
-            hook.setTts(true);
-            hook.setAvatarUrl(PUSH_AVATAR);
-            hook.execute();
+            String content = "(" + getCalendarTimeStringLocal_YYYYMMDDHHMMSS(getCalendarTime()) + ") " + action;
+            String username = isPlayer(context) ? getPlayerFullName(context) : "Judicator";
+            executeDiscordWebhook(PUSH_WEBHOOK_PRIVATE, content, username, true);
         }
     }
 
     public static void sendLiveEventUpdateToDiscord(obj_id context, String action)  //event staff command to send live event announcements.
     {
-        DiscordWebhook hook = new DiscordWebhook(PUSH_WEBHOOK_LIVEEVENTS);
-        hook.setContent(action);
-        if (isPlayer(context))
-        {
-            hook.setUsername("Event Staff: " + getPlayerFullName(context));
-        }
-        else
-        {
-            hook.setUsername("Live Event: " + getClusterName());
-        }
-        hook.setTts(true);
-        hook.setAvatarUrl(PUSH_AVATAR);
-        hook.execute();
+        String username = isPlayer(context) ? ("Event Staff: " + getPlayerFullName(context)) : ("Live Event: " + getClusterName());
+        executeDiscordWebhook(PUSH_WEBHOOK_LIVEEVENTS, action, username, true);
     }
 
     public static void sendToDiscord(obj_id context, String action, String username)  // this one is also for telemetry
     {
-        DiscordWebhook hook = new DiscordWebhook(PUSH_WEBHOOK_PRIVATE);
-        hook.setContent("(" + getCalendarTimeStringLocal_YYYYMMDDHHMMSS(getCalendarTime()) + ") " + action);
-        hook.setUsername(username);
-        hook.setTts(true);
-        hook.setAvatarUrl(PUSH_AVATAR);
-        hook.execute();
+        String content = "(" + getCalendarTimeStringLocal_YYYYMMDDHHMMSS(getCalendarTime()) + ") " + action;
+        executeDiscordWebhook(PUSH_WEBHOOK_PRIVATE, content, username, true);
     }
 
     public static void sendToDiscord(obj_id context, String action, String username, boolean useTTS, boolean timestamp)  //this is for gameplay actions to promote interaction with mechanics in game
     {
-        DiscordWebhook hook = new DiscordWebhook(PUSH_WEBHOOK_PUBLIC);
-        if (timestamp)
-        {
-            hook.setContent("(" + getCalendarTimeStringLocal_YYYYMMDDHHMMSS(getCalendarTime()) + ") " + action);
-        }
-        else
-        {
-            hook.setContent(action);
-        }
-        hook.setUsername(username);
-        hook.setTts(useTTS);
-        hook.setAvatarUrl(PUSH_AVATAR);
-        hook.execute();
+        String content = timestamp ? ("(" + getCalendarTimeStringLocal_YYYYMMDDHHMMSS(getCalendarTime()) + ") " + action) : action;
+        executeDiscordWebhook(PUSH_WEBHOOK_PUBLIC, content, username, useTTS);
     }
 
     public static void sendToDiscord(obj_id context, String action, String username, boolean useTTS, boolean timestamp, boolean internal)  //this is for gameplay actions to promote interaction with mechanics in game
     {
-        if (internal)
-        {
-            DiscordWebhook hook = new DiscordWebhook(PUSH_WEBHOOK_PRIVATE);
-            if (timestamp)
-            {
-                hook.setContent("(" + getCalendarTimeStringLocal_YYYYMMDDHHMMSS(getCalendarTime()) + ") " + action);
-            }
-            else
-            {
-                hook.setContent(action);
-            }
-            hook.setUsername(username);
-            hook.setTts(useTTS);
-            hook.setAvatarUrl(PUSH_AVATAR);
-            hook.execute();
-        }
-        else
-        {
-            DiscordWebhook hook = new DiscordWebhook(PUSH_WEBHOOK_PUBLIC);
-            if (timestamp)
-            {
-                hook.setContent("(" + getCalendarTimeStringLocal_YYYYMMDDHHMMSS(getCalendarTime()) + ") " + action);
-            }
-            else
-            {
-                hook.setContent(action);
-            }
-            hook.setUsername(username);
-            hook.setTts(useTTS);
-            hook.setAvatarUrl(PUSH_AVATAR);
-            hook.execute();
-        }
-
+        String content = timestamp ? ("(" + getCalendarTimeStringLocal_YYYYMMDDHHMMSS(getCalendarTime()) + ") " + action) : action;
+        String url = internal ? PUSH_WEBHOOK_PRIVATE : PUSH_WEBHOOK_PUBLIC;
+        executeDiscordWebhook(url, content, username, useTTS);
     }
 
     public static void sendWorldBossUpdateToDiscord(obj_id context, String action, String username, boolean useTTS, boolean timestamp, boolean internal)  //this is for gameplay actions to promote interaction with mechanics in game
     {
-        if (internal)
-        {
-            DiscordWebhook hook = new DiscordWebhook(PUSH_WEBHOOK_PRIVATE);
-            if (timestamp)
-            {
-                hook.setContent("(" + getCalendarTimeStringLocal_YYYYMMDDHHMMSS(getCalendarTime()) + ") " + action);
-            }
-            else
-            {
-                hook.setContent(action);
-            }
-            hook.setUsername(username);
-            hook.setTts(useTTS);
-            hook.setAvatarUrl(PUSH_AVATAR);
-            hook.execute();
-        }
-        else
-        {
-            DiscordWebhook hook = new DiscordWebhook(PUSH_WEBHOOK_WORLD_BOSS);
-            if (timestamp)
-            {
-                hook.setContent("(" + getCalendarTimeStringLocal_YYYYMMDDHHMMSS(getCalendarTime()) + ") " + action);
-            }
-            else
-            {
-                hook.setContent(action);
-            }
-            hook.setUsername(username);
-            hook.setTts(useTTS);
-            hook.setAvatarUrl(PUSH_AVATAR);
-            hook.execute();
-        }
-
+        String content = timestamp ? ("(" + getCalendarTimeStringLocal_YYYYMMDDHHMMSS(getCalendarTime()) + ") " + action) : action;
+        String url = internal ? PUSH_WEBHOOK_PRIVATE : PUSH_WEBHOOK_WORLD_BOSS;
+        executeDiscordWebhook(url, content, username, useTTS);
     }
 
     public static void sendGCWUpdateToDiscord(obj_id context, String action, String username, boolean useTTS, boolean timestamp, boolean internal)  //this is for gameplay actions to promote interaction with mechanics in game
     {
-        if (internal)
-        {
-            DiscordWebhook hook = new DiscordWebhook(PUSH_WEBHOOK_PRIVATE);
-            if (timestamp)
-            {
-                hook.setContent("(" + getCalendarTimeStringLocal_YYYYMMDDHHMMSS(getCalendarTime()) + ") " + action);
-            }
-            else
-            {
-                hook.setContent(action);
-            }
-            hook.setUsername(username);
-            hook.setTts(useTTS);
-            hook.setAvatarUrl(PUSH_AVATAR);
-            hook.execute();
-        }
-        else
-        {
-            DiscordWebhook hook = new DiscordWebhook(PUSH_WEBHOOK_GCW);
-            if (timestamp)
-            {
-                hook.setContent("(" + getCalendarTimeStringLocal_YYYYMMDDHHMMSS(getCalendarTime()) + ") " + action);
-            }
-            else
-            {
-                hook.setContent(action);
-            }
-            hook.setUsername(username);
-            hook.setTts(useTTS);
-            hook.setAvatarUrl(PUSH_AVATAR);
-            hook.execute();
-        }
-
+        String content = timestamp ? ("(" + getCalendarTimeStringLocal_YYYYMMDDHHMMSS(getCalendarTime()) + ") " + action) : action;
+        String url = internal ? PUSH_WEBHOOK_PRIVATE : PUSH_WEBHOOK_GCW;
+        executeDiscordWebhook(url, content, username, useTTS);
     }
 
     public static void sendSpaceGCWUpdateToDiscord(obj_id context, String action, String username, boolean useTTS, boolean timestamp, boolean internal)
     {
-        if (internal)
-        {
-            DiscordWebhook hook = new DiscordWebhook(PUSH_WEBHOOK_PRIVATE);
-            if (timestamp)
-            {
-                hook.setContent("(" + getCalendarTimeStringLocal_YYYYMMDDHHMMSS(getCalendarTime()) + ") " + action);
-            }
-            else
-            {
-                hook.setContent(action);
-            }
-            hook.setUsername(username);
-            hook.setTts(useTTS);
-            hook.setAvatarUrl(PUSH_AVATAR);
-            hook.execute();
-        }
-        else
-        {
-            DiscordWebhook hook = new DiscordWebhook(PUSH_WEBHOOK_SPACE_GCW);
-            if (timestamp)
-            {
-                hook.setContent("(" + getCalendarTimeStringLocal_YYYYMMDDHHMMSS(getCalendarTime()) + ") " + action);
-            }
-            else
-            {
-                hook.setContent(action);
-            }
-            hook.setUsername(username);
-            hook.setTts(useTTS);
-            hook.setAvatarUrl(PUSH_AVATAR);
-            hook.execute();
-        }
-
+        String content = timestamp ? ("(" + getCalendarTimeStringLocal_YYYYMMDDHHMMSS(getCalendarTime()) + ") " + action) : action;
+        String url = internal ? PUSH_WEBHOOK_PRIVATE : PUSH_WEBHOOK_SPACE_GCW;
+        executeDiscordWebhook(url, content, username, useTTS);
     }
 
     public static void sendTradeUpdateToDiscord(obj_id context, String action, String username, boolean useTTS, boolean timestamp, boolean internal)  //this is for gameplay actions to promote interaction with mechanics in game
     {
-        if (internal)
-        {
-            DiscordWebhook hook = new DiscordWebhook(PUSH_WEBHOOK_PRIVATE);
-            if (timestamp)
-            {
-                hook.setContent("(" + getCalendarTimeStringLocal_YYYYMMDDHHMMSS(getCalendarTime()) + ") " + action);
-            }
-            else
-            {
-                hook.setContent(action);
-            }
-            hook.setUsername(username);
-            hook.setTts(useTTS);
-            hook.setAvatarUrl(PUSH_AVATAR);
-            hook.execute();
-        }
-        else
-        {
-            DiscordWebhook hook = new DiscordWebhook(PUSH_WEBHOOK_TRADE);
-            if (timestamp)
-            {
-                hook.setContent("(" + getCalendarTimeStringLocal_YYYYMMDDHHMMSS(getCalendarTime()) + ") " + action);
-            }
-            else
-            {
-                hook.setContent(action);
-            }
-            hook.setUsername(username);
-            hook.setTts(useTTS);
-            hook.setAvatarUrl(PUSH_AVATAR);
-            hook.execute();
-        }
-
+        String content = timestamp ? ("(" + getCalendarTimeStringLocal_YYYYMMDDHHMMSS(getCalendarTime()) + ") " + action) : action;
+        String url = internal ? PUSH_WEBHOOK_PRIVATE : PUSH_WEBHOOK_TRADE;
+        executeDiscordWebhook(url, content, username, useTTS);
     }
 
     public static void sendServicesUpdateToDiscord(obj_id context, String action, String username, boolean useTTS, boolean timestamp, boolean internal)  //this is for gameplay actions to promote interaction with mechanics in game
     {
-        if (internal)
-        {
-            DiscordWebhook hook = new DiscordWebhook(PUSH_WEBHOOK_PRIVATE);
-            if (timestamp)
-            {
-                hook.setContent("(" + getCalendarTimeStringLocal_YYYYMMDDHHMMSS(getCalendarTime()) + ") " + action);
-            }
-            else
-            {
-                hook.setContent(action);
-            }
-            hook.setUsername(username);
-            hook.setTts(useTTS);
-            hook.setAvatarUrl(PUSH_AVATAR);
-            hook.execute();
-        }
-        else
-        {
-            DiscordWebhook hook = new DiscordWebhook(PUSH_WEBHOOK_SERVICES);
-            if (timestamp)
-            {
-                hook.setContent("(" + getCalendarTimeStringLocal_YYYYMMDDHHMMSS(getCalendarTime()) + ") " + action);
-            }
-            else
-            {
-                hook.setContent(action);
-            }
-            hook.setUsername(username);
-            hook.setTts(useTTS);
-            hook.setAvatarUrl(PUSH_AVATAR);
-            hook.execute();
-        }
-
+        String content = timestamp ? ("(" + getCalendarTimeStringLocal_YYYYMMDDHHMMSS(getCalendarTime()) + ") " + action) : action;
+        String url = internal ? PUSH_WEBHOOK_PRIVATE : PUSH_WEBHOOK_SERVICES;
+        executeDiscordWebhook(url, content, username, useTTS);
     }
 
     public static void sendToOrigin(obj_id player)

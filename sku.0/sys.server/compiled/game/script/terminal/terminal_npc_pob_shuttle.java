@@ -18,6 +18,7 @@ public class terminal_npc_pob_shuttle extends script.base_script
     private static final String OBJVAR_LINKED_SHIP = "npc_pob.linkedShip";
     private static final float BOARD_RANGE = 128.0f;
     private static final String DATATABLE_PREFIX = "datatables/npc_shuttle/";
+    private static final String DATATABLE_SUFFIX = ".iff";
     private static final int TRAVEL_COST = 2500;
 
     public terminal_npc_pob_shuttle()
@@ -190,7 +191,7 @@ public class terminal_npc_pob_shuttle extends script.base_script
             obj_id ship = getShip(self);
             String scene = getLocation(self).area;
             String planet = getPlanetFromScene(scene);
-            String dtPath = DATATABLE_PREFIX + planet + ".tab";
+            String dtPath = DATATABLE_PREFIX + planet + DATATABLE_SUFFIX;
             int numRows = 0;
             try
             {

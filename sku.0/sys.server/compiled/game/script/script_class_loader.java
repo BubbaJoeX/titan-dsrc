@@ -397,6 +397,7 @@ public class script_class_loader extends ClassLoader
 		defaultLoad.add("script.script_class_loader");
 		defaultLoad.add("script.script_entry");
 		defaultLoad.add("script.script_entry$listener_data");
+		defaultLoad.add("script.DiscordWebhook");
 		defaultLoad.add("script.slot_data");
 		defaultLoad.add("script.string_id");
 		defaultLoad.add("script.transform");

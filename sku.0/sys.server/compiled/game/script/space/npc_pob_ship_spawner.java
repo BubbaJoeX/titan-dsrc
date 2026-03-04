@@ -5,8 +5,7 @@ import script.library.*;
 
 /**
  * Spawner for NPC POB shuttle with repeating waypoint cycle.
- * Waypoints and landingDuration (dwell time at each stop) are read from
- * datatables/npc_shuttle/<planet>.tab (e.g. naboo.tab). Reusable across planets.
+ * Waypoints and landingDuration are read from datatables/npc_shuttle/<planet>.iff (compiled from .tab).
  *
  * Uses object/ship/player/player_sorosuub_space_yacht.iff
  */
@@ -14,6 +13,7 @@ public class npc_pob_ship_spawner extends script.base_script
 {
     private static final String SHIP_TEMPLATE = "object/ship/player/player_sorosuub_space_yacht.iff";
     private static final String DATATABLE_PREFIX = "datatables/npc_shuttle/";
+    private static final String DATATABLE_SUFFIX = ".iff";
     private static final float SPAWN_ALTITUDE = 200.0f;
     private static final int TICK_INTERVAL = 60;
     private static final int DEFAULT_LANDING_DURATION = 30;
@@ -21,7 +21,6 @@ public class npc_pob_ship_spawner extends script.base_script
     private static final String OBJVAR_SHIP = "npc_pob.spawner.ship";
     private static final String OBJVAR_WAYPOINT_INDEX = "npc_pob.spawner.waypointIndex";
     private static final String OBJVAR_LAST_ARRIVAL = "npc_pob.spawner.lastArrival";
-    private static final String OBJVAR_DATATABLE_PATH = "npc_pob.spawner.datatablePath";
 
     private static String getPlanetFromScene(String scene)
     {
@@ -33,13 +32,9 @@ public class npc_pob_ship_spawner extends script.base_script
 
     private String getDatatablePath(obj_id self) throws InterruptedException
     {
-        if (hasObjVar(self, OBJVAR_DATATABLE_PATH))
-            return getStringObjVar(self, OBJVAR_DATATABLE_PATH);
         String scene = getLocation(self).area;
         String planet = getPlanetFromScene(scene);
-        String path = DATATABLE_PREFIX + planet + ".tab";
-        setObjVar(self, OBJVAR_DATATABLE_PATH, path);
-        return path;
+        return DATATABLE_PREFIX + planet + DATATABLE_SUFFIX;
     }
 
     private int getNumWaypoints(obj_id self) throws InterruptedException
@@ -74,18 +69,21 @@ public class npc_pob_ship_spawner extends script.base_script
     public int OnAttach(obj_id self) throws InterruptedException
     {
         if (!space_transition.isAtmosphericFlightScene())
+        {
+            messageTo(self, "npcPobSpawnerTick", null, TICK_INTERVAL, false);
             return SCRIPT_CONTINUE;
+        }
 
         int numWaypoints = getNumWaypoints(self);
-        if (numWaypoints <= 0)
-            return SCRIPT_CONTINUE;
-
-        obj_id ship = spawnShip(self);
-        if (isIdValid(ship))
+        if (numWaypoints > 0)
         {
-            setObjVar(self, OBJVAR_SHIP, ship);
-            setObjVar(self, OBJVAR_WAYPOINT_INDEX, 0);
-            flyToWaypoint(self, ship, 0);
+            obj_id ship = spawnShip(self);
+            if (isIdValid(ship))
+            {
+                setObjVar(self, OBJVAR_SHIP, ship);
+                setObjVar(self, OBJVAR_WAYPOINT_INDEX, 0);
+                flyToWaypoint(self, ship, 0);
+            }
         }
         messageTo(self, "npcPobSpawnerTick", null, TICK_INTERVAL, false);
         return SCRIPT_CONTINUE;
@@ -131,6 +129,7 @@ public class npc_pob_ship_spawner extends script.base_script
                         messageTo(self, "npcPobSpawnerTick", null, TICK_INTERVAL, false);
                         return SCRIPT_CONTINUE;
                     }
+                    // Cycle: 0 -> 1 -> ... -> (n-1) -> 0 (endless)
                     int nextIdx = (idx + 1) % numWaypoints;
                     setObjVar(self, OBJVAR_WAYPOINT_INDEX, nextIdx);
                     setObjVar(self, OBJVAR_LAST_ARRIVAL, now);

@@ -107,7 +107,6 @@
 			<include name="**/*.tab" />
 			<exclude name="**/object_template_crc_string_table.tab" />
 			<exclude name="**/quest_crc_string_table.tab" />
-			<exclude name="**/npc_shuttle/*.tab" />
 		</fileset>
 		<touch mkdirs="true" verbose="false">
 			<fileset refid="tab_files"/>
