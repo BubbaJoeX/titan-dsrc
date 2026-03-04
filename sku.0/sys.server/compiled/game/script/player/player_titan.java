@@ -2248,23 +2248,17 @@ public class player_titan extends base_script
             return SCRIPT_CONTINUE;
         }
 
-        obj_id prototype = makeCraftedItem(schematic, 1000.0f, inventory);
-        if (!isIdValid(prototype))
+        // generateFactoryCrate creates the crate directly from the schematic (no prototype objvar needed)
+        obj_id crate = generateFactoryCrate(schematic, 1000.0f, inventory);
+        if (!isIdValid(crate))
         {
-            sendSystemMessageTestingOnly(self, "[GM Crate] Failed to create prototype from: " + schematic);
+            sendSystemMessageTestingOnly(self, "[GM Crate] Failed to create factory crate from: " + schematic);
             return SCRIPT_CONTINUE;
         }
 
-        obj_id crate = makeIntoFactoryCrate(prototype, 100, inventory);
-        if (isIdValid(crate))
-        {
-            sendSystemMessageTestingOnly(self, "[GM Crate] Created factory crate: " + getName(crate) + " (q1000 x100) in your inventory.");
-            CustomerServiceLog("gmCraft", "GM " + getPlayerFullName(self) + " created factory crate " + crate + " from " + schematic + " at quality 1000 x100.");
-        }
-        else
-        {
-            sendSystemMessageTestingOnly(self, "[GM Crate] Failed to create factory crate. Prototype was created instead.");
-        }
+        setCount(crate, 100);
+        sendSystemMessageTestingOnly(self, "[GM Crate] Created factory crate: " + getName(crate) + " (q1000 x100) in your inventory.");
+        CustomerServiceLog("gmCraft", "GM " + getPlayerFullName(self) + " created factory crate " + crate + " from " + schematic + " at quality 1000 x100.");
         return SCRIPT_CONTINUE;
     }
 
