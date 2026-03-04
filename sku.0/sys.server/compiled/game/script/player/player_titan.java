@@ -1125,14 +1125,14 @@ public class player_titan extends base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int OnSetGodModeOn(obj_id self)
+    public int OnSetGodModeOn(obj_id self) throws InterruptedException
     {
         LOG("ethereal", "[God Mode]: " + "Player " + getPlayerFullName(self) + " has enabled God Mode.");
         refreshShipCellPermissions(self);
         return SCRIPT_CONTINUE;
     }
 
-    public int OnSetGodModeOff(obj_id self)
+    public int OnSetGodModeOff(obj_id self) throws InterruptedException
     {
         LOG("ethereal", "[God Mode]: " + "Player " + getPlayerFullName(self) + " has disabled God Mode.");
         refreshShipCellPermissions(self);
