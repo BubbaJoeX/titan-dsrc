@@ -217,6 +217,10 @@ public class terminal_npc_pob_shuttle extends script.base_script
             for (int i = 0; i < numRows; i++)
             {
                 String city = dataTableGetString(dtPath, i, "city");
+                if (city == null || city.length() == 0)
+                    city = dataTableGetString(dtPath, i, 0);
+                if (city == null || city.length() == 0)
+                    city = "Waypoint " + (i + 1);
                 float sx = dataTableGetFloat(dtPath, i, "x");
                 float sy = dataTableGetFloat(dtPath, i, "y");
                 float sz = dataTableGetFloat(dtPath, i, "z");

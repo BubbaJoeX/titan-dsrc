@@ -1,5 +1,6 @@
 strTemplate	fltJX	fltJY	fltJZ	fltKX	fltKY	fltKZ	fltPX	fltPY	fltPZ	strObjVars	strScripts	strCellName	intNoCreate	strLocationList
 s	f	f	f	f	f	f	f	f	f	p	s	s	i	s
+object/tangible/space/content_infrastructure/generic_egg_small.iff	           0	           1	           0	           0	           0	           1	            2	         -3.5	          18	intNoCreate|4|1|strLocationList|4|locEntrance|$|		lobby	1	locEntrance
 object/tangible/shipcontrol/shipcontrol_falcon.iff	           0	           1	           0	           0	           0	           1	   -0.761144	    0.430452	     21.1372	$|	script.space.ship.shipcontrol_falcon	bridge	0	
 object/tangible/terminal/terminal_pob_ship.iff	           0	           1	           0	           1	           0	-1.19209e-07	    0.882237	   -0.380644	     16.3738	$|	script.terminal.terminal_pob_ship	bridge	0	
 object/tangible/furniture/space/frn_chair_falcon_passenger_s01.iff	           0	           1	           0	  -0.0499792	           0	     0.99875	    0.747508	    0.430452	     21.1509	occupied.limit|0|1|$|		bridge	0	

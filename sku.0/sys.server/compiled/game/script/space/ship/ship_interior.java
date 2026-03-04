@@ -133,6 +133,7 @@ public class ship_interior extends script.base_script
         {
         }
         utils.setScriptVar(self, "objSparkers", objSparkers);
+        setObjVar(self, "interior.buildoutComplete", 1);
         return SCRIPT_CONTINUE;
     }
     public int componentDisabledByDamage(obj_id self, dictionary params) throws InterruptedException

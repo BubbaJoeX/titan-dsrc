@@ -1698,6 +1698,12 @@ public class space_transition extends script.base_script
             sendSystemMessage(player, string_id.unlocalized("This ship only has a cockpit."));
             return false;
         }
+        if (hasScript(ship, "space.ship.ship_interior") && !hasObjVar(ship, "interior.buildoutComplete"))
+        {
+            space_utils.notifyObject(ship, "doInteriorBuildout", new dictionary());
+            sendSystemMessage(player, string_id.unlocalized("Ship interior is still loading, please try again in a moment."));
+            return false;
+        }
         obj_id pilot = getPilotId(ship);
         if (isIdValid(pilot))
         {

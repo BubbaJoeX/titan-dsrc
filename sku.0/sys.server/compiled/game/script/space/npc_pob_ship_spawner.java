@@ -207,6 +207,8 @@ public class npc_pob_ship_spawner extends script.base_script
         if (!hasScript(ship, "space.ship.ship_atmospheric_boarding"))
             attachScript(ship, "space.ship.ship_atmospheric_boarding");
 
+        space_utils.notifyObject(ship, "doInteriorBuildout", new dictionary());
+
         String planet = getPlanetFromScene(scene);
         setName(ship, planet != null && planet.length() > 0 ? (planet.substring(0, 1).toUpperCase() + planet.substring(1) + " Shuttle") : "Shuttle");
         return ship;
