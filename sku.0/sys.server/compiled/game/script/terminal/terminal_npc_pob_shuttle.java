@@ -96,7 +96,7 @@ public class terminal_npc_pob_shuttle extends script.base_script
 
         if (isGod(player) && space_transition.isAtmosphericFlightScene())
         {
-            obj_id[] nearby = getObjectsInRange(self, 512.0f);
+            obj_id[] nearby = getObjectsInRange(self, 1024.0f);
             if (nearby != null)
             {
                 for (obj_id o : nearby)
