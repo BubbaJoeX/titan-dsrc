@@ -850,6 +850,23 @@ public class player_titan extends base_script
 
     public int OnSpeaking(obj_id self, String text) throws InterruptedException
     {
+        if (text != null && text.trim().equalsIgnoreCase("/scriptLogs"))
+        {
+            if (isGod(self))
+            {
+                script_logs.show(self);
+                return SCRIPT_OVERRIDE;
+            }
+        }
+        if (text != null && text.trim().equalsIgnoreCase("/scriptLogs clear"))
+        {
+            if (isGod(self))
+            {
+                script_logs.clear(self);
+                script_logs.show(self);
+                return SCRIPT_OVERRIDE;
+            }
+        }
         LOG("ethereal", "[Spatial Chat]: " + "Player " + getFirstName(self) + " said: " + text);
         return SCRIPT_CONTINUE;
     }

@@ -340,6 +340,11 @@ public class player_developer extends base_script
             reloadDatatable(self, table);
             LOG("ethereal", "[Developer]: " + getPlayerFullName(self) + " used /developer reloadTable " + table);
         }
+        else if (cmd.equalsIgnoreCase("scriptLogs"))
+        {
+            script.library.script_logs.show(self);
+            return SCRIPT_CONTINUE;
+        }
         else if (cmd.equalsIgnoreCase("bounty"))
         {
             String flag = tok.nextToken();
