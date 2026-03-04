@@ -1758,8 +1758,17 @@ public class combat_ship extends script.base_script
             if (now >= landingEndTime)
             {
                 removeObjVar(self, NPC_LANDING_END_TIME);
-                // Proceed to next waypoint
-                npcFlyToNextWaypoint(self);
+                // Advance to next waypoint and fly
+                String dtPath = npcGetDatatablePathForCurrentScene(self);
+                int numWaypoints = npcGetNumWaypointsForPath(dtPath);
+                if (numWaypoints > 0)
+                {
+                    int currentIdx = hasObjVar(self, NPC_CURRENT_WAYPOINT_INDEX) ? getIntObjVar(self, NPC_CURRENT_WAYPOINT_INDEX) : 0;
+                    int nextIdx = (currentIdx + 1) % numWaypoints;
+                    setObjVar(self, NPC_CURRENT_WAYPOINT_INDEX, nextIdx);
+                    script_logs.logToGodsInRange(self, NPC_SHUTTLE_LOG_RANGE, "NPC Shuttle: landing expired at waypoint " + currentIdx + ", advancing to waypoint " + nextIdx);
+                    npcFlyToNextWaypoint(self);
+                }
             }
             return SCRIPT_CONTINUE;
         }
@@ -1828,11 +1837,7 @@ public class combat_ship extends script.base_script
             flyParams.put("owner", isIdValid(owner) ? owner : self);
             messageTo(self, "shipAutoPilotEngage", flyParams, 0, false);
 
-            // Calculate next waypoint index for after landing
-            int nextIdx = (currentIdx + 1) % numWaypoints;
-            setObjVar(self, NPC_CURRENT_WAYPOINT_INDEX, nextIdx);
-
-            // Schedule landing end time
+            // Schedule landing end time (don't change index yet - that happens when landing expires)
             int landingEndTime = getGameTime() + landingDuration;
             setObjVar(self, NPC_LANDING_END_TIME, landingEndTime);
         }
