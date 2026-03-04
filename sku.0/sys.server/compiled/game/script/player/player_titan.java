@@ -2257,6 +2257,13 @@ public class player_titan extends base_script
         }
 
         setCount(crate, 100);
+        obj_id[] contents = getContents(crate);
+        if (contents != null && contents.length > 0)
+        {
+            String prototypeName = getName(contents[0]);
+            if (prototypeName != null && !prototypeName.isEmpty())
+                setName(crate, prototypeName);
+        }
         sendSystemMessageTestingOnly(self, "[GM Crate] Created factory crate: " + getName(crate) + " (q1000 x100) in your inventory.");
         CustomerServiceLog("gmCraft", "GM " + getPlayerFullName(self) + " created factory crate " + crate + " from " + schematic + " at quality 1000 x100.");
         return SCRIPT_CONTINUE;
