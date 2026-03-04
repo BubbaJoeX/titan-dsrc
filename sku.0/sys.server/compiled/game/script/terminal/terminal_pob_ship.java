@@ -239,14 +239,8 @@ public class terminal_pob_ship extends script.base_script
         int existingPid = sui.getPid(player, BOARDING_PERMISSIONS_PID);
         if (existingPid > -1)
         {
-            clearSUIDataSource(existingPid, sui.LISTBOX_DATASOURCE);
-            for (int i = 0; i < entryArray.length; i++)
-            {
-                addSUIDataItem(existingPid, sui.LISTBOX_DATASOURCE, "" + i);
-                setSUIProperty(existingPid, sui.LISTBOX_DATASOURCE + "." + i, sui.PROP_TEXT, entryArray[i]);
-            }
-            flushSUIPage(existingPid);
-            return;
+            forceCloseSUIPage(existingPid);
+            sui.removePid(player, BOARDING_PERMISSIONS_PID);
         }
 
         int pid = sui.listbox(self, player, "Manage who can board your ship when parked.", sui.OK_CANCEL, "Boarding Permissions", entryArray, "handleBoardingPermissions", true, false);
