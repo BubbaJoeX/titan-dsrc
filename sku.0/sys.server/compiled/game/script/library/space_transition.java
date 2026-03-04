@@ -1531,6 +1531,19 @@ public class space_transition extends script.base_script
                 }
             }
         }
+        String[] cellNames = getCellNames(ship);
+        if (cellNames != null)
+        {
+            for (String cellName : cellNames)
+            {
+                obj_id cellId = getCellId(ship, cellName);
+                if (isIdValid(cellId))
+                {
+                    permissionsMakePublic(cellId);
+                    sendDirtyCellPermissionsUpdate(cellId, player, true);
+                }
+            }
+        }
         location boardingDest = getShipBoardingDestination(ship);
         if (boardingDest == null)
         {
