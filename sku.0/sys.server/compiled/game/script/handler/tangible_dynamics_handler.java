@@ -341,7 +341,8 @@ public class tangible_dynamics_handler extends script.base_script
 
     private int handleApplyFollowTarget(obj_id self, dictionary params) throws InterruptedException
     {
-        long followTargetId = params.getLong("followTargetId");
+        long followTargetIdValue = params.getLong("followTargetId");
+        obj_id followTargetId = new obj_id(followTargetIdValue);
         float followDistance = params.getFloat("followDistance");
         float followSpeed = params.getFloat("followSpeed");
         float hoverHeight = params.getFloat("hoverHeight");
