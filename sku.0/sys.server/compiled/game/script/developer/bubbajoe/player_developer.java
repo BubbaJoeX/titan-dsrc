@@ -1746,8 +1746,52 @@ public class player_developer extends base_script
         }
         else if (cmd.equalsIgnoreCase("dynamicsTest"))
         {
-            attachScript(target, "handler.tangible_dynamics_handler");
-            tangible_dynamics.applyBreathingEffect(target, 0.85f, 1.15f, 0.8f, -1.0f);
+            // Open SUI panel to configure TangibleDynamics on target
+            if (!isTangible(target))
+            {
+                broadcast(self, "Target must be a tangible object.");
+                return SCRIPT_CONTINUE;
+            }
+
+            // Store target for handler
+            setObjVar(self, "dynamics_test.target", target);
+
+            // Build options list
+            String[] options = new String[] {
+                "Enable Dynamics (attach handler + set condition)",
+                "Disable Dynamics (clear condition)",
+                "------- EFFECTS -------",
+                "Apply Breathing Effect (pulse scale)",
+                "Apply Spin Effect (rotate)",
+                "Apply Push Effect (shove)",
+                "Apply Push with Drag (slides then stops)",
+                "Apply Bounce Effect (gravity bounce)",
+                "Apply Wobble Effect (oscillate position)",
+                "Apply Orbit Effect (circle around point)",
+                "Apply Combined (push + spin + breathing)",
+                "------- COLLISION -------",
+                "Enable Collision Push (hockey puck)",
+                "Disable Collision Push (set collideBlock)",
+                "Set Collision Radius...",
+                "Set Push Speed...",
+                "Set Push Drag...",
+                "------- CLEAR -------",
+                "Clear Push Force",
+                "Clear Spin Force",
+                "Clear Breathing Effect",
+                "Clear Bounce Effect",
+                "Clear Wobble Effect",
+                "Clear Orbit Effect",
+                "Clear ALL Forces"
+            };
+
+            int pid = sui.listbox(self, self, "Select a TangibleDynamics option for: " + getName(target),
+                sui.OK_CANCEL, "TangibleDynamics Test Panel", options, "handleDynamicsTestSUI", true, false);
+
+            if (pid < 0)
+            {
+                broadcast(self, "Failed to create SUI panel.");
+            }
         }
         else if (cmd.equalsIgnoreCase("setCondition"))
         {
@@ -8642,6 +8686,228 @@ public class player_developer extends base_script
     public int handleCountdownTest(obj_id self, dictionary params)
     {
         broadcast(self, "Countdown timer done.");
+        return SCRIPT_CONTINUE;
+    }
+
+    // =========================================================================
+    // TANGIBLE DYNAMICS TEST SUI HANDLERS
+    // =========================================================================
+
+    public int handleDynamicsTestSUI(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (params == null || params.isEmpty())
+            return SCRIPT_CONTINUE;
+
+        int btn = sui.getIntButtonPressed(params);
+        if (btn == sui.BP_CANCEL)
+        {
+            removeObjVar(self, "dynamics_test");
+            return SCRIPT_CONTINUE;
+        }
+
+        int idx = sui.getListboxSelectedRow(params);
+        if (idx < 0)
+            return SCRIPT_CONTINUE;
+
+        obj_id target = getObjIdObjVar(self, "dynamics_test.target");
+        if (!isIdValid(target))
+        {
+            broadcast(self, "Invalid target. Please re-select and try again.");
+            removeObjVar(self, "dynamics_test");
+            return SCRIPT_CONTINUE;
+        }
+
+        switch (idx)
+        {
+            case 0: // Enable Dynamics
+                attachScript(target, "handler.tangible_dynamics_handler");
+                setCondition(target, CONDITION_MAGIC_TANGIBLE_DYNAMIC);
+                broadcast(self, "Dynamics ENABLED on " + getName(target));
+                break;
+
+            case 1: // Disable Dynamics
+                clearCondition(target, CONDITION_MAGIC_TANGIBLE_DYNAMIC);
+                broadcast(self, "Dynamics DISABLED on " + getName(target));
+                break;
+
+            case 2: // Separator - do nothing
+                break;
+
+            case 3: // Breathing Effect
+                attachScript(target, "handler.tangible_dynamics_handler");
+                tangible_dynamics.applyBreathingEffect(target, 0.85f, 1.15f, 0.8f, -1.0f);
+                broadcast(self, "Breathing effect applied (0.85-1.15 scale, speed 0.8)");
+                break;
+
+            case 4: // Spin Effect
+                attachScript(target, "handler.tangible_dynamics_handler");
+                tangible_dynamics.applySpinForce(target, 3.14159f, 0.0f, 0.0f, -1.0f, false);
+                broadcast(self, "Spin effect applied (PI rad/s yaw)");
+                break;
+
+            case 5: // Push Effect
+                attachScript(target, "handler.tangible_dynamics_handler");
+                tangible_dynamics.applyPushForce(target, 0.0f, 5.0f, 0.0f, 3.0f, tangible_dynamics.SPACE_WORLD);
+                broadcast(self, "Push effect applied (upward 5m/s for 3s)");
+                break;
+
+            case 6: // Push with Drag
+                attachScript(target, "handler.tangible_dynamics_handler");
+                tangible_dynamics.applyPushForceWithDrag(target, 5.0f, 0.0f, 0.0f, 1.5f, -1.0f, tangible_dynamics.SPACE_WORLD);
+                broadcast(self, "Push with drag applied (5m/s sideways, drag 1.5)");
+                break;
+
+            case 7: // Bounce Effect
+                attachScript(target, "handler.tangible_dynamics_handler");
+                tangible_dynamics.applyBounceEffect(target, 9.8f, 0.7f, 8.0f, 10.0f);
+                broadcast(self, "Bounce effect applied (gravity 9.8, elasticity 0.7, launch 8m/s)");
+                break;
+
+            case 8: // Wobble Effect
+                attachScript(target, "handler.tangible_dynamics_handler");
+                tangible_dynamics.applyWobbleEffect(target, 0.3f, 0.2f, 0.3f, 1.0f, 1.5f, 0.8f, -1.0f);
+                broadcast(self, "Wobble effect applied");
+                break;
+
+            case 9: // Orbit Effect
+                attachScript(target, "handler.tangible_dynamics_handler");
+                location loc = getLocation(target);
+                tangible_dynamics.applyOrbitEffect(target, loc.x, loc.y, loc.z, 3.0f, 3.14159f, -1.0f);
+                broadcast(self, "Orbit effect applied (3m radius, PI rad/s)");
+                break;
+
+            case 10: // Combined
+                attachScript(target, "handler.tangible_dynamics_handler");
+                tangible_dynamics.applyCombinedForces(target, 0.0f, 1.5f, 0.0f, 1.57f, 0.0f, 0.0f, 0.9f, 1.1f, 1.0f, -1.0f);
+                broadcast(self, "Combined forces applied (push + spin + breathing)");
+                break;
+
+            case 11: // Separator - do nothing
+                break;
+
+            case 12: // Enable Collision Push
+                removeObjVar(target, "collideBlock");
+                setCondition(target, CONDITION_MAGIC_TANGIBLE_DYNAMIC);
+                attachScript(target, "handler.tangible_dynamics_handler");
+                broadcast(self, "Collision push ENABLED (hockey puck mode)");
+                break;
+
+            case 13: // Disable Collision Push
+                setObjVar(target, "collideBlock", 1);
+                broadcast(self, "Collision push DISABLED");
+                break;
+
+            case 14: // Set Collision Radius
+                setObjVar(self, "dynamics_test.param", "collisionRadius");
+                sui.inputbox(self, self, "Enter collision radius (meters):", "Set Collision Radius", "handleDynamicsParamInput", "1.0");
+                return SCRIPT_CONTINUE;
+
+            case 15: // Set Push Speed
+                setObjVar(self, "dynamics_test.param", "pushSpeed");
+                sui.inputbox(self, self, "Enter push speed (m/s):", "Set Push Speed", "handleDynamicsParamInput", "5.0");
+                return SCRIPT_CONTINUE;
+
+            case 16: // Set Push Drag
+                setObjVar(self, "dynamics_test.param", "pushDrag");
+                sui.inputbox(self, self, "Enter push drag coefficient:", "Set Push Drag", "handleDynamicsParamInput", "1.5");
+                return SCRIPT_CONTINUE;
+
+            case 17: // Separator - do nothing
+                break;
+
+            case 18: // Clear Push
+                tangible_dynamics.clearPushForce(target);
+                broadcast(self, "Push force cleared");
+                break;
+
+            case 19: // Clear Spin
+                tangible_dynamics.clearSpinForce(target);
+                broadcast(self, "Spin force cleared");
+                break;
+
+            case 20: // Clear Breathing
+                tangible_dynamics.clearBreathingEffect(target);
+                broadcast(self, "Breathing effect cleared");
+                break;
+
+            case 21: // Clear Bounce
+                tangible_dynamics.clearBounceEffect(target);
+                broadcast(self, "Bounce effect cleared");
+                break;
+
+            case 22: // Clear Wobble
+                tangible_dynamics.clearWobbleEffect(target);
+                broadcast(self, "Wobble effect cleared");
+                break;
+
+            case 23: // Clear Orbit
+                tangible_dynamics.clearOrbitEffect(target);
+                broadcast(self, "Orbit effect cleared");
+                break;
+
+            case 24: // Clear ALL
+                tangible_dynamics.clearAllForces(target);
+                broadcast(self, "ALL dynamics forces cleared");
+                break;
+
+            default:
+                broadcast(self, "Unknown option selected: " + idx);
+                break;
+        }
+
+        removeObjVar(self, "dynamics_test");
+        return SCRIPT_CONTINUE;
+    }
+
+    public int handleDynamicsParamInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (params == null || params.isEmpty())
+            return SCRIPT_CONTINUE;
+
+        int btn = sui.getIntButtonPressed(params);
+        if (btn == sui.BP_CANCEL)
+        {
+            removeObjVar(self, "dynamics_test");
+            return SCRIPT_CONTINUE;
+        }
+
+        obj_id target = getObjIdObjVar(self, "dynamics_test.target");
+        String paramName = getStringObjVar(self, "dynamics_test.param");
+
+        if (!isIdValid(target) || paramName == null || paramName.isEmpty())
+        {
+            broadcast(self, "Invalid target or parameter.");
+            removeObjVar(self, "dynamics_test");
+            return SCRIPT_CONTINUE;
+        }
+
+        String inputText = sui.getInputBoxText(params);
+        float value = utils.stringToFloat(inputText);
+
+        if (value <= 0.0f)
+        {
+            broadcast(self, "Invalid value. Must be a positive number.");
+            removeObjVar(self, "dynamics_test");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (paramName.equals("collisionRadius"))
+        {
+            setObjVar(target, "dynamics.collisionRadius", value);
+            broadcast(self, "Collision radius set to " + value + "m on " + getName(target));
+        }
+        else if (paramName.equals("pushSpeed"))
+        {
+            setObjVar(target, "dynamics.pushSpeed", value);
+            broadcast(self, "Push speed set to " + value + " m/s on " + getName(target));
+        }
+        else if (paramName.equals("pushDrag"))
+        {
+            setObjVar(target, "dynamics.pushDrag", value);
+            broadcast(self, "Push drag set to " + value + " on " + getName(target));
+        }
+
+        removeObjVar(self, "dynamics_test");
         return SCRIPT_CONTINUE;
     }
 }
