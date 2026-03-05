@@ -11480,7 +11480,7 @@ public class base_class
         public static final int CONDITION_LOCKED                   = 0x10000000;
         public static final int CONDITION_MAGIC_PAINTING_URL       = 0x20000000;
         public static final int CONDITION_MAGIC_VIDEO_PLAYER     = 0x40000000;
-
+        public static final int CONDITION_MAGIC_TANGIBLE_DYNAMIC = 0x80000000;
         /**
          * Returns an object's condition flags.
          * @param target        the object

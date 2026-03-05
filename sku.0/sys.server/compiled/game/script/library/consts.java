@@ -27,6 +27,10 @@ public class consts extends script.base_script
     public static final int MAXIMUM_FACTION_DISBERSEMENT = 5000;
     public static final float AI_SERVICE_RANGE = 3.24f;
     public static final float AI_SERVICE_DURATION = 3600f;
+
+    // TangibleDynamics conditions
+    public static final int CONDITION_MAGIC_TANGIBLE_DYNAMIC = 0x80000000;
+
     public static String color(String html, String message)
     {
         return "\\#" + html + "" + message + "\\#.";
