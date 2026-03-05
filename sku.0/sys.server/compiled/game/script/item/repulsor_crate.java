@@ -165,39 +165,32 @@ public class repulsor_crate extends script.base_script
     }
 
     /**
-     * Deactivate the repulsor crate - land it at the player's feet
+     * Deactivate the repulsor crate - land it at its CURRENT position
+     * Uses the crate's actual position as source of truth, not the player's position
      */
     public void deactivateRepulsor(obj_id self, obj_id player) throws InterruptedException
     {
         // Clear follow effect first
         tangible_dynamics.clearFollowTargetEffect(self);
 
-        // Get player's current position for landing
-        location playerLoc = getLocation(player);
+        // Get the CRATE's current position - this is the source of truth
+        location crateLoc = getLocation(self);
 
-        // Position the crate at the player's feet (slightly in front)
-        float playerYaw = getYaw(player);
-        float radians = (float)(playerYaw * Math.PI / 180.0f);
-
-        // Calculate position in front of player
-        float offsetX = (float)(Math.sin(radians) * 1.5f);
-        float offsetZ = (float)(Math.cos(radians) * 1.5f);
-
-        // Get terrain height at landing position
-        float landX = playerLoc.x + offsetX;
-        float landZ = playerLoc.z + offsetZ;
-        float terrainHeight = getHeightAtLocation(landX, landZ);
+        // Get terrain height at the crate's current position for landing
+        float terrainHeight = getHeightAtLocation(crateLoc.x, crateLoc.z);
         if (terrainHeight < -100000.0f)
         {
-            terrainHeight = playerLoc.y;
+            // Fallback if terrain query fails
+            terrainHeight = crateLoc.y - HOVER_HEIGHT;
         }
 
+        // Land the crate at its current X/Z position, but on the ground
         location landingLoc = new location(
-            landX,
+            crateLoc.x,
             terrainHeight + LANDING_HEIGHT,
-            landZ,
-            playerLoc.area,
-            playerLoc.cell
+            crateLoc.z,
+            crateLoc.area,
+            crateLoc.cell
         );
 
         // Move the crate to the landing position immediately
