@@ -642,4 +642,142 @@ public class tangible_dynamics extends script.base_script
     {
         return isIdValid(target);
     }
+
+    // =====================================================================
+    // UTILITY FUNCTIONS
+    // =====================================================================
+
+    /**
+     * Enable dynamics on an object (sets condition and attaches handler script)
+     */
+    public static void enableDynamics(obj_id target) throws InterruptedException
+    {
+        if (!isValidTarget(target)) return;
+        attachScript(target, "handler.tangible_dynamics_handler");
+        setCondition(target, CONDITION_MAGIC_TANGIBLE_DYNAMIC);
+    }
+
+    /**
+     * Disable dynamics on an object (clears all forces and removes condition)
+     */
+    public static void disableDynamics(obj_id target) throws InterruptedException
+    {
+        if (!isValidTarget(target)) return;
+        clearAllForces(target);
+        clearCondition(target, CONDITION_MAGIC_TANGIBLE_DYNAMIC);
+    }
+
+    /**
+     * Check if dynamics is enabled on an object
+     */
+    public static boolean isDynamicsEnabled(obj_id target) throws InterruptedException
+    {
+        if (!isValidTarget(target)) return false;
+        return hasCondition(target, CONDITION_MAGIC_TANGIBLE_DYNAMIC);
+    }
+
+    /**
+     * Apply a simple push in a direction (world space, no drag)
+     */
+    public static void push(obj_id target, float vx, float vy, float vz) throws InterruptedException
+    {
+        applyPushForce(target, vx, vy, vz, -1.0f, SPACE_WORLD);
+    }
+
+    /**
+     * Apply a simple push upward
+     */
+    public static void pushUp(obj_id target, float velocity) throws InterruptedException
+    {
+        applyPushForce(target, 0.0f, velocity, 0.0f, -1.0f, SPACE_WORLD);
+    }
+
+    /**
+     * Apply a simple spin (yaw only)
+     */
+    public static void spin(obj_id target, float radiansPerSecond) throws InterruptedException
+    {
+        applySpinForce(target, radiansPerSecond, 0.0f, 0.0f, -1.0f, false);
+    }
+
+    /**
+     * Apply a simple breathing effect
+     */
+    public static void breathe(obj_id target, float minScale, float maxScale) throws InterruptedException
+    {
+        applyBreathingEffect(target, minScale, maxScale, 1.0f, -1.0f);
+    }
+
+    /**
+     * Apply a simple bounce (spawn bounce)
+     */
+    public static void bounce(obj_id target) throws InterruptedException
+    {
+        applyBounceEffect(target, 9.8f, 0.6f, 4.0f, 5.0f);
+    }
+
+    /**
+     * Apply a simple hover
+     */
+    public static void hover(obj_id target, float height) throws InterruptedException
+    {
+        applyHoverEffect(target, height, 0.1f, 1.0f, -1.0f);
+    }
+
+    /**
+     * Make an object follow another object
+     */
+    public static void follow(obj_id target, obj_id followTarget) throws InterruptedException
+    {
+        applyFollowTargetEffect(target, followTarget, 2.0f, 3.0f, 1.0f, 0.05f, -1.0f);
+    }
+
+    /**
+     * Apply a simple sway (for hanging objects)
+     */
+    public static void sway(obj_id target) throws InterruptedException
+    {
+        applySwayEffect(target, 0.1f, 1.0f, 0.0f, -1.0f);
+    }
+
+    /**
+     * Apply a simple shake for a duration
+     */
+    public static void shake(obj_id target, float duration) throws InterruptedException
+    {
+        applyShakeEffect(target, 0.1f, 10.0f, duration);
+    }
+
+    /**
+     * Apply a simple float/levitate
+     */
+    public static void levitate(obj_id target) throws InterruptedException
+    {
+        applyFloatEffect(target, 0.5f, 0.5f, 0.1f, -1.0f);
+    }
+
+    /**
+     * Apply a conveyor belt effect
+     */
+    public static void convey(obj_id target, float dirX, float dirZ, float speed, float wrapDistance) throws InterruptedException
+    {
+        applyConveyorEffect(target, dirX, 0.0f, dirZ, speed, wrapDistance, -1.0f);
+    }
+
+    /**
+     * Make an object orbit around its current position
+     */
+    public static void orbitSelf(obj_id target, float radius, float speed) throws InterruptedException
+    {
+        location loc = getLocation(target);
+        applyOrbitEffect(target, loc.x, loc.y, loc.z, radius, speed, -1.0f);
+    }
+
+    /**
+     * Make an object wobble in place
+     */
+    public static void wobble(obj_id target, float amplitude) throws InterruptedException
+    {
+        applyWobbleEffect(target, amplitude, amplitude * 0.5f, amplitude, 1.0f, 1.5f, 0.8f, -1.0f);
+    }
 }
