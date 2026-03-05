@@ -1744,6 +1744,11 @@ public class player_developer extends base_script
             broadcast(self, "URL: " + url + " | Scale: " + scale);
             return SCRIPT_CONTINUE;
         }
+        else if (cmd.equalsIgnoreCase("dynamicsTest")
+        {
+            attachScript(target, "handler.tangible_dynamics_handler");
+            tangible_dynamics.applyBreathingEffect(target, 0.85f, 1.15f, 0.8f, -1.0f);
+        }
         else if (cmd.equalsIgnoreCase("setCondition"))
         {
             if (!tok.hasMoreTokens())
