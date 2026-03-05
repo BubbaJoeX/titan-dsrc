@@ -1754,49 +1754,8 @@ public class player_developer extends base_script
                 return SCRIPT_CONTINUE;
             }
 
-            // Store hard target for handler
-            setObjVar(self, "dynamics_test.target", hardTarget);
-
-            // Build options list
-            String[] options = new String[] {
-                "Enable Dynamics (attach handler + set condition)",
-                "Disable Dynamics (clear condition)",
-                "------- EFFECTS -------",
-                "Apply Breathing Effect (pulse scale)",
-                "Apply Spin Effect (rotate)",
-                "Apply Push Effect (shove)",
-                "Apply Push with Drag (slides then stops)",
-                "Apply Bounce Effect (gravity bounce)",
-                "Apply Wobble Effect (oscillate position)",
-                "Apply Orbit Effect (circle around point)",
-                "Apply Hover Effect (terrain-following float)",
-                "Apply Follow Target (target follows YOU)",
-                "Apply Combined (push + spin + breathing)",
-                "------- COLLISION -------",
-                "Enable Collision Push (hockey puck)",
-                "Disable Collision Push (set collideBlock)",
-                "Set Collision Radius...",
-                "Set Push Speed...",
-                "Set Push Drag...",
-                "------- CLEAR -------",
-                "Clear Push Force",
-                "Clear Spin Force",
-                "Clear Breathing Effect",
-                "Clear Bounce Effect",
-                "Clear Wobble Effect",
-                "Clear Orbit Effect",
-                "Clear Hover Effect",
-                "Clear Follow Target Effect",
-                "Clear ALL Forces"
-            };
-
-            int pid = sui.listbox(self, self, "Select a TangibleDynamics option for: " + getName(hardTarget),
-                sui.OK_CANCEL, "TangibleDynamics Test Panel", options, "handleDynamicsTestSUI", true, false);
-
-            if (pid < 0)
-            {
-                broadcast(self, "Failed to create SUI panel.");
-            }
+            // Show the dynamics test SUI
+            showDynamicsTestSUI(self, hardTarget);
         }
         else if (cmd.equalsIgnoreCase("setCondition"))
         {
@@ -8882,8 +8841,60 @@ public class player_developer extends base_script
                 break;
         }
 
-        removeObjVar(self, "dynamics_test");
+        // Re-open the menu (don't close until Cancel is pressed)
+        showDynamicsTestSUI(self, target);
         return SCRIPT_CONTINUE;
+    }
+
+    /**
+     * Helper method to show the TangibleDynamics test SUI panel
+     */
+    private void showDynamicsTestSUI(obj_id self, obj_id target) throws InterruptedException
+    {
+        if (!isIdValid(target))
+        {
+            broadcast(self, "Invalid target.");
+            removeObjVar(self, "dynamics_test");
+            return;
+        }
+
+        // Store target for handler
+        setObjVar(self, "dynamics_test.target", target);
+
+        String[] options = new String[] {
+            "Enable Dynamics (attach handler + set condition)",
+            "Disable Dynamics (clear condition)",
+            "------- EFFECTS -------",
+            "Apply Breathing Effect (pulse scale)",
+            "Apply Spin Effect (rotate)",
+            "Apply Push Effect (shove)",
+            "Apply Push with Drag (slides then stops)",
+            "Apply Bounce Effect (gravity bounce)",
+            "Apply Wobble Effect (oscillate position)",
+            "Apply Orbit Effect (circle around point)",
+            "Apply Hover Effect (terrain-following float)",
+            "Apply Follow Target (target follows YOU)",
+            "Apply Combined (push + spin + breathing)",
+            "------- COLLISION -------",
+            "Enable Collision Push (hockey puck)",
+            "Disable Collision Push (set collideBlock)",
+            "Set Collision Radius...",
+            "Set Push Speed...",
+            "Set Push Drag...",
+            "------- CLEAR -------",
+            "Clear Push Force",
+            "Clear Spin Force",
+            "Clear Breathing Effect",
+            "Clear Bounce Effect",
+            "Clear Wobble Effect",
+            "Clear Orbit Effect",
+            "Clear Hover Effect",
+            "Clear Follow Target Effect",
+            "Clear ALL Forces"
+        };
+
+        sui.listbox(self, self, "Select a TangibleDynamics option for: " + getName(target),
+            sui.OK_CANCEL, "TangibleDynamics Test Panel", options, "handleDynamicsTestSUI", true, false);
     }
 
     public int handleDynamicsParamInput(obj_id self, dictionary params) throws InterruptedException
@@ -8934,7 +8945,8 @@ public class player_developer extends base_script
             broadcast(self, "Push drag set to " + value + " on " + getName(target));
         }
 
-        removeObjVar(self, "dynamics_test");
+        // Re-open the menu
+        showDynamicsTestSUI(self, target);
         return SCRIPT_CONTINUE;
     }
 }
