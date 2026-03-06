@@ -22,6 +22,7 @@ public class terminal_pob_ship extends script.base_script
     private static final int MENU_ITEM_MANAGEMENT = menu_info_types.SERVER_MENU10;
     private static final int MENU_FIND_ALL_ITEMS = menu_info_types.SERVER_MENU11;
     private static final int MENU_SEARCH_ITEMS = menu_info_types.SERVER_MENU12;
+    private static final int MENU_UNDOCK = menu_info_types.SERVER_MENU13;
 
     public static final string_id SID_TERMINAL_PERMISSIONS = new string_id("player_structure", "permissions");
     public static final string_id SID_MOVE_FIRST_ITEM = new string_id("player_structure", "move_first_item");
@@ -38,6 +39,7 @@ public class terminal_pob_ship extends script.base_script
     public static final string_id SID_DOCKING_CONTROL = string_id.unlocalized("Docking Control");
     public static final string_id SID_CHECK_DOCKING_TIME = string_id.unlocalized("Check Docking Time");
     public static final string_id SID_EXTEND_DOCKING = string_id.unlocalized("Extend Docking Time");
+    public static final string_id SID_UNDOCK = string_id.unlocalized("Undock Ship");
     public static final string_id SID_MANAGE_ACCESS = string_id.unlocalized("Manage Access");
     private static final String BOARDING_PERMISSIONS_PID = "boardingPermissions.pid";
 
@@ -81,11 +83,15 @@ public class terminal_pob_ship extends script.base_script
         }
 
         // Docking control - available to all players aboard when docked at landing point
-        if (isIdValid(ship) && hasObjVar(ship, "atmo.landing.dockExpiry"))
+        if (isIdValid(ship) && hasObjVar(ship, "atmo.landing.docked"))
         {
             int dockingRoot = mi.addRootMenu(MENU_DOCKING_CONTROL, SID_DOCKING_CONTROL);
             mi.addSubMenu(dockingRoot, MENU_CHECK_DOCKING_TIME, SID_CHECK_DOCKING_TIME);
-            mi.addSubMenu(dockingRoot, MENU_EXTEND_DOCKING, SID_EXTEND_DOCKING);
+            if (hasObjVar(ship, "atmo.landing.dockExpiry"))
+            {
+                mi.addSubMenu(dockingRoot, MENU_EXTEND_DOCKING, SID_EXTEND_DOCKING);
+            }
+            mi.addSubMenu(dockingRoot, MENU_UNDOCK, SID_UNDOCK);
         }
 
         return SCRIPT_CONTINUE;
@@ -94,8 +100,8 @@ public class terminal_pob_ship extends script.base_script
     {
         obj_id ship = space_transition.getContainingShip(self);
 
-        // Handle docking control - available to all players aboard
-        if (isIdValid(ship) && hasObjVar(ship, "atmo.landing.dockExpiry"))
+        // Handle docking control - available to all players aboard when docked
+        if (isIdValid(ship) && hasObjVar(ship, "atmo.landing.docked"))
         {
             if (item == MENU_CHECK_DOCKING_TIME)
             {
@@ -105,6 +111,11 @@ public class terminal_pob_ship extends script.base_script
             else if (item == MENU_EXTEND_DOCKING)
             {
                 showExtendDockingUI(self, ship, player);
+                return SCRIPT_CONTINUE;
+            }
+            else if (item == MENU_UNDOCK)
+            {
+                showUndockConfirmation(self, ship, player);
                 return SCRIPT_CONTINUE;
             }
         }
@@ -545,6 +556,62 @@ public class terminal_pob_ship extends script.base_script
 
     public int handleDockingPaymentFail(obj_id self, dictionary params) throws InterruptedException
     {
+        return SCRIPT_CONTINUE;
+    }
+
+    // =====================================================================
+    // Undock Methods
+    // =====================================================================
+
+    private void showUndockConfirmation(obj_id terminal, obj_id ship, obj_id player) throws InterruptedException
+    {
+        if (!hasObjVar(ship, "atmo.landing.docked"))
+        {
+            sendSystemMessageTestingOnly(player, "\\#ff4444[Docking Control]: Ship is not docked.");
+            return;
+        }
+
+        String name = hasObjVar(ship, "atmo.landing.name") ? getStringObjVar(ship, "atmo.landing.name") : "Landing Pad";
+
+        String title = "Undock Ship";
+        String prompt = "\\#00ccffCurrently docked at: " + name + "\\n\\n" +
+                        "\\#ffffffUndocking will move your ship to a safe altitude above the landing point.\\n\\n" +
+                        "\\#ffaa44Are you sure you want to undock?";
+
+        utils.setScriptVar(player, "undock.ship", ship);
+        sui.msgbox(terminal, player, prompt, sui.YES_NO, title, "handleUndockConfirmation");
+    }
+
+    public int handleUndockConfirmation(obj_id self, dictionary params) throws InterruptedException
+    {
+        int bp = sui.getIntButtonPressed(params);
+        if (bp != sui.BP_OK)
+            return SCRIPT_CONTINUE;
+
+        obj_id player = sui.getPlayerId(params);
+        if (!isIdValid(player))
+            return SCRIPT_CONTINUE;
+
+        obj_id ship = utils.getObjIdScriptVar(player, "undock.ship");
+        utils.removeScriptVar(player, "undock.ship");
+
+        if (!isIdValid(ship) || !exists(ship))
+        {
+            sendSystemMessageTestingOnly(player, "\\#ff4444[Docking Control]: Unable to undock. Ship not found.");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (!hasObjVar(ship, "atmo.landing.docked"))
+        {
+            sendSystemMessageTestingOnly(player, "\\#ff4444[Docking Control]: Ship is not docked.");
+            return SCRIPT_CONTINUE;
+        }
+
+        // Send undock request to the ship's docked script
+        dictionary undockParams = new dictionary();
+        undockParams.put("player", player);
+        messageTo(ship, "handleUndockRequest", undockParams, 0, false);
+
         return SCRIPT_CONTINUE;
     }
 }

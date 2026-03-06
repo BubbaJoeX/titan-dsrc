@@ -23,19 +23,13 @@ public class atmo_landing_point extends script.base_script
 
     public int OnAttach(obj_id self) throws InterruptedException
     {
-        if (space_transition.isAtmosphericFlightScene())
-        {
-            registerLandingPoint(self);
-        }
+        registerLandingPoint(self);
         return SCRIPT_CONTINUE;
     }
 
     public int OnInitialize(obj_id self) throws InterruptedException
     {
-        if (space_transition.isAtmosphericFlightScene())
-        {
-            messageTo(self, "delayedRegister", null, 2, false);
-        }
+        messageTo(self, "delayedRegister", null, 2, false);
         return SCRIPT_CONTINUE;
     }
 

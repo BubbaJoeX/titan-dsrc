@@ -304,21 +304,17 @@ public class atmo_landing_spawner_config extends script.base_script
             attachScript(self, LANDING_POINT_SCRIPT);
         }
 
-        if (space_transition.isAtmosphericFlightScene())
+        boolean registered = atmo_landing_registry.registerOnMap(self);
+        if (registered)
         {
-            atmo_landing_registry.registerOnMap(self);
             sendSystemMessageTestingOnly(player, "\\#00ff88[GM]: Landing point configured and registered on planet map!");
         }
         else
         {
-            sendSystemMessageTestingOnly(player, "\\#ffaa44[GM]: Landing point configured. It will appear on the map in atmospheric flight mode.");
+            sendSystemMessageTestingOnly(player, "\\#ffaa44[GM]: Landing point configured but failed to register on map.");
         }
 
         String name = atmo_landing_registry.getLandingPointName(self);
         sendSystemMessageTestingOnly(player, "\\#aaddff  Landing point '" + name + "' is now active.");
     }
 }
-
-
-
-

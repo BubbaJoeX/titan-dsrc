@@ -239,9 +239,6 @@ public class atmo_landing_registry extends script.base_script
         if (!isLandingPoint(landingPoint))
             return false;
 
-        if (!space_transition.isAtmosphericFlightScene())
-            return false;
-
         String name = getLandingPointName(landingPoint);
         location loc = getLandingLocation(landingPoint);
 
@@ -251,7 +248,7 @@ public class atmo_landing_registry extends script.base_script
         String displayName = getDisplayName(landingPoint);
         byte flags = isOccupied(landingPoint) ? MLF_INACTIVE : MLF_ACTIVE;
 
-        return addPlanetaryMapLocation(landingPoint, displayName, (int)loc.x, (int)loc.z, MAP_CATEGORY, MAP_SUBCATEGORY, MLT_STATIC, flags);
+        return addPlanetaryMapLocation(landingPoint, displayName, (int)loc.x, (int)loc.z, MAP_CATEGORY, MAP_SUBCATEGORY, MLT_DYNAMIC, flags);
     }
 
     /**
@@ -270,9 +267,6 @@ public class atmo_landing_registry extends script.base_script
     public static void updateMapStatus(obj_id landingPoint) throws InterruptedException
     {
         if (!isLandingPoint(landingPoint))
-            return;
-
-        if (!space_transition.isAtmosphericFlightScene())
             return;
 
         unregisterFromMap(landingPoint);

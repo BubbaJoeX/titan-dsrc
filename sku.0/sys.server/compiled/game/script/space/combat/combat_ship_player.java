@@ -85,6 +85,14 @@ public class combat_ship_player extends script.base_script
         obj_id ship = space_transition.getContainingShip(self);
         if (isIdValid(ship))
         {
+            // Block piloting if ship is docked - must undock from terminal first
+            if (hasObjVar(ship, "atmo.landing.docked"))
+            {
+                sendSystemMessageTestingOnly(self, "\\#ff4444[Ship Control]: Cannot pilot while docked at a landing point.");
+                sendSystemMessageTestingOnly(self, "\\#ffaa44  Use the Starship Management Terminal to undock first.");
+                return SCRIPT_CONTINUE;
+            }
+
             obj_id pilotSlotObject = space_transition.findPilotSlotObjectForShip(self, ship);
             if (isIdValid(pilotSlotObject) && (isGod(self) || getContainedBy(pilotSlotObject) == getContainedBy(self)))
             {

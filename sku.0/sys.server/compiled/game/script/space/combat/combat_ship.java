@@ -1253,6 +1253,18 @@ public class combat_ship extends script.base_script
         if (!isAtmosphericFlightScene())
             return SCRIPT_CONTINUE;
 
+        // Block autopilot if ship is docked - must undock from terminal first
+        if (hasObjVar(self, "atmo.landing.docked"))
+        {
+            obj_id owner = params.getObjId("owner");
+            if (isIdValid(owner))
+            {
+                sendSystemMessageTestingOnly(owner, "\\#ff4444[Navicomputer]: Cannot engage auto-pilot while docked.");
+                sendSystemMessageTestingOnly(owner, "\\#ffaa44  Use the Starship Management Terminal to undock first.");
+            }
+            return SCRIPT_CONTINUE;
+        }
+
         if (!space_utils.isShipWithInterior(self))
         {
             obj_id owner = params.getObjId("owner");
@@ -1589,6 +1601,18 @@ public class combat_ship extends script.base_script
         if (!isAtmosphericFlightScene())
             return SCRIPT_CONTINUE;
 
+        // Block summon if ship is docked - must undock from terminal first
+        if (hasObjVar(self, "atmo.landing.docked"))
+        {
+            obj_id owner = params.getObjId("owner");
+            if (isIdValid(owner))
+            {
+                sendSystemMessageTestingOnly(owner, "\\#ff4444[Navicomputer]: Cannot summon ship while it is docked.");
+                sendSystemMessageTestingOnly(owner, "\\#ffaa44  Someone aboard must use the Starship Management Terminal to undock first.");
+            }
+            return SCRIPT_CONTINUE;
+        }
+
         if (!space_utils.isShipWithInterior(self))
         {
             obj_id owner = params.getObjId("owner");
@@ -1613,6 +1637,7 @@ public class combat_ship extends script.base_script
             shipClearAutopilot(self);
             removeObjVar(self, OV_AUTOPILOT_ROOT);
         }
+
 
         if (!shipSetAutopilotTarget(self, targetX, targetZ, SUMMON_TAKEOFF_ALT, SUMMON_LANDING_ALT))
         {
