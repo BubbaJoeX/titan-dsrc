@@ -1466,6 +1466,8 @@ public class combat_ship extends script.base_script
 
                     boolean wasSummon = hasObjVar(self, OV_SUMMON_OWNER);
                     obj_id summonOwner = wasSummon ? getObjIdObjVar(self, OV_SUMMON_OWNER) : null;
+                    boolean wasLandingPoint = hasObjVar(self, "atmo.landing.target");
+                    obj_id landingTarget = wasLandingPoint ? getObjIdObjVar(self, "atmo.landing.target") : null;
 
                     playSoundOnShipOccupants(self, SND_COMM);
 
@@ -1487,6 +1489,19 @@ public class combat_ship extends script.base_script
                             sendSystemMessageTestingOnly(summonOwner, "\\#88ddaa  Coordinates: [" + formatCoord(shipLoc.x) + ", " + formatCoord(shipLoc.y) + ", " + formatCoord(shipLoc.z) + "]");
                             sendSystemMessageTestingOnly(summonOwner, "\\#88ddaa  You may now board your ship.");
                         }
+                    }
+                    else if (wasLandingPoint && isIdValid(landingTarget) && exists(landingTarget))
+                    {
+                        String landingName = hasObjVar(self, "atmo.landing.name") ? getStringObjVar(self, "atmo.landing.name") : "Landing Pad";
+                        broadcastToShip(self, "\\#88ddaa  Welcome to " + landingName + ".");
+                        broadcastToShip(self, "\\#88ddaa   You have successfully docked.");
+
+                        dictionary arrivedParams = new dictionary();
+                        arrivedParams.put("ship", self);
+                        messageTo(landingTarget, "handleShipArrived", arrivedParams, 0, false);
+
+                        if (!hasScript(self, "space.atmo.atmo_landing_docked"))
+                            attachScript(self, "space.atmo.atmo_landing_docked");
                     }
                     else
                     {

@@ -18,6 +18,7 @@ import script.combat_engine;
 import script.dictionary;
 import script.library.ai_lib;
 import script.library.space_transition;
+import script.library.space_utils;
 import script.library.sui;
 import script.library.vehicle;
 import script.location;
@@ -318,6 +319,54 @@ public class player_vehicle extends script.base_script
         if (!isIdValid(vehicleObj) || getState(self, STATE_RIDING_MOUNT) != 1)
             return SCRIPT_CONTINUE;
         messageTo(vehicleObj, "handleAutoPilotArrived", null, 0, false);
+        return SCRIPT_CONTINUE;
+    }
+
+    public int handleAtmoLandingRequest(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (!space_transition.isAtmosphericFlightScene())
+        {
+            sendSystemMessageTestingOnly(self, "You can only land at landing points during atmospheric flight.");
+            return SCRIPT_CONTINUE;
+        }
+
+        obj_id landingPointId = params.getObjId("landingPointId");
+        if (!isIdValid(landingPointId) || !exists(landingPointId))
+        {
+            sendSystemMessageTestingOnly(self, "\\#ff4444[Landing Control]: Invalid landing point.");
+            return SCRIPT_CONTINUE;
+        }
+
+        obj_id containingShip = space_transition.getContainingShip(self);
+        if (!isIdValid(containingShip))
+        {
+            sendSystemMessageTestingOnly(self, "\\#ff4444[Landing Control]: You must be aboard a ship to land.");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (!space_utils.isShipWithInterior(containingShip))
+        {
+            sendSystemMessageTestingOnly(self, "\\#ff4444[Landing Control]: Only POB ships can land at landing points.");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (getOwner(containingShip) != self)
+        {
+            sendSystemMessageTestingOnly(self, "\\#ff4444[Landing Control]: Only the ship owner can initiate landing.");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (shipIsAutopilotActive(containingShip))
+        {
+            sendSystemMessageTestingOnly(self, "\\#ffaa44[Landing Control]: Ship is already en route. Please wait.");
+            return SCRIPT_CONTINUE;
+        }
+
+        dictionary landingParams = new dictionary();
+        landingParams.put("ship", containingShip);
+        landingParams.put("pilot", self);
+        messageTo(landingPointId, "handleLandingRequest", landingParams, 0, false);
+
         return SCRIPT_CONTINUE;
     }
 

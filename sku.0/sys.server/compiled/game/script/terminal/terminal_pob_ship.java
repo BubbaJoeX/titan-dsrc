@@ -8,6 +8,21 @@ public class terminal_pob_ship extends script.base_script
     public terminal_pob_ship()
     {
     }
+
+    // Menu IDs - organized to prevent collisions
+    private static final int MENU_STRUCTURE_PERMISSIONS = menu_info_types.SERVER_MENU1;
+    private static final int MENU_MOVE_FIRST_ITEM = menu_info_types.SERVER_MENU2;
+    private static final int MENU_DELETE_ALL_ITEMS = menu_info_types.SERVER_MENU3;
+    private static final int MENU_BOARDING_PERMISSIONS = menu_info_types.SERVER_MENU4;
+    private static final int MENU_DOCKING_CONTROL = menu_info_types.SERVER_MENU5;
+    private static final int MENU_CHECK_DOCKING_TIME = menu_info_types.SERVER_MENU6;
+    private static final int MENU_EXTEND_DOCKING = menu_info_types.SERVER_MENU7;
+    private static final int MENU_MANAGE_ACCESS = menu_info_types.SERVER_MENU8;
+    private static final int MENU_STORAGE_REDEED = menu_info_types.SERVER_MENU9;
+    private static final int MENU_ITEM_MANAGEMENT = menu_info_types.SERVER_MENU10;
+    private static final int MENU_FIND_ALL_ITEMS = menu_info_types.SERVER_MENU11;
+    private static final int MENU_SEARCH_ITEMS = menu_info_types.SERVER_MENU12;
+
     public static final string_id SID_TERMINAL_PERMISSIONS = new string_id("player_structure", "permissions");
     public static final string_id SID_MOVE_FIRST_ITEM = new string_id("player_structure", "move_first_item");
     public static final string_id SID_MOVED_FIRST_ITEM = new string_id("player_structure", "moved_first_item_pob");
@@ -20,49 +35,101 @@ public class terminal_pob_ship extends script.base_script
     public static final string_id SID_STORAGE_INCREASE_REDEED_TITLE = new string_id("player_structure", "sui_storage_redeed_title");
     public static final string_id SID_STORAGE_INCREASE_REDEED_PROMPT = new string_id("player_structure", "sui_storage_redeed_prompt");
     public static final string_id SID_BOARDING_PERMISSIONS = string_id.unlocalized("Boarding Permissions");
+    public static final string_id SID_DOCKING_CONTROL = string_id.unlocalized("Docking Control");
+    public static final string_id SID_CHECK_DOCKING_TIME = string_id.unlocalized("Check Docking Time");
+    public static final string_id SID_EXTEND_DOCKING = string_id.unlocalized("Extend Docking Time");
+    public static final string_id SID_MANAGE_ACCESS = string_id.unlocalized("Manage Access");
     private static final String BOARDING_PERMISSIONS_PID = "boardingPermissions.pid";
+    private static final String BOARDING_PERMISSIONS_PID = "boardingPermissions.pid";
+
+    public static final int EXTEND_COST = 20000;
+    public static final int EXTEND_TIME = 300;
+
+    public int OnAttach(obj_id self) throws InterruptedException
+    {
+        setName(self, "Starship Management Terminal");
+        return SCRIPT_CONTINUE;
+    }
+
+    public int OnInitialize(obj_id self) throws InterruptedException
+    {
+        setName(self, "Starship Management Terminal");
+        return SCRIPT_CONTINUE;
+    }
+
     public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi) throws InterruptedException
     {
         obj_id ship = space_transition.getContainingShip(self);
         if (isIdValid(ship) && getOwner(ship) == player)
         {
-            int rootItemMenu = mi.addRootMenu(menu_info_types.SERVER_MENU10, SID_ROOT_ITEM_MENU);
-            mi.addSubMenu(rootItemMenu, menu_info_types.SERVER_MENU11, SID_FIND_ALL_HOUSE_ITEMS);
-            mi.addSubMenu(rootItemMenu, menu_info_types.SERVER_MENU12, SID_SEARCH_FOR_HOUSE_ITEMS);
-            mi.addSubMenu(rootItemMenu, menu_info_types.SERVER_MENU2, SID_MOVE_FIRST_ITEM);
-            mi.addSubMenu(rootItemMenu, menu_info_types.SERVER_MENU3, SID_DELETE_ALL_ITEMS);
+            // Item management submenu
+            int rootItemMenu = mi.addRootMenu(MENU_ITEM_MANAGEMENT, SID_ROOT_ITEM_MENU);
+            mi.addSubMenu(rootItemMenu, MENU_FIND_ALL_ITEMS, SID_FIND_ALL_HOUSE_ITEMS);
+            mi.addSubMenu(rootItemMenu, MENU_SEARCH_ITEMS, SID_SEARCH_FOR_HOUSE_ITEMS);
+            mi.addSubMenu(rootItemMenu, MENU_MOVE_FIRST_ITEM, SID_MOVE_FIRST_ITEM);
+            mi.addSubMenu(rootItemMenu, MENU_DELETE_ALL_ITEMS, SID_DELETE_ALL_ITEMS);
+
+            // Manage Access submenu - combines structure permissions and boarding permissions
+            int accessMenu = mi.addRootMenu(MENU_MANAGE_ACCESS, SID_MANAGE_ACCESS);
+            mi.addSubMenu(accessMenu, MENU_STRUCTURE_PERMISSIONS, SID_TERMINAL_PERMISSIONS);
+            mi.addSubMenu(accessMenu, MENU_BOARDING_PERMISSIONS, SID_BOARDING_PERMISSIONS);
+
+            // Storage redeed (if applicable)
             if (hasObjVar(ship, player_structure.OBJVAR_STRUCTURE_STORAGE_INCREASE))
             {
-                mi.addRootMenu(menu_info_types.DICE_ROLL, SID_TERMINAL_REDEED_STORAGE);
+                mi.addRootMenu(MENU_STORAGE_REDEED, SID_TERMINAL_REDEED_STORAGE);
             }
-            mi.addRootMenu(menu_info_types.SERVER_MENU1, SID_TERMINAL_PERMISSIONS);
-            mi.addRootMenu(menu_info_types.SERVER_MENU4, SID_BOARDING_PERMISSIONS);
         }
+
+        // Docking control - available to all players aboard when docked at landing point
+        if (isIdValid(ship) && hasObjVar(ship, "atmo.landing.dockExpiry"))
+        {
+            int dockingRoot = mi.addRootMenu(MENU_DOCKING_CONTROL, SID_DOCKING_CONTROL);
+            mi.addSubMenu(dockingRoot, MENU_CHECK_DOCKING_TIME, SID_CHECK_DOCKING_TIME);
+            mi.addSubMenu(dockingRoot, MENU_EXTEND_DOCKING, SID_EXTEND_DOCKING);
+        }
+
         return SCRIPT_CONTINUE;
     }
     public int OnObjectMenuSelect(obj_id self, obj_id player, int item) throws InterruptedException
     {
         obj_id ship = space_transition.getContainingShip(self);
+
+        // Handle docking control - available to all players aboard
+        if (isIdValid(ship) && hasObjVar(ship, "atmo.landing.dockExpiry"))
+        {
+            if (item == MENU_CHECK_DOCKING_TIME)
+            {
+                showDockingTimeRemaining(ship, player);
+                return SCRIPT_CONTINUE;
+            }
+            else if (item == MENU_EXTEND_DOCKING)
+            {
+                showExtendDockingUI(self, ship, player);
+                return SCRIPT_CONTINUE;
+            }
+        }
+
         if (isIdValid(ship) && getOwner(ship) == player)
         {
-            if (item == menu_info_types.SERVER_MENU4)
+            if (item == MENU_BOARDING_PERMISSIONS)
             {
                 showBoardingPermissionsMenu(self, player, ship);
                 return SCRIPT_CONTINUE;
             }
-            if (item == menu_info_types.SERVER_MENU1)
+            if (item == MENU_STRUCTURE_PERMISSIONS)
             {
                 queueCommand(player, (1768087594), self, "admin", COMMAND_PRIORITY_DEFAULT);
             }
-            else if (item == menu_info_types.SERVER_MENU2)
+            else if (item == MENU_MOVE_FIRST_ITEM)
             {
                 sui.msgbox(self, player, "@player_structure:move_first_item_d", sui.OK_CANCEL, "@player_structure:move_first_item", sui.MSG_QUESTION, "handleMoveFirstItem");
             }
-            else if (item == menu_info_types.SERVER_MENU3)
+            else if (item == MENU_DELETE_ALL_ITEMS)
             {
                 sui.msgbox(self, player, "@player_structure:delete_all_items_d", sui.OK_CANCEL, "@player_structure:delete_all_items", sui.MSG_QUESTION, "handleDeleteSecondConfirm");
             }
-            else if (item == menu_info_types.DICE_ROLL)
+            else if (item == MENU_STORAGE_REDEED)
             {
                 if (!hasObjVar(ship, player_structure.OBJVAR_STRUCTURE_STORAGE_INCREASE))
                 {
@@ -70,7 +137,7 @@ public class terminal_pob_ship extends script.base_script
                 }
                 player_structure.displayAvailableNonGenericStorageTypes(player, self, ship);
             }
-            else if (item == menu_info_types.SERVER_MENU11)
+            else if (item == MENU_FIND_ALL_ITEMS)
             {
                 int lockoutEnds = -1;
                 if (hasObjVar(self, "findItems.lockout"))
@@ -91,7 +158,7 @@ public class terminal_pob_ship extends script.base_script
                     sendSystemMessageProse(player, pp);
                 }
             }
-            else if (item == menu_info_types.SERVER_MENU12)
+            else if (item == MENU_SEARCH_ITEMS)
             {
                 int lockoutEnds = -1;
                 if (hasObjVar(self, "findItems.lockout"))
@@ -359,6 +426,124 @@ public class terminal_pob_ship extends script.base_script
             sendSystemMessage(player, string_id.unlocalized(name + " added to boarding ban list."));
         }
         showBoardingPermissionsMenu(self, player, ship);
+        return SCRIPT_CONTINUE;
+    }
+
+    // =====================================================================
+    // Docking Control Methods
+    // =====================================================================
+
+    private void showDockingTimeRemaining(obj_id ship, obj_id player) throws InterruptedException
+    {
+        if (!hasObjVar(ship, "atmo.landing.dockExpiry"))
+        {
+            sendSystemMessageTestingOnly(player, "\\#88ddaa[Docking Control]: You have unlimited docking time at this location.");
+            return;
+        }
+
+        int expiry = getIntObjVar(ship, "atmo.landing.dockExpiry");
+        int now = getGameTime();
+        int remaining = expiry - now;
+
+        String name = hasObjVar(ship, "atmo.landing.name") ? getStringObjVar(ship, "atmo.landing.name") : "Landing Pad";
+
+        if (remaining <= 0)
+        {
+            sendSystemMessageTestingOnly(player, "\\#ff4444[Docking Control]: Your docking time has expired!");
+        }
+        else
+        {
+            int mins = remaining / 60;
+            int secs = remaining % 60;
+            String timeStr = mins > 0 ? (mins + "m " + secs + "s") : (secs + "s");
+            sendSystemMessageTestingOnly(player, "\\#aaddff[Docking Control]: " + name);
+            sendSystemMessageTestingOnly(player, "\\#aaddff  Time remaining: " + timeStr);
+            sendSystemMessageTestingOnly(player, "\\#aaddff  Extension cost: " + EXTEND_COST + " credits for " + (EXTEND_TIME / 60) + " minutes");
+        }
+    }
+
+    private void showExtendDockingUI(obj_id terminal, obj_id ship, obj_id player) throws InterruptedException
+    {
+        if (!hasObjVar(ship, "atmo.landing.dockExpiry"))
+        {
+            sendSystemMessageTestingOnly(player, "\\#88ddaa[Docking Control]: You have unlimited docking time. No extension needed.");
+            return;
+        }
+
+        String name = hasObjVar(ship, "atmo.landing.name") ? getStringObjVar(ship, "atmo.landing.name") : "Landing Pad";
+        int expiry = getIntObjVar(ship, "atmo.landing.dockExpiry");
+        int remaining = expiry - getGameTime();
+        int mins = remaining / 60;
+        int secs = remaining % 60;
+        String timeStr = mins > 0 ? (mins + "m " + secs + "s") : (secs + "s");
+
+        String title = "Extend Docking Time";
+        String prompt = "\\#00ccffLocation: " + name + "\\n\\n" +
+                        "\\#aaddffTime Remaining: " + timeStr + "\\n\\n" +
+                        "\\#ffffffExtend docking by " + (EXTEND_TIME / 60) + " minutes for " + EXTEND_COST + " credits?";
+
+        utils.setScriptVar(player, "docking.extend.ship", ship);
+        sui.msgbox(terminal, player, prompt, sui.YES_NO, title, "handleExtendDocking");
+    }
+
+    public int handleExtendDocking(obj_id self, dictionary params) throws InterruptedException
+    {
+        int bp = sui.getIntButtonPressed(params);
+        if (bp != sui.BP_OK)
+            return SCRIPT_CONTINUE;
+
+        obj_id player = sui.getPlayerId(params);
+        if (!isIdValid(player))
+            return SCRIPT_CONTINUE;
+
+        obj_id ship = utils.getObjIdScriptVar(player, "docking.extend.ship");
+        utils.removeScriptVar(player, "docking.extend.ship");
+
+        if (!isIdValid(ship) || !exists(ship))
+        {
+            sendSystemMessageTestingOnly(player, "\\#ff4444[Docking Control]: Unable to extend docking time. Ship not found.");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (!hasObjVar(ship, "atmo.landing.dockExpiry"))
+        {
+            sendSystemMessageTestingOnly(player, "\\#88ddaa[Docking Control]: No docking timer active.");
+            return SCRIPT_CONTINUE;
+        }
+
+        int bankBalance = getBankBalance(player);
+        int cashBalance = getCashBalance(player);
+        int totalCredits = bankBalance + cashBalance;
+
+        if (totalCredits < EXTEND_COST)
+        {
+            sendSystemMessageTestingOnly(player, "\\#ff4444[Docking Control]: Insufficient credits. You need " + EXTEND_COST + " credits.");
+            return SCRIPT_CONTINUE;
+        }
+
+        int remaining = EXTEND_COST;
+        if (cashBalance >= remaining)
+        {
+            money.pay(player, "cash", remaining);
+        }
+        else
+        {
+            if (cashBalance > 0)
+            {
+                money.pay(player, "cash", cashBalance);
+                remaining -= cashBalance;
+            }
+            money.pay(player, "bank", remaining);
+        }
+
+        int currentExpiry = getIntObjVar(ship, "atmo.landing.dockExpiry");
+        int newExpiry = currentExpiry + EXTEND_TIME;
+        setObjVar(ship, "atmo.landing.dockExpiry", newExpiry);
+
+        play2dNonLoopingSound(player, "sound/sys_comm_generic.snd");
+        sendSystemMessageTestingOnly(player, "\\#00ff88[Docking Control]: Docking time extended by " + (EXTEND_TIME / 60) + " minutes.");
+        sendSystemMessageTestingOnly(player, "\\#aaddff  " + EXTEND_COST + " credits charged.");
+
         return SCRIPT_CONTINUE;
     }
 }
