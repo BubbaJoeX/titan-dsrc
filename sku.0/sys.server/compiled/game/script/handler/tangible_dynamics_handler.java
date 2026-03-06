@@ -52,6 +52,8 @@ public class tangible_dynamics_handler extends script.base_script
             handleApplyFloat(self, params);
         else if (command.equals("apply_conveyor"))
             handleApplyConveyor(self, params);
+        else if (command.equals("apply_carousel"))
+            handleApplyCarousel(self, params);
         else if (command.equals("apply_combined"))
             handleApplyCombined(self, params);
         else if (command.equals("set_easing"))
@@ -83,6 +85,8 @@ public class tangible_dynamics_handler extends script.base_script
             handleClearFloat(self);
         else if (command.equals("clear_conveyor"))
             handleClearConveyor(self);
+        else if (command.equals("clear_carousel"))
+            handleClearCarousel(self);
 
         return SCRIPT_CONTINUE;
     }
@@ -511,6 +515,45 @@ public class tangible_dynamics_handler extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
+    private int handleApplyCarousel(obj_id self, dictionary params) throws InterruptedException
+    {
+        float centerX = params.getFloat("centerX");
+        float centerY = params.getFloat("centerY");
+        float centerZ = params.getFloat("centerZ");
+        float radius = params.getFloat("radius");
+        float rotationSpeed = params.getFloat("rotationSpeed");
+        float verticalAmplitude = params.getFloat("verticalAmplitude");
+        float verticalSpeed = params.getFloat("verticalSpeed");
+        float duration = params.getFloat("duration");
+
+        setObjVar(self, "dynamics.carousel.centerX", centerX);
+        setObjVar(self, "dynamics.carousel.centerY", centerY);
+        setObjVar(self, "dynamics.carousel.centerZ", centerZ);
+        setObjVar(self, "dynamics.carousel.radius", radius);
+        setObjVar(self, "dynamics.carousel.rotationSpeed", rotationSpeed);
+        setObjVar(self, "dynamics.carousel.verticalAmplitude", verticalAmplitude);
+        setObjVar(self, "dynamics.carousel.verticalSpeed", verticalSpeed);
+        setObjVar(self, "dynamics.carousel.duration", duration);
+
+        if (duration > 0.0f)
+            messageTo(self, "OnCarouselEffectTick", null, (long)(duration * 1000), false);
+
+        return SCRIPT_CONTINUE;
+    }
+
+    private int handleClearCarousel(obj_id self) throws InterruptedException
+    {
+        removeObjVar(self, "dynamics.carousel.centerX");
+        removeObjVar(self, "dynamics.carousel.centerY");
+        removeObjVar(self, "dynamics.carousel.centerZ");
+        removeObjVar(self, "dynamics.carousel.radius");
+        removeObjVar(self, "dynamics.carousel.rotationSpeed");
+        removeObjVar(self, "dynamics.carousel.verticalAmplitude");
+        removeObjVar(self, "dynamics.carousel.verticalSpeed");
+        removeObjVar(self, "dynamics.carousel.duration");
+        return SCRIPT_CONTINUE;
+    }
+
     // =====================================================================
     // DURATION EXPIRY CALLBACKS
     // =====================================================================
@@ -584,6 +627,12 @@ public class tangible_dynamics_handler extends script.base_script
     public int OnConveyorEffectTick(obj_id self) throws InterruptedException
     {
         handleClearConveyor(self);
+        return SCRIPT_CONTINUE;
+    }
+
+    public int OnCarouselEffectTick(obj_id self) throws InterruptedException
+    {
+        handleClearCarousel(self);
         return SCRIPT_CONTINUE;
     }
 }

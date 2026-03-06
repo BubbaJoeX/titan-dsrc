@@ -31,6 +31,7 @@ public class tangible_dynamics extends script.base_script
     public static final int FORCE_MODE_SHAKE        = (1 << 9);
     public static final int FORCE_MODE_FLOAT        = (1 << 10);
     public static final int FORCE_MODE_CONVEYOR     = (1 << 11);
+    public static final int FORCE_MODE_CAROUSEL     = (1 << 12);
 
     // Movement spaces
     public static final int SPACE_WORLD  = 0;
@@ -635,6 +636,66 @@ public class tangible_dynamics extends script.base_script
     }
 
     // =====================================================================
+    // CAROUSEL (rotating platform with vertical oscillation like ferris wheel)
+    // =====================================================================
+
+    /**
+     * Apply a carousel/ferris wheel effect - object rotates around a center point
+     * with optional vertical oscillation for ferris wheel behavior
+     * @param target Object to apply effect to
+     * @param centerX Center X coordinate
+     * @param centerY Center Y coordinate
+     * @param centerZ Center Z coordinate
+     * @param radius Distance from center
+     * @param rotationSpeed Rotation speed in radians per second (PI = half rev/s)
+     * @param verticalAmplitude Height variation for ferris wheel effect (0 = flat rotation)
+     * @param verticalSpeed Speed of vertical oscillation
+     * @param duration Duration in seconds (-1 = infinite)
+     */
+    public static void applyCarouselEffect(obj_id target, float centerX, float centerY, float centerZ, float radius, float rotationSpeed, float verticalAmplitude, float verticalSpeed, float duration) throws InterruptedException
+    {
+        if (!isValidTarget(target)) return;
+
+        dictionary params = new dictionary();
+        params.put("command", "apply_carousel");
+        params.put("centerX", centerX);
+        params.put("centerY", centerY);
+        params.put("centerZ", centerZ);
+        params.put("radius", radius);
+        params.put("rotationSpeed", rotationSpeed);
+        params.put("verticalAmplitude", verticalAmplitude);
+        params.put("verticalSpeed", verticalSpeed);
+        params.put("duration", duration);
+
+        messageTo(target, "OnTangibleDynamics", params, 0, false);
+        setCondition(target, CONDITION_MAGIC_TANGIBLE_DYNAMIC);
+    }
+
+    /**
+     * Apply a simple carousel (flat rotation) around a center point
+     */
+    public static void applyCarouselEffect(obj_id target, float centerX, float centerY, float centerZ, float radius, float rotationSpeed) throws InterruptedException
+    {
+        applyCarouselEffect(target, centerX, centerY, centerZ, radius, rotationSpeed, 0.0f, 1.0f, -1.0f);
+    }
+
+    /**
+     * Apply a ferris wheel effect (rotation + vertical oscillation)
+     */
+    public static void applyFerrisWheelEffect(obj_id target, float centerX, float centerY, float centerZ, float radius, float rotationSpeed, float verticalAmplitude) throws InterruptedException
+    {
+        applyCarouselEffect(target, centerX, centerY, centerZ, radius, rotationSpeed, verticalAmplitude, 1.0f, -1.0f);
+    }
+
+    public static void clearCarouselEffect(obj_id target) throws InterruptedException
+    {
+        if (!isValidTarget(target)) return;
+        dictionary params = new dictionary();
+        params.put("command", "clear_carousel");
+        messageTo(target, "OnTangibleDynamics", params, 0, false);
+    }
+
+    // =====================================================================
     // HELPERS
     // =====================================================================
 
@@ -779,5 +840,150 @@ public class tangible_dynamics extends script.base_script
     public static void wobble(obj_id target, float amplitude) throws InterruptedException
     {
         applyWobbleEffect(target, amplitude, amplitude * 0.5f, amplitude, 1.0f, 1.5f, 0.8f, -1.0f);
+    }
+
+    /**
+     * Make an object rotate around its current position (carousel)
+     */
+    public static void carousel(obj_id target, float radius, float speed) throws InterruptedException
+    {
+        location loc = getLocation(target);
+        applyCarouselEffect(target, loc.x, loc.y, loc.z, radius, speed, 0.0f, 1.0f, -1.0f);
+    }
+
+    /**
+     * Make an object do a ferris wheel rotation around its current position
+     */
+    public static void ferrisWheel(obj_id target, float radius, float speed, float verticalAmplitude) throws InterruptedException
+    {
+        location loc = getLocation(target);
+        applyCarouselEffect(target, loc.x, loc.y, loc.z, radius, speed, verticalAmplitude, 1.0f, -1.0f);
+    }
+
+    // =====================================================================
+    // MOUNTABLE OBJECT UTILITIES
+    // =====================================================================
+
+    /**
+     * Make an object mountable (players can sit on it and move with it)
+     */
+    public static void makeMountable(obj_id target) throws InterruptedException
+    {
+        if (!isValidTarget(target)) return;
+        attachScript(target, "item.mountable_tangible");
+    }
+
+    /**
+     * Make an object mountable with custom seat height offset
+     */
+    public static void makeMountable(obj_id target, float seatOffsetY) throws InterruptedException
+    {
+        if (!isValidTarget(target)) return;
+        attachScript(target, "item.mountable_tangible");
+        setObjVar(target, "mountable.seatOffsetX", 0.0f);
+        setObjVar(target, "mountable.seatOffsetY", seatOffsetY);
+        setObjVar(target, "mountable.seatOffsetZ", 0.0f);
+    }
+
+    /**
+     * Make an object mountable with full seat offset control
+     */
+    public static void makeMountable(obj_id target, float seatOffsetX, float seatOffsetY, float seatOffsetZ) throws InterruptedException
+    {
+        if (!isValidTarget(target)) return;
+        attachScript(target, "item.mountable_tangible");
+        setObjVar(target, "mountable.seatOffsetX", seatOffsetX);
+        setObjVar(target, "mountable.seatOffsetY", seatOffsetY);
+        setObjVar(target, "mountable.seatOffsetZ", seatOffsetZ);
+    }
+
+    /**
+     * Check if an object is mountable
+     */
+    public static boolean isMountable(obj_id target) throws InterruptedException
+    {
+        if (!isValidTarget(target)) return false;
+        return hasScript(target, "item.mountable_tangible");
+    }
+
+    /**
+     * Get the player currently mounted on an object (null if none)
+     */
+    public static obj_id getMountedPlayer(obj_id target) throws InterruptedException
+    {
+        if (!isValidTarget(target)) return null;
+        if (hasObjVar(target, "mountable.mountedPlayer"))
+        {
+            return getObjIdObjVar(target, "mountable.mountedPlayer");
+        }
+        return null;
+    }
+
+    /**
+     * Check if an object has someone mounted on it
+     */
+    public static boolean hasMountedPlayer(obj_id target) throws InterruptedException
+    {
+        obj_id player = getMountedPlayer(target);
+        return isIdValid(player);
+    }
+
+    /**
+     * Set whether a mountable object locks the rider's orientation to match the object
+     * @param target The mountable object
+     * @param lockOrientation True for true riding (player rotates with object), false for free look
+     */
+    public static void setMountableLockOrientation(obj_id target, boolean lockOrientation) throws InterruptedException
+    {
+        if (!isValidTarget(target)) return;
+        setObjVar(target, "mountable.lockOrientation", lockOrientation ? 1 : 0);
+    }
+
+    /**
+     * Create a dynamic mountable platform - hover + mountable
+     * Great for floating platforms, hover crates, etc.
+     */
+    public static void createHoverPlatform(obj_id target, float hoverHeight, float seatOffsetY) throws InterruptedException
+    {
+        if (!isValidTarget(target)) return;
+
+        // Enable dynamics and hover
+        enableDynamics(target);
+        applyHoverEffect(target, hoverHeight, 0.1f, 1.0f, -1.0f);
+
+        // Make mountable
+        makeMountable(target, seatOffsetY);
+    }
+
+    /**
+     * Create a carousel ride - carousel dynamics + mountable
+     * Great for merry-go-rounds, rotating platforms
+     */
+    public static void createCarouselRide(obj_id target, float radius, float rotationSpeed, float seatOffsetY) throws InterruptedException
+    {
+        if (!isValidTarget(target)) return;
+
+        // Enable dynamics and carousel
+        enableDynamics(target);
+        location loc = getLocation(target);
+        applyCarouselEffect(target, loc.x, loc.y, loc.z, radius, rotationSpeed, 0.0f, 1.0f, -1.0f);
+
+        // Make mountable
+        makeMountable(target, seatOffsetY);
+    }
+
+    /**
+     * Create a ferris wheel seat - ferris wheel dynamics + mountable
+     */
+    public static void createFerrisWheelSeat(obj_id target, float centerX, float centerY, float centerZ, float radius, float rotationSpeed, float verticalAmplitude, float seatOffsetY) throws InterruptedException
+    {
+        if (!isValidTarget(target)) return;
+
+        // Enable dynamics and ferris wheel
+        enableDynamics(target);
+        applyCarouselEffect(target, centerX, centerY, centerZ, radius, rotationSpeed, verticalAmplitude, 1.0f, -1.0f);
+
+        // Make mountable
+        makeMountable(target, seatOffsetY);
     }
 }

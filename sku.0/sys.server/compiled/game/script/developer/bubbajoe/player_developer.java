@@ -8777,108 +8777,151 @@ public class player_developer extends base_script
                 broadcast(self, "Float effect applied (0.6m height, 0.4 speed, 0.15m random drift)");
                 break;
 
-            case 16: // Combined
+            case 16: // Carousel Effect - rotating platform
+                attachScript(target, "handler.tangible_dynamics_handler");
+                location carouselLoc = getLocation(target);
+                tangible_dynamics.applyCarouselEffect(target, carouselLoc.x, carouselLoc.y, carouselLoc.z, 3.0f, 1.0f, 0.0f, 1.0f, -1.0f);
+                broadcast(self, "Carousel effect applied (3m radius, 1 rad/s)");
+                break;
+
+            case 17: // Ferris Wheel Effect - carousel + vertical oscillation
+                attachScript(target, "handler.tangible_dynamics_handler");
+                location ferrisLoc = getLocation(target);
+                tangible_dynamics.applyCarouselEffect(target, ferrisLoc.x, ferrisLoc.y, ferrisLoc.z, 3.0f, 0.5f, 2.0f, 1.0f, -1.0f);
+                broadcast(self, "Ferris wheel effect applied (3m radius, 2m vertical amp)");
+                break;
+
+            case 18: // Combined
                 attachScript(target, "handler.tangible_dynamics_handler");
                 tangible_dynamics.applyCombinedForces(target, 0.0f, 1.5f, 0.0f, 1.57f, 0.0f, 0.0f, 0.9f, 1.1f, 1.0f, -1.0f);
                 broadcast(self, "Combined forces applied (push + spin + breathing)");
                 break;
 
-            case 17: // Separator - do nothing
+            case 19: // Separator - do nothing
                 break;
 
-            case 18: // Enable Collision Push
+            case 20: // Enable Collision Push
                 removeObjVar(target, "collideBlock");
                 setCondition(target, CONDITION_MAGIC_TANGIBLE_DYNAMIC);
                 attachScript(target, "handler.tangible_dynamics_handler");
                 broadcast(self, "Collision push ENABLED (hockey puck mode)");
                 break;
 
-            case 19: // Disable Collision Push
+            case 21: // Disable Collision Push
                 setObjVar(target, "collideBlock", 1);
                 broadcast(self, "Collision push DISABLED");
                 break;
 
-            case 20: // Set Collision Radius
+            case 22: // Set Collision Radius
                 setObjVar(self, "dynamics_test.param", "collisionRadius");
                 sui.inputbox(self, self, "Enter collision radius (meters):", "Set Collision Radius", "handleDynamicsParamInput", "1.0");
                 return SCRIPT_CONTINUE;
 
-            case 21: // Set Push Speed
+            case 23: // Set Push Speed
                 setObjVar(self, "dynamics_test.param", "pushSpeed");
                 sui.inputbox(self, self, "Enter push speed (m/s):", "Set Push Speed", "handleDynamicsParamInput", "5.0");
                 return SCRIPT_CONTINUE;
 
-            case 22: // Set Push Drag
+            case 24: // Set Push Drag
                 setObjVar(self, "dynamics_test.param", "pushDrag");
                 sui.inputbox(self, self, "Enter push drag coefficient:", "Set Push Drag", "handleDynamicsParamInput", "1.5");
                 return SCRIPT_CONTINUE;
 
-            case 23: // Separator - do nothing
+            case 25: // Separator - do nothing
                 break;
 
-            case 24: // Clear Push
+            case 26: // Clear Push
                 tangible_dynamics.clearPushForce(target);
                 broadcast(self, "Push force cleared");
                 break;
 
-            case 25: // Clear Spin
+            case 27: // Clear Spin
                 tangible_dynamics.clearSpinForce(target);
                 broadcast(self, "Spin force cleared");
                 break;
 
-            case 26: // Clear Breathing
+            case 28: // Clear Breathing
                 tangible_dynamics.clearBreathingEffect(target);
                 broadcast(self, "Breathing effect cleared");
                 break;
 
-            case 27: // Clear Bounce
+            case 29: // Clear Bounce
                 tangible_dynamics.clearBounceEffect(target);
                 broadcast(self, "Bounce effect cleared");
                 break;
 
-            case 28: // Clear Wobble
+            case 30: // Clear Wobble
                 tangible_dynamics.clearWobbleEffect(target);
                 broadcast(self, "Wobble effect cleared");
                 break;
 
-            case 29: // Clear Orbit
+            case 31: // Clear Orbit
                 tangible_dynamics.clearOrbitEffect(target);
                 broadcast(self, "Orbit effect cleared");
                 break;
 
-            case 30: // Clear Hover
+            case 32: // Clear Hover
                 tangible_dynamics.clearHoverEffect(target);
                 broadcast(self, "Hover effect cleared");
                 break;
 
-            case 31: // Clear Follow Target
+            case 33: // Clear Follow Target
                 tangible_dynamics.clearFollowTargetEffect(target);
                 broadcast(self, "Follow target effect cleared");
                 break;
 
-            case 32: // Clear Conveyor
+            case 34: // Clear Conveyor
                 tangible_dynamics.clearConveyorEffect(target);
                 broadcast(self, "Conveyor effect cleared");
                 break;
 
-            case 33: // Clear Sway
+            case 35: // Clear Sway
                 tangible_dynamics.clearSwayEffect(target);
                 broadcast(self, "Sway effect cleared");
                 break;
 
-            case 34: // Clear Shake
+            case 36: // Clear Shake
                 tangible_dynamics.clearShakeEffect(target);
                 broadcast(self, "Shake effect cleared");
                 break;
 
-            case 35: // Clear Float
+            case 37: // Clear Float
                 tangible_dynamics.clearFloatEffect(target);
                 broadcast(self, "Float effect cleared");
                 break;
 
-            case 36: // Clear ALL
+            case 38: // Clear Carousel
+                tangible_dynamics.clearCarouselEffect(target);
+                broadcast(self, "Carousel effect cleared");
+                break;
+
+            case 39: // Clear ALL
                 tangible_dynamics.clearAllForces(target);
                 broadcast(self, "ALL dynamics forces cleared");
+                break;
+
+            case 40: // Separator - do nothing
+                break;
+
+            case 41: // Make Mountable
+                tangible_dynamics.makeMountable(target, 0.5f);
+                broadcast(self, "Object is now mountable (sit on it via radial menu)");
+                break;
+
+            case 42: // Create Hover Platform
+                tangible_dynamics.createHoverPlatform(target, 1.5f, 0.5f);
+                broadcast(self, "Hover platform created (1.5m hover, mountable)");
+                break;
+
+            case 43: // Create Carousel Ride
+                tangible_dynamics.createCarouselRide(target, 3.0f, 0.5f, 0.5f);
+                broadcast(self, "Carousel ride created (3m radius, mountable)");
+                break;
+
+            case 44: // Create Ferris Wheel Seat
+                location ferrisCenter = getLocation(target);
+                tangible_dynamics.createFerrisWheelSeat(target, ferrisCenter.x, ferrisCenter.y, ferrisCenter.z, 4.0f, 0.3f, 3.0f, 0.5f);
+                broadcast(self, "Ferris wheel seat created (4m radius, 3m vertical amp, mountable)");
                 break;
 
             default:
@@ -8923,6 +8966,8 @@ public class player_developer extends base_script
             "Apply Sway Effect (pendulum swing)",
             "Apply Shake Effect (vibrate)",
             "Apply Float Effect (levitate with drift)",
+            "Apply Carousel Effect (rotating platform)",
+            "Apply Ferris Wheel Effect (carousel + vertical)",
             "Apply Combined (push + spin + breathing)",
             "------- COLLISION -------",
             "Enable Collision Push (hockey puck)",
@@ -8943,7 +8988,13 @@ public class player_developer extends base_script
             "Clear Sway Effect",
             "Clear Shake Effect",
             "Clear Float Effect",
-            "Clear ALL Forces"
+            "Clear Carousel Effect",
+            "Clear ALL Forces",
+            "------- MOUNTING -------",
+            "Make Mountable (sit on object)",
+            "Create Hover Platform (hover + mountable)",
+            "Create Carousel Ride (carousel + mountable)",
+            "Create Ferris Wheel Seat"
         };
 
         sui.listbox(self, self, "Select a TangibleDynamics option for: " + getName(target),
