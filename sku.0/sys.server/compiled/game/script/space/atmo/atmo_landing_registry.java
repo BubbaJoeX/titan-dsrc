@@ -24,8 +24,7 @@ public class atmo_landing_registry extends script.base_script
     public static final String MAP_CATEGORY = "atmo_landing";
     public static final String MAP_SUBCATEGORY = "";
 
-    public static final float DEFAULT_CRUISE_OFFSET = 50.0f;
-    public static final float DEFAULT_LANDING_OFFSET = 20.0f;
+    public static final float DEFAULT_CRUISE_ALTITUDE = 1200.0f;  // Cruise altitude from terrain
 
     public static final int EXTEND_DOCK_COST_MIN = 15000;
     public static final int EXTEND_DOCK_COST_MAX = 25000;
@@ -210,25 +209,28 @@ public class atmo_landing_registry extends script.base_script
     }
 
     /**
-     * Get cruise altitude for a landing point (loc.y + 50).
+     * Get cruise altitude for a landing point (1200m from terrain).
      */
     public static float getCruiseAltitude(obj_id landingPoint) throws InterruptedException
     {
         location loc = getLandingLocation(landingPoint);
         if (loc == null)
-            return 500.0f;
-        return loc.y + DEFAULT_CRUISE_OFFSET;
+            return DEFAULT_CRUISE_ALTITUDE;
+
+        // Get terrain height at landing location and add cruise altitude
+        float terrainHeight = getHeightAtLocation(loc.x, loc.z);
+        return terrainHeight + DEFAULT_CRUISE_ALTITUDE;
     }
 
     /**
-     * Get approach altitude for a landing point (loc.y + 20).
+     * Get landing altitude for a landing point (uses loc.y directly from the landing point).
      */
     public static float getApproachAltitude(obj_id landingPoint) throws InterruptedException
     {
         location loc = getLandingLocation(landingPoint);
         if (loc == null)
             return 50.0f;
-        return loc.y + DEFAULT_LANDING_OFFSET;
+        return loc.y;
     }
 
     /**

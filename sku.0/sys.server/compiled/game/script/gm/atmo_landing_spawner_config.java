@@ -148,7 +148,7 @@ public class atmo_landing_spawner_config extends script.base_script
             currentYaw = getFloatObjVar(self, atmo_landing_registry.OBJVAR_YAW);
 
         String title = "Set Landing Yaw";
-        String prompt = "Enter the yaw angle in degrees (0-360):\\n\\nCurrent yaw: " + currentYaw + " degrees\\n\\nTip: Use /getYaw command on your ship to get current heading.";
+        String prompt = "Enter the yaw angle in degrees (0-360):\n\nCurrent yaw: " + currentYaw + " degrees\n\nTip: Use /getYaw command on your ship to get current heading.";
 
         int pid = sui.inputbox(self, player, prompt, title, "handleSetYaw", String.valueOf(currentYaw));
     }
@@ -190,7 +190,7 @@ public class atmo_landing_spawner_config extends script.base_script
             currentTime = getIntObjVar(self, atmo_landing_registry.OBJVAR_TIME_TO_DISEMBARK);
 
         String title = "Set Docking Time Limit";
-        String prompt = "Enter the time limit in seconds (or -1 for unlimited):\\n\\nCurrent: " + (currentTime == -1 ? "Unlimited" : (currentTime + " seconds"));
+        String prompt = "Enter the time limit in seconds (or -1 for unlimited):\n\nCurrent: " + (currentTime == -1 ? "Unlimited" : (currentTime + " seconds"));
 
         int pid = sui.inputbox(self, player, prompt, title, "handleSetTime", String.valueOf(currentTime));
     }

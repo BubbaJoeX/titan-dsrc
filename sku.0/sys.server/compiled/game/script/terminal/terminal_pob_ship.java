@@ -488,8 +488,8 @@ public class terminal_pob_ship extends script.base_script
         String timeStr = mins > 0 ? (mins + "m " + secs + "s") : (secs + "s");
 
         String title = "Extend Docking Time";
-        String prompt = "\\#00ccffLocation: " + name + "\\n\\n" +
-                        "\\#aaddffTime Remaining: " + timeStr + "\\n\\n" +
+        String prompt = "\\#00ccffLocation: " + name + "\n\n" +
+                        "\\#aaddffTime Remaining: " + timeStr + "\n\n" +
                         "\\#ffffffExtend docking by " + (EXTEND_TIME / 60) + " minutes for " + EXTEND_COST + " credits?";
 
         utils.setScriptVar(player, "docking.extend.ship", ship);
@@ -574,8 +574,8 @@ public class terminal_pob_ship extends script.base_script
         String name = hasObjVar(ship, "atmo.landing.name") ? getStringObjVar(ship, "atmo.landing.name") : "Landing Pad";
 
         String title = "Undock Ship";
-        String prompt = "\\#00ccffCurrently docked at: " + name + "\\n\\n" +
-                        "\\#ffffffUndocking will move your ship to a safe altitude above the landing point.\\n\\n" +
+        String prompt = "\\#00ccffCurrently docked at: " + name + "\n\n" +
+                        "\\#ffffffUndocking will move your ship to a safe altitude above the landing point.\n\n" +
                         "\\#ffaa44Are you sure you want to undock?";
 
         utils.setScriptVar(player, "undock.ship", ship);
