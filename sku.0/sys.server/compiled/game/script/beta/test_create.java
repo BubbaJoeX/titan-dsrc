@@ -130,9 +130,9 @@ public class test_create extends script.base_script
     private void applySpawnBounce(obj_id target) throws InterruptedException
     {
         // Enable dynamics on the object (attaches handler + sets condition)
-        tangible_dynamics.enableDynamics(target);
+        //tangible_dynamics.enableDynamics(target);
 
         // Apply bounce: gravity=9.8, elasticity=0.6, initial upward velocity=4.0, duration=3s
-        tangible_dynamics.applyBounceEffect(target, 9.8f, 0.6f, 4.0f, 3.0f);
+        //tangible_dynamics.applyBounceEffect(target, 9.8f, 0.6f, 4.0f, 3.0f);
     }
 }
