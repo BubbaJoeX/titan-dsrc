@@ -43,19 +43,32 @@ public class atmo_landing_docked extends script.base_script
 
     public int OnDetach(obj_id self) throws InterruptedException
     {
-        // Notify landing point that ship has departed
-        if (hasObjVar(self, OBJVAR_LANDING_TARGET))
+        clearLandingPointOccupancy(self);
+        removeObjVar(self, "atmo.landing");
+        return SCRIPT_CONTINUE;
+    }
+
+    public int OnDestroy(obj_id self) throws InterruptedException
+    {
+        clearLandingPointOccupancy(self);
+        return SCRIPT_CONTINUE;
+    }
+
+    /**
+     * Helper to clear the landing point occupancy when ship departs or is destroyed.
+     */
+    private void clearLandingPointOccupancy(obj_id ship) throws InterruptedException
+    {
+        if (hasObjVar(ship, OBJVAR_LANDING_TARGET))
         {
-            obj_id landingPoint = getObjIdObjVar(self, OBJVAR_LANDING_TARGET);
+            obj_id landingPoint = getObjIdObjVar(ship, OBJVAR_LANDING_TARGET);
             if (isIdValid(landingPoint) && exists(landingPoint))
             {
                 dictionary departedParams = new dictionary();
-                departedParams.put("ship", self);
+                departedParams.put("ship", ship);
                 messageTo(landingPoint, "handleShipDeparted", departedParams, 0, false);
             }
         }
-        removeObjVar(self, "atmo.landing");
-        return SCRIPT_CONTINUE;
     }
 
     /**

@@ -365,6 +365,19 @@ public class combat_ship extends script.base_script
         {
             return SCRIPT_CONTINUE;
         }
+
+        // Clear any landing point occupancy
+        if (hasObjVar(self, "atmo.landing.target"))
+        {
+            obj_id landingPoint = getObjIdObjVar(self, "atmo.landing.target");
+            if (isIdValid(landingPoint) && exists(landingPoint))
+            {
+                dictionary departedParams = new dictionary();
+                departedParams.put("ship", self);
+                messageTo(landingPoint, "handleShipDeparted", departedParams, 0, false);
+            }
+        }
+
         obj_id[] notifylist = getObjIdArrayObjVar(self, "destroynotify");
         if (notifylist != null)
         {
@@ -1573,6 +1586,24 @@ public class combat_ship extends script.base_script
     private void shipAutoPilotCancelInternal(obj_id ship, String reason) throws InterruptedException
     {
         shipClearAutopilot(ship);
+
+        // Clear any landing point reservation if we were en route
+        if (hasObjVar(ship, "atmo.landing.target"))
+        {
+            obj_id landingPoint = getObjIdObjVar(ship, "atmo.landing.target");
+            // Only clear if not already docked
+            if (!hasObjVar(ship, "atmo.landing.docked"))
+            {
+                if (isIdValid(landingPoint) && exists(landingPoint))
+                {
+                    dictionary departedParams = new dictionary();
+                    departedParams.put("ship", ship);
+                    messageTo(landingPoint, "handleShipDeparted", departedParams, 0, false);
+                }
+                removeObjVar(ship, "atmo.landing");
+            }
+        }
+
         removeObjVar(ship, OV_AUTOPILOT_ROOT);
 
         broadcastToShip(ship, " ");

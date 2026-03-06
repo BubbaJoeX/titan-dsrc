@@ -155,6 +155,43 @@ public class atmo_landing_registry extends script.base_script
     }
 
     /**
+     * Validate and clear stale en-route reservations.
+     * Called by periodic heartbeat from landing point.
+     */
+    public static void validateEnRoute(obj_id landingPoint) throws InterruptedException
+    {
+        if (!isLandingPoint(landingPoint))
+            return;
+
+        if (!hasObjVar(landingPoint, OBJVAR_OCCUPIED_ETA))
+            return;
+
+        int eta = getIntObjVar(landingPoint, OBJVAR_OCCUPIED_ETA);
+        int now = getGameTime();
+
+        // If ETA has passed by more than 60 seconds, clear the reservation
+        if (now > eta + 60)
+        {
+            obj_id reservedShip = null;
+            if (hasObjVar(landingPoint, OBJVAR_OCCUPIED_BY))
+                reservedShip = getObjIdObjVar(landingPoint, OBJVAR_OCCUPIED_BY);
+
+            // Only clear if the ship hasn't actually landed (no docked state)
+            if (isIdValid(reservedShip) && exists(reservedShip))
+            {
+                if (!hasObjVar(reservedShip, "atmo.landing.docked"))
+                {
+                    clearOccupancy(landingPoint);
+                }
+            }
+            else
+            {
+                clearOccupancy(landingPoint);
+            }
+        }
+    }
+
+    /**
      * Reserve a landing point for a ship en route.
      */
     public static boolean reserveLandingPoint(obj_id landingPoint, obj_id ship, int etaSeconds) throws InterruptedException

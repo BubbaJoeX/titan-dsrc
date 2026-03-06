@@ -20,10 +20,12 @@ import script.library.*;
 public class atmo_landing_point extends script.base_script
 {
     public static final String SCRIPT_NAME = "space.atmo.atmo_landing_point";
+    public static final int OCCUPANCY_CHECK_INTERVAL = 30;
 
     public int OnAttach(obj_id self) throws InterruptedException
     {
         registerLandingPoint(self);
+        startOccupancyHeartbeat(self);
         return SCRIPT_CONTINUE;
     }
 
@@ -36,6 +38,7 @@ public class atmo_landing_point extends script.base_script
     public int delayedRegister(obj_id self, dictionary params) throws InterruptedException
     {
         registerLandingPoint(self);
+        startOccupancyHeartbeat(self);
         return SCRIPT_CONTINUE;
     }
 
@@ -48,6 +51,47 @@ public class atmo_landing_point extends script.base_script
     public int OnDestroy(obj_id self) throws InterruptedException
     {
         atmo_landing_registry.unregisterFromMap(self);
+        return SCRIPT_CONTINUE;
+    }
+
+    private void startOccupancyHeartbeat(obj_id self) throws InterruptedException
+    {
+        messageTo(self, "validateOccupancy", null, OCCUPANCY_CHECK_INTERVAL, false);
+    }
+
+    /**
+     * Periodic heartbeat to validate that occupying ship still exists.
+     * Clears stale occupancy if ship no longer exists.
+     */
+    public int validateOccupancy(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (!atmo_landing_registry.isLandingPoint(self))
+            return SCRIPT_CONTINUE;
+
+        // Check if there's an occupying ship
+        obj_id occupier = atmo_landing_registry.getOccupyingShip(self);
+        if (isIdValid(occupier))
+        {
+            // Verify ship still exists
+            if (!exists(occupier))
+            {
+                atmo_landing_registry.clearOccupancy(self);
+            }
+            else
+            {
+                // Verify ship still has docked state - if not, clear
+                if (!hasObjVar(occupier, "atmo.landing.docked"))
+                {
+                    atmo_landing_registry.clearOccupancy(self);
+                }
+            }
+        }
+
+        // Check ETA reservations
+        atmo_landing_registry.validateEnRoute(self);
+
+        // Schedule next check
+        messageTo(self, "validateOccupancy", null, OCCUPANCY_CHECK_INTERVAL, false);
         return SCRIPT_CONTINUE;
     }
 
@@ -68,6 +112,14 @@ public class atmo_landing_point extends script.base_script
 
         if (!isIdValid(ship) || !isIdValid(pilot))
             return SCRIPT_CONTINUE;
+
+        // Block if ship is already docked somewhere
+        if (hasObjVar(ship, "atmo.landing.docked"))
+        {
+            sendSystemMessageTestingOnly(pilot, "\\#ff4444[Landing Control]: Your ship is already docked at a landing point.");
+            sendSystemMessageTestingOnly(pilot, "\\#ffaa44  Use the Starship Management Terminal to undock first.");
+            return SCRIPT_CONTINUE;
+        }
 
         if (!atmo_landing_registry.isLandingPoint(self))
         {
@@ -136,10 +188,14 @@ public class atmo_landing_point extends script.base_script
         if (timeToDisembark > 0)
         {
             setObjVar(ship, "atmo.landing.dockExpiry", getGameTime() + timeToDisembark);
-            messageTo(ship, "checkDockingTimer", null, timeToDisembark, false);
+            messageTo(ship, "checkDockingTimer", null, 1, false);
 
-            notifyShipOccupants(ship, "\\#88ddaa[Docking Control]: You have " + timeToDisembark + " seconds of docking time.");
-            notifyShipOccupants(ship, "\\#88ddaa  Use the radial menu to extend docking time if needed.");
+            notifyShipOccupants(ship, "\\#88ddaa[Docking Control]: You have " + (timeToDisembark / 60) + " minutes of docking time.");
+            notifyShipOccupants(ship, "\\#88ddaa  Use the Starship Management Terminal to extend docking time if needed.");
+        }
+        else
+        {
+            notifyShipOccupants(ship, "\\#88ddaa[Docking Control]: Unlimited docking time at this location.");
         }
 
         return SCRIPT_CONTINUE;
