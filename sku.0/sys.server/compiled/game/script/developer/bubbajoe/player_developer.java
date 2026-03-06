@@ -1757,6 +1757,134 @@ public class player_developer extends base_script
             // Show the dynamics test SUI
             showDynamicsTestSUI(self, hardTarget);
         }
+        else if (cmd.equalsIgnoreCase("hockey"))
+        {
+            // Hockey game setup
+            if (!tok.hasMoreTokens())
+            {
+                broadcast(self, "=== Hockey Game Commands ===");
+                broadcast(self, "/developer hockey setup - Auto-setup arena at your location");
+                broadcast(self, "/developer hockey puck - Spawn a puck at your location");
+                broadcast(self, "/developer hockey goal red - Place red goal at your location");
+                broadcast(self, "/developer hockey goal blue - Place blue goal at your location");
+                broadcast(self, "/developer hockey manager - Spawn a game manager");
+                return SCRIPT_CONTINUE;
+            }
+
+            String subCmd = tok.nextToken().toLowerCase();
+            location playerLoc = getLocation(self);
+
+            if (subCmd.equals("setup"))
+            {
+                // Auto-setup: spawn manager, goals 40m apart, puck in center
+
+                // Create manager at player location
+                obj_id manager = createObject("object/tangible/terminal/terminal_mission.iff", playerLoc);
+                if (isIdValid(manager))
+                {
+                    attachScript(manager, "systems.hockey_manager");
+                    setName(manager, "Hockey Game Manager");
+
+                    // Create red goal
+                    location redLoc = new location(playerLoc.x + 20.0f, playerLoc.y, playerLoc.z, playerLoc.area);
+                    obj_id redGoal = createObject("object/tangible/spawning/spawn_egg.iff", redLoc);
+                    if (isIdValid(redGoal))
+                    {
+                        attachScript(redGoal, "systems.hockey_game");
+                        setObjVar(redGoal, "hockey.team", "red");
+                        setName(redGoal, "RED GOAL");
+                        setObjVar(manager, "hockey.redGoalId", redGoal);
+                    }
+
+                    // Create blue goal
+                    location blueLoc = new location(playerLoc.x - 20.0f, playerLoc.y, playerLoc.z, playerLoc.area);
+                    obj_id blueGoal = createObject("object/tangible/spawning/spawn_egg.iff", blueLoc);
+                    if (isIdValid(blueGoal))
+                    {
+                        attachScript(blueGoal, "systems.hockey_game");
+                        setObjVar(blueGoal, "hockey.team", "blue");
+                        setName(blueGoal, "BLUE GOAL");
+                        setObjVar(manager, "hockey.blueGoalId", blueGoal);
+                    }
+
+                    // Set center point
+                    setObjVar(manager, "hockey.centerLoc.x", playerLoc.x);
+                    setObjVar(manager, "hockey.centerLoc.y", playerLoc.y);
+                    setObjVar(manager, "hockey.centerLoc.z", playerLoc.z);
+                    setObjVar(manager, "hockey.centerLoc.area", playerLoc.area);
+
+                    // Store spawn location on goals
+                    if (isIdValid(redGoal))
+                    {
+                        setObjVar(redGoal, "hockey.puckSpawnLoc.x", playerLoc.x);
+                        setObjVar(redGoal, "hockey.puckSpawnLoc.y", playerLoc.y);
+                        setObjVar(redGoal, "hockey.puckSpawnLoc.z", playerLoc.z);
+                        setObjVar(redGoal, "hockey.puckSpawnLoc.area", playerLoc.area);
+                    }
+                    if (isIdValid(blueGoal))
+                    {
+                        setObjVar(blueGoal, "hockey.puckSpawnLoc.x", playerLoc.x);
+                        setObjVar(blueGoal, "hockey.puckSpawnLoc.y", playerLoc.y);
+                        setObjVar(blueGoal, "hockey.puckSpawnLoc.z", playerLoc.z);
+                        setObjVar(blueGoal, "hockey.puckSpawnLoc.area", playerLoc.area);
+                    }
+
+                    // Spawn puck
+                    location puckLoc = new location(playerLoc.x, playerLoc.y + 1.0f, playerLoc.z, playerLoc.area);
+                    obj_id puck = createObject("object/tangible/furniture/all/frn_all_crate_s01.iff", puckLoc);
+                    if (isIdValid(puck))
+                    {
+                        attachScript(puck, "systems.hockey_puck");
+                        setObjVar(manager, "hockey.puckId", puck);
+                    }
+
+                    broadcast(self, "Hockey arena created! Goals are 40m apart. Push the puck into the opposing goal to score!");
+                }
+            }
+            else if (subCmd.equals("puck"))
+            {
+                location puckLoc = new location(playerLoc.x, playerLoc.y + 1.0f, playerLoc.z, playerLoc.area);
+                obj_id puck = createObject("object/tangible/furniture/all/frn_all_crate_s01.iff", puckLoc);
+                if (isIdValid(puck))
+                {
+                    attachScript(puck, "systems.hockey_puck");
+                    broadcast(self, "Hockey puck spawned! Walk into it to push it.");
+                }
+            }
+            else if (subCmd.equals("goal"))
+            {
+                String team = "red";
+                if (tok.hasMoreTokens())
+                {
+                    team = tok.nextToken().toLowerCase();
+                }
+
+                obj_id goal = createObject("object/tangible/spawning/spawn_egg.iff", playerLoc);
+                if (isIdValid(goal))
+                {
+                    attachScript(goal, "systems.hockey_game");
+                    setObjVar(goal, "hockey.team", team);
+                    setName(goal, team.toUpperCase() + " GOAL");
+                    broadcast(self, team.toUpperCase() + " goal placed at your location!");
+                }
+            }
+            else if (subCmd.equals("manager"))
+            {
+                obj_id manager = createObject("object/tangible/terminal/terminal_mission.iff", playerLoc);
+                if (isIdValid(manager))
+                {
+                    attachScript(manager, "systems.hockey_manager");
+                    setName(manager, "Hockey Game Manager");
+                    broadcast(self, "Hockey manager spawned! Use radial menu to set up the game.");
+                }
+            }
+            else
+            {
+                broadcast(self, "Unknown hockey command: " + subCmd);
+            }
+
+            return SCRIPT_CONTINUE;
+        }
         else if (cmd.equalsIgnoreCase("setCondition"))
         {
             if (!tok.hasMoreTokens())
