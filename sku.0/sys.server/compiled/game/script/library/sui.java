@@ -1549,9 +1549,11 @@ public class sui extends script.base_script
             setSUIProperty(pid, COLORPICKER_ENH_VOLUME_PAGE, PROP_TARGETVAR, customizationVar);
             setSUIProperty(pid, COLORPICKER_ENH_VOLUME_PAGE, PROP_TARGETRANGEMAX, "500");
 
-            // Subscribe to both palette selection and HTML textbox
+            // Subscribe to HTML textbox value when OK button is pressed
+            subscribeToSUIPropertyForEvent(pid, sui_event_type.SET_onButton, BTN_OK, COLORPICKER_ENH_TEXTBOX_HTML, PROP_LOCALTEXT);
+
+            // Subscribe to palette selection
             subscribeToSUIProperty(pid, COLORPICKER_ENH_VOLUME_PAGE, PROP_SELECTEDINDEX);
-            subscribeToSUIProperty(pid, COLORPICKER_ENH_TEXTBOX_HTML, PROP_LOCALTEXT);
 
             showSUIPage(pid);
         }
