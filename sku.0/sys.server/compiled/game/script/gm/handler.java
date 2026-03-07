@@ -78,6 +78,24 @@ public class handler extends script.base_script
         obj_id target = utils.getObjIdScriptVar(self, gm.SCRIPTVAR_SETHUE_TARGET);
         String varPath = utils.getStringScriptVar(self, gm.SCRIPTVAR_SETHUE_DATA);
         gm.cleanupSetHueScriptVars(self);
+
+        // First check for HTML color input from enhanced picker
+        String htmlColor = sui.getEnhancedColorPickerHtml(params);
+        if (htmlColor != null && !htmlColor.isEmpty() && (htmlColor.startsWith("#") || htmlColor.length() == 6))
+        {
+            // Use the new direct color API with HTML color
+            if (setCustomizationColorHtml(target, varPath, htmlColor))
+            {
+                sendSystemMessageTestingOnly(self, "/setHue: Applied HTML color " + htmlColor + " to " + varPath);
+            }
+            else
+            {
+                sendSystemMessageTestingOnly(self, "/setHue: Failed to apply HTML color " + htmlColor);
+            }
+            return SCRIPT_CONTINUE;
+        }
+
+        // Fall back to palette index selection
         int idx = sui.getColorPickerIndex(params);
         if (idx > -1)
         {

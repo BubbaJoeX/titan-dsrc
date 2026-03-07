@@ -1517,6 +1517,7 @@ public class cmd extends script.base_script
         int palIdx = Integer.MIN_VALUE;
         color c = null;
         String colorname = "";
+        boolean isHtmlColor = false;
         StringTokenizer st = new StringTokenizer(params);
         dictionary palColData = hue.getPalcolorData(target);
         if (palColData == null || palColData.isEmpty())
@@ -1533,10 +1534,25 @@ public class cmd extends script.base_script
                 palIdx = utils.stringToInt(cArg);
                 if (palIdx == -1)
                 {
-                    c = colors.getColorByName(cArg);
-                    if (c != null)
+                    // Check if it's an HTML hex color (#RRGGBB or RRGGBB format)
+                    if (cArg.startsWith("#") || (cArg.length() == 6 && isHexString(cArg)))
                     {
-                        colorname = cArg;
+                        c = parseHtmlColor(cArg);
+                        if (c != null)
+                        {
+                            colorname = cArg;
+                            isHtmlColor = true;
+                        }
+                    }
+
+                    // If not HTML color, try named color lookup
+                    if (c == null)
+                    {
+                        c = colors.getColorByName(cArg);
+                        if (c != null)
+                        {
+                            colorname = cArg;
+                        }
                     }
                 }
             }
@@ -1567,9 +1583,19 @@ public class cmd extends script.base_script
         }
         if (c != null && cv.isPalColor())
         {
-            sendSystemMessageTestingOnly(self, "/setHue: attempting to hue " + target + "'s " + varIdxPath + " color " + colorname);
             palcolor_custom_var pcv = (palcolor_custom_var)cv;
-            pcv.setToClosestColor(c);
+            if (isHtmlColor)
+            {
+                // Use direct HTML color - will auto-match to closest palette color
+                sendSystemMessageTestingOnly(self, "/setHue: setting " + target + "'s " + varIdxPath + " to HTML color " + colorname + " (RGB: " + c.getR() + "," + c.getG() + "," + c.getB() + ")");
+                pcv.setDirectColor(c);
+            }
+            else
+            {
+                // Named color - use direct color API
+                sendSystemMessageTestingOnly(self, "/setHue: setting " + target + "'s " + varIdxPath + " to color '" + colorname + "'");
+                pcv.setDirectColor(c);
+            }
             return SCRIPT_CONTINUE;
         }
         ranged_int_custom_var ri = (ranged_int_custom_var)cv;
@@ -1603,6 +1629,54 @@ public class cmd extends script.base_script
     {
         sendSystemMessageTestingOnly(self, "[Syntax] /setHue [-target]|[-id:<oid>] (var index) (palette index)");
         sendSystemMessageTestingOnly(self, "[Syntax] /setHue [-target]|[-id:<oid>] (var index) (color name)");
+        sendSystemMessageTestingOnly(self, "[Syntax] /setHue [-target]|[-id:<oid>] (var index) #RRGGBB");
+        sendSystemMessageTestingOnly(self, "Example: /setHue -target 1 #FF5500");
+    }
+
+    /**
+     * Check if a string contains only valid hexadecimal characters.
+     */
+    public boolean isHexString(String s)
+    {
+        if (s == null || s.isEmpty())
+            return false;
+        for (int i = 0; i < s.length(); i++)
+        {
+            char c = s.charAt(i);
+            if (!((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F')))
+                return false;
+        }
+        return true;
+    }
+
+    /**
+     * Parse an HTML hex color string (#RRGGBB or RRGGBB format) into a color object.
+     * @param htmlColor  The HTML color string
+     * @return  The parsed color, or null if invalid
+     */
+    public color parseHtmlColor(String htmlColor)
+    {
+        if (htmlColor == null || htmlColor.isEmpty())
+            return null;
+
+        String hex = htmlColor;
+        if (hex.startsWith("#"))
+            hex = hex.substring(1);
+
+        if (hex.length() != 6 || !isHexString(hex))
+            return null;
+
+        try
+        {
+            int r = Integer.parseInt(hex.substring(0, 2), 16);
+            int g = Integer.parseInt(hex.substring(2, 4), 16);
+            int b = Integer.parseInt(hex.substring(4, 6), 16);
+            return new color(r, g, b);
+        }
+        catch (NumberFormatException e)
+        {
+            return null;
+        }
     }
     public int cmdGoto(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException
     {

@@ -27048,5 +27048,87 @@ public class base_class
     {
         return _isMountedOnTangibleObject(getLongWithNull(playerId));
     }
+	
+	    // ========================================================================
+    // Direct Color Customization Support (HTML hex codes and RGB values)
+    // ========================================================================
+
+    /**
+     * Set a customization color using direct RGB values.
+     * The color will be auto-matched to the closest palette entry for rendering.
+     *
+     * @param target       the Object to set the customization on
+     * @param varPathName  the name of the customization variable
+     * @param r            red component (0-255)
+     * @param g            green component (0-255)
+     * @param b            blue component (0-255)
+     * @return  true if the color was set successfully
+     */
+    private static native boolean _setCustomizationColorRGB(long target, String varPathName, int r, int g, int b);
+    public static boolean setCustomizationColorRGB(obj_id target, String varPathName, int r, int g, int b)
+    {
+        return _setCustomizationColorRGB(getLongWithNull(target), varPathName, r, g, b);
+    }
+
+    /**
+     * Set a customization color using an HTML hex color string.
+     * The color will be auto-matched to the closest palette entry for rendering.
+     *
+     * @param target       the Object to set the customization on
+     * @param varPathName  the name of the customization variable
+     * @param htmlColor    the HTML color string (e.g., "#FF5500")
+     * @return  true if the color was set successfully
+     */
+    private static native boolean _setCustomizationColorHtml(long target, String varPathName, String htmlColor);
+    public static boolean setCustomizationColorHtml(obj_id target, String varPathName, String htmlColor)
+    {
+        return _setCustomizationColorHtml(getLongWithNull(target), varPathName, htmlColor);
+    }
+
+    /**
+     * Get the customization color as RGB components.
+     *
+     * @param target       the Object to get the customization from
+     * @param varPathName  the name of the customization variable
+     * @return  an int array [r, g, b, a] or null if not found
+     */
+    private static native int[] _getCustomizationColorRGB(long target, String varPathName);
+    public static int[] getCustomizationColorRGB(obj_id target, String varPathName)
+    {
+        return _getCustomizationColorRGB(getLongWithNull(target), varPathName);
+    }
+
+    /**
+     * Get the customization color as a color object.
+     *
+     * @param target       the Object to get the customization from
+     * @param varPathName  the name of the customization variable
+     * @return  the color, or null if not found
+     */
+    public static color getCustomizationColor(obj_id target, String varPathName)
+    {
+        int[] rgba = getCustomizationColorRGB(target, varPathName);
+        if (rgba != null && rgba.length >= 4)
+        {
+            return new color(rgba[0], rgba[1], rgba[2], rgba[3]);
+        }
+        return null;
+    }
+
+    /**
+     * Set a customization color using a color object.
+     *
+     * @param target       the Object to set the customization on
+     * @param varPathName  the name of the customization variable
+     * @param c            the color to set
+     * @return  true if the color was set successfully
+     */
+    public static boolean setCustomizationColor(obj_id target, String varPathName, color c)
+    {
+        if (c == null)
+            return false;
+        return setCustomizationColorRGB(target, varPathName, c.getR(), c.getG(), c.getB());
+    }
+
 
 }   // class base_class

@@ -275,7 +275,8 @@ public class gm extends script.base_script
             forceCloseSUIPage(oldpid);
             cleanupSetHueScriptVars(player);
         }
-        int pid = sui.colorize(player, player, target, varPath, "handleHueColorUI");
+        // Use the enhanced color picker with HTML hex input support
+        int pid = sui.colorizeEnhanced(player, player, target, varPath, "handleHueColorUI");
         if (pid > -1)
         {
             utils.setScriptVar(player, SCRIPTVAR_SETHUE_PID, pid);

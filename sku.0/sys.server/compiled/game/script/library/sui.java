@@ -47,6 +47,12 @@ public class sui extends script.base_script
     public static final String COLORPICKER_PAGE_CAPTION = "bg.caption";
     public static final String COLORPICKER_COLORPICKER = "ColorPicker";
     public static final String COLORPICKER_TITLE = COLORPICKER_PAGE_CAPTION + ".lblTitle";
+    // Enhanced Color Picker with HTML hex input support
+    public static final String SUI_COLORPICKER_ENHANCED = "Script.GMSetHue";
+    public static final String COLORPICKER_ENH_TEXTBOX_HTML = "textboxHtml";
+    public static final String COLORPICKER_ENH_VOLUME_PAGE = "content.volumePage";
+    public static final String COLORPICKER_ENH_PAGE_SAMPLE = "pageSample";
+    public static final String COLORPICKER_ENH_TEXT_TITLE = "textTitle";
     public static final String SUI_MSGBOX = "Script.messageBox";
     public static final String MSGBOX_PAGE_PROMPT = "Prompt";
     public static final String MSGBOX_PAGE_CAPTION = "bg.caption";
@@ -1517,6 +1523,52 @@ public class sui extends script.base_script
         }
         return pid;
     }
+
+    /**
+     * Enhanced color picker with HTML hex input support.
+     * Uses the new GMSetHue UI page with CuiColorPicker.
+     */
+    public static int colorizeEnhanced(obj_id owner, obj_id player, obj_id target, String customizationVar, String handler) throws InterruptedException
+    {
+        if ((player == null) || (target == null) || (customizationVar.equals("")))
+        {
+            return -1;
+        }
+        customizationVar = customizationVar.trim();
+        if (customizationVar.startsWith("/"))
+        {
+            customizationVar = customizationVar.substring(1);
+        }
+        LOG("sui", "colorizeEnhanced: customizationVar = " + customizationVar + "<>");
+        int pid = createSUIPage(SUI_COLORPICKER_ENHANCED, owner, player, handler);
+        if (pid > -1)
+        {
+            // Set up the volume page for palette display
+            setSUIProperty(pid, COLORPICKER_ENH_VOLUME_PAGE, PROP_TARGETID, target.toString());
+            setSUIProperty(pid, COLORPICKER_ENH_VOLUME_PAGE, PROP_TARGETVAR, customizationVar);
+            setSUIProperty(pid, COLORPICKER_ENH_VOLUME_PAGE, PROP_TARGETRANGEMAX, "500");
+
+            // Subscribe to both palette selection and HTML textbox
+            subscribeToSUIProperty(pid, COLORPICKER_ENH_VOLUME_PAGE, PROP_SELECTEDINDEX);
+            subscribeToSUIProperty(pid, COLORPICKER_ENH_TEXTBOX_HTML, PROP_LOCALTEXT);
+
+            showSUIPage(pid);
+        }
+        return pid;
+    }
+
+    /**
+     * Get the HTML color value from enhanced color picker params.
+     */
+    public static String getEnhancedColorPickerHtml(dictionary params) throws InterruptedException
+    {
+        if (params == null || params.isEmpty())
+        {
+            return null;
+        }
+        return params.getString(COLORPICKER_ENH_TEXTBOX_HTML + "." + PROP_LOCALTEXT);
+    }
+
     public static int getColorPickerIndex(dictionary params) throws InterruptedException
     {
         if (params == null || params.isEmpty())
