@@ -510,17 +510,17 @@ public class calendar extends script.base_script
 
     public static int getCurrentYear() throws InterruptedException
     {
-        return getCalendarTime().get(Calendar.YEAR);
+        return getCalendarTimeNow().get(Calendar.YEAR);
     }
 
     public static int getCurrentMonth() throws InterruptedException
     {
-        return getCalendarTime().get(Calendar.MONTH) + 1; // Calendar months are 0-based
+        return getCalendarTimeNow().get(Calendar.MONTH) + 1; // Calendar months are 0-based
     }
 
     public static int getCurrentDay() throws InterruptedException
     {
-        return getCalendarTime().get(Calendar.DAY_OF_MONTH);
+        return getCalendarTimeNow().get(Calendar.DAY_OF_MONTH);
     }
 
     public static int getCurrentHour() throws InterruptedException
@@ -1145,13 +1145,20 @@ public class calendar extends script.base_script
     /**
      * Checks if a player is currently online/active.
      */
-    public static boolean isPlayerActive(obj_id player) throws InterruptedException
+    public static boolean isPlayerActive(obj_id player)
     {
         if (!isIdValid(player))
             return false;
 
         // Check if player object exists and is connected
-        return exists(player) && isPlayer(player);
+        try
+        {
+            return exists(player) && isPlayer(player);
+        }
+        catch (InterruptedException e)
+        {
+            return false;
+        }
     }
 
     /**
