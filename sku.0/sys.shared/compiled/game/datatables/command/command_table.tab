@@ -1947,4 +1947,3 @@ vehicleMechanic	commandClicky	immediate	cmdVehicleMechanic				1																	
 readyCheck	commandClicky	immediate	cmdReadyCheck				1		1	0	1	1	1	0	1	1	1	0	0	0	0	0	0	0	0	0	0			0	0	1	1		1	0	0	1	1	1	1	0	1	0	1	1	1	1	0	0									0		0	0	0	0										none		2			0			other	0										0
 groupToggleOverride	commandClicky	immediate	cmdGroupLootToggle				1		1	0	1	1	1	0	1	1	1	0	0	0	0	0	0	0	0	0	0			0	0	1	1		1	0	0	1	1	1	1	0	1	0	1	1	1	1	0	0									0		0	0	0	0										none		2			0			other	0										0
 toggleEnzymes	commandClicky	immediate	enzymeLootToggle				1		1	0	1	1	1	0	1	1	1	0	0	0	0	0	0	0	0	0	0			0	0	1	1		1	0	0	1	1	1	1	0	1	0	1	1	1	1	0	0									0		0	0	0	0										none					0			other	0										0
-calendar		immediate	cmdCalendar				0		1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	0	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	command.command_calendar		none		0				0				0
