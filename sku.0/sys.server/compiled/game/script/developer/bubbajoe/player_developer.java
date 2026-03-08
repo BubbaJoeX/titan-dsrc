@@ -943,7 +943,15 @@ public class player_developer extends base_script
                     broadcast(self, "\\#ff4444[RT Screen]: Failed to create screen object.");
                     return SCRIPT_CONTINUE;
                 }
-                // Manual script attach only for fallback
+                // Remove all existing scripts and attach RT screen script
+                String[] existingScripts = getScriptList(screen);
+                if (existingScripts != null)
+                {
+                    for (String script : existingScripts)
+                    {
+                        detachScript(screen, script);
+                    }
+                }
                 attachScript(screen, "item.rt_screen");
             }
 

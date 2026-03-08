@@ -61,7 +61,7 @@ public class terminal_guild_cartridge extends script.base_script
         }
         if (guild.loadCartridge(player, self))
         {
-            destroyObject(self);
+            //destroyObject(self);
         }
         return SCRIPT_CONTINUE;
     }
