@@ -3769,6 +3769,9 @@ public class terminal_city extends script.base_script
         {
             attachScript(player, "systems.city.city_terrain_painter");
         }
+
+        return SCRIPT_CONTINUE;
+    }
     public void showRoadPaintUI(obj_id player, obj_id terminal, int city_id) throws InterruptedException
     {
         int cityRank = city.getCityRank(city_id);
@@ -3779,9 +3782,6 @@ public class terminal_city extends script.base_script
         }
         // Open client-side terrain painter UI (supports all paint modes)
         base_class.openCityTerrainPainter(player, city_id);
-    }
-        sui.listbox(terminal, player, "Select road surface shader:", sui.OK_CANCEL,
-                   "Select Road Surface", TERRAIN_SHADER_NAMES, "handleRoadShaderSelection", true, false);
     }
 
     public int handleRoadShaderSelection(obj_id self, dictionary params) throws InterruptedException
