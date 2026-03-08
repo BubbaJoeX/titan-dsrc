@@ -899,7 +899,7 @@ public class player_developer extends base_script
             obj_id camera = createObject("object/tangible/device/rt_camera.iff", playerLoc);
             if (!isIdValid(camera) || !exists(camera))
             {
-                camera = createObject("object/tangible/terminal/terminal_guild.iff", playerLoc);
+                camera = createObject("object/tangible/loot/generic_usable/binoculars_s1_generic.iff", playerLoc);
                 if (!isIdValid(camera) || !exists(camera))
                 {
                     broadcast(self, "\\#ff4444[RT System]: Failed to create camera object.");
