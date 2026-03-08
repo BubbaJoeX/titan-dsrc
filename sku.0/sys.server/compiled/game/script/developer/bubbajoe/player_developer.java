@@ -920,7 +920,7 @@ public class player_developer extends base_script
             obj_id screen = createObject("object/tangible/device/rt_screen.iff", screenLoc);
             if (!isIdValid(screen) || !exists(screen))
             {
-                screen = createObject("object/tangible/furniture/technical/guild_screen_imp_1.iff", screenLoc);
+                screen = createObject("object/tangible/furniture/house_cleanup/cts_early_settler_painting.iff", screenLoc);
                 if (!isIdValid(screen) || !exists(screen))
                 {
                     broadcast(self, "\\#ff4444[RT System]: Failed to create screen object.");
@@ -942,6 +942,8 @@ public class player_developer extends base_script
             setOwner(camera, self);
             setOwner(screen, self);
 
+            // Set Screen Scale
+            
             // Set names
             String cameraName = systemName + " Camera";
             String screenName = systemName + " Screen";
