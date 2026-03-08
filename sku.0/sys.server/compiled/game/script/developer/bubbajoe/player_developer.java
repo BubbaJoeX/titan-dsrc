@@ -920,7 +920,7 @@ public class player_developer extends base_script
             obj_id screen = createObject("object/tangible/device/rt_screen.iff", screenLoc);
             if (!isIdValid(screen) || !exists(screen))
             {
-                screen = createObject("object/tangible/furniture/house_cleanup/cts_early_settler_painting.iff", screenLoc);
+                screen = createObject("object/tangible/furniture/house_cleanup/cts_kauri_painting.iff", screenLoc);
                 if (!isIdValid(screen) || !exists(screen))
                 {
                     broadcast(self, "\\#ff4444[RT System]: Failed to create screen object.");
