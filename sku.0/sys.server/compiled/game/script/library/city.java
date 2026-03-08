@@ -15,7 +15,7 @@ public class city extends script.base_script
     public static final String RANK_POPULATION = "POPULATION";
     public static final String RANK_STRING = "STRING";
     public static final int RANK_MIN = 0;
-    public static final int RANK_MAX = 4;
+    public static final int RANK_MAX = 6;
     public static final int CP_CITIZEN = 0;
     public static final int CP_MILITIA = (1 << 0);
     public static final int CP_ABSENT_WEEK_1 = (1 << 1);
@@ -24,6 +24,7 @@ public class city extends script.base_script
     public static final int CP_ABSENT_WEEK_4 = (1 << 4);
     public static final int CP_ABSENT_WEEK_5 = (1 << 5);
     public static final int CP_INACTIVE_PROTECTED = (1 << 6);
+    public static final int CP_JUDGE = (1 << 7);
     public static final int SF_PM_REGISTER = 1;
     public static final int SF_COST_CITY_HALL = 2;
     public static final int SF_COST_CITY_HI = 4;
@@ -50,6 +51,7 @@ public class city extends script.base_script
     public static final int SF_REQUIRE_ZONE_RIGHTS = 8388608;
     public static final int SF_COST_CITY_GARDEN_SMALL = 16777216;
     public static final int SF_COST_CITY_GARDEN_LARGE = 33554432;
+    public static final int SF_INDUSTRIAL_STARPORT = 67108864;
     public static final int SPECIAL_STRUCTURE = SF_MISSION_TERMINAL | SF_SKILL_TRAINER | SF_DECORATION;
     public static final int PAY_STRUCTURE = SF_COST_CITY_HALL | SF_COST_CITY_HI | SF_COST_CITY_MED | SF_COST_CITY_LOW | SF_COST_CITY_GARDEN_SMALL | SF_COST_CITY_GARDEN_LARGE;
     public static final int SPEC_MASK = SF_SPEC_SAMPLE_RICH | SF_SPEC_FARMING | SF_SPEC_INDUSTRY | SF_SPEC_RESEARCH | SF_SPEC_CLONING | SF_SPEC_MISSIONS | SF_SPEC_ENTERTAINER | SF_SPEC_DOCTOR | SF_SPEC_STRONGHOLD | SF_SPEC_MASTER_MANUFACTURING | SF_SPEC_MASTER_HEALING | SF_SPEC_DECOR_INCREASE | SF_SPEC_STORYTELLER | SF_SPEC_INCUBATOR;
@@ -60,7 +62,8 @@ public class city extends script.base_script
         2000,
         150,
         1000,
-        3000
+        3000,
+        15000
     };
     public static final string_id NEW_CITY_STRUCTURE_SUBJECT = new string_id("city/city", "new_city_structure_subject");
     public static final string_id NEW_CITY_STRUCTURE_BODY = new string_id("city/city", "new_city_structure_body");
@@ -1879,5 +1882,557 @@ public class city extends script.base_script
         }
         obj_id[] returnArray = utils.toStaticObjIdArray(safeHouseCitizens);
         return returnArray;
+    }
+
+    // ========================================================================
+    // CITY EXPULSION SYSTEM
+    // ========================================================================
+
+    public static final int EXPULSION_GRACE_PERIOD = 120;
+    public static final int EXPULSION_TEF_DURATION = 300;
+
+    public static final string_id SID_EXPULSION_WARNING = new string_id("city/city", "expulsion_warning");
+    public static final string_id SID_NOW_ATTACKABLE_BY_MILITIA = new string_id("city/city", "now_attackable_by_militia");
+    public static final string_id SID_LEFT_CITY_EXPULSION_CLEARED = new string_id("city/city", "left_city_expulsion_cleared");
+    public static final string_id SID_CANNOT_ENTER_BUILDING_TEF = new string_id("city/city", "cannot_enter_building_tef");
+    public static final string_id SID_CANNOT_USE_TERMINAL_TEF = new string_id("city/city", "cannot_use_terminal_tef");
+    public static final string_id SID_TEF_APPLIED_RESTRICTIONS = new string_id("city/city", "tef_applied_restrictions");
+    public static final string_id SID_NOT_MAYOR_OR_MILITIA = new string_id("city/city", "not_mayor_or_militia");
+    public static final string_id SID_TARGET_NOT_IN_CITY = new string_id("city/city", "target_not_in_city");
+    public static final string_id SID_EXPULSION_INITIATED = new string_id("city/city", "expulsion_initiated");
+
+    public static boolean beginExpulsion(obj_id target, int cityId, obj_id initiator) throws InterruptedException
+    {
+        if (!isTheCityMayor(initiator, cityId) && !hasMilitiaFlag(initiator, cityId))
+        {
+            sendSystemMessage(initiator, SID_NOT_MAYOR_OR_MILITIA);
+            return false;
+        }
+
+        if (!isInCityBounds(target, cityId))
+        {
+            sendSystemMessage(initiator, SID_TARGET_NOT_IN_CITY);
+            return false;
+        }
+
+        int curTime = getGameTime();
+        setObjVar(target, "city.expulsion.city_id", cityId);
+        setObjVar(target, "city.expulsion.expel_time", curTime);
+        setObjVar(target, "city.expulsion.grace_expires", curTime + EXPULSION_GRACE_PERIOD);
+        setObjVar(target, "city.expulsion.attackable", 0);
+
+        if (!hasScript(target, "systems.city.city_expulsion_handler"))
+        {
+            attachScript(target, "systems.city.city_expulsion_handler");
+        }
+
+        String cityName = cityGetName(cityId);
+        prose_package pp = prose.getPackage(SID_EXPULSION_WARNING, cityName, EXPULSION_GRACE_PERIOD);
+        sendSystemMessage(target, pp);
+
+        dictionary params = new dictionary();
+        params.put("cityId", cityId);
+        messageTo(target, "handleExpulsionGraceExpired", params, EXPULSION_GRACE_PERIOD, false);
+
+        sendSystemMessage(initiator, SID_EXPULSION_INITIATED);
+
+        obj_id cityHall = cityGetCityHall(cityId);
+        CustomerServiceLog("player_city", "Expulsion initiated. City: " + cityName + " (" + cityId + "/" + cityHall + ") Target: " + target + " Initiator: " + initiator);
+
+        return true;
+    }
+
+    public static boolean isExpelledFromCity(obj_id player, int cityId) throws InterruptedException
+    {
+        if (!hasObjVar(player, "city.expulsion.city_id"))
+        {
+            return false;
+        }
+
+        int expelledCityId = getIntObjVar(player, "city.expulsion.city_id");
+        if (expelledCityId != cityId)
+        {
+            return false;
+        }
+
+        return getIntObjVar(player, "city.expulsion.attackable") == 1;
+    }
+
+    public static boolean canMilitiaAttackExpelled(obj_id militia, obj_id target) throws InterruptedException
+    {
+        int cityId = getFirstCitizenOfCityId(militia);
+        if (cityId <= 0)
+        {
+            return false;
+        }
+
+        if (!hasMilitiaFlag(militia, cityId))
+        {
+            return false;
+        }
+
+        return isExpelledFromCity(target, cityId);
+    }
+
+    public static boolean hasCityExpulsionTEF(obj_id player) throws InterruptedException
+    {
+        if (!hasObjVar(player, "city.expulsion.tef_active"))
+        {
+            return false;
+        }
+        return getIntObjVar(player, "city.expulsion.tef_active") == 1;
+    }
+
+    public static void applyExpulsionTEF(obj_id target) throws InterruptedException
+    {
+        setObjVar(target, "city.expulsion.tef_active", 1);
+        int tefExpires = getGameTime() + EXPULSION_TEF_DURATION;
+        setObjVar(target, "city.expulsion.tef_expires", tefExpires);
+
+        dictionary params = new dictionary();
+        messageTo(target, "handleExpulsionTEFExpired", params, EXPULSION_TEF_DURATION, false);
+
+        sendSystemMessage(target, SID_TEF_APPLIED_RESTRICTIONS);
+    }
+
+    public static void clearExpulsion(obj_id player) throws InterruptedException
+    {
+        removeObjVar(player, "city.expulsion");
+        if (hasScript(player, "systems.city.city_expulsion_handler"))
+        {
+            detachScript(player, "systems.city.city_expulsion_handler");
+        }
+        sendSystemMessage(player, SID_LEFT_CITY_EXPULSION_CLEARED);
+    }
+
+    public static boolean isInCityBounds(obj_id player, int cityId) throws InterruptedException
+    {
+        if (!cityExists(cityId))
+        {
+            return false;
+        }
+
+        location playerLoc = getLocation(player);
+        location cityLoc = cityGetLocation(cityId);
+
+        if (!playerLoc.area.equals(cityLoc.area))
+        {
+            return false;
+        }
+
+        float dist = utils.getDistance2D(playerLoc, cityLoc);
+        int cityRadius = cityGetRadius(cityId);
+
+        return dist <= cityRadius;
+    }
+
+    public static boolean hasMilitiaFlag(obj_id citizen, int cityId) throws InterruptedException
+    {
+        int perms = cityGetCitizenPermissions(cityId, citizen);
+        return (perms & CP_MILITIA) != 0;
+    }
+
+    public static int getFirstCitizenOfCityId(obj_id citizen) throws InterruptedException
+    {
+        int[] cities = getCitizenOfCityId(citizen);
+        if (cities == null || cities.length == 0)
+        {
+            return 0;
+        }
+        return cities[0];
+    }
+
+    // ========================================================================
+    // CITY JUDGE SYSTEM
+    // ========================================================================
+
+    public static final int JUDGE_TERM_LENGTH = 30 * 24 * 60 * 60;
+    public static final int JUDGE_ELECTION_DURATION = 3 * 24 * 60 * 60;
+    public static final int CITIZENS_PER_JUDGE = 20;
+    public static final int MIN_JUDGES = 1;
+    public static final int MAX_JUDGES = 5;
+
+    public static final string_id SID_JUDGE_ELECTION_STARTED = new string_id("city/city", "judge_election_started");
+    public static final string_id SID_JUDGE_ELECTION_COMPLETE = new string_id("city/city", "judge_election_complete");
+    public static final string_id SID_REGISTERED_AS_JUDGE_CANDIDATE = new string_id("city/city", "registered_as_judge_candidate");
+    public static final string_id SID_CANNOT_RUN_UNDER_EVICTION = new string_id("city/city", "cannot_run_under_eviction");
+    public static final string_id SID_ALREADY_VOTED = new string_id("city/city", "already_voted");
+    public static final string_id SID_VOTE_RECORDED = new string_id("city/city", "vote_recorded");
+
+    public static int getMaxJudgeCount(int cityId) throws InterruptedException
+    {
+        obj_id[] citizens = cityGetCitizenIds(cityId);
+        int citizenCount = (citizens != null) ? citizens.length : 0;
+        int maxJudges = Math.max(MIN_JUDGES, citizenCount / CITIZENS_PER_JUDGE);
+        return Math.min(maxJudges, MAX_JUDGES);
+    }
+
+    public static boolean isJudge(obj_id citizen, int cityId) throws InterruptedException
+    {
+        int perms = cityGetCitizenPermissions(cityId, citizen);
+        return (perms & CP_JUDGE) != 0;
+    }
+
+    public static void addJudge(int cityId, obj_id citizen) throws InterruptedException
+    {
+        int flags = cityGetCitizenPermissions(cityId, citizen);
+        flags = flags | CP_JUDGE;
+        obj_id cit_all = cityGetCitizenAllegiance(cityId, citizen);
+        citySetCitizenInfo(cityId, citizen, cityGetCitizenName(cityId, citizen), cit_all, flags);
+
+        setObjVar(citizen, "city.judge.term_expires", getGameTime() + JUDGE_TERM_LENGTH);
+        setObjVar(citizen, "city.judge.elected_time", getGameTime());
+
+        String cityName = cityGetName(cityId);
+        obj_id cityHall = cityGetCityHall(cityId);
+        CustomerServiceLog("player_city", "Added Judge. City: " + cityName + " (" + cityId + "/" + cityHall + ") Citizen: " + citizen);
+    }
+
+    public static void removeJudge(int cityId, obj_id citizen) throws InterruptedException
+    {
+        int flags = cityGetCitizenPermissions(cityId, citizen);
+        flags = flags & ~CP_JUDGE;
+        obj_id cit_all = cityGetCitizenAllegiance(cityId, citizen);
+        citySetCitizenInfo(cityId, citizen, cityGetCitizenName(cityId, citizen), cit_all, flags);
+
+        removeObjVar(citizen, "city.judge");
+
+        String cityName = cityGetName(cityId);
+        obj_id cityHall = cityGetCityHall(cityId);
+        CustomerServiceLog("player_city", "Removed Judge. City: " + cityName + " (" + cityId + "/" + cityHall + ") Citizen: " + citizen);
+    }
+
+    public static obj_id[] getCityJudges(int cityId) throws InterruptedException
+    {
+        Vector judges = new Vector();
+        obj_id[] citizens = cityGetCitizenIds(cityId);
+
+        if (citizens == null || citizens.length == 0)
+        {
+            return new obj_id[0];
+        }
+
+        for (obj_id citizen : citizens)
+        {
+            if (isJudge(citizen, cityId))
+            {
+                utils.addElement(judges, citizen);
+            }
+        }
+
+        return utils.toStaticObjIdArray(judges);
+    }
+
+    // ========================================================================
+    // EVICTION SYSTEM
+    // ========================================================================
+
+    public static final int EVICTION_GRACE_PERIOD = 7 * 24 * 60 * 60;
+    public static final int APPEAL_REVIEW_PERIOD = 3 * 24 * 60 * 60;
+
+    public static final string_id SID_EVICTION_INITIATED = new string_id("city/city", "eviction_initiated");
+    public static final string_id SID_EVICTION_WARNING_MAIL_SUBJECT = new string_id("city/city", "eviction_warning_mail_subject");
+    public static final string_id SID_EVICTION_WARNING_MAIL_BODY = new string_id("city/city", "eviction_warning_mail_body");
+    public static final string_id SID_EVICTION_APPEAL_FILED = new string_id("city/city", "eviction_appeal_filed");
+    public static final string_id SID_EVICTION_APPEAL_PENDING = new string_id("city/city", "eviction_appeal_pending");
+    public static final string_id SID_EVICTION_UPHELD = new string_id("city/city", "eviction_upheld");
+    public static final string_id SID_EVICTION_REVERSED = new string_id("city/city", "eviction_reversed");
+
+    public static boolean beginEviction(obj_id mayor, obj_id citizen, int cityId, String reason) throws InterruptedException
+    {
+        if (!isTheCityMayor(mayor, cityId))
+        {
+            return false;
+        }
+
+        if (!isCitizenOfCity(citizen, cityId))
+        {
+            return false;
+        }
+
+        if (hasObjVar(citizen, "city.eviction.initiated_time"))
+        {
+            return false;
+        }
+
+        int curTime = getGameTime();
+        setObjVar(citizen, "city.eviction.initiated_time", curTime);
+        setObjVar(citizen, "city.eviction.initiated_by", mayor);
+        setObjVar(citizen, "city.eviction.reason", reason);
+        setObjVar(citizen, "city.eviction.appeal_pending", 0);
+        setObjVar(citizen, "city.eviction.grace_expires", curTime + EVICTION_GRACE_PERIOD);
+
+        String citizenName = cityGetCitizenName(cityId, citizen);
+        String cityName = cityGetName(cityId);
+        prose_package bodypp = prose.getPackage(SID_EVICTION_WARNING_MAIL_BODY, cityName, reason);
+        utils.sendMail(SID_EVICTION_WARNING_MAIL_SUBJECT, bodypp, citizenName, "City Hall");
+
+        dictionary params = new dictionary();
+        params.put("cityId", cityId);
+        messageTo(citizen, "handleEvictionGraceExpired", params, EVICTION_GRACE_PERIOD, false);
+
+        obj_id cityHall = cityGetCityHall(cityId);
+        CustomerServiceLog("player_city", "Eviction initiated. City: " + cityName + " (" + cityId + "/" + cityHall + ") Citizen: " + citizen + " Reason: " + reason);
+
+        return true;
+    }
+
+    public static boolean appealEviction(obj_id citizen, int cityId, String defense) throws InterruptedException
+    {
+        if (!hasObjVar(citizen, "city.eviction.initiated_time"))
+        {
+            return false;
+        }
+
+        if (getIntObjVar(citizen, "city.eviction.appeal_pending") == 1)
+        {
+            sendSystemMessage(citizen, SID_EVICTION_APPEAL_PENDING);
+            return false;
+        }
+
+        setObjVar(citizen, "city.eviction.appeal_pending", 1);
+        setObjVar(citizen, "city.eviction.appeal_time", getGameTime());
+        setObjVar(citizen, "city.eviction.appeal_defense", defense);
+
+        obj_id[] judges = getCityJudges(cityId);
+        String citizenName = cityGetCitizenName(cityId, citizen);
+        for (obj_id judge : judges)
+        {
+            String judgeName = cityGetCitizenName(cityId, judge);
+            prose_package bodypp = prose.getPackage(SID_EVICTION_APPEAL_FILED, citizenName);
+            utils.sendMail(SID_EVICTION_APPEAL_FILED, bodypp, judgeName, "City Court");
+        }
+
+        sendSystemMessage(citizen, SID_EVICTION_APPEAL_FILED);
+
+        return true;
+    }
+
+    public static void handleJudgeDecision(obj_id judge, obj_id citizen, int cityId, boolean upheld) throws InterruptedException
+    {
+        if (!isJudge(judge, cityId))
+        {
+            return;
+        }
+
+        String cityName = cityGetName(cityId);
+        String citizenName = cityGetCitizenName(cityId, citizen);
+
+        if (upheld)
+        {
+            removeCitizen(citizen, cityId);
+            sendSystemMessage(citizen, SID_EVICTION_UPHELD);
+        }
+        else
+        {
+            removeObjVar(citizen, "city.eviction");
+            sendSystemMessage(citizen, SID_EVICTION_REVERSED);
+        }
+
+        obj_id cityHall = cityGetCityHall(cityId);
+        CustomerServiceLog("player_city", "Judge decision on eviction. City: " + cityName + " (" + cityId + "/" + cityHall + ") Citizen: " + citizen + " Upheld: " + upheld + " Judge: " + judge);
+    }
+
+    public static boolean isCitizenOfCity(obj_id citizen, int cityId) throws InterruptedException
+    {
+        obj_id[] citizens = cityGetCitizenIds(cityId);
+        if (citizens == null)
+        {
+            return false;
+        }
+        for (obj_id c : citizens)
+        {
+            if (c.equals(citizen))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // ========================================================================
+    // EXTENDED TAXATION SYSTEM
+    // ========================================================================
+
+    public static final int TAX_CRAFTING = 4;
+    public static final int TAX_VENDOR_LICENSE = 5;
+    public static final int TAX_STRUCTURE_PLACE = 6;
+    public static final int TAX_EVENT_PERMIT = 7;
+    public static final int TAX_STARSHIP_LANDING = 8;
+
+    public static final int[] EXTENDED_TAX_MAX = {
+        2000,   // Income
+        50,     // Property
+        20,     // Sales
+        500,    // Travel
+        30,     // Garage
+        10,     // Crafting (%)
+        5000,   // Vendor License
+        25000,  // Structure Placement
+        10000,  // Event Permit
+        50000   // Starship Landing
+    };
+
+    public static final string_id SID_LANDING_TAX_PAID = new string_id("city/city", "landing_tax_paid");
+    public static final string_id SID_LANDING_TAX_INSUFFICIENT = new string_id("city/city", "landing_tax_insufficient");
+    public static final string_id SID_CRAFTING_TAX_PAID = new string_id("city/city", "crafting_tax_paid");
+    public static final string_id SID_STRUCTURE_PLACEMENT_FEE_PAID = new string_id("city/city", "structure_placement_fee_paid");
+
+    public static int getStarshipLandingTax(int cityId) throws InterruptedException
+    {
+        obj_id cityHall = cityGetCityHall(cityId);
+        if (!isIdValid(cityHall))
+        {
+            return 0;
+        }
+        return getIntObjVar(cityHall, "city.tax.starship_landing");
+    }
+
+    public static void setStarshipLandingTax(int cityId, int tax) throws InterruptedException
+    {
+        obj_id cityHall = cityGetCityHall(cityId);
+        if (!isIdValid(cityHall))
+        {
+            return;
+        }
+        setObjVar(cityHall, "city.tax.starship_landing", tax);
+    }
+
+    public static int getCraftingTax(int cityId) throws InterruptedException
+    {
+        obj_id cityHall = cityGetCityHall(cityId);
+        if (!isIdValid(cityHall))
+        {
+            return 0;
+        }
+        return getIntObjVar(cityHall, "city.tax.crafting");
+    }
+
+    public static void setCraftingTax(int cityId, int tax) throws InterruptedException
+    {
+        obj_id cityHall = cityGetCityHall(cityId);
+        if (!isIdValid(cityHall))
+        {
+            return;
+        }
+        setObjVar(cityHall, "city.tax.crafting", tax);
+    }
+
+    public static int getVendorLicenseFee(int cityId) throws InterruptedException
+    {
+        obj_id cityHall = cityGetCityHall(cityId);
+        if (!isIdValid(cityHall))
+        {
+            return 0;
+        }
+        return getIntObjVar(cityHall, "city.tax.vendor_license");
+    }
+
+    public static void setVendorLicenseFee(int cityId, int fee) throws InterruptedException
+    {
+        obj_id cityHall = cityGetCityHall(cityId);
+        if (!isIdValid(cityHall))
+        {
+            return;
+        }
+        setObjVar(cityHall, "city.tax.vendor_license", fee);
+    }
+
+    public static int getStructurePlacementFee(int cityId) throws InterruptedException
+    {
+        obj_id cityHall = cityGetCityHall(cityId);
+        if (!isIdValid(cityHall))
+        {
+            return 0;
+        }
+        return getIntObjVar(cityHall, "city.tax.structure_placement");
+    }
+
+    public static void setStructurePlacementFee(int cityId, int fee) throws InterruptedException
+    {
+        obj_id cityHall = cityGetCityHall(cityId);
+        if (!isIdValid(cityHall))
+        {
+            return;
+        }
+        setObjVar(cityHall, "city.tax.structure_placement", fee);
+    }
+
+    public static int getEventPermitFee(int cityId) throws InterruptedException
+    {
+        obj_id cityHall = cityGetCityHall(cityId);
+        if (!isIdValid(cityHall))
+        {
+            return 0;
+        }
+        return getIntObjVar(cityHall, "city.tax.event_permit");
+    }
+
+    public static void setEventPermitFee(int cityId, int fee) throws InterruptedException
+    {
+        obj_id cityHall = cityGetCityHall(cityId);
+        if (!isIdValid(cityHall))
+        {
+            return;
+        }
+        setObjVar(cityHall, "city.tax.event_permit", fee);
+    }
+
+    public static boolean collectStarshipLandingTax(obj_id pilot, int cityId) throws InterruptedException
+    {
+        int landingTax = getStarshipLandingTax(cityId);
+        if (landingTax <= 0)
+        {
+            return true;
+        }
+
+        int playerCash = getTotalMoney(pilot);
+        if (playerCash < landingTax)
+        {
+            return false;
+        }
+
+        obj_id cityHall = cityGetCityHall(cityId);
+        if (money.pay(pilot, cityHall, landingTax, "landing_tax", null, false))
+        {
+            String cityName = cityGetName(cityId);
+            prose_package pp = prose.getPackage(SID_LANDING_TAX_PAID, cityName, landingTax);
+            sendSystemMessage(pilot, pp);
+            return true;
+        }
+
+        return false;
+    }
+
+    public static void ejectShipFromCity(obj_id ship, int cityId) throws InterruptedException
+    {
+        location cityLoc = cityGetLocation(cityId);
+        int cityRadius = cityGetRadius(cityId);
+
+        float ejectDistance = cityRadius + 50.0f;
+        float angle = (float)(Math.random() * 2.0 * Math.PI);
+        float ejectX = cityLoc.x + (float)(Math.cos(angle) * ejectDistance);
+        float ejectZ = cityLoc.z + (float)(Math.sin(angle) * ejectDistance);
+
+        float terrainHeight = getHeightAtLocation(ejectX, ejectZ);
+        float ejectY = terrainHeight + 200.0f;
+
+        location ejectLoc = new location(ejectX, ejectY, ejectZ, cityLoc.area, null);
+        setLocation(ship, ejectLoc);
+
+        removeObjVar(ship, "atmo.landing");
+        removeObjVar(ship, "atmo.docked");
+
+        obj_id pilot = getPilotId(ship);
+        if (isIdValid(pilot))
+        {
+            String cityName = cityGetName(cityId);
+            int landingTax = getStarshipLandingTax(cityId);
+            int playerCash = getTotalMoney(pilot);
+            prose_package pp = prose.getPackage(SID_LANDING_TAX_INSUFFICIENT, cityName, landingTax, playerCash);
+            sendSystemMessage(pilot, pp);
+        }
+
+        messageTo(ship, "handleUndock", null, 0.0f, false);
     }
 }

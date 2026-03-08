@@ -139,6 +139,47 @@ public class terminal_city extends script.base_script
     public static final string_id SID_BEGIN_GCW_REGION_DEFENDER = new string_id(STF, "begin_gcw_region_defender");
     public static final string_id SID_END_GCW_REGION_DEFENDER = new string_id(STF, "end_gcw_region_defender");
     public static final string_id SID_DERANK_EXEMPT = new string_id("Toggle De-Rank Exemption");
+
+    // Extended City Features
+    public static final string_id SID_CITY_EXPEL_PLAYER = new string_id(STF, "expel_player");
+    public static final string_id SID_CITY_EVICTION = new string_id(STF, "eviction_management");
+    public static final string_id SID_CITY_JUDGES = new string_id(STF, "judge_management");
+    public static final string_id SID_CITY_COURT = new string_id(STF, "city_court");
+    public static final string_id SID_EXTENDED_TAXES = new string_id(STF, "extended_taxes");
+    public static final string_id SID_SET_CRAFTING_TAX = new string_id(STF, "set_crafting_tax");
+    public static final string_id SID_SET_VENDOR_LICENSE = new string_id(STF, "set_vendor_license");
+    public static final string_id SID_SET_STRUCTURE_FEE = new string_id(STF, "set_structure_fee");
+    public static final string_id SID_SET_LANDING_TAX = new string_id(STF, "set_landing_tax");
+    public static final string_id SID_JUDGE_ELECTION = new string_id(STF, "start_judge_election");
+    public static final string_id SID_REGISTER_JUDGE_CANDIDATE = new string_id(STF, "register_judge_candidate");
+    public static final string_id SID_VOTE_FOR_JUDGE = new string_id(STF, "vote_for_judge");
+    public static final string_id SID_REVIEW_APPEALS = new string_id(STF, "review_appeals");
+    public static final string_id SID_MY_EVICTION_STATUS = new string_id(STF, "my_eviction_status");
+    public static final string_id SID_BEGIN_EVICTION = new string_id(STF, "begin_eviction");
+
+    // Extended Tax Strings
+    public static final String[] EXTENDED_TAX_STRING =
+    {
+        "income",
+        "property",
+        "sales",
+        "travel",
+        "garage",
+        "crafting",
+        "vendor_license",
+        "structure_placement",
+        "event_permit",
+        "starship_landing"
+    };
+
+    // Terrain Management
+    public static final string_id SID_TERRAIN_MANAGEMENT = new string_id(STF, "terrain_management");
+    public static final string_id SID_PAINT_TERRAIN_RADIUS = new string_id(STF, "paint_terrain_radius");
+    public static final string_id SID_PAINT_TERRAIN_ROAD = new string_id(STF, "paint_terrain_road");
+    public static final string_id SID_BULLDOZE_CITY = new string_id(STF, "bulldoze_city");
+    public static final string_id SID_VIEW_TERRAIN_REGIONS = new string_id(STF, "view_terrain_regions");
+    public static final string_id SID_REMOVE_TERRAIN_REGION = new string_id(STF, "remove_terrain_region");
+
     public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi) throws InterruptedException
     {
         obj_id structure = getTopMostContainer(self);
@@ -214,7 +255,56 @@ public class terminal_city extends script.base_script
             {
                 mi.addSubMenu(menu, menu_info_types.SERVER_MENU18, SID_END_GCW_REGION_DEFENDER);
             }
+
+            // Extended City Management Options
+            mi.addSubMenu(menu, menu_info_types.SERVER_MENU19, SID_CITY_EXPEL_PLAYER);
+            mi.addSubMenu(menu, menu_info_types.SERVER_MENU20, SID_BEGIN_EVICTION);
+            mi.addSubMenu(menu, menu_info_types.SERVER_MENU21, SID_EXTENDED_TAXES);
+            mi.addSubMenu(menu, menu_info_types.SERVER_MENU22, SID_JUDGE_ELECTION);
+
+            // Terrain Management Options (Rank 2+)
+            int cityRank = city.getCityRank(city_id);
+            if (cityRank >= 2)
+            {
+                int terrainMenu = mi.addRootMenu(menu_info_types.SERVER_MENU40, SID_TERRAIN_MANAGEMENT);
+                mi.addSubMenu(terrainMenu, menu_info_types.SERVER_MENU41, SID_PAINT_TERRAIN_RADIUS);
+                mi.addSubMenu(terrainMenu, menu_info_types.SERVER_MENU42, SID_PAINT_TERRAIN_ROAD);
+                if (cityRank >= 3)
+                {
+                    mi.addSubMenu(terrainMenu, menu_info_types.SERVER_MENU43, SID_BULLDOZE_CITY);
+                }
+                mi.addSubMenu(terrainMenu, menu_info_types.SERVER_MENU44, SID_VIEW_TERRAIN_REGIONS);
+                mi.addSubMenu(terrainMenu, menu_info_types.SERVER_MENU45, SID_REMOVE_TERRAIN_REGION);
+            }
         }
+
+        // Judge-specific options
+        if (city.isJudge(player, city_id))
+        {
+            int judgeMenu = mi.addRootMenu(menu_info_types.ITEM_USE_SELF, SID_CITY_COURT);
+            mi.addSubMenu(judgeMenu, menu_info_types.SERVER_MENU23, SID_REVIEW_APPEALS);
+        }
+
+        // Citizen options
+        if (city.isCitizenOfCity(player, city_id))
+        {
+            // Check if there's an active judge election
+            obj_id cityHall = cityGetCityHall(city_id);
+            if (hasObjVar(cityHall, "city.judge_election.active"))
+            {
+                int citizenMenu = mi.addRootMenu(menu_info_types.SERVER_MENU24, SID_CITY_JUDGES);
+                mi.addSubMenu(citizenMenu, menu_info_types.SERVER_MENU25, SID_REGISTER_JUDGE_CANDIDATE);
+                mi.addSubMenu(citizenMenu, menu_info_types.SERVER_MENU26, SID_VOTE_FOR_JUDGE);
+            }
+
+            // Show eviction status if under eviction
+            if (hasObjVar(player, "city.eviction.initiated_time"))
+            {
+                mi.addSubMenu(mi.addRootMenu(menu_info_types.SERVER_MENU27, SID_MY_EVICTION_STATUS),
+                             menu_info_types.SERVER_MENU28, new string_id(STF, "appeal_eviction"));
+            }
+        }
+
         if (isGod(player))
         {
             int godMenu = mi.addRootMenu(menu_info_types.ITEM_USE_SELF, SID_CITY_HACKS);
@@ -626,6 +716,97 @@ public class terminal_city extends script.base_script
                 }
             }
         }
+
+        // Extended City Feature Handlers
+        if (player == mayor || isGod(player))
+        {
+            if (item == menu_info_types.SERVER_MENU19)
+            {
+                // Expel Player
+                showExpelPlayerUI(player, self, city_id);
+            }
+            else if (item == menu_info_types.SERVER_MENU20)
+            {
+                // Begin Eviction
+                showBeginEvictionUI(player, self, city_id);
+            }
+            else if (item == menu_info_types.SERVER_MENU21)
+            {
+                // Extended Taxes
+                showExtendedTaxesUI(player, self, city_id);
+            }
+            else if (item == menu_info_types.SERVER_MENU22)
+            {
+                // Start Judge Election
+                startJudgeElectionUI(player, self, city_id);
+            }
+        }
+
+        // Judge options
+        if (city.isJudge(player, city_id))
+        {
+            if (item == menu_info_types.SERVER_MENU23)
+            {
+                // Review Appeals
+                showReviewAppealsUI(player, self, city_id);
+            }
+        }
+
+        // Citizen options
+        if (city.isCitizenOfCity(player, city_id))
+        {
+            if (item == menu_info_types.SERVER_MENU25)
+            {
+                // Register as Judge Candidate
+                script.systems.city.city_judge_election.registerCandidate(player, city_id);
+            }
+            else if (item == menu_info_types.SERVER_MENU26)
+            {
+                // Vote for Judge
+                showVoteForJudgeUI(player, self, city_id);
+            }
+            else if (item == menu_info_types.SERVER_MENU27)
+            {
+                // My Eviction Status
+                showEvictionStatusUI(player, self, city_id);
+            }
+            else if (item == menu_info_types.SERVER_MENU28)
+            {
+                // Appeal Eviction
+                showAppealEvictionUI(player, self, city_id);
+            }
+        }
+
+        // Terrain Management (Mayor only)
+        if (player == mayor || isGod(player))
+        {
+            if (item == menu_info_types.SERVER_MENU41)
+            {
+                // Paint Terrain Radius
+                showRadiusPaintUI(player, self, city_id);
+            }
+            else if (item == menu_info_types.SERVER_MENU42)
+            {
+                // Paint Terrain Road
+                showRoadPaintUI(player, self, city_id);
+            }
+            else if (item == menu_info_types.SERVER_MENU43)
+            {
+                // Bulldoze City
+                showBulldozeUI(player, self, city_id);
+            }
+            else if (item == menu_info_types.SERVER_MENU44)
+            {
+                // View Terrain Regions
+                showTerrainRegions(player, self, city_id);
+            }
+            else if (item == menu_info_types.SERVER_MENU45)
+            {
+                // Remove Terrain Region
+                showRemoveTerrainRegionUI(player, self, city_id);
+            }
+        }
+
         return SCRIPT_CONTINUE;
     }
     public void forceUpdate(obj_id player, obj_id self, int city_id) throws InterruptedException
@@ -2981,5 +3162,957 @@ public class terminal_city extends script.base_script
         }
         showSafeHouseCitizenList(player, self, city_id);
         return SCRIPT_CONTINUE;
+    }
+
+    // ========================================================================
+    // EXTENDED CITY MANAGEMENT UI METHODS
+    // ========================================================================
+
+    public void showExpelPlayerUI(obj_id player, obj_id self, int city_id) throws InterruptedException
+    {
+        obj_id[] citizens = cityGetCitizenIds(city_id);
+        if (citizens == null || citizens.length == 0)
+        {
+            sendSystemMessage(player, new string_id(STF, "no_citizens"));
+            return;
+        }
+
+        String[] names = new String[citizens.length];
+        for (int i = 0; i < citizens.length; i++)
+        {
+            names[i] = cityGetCitizenName(city_id, citizens[i]);
+        }
+
+        utils.setScriptVar(player, "expel.citizens", citizens);
+        utils.setScriptVar(player, "expel.city_id", city_id);
+
+        sui.listbox(self, player, "Select a citizen to expel from the city. They will have 120 seconds to leave before militia can attack.",
+                   sui.OK_CANCEL, "Expel Player", names, "handleExpelPlayerSelection", true, false);
+    }
+
+    public int handleExpelPlayerSelection(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        int btn = sui.getIntButtonPressed(params);
+        int idx = sui.getListboxSelectedRow(params);
+
+        if (btn != sui.BP_OK || idx < 0)
+        {
+            return SCRIPT_CONTINUE;
+        }
+
+        obj_id[] citizens = utils.getObjIdArrayScriptVar(player, "expel.citizens");
+        int city_id = utils.getIntScriptVar(player, "expel.city_id");
+
+        if (citizens == null || idx >= citizens.length)
+        {
+            return SCRIPT_CONTINUE;
+        }
+
+        obj_id target = citizens[idx];
+        city.beginExpulsion(target, city_id, player);
+
+        return SCRIPT_CONTINUE;
+    }
+
+    public void showBeginEvictionUI(obj_id player, obj_id self, int city_id) throws InterruptedException
+    {
+        obj_id[] citizens = cityGetCitizenIds(city_id);
+        if (citizens == null || citizens.length == 0)
+        {
+            sendSystemMessage(player, new string_id(STF, "no_citizens"));
+            return;
+        }
+
+        String[] names = new String[citizens.length];
+        for (int i = 0; i < citizens.length; i++)
+        {
+            names[i] = cityGetCitizenName(city_id, citizens[i]);
+        }
+
+        utils.setScriptVar(player, "eviction.citizens", citizens);
+        utils.setScriptVar(player, "eviction.city_id", city_id);
+
+        sui.listbox(self, player, "Select a citizen to begin formal eviction proceedings. They will have 7 days to leave or appeal.",
+                   sui.OK_CANCEL, "Begin Eviction", names, "handleEvictionCitizenSelection", true, false);
+    }
+
+    public int handleEvictionCitizenSelection(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        int btn = sui.getIntButtonPressed(params);
+        int idx = sui.getListboxSelectedRow(params);
+
+        if (btn != sui.BP_OK || idx < 0)
+        {
+            return SCRIPT_CONTINUE;
+        }
+
+        obj_id[] citizens = utils.getObjIdArrayScriptVar(player, "eviction.citizens");
+        int city_id = utils.getIntScriptVar(player, "eviction.city_id");
+
+        if (citizens == null || idx >= citizens.length)
+        {
+            return SCRIPT_CONTINUE;
+        }
+
+        obj_id target = citizens[idx];
+        utils.setScriptVar(player, "eviction.target", target);
+
+        sui.inputbox(self, player, "Enter the reason for eviction:", sui.OK_CANCEL, "Eviction Reason",
+                    sui.INPUT_NORMAL, "", "handleEvictionReasonInput", null);
+
+        return SCRIPT_CONTINUE;
+    }
+
+    public int handleEvictionReasonInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        int btn = sui.getIntButtonPressed(params);
+        String reason = sui.getInputBoxText(params);
+
+        if (btn != sui.BP_OK || reason == null || reason.isEmpty())
+        {
+            return SCRIPT_CONTINUE;
+        }
+
+        obj_id target = utils.getObjIdScriptVar(player, "eviction.target");
+        int city_id = utils.getIntScriptVar(player, "eviction.city_id");
+
+        city.beginEviction(player, target, city_id, reason);
+        sendSystemMessage(player, new string_id(STF, "eviction_started"));
+
+        return SCRIPT_CONTINUE;
+    }
+
+    public void showExtendedTaxesUI(obj_id player, obj_id self, int city_id) throws InterruptedException
+    {
+        int craftingTax = city.getCraftingTax(city_id);
+        int vendorLicense = city.getVendorLicenseFee(city_id);
+        int structureFee = city.getStructurePlacementFee(city_id);
+        int landingTax = city.getStarshipLandingTax(city_id);
+
+        String[] options = new String[4];
+        options[0] = "Crafting Tax: " + craftingTax + "% (Max: 10%)";
+        options[1] = "Vendor License Fee: " + vendorLicense + " credits/week (Max: 5000)";
+        options[2] = "Structure Placement Fee: " + structureFee + " credits (Max: 25000)";
+        options[3] = "Starship Landing Tax: " + landingTax + " credits (Max: 50000)";
+
+        utils.setScriptVar(player, "extendedtax.city_id", city_id);
+
+        sui.listbox(self, player, "Select a tax to modify:", sui.OK_CANCEL, "Extended Taxes",
+                   options, "handleExtendedTaxSelection", true, false);
+    }
+
+    public int handleExtendedTaxSelection(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        int btn = sui.getIntButtonPressed(params);
+        int idx = sui.getListboxSelectedRow(params);
+
+        if (btn != sui.BP_OK || idx < 0)
+        {
+            return SCRIPT_CONTINUE;
+        }
+
+        utils.setScriptVar(player, "extendedtax.type", idx);
+
+        String prompt;
+        int max;
+        switch (idx)
+        {
+            case 0:
+                prompt = "Enter crafting tax percentage (0-10):";
+                max = 10;
+                break;
+            case 1:
+                prompt = "Enter weekly vendor license fee (0-5000):";
+                max = 5000;
+                break;
+            case 2:
+                prompt = "Enter structure placement fee (0-25000):";
+                max = 25000;
+                break;
+            case 3:
+                prompt = "Enter starship landing tax (0-50000):";
+                max = 50000;
+                break;
+            default:
+                return SCRIPT_CONTINUE;
+        }
+
+        utils.setScriptVar(player, "extendedtax.max", max);
+        sui.inputbox(self, player, prompt, sui.OK_CANCEL, "Set Tax", sui.INPUT_NORMAL, "0", "handleExtendedTaxInput", null);
+
+        return SCRIPT_CONTINUE;
+    }
+
+    public int handleExtendedTaxInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        int btn = sui.getIntButtonPressed(params);
+        String input = sui.getInputBoxText(params);
+
+        if (btn != sui.BP_OK || input == null || input.isEmpty())
+        {
+            return SCRIPT_CONTINUE;
+        }
+
+        int value;
+        try
+        {
+            value = Integer.parseInt(input);
+        }
+        catch (NumberFormatException e)
+        {
+            sendSystemMessage(player, new string_id(STF, "invalid_number"));
+            return SCRIPT_CONTINUE;
+        }
+
+        int city_id = utils.getIntScriptVar(player, "extendedtax.city_id");
+        int type = utils.getIntScriptVar(player, "extendedtax.type");
+        int max = utils.getIntScriptVar(player, "extendedtax.max");
+
+        if (value < 0 || value > max)
+        {
+            sendSystemMessage(player, SID_TAX_OUT_OF_RANGE);
+            return SCRIPT_CONTINUE;
+        }
+
+        switch (type)
+        {
+            case 0:
+                city.setCraftingTax(city_id, value);
+                break;
+            case 1:
+                city.setVendorLicenseFee(city_id, value);
+                break;
+            case 2:
+                city.setStructurePlacementFee(city_id, value);
+                break;
+            case 3:
+                city.setStarshipLandingTax(city_id, value);
+                break;
+        }
+
+        sendSystemMessage(player, new string_id(STF, "tax_updated"));
+
+        return SCRIPT_CONTINUE;
+    }
+
+    public void startJudgeElectionUI(obj_id player, obj_id self, int city_id) throws InterruptedException
+    {
+        obj_id cityHall = cityGetCityHall(city_id);
+
+        if (hasObjVar(cityHall, "city.judge_election.active"))
+        {
+            sendSystemMessage(player, new string_id(STF, "election_already_active"));
+            return;
+        }
+
+        utils.setScriptVar(player, "judgeelection.city_id", city_id);
+        sui.msgbox(self, player, "Start a judge election? Citizens will have 3 days to register as candidates and vote.",
+                  sui.YES_NO, "Start Judge Election", sui.MSG_QUESTION, "handleStartJudgeElection");
+    }
+
+    public int handleStartJudgeElection(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        int btn = sui.getIntButtonPressed(params);
+
+        if (btn != sui.BP_OK)
+        {
+            return SCRIPT_CONTINUE;
+        }
+
+        int city_id = utils.getIntScriptVar(player, "judgeelection.city_id");
+        script.systems.city.city_judge_election.startJudgeElection(city_id);
+
+        sendSystemMessage(player, new string_id(STF, "judge_election_started"));
+
+        return SCRIPT_CONTINUE;
+    }
+
+    public void showReviewAppealsUI(obj_id player, obj_id self, int city_id) throws InterruptedException
+    {
+        String[] appeals = script.systems.city.city_court.getPendingAppeals(city_id);
+
+        if (appeals == null || appeals.length == 0)
+        {
+            sendSystemMessage(player, new string_id(STF, "no_pending_appeals"));
+            return;
+        }
+
+        String[] displayNames = new String[appeals.length];
+        for (int i = 0; i < appeals.length; i++)
+        {
+            String[] parts = utils.split(appeals[i], '|');
+            if (parts.length >= 2)
+            {
+                displayNames[i] = parts[1];
+            }
+            else
+            {
+                displayNames[i] = "Unknown";
+            }
+        }
+
+        utils.setScriptVar(player, "appeals.data", appeals);
+        utils.setScriptVar(player, "appeals.city_id", city_id);
+
+        sui.listbox(self, player, "Select an appeal to review:", sui.OK_CANCEL, "Review Appeals",
+                   displayNames, "handleAppealSelection", true, false);
+    }
+
+    public int handleAppealSelection(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        int btn = sui.getIntButtonPressed(params);
+        int idx = sui.getListboxSelectedRow(params);
+
+        if (btn != sui.BP_OK || idx < 0)
+        {
+            return SCRIPT_CONTINUE;
+        }
+
+        String[] appeals = utils.getStringArrayScriptVar(player, "appeals.data");
+        int city_id = utils.getIntScriptVar(player, "appeals.city_id");
+
+        if (appeals == null || idx >= appeals.length)
+        {
+            return SCRIPT_CONTINUE;
+        }
+
+        String[] parts = utils.split(appeals[idx], '|');
+        if (parts.length < 4)
+        {
+            return SCRIPT_CONTINUE;
+        }
+
+        obj_id citizen = utils.stringToObjId(parts[0]);
+        String name = parts[1];
+        String reason = parts[2];
+        String defense = parts[3];
+
+        utils.setScriptVar(player, "appeals.citizen", citizen);
+
+        String message = "Appeal Review\n\n";
+        message += "Citizen: " + name + "\n";
+        message += "Eviction Reason: " + reason + "\n";
+        message += "Defense: " + defense + "\n\n";
+        message += "Uphold eviction (Yes) or Reverse eviction (No)?";
+
+        sui.msgbox(self, player, message, sui.YES_NO, "Judge Decision", sui.MSG_QUESTION, "handleJudgeDecision");
+
+        return SCRIPT_CONTINUE;
+    }
+
+    public int handleJudgeDecision(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        int btn = sui.getIntButtonPressed(params);
+
+        obj_id citizen = utils.getObjIdScriptVar(player, "appeals.citizen");
+        int city_id = utils.getIntScriptVar(player, "appeals.city_id");
+
+        boolean upheld = (btn == sui.BP_OK);
+
+        city.handleJudgeDecision(player, citizen, city_id, upheld);
+
+        return SCRIPT_CONTINUE;
+    }
+
+    public void showVoteForJudgeUI(obj_id player, obj_id self, int city_id) throws InterruptedException
+    {
+        obj_id cityHall = cityGetCityHall(city_id);
+
+        if (!hasObjVar(cityHall, "city.judge_election.active"))
+        {
+            sendSystemMessage(player, new string_id(STF, "no_election_active"));
+            return;
+        }
+
+        obj_id[] candidates = getObjIdArrayObjVar(cityHall, "city.judge_election.candidates");
+        if (candidates == null || candidates.length == 0)
+        {
+            sendSystemMessage(player, new string_id(STF, "no_candidates"));
+            return;
+        }
+
+        String[] names = new String[candidates.length];
+        for (int i = 0; i < candidates.length; i++)
+        {
+            names[i] = cityGetCitizenName(city_id, candidates[i]);
+        }
+
+        utils.setScriptVar(player, "vote.candidates", candidates);
+        utils.setScriptVar(player, "vote.city_id", city_id);
+
+        sui.listbox(self, player, "Select a candidate to vote for:", sui.OK_CANCEL, "Vote for Judge",
+                   names, "handleVoteSelection", true, false);
+    }
+
+    public int handleVoteSelection(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        int btn = sui.getIntButtonPressed(params);
+        int idx = sui.getListboxSelectedRow(params);
+
+        if (btn != sui.BP_OK || idx < 0)
+        {
+            return SCRIPT_CONTINUE;
+        }
+
+        obj_id[] candidates = utils.getObjIdArrayScriptVar(player, "vote.candidates");
+        int city_id = utils.getIntScriptVar(player, "vote.city_id");
+
+        if (candidates == null || idx >= candidates.length)
+        {
+            return SCRIPT_CONTINUE;
+        }
+
+        script.systems.city.city_judge_election.castVote(player, candidates[idx], city_id);
+
+        return SCRIPT_CONTINUE;
+    }
+
+    public void showEvictionStatusUI(obj_id player, obj_id self, int city_id) throws InterruptedException
+    {
+        String[] status = script.systems.city.city_court.getEvictionStatus(player);
+
+        if (status == null)
+        {
+            sendSystemMessage(player, new string_id(STF, "no_eviction_pending"));
+            return;
+        }
+
+        String message = "Your Eviction Status\n\n";
+        message += "Status: " + status[0] + "\n";
+        message += "Reason: " + status[1] + "\n";
+
+        int timeRemaining = Integer.parseInt(status[2]);
+        if (timeRemaining > 0)
+        {
+            int days = timeRemaining / 86400;
+            int hours = (timeRemaining % 86400) / 3600;
+            message += "Time Remaining: " + days + " days, " + hours + " hours\n";
+        }
+
+        message += "Appeal Filed: " + status[3];
+
+        sui.msgbox(self, player, message, sui.OK_ONLY, "Eviction Status", sui.MSG_NORMAL, null);
+    }
+
+    public void showAppealEvictionUI(obj_id player, obj_id self, int city_id) throws InterruptedException
+    {
+        if (!hasObjVar(player, "city.eviction.initiated_time"))
+        {
+            sendSystemMessage(player, new string_id(STF, "no_eviction_pending"));
+            return;
+        }
+
+        if (getIntObjVar(player, "city.eviction.appeal_pending") == 1)
+        {
+            sendSystemMessage(player, new string_id(STF, "appeal_already_filed"));
+            return;
+        }
+
+        utils.setScriptVar(player, "appeal.city_id", city_id);
+        sui.inputbox(self, player, "Enter your defense for the appeal:", sui.OK_CANCEL, "Appeal Eviction",
+                    sui.INPUT_NORMAL, "", "handleAppealInput", null);
+    }
+
+    public int handleAppealInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        int btn = sui.getIntButtonPressed(params);
+        String defense = sui.getInputBoxText(params);
+
+        if (btn != sui.BP_OK || defense == null || defense.isEmpty())
+        {
+            return SCRIPT_CONTINUE;
+        }
+
+        int city_id = utils.getIntScriptVar(player, "appeal.city_id");
+        city.appealEviction(player, city_id, defense);
+
+        return SCRIPT_CONTINUE;
+    }
+
+    // ========================================================================
+    // TERRAIN MANAGEMENT UI METHODS
+    // ========================================================================
+
+    public static final String[] TERRAIN_SHADER_NAMES = {
+        "Desert Sand",
+        "Grass",
+        "Dirt",
+        "Rock",
+        "Forest Floor",
+        "Cobblestone Road",
+        "Duracrete",
+        "Gravel Path",
+        "Metal Plating",
+        "Packed Sand"
+    };
+
+    public static final String[] TERRAIN_SHADERS = {
+        "terrain/tatooine_ground.sht",
+        "terrain/naboo_grass.sht",
+        "terrain/corellia_dirt.sht",
+        "terrain/dathomir_rock.sht",
+        "terrain/endor_forest.sht",
+        "terrain/cobblestone_road.sht",
+        "terrain/duracrete_floor.sht",
+        "terrain/gravel_path.sht",
+        "terrain/metal_plating.sht",
+        "terrain/sand_packed.sht"
+    };
+
+    public static final int[] PAINT_RADIUS_MAX = {0, 10, 15, 20, 30, 40, 50, 60};
+    public static final String TERRAIN_VAR_ROOT = "city.terrain";
+
+    public void showRadiusPaintUI(obj_id player, obj_id terminal, int city_id) throws InterruptedException
+    {
+        int cityRank = city.getCityRank(city_id);
+        int maxRadius = PAINT_RADIUS_MAX[Math.min(cityRank, PAINT_RADIUS_MAX.length - 1)];
+
+        if (maxRadius <= 0)
+        {
+            sendSystemMessage(player, new string_id(STF, "terrain_rank_too_low"));
+            return;
+        }
+
+        utils.setScriptVar(player, "terrain.city_id", city_id);
+        utils.setScriptVar(player, "terrain.max_radius", maxRadius);
+
+        sui.listbox(terminal, player, "Select terrain shader to paint:", sui.OK_CANCEL,
+                   "Select Terrain Shader", TERRAIN_SHADER_NAMES, "handleRadiusShaderSelection", true, false);
+    }
+
+    public int handleRadiusShaderSelection(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        int btn = sui.getIntButtonPressed(params);
+        int idx = sui.getListboxSelectedRow(params);
+
+        if (btn != sui.BP_OK || idx < 0 || idx >= TERRAIN_SHADERS.length)
+        {
+            return SCRIPT_CONTINUE;
+        }
+
+        utils.setScriptVar(player, "terrain.shader", TERRAIN_SHADERS[idx]);
+        utils.setScriptVar(player, "terrain.shader_name", TERRAIN_SHADER_NAMES[idx]);
+
+        int maxRadius = utils.getIntScriptVar(player, "terrain.max_radius");
+
+        sui.inputbox(self, player, "Enter paint radius (5 - " + maxRadius + " meters):",
+                    sui.OK_CANCEL, "Set Radius", sui.INPUT_NORMAL, "10", "handleRadiusInput", null);
+
+        return SCRIPT_CONTINUE;
+    }
+
+    public int handleRadiusInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        int btn = sui.getIntButtonPressed(params);
+        String input = sui.getInputBoxText(params);
+
+        if (btn != sui.BP_OK || input == null || input.isEmpty())
+        {
+            return SCRIPT_CONTINUE;
+        }
+
+        int radius;
+        try
+        {
+            radius = Integer.parseInt(input);
+        }
+        catch (NumberFormatException e)
+        {
+            sendSystemMessage(player, new string_id(STF, "invalid_number"));
+            return SCRIPT_CONTINUE;
+        }
+
+        int maxRadius = utils.getIntScriptVar(player, "terrain.max_radius");
+
+        if (radius < 5 || radius > maxRadius)
+        {
+            sendSystemMessage(player, new string_id(STF, "radius_out_of_range"));
+            return SCRIPT_CONTINUE;
+        }
+
+        utils.setScriptVar(player, "terrain.radius", radius);
+
+        sendSystemMessage(player, new string_id(STF, "stand_at_paint_location"));
+        sendSystemMessage(player, new string_id(STF, "say_painthere_when_ready"));
+
+        setObjVar(player, "terrain.awaiting_paint", 1);
+        setObjVar(player, "terrain.paint_mode", "RADIUS");
+
+        if (!hasScript(player, "systems.city.city_terrain_painter"))
+        {
+            attachScript(player, "systems.city.city_terrain_painter");
+        }
+
+        return SCRIPT_CONTINUE;
+    }
+
+    public void showRoadPaintUI(obj_id player, obj_id terminal, int city_id) throws InterruptedException
+    {
+        int cityRank = city.getCityRank(city_id);
+
+        if (cityRank < 2)
+        {
+            sendSystemMessage(player, new string_id(STF, "terrain_rank_too_low"));
+            return;
+        }
+
+        utils.setScriptVar(player, "terrain.city_id", city_id);
+
+        sui.listbox(terminal, player, "Select road surface shader:", sui.OK_CANCEL,
+                   "Select Road Surface", TERRAIN_SHADER_NAMES, "handleRoadShaderSelection", true, false);
+    }
+
+    public int handleRoadShaderSelection(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        int btn = sui.getIntButtonPressed(params);
+        int idx = sui.getListboxSelectedRow(params);
+
+        if (btn != sui.BP_OK || idx < 0 || idx >= TERRAIN_SHADERS.length)
+        {
+            return SCRIPT_CONTINUE;
+        }
+
+        utils.setScriptVar(player, "terrain.shader", TERRAIN_SHADERS[idx]);
+        utils.setScriptVar(player, "terrain.shader_name", TERRAIN_SHADER_NAMES[idx]);
+
+        sui.inputbox(self, player, "Enter road width (2 - 10 meters):",
+                    sui.OK_CANCEL, "Set Road Width", sui.INPUT_NORMAL, "4", "handleRoadWidthInput", null);
+
+        return SCRIPT_CONTINUE;
+    }
+
+    public int handleRoadWidthInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        int btn = sui.getIntButtonPressed(params);
+        String input = sui.getInputBoxText(params);
+
+        if (btn != sui.BP_OK || input == null || input.isEmpty())
+        {
+            return SCRIPT_CONTINUE;
+        }
+
+        int width;
+        try
+        {
+            width = Integer.parseInt(input);
+        }
+        catch (NumberFormatException e)
+        {
+            sendSystemMessage(player, new string_id(STF, "invalid_number"));
+            return SCRIPT_CONTINUE;
+        }
+
+        if (width < 2 || width > 10)
+        {
+            sendSystemMessage(player, new string_id(STF, "width_out_of_range"));
+            return SCRIPT_CONTINUE;
+        }
+
+        utils.setScriptVar(player, "terrain.road_width", width);
+
+        sendSystemMessage(player, new string_id(STF, "walk_to_road_start"));
+        sendSystemMessage(player, new string_id(STF, "say_painthere_for_first_marker"));
+
+        setObjVar(player, "terrain.awaiting_paint", 1);
+        setObjVar(player, "terrain.paint_mode", "ROAD_FIRST");
+
+        if (!hasScript(player, "systems.city.city_terrain_painter"))
+        {
+            attachScript(player, "systems.city.city_terrain_painter");
+        }
+
+        return SCRIPT_CONTINUE;
+    }
+
+    public void showBulldozeUI(obj_id player, obj_id terminal, int city_id) throws InterruptedException
+    {
+        int cityRank = city.getCityRank(city_id);
+
+        if (cityRank < 3)
+        {
+            sendSystemMessage(player, new string_id(STF, "bulldoze_rank_too_low"));
+            return;
+        }
+
+        obj_id cityHall = cityGetCityHall(city_id);
+
+        if (hasObjVar(cityHall, "city.bulldozed"))
+        {
+            sendSystemMessage(player, new string_id(STF, "city_already_bulldozed"));
+            return;
+        }
+
+        utils.setScriptVar(player, "terrain.city_id", city_id);
+
+        String message = "WARNING: This will flatten all terrain within city limits.\n\n";
+        message += "All structures will be adjusted to the new ground level.\n";
+        message += "This action cannot be easily undone.\n\n";
+        message += "Do you wish to proceed?";
+
+        sui.msgbox(terminal, player, message, sui.YES_NO, "Bulldoze City", sui.MSG_QUESTION, "handleBulldozeConfirm");
+    }
+
+    public int handleBulldozeConfirm(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        int btn = sui.getIntButtonPressed(params);
+
+        if (btn != sui.BP_OK)
+        {
+            return SCRIPT_CONTINUE;
+        }
+
+        int city_id = utils.getIntScriptVar(player, "terrain.city_id");
+
+        sui.inputbox(self, player, "Enter target height (leave blank for average terrain height):",
+                    sui.OK_CANCEL, "Set Bulldoze Height", sui.INPUT_NORMAL, "", "handleBulldozeHeightInput", null);
+
+        return SCRIPT_CONTINUE;
+    }
+
+    public int handleBulldozeHeightInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        int btn = sui.getIntButtonPressed(params);
+        String input = sui.getInputBoxText(params);
+
+        if (btn != sui.BP_OK)
+        {
+            return SCRIPT_CONTINUE;
+        }
+
+        int city_id = utils.getIntScriptVar(player, "terrain.city_id");
+
+        float targetHeight;
+
+        if (input == null || input.isEmpty())
+        {
+            targetHeight = calculateAverageTerrainHeight(city_id);
+        }
+        else
+        {
+            try
+            {
+                targetHeight = Float.parseFloat(input);
+            }
+            catch (NumberFormatException e)
+            {
+                sendSystemMessage(player, new string_id(STF, "invalid_number"));
+                return SCRIPT_CONTINUE;
+            }
+        }
+
+        applyBulldoze(player, city_id, targetHeight);
+
+        return SCRIPT_CONTINUE;
+    }
+
+    public float calculateAverageTerrainHeight(int city_id) throws InterruptedException
+    {
+        location cityLoc = cityGetLocation(city_id);
+        int cityRadius = cityGetRadius(city_id);
+
+        float totalHeight = 0;
+        int sampleCount = 0;
+
+        for (int x = -cityRadius; x <= cityRadius; x += 50)
+        {
+            for (int z = -cityRadius; z <= cityRadius; z += 50)
+            {
+                float dist = (float)Math.sqrt(x * x + z * z);
+                if (dist <= cityRadius)
+                {
+                    float height = getHeightAtLocation(cityLoc.x + x, cityLoc.z + z);
+                    totalHeight += height;
+                    sampleCount++;
+                }
+            }
+        }
+
+        return sampleCount > 0 ? totalHeight / sampleCount : 0;
+    }
+
+    public void applyBulldoze(obj_id player, int city_id, float targetHeight) throws InterruptedException
+    {
+        obj_id cityHall = cityGetCityHall(city_id);
+        location cityLoc = cityGetLocation(city_id);
+        int cityRadius = cityGetRadius(city_id);
+
+        setObjVar(cityHall, "city.bulldozed", 1);
+        setObjVar(cityHall, "city.bulldozed_height", targetHeight);
+        setObjVar(cityHall, "city.bulldozed_time", getGameTime());
+
+        obj_id[] structures = cityGetStructureIds(city_id);
+        if (structures != null)
+        {
+            for (obj_id structure : structures)
+            {
+                if (isIdValid(structure) && exists(structure))
+                {
+                    location loc = getLocation(structure);
+                    loc.y = targetHeight;
+                    setLocation(structure, loc);
+                }
+            }
+        }
+
+        broadcastTerrainUpdate(city_id, "FLATTEN", targetHeight, cityLoc.x, cityLoc.z, cityRadius, 20);
+
+        sendSystemMessage(player, new string_id(STF, "city_bulldozed"));
+
+        String cityName = cityGetName(city_id);
+        CustomerServiceLog("player_city", "City bulldozed. City: " + cityName + " Player: " + player + " Height: " + targetHeight);
+    }
+
+    public void showTerrainRegions(obj_id player, obj_id terminal, int city_id) throws InterruptedException
+    {
+        obj_id cityHall = cityGetCityHall(city_id);
+
+        String[] regionIds = getStringArrayObjVar(cityHall, TERRAIN_VAR_ROOT + ".region_ids");
+
+        if (regionIds == null || regionIds.length == 0)
+        {
+            sendSystemMessage(player, new string_id(STF, "no_terrain_regions"));
+            return;
+        }
+
+        String message = "City Terrain Regions:\n\n";
+
+        for (int i = 0; i < regionIds.length; i++)
+        {
+            String regionType = getStringObjVar(cityHall, TERRAIN_VAR_ROOT + "." + regionIds[i] + ".type");
+            String shader = getStringObjVar(cityHall, TERRAIN_VAR_ROOT + "." + regionIds[i] + ".shader_name");
+
+            message += (i + 1) + ". [" + regionType + "] " + shader + "\n";
+        }
+
+        sui.msgbox(terminal, player, message, sui.OK_ONLY, "Terrain Regions", sui.MSG_NORMAL, null);
+    }
+
+    public void showRemoveTerrainRegionUI(obj_id player, obj_id terminal, int city_id) throws InterruptedException
+    {
+        obj_id cityHall = cityGetCityHall(city_id);
+
+        String[] regionIds = getStringArrayObjVar(cityHall, TERRAIN_VAR_ROOT + ".region_ids");
+
+        if (regionIds == null || regionIds.length == 0)
+        {
+            sendSystemMessage(player, new string_id(STF, "no_terrain_regions"));
+            return;
+        }
+
+        String[] displayNames = new String[regionIds.length];
+
+        for (int i = 0; i < regionIds.length; i++)
+        {
+            String regionType = getStringObjVar(cityHall, TERRAIN_VAR_ROOT + "." + regionIds[i] + ".type");
+            String shader = getStringObjVar(cityHall, TERRAIN_VAR_ROOT + "." + regionIds[i] + ".shader_name");
+            displayNames[i] = "[" + regionType + "] " + shader;
+        }
+
+        utils.setScriptVar(player, "terrain.city_id", city_id);
+        utils.setScriptVar(player, "terrain.region_ids", regionIds);
+
+        sui.listbox(terminal, player, "Select region to remove:", sui.OK_CANCEL,
+                   "Remove Terrain Region", displayNames, "handleRemoveRegionSelection", true, false);
+    }
+
+    public int handleRemoveRegionSelection(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        int btn = sui.getIntButtonPressed(params);
+        int idx = sui.getListboxSelectedRow(params);
+
+        if (btn != sui.BP_OK || idx < 0)
+        {
+            return SCRIPT_CONTINUE;
+        }
+
+        int city_id = utils.getIntScriptVar(player, "terrain.city_id");
+        String[] regionIds = utils.getStringArrayScriptVar(player, "terrain.region_ids");
+
+        if (regionIds == null || idx >= regionIds.length)
+        {
+            return SCRIPT_CONTINUE;
+        }
+
+        removeTerrainRegion(player, city_id, regionIds[idx]);
+
+        return SCRIPT_CONTINUE;
+    }
+
+    public void removeTerrainRegion(obj_id player, int city_id, String regionId) throws InterruptedException
+    {
+        obj_id cityHall = cityGetCityHall(city_id);
+
+        removeObjVar(cityHall, TERRAIN_VAR_ROOT + "." + regionId);
+
+        String[] regionIds = getStringArrayObjVar(cityHall, TERRAIN_VAR_ROOT + ".region_ids");
+        if (regionIds != null)
+        {
+            java.util.Vector newList = new java.util.Vector();
+            for (String id : regionIds)
+            {
+                if (!id.equals(regionId))
+                {
+                    newList.add(id);
+                }
+            }
+            String[] newRegionIds = new String[newList.size()];
+            for (int i = 0; i < newList.size(); i++)
+            {
+                newRegionIds[i] = (String)newList.get(i);
+            }
+            setObjVar(cityHall, TERRAIN_VAR_ROOT + ".region_ids", newRegionIds);
+        }
+
+        broadcastTerrainUpdate(city_id, "REMOVE", 0, 0, 0, 0, 0);
+
+        sendSystemMessage(player, new string_id(STF, "terrain_region_removed"));
+
+        String cityName = cityGetName(city_id);
+        CustomerServiceLog("player_city", "Terrain region removed. City: " + cityName + " Player: " + player + " Region: " + regionId);
+    }
+
+    public void broadcastTerrainUpdate(int city_id, String type, float height, float x, float z, int radius, int blend) throws InterruptedException
+    {
+        location cityLoc = cityGetLocation(city_id);
+        int cityRadius = cityGetRadius(city_id);
+
+        obj_id[] players = getPlayerCreaturesInRange(cityLoc, cityRadius + 100);
+
+        if (players != null)
+        {
+            dictionary params = new dictionary();
+            params.put("type", type);
+            params.put("cityId", city_id);
+            params.put("height", height);
+            params.put("centerX", x);
+            params.put("centerZ", z);
+            params.put("radius", radius);
+            params.put("blend", blend);
+
+            for (obj_id player : players)
+            {
+                if (isIdValid(player))
+                {
+                    messageTo(player, "handleTerrainUpdate", params, 0, false);
+                }
+            }
+        }
     }
 }

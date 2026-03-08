@@ -1073,6 +1073,82 @@ public class player_developer extends base_script
             broadcast(self, "\\#aaddff  Use radial menus to configure.");
             return SCRIPT_CONTINUE;
         }
+        else if (cmd.equalsIgnoreCase("followDynamics"))
+        {
+            // Get the look-at target (intended target) and hard target
+            obj_id lookAtTarget = getLookAtTarget(self);
+            obj_id hardTarget = target;
+
+            // Validate look-at target
+            if (!isIdValid(lookAtTarget) || !exists(lookAtTarget))
+            {
+                broadcast(self, "\\#ff4444[Follow Dynamics]: No valid look-at target. Look at an object first.");
+                return SCRIPT_CONTINUE;
+            }
+
+            // Validate hard target
+            if (!isIdValid(hardTarget) || !exists(hardTarget))
+            {
+                broadcast(self, "\\#ff4444[Follow Dynamics]: No valid hard target. Target an object first (Ctrl+Click or /target).");
+                return SCRIPT_CONTINUE;
+            }
+
+            // Cannot follow self
+            if (lookAtTarget.equals(hardTarget))
+            {
+                broadcast(self, "\\#ff4444[Follow Dynamics]: Look-at target and hard target cannot be the same object.");
+                return SCRIPT_CONTINUE;
+            }
+
+            // Get optional offset parameters
+            float offsetX = 0.0f;
+            float offsetY = 0.0f;
+            float offsetZ = 0.0f;
+            boolean matchRotation = true;
+
+            if (tok.hasMoreTokens())
+            {
+                try
+                {
+                    offsetX = Float.parseFloat(tok.nextToken());
+                    if (tok.hasMoreTokens())
+                        offsetY = Float.parseFloat(tok.nextToken());
+                    if (tok.hasMoreTokens())
+                        offsetZ = Float.parseFloat(tok.nextToken());
+                    if (tok.hasMoreTokens())
+                        matchRotation = Boolean.parseBoolean(tok.nextToken());
+                }
+                catch (NumberFormatException e)
+                {
+                    broadcast(self, "\\#ff4444[Follow Dynamics]: Invalid offset values. Usage: /developer followDynamics [offsetX] [offsetY] [offsetZ] [matchRotation]");
+                    return SCRIPT_CONTINUE;
+                }
+            }
+            else
+            {
+                // Calculate offset based on current relative position
+                location lookAtLoc = getLocation(lookAtTarget);
+                location hardTargetLoc = getLocation(hardTarget);
+                offsetX = lookAtLoc.x - hardTargetLoc.x;
+                offsetY = lookAtLoc.y - hardTargetLoc.y;
+                offsetZ = lookAtLoc.z - hardTargetLoc.z;
+            }
+
+            // Apply lock to parent effect via tangible_dynamics
+            tangible_dynamics.applyLockToParentEffect(lookAtTarget, hardTarget, offsetX, offsetY, offsetZ, 0.0f, 0.0f, 0.0f, matchRotation, -1.0f);
+
+            String lookAtName = getName(lookAtTarget);
+            String hardTargetName = getName(hardTarget);
+            if (lookAtName == null || lookAtName.isEmpty())
+                lookAtName = lookAtTarget.toString();
+            if (hardTargetName == null || hardTargetName.isEmpty())
+                hardTargetName = hardTarget.toString();
+
+            broadcast(self, "\\#00ff88[Follow Dynamics]: " + lookAtName + " is now following " + hardTargetName);
+            broadcast(self, "\\#aaddff  Offset: X=" + offsetX + " Y=" + offsetY + " Z=" + offsetZ);
+            broadcast(self, "\\#aaddff  Match Rotation: " + matchRotation);
+            return SCRIPT_CONTINUE;
+        }
         else if (cmd.equalsIgnoreCase("awardBadge"))
         {
             String parameter = tok.nextToken();
