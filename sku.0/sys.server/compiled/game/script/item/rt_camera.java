@@ -34,6 +34,8 @@ public class rt_camera extends script.base_script
     public static final int MENU_SET_FOV = menu_info_types.SERVER_MENU4;
     public static final int MENU_SET_NAME = menu_info_types.SERVER_MENU5;
     public static final int MENU_PICK_UP = menu_info_types.SERVER_MENU6;
+    public static final int MENU_LOCK_TO_PARENT = menu_info_types.SERVER_MENU7;
+    public static final int MENU_UNLOCK_FROM_PARENT = menu_info_types.SERVER_MENU8;
 
     public int OnAttach(obj_id self) throws InterruptedException
     {
@@ -72,6 +74,18 @@ public class rt_camera extends script.base_script
 
             mi.addRootMenu(MENU_SET_FOV, string_id.unlocalized("Set Field of View"));
             mi.addRootMenu(MENU_SET_NAME, string_id.unlocalized("Set Name"));
+
+            // Lock to parent options
+            boolean isLockedToParent = hasObjVar(self, "dynamics.lockParent.parentId");
+            if (!isLockedToParent)
+            {
+                mi.addRootMenu(MENU_LOCK_TO_PARENT, string_id.unlocalized("Lock to Target"));
+            }
+            else
+            {
+                mi.addRootMenu(MENU_UNLOCK_FROM_PARENT, string_id.unlocalized("Unlock from Parent"));
+            }
+
             mi.addRootMenu(MENU_PICK_UP, string_id.unlocalized("Pick Up"));
         }
 
@@ -124,6 +138,18 @@ public class rt_camera extends script.base_script
         if (item == MENU_PICK_UP)
         {
             pickUpCamera(self, player);
+            return SCRIPT_CONTINUE;
+        }
+
+        if (item == MENU_LOCK_TO_PARENT)
+        {
+            startLockToParent(self, player);
+            return SCRIPT_CONTINUE;
+        }
+
+        if (item == MENU_UNLOCK_FROM_PARENT)
+        {
+            unlockFromParent(self, player);
             return SCRIPT_CONTINUE;
         }
 
@@ -270,6 +296,54 @@ public class rt_camera extends script.base_script
         {
             sendSystemMessageTestingOnly(player, "\\#ff4444[RT Camera]: Inventory full.");
         }
+    }
+
+    private void startLockToParent(obj_id camera, obj_id player) throws InterruptedException
+    {
+        obj_id target = getIntendedTarget(player);
+        if (!isIdValid(target) || target.equals(camera))
+        {
+            sendSystemMessageTestingOnly(player, "\\#00ccff[RT Camera]: Target an object to lock the camera to it.");
+            sendSystemMessageTestingOnly(player, "\\#aaaaaa[RT Camera]: The camera will move with the target object.");
+            utils.setScriptVar(player, "rt_camera.pendingLockToParent", camera);
+            return;
+        }
+
+        // Lock camera to target at current relative position
+        location camLoc = getLocation(camera);
+        location targetLoc = getLocation(target);
+
+        if (camLoc == null || targetLoc == null)
+        {
+            sendSystemMessageTestingOnly(player, "\\#ff4444[RT Camera]: Failed to get positions.");
+            return;
+        }
+
+        // Calculate offset
+        float dx = camLoc.x - targetLoc.x;
+        float dy = camLoc.y - targetLoc.y;
+        float dz = camLoc.z - targetLoc.z;
+
+        // Apply lock to parent effect via tangible_dynamics
+        tangible_dynamics.applyLockToParentEffect(camera, target, dx, dy, dz, 0.0f, 0.0f, 0.0f, true, -1.0f);
+
+        String targetName = getName(target);
+        if (targetName == null || targetName.isEmpty())
+            targetName = "object";
+
+        sendSystemMessageTestingOnly(player, "\\#00ff88[RT Camera]: Locked to '" + targetName + "'. Camera will now move with target.");
+    }
+
+    private void unlockFromParent(obj_id camera, obj_id player) throws InterruptedException
+    {
+        if (!hasObjVar(camera, "dynamics.lockParent.parentId"))
+        {
+            sendSystemMessageTestingOnly(player, "\\#ff4444[RT Camera]: Camera is not locked to any parent.");
+            return;
+        }
+
+        tangible_dynamics.clearLockToParentEffect(camera);
+        sendSystemMessageTestingOnly(player, "\\#00ff88[RT Camera]: Unlocked from parent. Camera is now stationary.");
     }
 
     /**

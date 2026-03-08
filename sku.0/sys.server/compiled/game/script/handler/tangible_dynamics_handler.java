@@ -54,6 +54,8 @@ public class tangible_dynamics_handler extends script.base_script
             handleApplyConveyor(self, params);
         else if (command.equals("apply_carousel"))
             handleApplyCarousel(self, params);
+        else if (command.equals("apply_lock_to_parent"))
+            handleApplyLockToParent(self, params);
         else if (command.equals("apply_combined"))
             handleApplyCombined(self, params);
         else if (command.equals("set_easing"))
@@ -87,6 +89,8 @@ public class tangible_dynamics_handler extends script.base_script
             handleClearConveyor(self);
         else if (command.equals("clear_carousel"))
             handleClearCarousel(self);
+        else if (command.equals("clear_lock_to_parent"))
+            handleClearLockToParent(self);
 
         return SCRIPT_CONTINUE;
     }
@@ -400,6 +404,49 @@ public class tangible_dynamics_handler extends script.base_script
         removeObjVar(self, "dynamics.follow.hoverHeight");
         removeObjVar(self, "dynamics.follow.bobAmplitude");
         removeObjVar(self, "dynamics.follow.duration");
+        return SCRIPT_CONTINUE;
+    }
+
+    private int handleApplyLockToParent(obj_id self, dictionary params) throws InterruptedException
+    {
+        long parentIdValue = params.getLong("parentId");
+        obj_id parentId = obj_id.getObjId(parentIdValue);
+        float offsetX = params.getFloat("offsetX");
+        float offsetY = params.getFloat("offsetY");
+        float offsetZ = params.getFloat("offsetZ");
+        float rotYaw = params.getFloat("rotYaw");
+        float rotPitch = params.getFloat("rotPitch");
+        float rotRoll = params.getFloat("rotRoll");
+        boolean matchRotation = params.getBoolean("matchRotation");
+        float duration = params.getFloat("duration");
+
+        setObjVar(self, "dynamics.lockParent.parentId", parentId);
+        setObjVar(self, "dynamics.lockParent.offsetX", offsetX);
+        setObjVar(self, "dynamics.lockParent.offsetY", offsetY);
+        setObjVar(self, "dynamics.lockParent.offsetZ", offsetZ);
+        setObjVar(self, "dynamics.lockParent.rotYaw", rotYaw);
+        setObjVar(self, "dynamics.lockParent.rotPitch", rotPitch);
+        setObjVar(self, "dynamics.lockParent.rotRoll", rotRoll);
+        setObjVar(self, "dynamics.lockParent.matchRotation", matchRotation);
+        setObjVar(self, "dynamics.lockParent.duration", duration);
+
+        if (duration > 0.0f)
+            messageTo(self, "OnLockToParentEffectTick", null, (long)(duration * 1000), false);
+
+        return SCRIPT_CONTINUE;
+    }
+
+    private int handleClearLockToParent(obj_id self) throws InterruptedException
+    {
+        removeObjVar(self, "dynamics.lockParent.parentId");
+        removeObjVar(self, "dynamics.lockParent.offsetX");
+        removeObjVar(self, "dynamics.lockParent.offsetY");
+        removeObjVar(self, "dynamics.lockParent.offsetZ");
+        removeObjVar(self, "dynamics.lockParent.rotYaw");
+        removeObjVar(self, "dynamics.lockParent.rotPitch");
+        removeObjVar(self, "dynamics.lockParent.rotRoll");
+        removeObjVar(self, "dynamics.lockParent.matchRotation");
+        removeObjVar(self, "dynamics.lockParent.duration");
         return SCRIPT_CONTINUE;
     }
 

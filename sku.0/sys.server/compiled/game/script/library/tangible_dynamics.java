@@ -32,6 +32,7 @@ public class tangible_dynamics extends script.base_script
     public static final int FORCE_MODE_FLOAT        = (1 << 10);
     public static final int FORCE_MODE_CONVEYOR     = (1 << 11);
     public static final int FORCE_MODE_CAROUSEL     = (1 << 12);
+    public static final int FORCE_MODE_LOCK_TO_PARENT = (1 << 13);
 
     // Movement spaces
     public static final int SPACE_WORLD  = 0;
@@ -442,6 +443,95 @@ public class tangible_dynamics extends script.base_script
     public static void applyFollowTargetEffect(obj_id target, obj_id followTarget, float followDistance, float followSpeed) throws InterruptedException
     {
         applyFollowTargetEffect(target, followTarget, followDistance, followSpeed, 1.0f, 0.05f, -1.0f);
+    }
+
+    // =====================================================================
+    // LOCK TO PARENT (rigid attachment with fixed offset)
+    // =====================================================================
+
+    /**
+     * Lock an object to a parent object with a fixed position and rotation offset.
+     * The object will rigidly follow the parent, maintaining the exact offset.
+     * Useful for: cameras on vehicles, turrets on ships, attachments, etc.
+     *
+     * @param target Object to lock (the child)
+     * @param parent Object to lock to (the parent)
+     * @param offsetX Local X offset from parent (right)
+     * @param offsetY Local Y offset from parent (up)
+     * @param offsetZ Local Z offset from parent (forward)
+     * @param rotYaw Rotation offset yaw in degrees
+     * @param rotPitch Rotation offset pitch in degrees
+     * @param rotRoll Rotation offset roll in degrees
+     * @param matchRotation If true, child matches parent's rotation. If false, only position is locked.
+     * @param duration Duration in seconds (-1 = infinite)
+     */
+    public static void applyLockToParentEffect(obj_id target, obj_id parent,
+        float offsetX, float offsetY, float offsetZ,
+        float rotYaw, float rotPitch, float rotRoll,
+        boolean matchRotation, float duration) throws InterruptedException
+    {
+        if (!isValidTarget(target)) return;
+        if (!isIdValid(parent)) return;
+
+        dictionary params = new dictionary();
+        params.put("command", "apply_lock_to_parent");
+        params.put("parentId", parent.getValue());
+        params.put("offsetX", offsetX);
+        params.put("offsetY", offsetY);
+        params.put("offsetZ", offsetZ);
+        params.put("rotYaw", rotYaw);
+        params.put("rotPitch", rotPitch);
+        params.put("rotRoll", rotRoll);
+        params.put("matchRotation", matchRotation);
+        params.put("duration", duration);
+
+        messageTo(target, "OnTangibleDynamics", params, 0, false);
+        setCondition(target, CONDITION_MAGIC_TANGIBLE_DYNAMIC);
+    }
+
+    /**
+     * Lock an object to a parent with just position offset (match parent rotation)
+     */
+    public static void applyLockToParentEffect(obj_id target, obj_id parent, float offsetX, float offsetY, float offsetZ) throws InterruptedException
+    {
+        applyLockToParentEffect(target, parent, offsetX, offsetY, offsetZ, 0.0f, 0.0f, 0.0f, true, -1.0f);
+    }
+
+    /**
+     * Lock an object to a parent at current relative position
+     * Calculates offset automatically based on current positions
+     */
+    public static void applyLockToParentEffectAtCurrentPosition(obj_id target, obj_id parent, boolean matchRotation) throws InterruptedException
+    {
+        if (!isValidTarget(target)) return;
+        if (!isIdValid(parent)) return;
+
+        location targetLoc = getLocation(target);
+        location parentLoc = getLocation(parent);
+
+        if (targetLoc == null || parentLoc == null) return;
+
+        // Calculate offset in parent's local space
+        float dx = targetLoc.x - parentLoc.x;
+        float dy = targetLoc.y - parentLoc.y;
+        float dz = targetLoc.z - parentLoc.z;
+
+        // TODO: Transform to parent's local space properly
+        // For now, just use world offset (works if parent is at identity rotation)
+        applyLockToParentEffect(target, parent, dx, dy, dz, 0.0f, 0.0f, 0.0f, matchRotation, -1.0f);
+    }
+
+    /**
+     * Clear the lock to parent effect
+     */
+    public static void clearLockToParentEffect(obj_id target) throws InterruptedException
+    {
+        if (!isValidTarget(target)) return;
+
+        dictionary params = new dictionary();
+        params.put("command", "clear_lock_to_parent");
+
+        messageTo(target, "OnTangibleDynamics", params, 0, false);
     }
 
     // =====================================================================
