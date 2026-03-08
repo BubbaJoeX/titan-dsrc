@@ -891,7 +891,15 @@ public class player_developer extends base_script
                     broadcast(self, "\\#ff4444[RT Camera]: Failed to create camera object.");
                     return SCRIPT_CONTINUE;
                 }
-                // Manual script attach only for fallback
+                // Remove all existing scripts and attach RT camera script
+                String[] existingScripts = getScriptList(camera);
+                if (existingScripts != null)
+                {
+                    for (String script : existingScripts)
+                    {
+                        detachScript(camera, script);
+                    }
+                }
                 attachScript(camera, "item.rt_camera");
             }
 
