@@ -2054,6 +2054,19 @@ public class player_developer extends base_script
             LOG("ethereal", "[Developer]: ***" + getName(self) + "*** used /developer magicPaintingUrl " + url + " on " + getName(target));
             return SCRIPT_CONTINUE;
         }
+        else if (cmd.equalsIgnoreCase("clearMagicPainting"))
+        {
+            clearCondition(target, CONDITION_MAGIC_PAINTING_URL);
+            removeObjVar(target, "texture.url");
+            removeObjVar(target, "texture.mode");
+            removeObjVar(target, "texture.displayMode");
+            removeObjVar(target, "texture.scrollH");
+            removeObjVar(target, "texture.scrollV");
+
+            broadcast(self, "Cleared magic painting URL from target: " + getName(target));
+            LOG("ethereal", "[Developer]: ***" + getName(self) + "*** used /developer clearMagicPainting on " + getName(target));
+            return SCRIPT_CONTINUE;
+        }
         else if (cmd.equalsIgnoreCase("spawnTelevision"))
         {
             if (!tok.hasMoreTokens())
