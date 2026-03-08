@@ -2284,4 +2284,45 @@ public class player_titan extends base_script
         return SCRIPT_CONTINUE;
     }
 
+    // =====================================================================
+    // RT Camera System Message Handler
+    // =====================================================================
+
+    /**
+     * Handle RT Camera feed request from server.
+     * This sends camera data to the client for real-time rendering.
+     */
+    public int handleRtCameraFeed(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (!isIdValid(self) || !isPlayer(self))
+            return SCRIPT_CONTINUE;
+
+        obj_id cameraId = params.getObjId("cameraId");
+        obj_id screenId = params.getObjId("screenId");
+        int resolution = params.getInt("resolution");
+        float fov = params.getFloat("fov");
+        float camX = params.getFloat("camX");
+        float camY = params.getFloat("camY");
+        float camZ = params.getFloat("camZ");
+
+        if (!isIdValid(cameraId) || !isIdValid(screenId))
+        {
+            sendSystemMessageTestingOnly(self, "\\#ff4444[RT Camera]: Invalid camera or screen.");
+            return SCRIPT_CONTINUE;
+        }
+
+        // Send command to client to start rendering the camera feed
+        // The client will use RtCameraManager to handle this
+        String cmdParams = cameraId.toString() + " " + screenId.toString() + " " +
+                          resolution + " " + fov + " " + camX + " " + camY + " " + camZ;
+
+        sendSystemMessageTestingOnly(self, "\\#00ccff[RT Camera]: Connecting to camera feed...");
+
+        // Use a client command to pass the data
+        // The client needs to register a handler for this
+        queueCommand(self, (-1891061875), self, "rtcamera_start " + cmdParams, COMMAND_PRIORITY_DEFAULT);
+
+        return SCRIPT_CONTINUE;
+    }
+
 }

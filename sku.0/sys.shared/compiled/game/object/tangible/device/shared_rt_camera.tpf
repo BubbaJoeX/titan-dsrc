@@ -1,0 +1,20 @@
+// RT Camera - Real-Time Camera for surveillance systems
+// SWG: Titan
+
+@base object/tangible/base/shared_tangible_base.iff
+
+@class tangible_object_template 6
+
+@class object_template 5
+
+objectName = "item_n" "rt_camera"
+
+detailedDescription = "item_d" "rt_camera"
+
+appearanceFilename = "appearance/thm_prp_camera.apt"
+
+gameObjectType = GOT_terminal_misc
+
+clientGameObjectType = 8207
+
+

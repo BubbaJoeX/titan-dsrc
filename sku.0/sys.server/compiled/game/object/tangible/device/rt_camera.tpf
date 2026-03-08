@@ -1,0 +1,14 @@
+// RT Camera - Real-Time Camera for surveillance systems
+// SWG: Titan
+
+@base object/tangible/base/base_tangible.iff
+
+@class tangible_object_template 0
+
+@class object_template 2
+
+sharedTemplate = "object/tangible/device/shared_rt_camera.iff"
+
+scripts = ["item.rt_camera"]
+
+

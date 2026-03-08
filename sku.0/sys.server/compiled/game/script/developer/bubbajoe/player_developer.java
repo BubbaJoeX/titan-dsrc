@@ -875,6 +875,94 @@ public class player_developer extends base_script
             }
             return SCRIPT_CONTINUE;
         }
+        else if (cmd.equalsIgnoreCase("spawnRtCamera"))
+        {
+            // Spawn RT Camera at player location
+            location playerLoc = getLocation(self);
+
+            // Create camera object using dedicated template
+            obj_id camera = createObject("object/tangible/device/rt_camera.iff", playerLoc);
+            if (!isIdValid(camera) || !exists(camera))
+            {
+                // Fallback to generic template if custom doesn't exist
+                camera = createObject("object/tangible/terminal/base/base_terminal.iff", playerLoc);
+                if (!isIdValid(camera) || !exists(camera))
+                {
+                    broadcast(self, "\\#ff4444[RT Camera]: Failed to create camera object.");
+                    return SCRIPT_CONTINUE;
+                }
+                // Manual script attach only for fallback
+                attachScript(camera, "item.rt_camera");
+            }
+
+            // Set owner
+            setOwner(camera, self);
+
+            // Set default name
+            String cameraName = "RT Camera";
+            if (tok.hasMoreTokens())
+            {
+                StringBuilder nameBuilder = new StringBuilder();
+                while (tok.hasMoreTokens())
+                {
+                    if (nameBuilder.length() > 0)
+                        nameBuilder.append(" ");
+                    nameBuilder.append(tok.nextToken());
+                }
+                cameraName = nameBuilder.toString().trim();
+            }
+            setName(camera, cameraName);
+            setObjVar(camera, "rt_camera.name", cameraName);
+
+            broadcast(self, "\\#00ff88[RT Camera]: Camera spawned at your location.");
+            broadcast(self, "\\#aaddff  Name: " + cameraName);
+            broadcast(self, "\\#aaddff  Use radial menu to link to an RT Screen.");
+            return SCRIPT_CONTINUE;
+        }
+        else if (cmd.equalsIgnoreCase("spawnRtScreen"))
+        {
+            // Spawn RT Screen at player location
+            location playerLoc = getLocation(self);
+
+            // Create screen object using dedicated template
+            obj_id screen = createObject("object/tangible/device/rt_screen.iff", playerLoc);
+            if (!isIdValid(screen) || !exists(screen))
+            {
+                // Fallback to generic template if custom doesn't exist
+                screen = createObject("object/tangible/furniture/technical/shared_guild_screen_imp_1.iff", playerLoc);
+                if (!isIdValid(screen) || !exists(screen))
+                {
+                    broadcast(self, "\\#ff4444[RT Screen]: Failed to create screen object.");
+                    return SCRIPT_CONTINUE;
+                }
+                // Manual script attach only for fallback
+                attachScript(screen, "item.rt_screen");
+            }
+
+            // Set owner
+            setOwner(screen, self);
+
+            // Set default name
+            String screenName = "RT Screen";
+            if (tok.hasMoreTokens())
+            {
+                StringBuilder nameBuilder = new StringBuilder();
+                while (tok.hasMoreTokens())
+                {
+                    if (nameBuilder.length() > 0)
+                        nameBuilder.append(" ");
+                    nameBuilder.append(tok.nextToken());
+                }
+                screenName = nameBuilder.toString().trim();
+            }
+            setName(screen, screenName);
+            setObjVar(screen, "rt_screen.name", screenName);
+
+            broadcast(self, "\\#00ff88[RT Screen]: Screen spawned at your location.");
+            broadcast(self, "\\#aaddff  Name: " + screenName);
+            broadcast(self, "\\#aaddff  Use radial menu to link to an RT Camera.");
+            return SCRIPT_CONTINUE;
+        }
         else if (cmd.equalsIgnoreCase("awardBadge"))
         {
             String parameter = tok.nextToken();
