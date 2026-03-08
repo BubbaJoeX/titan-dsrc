@@ -2369,7 +2369,7 @@ public class city extends script.base_script
         {
             String cityName = cityGetName(cityId);
             prose_package pp = prose.getPackage(SID_LANDING_TAX_PAID, cityName, landingTax);
-            sendSystemMessage(pilot, pp);
+            prose.sendSystemMessageProse(pilot, pp);
             return true;
         }
 
