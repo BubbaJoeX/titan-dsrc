@@ -943,7 +943,7 @@ public class player_developer extends base_script
             setOwner(screen, self);
 
             // Set Screen Scale
-            
+
             // Set names
             String cameraName = systemName + " Camera";
             String screenName = systemName + " Screen";
@@ -953,13 +953,13 @@ public class player_developer extends base_script
             setObjVar(screen, "rt_screen.name", screenName);
 
             // Auto-link camera and screen
-            setObjVar(camera, "rt_camera.linkedScreen", screen);
-            setObjVar(camera, "rt_camera.owner", self);
+            setObjVar(camera, "rt_camera.linkedScreen", screen.toString());
+            setObjVar(camera, "rt_camera.owner", self.toString());
             setObjVar(camera, "rt_camera.isActive", 1);
             setObjVar(camera, "rt_camera.fov", 60.0f);
 
-            setObjVar(screen, "rt_screen.linkedCamera", camera);
-            setObjVar(screen, "rt_screen.owner", self);
+            setObjVar(screen, "rt_screen.linkedCamera", camera.toString());
+            setObjVar(screen, "rt_screen.owner", self.toString());
             setObjVar(screen, "rt_screen.resolution", 512);
 
             broadcast(self, "\\#00ff88[RT System]: Camera and Screen spawned and linked!");
