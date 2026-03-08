@@ -207,6 +207,8 @@ public class player_titan extends base_script
 
     public int OnLogout(obj_id self) throws InterruptedException
     {
+        // Handle ship logout (move to safe altitude, persist in world for atmospheric flight)
+        space_transition.handleLogout(self);
         return SCRIPT_CONTINUE;
     }
 

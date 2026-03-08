@@ -15,6 +15,7 @@ public class ship_control_device extends script.base_script
     public static final string_id SID_LAUNCH = string_id.unlocalized("Launch Ship");
     public static final string_id SID_REPAIR_GM = string_id.unlocalized("Repair (GM)");
     public static final string_id SID_FORCE_LAND_GM = string_id.unlocalized("Force Land (GM)");
+    public static final string_id SID_FIND_SHIP = string_id.unlocalized("Find Ship Location");
     public static final string_id PROMPT1 = new string_id("sui", "rename_ship_text");
     public static final String[] ignoreRules = new String[]
     {
@@ -166,13 +167,16 @@ public class ship_control_device extends script.base_script
         boolean hasLand = thisScdsShipIsOut && isAtmo;
         boolean hasRepairGM = isIdValid(objShip) && getShipChassisType(objShip).equals("player_sorosuub_space_yacht") && isGod(player);
         boolean hasForceLandGM = isAtmo && isGod(player) && (thisScdsShipIsOut || isIdValid(deployedShip));
-        if (hasLaunch || hasLand || hasRepairGM || hasForceLandGM)
+        boolean hasFindShip = thisScdsShipIsOut && isAtmo;
+        if (hasLaunch || hasLand || hasRepairGM || hasForceLandGM || hasFindShip)
         {
             int atmRoot = mi.addRootMenu(menu_info_types.SERVER_MENU5, SID_ATMOSPHERIC_FLIGHT);
             if (hasLaunch)
                 mi.addSubMenu(atmRoot, menu_info_types.SERVER_MENU6, SID_LAUNCH);
             if (hasLand)
                 mi.addSubMenu(atmRoot, menu_info_types.SERVER_MENU7, LAND_SHIP);
+            if (hasFindShip)
+                mi.addSubMenu(atmRoot, menu_info_types.SERVER_MENU10, SID_FIND_SHIP);
             if (hasRepairGM)
                 mi.addSubMenu(atmRoot, menu_info_types.SERVER_MENU8, SID_REPAIR_GM);
             if (hasForceLandGM)
@@ -248,6 +252,52 @@ public class ship_control_device extends script.base_script
             sendSystemMessageTestingOnly(player, "[GM] Force landing ship " + shipToLand + "...");
             space_transition.packShip(shipToLand);
             sendSystemMessageTestingOnly(player, "[GM] Ship force landed.");
+            return SCRIPT_CONTINUE;
+        }
+        if (item == menu_info_types.SERVER_MENU10)
+        {
+            if (!space_transition.isAtmosphericFlightScene())
+                return SCRIPT_CONTINUE;
+            obj_id unpackedShip = space_transition.getUnpackedShipForShipControlDevice(self, player);
+            if (!isIdValid(unpackedShip))
+            {
+                sendSystemMessageTestingOnly(player, "\\#ff4444Your ship is not currently deployed.");
+                return SCRIPT_CONTINUE;
+            }
+            location shipLoc = getLocation(unpackedShip);
+            if (shipLoc == null)
+            {
+                sendSystemMessageTestingOnly(player, "\\#ff4444Unable to determine ship location.");
+                return SCRIPT_CONTINUE;
+            }
+            String shipName = getAssignedName(self);
+            if (shipName == null || shipName.isEmpty())
+                shipName = "Your Ship";
+            sendSystemMessageTestingOnly(player, " ");
+            sendSystemMessageTestingOnly(player, "\\#00ccff========================================");
+            sendSystemMessageTestingOnly(player, "\\#00ccff  SHIP LOCATION: " + shipName);
+            sendSystemMessageTestingOnly(player, "\\#00ccff========================================");
+            sendSystemMessageTestingOnly(player, "\\#aaddff  Planet: " + shipLoc.area);
+            sendSystemMessageTestingOnly(player, "\\#aaddff  Coordinates: [" + Math.round(shipLoc.x) + ", " + Math.round(shipLoc.y) + ", " + Math.round(shipLoc.z) + "]");
+            sendSystemMessageTestingOnly(player, "\\#aaddff  Altitude: " + Math.round(shipLoc.y) + "m");
+            float terrainHeight = getHeightAtLocation(shipLoc.x, shipLoc.z);
+            sendSystemMessageTestingOnly(player, "\\#aaddff  Height above terrain: " + Math.round(shipLoc.y - terrainHeight) + "m");
+            sendSystemMessageTestingOnly(player, " ");
+            obj_id existingWp = getObjIdObjVar(player, "ship.lastLocationWaypoint");
+            if (isIdValid(existingWp))
+                destroyWaypointInDatapad(existingWp, player);
+            location groundLoc = new location(shipLoc.x, terrainHeight, shipLoc.z, shipLoc.area);
+            obj_id waypoint = createWaypointInDatapad(player, groundLoc);
+            if (isIdValid(waypoint))
+            {
+                setWaypointName(waypoint, shipName + " (Deployed)");
+                setWaypointColor(waypoint, "blue");
+                setWaypointActive(waypoint, true);
+                setWaypointVisible(waypoint, true);
+                setObjVar(player, "ship.lastLocationWaypoint", waypoint);
+                sendSystemMessageTestingOnly(player, "\\#88ddaaA waypoint has been created at your ship's ground location.");
+            }
+            sendSystemMessageTestingOnly(player, " ");
             return SCRIPT_CONTINUE;
         }
         if (item == menu_info_types.SERVER_MENU1)

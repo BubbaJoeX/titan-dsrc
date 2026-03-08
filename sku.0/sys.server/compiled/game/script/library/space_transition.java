@@ -396,6 +396,9 @@ public class space_transition extends script.base_script
             }
         }
     }
+    // Logout altitude for ships in atmospheric flight - halfway between terrain and lithosphere warning
+    public static final float LOGOUT_ALTITUDE = 3000.0f;
+
     public static void handleLogout(obj_id player) throws InterruptedException
     {
         obj_id containingShip = getContainingShip(player);
@@ -408,9 +411,47 @@ public class space_transition extends script.base_script
             obj_id owner = getOwner(containingShip);
             if (owner == player)
             {
-                utils.setLocalVar(player, "loggingOut", true);
-                packShip(containingShip);
-                utils.removeLocalVar(player, "loggingOut");
+                // In atmospheric flight, DON'T pack the ship - it should persist in the world
+                // Only pack if we're in space scene (not atmospheric)
+                if (!isAtmosphericFlightScene())
+                {
+                    utils.setLocalVar(player, "loggingOut", true);
+                    packShip(containingShip);
+                    utils.removeLocalVar(player, "loggingOut");
+                }
+                else
+                {
+                    // In atmospheric flight, move ship to safe logout altitude and leave it in world
+                    LOG("space_transition", "player " + player + " logging out - moving ship " + containingShip + " to logout altitude");
+                    if (player == getPilotId(containingShip))
+                    {
+                        unpilotShip(player);
+                    }
+
+                    // Move ship to logout altitude (3000m) for safety
+                    location shipLoc = getLocation(containingShip);
+                    if (shipLoc != null)
+                    {
+                        float terrainHeight = getHeightAtLocation(shipLoc.x, shipLoc.z);
+                        float targetAltitude = terrainHeight + LOGOUT_ALTITUDE;
+
+                        // Only move up if ship is below logout altitude
+                        if (shipLoc.y < targetAltitude)
+                        {
+                            shipLoc.y = targetAltitude;
+                            setLocation(containingShip, shipLoc);
+                            LOG("space_transition", "Ship " + containingShip + " moved to logout altitude: " + targetAltitude);
+                        }
+                    }
+
+                    // Clear autopilot state
+                    shipClearAutopilot(containingShip);
+                    removeObjVar(containingShip, "space.autopilot");
+
+                    // Ensure ship has boarding script for when owner returns or others want to board
+                    if (!hasScript(containingShip, "space.ship.ship_atmospheric_boarding"))
+                        attachScript(containingShip, "space.ship.ship_atmospheric_boarding");
+                }
             }
             if (!isGod(player))
             {
@@ -830,31 +871,34 @@ public class space_transition extends script.base_script
         }
         packShipFinalize(ship);
     }
-    /** Moves ship far from owner so client DPVS can drop it, then schedules actual pack to avoid dpvs.dll crash. */
+    /** Moves ship far from all players so client DPVS can drop it, then schedules actual pack to avoid dpvs.dll crash. */
     public static void prepareShipForPackDpvsSafe(obj_id ship) throws InterruptedException
     {
         if (!hasObjVar(ship, "space.packPending"))
             return;
         if (getTopMostContainer(ship) != ship)
             return;
-        obj_id owner = getOwner(ship);
-        if (!isIdValid(owner))
-        {
-            packShipFinalize(ship);
-            return;
-        }
-        location ownerLoc = getWorldLocation(owner);
-        float farX = ownerLoc.x + 10000.0f;
-        float farZ = ownerLoc.z + 10000.0f;
-        float farY = getHeightAtLocation(farX, farZ) + 200.0f;
-        location farLoc = new location(farX, farY, farZ, ownerLoc.area, null);
+
+        // Make ship invisible immediately to prevent rendering issues
+        setObjVar(ship, "space.packingInProgress", true);
+
+        // Move ship to extreme coordinates that no player could be viewing
+        // Use consistent far location to avoid any edge cases
+        location shipLoc = getLocation(ship);
+        float farX = 16000.0f;  // Edge of world
+        float farZ = 16000.0f;
+        float farY = 5000.0f;   // High in the sky
+        location farLoc = new location(farX, farY, farZ, shipLoc.area, null);
         setLocation(ship, farLoc);
-        messageTo(ship, "delayedPackShipFinalizePhase2", null, 2.0f, false);
+
+        // Increase delay to ensure client DPVS has time to drop the object
+        messageTo(ship, "delayedPackShipFinalizePhase2", null, 3.0f, false);
     }
 
     public static void packShipFinalize(obj_id ship) throws InterruptedException
     {
         removeObjVar(ship, "space.packPending");
+        removeObjVar(ship, "space.packingInProgress");
         if (getTopMostContainer(ship) != ship)
             return;
         obj_id owner = getOwner(ship);
