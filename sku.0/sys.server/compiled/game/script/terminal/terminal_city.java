@@ -263,20 +263,11 @@ public class terminal_city extends script.base_script
             mi.addSubMenu(menu, menu_info_types.SERVER_MENU21, SID_EXTENDED_TAXES);
             mi.addSubMenu(menu, menu_info_types.SERVER_MENU22, SID_JUDGE_ELECTION);
 
-            // Terrain Management Options (Rank 2+)
+            // Terrain Management - Single unified option (Rank 2+)
             int cityRank = city.getCityRank(city_id);
             if (cityRank >= 2)
             {
-                int terrainMenu = mi.addRootMenu(menu_info_types.SERVER_MENU40, SID_TERRAIN_MANAGEMENT);
-                mi.addSubMenu(terrainMenu, menu_info_types.SERVER_MENU41, SID_PAINT_TERRAIN_RADIUS);
-                mi.addSubMenu(terrainMenu, menu_info_types.SERVER_MENU42, SID_PAINT_TERRAIN_ROAD);
-                if (cityRank >= 3)
-                {
-                    mi.addSubMenu(terrainMenu, menu_info_types.SERVER_MENU43, SID_BULLDOZE_CITY);
-                }
-                mi.addSubMenu(terrainMenu, menu_info_types.SERVER_MENU44, SID_VIEW_TERRAIN_REGIONS);
-                mi.addSubMenu(terrainMenu, menu_info_types.SERVER_MENU45, SID_REMOVE_TERRAIN_REGION);
-                mi.addSubMenu(terrainMenu, menu_info_types.SERVER_MENU46, SID_ADVANCED_TERRAFORMING);
+                mi.addSubMenu(menu, menu_info_types.SERVER_MENU40, SID_TERRAIN_MANAGEMENT);
             }
         }
 
@@ -779,37 +770,11 @@ public class terminal_city extends script.base_script
             }
         }
 
-        // Terrain Management (Mayor only)
+        // Terrain Management (Mayor only) - Opens unified terraforming UI
         if (player == mayor || isGod(player))
         {
-            if (item == menu_info_types.SERVER_MENU41)
+            if (item == menu_info_types.SERVER_MENU40)
             {
-                // Paint Terrain Radius
-                showRadiusPaintUI(player, self, city_id);
-            }
-            else if (item == menu_info_types.SERVER_MENU42)
-            {
-                // Paint Terrain Road
-                showRoadPaintUI(player, self, city_id);
-            }
-            else if (item == menu_info_types.SERVER_MENU43)
-            {
-                // Bulldoze City
-                showBulldozeUI(player, self, city_id);
-            }
-            else if (item == menu_info_types.SERVER_MENU44)
-            {
-                // View Terrain Regions
-                showTerrainRegions(player, self, city_id);
-            }
-            else if (item == menu_info_types.SERVER_MENU45)
-            {
-                // Remove Terrain Region
-                showRemoveTerrainRegionUI(player, self, city_id);
-            }
-            else if (item == menu_info_types.SERVER_MENU46)
-            {
-                // Advanced Terraforming UI
                 base_class.openTerraformingUI(player, city_id);
             }
         }
