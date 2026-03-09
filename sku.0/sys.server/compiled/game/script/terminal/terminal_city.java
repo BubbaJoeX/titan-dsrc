@@ -179,6 +179,7 @@ public class terminal_city extends script.base_script
     public static final string_id SID_BULLDOZE_CITY = new string_id(STF, "bulldoze_city");
     public static final string_id SID_VIEW_TERRAIN_REGIONS = new string_id(STF, "view_terrain_regions");
     public static final string_id SID_REMOVE_TERRAIN_REGION = new string_id(STF, "remove_terrain_region");
+    public static final string_id SID_ADVANCED_TERRAFORMING = new string_id(STF, "advanced_terraforming");
 
     public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi) throws InterruptedException
     {
@@ -275,6 +276,7 @@ public class terminal_city extends script.base_script
                 }
                 mi.addSubMenu(terrainMenu, menu_info_types.SERVER_MENU44, SID_VIEW_TERRAIN_REGIONS);
                 mi.addSubMenu(terrainMenu, menu_info_types.SERVER_MENU45, SID_REMOVE_TERRAIN_REGION);
+                mi.addSubMenu(terrainMenu, menu_info_types.SERVER_MENU46, SID_ADVANCED_TERRAFORMING);
             }
         }
 
@@ -804,6 +806,11 @@ public class terminal_city extends script.base_script
             {
                 // Remove Terrain Region
                 showRemoveTerrainRegionUI(player, self, city_id);
+            }
+            else if (item == menu_info_types.SERVER_MENU46)
+            {
+                // Advanced Terraforming UI
+                base_class.openTerraformingUI(player, city_id);
             }
         }
 
