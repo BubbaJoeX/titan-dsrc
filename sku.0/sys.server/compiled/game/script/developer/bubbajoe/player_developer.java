@@ -1149,6 +1149,178 @@ public class player_developer extends base_script
             broadcast(self, "\\#aaddff  Match Rotation: " + matchRotation);
             return SCRIPT_CONTINUE;
         }
+        else if (cmd.equalsIgnoreCase("snapCityObjects") || cmd.equalsIgnoreCase("snapCityStructures"))
+        {
+            // Get city ID - either from param or from player's location
+            int cityId = -1;
+
+            if (tok.hasMoreTokens())
+            {
+                try
+                {
+                    cityId = Integer.parseInt(tok.nextToken());
+                }
+                catch (NumberFormatException e)
+                {
+                    broadcast(self, "\\#ff4444[Snap City Objects]: Invalid city ID. Usage: /developer snapCityObjects [cityId]");
+                    return SCRIPT_CONTINUE;
+                }
+            }
+            else
+            {
+                // Try to find city at player's location
+                location playerLoc = getLocation(self);
+                cityId = getCityAtLocation(playerLoc, 500);
+            }
+
+            if (cityId <= 0)
+            {
+                broadcast(self, "\\#ff4444[Snap City Objects]: Could not find a city. Use /developer snapCityObjects [cityId]");
+                return SCRIPT_CONTINUE;
+            }
+
+            String cityName = cityGetName(cityId);
+            broadcast(self, "\\#aaddff[Snap City Objects]: Snapping all structures for city: " + cityName + " (ID: " + cityId + ")");
+
+            // Get all city structures
+            obj_id[] structures = cityGetStructureIds(cityId);
+
+            if (structures == null || structures.length == 0)
+            {
+                broadcast(self, "\\#ff4444[Snap City Objects]: No structures found in city.");
+                return SCRIPT_CONTINUE;
+            }
+
+            int snappedCount = 0;
+            int failedCount = 0;
+
+            for (obj_id structure : structures)
+            {
+                if (isIdValid(structure) && exists(structure))
+                {
+                    try
+                    {
+                        location loc = getLocation(structure);
+                        if (loc != null && loc.cell == null)  // Only snap world objects, not cell contents
+                        {
+                            float terrainHeight = getHeightAtLocation(loc.x, loc.z);
+                            if (Math.abs(loc.y - terrainHeight) > 0.1f)  // Only move if actually different
+                            {
+                                String structName = getName(structure);
+                                if (structName == null || structName.isEmpty())
+                                {
+                                    structName = getTemplateName(structure);
+                                }
+
+                                broadcast(self, "\\#aaddff  Snapping: " + structName + " from Y=" + String.format("%.2f", loc.y) + " to Y=" + String.format("%.2f", terrainHeight));
+
+                                loc.y = terrainHeight;
+                                setLocation(structure, loc);
+                                snappedCount++;
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        failedCount++;
+                    }
+                }
+            }
+
+            broadcast(self, "\\#00ff88[Snap City Objects]: Complete!");
+            broadcast(self, "\\#aaddff  Structures snapped: " + snappedCount);
+            broadcast(self, "\\#aaddff  Structures skipped/failed: " + (structures.length - snappedCount));
+
+            LOG("ethereal", "[Developer]: " + getPlayerFullName(self) + " used /developer snapCityObjects for city " + cityName + " (ID: " + cityId + "). Snapped " + snappedCount + " structures.");
+            return SCRIPT_CONTINUE;
+        }
+        else if (cmd.equalsIgnoreCase("snapToTerrain"))
+        {
+            // Snap target object (or self) to terrain height
+            obj_id objectToSnap = target;
+            if (!isIdValid(objectToSnap) || !exists(objectToSnap))
+            {
+                objectToSnap = self;
+            }
+
+            location loc = getLocation(objectToSnap);
+            if (loc != null && loc.cell == null)
+            {
+                float terrainHeight = getHeightAtLocation(loc.x, loc.z);
+                String objName = getName(objectToSnap);
+                if (objName == null || objName.isEmpty())
+                {
+                    objName = getTemplateName(objectToSnap);
+                }
+
+                broadcast(self, "\\#aaddff[Snap To Terrain]: Snapping " + objName);
+                broadcast(self, "\\#aaddff  From Y=" + String.format("%.2f", loc.y) + " to Y=" + String.format("%.2f", terrainHeight));
+
+                loc.y = terrainHeight;
+                setLocation(objectToSnap, loc);
+
+                broadcast(self, "\\#00ff88[Snap To Terrain]: Done!");
+            }
+            else
+            {
+                broadcast(self, "\\#ff4444[Snap To Terrain]: Object is inside a cell or location invalid.");
+            }
+            return SCRIPT_CONTINUE;
+        }
+        else if (cmd.equalsIgnoreCase("snapRadiusToTerrain"))
+        {
+            // Snap all objects within a radius to terrain
+            float radius = 100.0f;
+            if (tok.hasMoreTokens())
+            {
+                try
+                {
+                    radius = Float.parseFloat(tok.nextToken());
+                }
+                catch (NumberFormatException e)
+                {
+                    broadcast(self, "\\#ff4444[Snap Radius]: Invalid radius. Usage: /developer snapRadiusToTerrain [radius]");
+                    return SCRIPT_CONTINUE;
+                }
+            }
+
+            location playerLoc = getLocation(self);
+            obj_id[] nearbyObjects = getObjectsInRange(playerLoc, radius);
+
+            if (nearbyObjects == null || nearbyObjects.length == 0)
+            {
+                broadcast(self, "\\#ff4444[Snap Radius]: No objects found within " + radius + "m");
+                return SCRIPT_CONTINUE;
+            }
+
+            broadcast(self, "\\#aaddff[Snap Radius]: Processing " + nearbyObjects.length + " objects within " + radius + "m...");
+
+            int snappedCount = 0;
+            for (obj_id obj : nearbyObjects)
+            {
+                if (isIdValid(obj) && exists(obj))
+                {
+                    // Skip creatures/players
+                    if (isPlayer(obj) || isCreatureObject(obj))
+                        continue;
+
+                    location loc = getLocation(obj);
+                    if (loc != null && loc.cell == null)
+                    {
+                        float terrainHeight = getHeightAtLocation(loc.x, loc.z);
+                        if (Math.abs(loc.y - terrainHeight) > 0.1f)
+                        {
+                            loc.y = terrainHeight;
+                            setLocation(obj, loc);
+                            snappedCount++;
+                        }
+                    }
+                }
+            }
+
+            broadcast(self, "\\#00ff88[Snap Radius]: Snapped " + snappedCount + " objects to terrain.");
+            return SCRIPT_CONTINUE;
+        }
         else if (cmd.equalsIgnoreCase("awardBadge"))
         {
             String parameter = tok.nextToken();
