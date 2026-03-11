@@ -356,6 +356,8 @@ public class script_class_loader extends ClassLoader
 		defaultLoad.add("script.combat_engine$effect_data");
 		defaultLoad.add("script.combat_engine$combat_data");
 		defaultLoad.add("script.combat_engine$buff_data");
+		defaultLoad.add("script.conversation.base.conversation_base");
+		defaultLoad.add("script.conversation.base.ConvoResponse");
 		defaultLoad.add("script.custom_var");
 		defaultLoad.add("script.deltadictionary");
 		defaultLoad.add("script.dictionary");
