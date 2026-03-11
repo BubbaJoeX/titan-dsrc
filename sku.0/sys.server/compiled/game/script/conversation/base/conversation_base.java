@@ -62,6 +62,11 @@ public class conversation_base extends script.base_script
 		utils.removeScriptVar(player, conversation + ".branchId");
 		return SCRIPT_CONTINUE;
 	}
+
+	// ========================================================================
+	// Legacy STF-based conversation methods (backwards compatible)
+	// ========================================================================
+
 	protected int craft_response(String[] responseStrings, int branchId, obj_id player) throws InterruptedException{
 		string_id message = new string_id(c_stringFile, responseStrings[0]);
 		string_id responses[] = new string_id[responseStrings.length];
@@ -124,5 +129,174 @@ public class conversation_base extends script.base_script
 			chat.chat(self, player, null, null, pp);
 		}
 		return SCRIPT_CONTINUE;
+	}
+
+	// ========================================================================
+	// Server-side conversation methods (no STF files required)
+	// These methods allow pure server-sided conversations without string files.
+	// Response matching uses unique response IDs instead of STF string indices.
+	// ========================================================================
+
+	/**
+	 * Represents a server-side conversation response with an ID for matching and display text.
+	 */
+	public static class ConvoResponse
+	{
+		public final String id;
+		public final String text;
+
+		public ConvoResponse(String id, String text)
+		{
+			this.id = id;
+			this.text = text;
+		}
+
+		/**
+		 * Creates the string_id for this response, combining id and text.
+		 * The id is used for matching in OnNpcConversationResponse.
+		 */
+		public string_id toStringId()
+		{
+			return string_id.convoResponse(id, text);
+		}
+
+		/**
+		 * Returns the full match string for use with response.equals() in OnNpcConversationResponse.
+		 * Format: "id|text"
+		 */
+		public String getMatchString()
+		{
+			return id + "|" + text;
+		}
+	}
+
+	/**
+	 * Creates a conversation response for server-side conversations.
+	 *
+	 * @param id   Unique identifier for matching in OnNpcConversationResponse
+	 * @param text Display text shown to the player
+	 * @return A ConvoResponse object for use with serverSide_* methods
+	 */
+	protected ConvoResponse convo(String id, String text)
+	{
+		return new ConvoResponse(id, text);
+	}
+
+	/**
+	 * Starts a server-side conversation with the NPC speaking and providing response options.
+	 * No STF files are required - all text is provided directly.
+	 *
+	 * @param player     The player to converse with
+	 * @param self       The NPC
+	 * @param npcMessage What the NPC says to the player
+	 * @param branchId   Branch ID for tracking conversation state
+	 * @param responses  Array of ConvoResponse objects (id + display text)
+	 * @return SCRIPT_CONTINUE
+	 */
+	protected int serverSide_startConversation(obj_id player, obj_id self, String npcMessage, int branchId, ConvoResponse[] responses) throws InterruptedException
+	{
+		if (responses == null || responses.length == 0)
+		{
+			// No responses - just end with the message
+			npcEndConversationWithMessage(player, string_id.unlocalized(npcMessage));
+			return SCRIPT_CONTINUE;
+		}
+
+		utils.setScriptVar(player, conversation + ".branchId", branchId);
+
+		// Build string_id array for responses
+		string_id[] responseIds = new string_id[responses.length];
+		for (int i = 0; i < responses.length; i++)
+		{
+			responseIds[i] = responses[i].toStringId();
+		}
+
+		// Start conversation with unlocalized NPC message
+		string_id greeting = string_id.unlocalized(npcMessage);
+		npcStartConversation(player, self, scriptName, greeting, responseIds);
+		return SCRIPT_CONTINUE;
+	}
+
+	/**
+	 * Continues a server-side conversation with new NPC text and response options.
+	 *
+	 * @param player     The player in the conversation
+	 * @param npcMessage What the NPC says to the player
+	 * @param branchId   Branch ID for tracking conversation state
+	 * @param responses  Array of ConvoResponse objects (id + display text)
+	 * @return SCRIPT_CONTINUE
+	 */
+	protected int serverSide_respond(obj_id player, String npcMessage, int branchId, ConvoResponse[] responses) throws InterruptedException
+	{
+		if (responses == null || responses.length == 0)
+		{
+			// No responses - end conversation with message
+			utils.removeScriptVar(player, conversation + ".branchId");
+			npcEndConversationWithMessage(player, string_id.unlocalized(npcMessage));
+			return SCRIPT_CONTINUE;
+		}
+
+		utils.setScriptVar(player, conversation + ".branchId", branchId);
+
+		// Speak the NPC message
+		npcSpeak(player, string_id.unlocalized(npcMessage));
+
+		// Build string_id array for responses
+		string_id[] responseIds = new string_id[responses.length];
+		for (int i = 0; i < responses.length; i++)
+		{
+			responseIds[i] = responses[i].toStringId();
+		}
+
+		npcSetConversationResponses(player, responseIds);
+		return SCRIPT_CONTINUE;
+	}
+
+	/**
+	 * Ends a server-side conversation with a final NPC message.
+	 *
+	 * @param player     The player in the conversation
+	 * @param npcMessage Final message from the NPC
+	 * @return SCRIPT_CONTINUE
+	 */
+	protected int serverSide_endConversation(obj_id player, String npcMessage) throws InterruptedException
+	{
+		utils.removeScriptVar(player, conversation + ".branchId");
+		npcEndConversationWithMessage(player, string_id.unlocalized(npcMessage));
+		return SCRIPT_CONTINUE;
+	}
+
+	/**
+	 * Checks if a response matches a given ConvoResponse. Use this in OnNpcConversationResponse
+	 * for server-side conversations.
+	 *
+	 * @param response     The response string_id from OnNpcConversationResponse
+	 * @param convoResponse The ConvoResponse to check against
+	 * @return true if the response matches the given ConvoResponse
+	 */
+	protected boolean responseIs(string_id response, ConvoResponse convoResponse)
+	{
+		if (response == null || convoResponse == null)
+		{
+			return false;
+		}
+		return response.equals(convoResponse.getMatchString());
+	}
+
+	/**
+	 * Checks if a response matches a given response ID. Use this in OnNpcConversationResponse
+	 * for server-side conversations. This method extracts just the ID portion for matching.
+	 *
+	 * @param response   The response string_id from OnNpcConversationResponse
+	 * @param responseId The response ID to check against
+	 * @return true if the response's ID matches the given responseId
+	 */
+	protected boolean responseIdIs(string_id response, String responseId)
+	{
+		if (response == null || responseId == null)
+		{
+			return false;
+		}
+		return response.getConvoResponseId().equals(responseId);
 	}
 }

@@ -97,6 +97,60 @@ public class string_id implements Comparable, Serializable
     } // string_id(dummyText)
 
     /**
+     * Creates an unlocalized string_id for server-side conversation responses.
+     * The format is "responseId|displayText" where:
+     * - responseId is used for matching in OnNpcConversationResponse (use response.equals("responseId|displayText"))
+     * - displayText is what the player sees
+     * <p>
+     * The client extracts and displays only the displayText portion.
+     * <p>
+     * Example Usage: string_id.convoResponse("accept", "Yes, I'll help you!")
+     *   - Client displays: "Yes, I'll help you!"
+     *   - Script matches: response.equals("accept|Yes, I'll help you!")
+     *
+     * @param responseId  Unique identifier for this response (used for matching)
+     * @param displayText Text to display to the player
+     * @return A string_id suitable for server-side conversation responses
+     */
+    public static string_id convoResponse(String responseId, String displayText)
+    {
+        string_id sid = new string_id();
+        sid.m_table = "convo_response";
+        sid.m_asciiId = responseId + "|" + displayText;
+        return sid;
+    }
+
+    /**
+     * Checks if this string_id is a server-side conversation response.
+     *
+     * @return true if this is a conversation response created via convoResponse()
+     */
+    public boolean isConvoResponse()
+    {
+        return "convo_response".equals(m_table);
+    }
+
+    /**
+     * Gets the response ID from a server-side conversation response.
+     * Returns the full asciiId if this is not a convo_response.
+     *
+     * @return The response ID portion (before the pipe)
+     */
+    public String getConvoResponseId()
+    {
+        if (!isConvoResponse())
+        {
+            return m_asciiId;
+        }
+        int pipePos = m_asciiId.indexOf('|');
+        if (pipePos > 0)
+        {
+            return m_asciiId.substring(0, pipePos);
+        }
+        return m_asciiId;
+    }
+
+    /**
      * Accessor function.
      *
      * @return the string table
