@@ -22368,10 +22368,10 @@ public class base_class
     {
         return _getPlayerStationId(getLongWithNull(player));
     }
-	
+
 	/**
      * Check station id to see if two characters belong to the same account
-     * 
+     *
      * @param player1
      * @param player2
 	 * @return true or false
@@ -27053,7 +27053,7 @@ public class base_class
     {
         return _isMountedOnTangibleObject(getLongWithNull(playerId));
     }
-	
+
 	    // ========================================================================
     // Direct Color Customization Support (HTML hex codes and RGB values)
     // ========================================================================
@@ -27183,5 +27183,85 @@ public class base_class
         return __speakText(getLongWithNull(speaker), getLongWithNull(target), 0, 0, 0x0008, text, null); // 0x0008 = targetOnly
     }
 
+    /**
+     * Cinematic camera control for NPC conversations.
+     * Sends a command to the client to move the camera to look at a target object.
+     *
+     * @param player             the player in conversation
+     * @param target             the object to look at
+     * @param holdTime           how long to look at the target before returning to speaker (0 = permanent)
+     * @param transitionDuration how long the camera transition takes
+     * @return true on success
+     */
+    private static native boolean _npcConversationCameraLookAtTarget(long player, long target, float holdTime, float transitionDuration);
+    public static boolean npcConversationCameraLookAtTarget(obj_id player, obj_id target, float holdTime, float transitionDuration)
+    {
+        return _npcConversationCameraLookAtTarget(getLongWithNull(player), getLongWithNull(target), holdTime, transitionDuration);
+    }
+    public static boolean npcConversationCameraLookAtTarget(obj_id player, obj_id target, float holdTime)
+    {
+        return _npcConversationCameraLookAtTarget(getLongWithNull(player), getLongWithNull(target), holdTime, 1.2f);
+    }
+    public static boolean npcConversationCameraLookAtTarget(obj_id player, obj_id target)
+    {
+        return _npcConversationCameraLookAtTarget(getLongWithNull(player), getLongWithNull(target), 0.0f, 1.2f);
+    }
+
+    /**
+     * Cinematic camera control for NPC conversations.
+     * Sends a command to the client to move the camera to look at world coordinates.
+     *
+     * @param player             the player in conversation
+     * @param x                  world X coordinate
+     * @param y                  world Y coordinate
+     * @param z                  world Z coordinate
+     * @param holdTime           how long to look at the position before returning to speaker (0 = permanent)
+     * @param transitionDuration how long the camera transition takes
+     * @return true on success
+     */
+    private static native boolean _npcConversationCameraLookAtPosition(long player, float x, float y, float z, float holdTime, float transitionDuration);
+    public static boolean npcConversationCameraLookAtPosition(obj_id player, float x, float y, float z, float holdTime, float transitionDuration)
+    {
+        return _npcConversationCameraLookAtPosition(getLongWithNull(player), x, y, z, holdTime, transitionDuration);
+    }
+    public static boolean npcConversationCameraLookAtPosition(obj_id player, float x, float y, float z, float holdTime)
+    {
+        return _npcConversationCameraLookAtPosition(getLongWithNull(player), x, y, z, holdTime, 1.2f);
+    }
+    public static boolean npcConversationCameraLookAtPosition(obj_id player, float x, float y, float z)
+    {
+        return _npcConversationCameraLookAtPosition(getLongWithNull(player), x, y, z, 0.0f, 1.2f);
+    }
+    public static boolean npcConversationCameraLookAtPosition(obj_id player, location loc, float holdTime, float transitionDuration)
+    {
+        if (loc == null) return false;
+        return _npcConversationCameraLookAtPosition(getLongWithNull(player), loc.x, loc.y, loc.z, holdTime, transitionDuration);
+    }
+    public static boolean npcConversationCameraLookAtPosition(obj_id player, location loc, float holdTime)
+    {
+        if (loc == null) return false;
+        return _npcConversationCameraLookAtPosition(getLongWithNull(player), loc.x, loc.y, loc.z, holdTime, 1.2f);
+    }
+    public static boolean npcConversationCameraLookAtPosition(obj_id player, location loc)
+    {
+        if (loc == null) return false;
+        return _npcConversationCameraLookAtPosition(getLongWithNull(player), loc.x, loc.y, loc.z, 0.0f, 1.2f);
+    }
+
+    /**
+     * Cinematic camera control for NPC conversations.
+     * Sends a command to the client to return the camera to the current NPC speaker.
+     *
+     * @param player the player in conversation
+     * @return true on success
+     */
+    private static native boolean _npcConversationCameraReturnToSpeaker(long player);
+    public static boolean npcConversationCameraReturnToSpeaker(obj_id player)
+    {
+        return _npcConversationCameraReturnToSpeaker(getLongWithNull(player));
+    }
+
+
 
 }   // class base_class
+
