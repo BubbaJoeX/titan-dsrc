@@ -27142,4 +27142,46 @@ public class base_class
         _openTerraformingUI(getLongWithNull(player), cityId);
     }
 
+    // ========================================================================
+    // speakText - allows any object (including non-creature tangibles) to speak
+    // ========================================================================
+
+    private static native boolean __speakText(long speaker, long target, int chatType, int mood, int flags, String text, String oob);
+
+    /**
+     * Makes any object (including non-creature tangibles) speak text in spatial chat.
+     * This bypasses the command queue system, allowing objects without a CommandQueue
+     * property (like non-NPC tangibles) to send chat messages.
+     *
+     * @param speaker   the object speaking
+     * @param target    target object (can be null for no target)
+     * @param chatType  chat type index (0 = say)
+     * @param mood      mood type index (0 = none)
+     * @param flags     chat flags (see ChatFlag_* constants)
+     * @param text      the text to speak
+     * @param oob       out-of-band data (prose package, etc.) - can be null
+     * @return true on success, false on failure
+     */
+    public static boolean speakText(obj_id speaker, obj_id target, int chatType, int mood, int flags, String text, String oob)
+    {
+        return __speakText(getLongWithNull(speaker), getLongWithNull(target), chatType, mood, flags, text, oob);
+    }
+
+    /**
+     * Simple version of speakText for basic chat.
+     */
+    public static boolean speakText(obj_id speaker, String text)
+    {
+        return __speakText(getLongWithNull(speaker), 0, 0, 0, 0, text, null);
+    }
+
+    /**
+     * speakText with target only flag.
+     */
+    public static boolean speakTextTo(obj_id speaker, obj_id target, String text)
+    {
+        return __speakText(getLongWithNull(speaker), getLongWithNull(target), 0, 0, 0x0008, text, null); // 0x0008 = targetOnly
+    }
+
+
 }   // class base_class

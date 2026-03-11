@@ -982,6 +982,46 @@ public class chat extends script.base_script
     }
     public static void _chat(obj_id npc, obj_id target, String chatType, String moodType, int flags, String text, string_id textId, String oob) throws InterruptedException
     {
+        // Build the OOB data if we have a string_id
+        if (textId != null)
+        {
+            prose_package pp = new prose_package();
+            pp.stringId = textId;
+            pp.actor.id = npc;
+            pp.target.id = target;
+            String local_oob = packOutOfBandProsePackage(oob, -1, pp);
+            if (oob != null)
+            {
+                oob += local_oob;
+            }
+            else
+            {
+                oob = local_oob;
+            }
+        }
+
+        // For non-creature objects (tangibles without command queue), use speakText directly
+        if (!isCreature(npc))
+        {
+            // Convert chat type and mood strings to indices (0 = default/say, 0 = none)
+            int chatTypeIndex = 0;  // say
+            int moodIndex = 0;      // none
+
+            // Build the final text with OOB if needed
+            String finalText = text;
+            String finalOob = oob;
+
+            // If no text but we have OOB (from string_id), send empty text with OOB
+            if (finalText == null)
+            {
+                finalText = "";
+            }
+
+            speakText(npc, target, chatTypeIndex, moodIndex, flags, finalText, finalOob);
+            return;
+        }
+
+        // Original creature-based chat using command queue
         StringBuilder sbuf = new StringBuilder();
         if (chatType != null)
         {
@@ -1001,22 +1041,6 @@ public class chat extends script.base_script
             sbuf.append('.');
         }
         sbuf.append(' ');
-        if (textId != null)
-        {
-            prose_package pp = new prose_package();
-            pp.stringId = textId;
-            pp.actor.id = npc;
-            pp.target.id = target;
-            String local_oob = packOutOfBandProsePackage(oob, -1, pp);
-            if (oob != null)
-            {
-                oob += local_oob;
-            }
-            else 
-            {
-                oob = local_oob;
-            }
-        }
         sbuf.append(flags);
         sbuf.append(' ');
         if (text != null)

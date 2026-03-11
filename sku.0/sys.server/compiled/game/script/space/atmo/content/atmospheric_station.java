@@ -31,6 +31,11 @@ public class atmospheric_station extends script.conversation.base.conversation_b
         super.conversation = CONVERSATION;
     }
 
+    public int OnAttach(obj_id self)
+    {
+        setCondition()
+    }
+
     @Override
     public int OnStartNpcConversation(obj_id self, obj_id player) throws InterruptedException
     {
