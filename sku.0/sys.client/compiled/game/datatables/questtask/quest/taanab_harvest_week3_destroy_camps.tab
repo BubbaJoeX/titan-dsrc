@@ -1,0 +1,11 @@
+PREREQUISITE_TASKS	EXCLUSION_TASKS	ATTACH_SCRIPT	JOURNAL_ENTRY_TITLE	JOURNAL_ENTRY_DESCRIPTION	TASKS_ON_COMPLETE	TASKS_ON_FAIL	TASK_NAME	IS_VISIBLE	SHOW_SYSTEM_MESSAGES	ALLOW_REPEATS	MUSIC_ON_ACTIVATE	TARGET	PARAMETER	GRANT_QUEST_ON_COMPLETE	GRANT_QUEST_ON_FAIL	EXPERIENCE_TYPE	EXPERIENCE_AMOUNT	FACTION_NAME	FACTION_AMOUNT	BANK_CREDITS	ITEM	PLANET_NAME	LOCATION_X	LOCATION_Y	LOCATION_Z	RADIUS	MIN_TIME	MAX_TIME	CREATURE_TYPE	TARGET_SERVER_TEMPLATE	SOCIAL_GROUP	REQUIRED_REGION	COUNT	MIN_DISTANCE	MAX_DISTANCE	DIRECTION	REWARD_CREDITS	LOOT_ITEM_NAME	LOOT_ITEMS_REQUIRED	LOOT_DROP_PERCENT	SIGNAL_NAME
+s	s	s	s	s	s	s	s	b	b	b	s	s	s	s	s	s	i	s	i	i	s	s	s	s	s	s	i[0]	i[0]	s[]	s[]	s[]	s[]	i[0]	i[0]	i[0]	s[]	i[0]	s[]	i[0]	i[0]	s[]
+			@taanab_harvest:destroy_camps_title	@taanab_harvest:destroy_camps_description_dummy			dummy	0	0	0							0	taanab_coop	100	0							0	0					0	0	0		0		0	0	
+			@taanab_harvest:destroy_camps_start_title	@taanab_harvest:destroy_camps_start_description			useobject	1	1	0			6036069				0	taanab_coop	100	0							0	0					0	0	0		0		0	0	
+			@taanab_harvest:destroy_camps_holocomm_title	@taanab_harvest:destroy_camps_holocomm_description			holocomm	1	1	0			6036069				0	taanab_coop	100	0							0	0					0	0	0		0		0	0	
+			@taanab_harvest:destroy_camps_title_01	@taanab_harvest:destroy_camps_description_01			travel	1	1	0							0	taanab_coop	100	0		taanab	-2850	50	84	16	0	0					0	0	0		0		0	0	
+			@taanab_harvest:destroy_camps_title_02	@taanab_harvest:destroy_camps_description_02			useobject	1	1	0							0	taanab_coop	100	0		taanab	-2549	86	75	16	0	0					0	0	0		0		0	0	
+			@taanab_harvest:destroy_camps_title_03	@taanab_harvest:destroy_camps_description_03			useobject	1	1	0							0	taanab_coop	100	0		taanab	-2400	86	-184	16	0	0					0	0	0		0		0	0	
+			@taanab_harvest:destroy_camps_title_04	@taanab_harvest:destroy_camps_description_04			useobject	1	1	0							0	taanab_coop	100	0		taanab	-2389	61	-485	16	0	0					0	0	0		0		0	0	
+			@taanab_harvest:destroy_camps_title_05	@taanab_harvest:destroy_camps_description_05			useobject	1	1	0							0	taanab_coop	100	0		taanab	-2433	49	-782	16	0	0					0	0	0		0		0	0	
+			@taanab_harvest:destroy_camps_title_06	@taanab_harvest:destroy_camps_description_06			useobject	1	1	0							0	taanab_coop	100	0		taanab	-2560	50	-1054	16	0	0					0	0	0		0		0	0	

@@ -1,0 +1,49 @@
+Parent	Name	Type	Data1	Data2
+s	s	s	s	s
+	ImportantBuildings	Page	@kb/kb_buildings_n:importantbuildings	
+ImportantBuildings	Text	String	@kb/kb_buildings_d:importantbuildings	
+ImportantBuildings	Bank	Page	@kb/kb_buildings_n:bank	
+ImportantBuildings.Bank	Text	String	@kb/kb_buildings_d:bank	
+ImportantBuildings.Bank	Find	LinkButton	@kb/kb_buildings_d:findbank	Navigation.Buildings.Bank
+ImportantBuildings	CloningFacility	Page	@kb/kb_buildings_n:cloningfacility	
+ImportantBuildings.CloningFacility	Text	String	@kb/kb_buildings_d:cloningfacility	
+ImportantBuildings.CloningFacility	Find	LinkButton	@kb/kb_buildings_d:findcloningfacility	Navigation.Buildings.Cloning
+ImportantBuildings	Cantina	Page	@kb/kb_buildings_n:cantina	
+ImportantBuildings.Cantina	Text	String	@kb/kb_buildings_d:cantina	
+ImportantBuildings.Cantina	Find	LinkButton	@kb/kb_buildings_d:findcantina	Navigation.Buildings.Cantina
+ImportantBuildings	Theater	Page	@kb/kb_buildings_n:theater	
+ImportantBuildings.Theater	Text	String	@kb/kb_buildings_d:theater	
+ImportantBuildings.Theater	Find	LinkButton	@kb/kb_buildings_d:findtheater	Navigation.Buildings.Theater
+ImportantBuildings	Hotel	Page	@kb/kb_buildings_n:hotel	
+ImportantBuildings.Hotel	Text	String	@kb/kb_buildings_d:hotel	
+ImportantBuildings.Hotel	Find	LinkButton	@kb/kb_buildings_d:findhotel	Navigation.Buildings.Hotel
+ImportantBuildings	Hospital	Page	@kb/kb_buildings_n:hospital	
+ImportantBuildings.Hospital	Text	String	@kb/kb_buildings_d:hospital	
+ImportantBuildings.Hospital	Find	LinkButton	@kb/kb_buildings_d:findhospital	Navigation.Buildings.Hospital
+ImportantBuildings	MedicalCenter	Page	@kb/kb_buildings_n:medicalcenter	
+ImportantBuildings.MedicalCenter	Text	String	@kb/kb_buildings_d:medicalcenter	
+ImportantBuildings.MedicalCenter	Find	LinkButton	@kb/kb_buildings_d:findmedicalcenter	Navigation.Buildings.MedicalCenter
+ImportantBuildings	Tavern	Page	@kb/kb_buildings_n:tavern	
+ImportantBuildings.Tavern	Text	String	@kb/kb_buildings_d:tavern	
+ImportantBuildings.Tavern	Find	LinkButton	@kb/kb_buildings_d:findtavern	Navigation.Buildings.Tavern
+ImportantBuildings	Barracks	Page	@kb/kb_buildings_n:barracks	
+ImportantBuildings.Barracks	Text	String	@kb/kb_buildings_d:barracks	
+ImportantBuildings.Barracks	Find	LinkButton	@kb/kb_buildings_d:findbarracks	Navigation.Buildings.Barracks
+ImportantBuildings	Starport	Page	@kb/kb_buildings_n:starport	
+ImportantBuildings.Starport	Text	String	@kb/kb_buildings_d:starport	
+ImportantBuildings.Starport	Find	LinkButton	@kb/kb_buildings_d:findstarport	Navigation.Buildings.Starport
+ImportantBuildings	Shuttleport	Page	@kb/kb_buildings_n:shuttleport	
+ImportantBuildings.Shuttleport	Text	String	@kb/kb_buildings_d:shuttleport	
+ImportantBuildings.Shuttleport	Find	LinkButton	@kb/kb_buildings_d:findshuttleport	Navigation.Buildings.Shuttleport
+ImportantBuildings	CombatGuild	Page	@kb/kb_buildings_n:combatguild	
+ImportantBuildings.CombatGuild	Text	String	@kb/kb_buildings_d:combatguild	
+ImportantBuildings.CombatGuild	Find	LinkButton	@kb/kb_buildings_d:findcombatguild	Navigation.Buildings.CombatGuild
+ImportantBuildings	CommerceGuild	Page	@kb/kb_buildings_n:commerceguild	
+ImportantBuildings.CommerceGuild	Text	String	@kb/kb_buildings_d:commerceguild	
+ImportantBuildings.CommerceGuild	Find	LinkButton	@kb/kb_buildings_d:findcommerceguild	Navigation.Buildings.CommerceGuild
+ImportantBuildings	University	Page	@kb/kb_buildings_n:university	
+ImportantBuildings.University	Text	String	@kb/kb_buildings_d:university	
+ImportantBuildings.University	Find	LinkButton	@kb/kb_buildings_d:finduniversity	Navigation.Buildings.University
+ImportantBuildings	Garage	Page	@kb/kb_buildings_n:garage	
+ImportantBuildings.Garage	Text	String	@kb/kb_buildings_d:garage	
+ImportantBuildings.Garage	Find	LinkButton	@kb/kb_buildings_d:findgarage	Navigation.Buildings.Garage

@@ -1,0 +1,16 @@
+Damage Type	Value (base + elemental)	R	G	B	Hit Target Appearance	Hue Hit Target	Miss Target Appearance	Hue Miss Target	Ricochet Appearance	Hue Ricochet	Hit Sound	Hit Sound Pitch	Flyby sound	Flyby sound pitch
+s	i	i	i	i	s	i	s	i	s	i	s	f	s	f
+kinetic	1	100	110	120	appearance/pt_wp_hit_kinetic.prt	0		0		0	sound/wep_imp_kinetic.snd	0	sound/wep_flyby_kinetic.snd	0
+energy	2	255	0	0	appearance/pt_wp_hit_energy.prt	0		0		0	sound/wep_imp_energy.snd	0	sound/wep_flyby_energy.snd	0
+heat	32	255	154	47	appearance/pt_wp_hit_heat.prt	0		0		0	sound/wep_imp_2nd_heat.snd	0		0
+cold	64	20	150	220	appearance/pt_wp_hit_cold.prt	0		0		0	sound/wep_imp_2nd_cold.snd	0		0
+acid	128	135	170	53	appearance/pt_wp_hit_acid.prt	0		0		0	sound/wep_imp_2nd_acid.snd	0		0
+electrical	256	200	180	0	appearance/pt_wp_hit_electric.prt	0		0		0	sound/wep_imp_2nd_electric.snd	0		0
+kinetic + heat (1 + 32)	33	255	154	47		0		0		0		0		0
+kinetic + cold (1 + 64)	65	20	150	220		0		0		0		0		0
+kinetic + acid (1 + 128)	129	135	170	53		0		0		0		0		0
+kinetic + electrical (1 + 256)	257	200	180	0		0		0		0		0		0
+energy + heat (2 + 32)	34	255	154	47		0		0		0		0		0
+energy + cold (2 + 64)	66	20	150	220		0		0		0		0		0
+energy + acid (2 + 128)	130	135	170	53		0		0		0		0		0
+energy + electrical (2 + 256)	258	200	180	0		0		0		0		0		0

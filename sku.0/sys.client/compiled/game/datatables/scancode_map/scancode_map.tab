@@ -1,0 +1,247 @@
+LayoutName	LayoutId	FromKeyName	FromScanCode	ToKeyName	ToScanCode
+s["]	s["]	s["]	i[0]	s["]	i[0]
+Albanian	0000041c	Y	44	Y	21
+Albanian	0000041c	Z	21	Z	44
+Azeri (Latin)	0000042c	`	41	'	40
+Azeri (Latin)	0000042c	?	40	\	43
+Azeri (Latin)	0000042c	\	43	\	86
+Bulgarian	00000402	Q	52	=	13
+Bulgarian	00000402	,	16	.	52
+Bulgarian	00000402	?	51	Q	16
+Croatian	0000041a	-	53	-	12
+Croatian	0000041a	'	12	/	53
+Croatian	0000041a	Y	44	Y	21
+Croatian	0000041a	Z	21	Z	44
+Czech	00000405	-	53	=	13
+Czech	00000405	CáRKA	13	-	12
+Czech	00000405	=	12	/	53
+Czech	00000405	Y	44	Y	21
+Czech	00000405	Z	21	Z	44
+Danish	00000406	-	53	\	43
+Danish	00000406	å	26	=	13
+Danish	00000406	'	43	`	41
+Danish	00000406	TREMA	27	[	26
+Danish	00000406	ACCENT AIGU	13	-	12
+Danish	00000406	æ	39	]	27
+Danish	00000406	½	41	;	39
+Danish	00000406	+	12	/	53
+Dutch (Netherlands)	00000413	@	41	'	40
+Dutch (Netherlands)	00000413	-	53	=	13
+Dutch (Netherlands)	00000413	ACCENT-AIGU (´)	40	`	41
+Dutch (Netherlands)	00000413	*	27	[	26
+Dutch (Netherlands)	00000413	TREMA (¨)	26	-	12
+Dutch (Netherlands)	00000413	+	39	]	27
+Dutch (Netherlands)	00000413	°	13	;	39
+Dutch (Netherlands)	00000413	/	12	/	53
+Dutch (Belgium)	00000813	A	16	A	30
+Dutch (Belgium)	00000813	²	41	'	40
+Dutch (Belgium)	00000813	:	52	,	51
+Dutch (Belgium)	00000813	)	12	=	13
+Dutch (Belgium)	00000813	ù	40	`	41
+Dutch (Belgium)	00000813	$	27	[	26
+Dutch (Belgium)	00000813	;	51	M	50
+Dutch (Belgium)	00000813	ACCENT CIRCONFLEXE	26	-	12
+Dutch (Belgium)	00000813	=	53	.	52
+Dutch (Belgium)	00000813	Q	30	Q	16
+Dutch (Belgium)	00000813	M	39	]	27
+Dutch (Belgium)	00000813	,	50	;	39
+Dutch (Belgium)	00000813	-	13	/	53
+Dutch (Belgium)	00000813	W	44	W	17
+Dutch (Belgium)	00000813	Z	17	Z	44
+English (United Kingdom)	00000809	`	41	'	40
+English (United Kingdom)	00000809	'	40	\	43
+English (United Kingdom)	00000809	#	43	\	86
+English (Canadian)	00001009	#	41	'	40
+English (Canadian)	00001009	ACCENT GRAVE	40	`	41
+English (Ireland)	00001809	GRAVE	41	'	40
+English (Ireland)	00001809	'	40	\	43
+English (Ireland)	00001809	#	43	\	86
+Estonian	00000425	-	53	'	40
+Estonian	00000425	ä	40	`	41
+Estonian	00000425	CARON	41	[	26
+Estonian	00000425	ü	26	]	27
+Estonian	00000425	õ	27	/	53
+Faeroese	00000438	-	53	\	43
+Faeroese	00000438	å	26	=	13
+Faeroese	00000438	'	43	`	41
+Faeroese	00000438	ð	27	[	26
+Faeroese	00000438	ACCENT AIGU	13	-	12
+Faeroese	00000438	æ	39	]	27
+Faeroese	00000438	½	41	;	39
+Faeroese	00000438	+	12	/	53
+Finnish	0000040b	-	53	\	43
+Finnish	0000040b	å	26	=	13
+Finnish	0000040b	'	43	`	41
+Finnish	0000040b	TREEMA	27	[	26
+Finnish	0000040b	AKUUTTIAKSENTTI	13	-	12
+Finnish	0000040b	ö	39	]	27
+Finnish	0000040b	§	41	;	39
+Finnish	0000040b	+	12	/	53
+French (Standard)	0000040c	A	16	A	30
+French (Standard)	0000040c	²	41	'	40
+French (Standard)	0000040c	:	52	,	51
+French (Standard)	0000040c	ù	40	`	41
+French (Standard)	0000040c	$	27	[	26
+French (Standard)	0000040c	;	51	M	50
+French (Standard)	0000040c	ACCENT CIRCONFLEXE	26	-	12
+French (Standard)	0000040c	!	53	.	52
+French (Standard)	0000040c	Q	30	Q	16
+French (Standard)	0000040c	M	39	]	27
+French (Standard)	0000040c	,	50	;	39
+French (Standard)	0000040c	W	44	W	17
+French (Standard)	0000040c	Z	17	Z	44
+French (Belgian)	0000080c	A	16	A	30
+French (Belgian)	0000080c	²	41	'	40
+French (Belgian)	0000080c	:	52	,	51
+French (Belgian)	0000080c	)	12	=	13
+French (Belgian)	0000080c	ù	40	`	41
+French (Belgian)	0000080c	$	27	[	26
+French (Belgian)	0000080c	;	51	M	50
+French (Belgian)	0000080c	ACCENT CIRCONFLEXE	26	-	12
+French (Belgian)	0000080c	=	53	.	52
+French (Belgian)	0000080c	Q	30	Q	16
+French (Belgian)	0000080c	M	39	]	27
+French (Belgian)	0000080c	,	50	;	39
+French (Belgian)	0000080c	-	13	/	53
+French (Belgian)	0000080c	W	44	W	17
+French (Belgian)	0000080c	Z	17	Z	44
+French (Canadian)	00000c0c	°	41	'	40
+French (Canadian)	00000c0c	è	40	`	41
+French (Switzerland)	0000100c	$	43	'	40
+French (Switzerland)	0000100c	TREMA	27	=	13
+French (Switzerland)	0000100c	-	53	`	41
+French (Switzerland)	0000100c	é	39	[	26
+French (Switzerland)	0000100c	è	26	-	12
+French (Switzerland)	0000100c	§	41	]	27
+French (Switzerland)	0000100c	à	40	;	39
+French (Switzerland)	0000100c	'	12	/	53
+French (Switzerland)	0000100c	Y	44	Y	21
+French (Switzerland)	0000100c	Z	21	Z	44
+German (Standard)	00000407	-	53	\	43
+German (Standard)	00000407	+	27	=	13
+German (Standard)	00000407	#	43	`	41
+German (Standard)	00000407	ö	39	[	26
+German (Standard)	00000407	ü	26	-	12
+German (Standard)	00000407	AKUT	13	]	27
+German (Standard)	00000407	ZIRKUMFLEX	41	;	39
+German (Standard)	00000407	ß	12	/	53
+German (Standard)	00000407	Y	44	Y	21
+German (Standard)	00000407	Z	21	Z	44
+German (Switzerland)	00000807	$	43	'	40
+German (Switzerland)	00000807	UMLAUT	27	=	13
+German (Switzerland)	00000807	-	53	`	41
+German (Switzerland)	00000807	ö	39	[	26
+German (Switzerland)	00000807	ü	26	-	12
+German (Switzerland)	00000807	§	41	]	27
+German (Switzerland)	00000807	ä	40	;	39
+German (Switzerland)	00000807	'	12	/	53
+German (Switzerland)	00000807	Y	44	Y	21
+German (Switzerland)	00000807	Z	21	Z	44
+Hungarian	0000040e	0	41	0	11
+Hungarian	0000040e	ö	11	`	41
+Hungarian	0000040e	-	53	-	12
+Hungarian	0000040e	ü	12	/	53
+Hungarian	0000040e	Y	44	Y	21
+Hungarian	0000040e	Z	21	Z	44
+Icelandic	0000040f	þ	53	\	43
+Icelandic	0000040f	ð	26	=	13
+Icelandic	0000040f	+	43	`	41
+Icelandic	0000040f	'	27	[	26
+Icelandic	0000040f	-	13	-	12
+Icelandic	0000040f	æ	39	]	27
+Icelandic	0000040f	RING	41	;	39
+Icelandic	0000040f	ö	12	/	53
+Italian (Standard)	00000410	-	53	\	43
+Italian (Standard)	00000410	+	27	=	13
+Italian (Standard)	00000410	ù	43	`	41
+Italian (Standard)	00000410	ò	39	[	26
+Italian (Standard)	00000410	è	26	-	12
+Italian (Standard)	00000410	ì	13	]	27
+Italian (Standard)	00000410	\	41	;	39
+Italian (Standard)	00000410	'	12	/	53
+Latvian	00000426	C	39	A	30
+Latvian	00000426	X	25	B	48
+Latvian	00000426	H	27	C	46
+Latvian	00000426	U	31	D	32
+Latvian	00000426	A	36	E	18
+Latvian	00000426	I	33	=	13
+Latvian	00000426	Z	23	F	33
+Latvian	00000426	E	38	G	34
+Latvian	00000426	S	32	H	35
+Latvian	00000426	n	44	I	23
+Latvian	00000426	š	30	J	36
+Latvian	00000426	M	20	K	37
+Latvian	00000426	J	18	L	38
+Latvian	00000426	V	21	[	26
+Latvian	00000426	W	24	N	49
+Latvian	00000426	G	17	O	24
+Latvian	00000426	B	45	P	25
+Latvian	00000426	D	35	]	27
+Latvian	00000426	N	22	S	31
+Latvian	00000426	i	46	;	39
+Latvian	00000426	a	50	T	20
+Latvian	00000426	O	49	U	22
+Latvian	00000426	T	37	V	47
+Latvian	00000426	L	34	W	17
+Latvian	00000426	P	48	X	45
+Latvian	00000426	K	47	Y	21
+Latvian	00000426	Y	26	Z	44
+Norwegian (Bokmal)	00000414	-	53	\	43
+Norwegian (Bokmal)	00000414	å	26	=	13
+Norwegian (Bokmal)	00000414	'	43	`	41
+Norwegian (Bokmal)	00000414	TØDLER	27	[	26
+Norwegian (Bokmal)	00000414	\	13	-	12
+Norwegian (Bokmal)	00000414	ø	39	]	27
+Norwegian (Bokmal)	00000414	|	41	;	39
+Norwegian (Bokmal)	00000414	+	12	/	53
+Portuguese (Portugal)	00000816	-	53	\	43
+Portuguese (Portugal)	00000816	AGUDO	27	=	13
+Portuguese (Portugal)	00000816	TIL	43	`	41
+Portuguese (Portugal)	00000816	«	13	[	26
+Portuguese (Portugal)	00000816	+	26	-	12
+Portuguese (Portugal)	00000816	ç	39	]	27
+Portuguese (Portugal)	00000816	\	41	;	39
+Portuguese (Portugal)	00000816	'	12	/	53
+Romanian	00000418	Y	44	Y	21
+Romanian	00000418	Z	21	Z	44
+Serbian (Latin)	0000081a	-	53	-	12
+Serbian (Latin)	0000081a	'	12	/	53
+Serbian (Latin)	0000081a	Y	44	Y	21
+Serbian (Latin)	0000081a	Z	21	Z	44
+Slovak	0000041b	-	53	-	12
+Slovak	0000041b	=	12	/	53
+Slovak	0000041b	Y	44	Y	21
+Slovak	0000041b	Z	21	Z	44
+Slovenian	00000424	-	53	-	12
+Slovenian	00000424	'	12	/	53
+Slovenian	00000424	Y	44	Y	21
+Slovenian	00000424	Z	21	Z	44
+Spanish (Spain, Traditional Sort)	0000040a	-	53	\	43
+Spanish (Spain, Traditional Sort)	0000040a	+	27	=	13
+Spanish (Spain, Traditional Sort)	0000040a	ç	43	`	41
+Spanish (Spain, Traditional Sort)	0000040a	ñ	39	[	26
+Spanish (Spain, Traditional Sort)	0000040a	GRAVE	26	-	12
+Spanish (Spain, Traditional Sort)	0000040a	¡	13	]	27
+Spanish (Spain, Traditional Sort)	0000040a	º	41	;	39
+Spanish (Spain, Traditional Sort)	0000040a	'	12	/	53
+Spanish (Mexican)	0000080a	-	53	\	43
+Spanish (Mexican)	0000080a	+	27	=	13
+Spanish (Mexican)	0000080a	}	43	`	41
+Spanish (Mexican)	0000080a	ñ	39	[	26
+Spanish (Mexican)	0000080a	AGUDO	26	-	12
+Spanish (Mexican)	0000080a	¿	13	]	27
+Spanish (Mexican)	0000080a	|	41	;	39
+Spanish (Mexican)	0000080a	'	12	/	53
+Swedish	0000041d	-	53	\	43
+Swedish	0000041d	å	26	=	13
+Swedish	0000041d	'	43	`	41
+Swedish	0000041d	OMLJUD	27	[	26
+Swedish	0000041d	AKUT	13	-	12
+Swedish	0000041d	ö	39	]	27
+Swedish	0000041d	§	41	;	39
+Swedish	0000041d	+	12	/	53
+Turkish	0000041f	ö	51	\	43
+Turkish	0000041f	.	53	,	51
+Turkish	0000041f	*	12	=	13
+Turkish	0000041f	,	43	.	52
+Turkish	0000041f	ç	52	/	53

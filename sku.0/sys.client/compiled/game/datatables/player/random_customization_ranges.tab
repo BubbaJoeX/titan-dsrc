@@ -1,0 +1,10 @@
+NAME	MIN	MAX
+s	f[0.0]	f[1.0]
+weight	0.2	0.5
+chin	0	0.5
+jaw	0	0.5
+ears	0	0.6
+eye_shape	0.4	0.6
+eye_size	0.25	0.75
+eye_direction	0.5	0.7
+nose_length	0.25	0.75

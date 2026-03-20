@@ -1,0 +1,37 @@
+Parent	Name	Type	Data1	Data2
+s	s	s	s	s
+	Planets	Page	@kb/kb_planets_n:planets	
+Planets	Text	String	@kb/kb_planets_d:planets	
+Planets	Tatooine	Page	@loc_n:tatooine	
+Planets.Tatooine	Image1	Image	ui_sshot_mos_eisley	
+Planets.Tatooine	Text	String	@loc_d:tatooine	
+Planets.Tatooine	Button1	LinkButton	@kb/kb_planets_n:seebestiary	Bestiary.Tatooine
+Planets	Corellia	Page	@loc_n:corellia	
+Planets.Corellia	Image1	Image	ui_sshot_coronet	
+Planets.Corellia	Text	String	@loc_d:corellia	
+Planets.Corellia	Button1	LinkButton	@kb/kb_planets_n:seebestiary	Bestiary.Corellia
+Planets	Naboo	Page	@loc_n:naboo	
+Planets.Naboo	Image1	Image	ui_sshot_theed	
+Planets.Naboo	Text	String	@loc_d:naboo	
+Planets.Naboo	Button1	LinkButton	@kb/kb_planets_n:seebestiary	Bestiary.Naboo
+Planets	Talus	Page	@loc_n:talus	
+Planets.Talus	Text	String	@loc_d:talus	
+Planets.Talus	Button1	LinkButton	@kb/kb_planets_n:seebestiary	Bestiary.Talus
+Planets	Rori	Page	@loc_n:rori	
+Planets.Rori	Text	String	@loc_d:rori	
+Planets.Rori	Button1	LinkButton	@kb/kb_planets_n:seebestiary	Bestiary.Rori
+Planets	Dantooine	Page	@loc_n:dantooine	
+Planets.Dantooine	Text	String	@loc_d:dantooine	
+Planets.Dantooine	Button1	LinkButton	@kb/kb_planets_n:seebestiary	Bestiary.Dantooine
+Planets	Dathomir	Page	@loc_n:dathomir	
+Planets.Dathomir	Text	String	@loc_d:dathomir	
+Planets.Dathomir	Button1	LinkButton	@kb/kb_planets_n:seebestiary	Bestiary.Dathomir
+Planets	Endor	Page	@loc_n:endor	
+Planets.Endor	Text	String	@loc_d:endor	
+Planets.Endor	Button1	LinkButton	@kb/kb_planets_n:seebestiary	Bestiary.Endor
+Planets	Lok	Page	@loc_n:lok	
+Planets.Lok	Text	String	@loc_d:lok	
+Planets.Lok	Button1	LinkButton	@kb/kb_planets_n:seebestiary	Bestiary.Lok
+Planets	YavinIV	Page	@loc_n:yaviniv	
+Planets.YavinIV	Text	String	@loc_d:yaviniv	
+Planets.YavinIV	Button1	LinkButton	@kb/kb_planets_n:seebestiary	Bestiary.YavinIV

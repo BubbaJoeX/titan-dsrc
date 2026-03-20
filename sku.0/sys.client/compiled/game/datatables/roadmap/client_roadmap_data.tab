@@ -1,0 +1,11 @@
+roadmapName	templateList	phase1Count	branchPhaseCounts	phaseIcons
+s	s	i	s	s
+smuggler	smuggler_1a	6	6,6,6	command.quickDraw,command.burstRun,command.centerOfBeing,command.lowBlow,command.bodyShot,command.recklessShot,command.disarmingShot
+bounty_hunter	bounty_hunter_1a	6	6,6,6	command.rollShot,command.aim,Roadmap.bounty_hunter,command.criticalShot,command.placedShot,Roadmap.bounty_hunter,command.suppressionFire
+officer	officer_1a	6	6,6,6	command.sysGroup,command.quickDraw,command.formup,Roadmap.officer,command.meleeStrike,command.bleedAttack,Roadmap.officer
+commando	commando_1a	6	6,6,6	command.overchargeShot,command.aim,command.throwGrenade,command.headShot,command.meleeStrike,command.throwGrenade,command.criticalStrike
+force_sensitive	force_sensitive_1a	6	6,6,6	command.centerOfBeing,role.medic,command.legSweep,command.swordFlurry,role.medic,command.sweepAttack,command.impale
+medic	medic_1a	6	6,6,6	command.bactaShot,command.bactaToss,command.deuteriumToss,command.revivePlayer,command.firearmstrike,command.endorphineInjection,command.revivePlayer
+spy	spy_1a	6	6,6,6	command.burstRun,command.overchargeShot,command.wildernessStealth,command.urbanStealth,command.wildernessStealth,command.underHandShot,command.detonateDroid
+entertainer	entertainer_1a	6	6,6,6	command.inspire,music.bunduki,command.centerStage,command.featuredSolo
+trader	trader_0a,trader_0b,trader_0c,trader_0d	6	6,6,6,6,6,6,6,6,6,6,6,6	command.burstRun,command.overchargeShot,command.wildernessStealth,command.urbanStealth,command.wildernessStealth,command.underHandShot,command.detonateDroid

@@ -1,0 +1,16 @@
+Parent	Name	Type	Data1	Data2
+s	s	s	s	s
+	Healing	Page	@kb/kb_healing_n:healing	
+Healing	Text	String	@kb/kb_healing_d:healing	
+Healing	Wounds	Page	@kb/kb_healing_n:wounds	
+Healing.Wounds	Text	String	@kb/kb_healing_d:wounds	
+Healing	Stimpacks	Page	@kb/kb_healing_n:stimpacks	
+Healing.Stimpacks	Text	String	@kb/kb_healing_d:stimpacks	
+Healing	Medpacks	Page	@kb/kb_healing_n:medpacks	
+Healing.Medpacks	Text	String	@kb/kb_healing_d:medpacks	
+Healing	Hospitals	Page	@kb/kb_healing_n:hospitals	
+Healing.Hospitals	Text	String	@kb/kb_healing_d:hospitals	
+Healing	Fatigue	Page	@kb/kb_healing_n:fatigue	
+Healing.Fatigue	Text	String	@kb/kb_healing_d:fatigue	
+Healing	Entertainment	Page	@kb/kb_healing_n:entertainment	
+Healing.Entertainment	Text	String	@kb/kb_healing_d:entertainment	

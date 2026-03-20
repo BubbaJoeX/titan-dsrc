@@ -1,0 +1,16 @@
+StringId	Picture	Title
+s	s	s
+@loading/lok:flit	loading/lok/creatures/lok_flit	@loading/lok_n:flit
+@loading/lok:gurk	loading/lok/creatures/lok_gurk	@loading/lok_n:gurk
+@loading/lok:gurnaset	loading/lok/creatures/lok_gurnaset	@loading/lok_n:gurnaset
+@loading/lok:kimogila	loading/lok/creatures/lok_kimogila	@loading/lok_n:kimogila
+@loading/lok:kusak	loading/lok/creatures/lok_kusak	@loading/lok_n:kusak
+@loading/lok:perlek	loading/lok/creatures/lok_perlek	@loading/lok_n:perlek
+@loading/lok:pharple	loading/lok/creatures/lok_pharple	@loading/lok_n:pharple
+@loading/lok:snorbal	loading/lok/creatures/lok_snorbal	@loading/lok_n:snorbal
+@loading/lok:spined_snake	loading/lok/creatures/lok_spinedsnake	@loading/lok_n:spined_snake
+@loading/lok:vesp	loading/lok/creatures/lok_vesp	@loading/lok_n:vesp
+@loading/lok:nym_stronghold	loading/lok/landmarks/lok_nymstronghold	@loading/lok_n:nym_stronghold
+@loading/lok:droideka	loading/lok/npcs/lok_droideka	@loading/lok_n:droideka
+@loading/lok:general_otto	loading/lok/landmarks/lok_imperialbase	@loading/lok_n:general_otto
+@loading/lok:nym	loading/lok/landmarks/lok_nymstronghold	@loading/lok_n:nym

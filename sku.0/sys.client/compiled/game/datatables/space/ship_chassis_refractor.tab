@@ -1,0 +1,34 @@
+component	reactor	engine	shield_0	shield_1	armor_0	armor_1	capacitor	booster	droid_interface	bridge	hangar	targeting_station	weapon_0	weapon_1	weapon_2	weapon_3	weapon_4	weapon_5	weapon_6	weapon_7
+s	s	s	s	s	s	s	s	s	s	s	s	s	s	s	s	s	s	s	s	s
+wpn_xwing_missile_s01																				
+bst_xwing_booster_s01								ywing_booster_s01:booster1												
+eng_crafted_novaldex_eventhorizon		refractor_engine_s01:engine1,refractor_engine_s01_b:engine2																		
+eng_crafted_qualdex_kyromaster		refractor_engine_s01:engine1,refractor_engine_s01_b:engine2																		
+eng_crafted_incom_fusialthrust		refractor_engine_s01:engine1,refractor_engine_s01_b:engine2																		
+wpn_crafted_incom_disruptor																				
+wpn_crafted_slayn_ioncannon																				
+wpn_crafted_subpro_tripleblaster																				
+eng_novaldex_eventhorizon		refractor_engine_s01:engine1,refractor_engine_s01_b:engine2																		
+eng_qualdex_kyromaster		refractor_engine_s01:engine1,refractor_engine_s01_b:engine2																		
+eng_incom_fusialthrust		refractor_engine_s01:engine1,refractor_engine_s01_b:engine2																		
+wpn_incom_disruptor													bwing_weapon1_s01:weapon1	refractor_weapon2_s01:weapon_wing						
+wpn_slayn_ioncannon													bwing_weapon1_s01:weapon1	refractor_weapon2_s01:weapon_wing						
+wpn_subpro_tripleblaster													bwing_weapon1_s01:weapon1	refractor_weapon2_s01:weapon_wing						
+wpn_seinar_concussion_missile_s01																				
+wpn_sienar_heatseeker_missile_s01																				
+wpn_slayn_imagerec_missile_s01																				
+wpn_incom_proton_missile_s01																				
+wpn_incom_seismic_missile_s01																				
+wpn_tieadvanced_blaster													bwing_weapon1_s01:weapon1	refractor_weapon2_s01:weapon_wing						
+wpn_heavy_blaster													bwing_weapon1_s01:weapon1	refractor_weapon2_s01:weapon_wing						
+wpn_heavy_ioncannon													bwing_weapon1_s01:weapon1	refractor_weapon2_s01:weapon_wing						
+wpn_light_blaster													bwing_weapon1_s01:weapon1	refractor_weapon2_s01:weapon_wing						
+wpn_light_disruptor													bwing_weapon1_s01:weapon1	refractor_weapon2_s01:weapon_wing						
+wpn_light_ioncannon													bwing_weapon1_s01:weapon1	refractor_weapon2_s01:weapon_wing						
+wpn_medium_blaster													bwing_weapon1_s01:weapon1	refractor_weapon2_s01:weapon_wing						
+wpn_medium_disruptor													bwing_weapon1_s01:weapon1	refractor_weapon2_s01:weapon_wing						
+wpn_medium_ioncannon													bwing_weapon1_s01:weapon1	refractor_weapon2_s01:weapon_wing						
+bst_mk1								ywing_booster_s01:booster1												
+bst_mk2								ywing_booster_s01:booster1												
+bst_mk3								ywing_booster_s02:booster1												
+bst_mk4								ywing_booster_s02:booster1												

@@ -1,0 +1,18 @@
+StringId	Picture	Title
+s	s	s
+@loading/corellia:slice_hound	loading/corellia/creatures/corellia_slicehound	@loading/corellia_n:slice_hound
+@loading/corellia:bela_vistal	loading/corellia/cities/corellia_bellavistal	@loading/corellia_n:bela_vistal
+@loading/corellia:corellia	loading/corellia/cities/corellia_corellia	@loading/corellia_n:corellia
+@loading/corellia:coronet	loading/corellia/cities/corellia_coronet	@loading/corellia_n:coronet
+@loading/corellia:tyrena	loading/corellia/cities/corellia_tyrena	@loading/corellia_n:tyrena
+@loading/corellia:drall	loading/corellia/creatures/corellia_drall	@loading/corellia_n:drall
+@loading/corellia:razor_cat	loading/corellia/creatures/corellia_sandpanther	@loading/corellia_n:razor_cat
+@loading/corellia:agrilat_swamp	loading/corellia/landmarks/corellia_agrilatswamp	@loading/corellia_n:agrilat_swamp
+@loading/corellia:lord_nyax_cult	loading/corellia/npcs/corellia_lordnyax	@loading/corellia_n:lord_nyax_cult
+@loading/corellia:corellian_butterflies	loading/corellia/creatures/corellia_butterfly	@loading/corellia_n:corellian_butterflies
+@loading/corellia:kor_vella	loading/corellia/creatures/corellia_butterfly	@loading/corellia_n:kor_vella
+@loading/corellia:selonians	loading/corellia/npc/corellia_selonian	@loading/corellia_n:selonians
+@loading/corellia:rebel_hideout	loading/corellia/landmarks/corellia_rebelhideout	@loading/corellia_n:rebel_hideout
+@loading/corellia:dalyrake	loading/corellia/creatures/corellia_dalyrake	@loading/corellia_n:dalyrake
+		
+		

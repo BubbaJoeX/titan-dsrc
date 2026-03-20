@@ -1,0 +1,4 @@
+Parent	Name	Type	Data1	Data2
+s	s	s	s	s
+	Trade	Page	@kb/kb_tradein_n:tradein	
+Trade	Text	String	@kb/kb_tradein_d:tradein	

@@ -1,0 +1,19 @@
+Parent	Name	Type	Data1	Data2
+s	s	s	s	s
+	Advancement	Page	@kb/kb_advancement_n:advancement	
+Advancement	Text	String	@kb/kb_advancement_d:advancement	
+Advancement	Experience	Page	@kb/kb_advancement_n:experience	
+Advancement.Experience	Text	String	@kb/kb_advancement_d:experience	
+Advancement.Experience	Earning	Page	@kb/kb_advancement_n:experienceearning	
+Advancement.Experience.Earning	Text	String	@kb/kb_advancement_d:experienceearning	
+Advancement.Experience	Types	Page	@kb/kb_advancement_n:experiencetypes	
+Advancement.Experience.Types	Text	String	@kb/kb_advancement_d:experiencetypes	
+Advancement	Skills	Page	@kb/kb_advancement_n:skills	
+Advancement.Skills	Text	String	@kb/kb_advancement_d:skills	
+Advancement.Skills	SkillWindow	LinkButton	@kb/kb_advancement_d:link_skillwindow	Interface.Windows.Skills
+Advancement.Skills	SkillBoxes	Page	@kb/kb_advancement_n:skillboxes	
+Advancement.Skills.SkillBoxes	Text	String	@kb/kb_advancement_d:skillboxes	
+Advancement.Skills	SkillPoints	Page	@kb/kb_advancement_n:skillpoints	
+Advancement.Skills.SkillPoints	Text	String	@kb/kb_advancement_d:skillpoints	
+Advancement.Skills	Trainers	Page	@kb/kb_advancement_n:skilltrainers	
+Advancement.Skills.Trainers	Text	String	@kb/kb_advancement_d:skilltrainers	
