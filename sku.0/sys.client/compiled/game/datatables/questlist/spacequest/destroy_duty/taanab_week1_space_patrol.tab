@@ -1,3 +1,0 @@
-JOURNAL_ENTRY_TITLE	JOURNAL_ENTRY_DESCRIPTION	PREREQUISITE_QUESTS	EXCLUSION_QUESTS	ALLOW_REPEATS	CATEGORY
-s	s	s	s	b	s
-@taanab_harvest:space_patrol_title	@taanab_harvest:space_patrol_description			1	@taanab_harvest:category

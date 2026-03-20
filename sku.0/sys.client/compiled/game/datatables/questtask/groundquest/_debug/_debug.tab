@@ -1,5 +1,0 @@
-PREREQUISITE_TASKS	EXCLUSION_TASKS	ATTACH_SCRIPT	JOURNAL_ENTRY_TITLE	JOURNAL_ENTRY_DESCRIPTION	TASKS_ON_COMPLETE	TASKS_ON_FAIL	TARGET	PARAMETER	IS_VISIBLE	SHOW_SYSTEM_MESSAGES	ALLOW_REPEATS
-s	s	s	s	s	s	s	s	s	b	b	b
-		quest.task.ground.debug	@groundquest/_debug/_debug:temp1_t	@groundquest/_debug/_debug:temp1_d	1				1	0	1
-		quest.task.ground.debug_completed	@groundquest/_debug/_debug:temp2_t	@groundquest/_debug/_debug:temp2_d		2			1	0	1
-		quest.task.ground.debug_failed	@groundquest/_debug/_debug:temp3_t	@groundquest/_debug/_debug:temp3_d					0	0	0

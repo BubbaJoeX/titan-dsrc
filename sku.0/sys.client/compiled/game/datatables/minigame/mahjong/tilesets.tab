@@ -1,3 +1,0 @@
-NAME	FILE	BASE_TILE	HIGHLIGHT	SELECTED_SOUND	CANNOT_SELECT_SOUND	REMOVED_SOUND	START_SOUND	VICTORY_SOUND	LOST_SOUND	SHUFFLE_SOUND	UNDO_SOUND	GAME_CLOSED_SOUND
-s	s	s	s	s	s	s	s	s	s	s	s	s
-Galactic Tiles	datatables/minigame/mahjong/testtileset.iff	/Styles.Icon.Tiles.set1.background	/Styles.Icon.Tiles.set1.highlight	ui_button_confirm	ui_negative	mis_notenoughpoints	wep_grenade_on	mahjong_win	mahjong_loss	mahjong_shuffle	wep_swing_knife	wep_grenade_off
