@@ -1280,13 +1280,13 @@ public class combat_ship extends script.base_script
             return SCRIPT_CONTINUE;
         }
 
-        if (!space_utils.isShipWithInterior(self))
+        /*if (!space_utils.isShipWithInterior(self))
         {
             obj_id owner = params.getObjId("owner");
             if (isIdValid(owner))
                 sendSystemMessageTestingOnly(owner, "Auto-pilot is only available on ships with an interior.");
             return SCRIPT_CONTINUE;
-        }
+        }*/
 
         float targetX = params.getFloat("x");
         float targetZ = params.getFloat("z");
