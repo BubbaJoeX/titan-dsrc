@@ -314,6 +314,34 @@ public class atmo_landing_registry extends script.base_script
     }
 
     /**
+     * Tell the pad tied to this ship (via {@code atmo.landing.landed_at} or {@code atmo.landing.target}) to release
+     * occupancy and strip landing objvars from the ship. Use whenever the vessel leaves without the landing point
+     * script running its normal flow (pack, city eject, summon, etc.).
+     */
+    public static void detachShipFromLandingPoint(obj_id ship) throws InterruptedException
+    {
+        if (!isIdValid(ship))
+            return;
+
+        obj_id pad = null;
+        if (hasObjVar(ship, "atmo.landing.landed_at"))
+            pad = getObjIdObjVar(ship, "atmo.landing.landed_at");
+        else if (hasObjVar(ship, "atmo.landing.target"))
+            pad = getObjIdObjVar(ship, "atmo.landing.target");
+
+        if (isIdValid(pad) && exists(pad) && isLandingPoint(pad))
+        {
+            dictionary departedParams = new dictionary();
+            departedParams.put("ship", ship);
+            messageTo(pad, "handleShipDeparted", departedParams, 0, false);
+            return;
+        }
+
+        if (hasObjVar(ship, "atmo.landing"))
+            removeObjVar(ship, "atmo.landing");
+    }
+
+    /**
      * Get the ship occupying a landing point.
      * Returns null if no ship is occupying or the ship no longer exists.
      */

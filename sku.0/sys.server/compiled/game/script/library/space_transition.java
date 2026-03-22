@@ -1,6 +1,7 @@
 package script.library;
 
 import script.*;
+import script.space.atmo.atmo_landing_registry;
 
 import java.util.Vector;
 
@@ -810,6 +811,7 @@ public class space_transition extends script.base_script
         {
             return;
         }
+        atmo_landing_registry.detachShipFromLandingPoint(ship);
         removeObjVar(ship, "space.altitude");
         shipClearAutopilot(ship);
         removeObjVar(ship, "space.autopilot");

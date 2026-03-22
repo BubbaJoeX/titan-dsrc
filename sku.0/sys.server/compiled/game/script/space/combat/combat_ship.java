@@ -2,6 +2,7 @@ package script.space.combat;
 
 import script.*;
 import script.library.*;
+import script.space.atmo.atmo_landing_registry;
 
 import java.util.Vector;
 
@@ -366,19 +367,7 @@ public class combat_ship extends script.base_script
             return SCRIPT_CONTINUE;
         }
 
-        // Clear any landing point occupancy (check both landed_at and target)
-        obj_id landingPoint = null;
-        if (hasObjVar(self, "atmo.landing.landed_at"))
-            landingPoint = getObjIdObjVar(self, "atmo.landing.landed_at");
-        else if (hasObjVar(self, "atmo.landing.target"))
-            landingPoint = getObjIdObjVar(self, "atmo.landing.target");
-
-        if (isIdValid(landingPoint) && exists(landingPoint))
-        {
-            dictionary departedParams = new dictionary();
-            departedParams.put("ship", self);
-            messageTo(landingPoint, "handleShipDeparted", departedParams, 0, false);
-        }
+        atmo_landing_registry.detachShipFromLandingPoint(self);
 
         obj_id[] notifylist = getObjIdArrayObjVar(self, "destroynotify");
         if (notifylist != null)
@@ -1597,21 +1586,12 @@ public class combat_ship extends script.base_script
     {
         shipClearAutopilot(ship);
 
-        // Clear any landing point reservation if we were en route (not yet landed)
-        if (hasObjVar(ship, "atmo.landing.target"))
+        // Clear reservation only (still on approach — not landed / docked)
+        if (hasObjVar(ship, "atmo.landing.target")
+            && !hasObjVar(ship, "atmo.landing.landed_at")
+            && !hasObjVar(ship, "atmo.landing.docked"))
         {
-            obj_id landingPoint = getObjIdObjVar(ship, "atmo.landing.target");
-            // Only clear if not already landed or docked
-            if (!hasObjVar(ship, "atmo.landing.landed_at") && !hasObjVar(ship, "atmo.landing.docked"))
-            {
-                if (isIdValid(landingPoint) && exists(landingPoint))
-                {
-                    dictionary departedParams = new dictionary();
-                    departedParams.put("ship", ship);
-                    messageTo(landingPoint, "handleShipDeparted", departedParams, 0, false);
-                }
-                removeObjVar(ship, "atmo.landing");
-            }
+            atmo_landing_registry.detachShipFromLandingPoint(ship);
         }
 
         removeObjVar(ship, OV_AUTOPILOT_ROOT);
@@ -1653,6 +1633,8 @@ public class combat_ship extends script.base_script
             }
             return SCRIPT_CONTINUE;
         }
+
+        atmo_landing_registry.detachShipFromLandingPoint(self);
 
         if (!space_utils.isShipWithInterior(self))
         {

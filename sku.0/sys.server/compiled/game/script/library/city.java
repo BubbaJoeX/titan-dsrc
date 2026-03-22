@@ -1,6 +1,7 @@
 package script.library;
 
 import script.*;
+import script.space.atmo.atmo_landing_registry;
 
 import java.util.Vector;
 
@@ -2392,7 +2393,7 @@ public class city extends script.base_script
         location ejectLoc = new location(ejectX, ejectY, ejectZ, cityLoc.area, null);
         setLocation(ship, ejectLoc);
 
-        removeObjVar(ship, "atmo.landing");
+        atmo_landing_registry.detachShipFromLandingPoint(ship);
         removeObjVar(ship, "atmo.docked");
 
         obj_id pilot = getPilotId(ship);

@@ -2,6 +2,7 @@ package script.space.combat;
 
 import script.*;
 import script.library.*;
+import script.space.atmo.atmo_landing_registry;
 import script.systems.gcw.space.battle_controller;
 import script.systems.gcw.space.battle_spawner;
 
@@ -95,16 +96,7 @@ public class combat_ship_player extends script.base_script
 
             // If ship is landed (not docked), clear the landing point when pilot takes control
             if (hasObjVar(ship, "atmo.landing.landed_at"))
-            {
-                obj_id landingPoint = getObjIdObjVar(ship, "atmo.landing.landed_at");
-                if (isIdValid(landingPoint) && exists(landingPoint))
-                {
-                    dictionary departedParams = new dictionary();
-                    departedParams.put("ship", ship);
-                    messageTo(landingPoint, "handleShipDeparted", departedParams, 0, false);
-                }
-                removeObjVar(ship, "atmo.landing");
-            }
+                atmo_landing_registry.detachShipFromLandingPoint(ship);
 
             obj_id pilotSlotObject = space_transition.findPilotSlotObjectForShip(self, ship);
             if (isIdValid(pilotSlotObject) && (isGod(self) || getContainedBy(pilotSlotObject) == getContainedBy(self)))
