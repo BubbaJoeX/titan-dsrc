@@ -28,6 +28,9 @@ public class atmo_landing_point extends script.base_script
     public static final int OCCUPANCY_CHECK_INTERVAL = 30;
     public static final int MINIMUM_LANDING_FEE = 5000;
 
+    private static final String OBJVAR_PAD_DROID = atmo_landing_registry.OBJVAR_ROOT + ".pad_droid";
+    private static final String R3_PAD_DROID_TEMPLATE = "object/mobile/r3_crafted.iff";
+
     // Imperial Docking Authority appearance templates
     public static final String[] IDA_APPEARANCES = {
         "object/mobile/sd_engineer_01.iff",
@@ -127,12 +130,14 @@ public class atmo_landing_point extends script.base_script
 
     public int OnDetach(obj_id self) throws InterruptedException
     {
+        destroyPadDroid(self);
         atmo_landing_registry.unregisterFromMap(self);
         return SCRIPT_CONTINUE;
     }
 
     public int OnDestroy(obj_id self) throws InterruptedException
     {
+        destroyPadDroid(self);
         atmo_landing_registry.unregisterFromMap(self);
         return SCRIPT_CONTINUE;
     }
@@ -199,6 +204,43 @@ public class atmo_landing_point extends script.base_script
         }
 
         atmo_landing_registry.registerOnMap(self);
+        ensurePadDroid(self);
+    }
+
+    private void ensurePadDroid(obj_id self) throws InterruptedException
+    {
+        if (hasObjVar(self, OBJVAR_PAD_DROID))
+        {
+            obj_id existing = getObjIdObjVar(self, OBJVAR_PAD_DROID);
+            if (isIdValid(existing) && exists(existing))
+                return;
+            removeObjVar(self, OBJVAR_PAD_DROID);
+        }
+
+        location loc = atmo_landing_registry.getLandingLocation(self);
+        if (loc == null)
+            return;
+
+        location spawnLoc = new location(loc.x, loc.y + 0.35f, loc.z, loc.area);
+        obj_id droid = createObject(R3_PAD_DROID_TEMPLATE, spawnLoc);
+        if (!isIdValid(droid) || !exists(droid))
+            return;
+
+        atmo_landing_pad_droid.applyR3AppearanceAndName(droid);
+        setInvulnerable(droid, true);
+        setObjVar(droid, atmo_landing_pad_droid.OBJVAR_PAD, self);
+        setObjVar(self, OBJVAR_PAD_DROID, droid);
+        attachScript(droid, atmo_landing_pad_droid.SCRIPT_NAME);
+    }
+
+    private void destroyPadDroid(obj_id self) throws InterruptedException
+    {
+        if (!hasObjVar(self, OBJVAR_PAD_DROID))
+            return;
+        obj_id droid = getObjIdObjVar(self, OBJVAR_PAD_DROID);
+        if (isIdValid(droid) && exists(droid))
+            destroyObject(droid);
+        removeObjVar(self, OBJVAR_PAD_DROID);
     }
 
     public int handleLandingRequest(obj_id self, dictionary params) throws InterruptedException

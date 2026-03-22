@@ -2,6 +2,7 @@ package script.space.atmo;
 
 import script.*;
 import script.library.*;
+import script.space.combat.combat_ship;
 
 import java.util.Vector;
 
@@ -192,6 +193,27 @@ public class atmo_landing_registry extends script.base_script
     {
         if (!isLandingPoint(landingPoint))
             return false;
+
+        // Self-heal: ship already landed_at this pad but reservation ETA not cleared yet (ordering / missed handleShipArrived).
+        if (hasObjVar(landingPoint, OBJVAR_OCCUPIED_BY))
+        {
+            obj_id occ = getObjIdObjVar(landingPoint, OBJVAR_OCCUPIED_BY);
+            if (isIdValid(occ) && exists(occ) && hasObjVar(occ, "atmo.landing.landed_at"))
+            {
+                obj_id la = getObjIdObjVar(occ, "atmo.landing.landed_at");
+                if (isIdValid(la) && la == landingPoint)
+                {
+                    if (hasObjVar(landingPoint, OBJVAR_OCCUPIED_ETA))
+                        removeObjVar(landingPoint, OBJVAR_OCCUPIED_ETA);
+                    if (!hasObjVar(landingPoint, OBJVAR_OCCUPIED_STATE) || getIntObjVar(landingPoint, OBJVAR_OCCUPIED_STATE) != OCCUPANCY_LANDED)
+                    {
+                        setObjVar(landingPoint, OBJVAR_OCCUPIED_STATE, OCCUPANCY_LANDED);
+                        updateMapStatus(landingPoint);
+                    }
+                    return false;
+                }
+            }
+        }
 
         if (!hasObjVar(landingPoint, OBJVAR_OCCUPIED_ETA))
             return false;
@@ -535,7 +557,7 @@ public class atmo_landing_registry extends script.base_script
 
         float cruiseAbs = getCruiseAltitude(landingPoint);
         float landAbs = getApproachAltitude(landingPoint);
-        float elevatorSpeed = 30.0f;
+        float elevatorSpeed = combat_ship.ELEVATOR_SPEED;
 
         float climbM = cruiseAbs - shipLoc.y;
         if (climbM < 0.0f)

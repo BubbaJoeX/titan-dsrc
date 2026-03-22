@@ -484,8 +484,8 @@ public class terminal_pob_ship extends script.base_script
                 obj_id occ = atmo_landing_registry.getOccupyingShip(pad);
                 boolean weHoldPad = isIdValid(occ) && occ == ship;
 
-                // Pad is in LANDED state for this ship but ship objvar landed_at not set yet (ordering) or was dropped
-                if (weHoldPad && atmo_landing_registry.isLanded(pad) && !autopilotOn)
+                // Pad already shows this ship landed — moored even if script autopilot objvars were not cleared yet.
+                if (weHoldPad && atmo_landing_registry.isLanded(pad))
                 {
                     String name = atmo_landing_registry.getLandingPointName(pad);
                     if (name == null || name.isEmpty())

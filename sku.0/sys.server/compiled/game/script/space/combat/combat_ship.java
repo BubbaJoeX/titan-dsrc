@@ -1171,8 +1171,75 @@ public class combat_ship extends script.base_script
 
     public static final String SND_COMM    = "sound/sys_comm_generic.snd";
     public static final String SND_ALARM   = "sound/cbt_msl_alarm_incoming.snd";
-    public static final float  ELEVATOR_SPEED = 30.0f;
+    /** Vertical m/s for atmospheric autopilot ETA math; keep in sync with {@code PlayerShipController} autopilot elevator speed. */
+    public static final float  ELEVATOR_SPEED = 60.0f;
     private static final float SHUTTLE_LOG_RANGE = 2000.0f;
+
+    /**
+     * Finishes atmospheric autopilot when the destination is reached: summon messaging, landing-pad handoff, clears script autopilot state.
+     * Safe to call when {@code atmo.landing.landed_at} is already set (landing handoff becomes a no-op for pad vars).
+     */
+    private void finishAutopilotArrival(obj_id self, location shipLoc) throws InterruptedException
+    {
+        if (!hasObjVar(self, OV_AUTOPILOT_ACTIVE) && !hasObjVar(self, "atmo.landing.target") && !hasObjVar(self, OV_SUMMON_OWNER))
+            return;
+
+        shipClearAutopilot(self);
+
+        boolean wasSummon = hasObjVar(self, OV_SUMMON_OWNER);
+        obj_id summonOwner = wasSummon ? getObjIdObjVar(self, OV_SUMMON_OWNER) : null;
+        boolean wasLandingPoint = hasObjVar(self, "atmo.landing.target");
+        obj_id landingTarget = wasLandingPoint ? getObjIdObjVar(self, "atmo.landing.target") : null;
+
+        playSoundOnShipOccupants(self, SND_COMM);
+
+        broadcastToShip(self, " ");
+        broadcastToShip(self, "\\#00ff88========================================");
+        broadcastToShip(self, "\\#00ff88[Navicomputer]: Destination reached. Auto-pilot disengaged.");
+        broadcastToShip(self, "\\#00ff88========================================");
+        broadcastToShip(self, " ");
+        broadcastToShip(self, "\\#88ddaa  Coordinates: [" + formatCoord(shipLoc.x) + ", " + formatCoord(shipLoc.y) + ", " + formatCoord(shipLoc.z) + "]");
+        broadcastToShip(self, " ");
+
+        if (wasSummon)
+        {
+            broadcastToShip(self, "\\#88ddaa  The ship has arrived at the summoned location.");
+            if (isIdValid(summonOwner) && exists(summonOwner))
+            {
+                play2dNonLoopingSound(summonOwner, SND_COMM);
+                sendSystemMessageTestingOnly(summonOwner, "\\#00ff88[Navicomputer]: Your ship has arrived at your location.");
+                sendSystemMessageTestingOnly(summonOwner, "\\#88ddaa  Coordinates: [" + formatCoord(shipLoc.x) + ", " + formatCoord(shipLoc.y) + ", " + formatCoord(shipLoc.z) + "]");
+                sendSystemMessageTestingOnly(summonOwner, "\\#88ddaa  You may now board your ship.");
+            }
+        }
+        else if (wasLandingPoint && isIdValid(landingTarget) && exists(landingTarget))
+        {
+            if (!hasObjVar(self, "atmo.landing.landed_at"))
+            {
+                String landingName = hasObjVar(self, "atmo.landing.name") ? getStringObjVar(self, "atmo.landing.name") : "Landing Pad";
+                broadcastToShip(self, "\\#88ddaa  Welcome to " + landingName + ".");
+                broadcastToShip(self, "\\#88ddaa   You have successfully landed.");
+
+                dictionary arrivedParams = new dictionary();
+                arrivedParams.put("ship", self);
+                messageTo(landingTarget, "handleShipArrived", arrivedParams, 0, false);
+
+                removeObjVar(self, "atmo.landing.target");
+                removeObjVar(self, "atmo.landing.yaw");
+                removeObjVar(self, "atmo.landing.name");
+            }
+        }
+        else
+        {
+            broadcastToShip(self, "\\#88ddaa  We have arrived at our destination. You may now disembark");
+            broadcastToShip(self, "\\#88ddaa   or land the vessel. Thank you for flying with us.");
+        }
+        broadcastToShip(self, " ");
+
+        removeObjVar(self, OV_AUTOPILOT_ROOT);
+        if (utils.hasScriptVar(self, "combat_ship.shuttleTickLogged"))
+            utils.removeScriptVar(self, "combat_ship.shuttleTickLogged");
+    }
 
     private void broadcastToShip(obj_id ship, String message) throws InterruptedException
     {
@@ -1408,7 +1475,16 @@ public class combat_ship extends script.base_script
             if (lastPhase != AP_NONE)
             {
                 if (npcShuttle) script_logs.logToGodsInRange(self, SHUTTLE_LOG_RANGE, "Shuttle DEBUG: canceling, lastPhase was " + lastPhase);
-                removeObjVar(self, OV_AUTOPILOT_ROOT);
+                int ep = shipGetAutopilotPhase(self);
+                location loc = getLocation(self);
+                if (ep == AP_ARRIVED)
+                    finishAutopilotArrival(self, loc);
+                else
+                {
+                    if (hasObjVar(self, "atmo.landing.target") && !hasObjVar(self, "atmo.landing.landed_at") && !hasObjVar(self, "atmo.landing.docked"))
+                        atmo_landing_registry.detachShipFromLandingPoint(self);
+                    removeObjVar(self, OV_AUTOPILOT_ROOT);
+                }
                 return SCRIPT_CONTINUE;
             }
             ticks++;
@@ -1500,62 +1576,17 @@ public class combat_ship extends script.base_script
                     break;
                 case AP_ARRIVED:
                 {
-                    shipClearAutopilot(self);
-
-                    boolean wasSummon = hasObjVar(self, OV_SUMMON_OWNER);
-                    obj_id summonOwner = wasSummon ? getObjIdObjVar(self, OV_SUMMON_OWNER) : null;
-                    boolean wasLandingPoint = hasObjVar(self, "atmo.landing.target");
-                    obj_id landingTarget = wasLandingPoint ? getObjIdObjVar(self, "atmo.landing.target") : null;
-
-                    playSoundOnShipOccupants(self, SND_COMM);
-
-                    broadcastToShip(self, " ");
-                    broadcastToShip(self, "\\#00ff88========================================");
-                    broadcastToShip(self, "\\#00ff88[Navicomputer]: Destination reached. Auto-pilot disengaged.");
-                    broadcastToShip(self, "\\#00ff88========================================");
-                    broadcastToShip(self, " ");
-                    broadcastToShip(self, "\\#88ddaa  Coordinates: [" + formatCoord(shipLoc.x) + ", " + formatCoord(shipLoc.y) + ", " + formatCoord(shipLoc.z) + "]");
-                    broadcastToShip(self, " ");
-
-                    if (wasSummon)
-                    {
-                        broadcastToShip(self, "\\#88ddaa  The ship has arrived at the summoned location.");
-                        if (isIdValid(summonOwner) && exists(summonOwner))
-                        {
-                            play2dNonLoopingSound(summonOwner, SND_COMM);
-                            sendSystemMessageTestingOnly(summonOwner, "\\#00ff88[Navicomputer]: Your ship has arrived at your location.");
-                            sendSystemMessageTestingOnly(summonOwner, "\\#88ddaa  Coordinates: [" + formatCoord(shipLoc.x) + ", " + formatCoord(shipLoc.y) + ", " + formatCoord(shipLoc.z) + "]");
-                            sendSystemMessageTestingOnly(summonOwner, "\\#88ddaa  You may now board your ship.");
-                        }
-                    }
-                    else if (wasLandingPoint && isIdValid(landingTarget) && exists(landingTarget))
-                    {
-                        String landingName = hasObjVar(self, "atmo.landing.name") ? getStringObjVar(self, "atmo.landing.name") : "Landing Pad";
-                        broadcastToShip(self, "\\#88ddaa  Welcome to " + landingName + ".");
-                        broadcastToShip(self, "\\#88ddaa   You have successfully landed.");
-
-                        dictionary arrivedParams = new dictionary();
-                        arrivedParams.put("ship", self);
-                        messageTo(landingTarget, "handleShipArrived", arrivedParams, 0, false);
-
-                        // Clear landing target objvars - ship has arrived, landing point will track occupancy
-                        removeObjVar(self, "atmo.landing.target");
-                        removeObjVar(self, "atmo.landing.yaw");
-                        removeObjVar(self, "atmo.landing.name");
-                    }
-                    else
-                    {
-                        broadcastToShip(self, "\\#88ddaa  We have arrived at our destination. You may now disembark");
-                        broadcastToShip(self, "\\#88ddaa   or land the vessel. Thank you for flying with us.");
-                    }
-                    broadcastToShip(self, " ");
-
-                    removeObjVar(self, OV_AUTOPILOT_ROOT);
-                    if (utils.hasScriptVar(self, "combat_ship.shuttleTickLogged"))
-                        utils.removeScriptVar(self, "combat_ship.shuttleTickLogged");
+                    finishAutopilotArrival(self, shipLoc);
                     return SCRIPT_CONTINUE;
                 }
             }
+        }
+
+        // Engine reported AP_ARRIVED without a phase delta vs last tick — still run arrival once.
+        if (phase == AP_ARRIVED && hasObjVar(self, OV_AUTOPILOT_ACTIVE) && hasObjVar(self, "atmo.landing.target") && !hasObjVar(self, "atmo.landing.landed_at"))
+        {
+            finishAutopilotArrival(self, shipLoc);
+            return SCRIPT_CONTINUE;
         }
 
         if (phase == AP_CRUISING && ticks % AUTOPILOT_STATUS_INTERVAL == 0)
