@@ -18,7 +18,7 @@ public class summon_ship extends script.base_script
 
     private static final int MENU_STARSHIP_REMOTE = menu_info_types.SERVER_MENU1;
     /** Ground targeting ({@link #OnGroundTargetLoc}) — same menu type as other datapad ground-pick tools. */
-    private static final int MENU_MARK_BOMBARDMENT = menu_info_types.ITEM_USE;
+    private static final int MENU_GROUND_BOMBARD = menu_info_types.ITEM_USE;
 
     public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi) throws InterruptedException
     {
@@ -32,13 +32,13 @@ public class summon_ship extends script.base_script
             return SCRIPT_CONTINUE;
 
         mi.addRootMenu(MENU_STARSHIP_REMOTE, string_id.unlocalized("Starship Remote"));
-        mi.addRootMenu(MENU_MARK_BOMBARDMENT, string_id.unlocalized("Mark for bombardment"));
+        mi.addRootMenu(MENU_GROUND_BOMBARD, string_id.unlocalized("Bombard ground target"));
         return SCRIPT_CONTINUE;
     }
 
     public int OnGroundTargetLoc(obj_id self, obj_id player, int menuItem, float x, float y, float z) throws InterruptedException
     {
-        if (menuItem != MENU_MARK_BOMBARDMENT)
+        if (menuItem != MENU_GROUND_BOMBARD)
             return SCRIPT_CONTINUE;
 
         if (!isAtmosphericFlightScene())
@@ -47,28 +47,28 @@ public class summon_ship extends script.base_script
         if (utils.getContainingPlayer(self) != player)
             return SCRIPT_CONTINUE;
 
-        if (!isIdValid(findDeployedShipForPlayer(player)))
+        obj_id ship = findDeployedShipForPlayer(player);
+        if (!isIdValid(ship))
             return SCRIPT_CONTINUE;
 
-        space_turret.setPlayerGroundStrikeTargetFromGroundPick(player, self, x, y, z);
-        obj_id ship = findDeployedShipForPlayer(player);
-        int instant = space_turret.tryInstantOrbitalStrikeAfterGroundMark(ship, player, combat_ship.SUMMON_BOMBARDMENT_INSTANT_HORIZONTAL_RANGE);
-        if (instant == space_turret.INSTANT_MARK_NOT_ELIGIBLE)
+        location aim = space_turret.locationFromGroundPick(self, player, x, y, z);
+        int r = space_turret.fireOrbitalStrikeAtGroundPick(ship, player, aim, combat_ship.SUMMON_BOMBARDMENT_INSTANT_HORIZONTAL_RANGE);
+        if (r == space_turret.ORBITAL_FIRE_NOT_ELIGIBLE)
         {
-            sendSystemMessageTestingOnly(player, "\\#88ff88[Navicomputer]: Bombardment point marked. Enable bombardment orbit from Starship Remote, then use the management terminal or mark again when the ship is nearby.");
+            sendSystemMessageTestingOnly(player, "\\#88ff88[Navicomputer]: Enable bombardment orbit from Starship Remote on your datapad first, then pick a ground target to fire.");
         }
-        else if (instant == space_turret.INSTANT_MARK_TOO_FAR)
+        else if (r == space_turret.ORBITAL_FIRE_TOO_FAR)
         {
-            sendSystemMessageTestingOnly(player, "\\#88ff88[Navicomputer]: Bombardment point marked. Ship too far for instant strike — within "
-                + (int) combat_ship.SUMMON_BOMBARDMENT_INSTANT_HORIZONTAL_RANGE + " m horizontal of the mark, or use the terminal aboard.");
+            sendSystemMessageTestingOnly(player, "\\#88ff88[Navicomputer]: Ship too far — move within "
+                + (int) combat_ship.SUMMON_BOMBARDMENT_INSTANT_HORIZONTAL_RANGE + " m horizontal of this point or bring the ship closer.");
         }
-        else if (instant > 0)
+        else if (r > 0)
         {
-            sendSystemMessageTestingOnly(player, "\\#88ff88[Navicomputer]: Instant bombardment: " + instant + " turret shot(s) (" + combat_ship.SUMMON_BOMBARDMENT_CREDIT_PER_SHOT + " cr each). Point remains marked.");
+            sendSystemMessageTestingOnly(player, "\\#88ff88[Navicomputer]: Fired " + r + " turret shot(s) (" + combat_ship.SUMMON_BOMBARDMENT_CREDIT_PER_SHOT + " cr each).");
         }
         else
         {
-            sendSystemMessageTestingOnly(player, "\\#88ff88[Navicomputer]: Point marked in range; no shots fired (turrets not ready, arcs, or insufficient credits).");
+            sendSystemMessageTestingOnly(player, "\\#88ff88[Navicomputer]: In range; no shots fired (turrets not ready, arcs, or insufficient credits).");
         }
         return SCRIPT_CONTINUE;
     }
@@ -456,7 +456,7 @@ public class summon_ship extends script.base_script
         String title = "Bombardment orbit";
         String prompt = "Your ship holds the same high orbit as auto-follow.\\n\\n"
             + "Activation: " + combat_ship.SUMMON_BOMBARDMENT_ORBIT_ACTIVATION_COST + " credits (one time).\\n"
-            + "Each successful turret shot from the Starship Management Terminal costs " + combat_ship.SUMMON_BOMBARDMENT_CREDIT_PER_SHOT + " credits.\\n\\n"
+            + "Each successful turret shot from \"Bombard ground target\" on this datapad costs " + combat_ship.SUMMON_BOMBARDMENT_CREDIT_PER_SHOT + " credits.\\n\\n"
             + "Enable bombardment orbit?";
 
         utils.setScriptVar(player, "summon.bombard.ship", ship);

@@ -1717,11 +1717,11 @@ public class combat_ship extends script.base_script
     private static final String OV_SUMMON_CUR_LANDING = "space.summon.cur_landing";
 
     public static final int SUMMON_FOLLOW_COST_PER_HOUR = 20000;
-    /** Paid orbit mode: one-time activation + per-shot turret billing from the management terminal (see {@code space_turret}). */
+    /** Paid orbit mode: one-time activation + per-shot turret billing when firing from the ship datapad (see {@code space_turret}). */
     public static final String OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE = "space.summon.bombardment_orbit_active";
     public static final int SUMMON_BOMBARDMENT_ORBIT_ACTIVATION_COST = 50000;
     public static final int SUMMON_BOMBARDMENT_CREDIT_PER_SHOT = 1000;
-    /** Max horizontal distance (m) from ship to marked ground point for instant fire from the datapad. */
+    /** Max horizontal distance (m) from ship to picked ground point for datapad bombardment. */
     public static final float SUMMON_BOMBARDMENT_INSTANT_HORIZONTAL_RANGE = 4000.0f;
     public static final float SUMMON_FOLLOW_ORBIT_RADIUS = 190.0f;
     public static final float SUMMON_FOLLOW_TAKEOFF_ALT = 880.0f;
@@ -1827,7 +1827,7 @@ public class combat_ship extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
-    /** Same high-orbit follow as {@link #summonFollowEnable}, but 50k activation (no hourly fee); turret strikes bill per shot from the terminal. */
+    /** Same high-orbit follow as {@link #summonFollowEnable}, but 50k activation (no hourly fee); turret shots bill per hit from the datapad ground pick. */
     public int summonBombardmentOrbitEnable(obj_id self, dictionary params) throws InterruptedException
     {
         if (!isAtmosphericFlightScene())
@@ -1897,7 +1897,7 @@ public class combat_ship extends script.base_script
         }
 
         sendSystemMessageTestingOnly(owner, "\\#00ff88[Navicomputer]: Bombardment orbit enabled. " + SUMMON_BOMBARDMENT_ORBIT_ACTIVATION_COST + " credits charged.");
-        sendSystemMessageTestingOnly(owner, "\\#aaddff  Orbital strike from the management terminal: " + SUMMON_BOMBARDMENT_CREDIT_PER_SHOT + " credits per successful turret shot.");
+        sendSystemMessageTestingOnly(owner, "\\#aaddff  Use \"Bombard ground target\" on your ship datapad: " + SUMMON_BOMBARDMENT_CREDIT_PER_SHOT + " credits per successful turret shot (when in range).");
         messageTo(self, "summonFollowTick", null, SUMMON_FOLLOW_TICK_S, false);
         return SCRIPT_CONTINUE;
     }

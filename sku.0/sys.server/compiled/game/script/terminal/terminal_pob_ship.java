@@ -24,7 +24,6 @@ public class terminal_pob_ship extends script.base_script
     private static final int MENU_STORAGE_REDEED = menu_info_types.SERVER_MENU9;
     private static final int MENU_ITEM_MANAGEMENT = menu_info_types.SERVER_MENU10;
     private static final int MENU_MOORAGE_INFO = menu_info_types.SERVER_MENU14;
-    private static final int MENU_ORBITAL_STRIKE = menu_info_types.SERVER_MENU15;
     private static final int MENU_FIND_ALL_ITEMS = menu_info_types.SERVER_MENU11;
     private static final int MENU_SEARCH_ITEMS = menu_info_types.SERVER_MENU12;
     private static final int MENU_UNDOCK = menu_info_types.SERVER_MENU13;
@@ -43,7 +42,6 @@ public class terminal_pob_ship extends script.base_script
     public static final string_id SID_BOARDING_PERMISSIONS = string_id.unlocalized("Boarding Permissions");
     public static final string_id SID_DOCKING = string_id.unlocalized("Docking");
     public static final string_id SID_MOORAGE_INFO = string_id.unlocalized("Moorage Status");
-    public static final string_id SID_ORBITAL_STRIKE = string_id.unlocalized("Orbital Strike (storyteller target)");
     public static final string_id SID_CHECK_DOCKING_TIME = string_id.unlocalized("Check Docking Time");
     public static final string_id SID_EXTEND_DOCKING = string_id.unlocalized("Extend Docking Time");
     public static final string_id SID_UNDOCK = string_id.unlocalized("Undock Ship");
@@ -91,10 +89,6 @@ public class terminal_pob_ship extends script.base_script
                 mi.addRootMenu(MENU_STORAGE_REDEED, SID_TERMINAL_REDEED_STORAGE);
             }
 
-            if (isAtmosphericFlightScene())
-            {
-                mi.addRootMenu(MENU_ORBITAL_STRIKE, SID_ORBITAL_STRIKE);
-            }
         }
 
         // Docking — all passengers; timed-mooring actions when docked, status when not
@@ -216,10 +210,6 @@ public class terminal_pob_ship extends script.base_script
                     prose.setTO(pp, utils.formatTimeVerbose(lockoutEnds - currentTime));
                     sendSystemMessageProse(player, pp);
                 }
-            }
-            else if (item == MENU_ORBITAL_STRIKE && isAtmosphericFlightScene())
-            {
-                space_turret.fireOrbitalStrikeFromStoredGroundTarget(ship, player);
             }
         }
         return SCRIPT_CONTINUE;
