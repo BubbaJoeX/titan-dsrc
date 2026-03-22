@@ -454,7 +454,7 @@ public class summon_ship extends script.base_script
         }
 
         String title = "Bombardment orbit";
-        String prompt = "Your ship holds the same high orbit as auto-follow.\\n\\n"
+        String prompt = "Your ship holds a low orbit about " + (int) combat_ship.SUMMON_BOMBARDMENT_ORBIT_AGL + " m above terrain (not the high auto-follow altitude).\\n\\n"
             + "Activation: " + combat_ship.SUMMON_BOMBARDMENT_ORBIT_ACTIVATION_COST + " credits (one time).\\n"
             + "Each successful turret shot from \"Bombard ground target\" on this datapad costs " + combat_ship.SUMMON_BOMBARDMENT_CREDIT_PER_SHOT + " credits.\\n\\n"
             + "Enable bombardment orbit?";

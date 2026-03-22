@@ -1721,6 +1721,8 @@ public class combat_ship extends script.base_script
     public static final String OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE = "space.summon.bombardment_orbit_active";
     public static final int SUMMON_BOMBARDMENT_ORBIT_ACTIVATION_COST = 50000;
     public static final int SUMMON_BOMBARDMENT_CREDIT_PER_SHOT = 1000;
+    /** Cruise height above terrain (m) for bombardment orbit — low hold (standard auto-follow uses {@link #SUMMON_FOLLOW_TAKEOFF_ALT}). */
+    public static final float SUMMON_BOMBARDMENT_ORBIT_AGL = 100.0f;
     /** Max horizontal distance (m) from ship to picked ground point for datapad bombardment. */
     public static final float SUMMON_BOMBARDMENT_INSTANT_HORIZONTAL_RANGE = 4000.0f;
     public static final float SUMMON_FOLLOW_ORBIT_RADIUS = 190.0f;
@@ -1827,7 +1829,7 @@ public class combat_ship extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
-    /** Same high-orbit follow as {@link #summonFollowEnable}, but 50k activation (no hourly fee); turret shots bill per hit from the datapad ground pick. */
+    /** Low-altitude orbit ({@link #SUMMON_BOMBARDMENT_ORBIT_AGL} m AGL) vs standard auto-follow; 50k activation (no hourly fee); turret shots bill per hit from the datapad ground pick. */
     public int summonBombardmentOrbitEnable(obj_id self, dictionary params) throws InterruptedException
     {
         if (!isAtmosphericFlightScene())
@@ -1882,8 +1884,8 @@ public class combat_ship extends script.base_script
         wp.put("owner", owner);
         wp.put("summon", true);
         wp.put("cruiseHold", true);
-        wp.put("takeoffAlt", SUMMON_FOLLOW_TAKEOFF_ALT);
-        wp.put("landingAlt", SUMMON_FOLLOW_TAKEOFF_ALT);
+        wp.put("takeoffAlt", SUMMON_BOMBARDMENT_ORBIT_AGL);
+        wp.put("landingAlt", SUMMON_BOMBARDMENT_ORBIT_AGL);
         shipSummonEngage(self, wp);
 
         if (!hasObjVar(self, OV_AUTOPILOT_ACTIVE))
@@ -1990,14 +1992,15 @@ public class combat_ship extends script.base_script
         float tx = pl.x + (float) StrictMath.cos(angle) * SUMMON_FOLLOW_ORBIT_RADIUS;
         float tz = pl.z + (float) StrictMath.sin(angle) * SUMMON_FOLLOW_ORBIT_RADIUS;
 
+        float orbitAgl = bombardmentOrbit ? SUMMON_BOMBARDMENT_ORBIT_AGL : SUMMON_FOLLOW_TAKEOFF_ALT;
         dictionary wp = new dictionary();
         wp.put("x", tx);
         wp.put("z", tz);
         wp.put("owner", owner);
         wp.put("summon", true);
         wp.put("cruiseHold", true);
-        wp.put("takeoffAlt", SUMMON_FOLLOW_TAKEOFF_ALT);
-        wp.put("landingAlt", SUMMON_FOLLOW_TAKEOFF_ALT);
+        wp.put("takeoffAlt", orbitAgl);
+        wp.put("landingAlt", orbitAgl);
         wp.put("quietSummon", true);
         shipSummonEngage(self, wp);
 
