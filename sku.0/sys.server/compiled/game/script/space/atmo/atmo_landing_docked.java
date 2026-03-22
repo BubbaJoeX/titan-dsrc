@@ -24,9 +24,9 @@ public class atmo_landing_docked extends script.base_script
     public static final String OBJVAR_LANDING_NAME = "atmo.landing.name";
     public static final String OBJVAR_DOCKED = "atmo.landing.docked";
 
-    public static final int WARNING_TIME_1 = 60;
-    public static final int WARNING_TIME_2 = 30;
-    public static final int WARNING_TIME_3 = 10;
+    public static final int WARNING_TIME_1 = 180;
+    public static final int WARNING_TIME_2 = 90;
+    public static final int WARNING_TIME_3 = 30;
 
     public static final float UNDOCK_ALTITUDE_OFFSET = 100.0f;
     public static final float UNDOCK_RANDOM_RANGE = 50.0f;
@@ -81,6 +81,18 @@ public class atmo_landing_docked extends script.base_script
     public static boolean isShipDocked(obj_id ship) throws InterruptedException
     {
         return hasScript(ship, "space.atmo.atmo_landing_docked") && hasObjVar(ship, OBJVAR_DOCKED);
+    }
+
+    /** Re-run the docking timer immediately (e.g. after a paid extension). */
+    public static void kickDockTimer(obj_id ship) throws InterruptedException
+    {
+        if (!isIdValid(ship) || !exists(ship))
+            return;
+        if (!hasScript(ship, "space.atmo.atmo_landing_docked"))
+            return;
+        if (!hasObjVar(ship, OBJVAR_DOCK_EXPIRY))
+            return;
+        messageTo(ship, "checkDockingTimer", null, 0, false);
     }
 
     /**
@@ -148,7 +160,10 @@ public class atmo_landing_docked extends script.base_script
 
         int expiry = getIntObjVar(self, OBJVAR_DOCK_EXPIRY);
         int now = getGameTime();
-        int remaining = expiry - now;
+        obj_id pad = hasObjVar(self, OBJVAR_LANDING_TARGET) ? getObjIdObjVar(self, OBJVAR_LANDING_TARGET) : null;
+        int grace = atmo_landing_manager.getDockGraceSeconds(pad);
+        int hardExpiry = expiry + grace;
+        int remaining = hardExpiry - now;
 
         if (remaining <= 0)
         {
@@ -157,18 +172,18 @@ public class atmo_landing_docked extends script.base_script
         }
 
         if (remaining <= WARNING_TIME_1 && remaining > WARNING_TIME_1 - 1)
-            warnOccupants(self, remaining);
+            warnOccupants(self, remaining, grace);
         else if (remaining <= WARNING_TIME_2 && remaining > WARNING_TIME_2 - 1)
-            warnOccupants(self, remaining);
+            warnOccupants(self, remaining, grace);
         else if (remaining <= WARNING_TIME_3 && remaining > WARNING_TIME_3 - 1)
-            warnOccupants(self, remaining);
+            warnOccupants(self, remaining, grace);
 
         int nextCheck = 1;
         messageTo(self, "checkDockingTimer", null, nextCheck, false);
         return SCRIPT_CONTINUE;
     }
 
-    private void warnOccupants(obj_id ship, int secondsRemaining) throws InterruptedException
+    private void warnOccupants(obj_id ship, int secondsUntilRemoval, int graceSeconds) throws InterruptedException
     {
         java.util.Vector players = space_transition.getContainedPlayers(ship, null);
         if (players == null)
@@ -185,13 +200,15 @@ public class atmo_landing_docked extends script.base_script
             play2dNonLoopingSound(player, SND_ALARM);
 
             prose_package pp = new prose_package();
-            pp.stringId = string_id.unlocalized("Docking time expiring in " + secondsRemaining + " seconds!");
-            pp.digitInteger = secondsRemaining;
+            pp.stringId = string_id.unlocalized("Forced departure in " + secondsUntilRemoval + " seconds!");
+            pp.digitInteger = secondsUntilRemoval;
 
             commPlayer(ship, player, pp, "object/mobile/space_comm_station.iff");
 
-            sendSystemMessageTestingOnly(player, "\\#ffaa44[Docking Control]: WARNING - " + secondsRemaining + " seconds remaining at " + name + "!");
-            sendSystemMessageTestingOnly(player, "\\#ffaa44  Use the ship terminal to extend docking time or undock.");
+            sendSystemMessageTestingOnly(player, "\\#ffaa44[Docking Control]: WARNING — " + secondsUntilRemoval + " s until forced departure from " + name + ".");
+            sendSystemMessageTestingOnly(player, "\\#ffaa44  Use the Starship Management Terminal → Extend Docking Time or Undock.");
+            if (graceSeconds > 0)
+                sendSystemMessageTestingOnly(player, "\\#778899  (Includes up to " + graceSeconds + " s platform grace after paid mooring time.)");
         }
     }
 

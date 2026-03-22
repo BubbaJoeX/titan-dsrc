@@ -23,6 +23,7 @@ public class atmo_landing_spawner_config extends script.base_script
     public static final int MENU_SET_REQ_FACTION = menu_info_types.SERVER_MENU12;
     public static final int MENU_SET_REQ_PROFESSIONS = menu_info_types.SERVER_MENU13;
     public static final int MENU_SET_LANDING_FEE = menu_info_types.SERVER_MENU14;
+    public static final int MENU_SET_DOCK_GRACE = menu_info_types.SERVER_MENU15;
     public static final int MENU_SHOW_CONFIG = menu_info_types.SERVER_MENU7;
     public static final int MENU_CLEAR_CONFIG = menu_info_types.SERVER_MENU8;
     public static final int MENU_APPLY = menu_info_types.SERVER_MENU9;
@@ -44,6 +45,7 @@ public class atmo_landing_spawner_config extends script.base_script
         mi.addSubMenu(configRoot, MENU_SET_REQ_FACTION, string_id.unlocalized("Req. Aligned Faction"));
         mi.addSubMenu(configRoot, MENU_SET_REQ_PROFESSIONS, string_id.unlocalized("Req. Professions (any)"));
         mi.addSubMenu(configRoot, MENU_SET_LANDING_FEE, string_id.unlocalized("Landing Fee (credits)"));
+        mi.addSubMenu(configRoot, MENU_SET_DOCK_GRACE, string_id.unlocalized("Dock Grace (seconds)"));
         mi.addSubMenu(configRoot, MENU_SHOW_CONFIG, string_id.unlocalized("Show Configuration"));
         mi.addSubMenu(configRoot, MENU_CLEAR_CONFIG, string_id.unlocalized("Clear Configuration"));
         mi.addSubMenu(configRoot, MENU_APPLY, string_id.unlocalized("Apply & Activate"));
@@ -95,6 +97,10 @@ public class atmo_landing_spawner_config extends script.base_script
         else if (item == MENU_SET_LANDING_FEE)
         {
             showSetLandingFeeUI(self, player);
+        }
+        else if (item == MENU_SET_DOCK_GRACE)
+        {
+            showSetDockGraceUI(self, player);
         }
         else if (item == menu_info_types.SERVER_MENU7)
         {
@@ -501,6 +507,58 @@ public class atmo_landing_spawner_config extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
+    private void showSetDockGraceUI(obj_id self, obj_id player) throws InterruptedException
+    {
+        String cur;
+        if (hasObjVar(self, atmo_landing_manager.OBJVAR_DOCK_GRACE_SECONDS))
+            cur = String.valueOf(getIntObjVar(self, atmo_landing_manager.OBJVAR_DOCK_GRACE_SECONDS));
+        else
+            cur = "(default " + atmo_landing_manager.DEFAULT_DOCK_GRACE_SECONDS + " s)";
+
+        String title = "Dock Grace (seconds)";
+        String prompt = "Seconds after paid mooring time (dockExpiry) before forced auto-departure.\n"
+            + "Extensions at the ship terminal still work during this buffer.\n\n"
+            + "0 = no grace. Empty + OK = clear override.\n\nCurrent: " + cur;
+
+        sui.inputbox(self, player, prompt, title, "handleSetDockGrace", hasObjVar(self, atmo_landing_manager.OBJVAR_DOCK_GRACE_SECONDS) ? String.valueOf(getIntObjVar(self, atmo_landing_manager.OBJVAR_DOCK_GRACE_SECONDS)) : "");
+    }
+
+    public int handleSetDockGrace(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        if (sui.getIntButtonPressed(params) != sui.BP_OK)
+            return SCRIPT_CONTINUE;
+
+        String input = sui.getInputBoxText(params);
+        if (input == null)
+            input = "";
+        input = input.trim();
+        if (input.isEmpty())
+        {
+            removeObjVar(self, atmo_landing_manager.OBJVAR_DOCK_GRACE_SECONDS);
+            sendSystemMessageTestingOnly(player, "\\#00ff88[GM]: Dock grace cleared — pads use default (" + atmo_landing_manager.DEFAULT_DOCK_GRACE_SECONDS + " s).");
+            return SCRIPT_CONTINUE;
+        }
+        int sec;
+        try
+        {
+            sec = Integer.parseInt(input);
+        }
+        catch (NumberFormatException e)
+        {
+            sendSystemMessageTestingOnly(player, "\\#ff4444[GM]: Enter a whole number of seconds (0 or more).");
+            return SCRIPT_CONTINUE;
+        }
+        if (sec < 0)
+        {
+            sendSystemMessageTestingOnly(player, "\\#ff4444[GM]: Grace cannot be negative.");
+            return SCRIPT_CONTINUE;
+        }
+        setObjVar(self, atmo_landing_manager.OBJVAR_DOCK_GRACE_SECONDS, sec);
+        sendSystemMessageTestingOnly(player, "\\#00ff88[GM]: Dock grace set: " + sec + " s after mooring expiry");
+        return SCRIPT_CONTINUE;
+    }
+
     private void showCurrentConfig(obj_id self, obj_id player) throws InterruptedException
     {
         sendSystemMessageTestingOnly(player, "\\#00ccff========================================");
@@ -589,6 +647,8 @@ public class atmo_landing_spawner_config extends script.base_script
             sendSystemMessageTestingOnly(player, "\\#aaddff  Extend dock seconds override: " + getIntObjVar(self, atmo_landing_manager.OBJVAR_EXTEND_DOCK_SECONDS));
         if (hasObjVar(self, atmo_landing_manager.OBJVAR_ALLOW_EXTEND_DOCK) && !getBooleanObjVar(self, atmo_landing_manager.OBJVAR_ALLOW_EXTEND_DOCK))
             sendSystemMessageTestingOnly(player, "\\#aaddff  Extend dock: disabled");
+
+        sendSystemMessageTestingOnly(player, "\\#aaddff  Dock grace (after mooring): " + atmo_landing_manager.getDockGraceSeconds(self) + " s");
 
         boolean hasScript = hasScript(self, LANDING_POINT_SCRIPT);
         sendSystemMessageTestingOnly(player, "\\#aaddff  Script Attached: " + (hasScript ? "Yes" : "No"));

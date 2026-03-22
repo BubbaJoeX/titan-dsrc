@@ -833,6 +833,8 @@ public class player_developer extends base_script
             boolean setReqProfessionsAny = false;
             int policyLandingFee = -1;
             boolean setPolicyLandingFee = false;
+            int dockGraceSeconds = -1;
+            boolean setDockGraceSeconds = false;
 
             Vector nameTokens = new Vector();
             while (tok.hasMoreTokens())
@@ -929,6 +931,20 @@ public class player_developer extends base_script
                     }
                     continue;
                 }
+                if (t.equalsIgnoreCase("--grace") && tok.hasMoreTokens())
+                {
+                    try
+                    {
+                        dockGraceSeconds = Integer.parseInt(tok.nextToken().trim());
+                        setDockGraceSeconds = true;
+                    }
+                    catch (NumberFormatException e)
+                    {
+                        broadcast(self, "\\#ff4444[Landing Point]: --grace requires an integer (seconds, 0+).");
+                        return SCRIPT_CONTINUE;
+                    }
+                    continue;
+                }
                 nameTokens.add(t);
             }
 
@@ -1003,6 +1019,9 @@ public class player_developer extends base_script
             if (setPolicyLandingFee && policyLandingFee >= 0)
                 setObjVar(egg, atmo_landing_manager.OBJVAR_LANDING_FEE, policyLandingFee);
 
+            if (setDockGraceSeconds && dockGraceSeconds >= 0)
+                setObjVar(egg, atmo_landing_manager.OBJVAR_DOCK_GRACE_SECONDS, dockGraceSeconds);
+
             attachScript(egg, "gm.atmo_landing_spawner_config");
 
             String displayName = hasObjVar(egg, atmo_landing_registry.OBJVAR_NAME)
@@ -1011,13 +1030,13 @@ public class player_developer extends base_script
             setName(egg, displayName);
 
             boolean anyFlag = setDockTime || setAccessMode || setLandingAltitude || (mapCat != null && mapCat.length() > 0) || (mapSub != null && mapSub.length() > 0)
-                || setReqGuildTag || setReqFactionName || setReqProfessionsAny || setPolicyLandingFee;
+                || setReqGuildTag || setReqFactionName || setReqProfessionsAny || setPolicyLandingFee || setDockGraceSeconds;
 
             broadcast(self, "\\#00ff88[Landing Point]: Spawn egg created at your location.");
             broadcast(self, "\\#aaddff  Location: [" + Math.round(playerLoc.x) + ", " + Math.round(playerLoc.y) + ", " + Math.round(playerLoc.z) + "]");
             broadcast(self, "\\#aaddff  Yaw: " + Math.round(yaw) + " degrees");
             if (name.length() == 0 && !anyFlag)
-                broadcast(self, "\\#778899  Optional: name, --alt, --time, --access, --guildtag, --faction rebel|imperial|neutral, --prof 1,2,7, --fee <cr>; --cat/--sub = script metadata only.");
+                broadcast(self, "\\#778899  Optional: name, --alt, --time, --access, --grace <sec>, --guildtag, --faction rebel|imperial|neutral, --prof 1,2,7, --fee <cr>; --cat/--sub = script metadata only.");
 
             if (hasObjVar(egg, atmo_landing_registry.OBJVAR_NAME))
             {
@@ -1056,6 +1075,8 @@ public class player_developer extends base_script
             }
             if (setPolicyLandingFee && policyLandingFee >= 0)
                 broadcast(self, "\\#aaddff  Landing fee: " + policyLandingFee + " cr");
+            if (setDockGraceSeconds && dockGraceSeconds >= 0)
+                broadcast(self, "\\#aaddff  Dock grace: " + dockGraceSeconds + " s");
 
             return SCRIPT_CONTINUE;
         }

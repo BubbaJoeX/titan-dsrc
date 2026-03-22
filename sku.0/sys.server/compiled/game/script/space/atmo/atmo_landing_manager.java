@@ -64,6 +64,12 @@ public class atmo_landing_manager extends script.base_script
     public static final String OBJVAR_ALLOW_EXTEND_DOCK = OBJVAR_POLICY + ".allow_extend_dock";
     public static final String OBJVAR_EXTEND_DOCK_CREDITS = OBJVAR_POLICY + ".extend_dock_credits";
     public static final String OBJVAR_EXTEND_DOCK_SECONDS = OBJVAR_POLICY + ".extend_dock_seconds";
+    /**
+     * Extra seconds after {@code atmo.landing.dockExpiry} before forced relocation; extend still works during this buffer.
+     * Displayed "time until forced departure" includes this grace.
+     */
+    public static final String OBJVAR_DOCK_GRACE_SECONDS = OBJVAR_POLICY + ".dock_grace_seconds";
+    public static final int DEFAULT_DOCK_GRACE_SECONDS = 120;
 
     public static final int ACCESS_PUBLIC = 0;
     public static final int ACCESS_FACTION_WHITELIST = 1;
@@ -134,6 +140,16 @@ public class atmo_landing_manager extends script.base_script
         if (atmo_landing_registry.isLandingPoint(landingPoint) && hasObjVar(landingPoint, OBJVAR_EXTEND_DOCK_SECONDS))
             return getIntObjVar(landingPoint, OBJVAR_EXTEND_DOCK_SECONDS);
         return -1;
+    }
+
+    /** @return seconds after {@code dockExpiry} before forced departure; {@code 0} if explicitly set on the egg/pad. */
+    public static int getDockGraceSeconds(obj_id padOrEgg) throws InterruptedException
+    {
+        if (!isIdValid(padOrEgg) || !exists(padOrEgg))
+            return DEFAULT_DOCK_GRACE_SECONDS;
+        if (hasObjVar(padOrEgg, OBJVAR_DOCK_GRACE_SECONDS))
+            return Math.max(0, getIntObjVar(padOrEgg, OBJVAR_DOCK_GRACE_SECONDS));
+        return DEFAULT_DOCK_GRACE_SECONDS;
     }
 
     public static boolean shouldWaiveLandingFee(obj_id landingPoint) throws InterruptedException
