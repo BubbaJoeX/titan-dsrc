@@ -19,6 +19,10 @@ public class atmo_landing_spawner_config extends script.base_script
     public static final int MENU_SET_YAW = menu_info_types.SERVER_MENU5;
     public static final int MENU_SET_TIME = menu_info_types.SERVER_MENU6;
     public static final int MENU_SET_LANDING_ALT = menu_info_types.SERVER_MENU10;
+    public static final int MENU_SET_GUILD_TAG = menu_info_types.SERVER_MENU11;
+    public static final int MENU_SET_REQ_FACTION = menu_info_types.SERVER_MENU12;
+    public static final int MENU_SET_REQ_PROFESSIONS = menu_info_types.SERVER_MENU13;
+    public static final int MENU_SET_LANDING_FEE = menu_info_types.SERVER_MENU14;
     public static final int MENU_SHOW_CONFIG = menu_info_types.SERVER_MENU7;
     public static final int MENU_CLEAR_CONFIG = menu_info_types.SERVER_MENU8;
     public static final int MENU_APPLY = menu_info_types.SERVER_MENU9;
@@ -36,6 +40,10 @@ public class atmo_landing_spawner_config extends script.base_script
         mi.addSubMenu(configRoot, MENU_SET_YAW, string_id.unlocalized("Set Yaw Angle"));
         mi.addSubMenu(configRoot, MENU_SET_TIME, string_id.unlocalized("Set Time Limit"));
         mi.addSubMenu(configRoot, MENU_SET_LANDING_ALT, string_id.unlocalized("Set Landing Altitude"));
+        mi.addSubMenu(configRoot, MENU_SET_GUILD_TAG, string_id.unlocalized("Req. Guild Tag"));
+        mi.addSubMenu(configRoot, MENU_SET_REQ_FACTION, string_id.unlocalized("Req. Aligned Faction"));
+        mi.addSubMenu(configRoot, MENU_SET_REQ_PROFESSIONS, string_id.unlocalized("Req. Professions (any)"));
+        mi.addSubMenu(configRoot, MENU_SET_LANDING_FEE, string_id.unlocalized("Landing Fee (credits)"));
         mi.addSubMenu(configRoot, MENU_SHOW_CONFIG, string_id.unlocalized("Show Configuration"));
         mi.addSubMenu(configRoot, MENU_CLEAR_CONFIG, string_id.unlocalized("Clear Configuration"));
         mi.addSubMenu(configRoot, MENU_APPLY, string_id.unlocalized("Apply & Activate"));
@@ -71,6 +79,22 @@ public class atmo_landing_spawner_config extends script.base_script
         else if (item == MENU_SET_LANDING_ALT)
         {
             showSetLandingAltitudeUI(self, player);
+        }
+        else if (item == MENU_SET_GUILD_TAG)
+        {
+            showSetGuildTagUI(self, player);
+        }
+        else if (item == MENU_SET_REQ_FACTION)
+        {
+            showSetReqFactionUI(self, player);
+        }
+        else if (item == MENU_SET_REQ_PROFESSIONS)
+        {
+            showSetReqProfessionsUI(self, player);
+        }
+        else if (item == MENU_SET_LANDING_FEE)
+        {
+            showSetLandingFeeUI(self, player);
         }
         else if (item == menu_info_types.SERVER_MENU7)
         {
@@ -281,6 +305,202 @@ public class atmo_landing_spawner_config extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
+    private void showSetGuildTagUI(obj_id self, obj_id player) throws InterruptedException
+    {
+        String cur = "";
+        if (hasObjVar(self, atmo_landing_manager.OBJVAR_REQUIRED_GUILD_TAG))
+            cur = getStringObjVar(self, atmo_landing_manager.OBJVAR_REQUIRED_GUILD_TAG);
+
+        String title = "Required Guild Tag";
+        String prompt = "Pilot's guild abbreviation or full name must match (case-insensitive).\n\nEmpty + OK clears.\n\nCurrent: "
+            + (cur.isEmpty() ? "(none)" : cur);
+
+        sui.inputbox(self, player, prompt, title, "handleSetGuildTag", cur);
+    }
+
+    public int handleSetGuildTag(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        if (sui.getIntButtonPressed(params) != sui.BP_OK)
+            return SCRIPT_CONTINUE;
+
+        String input = sui.getInputBoxText(params);
+        if (input == null)
+            input = "";
+        input = input.trim();
+        if (input.isEmpty())
+        {
+            removeObjVar(self, atmo_landing_manager.OBJVAR_REQUIRED_GUILD_TAG);
+            sendSystemMessageTestingOnly(player, "\\#00ff88[GM]: Required guild tag cleared.");
+            return SCRIPT_CONTINUE;
+        }
+        setObjVar(self, atmo_landing_manager.OBJVAR_REQUIRED_GUILD_TAG, input);
+        sendSystemMessageTestingOnly(player, "\\#00ff88[GM]: Required guild tag set: " + input);
+        return SCRIPT_CONTINUE;
+    }
+
+    private void showSetReqFactionUI(obj_id self, obj_id player) throws InterruptedException
+    {
+        String cur = "";
+        if (hasObjVar(self, atmo_landing_manager.OBJVAR_REQUIRED_ALIGNED_FACTION_NAME))
+            cur = getStringObjVar(self, atmo_landing_manager.OBJVAR_REQUIRED_ALIGNED_FACTION_NAME);
+
+        String title = "Required Aligned Faction";
+        String prompt = "Enter rebel, imperial, or neutral (pvp aligned faction).\n\nEmpty + OK clears.\n\nCurrent: "
+            + (cur.isEmpty() ? "(none)" : cur);
+
+        sui.inputbox(self, player, prompt, title, "handleSetReqFaction", cur);
+    }
+
+    public int handleSetReqFaction(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        if (sui.getIntButtonPressed(params) != sui.BP_OK)
+            return SCRIPT_CONTINUE;
+
+        String input = sui.getInputBoxText(params);
+        if (input == null)
+            input = "";
+        input = input.trim().toLowerCase();
+        if (input.isEmpty())
+        {
+            removeObjVar(self, atmo_landing_manager.OBJVAR_REQUIRED_ALIGNED_FACTION_NAME);
+            sendSystemMessageTestingOnly(player, "\\#00ff88[GM]: Required aligned faction cleared.");
+            return SCRIPT_CONTINUE;
+        }
+        if (!input.equals("rebel") && !input.equals("imperial") && !input.equals("neutral"))
+        {
+            sendSystemMessageTestingOnly(player, "\\#ff4444[GM]: Use rebel, imperial, or neutral.");
+            return SCRIPT_CONTINUE;
+        }
+        setObjVar(self, atmo_landing_manager.OBJVAR_REQUIRED_ALIGNED_FACTION_NAME, input);
+        sendSystemMessageTestingOnly(player, "\\#00ff88[GM]: Required aligned faction set: " + input);
+        return SCRIPT_CONTINUE;
+    }
+
+    private void showSetReqProfessionsUI(obj_id self, obj_id player) throws InterruptedException
+    {
+        String cur = "";
+        if (hasObjVar(self, atmo_landing_manager.OBJVAR_REQUIRED_PROFESSIONS_ANY))
+        {
+            int[] arr = getIntArrayObjVar(self, atmo_landing_manager.OBJVAR_REQUIRED_PROFESSIONS_ANY);
+            if (arr != null && arr.length > 0)
+            {
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < arr.length; i++)
+                {
+                    if (i > 0)
+                        sb.append(",");
+                    sb.append(arr[i]);
+                }
+                cur = sb.toString();
+            }
+        }
+
+        String title = "Required Professions (any match)";
+        String prompt = "Comma-separated utils profession ints (e.g. 1=commando,2=smuggler,7=force).\nPilot must match at least one.\n\nEmpty + OK clears.\n\nCurrent: "
+            + (cur.isEmpty() ? "(none)" : cur);
+
+        sui.inputbox(self, player, prompt, title, "handleSetReqProfessions", cur);
+    }
+
+    public int handleSetReqProfessions(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        if (sui.getIntButtonPressed(params) != sui.BP_OK)
+            return SCRIPT_CONTINUE;
+
+        String input = sui.getInputBoxText(params);
+        if (input == null)
+            input = "";
+        input = input.trim();
+        if (input.isEmpty())
+        {
+            removeObjVar(self, atmo_landing_manager.OBJVAR_REQUIRED_PROFESSIONS_ANY);
+            sendSystemMessageTestingOnly(player, "\\#00ff88[GM]: Required professions cleared.");
+            return SCRIPT_CONTINUE;
+        }
+
+        String[] parts = input.split(",");
+        int[] out = new int[parts.length];
+        int n = 0;
+        for (String part : parts)
+        {
+            part = part.trim();
+            if (part.isEmpty())
+                continue;
+            try
+            {
+                out[n++] = Integer.parseInt(part);
+            }
+            catch (NumberFormatException e)
+            {
+                sendSystemMessageTestingOnly(player, "\\#ff4444[GM]: Invalid number in list: " + part);
+                return SCRIPT_CONTINUE;
+            }
+        }
+        if (n == 0)
+        {
+            removeObjVar(self, atmo_landing_manager.OBJVAR_REQUIRED_PROFESSIONS_ANY);
+            sendSystemMessageTestingOnly(player, "\\#00ff88[GM]: Required professions cleared.");
+            return SCRIPT_CONTINUE;
+        }
+        int[] trimmed = new int[n];
+        System.arraycopy(out, 0, trimmed, 0, n);
+        setObjVar(self, atmo_landing_manager.OBJVAR_REQUIRED_PROFESSIONS_ANY, trimmed);
+        sendSystemMessageTestingOnly(player, "\\#00ff88[GM]: Required professions set (" + n + " value(s)).");
+        return SCRIPT_CONTINUE;
+    }
+
+    private void showSetLandingFeeUI(obj_id self, obj_id player) throws InterruptedException
+    {
+        String cur = "";
+        if (hasObjVar(self, atmo_landing_manager.OBJVAR_LANDING_FEE))
+            cur = String.valueOf(getIntObjVar(self, atmo_landing_manager.OBJVAR_LANDING_FEE));
+
+        String title = "Landing Fee (credits)";
+        String prompt = "Base landing fee before city tax.\n\n-1 + OK = use script default minimum.\n\nCurrent: "
+            + (cur.isEmpty() ? "(default)" : cur);
+
+        sui.inputbox(self, player, prompt, title, "handleSetLandingFee", cur.isEmpty() ? "-1" : cur);
+    }
+
+    public int handleSetLandingFee(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        if (sui.getIntButtonPressed(params) != sui.BP_OK)
+            return SCRIPT_CONTINUE;
+
+        String input = sui.getInputBoxText(params);
+        if (input == null)
+            input = "";
+        input = input.trim();
+        if (input.isEmpty() || input.equals("-1"))
+        {
+            removeObjVar(self, atmo_landing_manager.OBJVAR_LANDING_FEE);
+            sendSystemMessageTestingOnly(player, "\\#00ff88[GM]: Landing fee cleared — pad uses script default.");
+            return SCRIPT_CONTINUE;
+        }
+        int fee;
+        try
+        {
+            fee = Integer.parseInt(input);
+        }
+        catch (NumberFormatException e)
+        {
+            sendSystemMessageTestingOnly(player, "\\#ff4444[GM]: Invalid integer.");
+            return SCRIPT_CONTINUE;
+        }
+        if (fee < 0)
+        {
+            sendSystemMessageTestingOnly(player, "\\#ff4444[GM]: Use a non-negative fee or -1 for default.");
+            return SCRIPT_CONTINUE;
+        }
+        setObjVar(self, atmo_landing_manager.OBJVAR_LANDING_FEE, fee);
+        sendSystemMessageTestingOnly(player, "\\#00ff88[GM]: Landing fee set: " + fee + " credits");
+        return SCRIPT_CONTINUE;
+    }
+
     private void showCurrentConfig(obj_id self, obj_id player) throws InterruptedException
     {
         sendSystemMessageTestingOnly(player, "\\#00ccff========================================");
@@ -324,6 +544,51 @@ public class atmo_landing_spawner_config extends script.base_script
         }
         else
             sendSystemMessageTestingOnly(player, "\\#778899  Time Limit: Unlimited (default)");
+
+        if (hasObjVar(self, atmo_landing_manager.OBJVAR_DOCK_DURATION_OVERRIDE))
+        {
+            int pol = getIntObjVar(self, atmo_landing_manager.OBJVAR_DOCK_DURATION_OVERRIDE);
+            sendSystemMessageTestingOnly(player, "\\#aaddff  Policy dock override: " + (pol == -1 ? "Unlimited" : (pol + " sec")));
+        }
+
+        if (hasObjVar(self, atmo_landing_manager.OBJVAR_ACCESS_MODE))
+            sendSystemMessageTestingOnly(player, "\\#aaddff  Access mode: " + getIntObjVar(self, atmo_landing_manager.OBJVAR_ACCESS_MODE) + " (0 public, 1 faction list, 2 guild id, 3 allowlist, 4 GM)");
+        if (atmo_landing_manager.isOwnerPilotOnly(self))
+            sendSystemMessageTestingOnly(player, "\\#aaddff  Owner pilot only: yes");
+
+        if (hasObjVar(self, atmo_landing_manager.OBJVAR_LANDING_FEE))
+            sendSystemMessageTestingOnly(player, "\\#aaddff  Landing fee (policy): " + getIntObjVar(self, atmo_landing_manager.OBJVAR_LANDING_FEE) + " cr");
+        if (atmo_landing_manager.shouldWaiveLandingFee(self))
+            sendSystemMessageTestingOnly(player, "\\#aaddff  Waive landing fee: yes");
+        if (atmo_landing_manager.shouldIgnoreCityLandingTax(self))
+            sendSystemMessageTestingOnly(player, "\\#aaddff  Ignore city landing tax: yes");
+
+        if (hasObjVar(self, atmo_landing_manager.OBJVAR_REQUIRED_GUILD_TAG))
+            sendSystemMessageTestingOnly(player, "\\#aaddff  Req. guild tag: " + getStringObjVar(self, atmo_landing_manager.OBJVAR_REQUIRED_GUILD_TAG));
+        if (hasObjVar(self, atmo_landing_manager.OBJVAR_REQUIRED_ALIGNED_FACTION_NAME))
+            sendSystemMessageTestingOnly(player, "\\#aaddff  Req. aligned faction: " + getStringObjVar(self, atmo_landing_manager.OBJVAR_REQUIRED_ALIGNED_FACTION_NAME));
+        if (hasObjVar(self, atmo_landing_manager.OBJVAR_REQUIRED_PROFESSIONS_ANY))
+        {
+            int[] rp = getIntArrayObjVar(self, atmo_landing_manager.OBJVAR_REQUIRED_PROFESSIONS_ANY);
+            if (rp != null && rp.length > 0)
+            {
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < rp.length; i++)
+                {
+                    if (i > 0)
+                        sb.append(",");
+                    sb.append(rp[i]);
+                }
+                sendSystemMessageTestingOnly(player, "\\#aaddff  Req. professions (any): " + sb);
+            }
+        }
+
+        if (hasObjVar(self, atmo_landing_manager.OBJVAR_EXTEND_DOCK_CREDITS))
+            sendSystemMessageTestingOnly(player, "\\#aaddff  Extend dock credits override: " + getIntObjVar(self, atmo_landing_manager.OBJVAR_EXTEND_DOCK_CREDITS));
+        if (hasObjVar(self, atmo_landing_manager.OBJVAR_EXTEND_DOCK_SECONDS))
+            sendSystemMessageTestingOnly(player, "\\#aaddff  Extend dock seconds override: " + getIntObjVar(self, atmo_landing_manager.OBJVAR_EXTEND_DOCK_SECONDS));
+        if (hasObjVar(self, atmo_landing_manager.OBJVAR_ALLOW_EXTEND_DOCK) && !getBooleanObjVar(self, atmo_landing_manager.OBJVAR_ALLOW_EXTEND_DOCK))
+            sendSystemMessageTestingOnly(player, "\\#aaddff  Extend dock: disabled");
 
         boolean hasScript = hasScript(self, LANDING_POINT_SCRIPT);
         sendSystemMessageTestingOnly(player, "\\#aaddff  Script Attached: " + (hasScript ? "Yes" : "No"));

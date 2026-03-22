@@ -464,6 +464,16 @@ public class atmo_landing_point extends script.base_script
             return "missing required skill certification";
         if (code.equals("below_min_level"))
             return "below minimum combat level";
+        if (code.equals("guild_tag_required"))
+            return "you must be in a guild cleared for this platform";
+        if (code.equals("guild_tag_mismatch"))
+            return "your guild tag does not match this platform";
+        if (code.equals("aligned_faction_mismatch"))
+            return "your aligned faction is not cleared for this platform";
+        if (code.equals("invalid_required_faction_config"))
+            return "platform faction requirement is misconfigured (use rebel, imperial, or neutral)";
+        if (code.equals("profession_not_allowed"))
+            return "your profession is not cleared for this platform";
         return code;
     }
 

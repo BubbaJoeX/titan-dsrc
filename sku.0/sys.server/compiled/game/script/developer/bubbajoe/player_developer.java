@@ -825,6 +825,14 @@ public class player_developer extends base_script
             boolean setAccessMode = false;
             float landingAltitudeM = 0.0f;
             boolean setLandingAltitude = false;
+            String reqGuildTag = null;
+            boolean setReqGuildTag = false;
+            String reqFactionName = null;
+            boolean setReqFactionName = false;
+            int[] reqProfessionsAny = null;
+            boolean setReqProfessionsAny = false;
+            int policyLandingFee = -1;
+            boolean setPolicyLandingFee = false;
 
             Vector nameTokens = new Vector();
             while (tok.hasMoreTokens())
@@ -864,6 +872,61 @@ public class player_developer extends base_script
                 {
                     accessMode = stringToInt(tok.nextToken());
                     setAccessMode = true;
+                    continue;
+                }
+                if (t.equalsIgnoreCase("--guildtag") && tok.hasMoreTokens())
+                {
+                    reqGuildTag = tok.nextToken();
+                    setReqGuildTag = true;
+                    continue;
+                }
+                if (t.equalsIgnoreCase("--faction") && tok.hasMoreTokens())
+                {
+                    reqFactionName = tok.nextToken().trim().toLowerCase();
+                    setReqFactionName = true;
+                    continue;
+                }
+                if (t.equalsIgnoreCase("--prof") && tok.hasMoreTokens())
+                {
+                    String profList = tok.nextToken();
+                    String[] pp = profList.split(",");
+                    Vector pv = new Vector();
+                    for (int pi = 0; pi < pp.length; pi++)
+                    {
+                        String s = pp[pi].trim();
+                        if (s.length() == 0)
+                            continue;
+                        try
+                        {
+                            pv.add(Integer.valueOf(Integer.parseInt(s)));
+                        }
+                        catch (NumberFormatException e)
+                        {
+                            broadcast(self, "\\#ff4444[Landing Point]: --prof has invalid int: " + s);
+                            return SCRIPT_CONTINUE;
+                        }
+                    }
+                    if (pv.size() > 0)
+                    {
+                        reqProfessionsAny = new int[pv.size()];
+                        for (int i = 0; i < pv.size(); i++)
+                            reqProfessionsAny[i] = ((Integer) pv.get(i)).intValue();
+                        setReqProfessionsAny = true;
+                    }
+                    continue;
+                }
+                if (t.equalsIgnoreCase("--fee") && tok.hasMoreTokens())
+                {
+                    try
+                    {
+                        policyLandingFee = Integer.parseInt(tok.nextToken().trim());
+                        setPolicyLandingFee = true;
+                    }
+                    catch (NumberFormatException e)
+                    {
+                        broadcast(self, "\\#ff4444[Landing Point]: --fee requires an integer (credits, or -1 to skip).");
+                        return SCRIPT_CONTINUE;
+                    }
                     continue;
                 }
                 nameTokens.add(t);
@@ -921,6 +984,25 @@ public class player_developer extends base_script
                     setObjVar(egg, atmo_landing_manager.OBJVAR_ACCESS_MODE, accessMode);
             }
 
+            if (setReqGuildTag && reqGuildTag != null && reqGuildTag.length() > 0)
+                setObjVar(egg, atmo_landing_manager.OBJVAR_REQUIRED_GUILD_TAG, reqGuildTag);
+
+            if (setReqFactionName && reqFactionName != null && reqFactionName.length() > 0)
+            {
+                if (!reqFactionName.equals("rebel") && !reqFactionName.equals("imperial") && !reqFactionName.equals("neutral"))
+                {
+                    broadcast(self, "\\#ff4444[Landing Point]: --faction must be rebel, imperial, or neutral.");
+                    return SCRIPT_CONTINUE;
+                }
+                setObjVar(egg, atmo_landing_manager.OBJVAR_REQUIRED_ALIGNED_FACTION_NAME, reqFactionName);
+            }
+
+            if (setReqProfessionsAny && reqProfessionsAny != null && reqProfessionsAny.length > 0)
+                setObjVar(egg, atmo_landing_manager.OBJVAR_REQUIRED_PROFESSIONS_ANY, reqProfessionsAny);
+
+            if (setPolicyLandingFee && policyLandingFee >= 0)
+                setObjVar(egg, atmo_landing_manager.OBJVAR_LANDING_FEE, policyLandingFee);
+
             attachScript(egg, "gm.atmo_landing_spawner_config");
 
             String displayName = hasObjVar(egg, atmo_landing_registry.OBJVAR_NAME)
@@ -928,13 +1010,14 @@ public class player_developer extends base_script
                 : "Landing Point (Unconfigured)";
             setName(egg, displayName);
 
-            boolean anyFlag = setDockTime || setAccessMode || setLandingAltitude || (mapCat != null && mapCat.length() > 0) || (mapSub != null && mapSub.length() > 0);
+            boolean anyFlag = setDockTime || setAccessMode || setLandingAltitude || (mapCat != null && mapCat.length() > 0) || (mapSub != null && mapSub.length() > 0)
+                || setReqGuildTag || setReqFactionName || setReqProfessionsAny || setPolicyLandingFee;
 
             broadcast(self, "\\#00ff88[Landing Point]: Spawn egg created at your location.");
             broadcast(self, "\\#aaddff  Location: [" + Math.round(playerLoc.x) + ", " + Math.round(playerLoc.y) + ", " + Math.round(playerLoc.z) + "]");
             broadcast(self, "\\#aaddff  Yaw: " + Math.round(yaw) + " degrees");
             if (name.length() == 0 && !anyFlag)
-                broadcast(self, "\\#778899  Optional: name, --alt <world Y m>, --time <sec>, --access <0-4>; --cat/--sub = script metadata only.");
+                broadcast(self, "\\#778899  Optional: name, --alt, --time, --access, --guildtag, --faction rebel|imperial|neutral, --prof 1,2,7, --fee <cr>; --cat/--sub = script metadata only.");
 
             if (hasObjVar(egg, atmo_landing_registry.OBJVAR_NAME))
             {
@@ -956,6 +1039,23 @@ public class player_developer extends base_script
                 broadcast(self, "\\#aaddff  Landing altitude Y (m): " + landingAltitudeM);
             if (setAccessMode && accessMode >= atmo_landing_manager.ACCESS_PUBLIC && accessMode <= atmo_landing_manager.ACCESS_GM_ONLY)
                 broadcast(self, "\\#aaddff  Access mode: " + accessMode);
+            if (setReqGuildTag && reqGuildTag != null && reqGuildTag.length() > 0)
+                broadcast(self, "\\#aaddff  Req. guild tag: " + reqGuildTag);
+            if (setReqFactionName && reqFactionName != null && reqFactionName.length() > 0)
+                broadcast(self, "\\#aaddff  Req. faction: " + reqFactionName);
+            if (setReqProfessionsAny && reqProfessionsAny != null)
+            {
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < reqProfessionsAny.length; i++)
+                {
+                    if (i > 0)
+                        sb.append(",");
+                    sb.append(reqProfessionsAny[i]);
+                }
+                broadcast(self, "\\#aaddff  Req. professions (any): " + sb);
+            }
+            if (setPolicyLandingFee && policyLandingFee >= 0)
+                broadcast(self, "\\#aaddff  Landing fee: " + policyLandingFee + " cr");
 
             return SCRIPT_CONTINUE;
         }

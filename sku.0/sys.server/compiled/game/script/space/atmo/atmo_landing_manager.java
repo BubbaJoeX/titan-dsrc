@@ -40,6 +40,18 @@ public class atmo_landing_manager extends script.base_script
     /** Optional: minimum combat level ({@link #getLevel}). */
     public static final String OBJVAR_MIN_LEVEL = OBJVAR_POLICY + ".min_level";
 
+    /**
+     * Optional extra gate: pilot must be in a guild whose abbreviation or full name equals this (case-insensitive).
+     * Runs in addition to {@link #ACCESS_GUILD_ONLY} / {@link #OBJVAR_GUILD_ID}.
+     */
+    public static final String OBJVAR_REQUIRED_GUILD_TAG = OBJVAR_POLICY + ".required_guild_tag";
+    /**
+     * Optional aligned-faction gate ({@link #pvpGetAlignedFaction}): {@code rebel}, {@code imperial}, or {@code neutral}.
+     */
+    public static final String OBJVAR_REQUIRED_ALIGNED_FACTION_NAME = OBJVAR_POLICY + ".required_aligned_faction";
+    /** Optional: pilot must match at least one profession ({@code utils.isProfession}); ints match {@code utils.COMMANDO}, etc. */
+    public static final String OBJVAR_REQUIRED_PROFESSIONS_ANY = OBJVAR_POLICY + ".required_professions_any";
+
     public static final String OBJVAR_LANDING_FEE = OBJVAR_POLICY + ".landing_fee_credits";
     public static final String OBJVAR_IGNORE_CITY_LANDING_TAX = OBJVAR_POLICY + ".ignore_city_landing_tax";
     public static final String OBJVAR_WAIVE_LANDING_FEE = OBJVAR_POLICY + ".waive_landing_fee";
@@ -263,7 +275,78 @@ public class atmo_landing_manager extends script.base_script
                 return "below_min_level";
         }
 
+        if (hasObjVar(landingPoint, OBJVAR_REQUIRED_GUILD_TAG))
+        {
+            String needTag = getStringObjVar(landingPoint, OBJVAR_REQUIRED_GUILD_TAG);
+            if (needTag != null)
+            {
+                needTag = needTag.trim();
+                if (needTag.length() > 0)
+                {
+                    int gid = getGuildId(pilot);
+                    if (gid <= 0)
+                        return "guild_tag_required";
+                    String abbr = guildGetAbbrev(gid);
+                    String gname = guildGetName(gid);
+                    if (abbr == null)
+                        abbr = "";
+                    if (gname == null)
+                        gname = "";
+                    if (!needTag.equalsIgnoreCase(abbr.trim()) && !needTag.equalsIgnoreCase(gname.trim()))
+                        return "guild_tag_mismatch";
+                }
+            }
+        }
+
+        if (hasObjVar(landingPoint, OBJVAR_REQUIRED_ALIGNED_FACTION_NAME))
+        {
+            String facName = getStringObjVar(landingPoint, OBJVAR_REQUIRED_ALIGNED_FACTION_NAME);
+            if (facName != null)
+            {
+                facName = facName.trim().toLowerCase();
+                if (facName.length() > 0)
+                {
+                    int needHash = alignedFactionNameToHash(facName);
+                    if (needHash == Integer.MIN_VALUE)
+                        return "invalid_required_faction_config";
+                    if (pvpGetAlignedFaction(pilot) != needHash)
+                        return "aligned_faction_mismatch";
+                }
+            }
+        }
+
+        if (hasObjVar(landingPoint, OBJVAR_REQUIRED_PROFESSIONS_ANY))
+        {
+            int[] profs = getIntArrayObjVar(landingPoint, OBJVAR_REQUIRED_PROFESSIONS_ANY);
+            if (profs != null && profs.length > 0)
+            {
+                boolean any = false;
+                for (int p : profs)
+                {
+                    if (utils.isProfession(pilot, p))
+                    {
+                        any = true;
+                        break;
+                    }
+                }
+                if (!any)
+                    return "profession_not_allowed";
+            }
+        }
+
         return null;
+    }
+
+    /** @return faction hash, or {@code Integer.MIN_VALUE} if unknown */
+    private static int alignedFactionNameToHash(String normalizedLower)
+    {
+        if (normalizedLower.equals("rebel"))
+            return FACTION_HASH_REBEL;
+        if (normalizedLower.equals("imperial"))
+            return FACTION_HASH_IMPERIAL;
+        if (normalizedLower.equals("neutral"))
+            return FACTION_HASH_NEUTRAL;
+        return Integer.MIN_VALUE;
     }
 
     /**

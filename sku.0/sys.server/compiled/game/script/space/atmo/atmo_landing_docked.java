@@ -31,6 +31,10 @@ public class atmo_landing_docked extends script.base_script
     public static final float UNDOCK_ALTITUDE_OFFSET = 100.0f;
     public static final float UNDOCK_RANDOM_RANGE = 50.0f;
 
+    /** When dock time expires without extend: autopilot target offset +X (m) and cruise/landing tuned ~+Y (m) from current ship height. */
+    public static final float DOCK_EXPIRY_OFFSET_X_M = 300.0f;
+    public static final float DOCK_EXPIRY_OFFSET_UP_M = 300.0f;
+
     public static final String SND_ALARM = "sound/cbt_msl_alarm_incoming.snd";
     public static final String SND_COMM = "sound/sys_comm_generic.snd";
 
@@ -193,58 +197,63 @@ public class atmo_landing_docked extends script.base_script
 
     private void handleDockingExpired(obj_id ship) throws InterruptedException
     {
-        obj_id landingPoint = null;
-        if (hasObjVar(ship, OBJVAR_LANDING_TARGET))
-            landingPoint = getObjIdObjVar(ship, OBJVAR_LANDING_TARGET);
+        String landingName = hasObjVar(ship, OBJVAR_LANDING_NAME) ? getStringObjVar(ship, OBJVAR_LANDING_NAME) : "Landing Pad";
 
         java.util.Vector players = space_transition.getContainedPlayers(ship, null);
-
-        if (players != null && players.size() > 0)
+        if (players != null)
         {
-            location disembarkLoc = null;
-            if (isIdValid(landingPoint) && exists(landingPoint))
-            {
-                disembarkLoc = atmo_landing_registry.getDisembarkLocation(landingPoint);
-            }
-
-            if (disembarkLoc == null)
-            {
-                location shipLoc = getLocation(ship);
-                disembarkLoc = new location(shipLoc.x, 0, shipLoc.z, shipLoc.area);
-                float terrainHeight = getHeightAtLocation(disembarkLoc.x, disembarkLoc.z);
-                disembarkLoc.y = terrainHeight;
-            }
-
             for (Object p : players)
             {
                 obj_id player = (obj_id) p;
                 if (!isIdValid(player))
                     continue;
-
                 play2dNonLoopingSound(player, SND_ALARM);
-                sendSystemMessageTestingOnly(player, "\\#ff4444[Docking Control]: Your docking time has expired!");
-                sendSystemMessageTestingOnly(player, "\\#ff4444  You are being relocated away from the landing pad.");
-
-                location randomLoc = getRandomLocationNearby(disembarkLoc, 200.0f);
-                warpPlayer(player, randomLoc.area, randomLoc.x, randomLoc.y, randomLoc.z, null, 0, 0, 0);
+                sendSystemMessageTestingOnly(player, "\\#ff4444[Docking Control]: Docking time at " + landingName + " has expired.");
+                sendSystemMessageTestingOnly(player, "\\#ffaa44  The ship will undock and auto-pilot ~" + (int) DOCK_EXPIRY_OFFSET_UP_M + " m up and +" + (int) DOCK_EXPIRY_OFFSET_X_M + " m along X.");
             }
         }
 
-        // Force undock the ship
-        dictionary undockParams = new dictionary();
-        messageTo(ship, "handleUndockRequest", undockParams, 0, false);
-    }
+        location shipLoc = getLocation(ship);
+        float targetX = shipLoc.x + DOCK_EXPIRY_OFFSET_X_M;
+        float targetZ = shipLoc.z;
+        float terrainShip = getHeightAtLocation(shipLoc.x, shipLoc.z);
+        float terrainDest = getHeightAtLocation(targetX, targetZ);
 
-    private location getRandomLocationNearby(location center, float radius) throws InterruptedException
-    {
-        float angle = rand(0.0f, (float)(2.0 * Math.PI));
-        float dist = rand(radius * 0.5f, radius);
+        float desiredFinishY = shipLoc.y + DOCK_EXPIRY_OFFSET_UP_M;
+        if (desiredFinishY < terrainDest + 10.0f)
+            desiredFinishY = terrainDest + 10.0f;
 
-        float x = center.x + (float)(dist * Math.cos(angle));
-        float z = center.z + (float)(dist * Math.sin(angle));
-        float y = getHeightAtLocation(x, z);
+        float landingAgl = desiredFinishY - terrainDest;
+        if (landingAgl < 5.0f)
+            landingAgl = 5.0f;
 
-        return new location(x, y, z, center.area);
+        float cruiseAbs = Math.max(shipLoc.y + DOCK_EXPIRY_OFFSET_UP_M + 80.0f, desiredFinishY + 40.0f);
+        float takeoffClimb = cruiseAbs - terrainShip;
+        if (takeoffClimb < 15.0f)
+            takeoffClimb = 15.0f;
+
+        obj_id owner = getOwner(ship);
+
+        detachScript(ship, "space.atmo.atmo_landing_docked");
+
+        boolean canAutopilot = isIdValid(owner) && getOwner(ship) == owner && isAtmosphericFlightScene();
+
+        if (!canAutopilot)
+        {
+            float newX = targetX;
+            float newZ = targetZ;
+            float newY = Math.max(shipLoc.y + DOCK_EXPIRY_OFFSET_UP_M, getHeightAtLocation(newX, newZ) + 50.0f);
+            setLocation(ship, new location(newX, newY, newZ, shipLoc.area));
+            return;
+        }
+
+        dictionary fly = new dictionary();
+        fly.put("x", targetX);
+        fly.put("z", targetZ);
+        fly.put("takeoffAlt", takeoffClimb);
+        fly.put("landingAlt", landingAgl);
+        fly.put("owner", owner);
+        messageTo(ship, "shipAutoPilotEngage", fly, 0.25f, false);
     }
 
     private void notifyShipOccupants(obj_id ship, String message) throws InterruptedException
