@@ -6,6 +6,7 @@ import script.library.space_utils;
 import script.library.utils;
 import script.library.sui;
 import script.space.atmo.atmo_landing_registry;
+import script.space.combat.combat_ship;
 
 import java.util.Vector;
 
@@ -16,6 +17,8 @@ public class summon_ship extends script.base_script
 
     public static final int MENU_SUMMON_SHIP = menu_info_types.SERVER_MENU1;
     public static final int MENU_LAND_AT_POINT = menu_info_types.SERVER_MENU2;
+    public static final int MENU_FOLLOW_ENABLE = menu_info_types.SERVER_MENU3;
+    public static final int MENU_FOLLOW_DISABLE = menu_info_types.SERVER_MENU4;
 
     public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi) throws InterruptedException
     {
@@ -37,6 +40,14 @@ public class summon_ship extends script.base_script
 
         mi.addRootMenu(MENU_SUMMON_SHIP, string_id.unlocalized("Summon Ship"));
         mi.addRootMenu(MENU_LAND_AT_POINT, string_id.unlocalized("Remote Land at Point"));
+
+        boolean followOn = hasObjVar(ship, combat_ship.OV_SUMMON_FOLLOW_ACTIVE)
+            && getBooleanObjVar(ship, combat_ship.OV_SUMMON_FOLLOW_ACTIVE);
+        if (followOn)
+            mi.addRootMenu(MENU_FOLLOW_DISABLE, string_id.unlocalized("Disable Auto-Follow Ship"));
+        else
+            mi.addRootMenu(MENU_FOLLOW_ENABLE, string_id.unlocalized("Enable Auto-Follow Ship"));
+
         return SCRIPT_CONTINUE;
     }
 
@@ -49,6 +60,14 @@ public class summon_ship extends script.base_script
         else if (item == MENU_LAND_AT_POINT)
         {
             return handleLandAtPoint(self, player);
+        }
+        else if (item == MENU_FOLLOW_ENABLE)
+        {
+            return handleEnableAutoFollow(self, player);
+        }
+        else if (item == MENU_FOLLOW_DISABLE)
+        {
+            return handleDisableAutoFollow(self, player);
         }
 
         return SCRIPT_CONTINUE;
@@ -109,6 +128,139 @@ public class summon_ship extends script.base_script
         messageTo(ship, "shipSummonEngage", wpParams, 0, false);
 
         sendSystemMessageTestingOnly(player, "Summoning your ship to your location...");
+        return SCRIPT_CONTINUE;
+    }
+
+    private int handleEnableAutoFollow(obj_id self, obj_id player) throws InterruptedException
+    {
+        if (!isAtmosphericFlightScene())
+        {
+            sendSystemMessageTestingOnly(player, "You can only use auto-follow during atmospheric flight.");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (utils.getContainingPlayer(self) != player)
+            return SCRIPT_CONTINUE;
+
+        obj_id ship = findDeployedShipForPlayer(player);
+        if (!isIdValid(ship))
+        {
+            sendSystemMessageTestingOnly(player, "You do not have a ship deployed in this area.");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (space_transition.getContainingShip(player) == ship)
+        {
+            sendSystemMessageTestingOnly(player, "Leave the ship to change auto-follow from your datapad.");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (!space_utils.isShipWithInterior(ship))
+        {
+            sendSystemMessageTestingOnly(player, "Only ships with an interior support auto-follow.");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (shipIsAutopilotActive(ship))
+        {
+            sendSystemMessageTestingOnly(player, "Your ship is already en route. Wait for it to arrive, then enable auto-follow.");
+            return SCRIPT_CONTINUE;
+        }
+
+        obj_id pilot = getPilotId(ship);
+        if (isIdValid(pilot))
+        {
+            sendSystemMessageTestingOnly(player, "Your ship is being piloted and cannot enter auto-follow.");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (hasObjVar(ship, combat_ship.OV_SUMMON_FOLLOW_ACTIVE) && getBooleanObjVar(ship, combat_ship.OV_SUMMON_FOLLOW_ACTIVE))
+        {
+            sendSystemMessageTestingOnly(player, "\\#ffaa44[Navicomputer]: Auto-follow is already active.");
+            return SCRIPT_CONTINUE;
+        }
+
+        String title = "Auto-Follow Ship";
+        String prompt = "Your ship will hold high orbit near you and re-position as you move.\\n\\n"
+            + "Cost: " + combat_ship.SUMMON_FOLLOW_COST_PER_HOUR + " credits per hour (first hour charged when you confirm).\\n\\n"
+            + "Enable auto-follow?";
+
+        utils.setScriptVar(player, "summon.follow.ship", ship);
+        sui.msgbox(self, player, prompt, sui.YES_NO, title, "handleSummonFollowConfirm");
+        return SCRIPT_CONTINUE;
+    }
+
+    public int handleSummonFollowConfirm(obj_id self, dictionary params) throws InterruptedException
+    {
+        int bp = sui.getIntButtonPressed(params);
+        obj_id player = sui.getPlayerId(params);
+        if (bp != sui.BP_OK || !isIdValid(player))
+        {
+            utils.removeScriptVar(player, "summon.follow.ship");
+            return SCRIPT_CONTINUE;
+        }
+
+        obj_id ship = utils.getObjIdScriptVar(player, "summon.follow.ship");
+        utils.removeScriptVar(player, "summon.follow.ship");
+
+        if (!isAtmosphericFlightScene() || utils.getContainingPlayer(self) != player)
+            return SCRIPT_CONTINUE;
+
+        obj_id current = findDeployedShipForPlayer(player);
+        if (!isIdValid(ship) || !exists(ship) || ship != current)
+        {
+            sendSystemMessageTestingOnly(player, "\\#ff4444[Navicomputer]: Ship no longer available for auto-follow.");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (space_transition.getContainingShip(player) == ship)
+            return SCRIPT_CONTINUE;
+
+        if (!space_utils.isShipWithInterior(ship) || shipIsAutopilotActive(ship))
+            return SCRIPT_CONTINUE;
+
+        if (isIdValid(getPilotId(ship)))
+            return SCRIPT_CONTINUE;
+
+        dictionary d = new dictionary();
+        d.put("owner", player);
+        messageTo(ship, "summonFollowEnable", d, 0, false);
+        return SCRIPT_CONTINUE;
+    }
+
+    private int handleDisableAutoFollow(obj_id self, obj_id player) throws InterruptedException
+    {
+        if (!isAtmosphericFlightScene())
+        {
+            sendSystemMessageTestingOnly(player, "You can only change auto-follow during atmospheric flight.");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (utils.getContainingPlayer(self) != player)
+            return SCRIPT_CONTINUE;
+
+        obj_id ship = findDeployedShipForPlayer(player);
+        if (!isIdValid(ship))
+        {
+            sendSystemMessageTestingOnly(player, "You do not have a ship deployed in this area.");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (space_transition.getContainingShip(player) == ship)
+        {
+            sendSystemMessageTestingOnly(player, "Leave the ship to change auto-follow from your datapad.");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (!hasObjVar(ship, combat_ship.OV_SUMMON_FOLLOW_ACTIVE) || !getBooleanObjVar(ship, combat_ship.OV_SUMMON_FOLLOW_ACTIVE))
+        {
+            sendSystemMessageTestingOnly(player, "\\#ffaa44[Navicomputer]: Auto-follow is not active.");
+            return SCRIPT_CONTINUE;
+        }
+
+        dictionary d = new dictionary();
+        d.put("owner", player);
+        messageTo(ship, "summonFollowDisable", d, 0, false);
         return SCRIPT_CONTINUE;
     }
 
