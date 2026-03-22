@@ -1622,32 +1622,36 @@ public class combat_ship extends script.base_script
 
         if (phase == AP_CRUISING && ticks % AUTOPILOT_STATUS_INTERVAL == 0)
         {
-            float bearing = getDirectionBearing(dx, dz);
-            String cardinal = getBearingCardinal(bearing);
-            float estSpeed = getShipEngineSpeedMaximum(self) * 2.5f;
-            float descentTime = 0.0f;
-            if (hasObjVar(self, OV_SUMMON_OWNER))
+            boolean followCruiseHold = hasObjVar(self, OV_SUMMON_FOLLOW_CRUISE_HOLD) && getBooleanObjVar(self, OV_SUMMON_FOLLOW_CRUISE_HOLD);
+            if (!followCruiseHold)
             {
-                float st = hasObjVar(self, OV_SUMMON_CUR_TAKEOFF) ? getFloatObjVar(self, OV_SUMMON_CUR_TAKEOFF) : SUMMON_TAKEOFF_ALT;
-                float sl = hasObjVar(self, OV_SUMMON_CUR_LANDING) ? getFloatObjVar(self, OV_SUMMON_CUR_LANDING) : SUMMON_LANDING_ALT;
-                descentTime = (st - sl) / ELEVATOR_SPEED;
-            }
-            else
-                descentTime = (AUTOPILOT_TAKEOFF_ALT - AUTOPILOT_LANDING_ALT) / ELEVATOR_SPEED;
-            float cruiseTime = (estSpeed > 0.0f) ? (horizDist / estSpeed) : 0.0f;
-            String eta = formatETA(cruiseTime + descentTime, 1.0f);
-            String statusMsg = "\\#778899[Navicomputer]: " + formatCoord(horizDist) + "m remaining | " + cardinal + " | Alt " + formatCoord(shipLoc.y) + "m | ETA: " + eta;
-
-            playSoundOnShipOccupants(self, SND_COMM);
-            broadcastToShip(self, statusMsg);
-
-            if (hasObjVar(self, OV_SUMMON_OWNER))
-            {
-                obj_id summonOwner = getObjIdObjVar(self, OV_SUMMON_OWNER);
-                if (isIdValid(summonOwner) && exists(summonOwner))
+                float bearing = getDirectionBearing(dx, dz);
+                String cardinal = getBearingCardinal(bearing);
+                float estSpeed = getShipEngineSpeedMaximum(self) * 2.5f;
+                float descentTime = 0.0f;
+                if (hasObjVar(self, OV_SUMMON_OWNER))
                 {
-                    play2dNonLoopingSound(summonOwner, SND_COMM);
-                    sendSystemMessageTestingOnly(summonOwner, statusMsg);
+                    float st = hasObjVar(self, OV_SUMMON_CUR_TAKEOFF) ? getFloatObjVar(self, OV_SUMMON_CUR_TAKEOFF) : SUMMON_TAKEOFF_ALT;
+                    float sl = hasObjVar(self, OV_SUMMON_CUR_LANDING) ? getFloatObjVar(self, OV_SUMMON_CUR_LANDING) : SUMMON_LANDING_ALT;
+                    descentTime = (st - sl) / ELEVATOR_SPEED;
+                }
+                else
+                    descentTime = (AUTOPILOT_TAKEOFF_ALT - AUTOPILOT_LANDING_ALT) / ELEVATOR_SPEED;
+                float cruiseTime = (estSpeed > 0.0f) ? (horizDist / estSpeed) : 0.0f;
+                String eta = formatETA(cruiseTime + descentTime, 1.0f);
+                String statusMsg = "\\#778899[Navicomputer]: " + formatCoord(horizDist) + "m remaining | " + cardinal + " | Alt " + formatCoord(shipLoc.y) + "m | ETA: " + eta;
+
+                playSoundOnShipOccupants(self, SND_COMM);
+                broadcastToShip(self, statusMsg);
+
+                if (hasObjVar(self, OV_SUMMON_OWNER))
+                {
+                    obj_id summonOwner = getObjIdObjVar(self, OV_SUMMON_OWNER);
+                    if (isIdValid(summonOwner) && exists(summonOwner))
+                    {
+                        play2dNonLoopingSound(summonOwner, SND_COMM);
+                        sendSystemMessageTestingOnly(summonOwner, statusMsg);
+                    }
                 }
             }
         }
@@ -1707,6 +1711,7 @@ public class combat_ship extends script.base_script
     public static final String OV_SUMMON_FOLLOW_ACTIVE = "space.summon.follow_active";
     public static final String OV_SUMMON_FOLLOW_NEXT_BILL = "space.summon.follow_next_bill";
     public static final String OV_SUMMON_FOLLOW_OWNER = "space.summon.follow_owner";
+    public static final String OV_SUMMON_FOLLOW_CRUISE_HOLD = "space.summon.follow_cruise_hold";
     public static final String OV_SUMMON_QUIET_ARRIVAL = "space.summon.quiet_arrival";
     private static final String OV_SUMMON_CUR_TAKEOFF = "space.summon.cur_takeoff";
     private static final String OV_SUMMON_CUR_LANDING = "space.summon.cur_landing";
@@ -1715,14 +1720,15 @@ public class combat_ship extends script.base_script
     public static final float SUMMON_FOLLOW_ORBIT_RADIUS = 190.0f;
     public static final float SUMMON_FOLLOW_TAKEOFF_ALT = 880.0f;
     public static final float SUMMON_FOLLOW_LANDING_ALT = 420.0f;
-    private static final int SUMMON_FOLLOW_TICK_S = 60;
-    private static final float SUMMON_FOLLOW_REENGAGE_DIST = 95.0f;
+    /** Billing / target refresh while auto-follow is active (engine updates heading each alter). */
+    private static final int SUMMON_FOLLOW_TICK_S = 5;
 
     private void clearSummonFollowMode(obj_id ship) throws InterruptedException
     {
         removeObjVar(ship, OV_SUMMON_FOLLOW_ACTIVE);
         removeObjVar(ship, OV_SUMMON_FOLLOW_NEXT_BILL);
         removeObjVar(ship, OV_SUMMON_FOLLOW_OWNER);
+        removeObjVar(ship, OV_SUMMON_FOLLOW_CRUISE_HOLD);
     }
 
     public int summonFollowDisable(obj_id self, dictionary params) throws InterruptedException
@@ -1790,6 +1796,9 @@ public class combat_ship extends script.base_script
         wp.put("z", playerLoc.z);
         wp.put("owner", owner);
         wp.put("summon", true);
+        wp.put("cruiseHold", true);
+        wp.put("takeoffAlt", SUMMON_FOLLOW_TAKEOFF_ALT);
+        wp.put("landingAlt", SUMMON_FOLLOW_TAKEOFF_ALT);
         shipSummonEngage(self, wp);
 
         if (!hasObjVar(self, OV_AUTOPILOT_ACTIVE))
@@ -1804,6 +1813,7 @@ public class combat_ship extends script.base_script
 
         sendSystemMessageTestingOnly(owner, "\\#00ff88[Navicomputer]: Auto-follow orbit enabled. " + SUMMON_FOLLOW_COST_PER_HOUR + " credits charged for the first hour.");
         sendSystemMessageTestingOnly(owner, "\\#aaddff  Your ship will hold high orbit near you (" + SUMMON_FOLLOW_COST_PER_HOUR + " cr each additional hour).");
+        messageTo(self, "summonFollowTick", null, SUMMON_FOLLOW_TICK_S, false);
         return SCRIPT_CONTINUE;
     }
 
@@ -1868,6 +1878,21 @@ public class combat_ship extends script.base_script
             sendSystemMessageTestingOnly(owner, "\\#aaddff[Navicomputer]: Auto-follow: " + SUMMON_FOLLOW_COST_PER_HOUR + " credits charged for another hour.");
         }
 
+        boolean cruiseHold = hasObjVar(self, OV_SUMMON_FOLLOW_CRUISE_HOLD) && getBooleanObjVar(self, OV_SUMMON_FOLLOW_CRUISE_HOLD);
+
+        if (cruiseHold && shipIsAutopilotActive(self))
+        {
+            location pl = getWorldLocation(owner);
+            float angle = (now % 628) * 0.01f;
+            float tx = pl.x + (float) StrictMath.cos(angle) * SUMMON_FOLLOW_ORBIT_RADIUS;
+            float tz = pl.z + (float) StrictMath.sin(angle) * SUMMON_FOLLOW_ORBIT_RADIUS;
+            shipUpdateAutopilotTargetXZ(self, tx, tz);
+            setObjVar(self, OV_AUTOPILOT_TARGET_X, tx);
+            setObjVar(self, OV_AUTOPILOT_TARGET_Z, tz);
+            messageTo(self, "summonFollowTick", null, SUMMON_FOLLOW_TICK_S, false);
+            return SCRIPT_CONTINUE;
+        }
+
         if (shipIsAutopilotActive(self))
         {
             messageTo(self, "summonFollowTick", null, SUMMON_FOLLOW_TICK_S, false);
@@ -1879,27 +1904,66 @@ public class combat_ship extends script.base_script
         float tx = pl.x + (float) StrictMath.cos(angle) * SUMMON_FOLLOW_ORBIT_RADIUS;
         float tz = pl.z + (float) StrictMath.sin(angle) * SUMMON_FOLLOW_ORBIT_RADIUS;
 
-        location shipLoc = getLocation(self);
-        float dx = tx - shipLoc.x;
-        float dz = tz - shipLoc.z;
-        float dist = (float) StrictMath.sqrt(dx * dx + dz * dz);
-        if (dist < SUMMON_FOLLOW_REENGAGE_DIST)
-        {
-            messageTo(self, "summonFollowTick", null, SUMMON_FOLLOW_TICK_S, false);
-            return SCRIPT_CONTINUE;
-        }
-
         dictionary wp = new dictionary();
         wp.put("x", tx);
         wp.put("z", tz);
         wp.put("owner", owner);
         wp.put("summon", true);
+        wp.put("cruiseHold", true);
         wp.put("takeoffAlt", SUMMON_FOLLOW_TAKEOFF_ALT);
-        wp.put("landingAlt", SUMMON_FOLLOW_LANDING_ALT);
+        wp.put("landingAlt", SUMMON_FOLLOW_TAKEOFF_ALT);
         wp.put("quietSummon", true);
         shipSummonEngage(self, wp);
 
         messageTo(self, "summonFollowTick", null, SUMMON_FOLLOW_TICK_S, false);
+        return SCRIPT_CONTINUE;
+    }
+
+    /** End paid follow and fly a normal summon (descend to landing altitude near owner). */
+    public int summonFollowReturnToLanding(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (!isAtmosphericFlightScene())
+            return SCRIPT_CONTINUE;
+
+        obj_id owner = params.getObjId("owner");
+        if (!isIdValid(owner) || getOwner(self) != owner)
+            return SCRIPT_CONTINUE;
+
+        if (hasObjVar(self, "atmo.landing.docked"))
+        {
+            sendSystemMessageTestingOnly(owner, "\\#ff4444[Navicomputer]: Undock before returning to landing altitude.");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (!hasObjVar(self, OV_SUMMON_FOLLOW_ACTIVE) || !getBooleanObjVar(self, OV_SUMMON_FOLLOW_ACTIVE))
+        {
+            sendSystemMessageTestingOnly(owner, "\\#ffaa44[Navicomputer]: Auto-follow is not active.");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (isIdValid(getPilotId(self)))
+        {
+            sendSystemMessageTestingOnly(owner, "\\#ff4444[Navicomputer]: A pilot has the helm.");
+            return SCRIPT_CONTINUE;
+        }
+
+        clearSummonFollowMode(self);
+
+        location playerLoc = getWorldLocation(owner);
+        dictionary wp = new dictionary();
+        wp.put("x", playerLoc.x);
+        wp.put("z", playerLoc.z);
+        wp.put("owner", owner);
+        wp.put("summon", true);
+        shipSummonEngage(self, wp);
+
+        if (!hasObjVar(self, OV_AUTOPILOT_ACTIVE))
+        {
+            sendSystemMessageTestingOnly(owner, "\\#ff4444[Navicomputer]: Auto-follow was stopped, but the ship could not engage for landing altitude.");
+            return SCRIPT_CONTINUE;
+        }
+
+        sendSystemMessageTestingOnly(owner, "\\#aaddff[Navicomputer]: Auto-follow ended. Bringing the ship to landing altitude at your position.");
         return SCRIPT_CONTINUE;
     }
 
@@ -1959,11 +2023,21 @@ public class combat_ship extends script.base_script
         setObjVar(self, OV_SUMMON_CUR_TAKEOFF, takeoffA);
         setObjVar(self, OV_SUMMON_CUR_LANDING, landingA);
 
-        if (!shipSetAutopilotTarget(self, targetX, targetZ, takeoffA, landingA))
+        boolean cruiseHold = params.containsKey("cruiseHold") && params.getBoolean("cruiseHold");
+        if (cruiseHold)
+            setObjVar(self, OV_SUMMON_FOLLOW_CRUISE_HOLD, true);
+        else
+            removeObjVar(self, OV_SUMMON_FOLLOW_CRUISE_HOLD);
+
+        boolean apOk = cruiseHold
+            ? shipSetAutopilotTargetHold(self, targetX, targetZ, takeoffA, landingA, true)
+            : shipSetAutopilotTarget(self, targetX, targetZ, takeoffA, landingA);
+        if (!apOk)
         {
             removeObjVar(self, OV_SUMMON_QUIET_ARRIVAL);
             removeObjVar(self, OV_SUMMON_CUR_TAKEOFF);
             removeObjVar(self, OV_SUMMON_CUR_LANDING);
+            removeObjVar(self, OV_SUMMON_FOLLOW_CRUISE_HOLD);
             sendSystemMessageTestingOnly(owner, "Failed to summon ship. Auto-pilot could not engage.");
             return SCRIPT_CONTINUE;
         }

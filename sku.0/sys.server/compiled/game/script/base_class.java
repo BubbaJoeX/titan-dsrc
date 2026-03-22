@@ -25923,6 +25923,16 @@ public class base_class
     {
         return _shipSetAutopilotTarget(getLongWithNull(shipId), targetX, targetZ, takeoffAlt, landingAlt);
     }
+    private static native boolean _shipSetAutopilotTargetHold(long shipId, float targetX, float targetZ, float takeoffAlt, float landingAlt, boolean holdCruise);
+    public static boolean shipSetAutopilotTargetHold(obj_id shipId, float targetX, float targetZ, float takeoffAlt, float landingAlt, boolean holdCruise)
+    {
+        return _shipSetAutopilotTargetHold(getLongWithNull(shipId), targetX, targetZ, takeoffAlt, landingAlt, holdCruise);
+    }
+    private static native boolean _shipUpdateAutopilotTargetXZ(long shipId, float x, float z);
+    public static boolean shipUpdateAutopilotTargetXZ(obj_id shipId, float x, float z)
+    {
+        return _shipUpdateAutopilotTargetXZ(getLongWithNull(shipId), x, z);
+    }
     private static native boolean _shipClearAutopilot(long shipId);
     public static boolean shipClearAutopilot(obj_id shipId)
     {

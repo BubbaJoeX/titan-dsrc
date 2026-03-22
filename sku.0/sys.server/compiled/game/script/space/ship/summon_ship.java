@@ -15,10 +15,7 @@ public class summon_ship extends script.base_script
     public static final float SUMMON_TAKEOFF_ALT  = 500.0f;
     public static final float SUMMON_LANDING_ALT  = 50.0f;
 
-    public static final int MENU_SUMMON_SHIP = menu_info_types.SERVER_MENU1;
-    public static final int MENU_LAND_AT_POINT = menu_info_types.SERVER_MENU2;
-    public static final int MENU_FOLLOW_ENABLE = menu_info_types.SERVER_MENU3;
-    public static final int MENU_FOLLOW_DISABLE = menu_info_types.SERVER_MENU4;
+    private static final int MENU_STARSHIP_REMOTE = menu_info_types.SERVER_MENU1;
 
     public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi) throws InterruptedException
     {
@@ -28,48 +25,168 @@ public class summon_ship extends script.base_script
         if (utils.getContainingPlayer(self) != player)
             return SCRIPT_CONTINUE;
 
-        obj_id ship = findDeployedShipForPlayer(player);
-        if (!isIdValid(ship))
+        if (!isIdValid(findDeployedShipForPlayer(player)))
             return SCRIPT_CONTINUE;
 
-        if (space_transition.getContainingShip(player) == ship)
-        {
-            mi.addRootMenu(MENU_LAND_AT_POINT, string_id.unlocalized("Land at Landing Point"));
-            return SCRIPT_CONTINUE;
-        }
-
-        mi.addRootMenu(MENU_SUMMON_SHIP, string_id.unlocalized("Summon Ship"));
-        mi.addRootMenu(MENU_LAND_AT_POINT, string_id.unlocalized("Remote Land at Point"));
-
-        boolean followOn = hasObjVar(ship, combat_ship.OV_SUMMON_FOLLOW_ACTIVE)
-            && getBooleanObjVar(ship, combat_ship.OV_SUMMON_FOLLOW_ACTIVE);
-        if (followOn)
-            mi.addRootMenu(MENU_FOLLOW_DISABLE, string_id.unlocalized("Disable Auto-Follow Ship"));
-        else
-            mi.addRootMenu(MENU_FOLLOW_ENABLE, string_id.unlocalized("Enable Auto-Follow Ship"));
-
+        mi.addRootMenu(MENU_STARSHIP_REMOTE, string_id.unlocalized("Starship Remote"));
         return SCRIPT_CONTINUE;
     }
 
     public int OnObjectMenuSelect(obj_id self, obj_id player, int item) throws InterruptedException
     {
-        if (item == MENU_SUMMON_SHIP)
+        if (item == MENU_STARSHIP_REMOTE)
+            return openStarshipRemoteListbox(self, player);
+        return SCRIPT_CONTINUE;
+    }
+
+    private int openStarshipRemoteListbox(obj_id self, obj_id player) throws InterruptedException
+    {
+        if (!isAtmosphericFlightScene())
         {
-            return handleSummonShip(self, player);
-        }
-        else if (item == MENU_LAND_AT_POINT)
-        {
-            return handleLandAtPoint(self, player);
-        }
-        else if (item == MENU_FOLLOW_ENABLE)
-        {
-            return handleEnableAutoFollow(self, player);
-        }
-        else if (item == MENU_FOLLOW_DISABLE)
-        {
-            return handleDisableAutoFollow(self, player);
+            sendSystemMessageTestingOnly(player, "You can only use starship remote during atmospheric flight.");
+            return SCRIPT_CONTINUE;
         }
 
+        if (utils.getContainingPlayer(self) != player)
+            return SCRIPT_CONTINUE;
+
+        obj_id ship = findDeployedShipForPlayer(player);
+        if (!isIdValid(ship))
+        {
+            sendSystemMessageTestingOnly(player, "You do not have a ship deployed in this area.");
+            return SCRIPT_CONTINUE;
+        }
+
+        boolean aboard = space_transition.getContainingShip(player) == ship;
+        boolean followOn = hasObjVar(ship, combat_ship.OV_SUMMON_FOLLOW_ACTIVE)
+            && getBooleanObjVar(ship, combat_ship.OV_SUMMON_FOLLOW_ACTIVE);
+
+        Vector entries = new Vector();
+        Vector actions = new Vector();
+
+        if (aboard)
+        {
+            entries.add("Land at landing point…");
+            actions.add("land");
+        }
+        else
+        {
+            entries.add("Summon ship to my location");
+            actions.add("summon");
+
+            if (followOn)
+            {
+                entries.add("Return to landing altitude (ends auto-follow)");
+                actions.add("return_landing");
+                entries.add("Disable auto-follow");
+                actions.add("follow_disable");
+            }
+            else
+            {
+                entries.add("Enable auto-follow — high orbit (" + combat_ship.SUMMON_FOLLOW_COST_PER_HOUR + " cr/hr)");
+                actions.add("follow_enable");
+            }
+
+            entries.add("Remote land at landing point…");
+            actions.add("remote_land");
+        }
+
+        String[] actionArr = new String[actions.size()];
+        for (int i = 0; i < actions.size(); i++)
+            actionArr[i] = (String) actions.get(i);
+
+        utils.setScriptVar(player, "summon.menu.ship", ship);
+        utils.setBatchScriptVar(player, "summon.menu.actions", actionArr);
+
+        String title = "Starship Remote";
+        String prompt = "Select an action for your deployed ship.";
+
+        sui.listbox(self, player, prompt, sui.OK_CANCEL, title, entries, "handleSummonMenuSelection");
+        return SCRIPT_CONTINUE;
+    }
+
+    public int handleSummonMenuSelection(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        int bp = sui.getIntButtonPressed(params);
+
+        if (bp != sui.BP_OK)
+        {
+            cleanupSummonMenuVars(player);
+            return SCRIPT_CONTINUE;
+        }
+
+        int row = sui.getListboxSelectedRow(params);
+        if (row < 0)
+        {
+            cleanupSummonMenuVars(player);
+            return SCRIPT_CONTINUE;
+        }
+
+        obj_id ship = utils.getObjIdScriptVar(player, "summon.menu.ship");
+        String[] actionArr = utils.getStringBatchScriptVar(player, "summon.menu.actions");
+        cleanupSummonMenuVars(player);
+
+        if (!isAtmosphericFlightScene() || utils.getContainingPlayer(self) != player)
+            return SCRIPT_CONTINUE;
+
+        obj_id current = findDeployedShipForPlayer(player);
+        if (!isIdValid(ship) || !exists(ship) || ship != current)
+        {
+            sendSystemMessageTestingOnly(player, "Your deployed ship is no longer available.");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (actionArr == null || row >= actionArr.length)
+            return SCRIPT_CONTINUE;
+
+        String action = actionArr[row];
+
+        if (action.equals("land"))
+            return handleLandAtPoint(self, player);
+        if (action.equals("summon"))
+            return handleSummonShip(self, player);
+        if (action.equals("remote_land"))
+            return handleLandAtPoint(self, player);
+        if (action.equals("follow_enable"))
+            return handleEnableAutoFollow(self, player);
+        if (action.equals("follow_disable"))
+            return handleDisableAutoFollow(self, player);
+        if (action.equals("return_landing"))
+            return handleReturnToLandingAltitude(self, player, ship);
+
+        return SCRIPT_CONTINUE;
+    }
+
+    private void cleanupSummonMenuVars(obj_id player) throws InterruptedException
+    {
+        utils.removeScriptVar(player, "summon.menu.ship");
+        utils.removeBatchScriptVar(player, "summon.menu.actions");
+    }
+
+    private int handleReturnToLandingAltitude(obj_id self, obj_id player, obj_id ship) throws InterruptedException
+    {
+        if (space_transition.getContainingShip(player) == ship)
+        {
+            sendSystemMessageTestingOnly(player, "Leave the ship to use this option from your datapad.");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (!space_utils.isShipWithInterior(ship))
+        {
+            sendSystemMessageTestingOnly(player, "Only ships with an interior support this command.");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (!hasObjVar(ship, combat_ship.OV_SUMMON_FOLLOW_ACTIVE) || !getBooleanObjVar(ship, combat_ship.OV_SUMMON_FOLLOW_ACTIVE))
+        {
+            sendSystemMessageTestingOnly(player, "\\#ffaa44[Navicomputer]: Auto-follow is not active.");
+            return SCRIPT_CONTINUE;
+        }
+
+        dictionary d = new dictionary();
+        d.put("owner", player);
+        messageTo(ship, "summonFollowReturnToLanding", d, 0, false);
         return SCRIPT_CONTINUE;
     }
 
@@ -117,12 +234,9 @@ public class summon_ship extends script.base_script
         }
 
         location playerLoc = getWorldLocation(player);
-        float targetX = playerLoc.x;
-        float targetZ = playerLoc.z;
-
         dictionary wpParams = new dictionary();
-        wpParams.put("x", targetX);
-        wpParams.put("z", targetZ);
+        wpParams.put("x", playerLoc.x);
+        wpParams.put("z", playerLoc.z);
         wpParams.put("owner", player);
         wpParams.put("summon", true);
         messageTo(ship, "shipSummonEngage", wpParams, 0, false);
@@ -181,8 +295,9 @@ public class summon_ship extends script.base_script
         }
 
         String title = "Auto-Follow Ship";
-        String prompt = "Your ship will hold high orbit near you and re-position as you move.\\n\\n"
+        String prompt = "Your ship will climb to high cruise altitude, stay in the sky, and turn toward you as you move (no landing until you choose).\\n\\n"
             + "Cost: " + combat_ship.SUMMON_FOLLOW_COST_PER_HOUR + " credits per hour (first hour charged when you confirm).\\n\\n"
+            + "Use 'Return to landing altitude' in Starship Remote to descend and end auto-follow.\\n\\n"
             + "Enable auto-follow?";
 
         utils.setScriptVar(player, "summon.follow.ship", ship);
