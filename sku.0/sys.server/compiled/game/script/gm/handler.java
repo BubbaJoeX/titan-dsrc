@@ -104,8 +104,8 @@ public class handler extends script.base_script
             return SCRIPT_CONTINUE;
         }
 
-        // Fall back to palette index selection
-        int idx = sui.getColorPickerIndex(params);
+        // Fall back to palette index selection (enhanced picker uses volume page, not Script.ColorPicker)
+        int idx = sui.getEnhancedColorPickerIndex(params);
         if (idx > -1)
         {
             hue.setColor(target, varPath, idx);

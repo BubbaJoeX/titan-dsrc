@@ -50,10 +50,10 @@ public class sui extends script.base_script
     public static final String COLORPICKER_TITLE = COLORPICKER_PAGE_CAPTION + ".lblTitle";
     // Enhanced Color Picker with HTML hex input support
     public static final String SUI_COLORPICKER_ENHANCED = "Script.GMSetHue";
-    public static final String COLORPICKER_ENH_TEXTBOX_HTML = "htmlRow.textboxHtml";
+    public static final String COLORPICKER_ENH_TEXTBOX_HTML = "content.pageColorWheel.valuesRow.textboxHtml";
     public static final String COLORPICKER_ENH_VOLUME_PAGE = "content.pagePaletteGrid.volumePage";
-    public static final String COLORPICKER_ENH_PAGE_SAMPLE = "htmlRow.pageSample";
-    public static final String COLORPICKER_ENH_TEXT_TITLE = "header.textTitle";
+    public static final String COLORPICKER_ENH_PAGE_SAMPLE = "content.pageColorWheel.valuesRow.pageSample";
+    public static final String COLORPICKER_ENH_TEXT_TITLE = "content.textTitle";
     public static final String SUI_MSGBOX = "Script.messageBox";
     public static final String MSGBOX_PAGE_PROMPT = "Prompt";
     public static final String MSGBOX_PAGE_CAPTION = "bg.caption";
@@ -1567,7 +1567,22 @@ public class sui extends script.base_script
         {
             return null;
         }
-        return params.getString(COLORPICKER_ENH_TEXTBOX_HTML + "." + PROP_LOCALTEXT);
+        String raw = params.getString(COLORPICKER_ENH_TEXTBOX_HTML + "." + PROP_LOCALTEXT);
+        if (raw == null)
+        {
+            return null;
+        }
+        raw = raw.trim();
+        return raw.isEmpty() ? null : raw;
+    }
+
+    public static int getEnhancedColorPickerIndex(dictionary params) throws InterruptedException
+    {
+        if (params == null || params.isEmpty())
+        {
+            return -1;
+        }
+        return utils.stringToInt(params.getString(COLORPICKER_ENH_VOLUME_PAGE + "." + PROP_SELECTEDINDEX));
     }
 
     public static int getColorPickerIndex(dictionary params) throws InterruptedException

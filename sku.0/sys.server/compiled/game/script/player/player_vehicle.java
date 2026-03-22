@@ -283,6 +283,10 @@ public class player_vehicle extends script.base_script
         float z = params.getFloat("z");
 
         obj_id containingShip = space_transition.getContainingShip(self);
+        if (!isIdValid(containingShip) && space_transition.isAtmosphericFlightScene())
+        {
+            containingShip = space_transition.getDeployedShipForPlayer(self);
+        }
         if (isIdValid(containingShip) && space_transition.isAtmosphericFlightScene())
         {
             if (getOwner(containingShip) != self)
@@ -373,6 +377,10 @@ public class player_vehicle extends script.base_script
     public int onAutoPilotCancel(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException
     {
         obj_id containingShip = space_transition.getContainingShip(self);
+        if (!isIdValid(containingShip) && space_transition.isAtmosphericFlightScene())
+        {
+            containingShip = space_transition.getDeployedShipForPlayer(self);
+        }
         if (isIdValid(containingShip) && space_transition.isAtmosphericFlightScene())
         {
             if (getOwner(containingShip) == self)

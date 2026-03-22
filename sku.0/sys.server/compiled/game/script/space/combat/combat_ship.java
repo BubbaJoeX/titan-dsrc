@@ -1434,8 +1434,14 @@ public class combat_ship extends script.base_script
         obj_id pilot = getPilotId(self);
         if (isIdValid(pilot))
         {
-            shipAutoPilotCancelInternal(self, "Auto-pilot disengaged: a pilot has taken the helm.");
-            return SCRIPT_CONTINUE;
+            // Allow autopilot while the ship owner who engaged it is in the pilot seat (planet map, etc.).
+            boolean ownerIsPilot = hasObjVar(self, OV_AUTOPILOT_OWNER)
+                && getObjIdObjVar(self, OV_AUTOPILOT_OWNER) == pilot;
+            if (!ownerIsPilot)
+            {
+                shipAutoPilotCancelInternal(self, "Auto-pilot disengaged: a pilot has taken the helm.");
+                return SCRIPT_CONTINUE;
+            }
         }
 
         float targetX = getFloatObjVar(self, OV_AUTOPILOT_TARGET_X);
