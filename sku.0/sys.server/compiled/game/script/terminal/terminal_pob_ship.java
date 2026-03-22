@@ -3,6 +3,7 @@ package script.terminal;
 import script.*;
 import script.library.*;
 import script.space.atmo.atmo_landing_manager;
+import script.space.atmo.atmo_landing_registry;
 
 public class terminal_pob_ship extends script.base_script
 {
@@ -48,6 +49,9 @@ public class terminal_pob_ship extends script.base_script
 
     public static final int EXTEND_COST = 20000;
     public static final int EXTEND_TIME = 300;
+
+    /** Same root as {@code combat_ship.OV_AUTOPILOT_ACTIVE} — server atmospheric autopilot. */
+    private static final String OV_SHIP_AUTOPILOT_ACTIVE = "space.autopilot.active";
 
     public int OnAttach(obj_id self) throws InterruptedException
     {
@@ -468,11 +472,36 @@ public class terminal_pob_ship extends script.base_script
             sendSystemMessageTestingOnly(player, "\\#88ddaa  The captain may take the helm from the bridge to depart when ready.");
             return;
         }
+
+        boolean autopilotOn = hasObjVar(ship, OV_SHIP_AUTOPILOT_ACTIVE);
+
         if (hasObjVar(ship, "atmo.landing.target"))
         {
-            sendSystemMessageTestingOnly(player, "\\#aaddff[Docking]: Auto-pilot is routing to a landing platform.");
-            return;
+            obj_id pad = getObjIdObjVar(ship, "atmo.landing.target");
+            if (isIdValid(pad) && exists(pad) && atmo_landing_registry.isLandingPoint(pad))
+            {
+                obj_id occ = atmo_landing_registry.getOccupyingShip(pad);
+                boolean weHoldPad = isIdValid(occ) && occ == ship;
+
+                // Pad is in LANDED state for this ship but ship objvar landed_at not set yet (ordering) or was dropped
+                if (weHoldPad && atmo_landing_registry.isLanded(pad) && !autopilotOn)
+                {
+                    String name = atmo_landing_registry.getLandingPointName(pad);
+                    if (name == null || name.isEmpty())
+                        name = hasObjVar(ship, "atmo.landing.name") ? getStringObjVar(ship, "atmo.landing.name") : "a landing point";
+                    sendSystemMessageTestingOnly(player, "\\#aaddff[Docking]: Landed at " + name + ".");
+                    sendSystemMessageTestingOnly(player, "\\#88ddaa  The captain may take the helm from the bridge to depart when ready.");
+                    return;
+                }
+
+                if (autopilotOn || (weHoldPad && atmo_landing_registry.isEnRoute(pad)))
+                {
+                    sendSystemMessageTestingOnly(player, "\\#aaddff[Docking]: Auto-pilot is routing to a landing platform.");
+                    return;
+                }
+            }
         }
+
         sendSystemMessageTestingOnly(player, "\\#778899[Docking]: Not moored at an atmospheric landing platform.");
     }
 
