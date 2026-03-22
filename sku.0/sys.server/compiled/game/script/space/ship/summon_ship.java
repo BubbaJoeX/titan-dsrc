@@ -51,7 +51,25 @@ public class summon_ship extends script.base_script
             return SCRIPT_CONTINUE;
 
         space_turret.setPlayerGroundStrikeTargetFromGroundPick(player, self, x, y, z);
-        sendSystemMessageTestingOnly(player, "\\#88ff88[Navicomputer]: Bombardment point marked. Use Starship Management Terminal orbital strike while airborne.");
+        obj_id ship = findDeployedShipForPlayer(player);
+        int instant = space_turret.tryInstantOrbitalStrikeAfterGroundMark(ship, player, combat_ship.SUMMON_BOMBARDMENT_INSTANT_HORIZONTAL_RANGE);
+        if (instant == space_turret.INSTANT_MARK_NOT_ELIGIBLE)
+        {
+            sendSystemMessageTestingOnly(player, "\\#88ff88[Navicomputer]: Bombardment point marked. Enable bombardment orbit from Starship Remote, then use the management terminal or mark again when the ship is nearby.");
+        }
+        else if (instant == space_turret.INSTANT_MARK_TOO_FAR)
+        {
+            sendSystemMessageTestingOnly(player, "\\#88ff88[Navicomputer]: Bombardment point marked. Ship too far for instant strike — within "
+                + (int) combat_ship.SUMMON_BOMBARDMENT_INSTANT_HORIZONTAL_RANGE + " m horizontal of the mark, or use the terminal aboard.");
+        }
+        else if (instant > 0)
+        {
+            sendSystemMessageTestingOnly(player, "\\#88ff88[Navicomputer]: Instant bombardment: " + instant + " turret shot(s) (" + combat_ship.SUMMON_BOMBARDMENT_CREDIT_PER_SHOT + " cr each). Point remains marked.");
+        }
+        else
+        {
+            sendSystemMessageTestingOnly(player, "\\#88ff88[Navicomputer]: Point marked in range; no shots fired (turrets not ready, arcs, or insufficient credits).");
+        }
         return SCRIPT_CONTINUE;
     }
 

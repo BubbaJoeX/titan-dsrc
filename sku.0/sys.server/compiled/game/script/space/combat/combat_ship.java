@@ -1721,6 +1721,8 @@ public class combat_ship extends script.base_script
     public static final String OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE = "space.summon.bombardment_orbit_active";
     public static final int SUMMON_BOMBARDMENT_ORBIT_ACTIVATION_COST = 50000;
     public static final int SUMMON_BOMBARDMENT_CREDIT_PER_SHOT = 1000;
+    /** Max horizontal distance (m) from ship to marked ground point for instant fire from the datapad. */
+    public static final float SUMMON_BOMBARDMENT_INSTANT_HORIZONTAL_RANGE = 4000.0f;
     public static final float SUMMON_FOLLOW_ORBIT_RADIUS = 190.0f;
     public static final float SUMMON_FOLLOW_TAKEOFF_ALT = 880.0f;
     public static final float SUMMON_FOLLOW_LANDING_ALT = 420.0f;

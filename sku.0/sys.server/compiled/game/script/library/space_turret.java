@@ -19,6 +19,11 @@ public class space_turret extends script.base_script
     /** Last world point picked via ground targeting, stored on the player (see {@link #setPlayerGroundStrikeTargetFromGroundPick}). */
     public static final String OV_PLAYER_GROUND_STRIKE_TARGET = "space.orbitalStrike.groundLoc";
 
+    /** {@link #tryInstantOrbitalStrikeAfterGroundMark} — not in bombardment orbit or wrong scene / owner. */
+    public static final int INSTANT_MARK_NOT_ELIGIBLE = -1;
+    /** {@link #tryInstantOrbitalStrikeAfterGroundMark} — bombardment orbit active but ship farther than max horizontal range. */
+    public static final int INSTANT_MARK_TOO_FAR = -2;
+
     public static void setPlayerGroundStrikeTargetLocation(obj_id player, location loc) throws InterruptedException
     {
         if (!isIdValid(player) || loc == null)
@@ -100,6 +105,55 @@ public class space_turret extends script.base_script
             }
         }
         return fired;
+    }
+
+    /**
+     * Call right after {@link #setPlayerGroundStrikeTargetFromGroundPick}. If bombardment orbit is active and the ship is within
+     * horizontal range of the stored point, runs the same per-shot charged salvo as the management terminal.
+     * @return shots fired (including 0 if in range but nothing fired), or {@link #INSTANT_MARK_NOT_ELIGIBLE}, or {@link #INSTANT_MARK_TOO_FAR}
+     */
+    public static int tryInstantOrbitalStrikeAfterGroundMark(obj_id ship, obj_id player, float maxHorizontalRange) throws InterruptedException
+    {
+        if (!isIdValid(ship) || !isIdValid(player))
+        {
+            return INSTANT_MARK_NOT_ELIGIBLE;
+        }
+        if (!isAtmosphericFlightScene())
+        {
+            return INSTANT_MARK_NOT_ELIGIBLE;
+        }
+        obj_id owner = getOwner(ship);
+        if (!isIdValid(owner) || owner != player)
+        {
+            return INSTANT_MARK_NOT_ELIGIBLE;
+        }
+        if (!hasObjVar(ship, combat_ship.OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE) || !getBooleanObjVar(ship, combat_ship.OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE))
+        {
+            return INSTANT_MARK_NOT_ELIGIBLE;
+        }
+        location target = getPlayerGroundStrikeTarget(player);
+        if (target == null)
+        {
+            return INSTANT_MARK_NOT_ELIGIBLE;
+        }
+        String scene = getCurrentSceneName();
+        if (target.area == null || !target.area.equals(scene))
+        {
+            return INSTANT_MARK_NOT_ELIGIBLE;
+        }
+        location shipLoc = getWorldLocation(ship);
+        if (shipLoc.area == null || !shipLoc.area.equals(scene))
+        {
+            return INSTANT_MARK_NOT_ELIGIBLE;
+        }
+        float dx = shipLoc.x - target.x;
+        float dz = shipLoc.z - target.z;
+        float horiz = (float) StrictMath.sqrt(dx * dx + dz * dz);
+        if (horiz > maxHorizontalRange)
+        {
+            return INSTANT_MARK_TOO_FAR;
+        }
+        return fireAllTurretsAtWorldLocationWithPerShotCharge(ship, player, target, combat_ship.SUMMON_BOMBARDMENT_CREDIT_PER_SHOT);
     }
 
     /**
