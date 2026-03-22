@@ -915,7 +915,7 @@ public class player_developer extends base_script
             broadcast(self, "\\#aaddff  Location: [" + Math.round(playerLoc.x) + ", " + Math.round(playerLoc.y) + ", " + Math.round(playerLoc.z) + "]");
             broadcast(self, "\\#aaddff  Yaw: " + Math.round(yaw) + " degrees");
             if (name.length() == 0 && !anyFlag)
-                broadcast(self, "\\#778899  Optional: name tokens and/or --cat --sub --time <sec> --access <0-4>");
+                broadcast(self, "\\#778899  Optional: name, --time <sec>, --access <0-4>; --cat/--sub = script metadata only (map is always atmo_landing).");
 
             if (hasObjVar(egg, atmo_landing_registry.OBJVAR_NAME))
             {
@@ -928,9 +928,9 @@ public class player_developer extends base_script
             }
 
             if (mapCat != null && mapCat.length() > 0)
-                broadcast(self, "\\#aaddff  Map category: " + mapCat);
+                broadcast(self, "\\#aaddff  map.category (script only): " + mapCat);
             if (mapSub != null && mapSub.length() > 0)
-                broadcast(self, "\\#aaddff  Map subcategory: " + mapSub);
+                broadcast(self, "\\#aaddff  map.subcategory (script only): " + mapSub);
             if (setDockTime)
                 broadcast(self, "\\#aaddff  Dock time (sec): " + dockTimeSeconds);
             if (setAccessMode && accessMode >= atmo_landing_manager.ACCESS_PUBLIC && accessMode <= atmo_landing_manager.ACCESS_GM_ONLY)

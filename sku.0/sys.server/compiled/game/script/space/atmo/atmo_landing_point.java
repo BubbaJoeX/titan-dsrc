@@ -17,8 +17,9 @@ import script.library.*;
  *   atmo.landing_point.time_to_disembark - time allowed docked (-1 = forever)
  *   atmo.landing_point.loc_offset - optional offset for small platforms
  *
- * Extended policy (see {@link atmo_landing_manager}): map.category / map.subcategory,
- * policy.access_mode, faction/guild/allowlist, fees, dock duration override, extend-dock tuning.
+ * Extended policy (see {@link atmo_landing_manager}): map.category / map.subcategory (script metadata only;
+ * planet map registration is always category {@code atmo_landing}), policy.access_mode, faction/guild/allowlist,
+ * fees, dock duration override, extend-dock tuning.
  */
 public class atmo_landing_point extends script.base_script
 {

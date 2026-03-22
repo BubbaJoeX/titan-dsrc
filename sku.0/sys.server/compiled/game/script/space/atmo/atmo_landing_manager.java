@@ -11,12 +11,15 @@ import java.util.Vector;
  * Extends the base {@code atmo.landing_point.*} schema with map category/subcategory,
  * access rules, fee overrides, dock duration overrides, and extend-dock tuning.
  * <p>
- * Planet map: add rows to {@code datatables/player/planet_map_cat.tab} (and string tables) for any
- * new {@code map.category} / {@code map.subcategory} strings so the client can resolve names.
+ * {@code atmo.landing_point.map.*} objvars are optional metadata for scripts (filtering, tools). They are
+ * not passed to {@code addPlanetaryMapLocation} — the engine only accepts categories/subcategories defined
+ * in {@code planet_map_cat.tab} (currently only {@code atmo_landing} with an empty subcategory).
  */
 public class atmo_landing_manager extends script.base_script
 {
-    /** Root for map-related objvars (category / subcategory on the spawn egg). */
+    /**
+     * Optional script-only tags (e.g. summon UI filters). Not used for planet map registration.
+     */
     public static final String OBJVAR_MAP = atmo_landing_registry.OBJVAR_ROOT + ".map";
     public static final String OBJVAR_MAP_CATEGORY = OBJVAR_MAP + ".category";
     public static final String OBJVAR_MAP_SUBCATEGORY = OBJVAR_MAP + ".subcategory";
@@ -55,20 +58,6 @@ public class atmo_landing_manager extends script.base_script
     public static final int ACCESS_GUILD_ONLY = 2;
     public static final int ACCESS_PLAYER_ALLOWLIST = 3;
     public static final int ACCESS_GM_ONLY = 4;
-
-    /**
-     * Subcategories merged by {@link #getAllLandingPointsInSceneMerged()} when querying the map.
-     * Add new entries here and in planet_map_cat when introducing new map filters.
-     */
-    public static final String[] DEFAULT_MAP_SUBCATEGORIES = {
-        "",
-        "civilian",
-        "military",
-        "guild",
-        "restricted",
-        "vertical",
-        "platform"
-    };
 
     public static String getMapCategory(obj_id landingPoint) throws InterruptedException
     {
@@ -303,41 +292,20 @@ public class atmo_landing_manager extends script.base_script
     }
 
     /**
-     * All landing-point obj_ids registered on the planet map for this scene, across {@link #DEFAULT_MAP_SUBCATEGORIES}
-     * for the default category {@code atmo_landing} only. Pads with a custom {@link #OBJVAR_MAP_CATEGORY} are not included
-     * unless you query them with {@link #getAllLandingPointsInSceneForCategory}.
+     * Landing pads registered under {@code atmo_landing} with empty subcategory (the only valid pair in planet_map_cat).
      */
     public static obj_id[] getAllLandingPointsInSceneMerged() throws InterruptedException
     {
-        return getAllLandingPointsInSceneMergedForCategory(atmo_landing_registry.MAP_CATEGORY);
+        return getAllLandingPointsInSceneForCategory(atmo_landing_registry.MAP_CATEGORY, atmo_landing_registry.MAP_SUBCATEGORY);
     }
 
+    /**
+     * @deprecated Prefer {@link #getAllLandingPointsInSceneMerged()}. Non-empty subcategories must exist in
+     * {@code planet_map_cat.tab} or {@code getPlanetaryMapLocations} / registration will not match.
+     */
     public static obj_id[] getAllLandingPointsInSceneMergedForCategory(String mapCategory) throws InterruptedException
     {
-        String scene = getCurrentSceneName();
-        if (scene == null || scene.isEmpty())
-            return new obj_id[0];
-
-        Vector seen = new Vector();
-        for (String sub : DEFAULT_MAP_SUBCATEGORIES)
-        {
-            map_location[] mapLocs = getPlanetaryMapLocations(mapCategory, sub);
-            if (mapLocs == null)
-                continue;
-            for (map_location ml : mapLocs)
-            {
-                obj_id locId = ml.getLocationId();
-                if (!isIdValid(locId) || !exists(locId) || !atmo_landing_registry.isLandingPoint(locId))
-                    continue;
-                if (!seen.contains(locId))
-                    seen.add(locId);
-            }
-        }
-
-        obj_id[] arr = new obj_id[seen.size()];
-        for (int i = 0; i < seen.size(); ++i)
-            arr[i] = (obj_id) seen.get(i);
-        return arr;
+        return getAllLandingPointsInSceneForCategory(mapCategory, atmo_landing_registry.MAP_SUBCATEGORY);
     }
 
     public static obj_id[] getAllLandingPointsInSceneForCategory(String mapCategory, String mapSubcategory) throws InterruptedException

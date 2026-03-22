@@ -372,9 +372,8 @@ public class atmo_landing_registry extends script.base_script
         String displayName = getDisplayName(landingPoint);
         byte flags = isOccupied(landingPoint) ? MLF_INACTIVE : MLF_ACTIVE;
 
-        String mapCat = atmo_landing_manager.getMapCategory(landingPoint);
-        String mapSub = atmo_landing_manager.getMapSubcategory(landingPoint);
-        return addPlanetaryMapLocation(landingPoint, displayName, (int)loc.x, (int)loc.z, mapCat, mapSub, MLT_DYNAMIC, flags);
+        // Native map API requires names present in planet_map_cat.tab. Only "atmo_landing" exists (no subcategories).
+        return addPlanetaryMapLocation(landingPoint, displayName, (int)loc.x, (int)loc.z, MAP_CATEGORY, MAP_SUBCATEGORY, MLT_DYNAMIC, flags);
     }
 
     /**
