@@ -1,6 +1,8 @@
 package script.library;
 
 import script.*;
+import script.library.money;
+import script.space.combat.combat_ship;
 
 /**
  * POB / player ship turret helpers: fire at a world point.
@@ -101,8 +103,63 @@ public class space_turret extends script.base_script
     }
 
     /**
+     * Same as {@link #fireAllTurretsAtWorldLocation}, but charges {@code payer} {@code creditsPerShot} for each successful shot
+     * (paid before firing; refunded if the weapon fails to fire).
+     */
+    public static int fireAllTurretsAtWorldLocationWithPerShotCharge(obj_id ship, obj_id payer, location loc, int creditsPerShot) throws InterruptedException
+    {
+        if (!isIdValid(ship) || !isIdValid(payer) || loc == null || creditsPerShot <= 0)
+        {
+            return 0;
+        }
+        int fired = 0;
+        int[] slots = getShipChassisSlots(ship);
+        if (slots == null)
+        {
+            return 0;
+        }
+        for (int i = 0; i < slots.length; ++i)
+        {
+            int slot = slots[i];
+            if (slot < ship_chassis_slot_type.SCST_weapon_first || slot > ship_chassis_slot_type.SCST_weapon_last)
+            {
+                continue;
+            }
+            int widx = slot - ship_chassis_slot_type.SCST_weapon_0;
+            if (!shipIsWeaponTurret(ship, widx))
+            {
+                continue;
+            }
+            if (getTotalMoney(payer) < creditsPerShot)
+            {
+                if (fired == 0)
+                {
+                    sendSystemMessage(payer, string_id.unlocalized("You need at least " + creditsPerShot + " credits per turret shot."));
+                }
+                else
+                {
+                    sendSystemMessage(payer, string_id.unlocalized("Insufficient credits — strike stopped after " + fired + " shot(s)."));
+                }
+                return fired;
+            }
+            if (!transferBankCreditsToNamedAccount(payer, money.ACCT_TRAVEL, creditsPerShot, "noHandler", "noHandler", new dictionary()))
+            {
+                sendSystemMessage(payer, string_id.unlocalized("Payment failed."));
+                return fired;
+            }
+            if (!shipFireTurretAtWorldLocation(ship, widx, loc.x, loc.y, loc.z))
+            {
+                transferBankCreditsFromNamedAccount(money.ACCT_TRAVEL, payer, creditsPerShot, "noHandler", "noHandler", new dictionary());
+                continue;
+            }
+            ++fired;
+        }
+        return fired;
+    }
+
+    /**
      * Uses {@link #getPlayerGroundStrikeTarget} (e.g. {@code summon_ship} “Mark for bombardment” on the datapad).
-     * Must match current scene and atmospheric flight.
+     * Requires {@link combat_ship#OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE} on the ship; bills per successful shot.
      */
     public static int fireOrbitalStrikeFromStoredGroundTarget(obj_id ship, obj_id player) throws InterruptedException
     {
@@ -113,6 +170,18 @@ public class space_turret extends script.base_script
         if (!isAtmosphericFlightScene())
         {
             sendSystemMessage(player, string_id.unlocalized("Orbital strike is only available in atmospheric flight."));
+            return 0;
+        }
+        obj_id owner = getOwner(ship);
+        if (!isIdValid(owner) || owner != player)
+        {
+            sendSystemMessage(player, string_id.unlocalized("Only the ship owner may use orbital strike."));
+            return 0;
+        }
+        if (!hasObjVar(ship, combat_ship.OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE) || !getBooleanObjVar(ship, combat_ship.OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE))
+        {
+            sendSystemMessage(player, string_id.unlocalized("Orbital strike requires Bombardment orbit ("
+                + combat_ship.SUMMON_BOMBARDMENT_ORBIT_ACTIVATION_COST + " cr) from your datapad Starship Remote."));
             return 0;
         }
         location target = getPlayerGroundStrikeTarget(player);
@@ -127,14 +196,14 @@ public class space_turret extends script.base_script
             sendSystemMessage(player, string_id.unlocalized("Your ground target is in a different area."));
             return 0;
         }
-        int n = fireAllTurretsAtWorldLocation(ship, target);
+        int n = fireAllTurretsAtWorldLocationWithPerShotCharge(ship, player, target, combat_ship.SUMMON_BOMBARDMENT_CREDIT_PER_SHOT);
         if (n == 0)
         {
-            sendSystemMessage(player, string_id.unlocalized("No turrets fired (arcs, cooldowns, or non-turret weapons)."));
+            sendSystemMessage(player, string_id.unlocalized("No turrets fired (arcs, cooldowns, non-turret weapons, or insufficient credits)."));
         }
         else
         {
-            sendSystemMessage(player, string_id.unlocalized("Fired " + n + " turret shot(s) at your ground target."));
+            sendSystemMessage(player, string_id.unlocalized("Fired " + n + " turret shot(s) (" + combat_ship.SUMMON_BOMBARDMENT_CREDIT_PER_SHOT + " cr each)."));
         }
         return n;
     }

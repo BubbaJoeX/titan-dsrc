@@ -1717,6 +1717,10 @@ public class combat_ship extends script.base_script
     private static final String OV_SUMMON_CUR_LANDING = "space.summon.cur_landing";
 
     public static final int SUMMON_FOLLOW_COST_PER_HOUR = 20000;
+    /** Paid orbit mode: one-time activation + per-shot turret billing from the management terminal (see {@code space_turret}). */
+    public static final String OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE = "space.summon.bombardment_orbit_active";
+    public static final int SUMMON_BOMBARDMENT_ORBIT_ACTIVATION_COST = 50000;
+    public static final int SUMMON_BOMBARDMENT_CREDIT_PER_SHOT = 1000;
     public static final float SUMMON_FOLLOW_ORBIT_RADIUS = 190.0f;
     public static final float SUMMON_FOLLOW_TAKEOFF_ALT = 880.0f;
     public static final float SUMMON_FOLLOW_LANDING_ALT = 420.0f;
@@ -1729,6 +1733,7 @@ public class combat_ship extends script.base_script
         removeObjVar(ship, OV_SUMMON_FOLLOW_NEXT_BILL);
         removeObjVar(ship, OV_SUMMON_FOLLOW_OWNER);
         removeObjVar(ship, OV_SUMMON_FOLLOW_CRUISE_HOLD);
+        removeObjVar(ship, OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE);
     }
 
     public int summonFollowDisable(obj_id self, dictionary params) throws InterruptedException
@@ -1764,7 +1769,10 @@ public class combat_ship extends script.base_script
 
         if (hasObjVar(self, OV_SUMMON_FOLLOW_ACTIVE) && getBooleanObjVar(self, OV_SUMMON_FOLLOW_ACTIVE))
         {
-            sendSystemMessageTestingOnly(owner, "\\#ffaa44[Navicomputer]: Auto-follow is already active.");
+            if (hasObjVar(self, OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE) && getBooleanObjVar(self, OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE))
+                sendSystemMessageTestingOnly(owner, "\\#ffaa44[Navicomputer]: Bombardment orbit is active. Disable it first to use standard auto-follow.");
+            else
+                sendSystemMessageTestingOnly(owner, "\\#ffaa44[Navicomputer]: Auto-follow is already active.");
             return SCRIPT_CONTINUE;
         }
 
@@ -1817,6 +1825,81 @@ public class combat_ship extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
+    /** Same high-orbit follow as {@link #summonFollowEnable}, but 50k activation (no hourly fee); turret strikes bill per shot from the terminal. */
+    public int summonBombardmentOrbitEnable(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (!isAtmosphericFlightScene())
+            return SCRIPT_CONTINUE;
+
+        obj_id owner = params.getObjId("owner");
+        if (!isIdValid(owner) || getOwner(self) != owner)
+            return SCRIPT_CONTINUE;
+
+        if (hasObjVar(self, "atmo.landing.docked"))
+        {
+            sendSystemMessageTestingOnly(owner, "\\#ff4444[Navicomputer]: Undock before enabling bombardment orbit.");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (hasObjVar(self, OV_SUMMON_FOLLOW_ACTIVE) && getBooleanObjVar(self, OV_SUMMON_FOLLOW_ACTIVE))
+        {
+            if (hasObjVar(self, OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE) && getBooleanObjVar(self, OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE))
+                sendSystemMessageTestingOnly(owner, "\\#ffaa44[Navicomputer]: Bombardment orbit is already active.");
+            else
+                sendSystemMessageTestingOnly(owner, "\\#ff4444[Navicomputer]: Disable standard auto-follow first, then enable bombardment orbit.");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (isIdValid(getPilotId(self)))
+        {
+            sendSystemMessageTestingOnly(owner, "\\#ff4444[Navicomputer]: Bombardment orbit cannot start while a pilot has the helm.");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (getTotalMoney(owner) < SUMMON_BOMBARDMENT_ORBIT_ACTIVATION_COST)
+        {
+            sendSystemMessageTestingOnly(owner, "\\#ff4444[Navicomputer]: You need at least " + SUMMON_BOMBARDMENT_ORBIT_ACTIVATION_COST + " credits to activate bombardment orbit.");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (!transferBankCreditsToNamedAccount(owner, money.ACCT_TRAVEL, SUMMON_BOMBARDMENT_ORBIT_ACTIVATION_COST, "noHandler", "noHandler", new dictionary()))
+        {
+            sendSystemMessageTestingOnly(owner, "\\#ff4444[Navicomputer]: Payment failed. Bombardment orbit not started.");
+            return SCRIPT_CONTINUE;
+        }
+
+        setObjVar(self, OV_SUMMON_FOLLOW_ACTIVE, true);
+        setObjVar(self, OV_SUMMON_FOLLOW_OWNER, owner);
+        setObjVar(self, OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE, true);
+        setObjVar(self, OV_SUMMON_FOLLOW_NEXT_BILL, getGameTime() + 86400 * 365);
+
+        location playerLoc = getWorldLocation(owner);
+        dictionary wp = new dictionary();
+        wp.put("x", playerLoc.x);
+        wp.put("z", playerLoc.z);
+        wp.put("owner", owner);
+        wp.put("summon", true);
+        wp.put("cruiseHold", true);
+        wp.put("takeoffAlt", SUMMON_FOLLOW_TAKEOFF_ALT);
+        wp.put("landingAlt", SUMMON_FOLLOW_TAKEOFF_ALT);
+        shipSummonEngage(self, wp);
+
+        if (!hasObjVar(self, OV_AUTOPILOT_ACTIVE))
+        {
+            clearSummonFollowMode(self);
+            if (transferBankCreditsFromNamedAccount(money.ACCT_TRAVEL, owner, SUMMON_BOMBARDMENT_ORBIT_ACTIVATION_COST, "noHandler", "noHandler", new dictionary()))
+                sendSystemMessageTestingOnly(owner, "\\#ffaa44[Navicomputer]: Navicomputer could not engage. Your payment was refunded.");
+            else
+                sendSystemMessageTestingOnly(owner, "\\#ff4444[Navicomputer]: Bombardment orbit cancelled — refund failed. Contact support if credits are missing.");
+            return SCRIPT_CONTINUE;
+        }
+
+        sendSystemMessageTestingOnly(owner, "\\#00ff88[Navicomputer]: Bombardment orbit enabled. " + SUMMON_BOMBARDMENT_ORBIT_ACTIVATION_COST + " credits charged.");
+        sendSystemMessageTestingOnly(owner, "\\#aaddff  Orbital strike from the management terminal: " + SUMMON_BOMBARDMENT_CREDIT_PER_SHOT + " credits per successful turret shot.");
+        messageTo(self, "summonFollowTick", null, SUMMON_FOLLOW_TICK_S, false);
+        return SCRIPT_CONTINUE;
+    }
+
     public int summonFollowTick(obj_id self, dictionary params) throws InterruptedException
     {
         if (!hasObjVar(self, OV_SUMMON_FOLLOW_ACTIVE) || !getBooleanObjVar(self, OV_SUMMON_FOLLOW_ACTIVE))
@@ -1856,7 +1939,8 @@ public class combat_ship extends script.base_script
 
         int now = getGameTime();
         int nextBill = getIntObjVar(self, OV_SUMMON_FOLLOW_NEXT_BILL);
-        if (now >= nextBill)
+        boolean bombardmentOrbit = hasObjVar(self, OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE) && getBooleanObjVar(self, OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE);
+        if (!bombardmentOrbit && now >= nextBill)
         {
             if (getTotalMoney(owner) < SUMMON_FOLLOW_COST_PER_HOUR)
             {

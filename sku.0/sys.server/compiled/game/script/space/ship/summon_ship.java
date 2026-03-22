@@ -83,6 +83,9 @@ public class summon_ship extends script.base_script
         boolean aboard = space_transition.getContainingShip(player) == ship;
         boolean followOn = hasObjVar(ship, combat_ship.OV_SUMMON_FOLLOW_ACTIVE)
             && getBooleanObjVar(ship, combat_ship.OV_SUMMON_FOLLOW_ACTIVE);
+        boolean bombardmentOn = followOn && hasObjVar(ship, combat_ship.OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE)
+            && getBooleanObjVar(ship, combat_ship.OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE);
+        boolean normalFollowOn = followOn && !bombardmentOn;
 
         Vector entries = new Vector();
         Vector actions = new Vector();
@@ -97,7 +100,14 @@ public class summon_ship extends script.base_script
             entries.add("Summon ship to my location");
             actions.add("summon");
 
-            if (followOn)
+            if (bombardmentOn)
+            {
+                entries.add("Return to landing altitude (ends bombardment orbit)");
+                actions.add("return_landing");
+                entries.add("Disable bombardment orbit");
+                actions.add("follow_disable");
+            }
+            else if (normalFollowOn)
             {
                 entries.add("Return to landing altitude (ends auto-follow)");
                 actions.add("return_landing");
@@ -108,6 +118,9 @@ public class summon_ship extends script.base_script
             {
                 entries.add("Enable auto-follow — high orbit (" + combat_ship.SUMMON_FOLLOW_COST_PER_HOUR + " cr/hr)");
                 actions.add("follow_enable");
+                entries.add("Enable bombardment orbit — " + combat_ship.SUMMON_BOMBARDMENT_ORBIT_ACTIVATION_COST + " cr + "
+                    + combat_ship.SUMMON_BOMBARDMENT_CREDIT_PER_SHOT + " cr per strike");
+                actions.add("bombardment_enable");
             }
 
             entries.add("Remote land at landing point…");
@@ -173,6 +186,8 @@ public class summon_ship extends script.base_script
             return handleLandAtPoint(self, player);
         if (action.equals("follow_enable"))
             return handleEnableAutoFollow(self, player);
+        if (action.equals("bombardment_enable"))
+            return handleEnableBombardmentOrbit(self, player);
         if (action.equals("follow_disable"))
             return handleDisableAutoFollow(self, player);
         if (action.equals("return_landing"))
@@ -313,7 +328,10 @@ public class summon_ship extends script.base_script
 
         if (hasObjVar(ship, combat_ship.OV_SUMMON_FOLLOW_ACTIVE) && getBooleanObjVar(ship, combat_ship.OV_SUMMON_FOLLOW_ACTIVE))
         {
-            sendSystemMessageTestingOnly(player, "\\#ffaa44[Navicomputer]: Auto-follow is already active.");
+            if (hasObjVar(ship, combat_ship.OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE) && getBooleanObjVar(ship, combat_ship.OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE))
+                sendSystemMessageTestingOnly(player, "\\#ffaa44[Navicomputer]: Bombardment orbit is active. Disable it first to use standard auto-follow.");
+            else
+                sendSystemMessageTestingOnly(player, "\\#ffaa44[Navicomputer]: Auto-follow is already active.");
             return SCRIPT_CONTINUE;
         }
 
@@ -363,6 +381,106 @@ public class summon_ship extends script.base_script
         dictionary d = new dictionary();
         d.put("owner", player);
         messageTo(ship, "summonFollowEnable", d, 0, false);
+        return SCRIPT_CONTINUE;
+    }
+
+    private int handleEnableBombardmentOrbit(obj_id self, obj_id player) throws InterruptedException
+    {
+        if (!isAtmosphericFlightScene())
+        {
+            sendSystemMessageTestingOnly(player, "You can only use this during atmospheric flight.");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (utils.getContainingPlayer(self) != player)
+            return SCRIPT_CONTINUE;
+
+        obj_id ship = findDeployedShipForPlayer(player);
+        if (!isIdValid(ship))
+        {
+            sendSystemMessageTestingOnly(player, "You do not have a ship deployed in this area.");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (space_transition.getContainingShip(player) == ship)
+        {
+            sendSystemMessageTestingOnly(player, "Leave the ship to enable bombardment orbit from your datapad.");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (!space_utils.isShipWithInterior(ship))
+        {
+            sendSystemMessageTestingOnly(player, "Only ships with an interior support bombardment orbit.");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (shipIsAutopilotActive(ship))
+        {
+            sendSystemMessageTestingOnly(player, "Your ship is already en route. Wait for it to arrive, then try again.");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (isIdValid(getPilotId(ship)))
+        {
+            sendSystemMessageTestingOnly(player, "Your ship is being piloted and cannot enter bombardment orbit.");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (hasObjVar(ship, combat_ship.OV_SUMMON_FOLLOW_ACTIVE) && getBooleanObjVar(ship, combat_ship.OV_SUMMON_FOLLOW_ACTIVE))
+        {
+            if (hasObjVar(ship, combat_ship.OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE) && getBooleanObjVar(ship, combat_ship.OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE))
+                sendSystemMessageTestingOnly(player, "\\#ffaa44[Navicomputer]: Bombardment orbit is already active.");
+            else
+                sendSystemMessageTestingOnly(player, "\\#ff4444[Navicomputer]: Disable standard auto-follow first, then enable bombardment orbit.");
+            return SCRIPT_CONTINUE;
+        }
+
+        String title = "Bombardment orbit";
+        String prompt = "Your ship holds the same high orbit as auto-follow.\\n\\n"
+            + "Activation: " + combat_ship.SUMMON_BOMBARDMENT_ORBIT_ACTIVATION_COST + " credits (one time).\\n"
+            + "Each successful turret shot from the Starship Management Terminal costs " + combat_ship.SUMMON_BOMBARDMENT_CREDIT_PER_SHOT + " credits.\\n\\n"
+            + "Enable bombardment orbit?";
+
+        utils.setScriptVar(player, "summon.bombard.ship", ship);
+        sui.msgbox(self, player, prompt, sui.YES_NO, title, "handleBombardmentOrbitConfirm");
+        return SCRIPT_CONTINUE;
+    }
+
+    public int handleBombardmentOrbitConfirm(obj_id self, dictionary params) throws InterruptedException
+    {
+        int bp = sui.getIntButtonPressed(params);
+        obj_id player = sui.getPlayerId(params);
+        if (bp != sui.BP_OK || !isIdValid(player))
+        {
+            utils.removeScriptVar(player, "summon.bombard.ship");
+            return SCRIPT_CONTINUE;
+        }
+
+        obj_id ship = utils.getObjIdScriptVar(player, "summon.bombard.ship");
+        utils.removeScriptVar(player, "summon.bombard.ship");
+
+        if (!isAtmosphericFlightScene() || utils.getContainingPlayer(self) != player)
+            return SCRIPT_CONTINUE;
+
+        obj_id current = findDeployedShipForPlayer(player);
+        if (!isIdValid(ship) || !exists(ship) || ship != current)
+        {
+            sendSystemMessageTestingOnly(player, "\\#ff4444[Navicomputer]: Ship no longer available.");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (space_transition.getContainingShip(player) == ship)
+            return SCRIPT_CONTINUE;
+
+        if (!space_utils.isShipWithInterior(ship) || shipIsAutopilotActive(ship))
+            return SCRIPT_CONTINUE;
+
+        if (isIdValid(getPilotId(ship)))
+            return SCRIPT_CONTINUE;
+
+        dictionary d = new dictionary();
+        d.put("owner", player);
+        messageTo(ship, "summonBombardmentOrbitEnable", d, 0, false);
         return SCRIPT_CONTINUE;
     }
 
