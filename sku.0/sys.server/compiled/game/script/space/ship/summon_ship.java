@@ -2,6 +2,7 @@ package script.space.ship;
 
 import script.*;
 import script.library.space_transition;
+import script.library.space_turret;
 import script.library.space_utils;
 import script.library.utils;
 import script.library.sui;
@@ -16,6 +17,8 @@ public class summon_ship extends script.base_script
     public static final float SUMMON_LANDING_ALT  = 50.0f;
 
     private static final int MENU_STARSHIP_REMOTE = menu_info_types.SERVER_MENU1;
+    /** Ground targeting ({@link #OnGroundTargetLoc}) — same menu type as other datapad ground-pick tools. */
+    private static final int MENU_MARK_BOMBARDMENT = menu_info_types.ITEM_USE;
 
     public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi) throws InterruptedException
     {
@@ -29,6 +32,26 @@ public class summon_ship extends script.base_script
             return SCRIPT_CONTINUE;
 
         mi.addRootMenu(MENU_STARSHIP_REMOTE, string_id.unlocalized("Starship Remote"));
+        mi.addRootMenu(MENU_MARK_BOMBARDMENT, string_id.unlocalized("Mark for bombardment"));
+        return SCRIPT_CONTINUE;
+    }
+
+    public int OnGroundTargetLoc(obj_id self, obj_id player, int menuItem, float x, float y, float z) throws InterruptedException
+    {
+        if (menuItem != MENU_MARK_BOMBARDMENT)
+            return SCRIPT_CONTINUE;
+
+        if (!isAtmosphericFlightScene())
+            return SCRIPT_CONTINUE;
+
+        if (utils.getContainingPlayer(self) != player)
+            return SCRIPT_CONTINUE;
+
+        if (!isIdValid(findDeployedShipForPlayer(player)))
+            return SCRIPT_CONTINUE;
+
+        space_turret.setPlayerGroundStrikeTargetFromGroundPick(player, self, x, y, z);
+        sendSystemMessageTestingOnly(player, "\\#88ff88[Navicomputer]: Bombardment point marked. Use Starship Management Terminal orbital strike while airborne.");
         return SCRIPT_CONTINUE;
     }
 

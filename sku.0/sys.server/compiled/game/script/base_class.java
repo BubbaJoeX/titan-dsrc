@@ -25948,6 +25948,31 @@ public class base_class
     {
         return _shipGetAutopilotPhase(getLongWithNull(shipId));
     }
+    private static native boolean _shipIsWeaponTurret(long shipId, int weaponIndex);
+    public static boolean shipIsWeaponTurret(obj_id shipId, int weaponIndex)
+    {
+        return _shipIsWeaponTurret(getLongWithNull(shipId), weaponIndex);
+    }
+    private static native boolean _shipSetTurretWeaponTarget(long shipId, int weaponIndex, long targetId);
+    public static boolean shipSetTurretWeaponTarget(obj_id shipId, int weaponIndex, obj_id targetId)
+    {
+        return _shipSetTurretWeaponTarget(getLongWithNull(shipId), weaponIndex, getLongWithNull(targetId));
+    }
+    private static native long _shipGetTurretWeaponTarget(long shipId, int weaponIndex);
+    public static obj_id shipGetTurretWeaponTarget(obj_id shipId, int weaponIndex)
+    {
+        return getObjIdWithNull(_shipGetTurretWeaponTarget(getLongWithNull(shipId), weaponIndex));
+    }
+    private static native boolean _shipFireTurretShotAtTarget(long shipId, int weaponIndex, long targetId, boolean goodShot);
+    public static boolean shipFireTurretShotAtTarget(obj_id shipId, int weaponIndex, obj_id targetId, boolean goodShot)
+    {
+        return _shipFireTurretShotAtTarget(getLongWithNull(shipId), weaponIndex, getLongWithNull(targetId), goodShot);
+    }
+    private static native boolean _shipFireTurretAtWorldLocation(long shipId, int weaponIndex, float x, float y, float z);
+    public static boolean shipFireTurretAtWorldLocation(obj_id shipId, int weaponIndex, float x, float y, float z)
+    {
+        return _shipFireTurretAtWorldLocation(getLongWithNull(shipId), weaponIndex, x, y, z);
+    }
     private static native String _getShipComponentDebugString(long shipId, int chassisSlot);
     public static String getShipComponentDebugString(obj_id shipId, int chassisSlot)
     {
