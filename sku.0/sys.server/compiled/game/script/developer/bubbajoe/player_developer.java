@@ -15,6 +15,8 @@ package script.developer.bubbajoe;/*
 import script.*;
 import script.ai.ai;
 import script.library.*;
+import script.space.atmo.atmo_landing_manager;
+import script.space.atmo.atmo_landing_registry;
 
 import java.awt.*;
 import java.io.*;
@@ -815,6 +817,53 @@ public class player_developer extends base_script
                 playerLoc = getLocation(ship);
             }
 
+            String mapCat = null;
+            String mapSub = null;
+            int dockTimeSeconds = -1;
+            boolean setDockTime = false;
+            int accessMode = atmo_landing_manager.ACCESS_PUBLIC;
+            boolean setAccessMode = false;
+
+            Vector nameTokens = new Vector();
+            while (tok.hasMoreTokens())
+            {
+                String t = tok.nextToken();
+                if (t.equalsIgnoreCase("--cat") && tok.hasMoreTokens())
+                {
+                    mapCat = tok.nextToken();
+                    continue;
+                }
+                if (t.equalsIgnoreCase("--sub") && tok.hasMoreTokens())
+                {
+                    mapSub = tok.nextToken();
+                    continue;
+                }
+                if (t.equalsIgnoreCase("--time") && tok.hasMoreTokens())
+                {
+                    dockTimeSeconds = stringToInt(tok.nextToken());
+                    setDockTime = true;
+                    continue;
+                }
+                if (t.equalsIgnoreCase("--access") && tok.hasMoreTokens())
+                {
+                    accessMode = stringToInt(tok.nextToken());
+                    setAccessMode = true;
+                    continue;
+                }
+                nameTokens.add(t);
+            }
+
+            StringBuilder nameBuilder = new StringBuilder();
+            for (int i = 0; i < nameTokens.size(); i++)
+            {
+                if (i > 0)
+                    nameBuilder.append(" ");
+                nameBuilder.append((String) nameTokens.get(i));
+            }
+            String name = nameBuilder.toString().trim();
+            if (name.startsWith("\"") && name.endsWith("\"") && name.length() >= 2)
+                name = name.substring(1, name.length() - 1);
+
             // Create spawn egg at player location
             obj_id egg = createObject("object/tangible/spawning/spawn_egg.iff", playerLoc);
             if (!isIdValid(egg) || !exists(egg))
@@ -823,56 +872,70 @@ public class player_developer extends base_script
                 return SCRIPT_CONTINUE;
             }
 
-            // Set initial objvars
-            setObjVar(egg, "atmo.landing_point.loc", playerLoc);
+            setObjVar(egg, atmo_landing_registry.OBJVAR_LOC, playerLoc);
 
-            // If name provided, set it
-            if (tok.hasMoreTokens())
-            {
-                StringBuilder nameBuilder = new StringBuilder();
-                while (tok.hasMoreTokens())
-                {
-                    if (nameBuilder.length() > 0)
-                        nameBuilder.append(" ");
-                    nameBuilder.append(tok.nextToken());
-                }
-                String name = nameBuilder.toString().trim();
-                if (name.startsWith("\"") && name.endsWith("\""))
-                    name = name.substring(1, name.length() - 1);
-                setObjVar(egg, "atmo.landing_point.name", name);
-            }
+            if (name.length() > 0)
+                setObjVar(egg, atmo_landing_registry.OBJVAR_NAME, name);
 
-            // Set default yaw from player's current facing
             float yaw = getYaw(self);
             if (isIdValid(ship))
                 yaw = getYaw(ship);
-            setObjVar(egg, "atmo.landing_point.yaw", yaw);
+            setObjVar(egg, atmo_landing_registry.OBJVAR_YAW, yaw);
 
-            // Set default time to disembark (-1 = unlimited)
-            setObjVar(egg, "atmo.landing_point.time_to_disembark", -1);
+            if (setDockTime)
+                setObjVar(egg, atmo_landing_registry.OBJVAR_TIME_TO_DISEMBARK, dockTimeSeconds);
+            else
+                setObjVar(egg, atmo_landing_registry.OBJVAR_TIME_TO_DISEMBARK, -1);
 
-            // Attach the GM configuration script
+            if (mapCat != null && mapCat.length() > 0)
+                setObjVar(egg, atmo_landing_manager.OBJVAR_MAP_CATEGORY, mapCat);
+            if (mapSub != null && mapSub.length() > 0)
+                setObjVar(egg, atmo_landing_manager.OBJVAR_MAP_SUBCATEGORY, mapSub);
+
+            if (setAccessMode)
+            {
+                if (accessMode < atmo_landing_manager.ACCESS_PUBLIC || accessMode > atmo_landing_manager.ACCESS_GM_ONLY)
+                {
+                    broadcast(self, "\\#ffaa44[Landing Point]: --access must be " + atmo_landing_manager.ACCESS_PUBLIC + "-" + atmo_landing_manager.ACCESS_GM_ONLY + " (ignored).");
+                }
+                else
+                    setObjVar(egg, atmo_landing_manager.OBJVAR_ACCESS_MODE, accessMode);
+            }
+
             attachScript(egg, "gm.atmo_landing_spawner_config");
 
-            // Set a visible name for the egg
-            String displayName = hasObjVar(egg, "atmo.landing_point.name")
-                ? getStringObjVar(egg, "atmo.landing_point.name")
+            String displayName = hasObjVar(egg, atmo_landing_registry.OBJVAR_NAME)
+                ? getStringObjVar(egg, atmo_landing_registry.OBJVAR_NAME)
                 : "Landing Point (Unconfigured)";
             setName(egg, displayName);
+
+            boolean anyFlag = setDockTime || setAccessMode || (mapCat != null && mapCat.length() > 0) || (mapSub != null && mapSub.length() > 0);
 
             broadcast(self, "\\#00ff88[Landing Point]: Spawn egg created at your location.");
             broadcast(self, "\\#aaddff  Location: [" + Math.round(playerLoc.x) + ", " + Math.round(playerLoc.y) + ", " + Math.round(playerLoc.z) + "]");
             broadcast(self, "\\#aaddff  Yaw: " + Math.round(yaw) + " degrees");
+            if (name.length() == 0 && !anyFlag)
+                broadcast(self, "\\#778899  Optional: name tokens and/or --cat --sub --time <sec> --access <0-4>");
 
-            if (hasObjVar(egg, "atmo.landing_point.name"))
+            if (hasObjVar(egg, atmo_landing_registry.OBJVAR_NAME))
             {
-                broadcast(self, "\\#aaddff  Name: " + getStringObjVar(egg, "atmo.landing_point.name"));
+                broadcast(self, "\\#aaddff  Name: " + getStringObjVar(egg, atmo_landing_registry.OBJVAR_NAME));
                 broadcast(self, "\\#88ddaa  Use radial menu on egg to configure and activate.");
             }
             else
             {
                 broadcast(self, "\\#ffaa44  Name not set. Use radial menu on egg to configure.");
             }
+
+            if (mapCat != null && mapCat.length() > 0)
+                broadcast(self, "\\#aaddff  Map category: " + mapCat);
+            if (mapSub != null && mapSub.length() > 0)
+                broadcast(self, "\\#aaddff  Map subcategory: " + mapSub);
+            if (setDockTime)
+                broadcast(self, "\\#aaddff  Dock time (sec): " + dockTimeSeconds);
+            if (setAccessMode && accessMode >= atmo_landing_manager.ACCESS_PUBLIC && accessMode <= atmo_landing_manager.ACCESS_GM_ONLY)
+                broadcast(self, "\\#aaddff  Access mode: " + accessMode);
+
             return SCRIPT_CONTINUE;
         }
         else if (cmd.equalsIgnoreCase("spawnRtCamera") || cmd.equalsIgnoreCase("spawnRtScreen") || cmd.equalsIgnoreCase("spawnRtSystem"))

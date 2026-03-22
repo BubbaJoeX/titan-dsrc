@@ -372,7 +372,9 @@ public class atmo_landing_registry extends script.base_script
         String displayName = getDisplayName(landingPoint);
         byte flags = isOccupied(landingPoint) ? MLF_INACTIVE : MLF_ACTIVE;
 
-        return addPlanetaryMapLocation(landingPoint, displayName, (int)loc.x, (int)loc.z, MAP_CATEGORY, MAP_SUBCATEGORY, MLT_DYNAMIC, flags);
+        String mapCat = atmo_landing_manager.getMapCategory(landingPoint);
+        String mapSub = atmo_landing_manager.getMapSubcategory(landingPoint);
+        return addPlanetaryMapLocation(landingPoint, displayName, (int)loc.x, (int)loc.z, mapCat, mapSub, MLT_DYNAMIC, flags);
     }
 
     /**
@@ -438,21 +440,7 @@ public class atmo_landing_registry extends script.base_script
         if (scene == null || scene.isEmpty())
             return new obj_id[0];
 
-        map_location[] mapLocs = getPlanetaryMapLocations(MAP_CATEGORY, MAP_SUBCATEGORY);
-        if (mapLocs == null || mapLocs.length == 0)
-            return new obj_id[0];
-
-        Vector result = new Vector();
-        for (map_location ml : mapLocs)
-        {
-            obj_id locId = ml.getLocationId();
-            if (isIdValid(locId) && exists(locId) && isLandingPoint(locId))
-                result.add(locId);
-        }
-
-        obj_id[] arr = new obj_id[result.size()];
-        result.toArray(arr);
-        return arr;
+        return atmo_landing_manager.getAllLandingPointsInSceneMerged();
     }
 
     /**

@@ -2,6 +2,7 @@ package script.terminal;
 
 import script.*;
 import script.library.*;
+import script.space.atmo.atmo_landing_manager;
 
 public class terminal_pob_ship extends script.base_script
 {
@@ -87,7 +88,7 @@ public class terminal_pob_ship extends script.base_script
         {
             int dockingRoot = mi.addRootMenu(MENU_DOCKING_CONTROL, SID_DOCKING_CONTROL);
             mi.addSubMenu(dockingRoot, MENU_CHECK_DOCKING_TIME, SID_CHECK_DOCKING_TIME);
-            if (hasObjVar(ship, "atmo.landing.dockExpiry"))
+            if (hasObjVar(ship, "atmo.landing.dockExpiry") && canOfferExtendDocking(ship))
             {
                 mi.addSubMenu(dockingRoot, MENU_EXTEND_DOCKING, SID_EXTEND_DOCKING);
             }
@@ -443,6 +444,38 @@ public class terminal_pob_ship extends script.base_script
     // Docking Control Methods
     // =====================================================================
 
+    private boolean canOfferExtendDocking(obj_id ship) throws InterruptedException
+    {
+        obj_id pad = atmo_landing_manager.resolveLandingPointFromShip(ship);
+        if (!isIdValid(pad))
+            return true;
+        return atmo_landing_manager.allowsExtendDock(pad);
+    }
+
+    private int getExtendCostForShip(obj_id ship) throws InterruptedException
+    {
+        obj_id pad = atmo_landing_manager.resolveLandingPointFromShip(ship);
+        if (isIdValid(pad))
+        {
+            int v = atmo_landing_manager.getExtendDockCredits(pad);
+            if (v >= 0)
+                return v;
+        }
+        return EXTEND_COST;
+    }
+
+    private int getExtendSecondsForShip(obj_id ship) throws InterruptedException
+    {
+        obj_id pad = atmo_landing_manager.resolveLandingPointFromShip(ship);
+        if (isIdValid(pad))
+        {
+            int v = atmo_landing_manager.getExtendDockSeconds(pad);
+            if (v > 0)
+                return v;
+        }
+        return EXTEND_TIME;
+    }
+
     private void showDockingTimeRemaining(obj_id ship, obj_id player) throws InterruptedException
     {
         if (!hasObjVar(ship, "atmo.landing.dockExpiry"))
@@ -456,6 +489,8 @@ public class terminal_pob_ship extends script.base_script
         int remaining = expiry - now;
 
         String name = hasObjVar(ship, "atmo.landing.name") ? getStringObjVar(ship, "atmo.landing.name") : "Landing Pad";
+        int extendCost = getExtendCostForShip(ship);
+        int extendSec = getExtendSecondsForShip(ship);
 
         if (remaining <= 0)
         {
@@ -468,7 +503,10 @@ public class terminal_pob_ship extends script.base_script
             String timeStr = mins > 0 ? (mins + "m " + secs + "s") : (secs + "s");
             sendSystemMessageTestingOnly(player, "\\#aaddff[Docking Control]: " + name);
             sendSystemMessageTestingOnly(player, "\\#aaddff  Time remaining: " + timeStr);
-            sendSystemMessageTestingOnly(player, "\\#aaddff  Extension cost: " + EXTEND_COST + " credits for " + (EXTEND_TIME / 60) + " minutes");
+            if (canOfferExtendDocking(ship))
+                sendSystemMessageTestingOnly(player, "\\#aaddff  Extension cost: " + extendCost + " credits for " + (extendSec / 60) + " minutes");
+            else
+                sendSystemMessageTestingOnly(player, "\\#aaddff  Extensions are not available at this platform.");
         }
     }
 
@@ -480,17 +518,25 @@ public class terminal_pob_ship extends script.base_script
             return;
         }
 
+        if (!canOfferExtendDocking(ship))
+        {
+            sendSystemMessageTestingOnly(player, "\\#ffaa44[Docking Control]: This platform does not allow docking time extensions.");
+            return;
+        }
+
         String name = hasObjVar(ship, "atmo.landing.name") ? getStringObjVar(ship, "atmo.landing.name") : "Landing Pad";
         int expiry = getIntObjVar(ship, "atmo.landing.dockExpiry");
         int remaining = expiry - getGameTime();
         int mins = remaining / 60;
         int secs = remaining % 60;
         String timeStr = mins > 0 ? (mins + "m " + secs + "s") : (secs + "s");
+        int extendCost = getExtendCostForShip(ship);
+        int extendSec = getExtendSecondsForShip(ship);
 
         String title = "Extend Docking Time";
         String prompt = "\\#00ccffLocation: " + name + "\n\n" +
                         "\\#aaddffTime Remaining: " + timeStr + "\n\n" +
-                        "\\#ffffffExtend docking by " + (EXTEND_TIME / 60) + " minutes for " + EXTEND_COST + " credits?";
+                        "\\#ffffffExtend docking by " + (extendSec / 60) + " minutes for " + extendCost + " credits?";
 
         utils.setScriptVar(player, "docking.extend.ship", ship);
         sui.msgbox(terminal, player, prompt, sui.YES_NO, title, "handleExtendDocking");
@@ -521,30 +567,39 @@ public class terminal_pob_ship extends script.base_script
             return SCRIPT_CONTINUE;
         }
 
+        if (!canOfferExtendDocking(ship))
+        {
+            sendSystemMessageTestingOnly(player, "\\#ffaa44[Docking Control]: This platform does not allow docking time extensions.");
+            return SCRIPT_CONTINUE;
+        }
+
+        int extendCost = getExtendCostForShip(ship);
+        int extendSec = getExtendSecondsForShip(ship);
+
         int bankBalance = getBankBalance(player);
         int cashBalance = getCashBalance(player);
         int totalCredits = bankBalance + cashBalance;
 
-        if (totalCredits < EXTEND_COST)
+        if (totalCredits < extendCost)
         {
-            sendSystemMessageTestingOnly(player, "\\#ff4444[Docking Control]: Insufficient credits. You need " + EXTEND_COST + " credits.");
+            sendSystemMessageTestingOnly(player, "\\#ff4444[Docking Control]: Insufficient credits. You need " + extendCost + " credits.");
             return SCRIPT_CONTINUE;
         }
 
         // Transfer credits to docking fees account
-        if (!transferBankCreditsToNamedAccount(player, money.ACCT_TRAVEL, EXTEND_COST, "handleDockingPaymentSuccess", "handleDockingPaymentFail", null))
+        if (!transferBankCreditsToNamedAccount(player, money.ACCT_TRAVEL, extendCost, "handleDockingPaymentSuccess", "handleDockingPaymentFail", null))
         {
             sendSystemMessageTestingOnly(player, "\\#ff4444[Docking Control]: Payment failed. Please try again.");
             return SCRIPT_CONTINUE;
         }
 
         int currentExpiry = getIntObjVar(ship, "atmo.landing.dockExpiry");
-        int newExpiry = currentExpiry + EXTEND_TIME;
+        int newExpiry = currentExpiry + extendSec;
         setObjVar(ship, "atmo.landing.dockExpiry", newExpiry);
 
         play2dNonLoopingSound(player, "sound/sys_comm_generic.snd");
-        sendSystemMessageTestingOnly(player, "\\#00ff88[Docking Control]: Docking time extended by " + (EXTEND_TIME / 60) + " minutes.");
-        sendSystemMessageTestingOnly(player, "\\#aaddff  " + EXTEND_COST + " credits charged.");
+        sendSystemMessageTestingOnly(player, "\\#00ff88[Docking Control]: Docking time extended by " + (extendSec / 60) + " minutes.");
+        sendSystemMessageTestingOnly(player, "\\#aaddff  " + extendCost + " credits charged.");
 
         return SCRIPT_CONTINUE;
     }

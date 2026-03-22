@@ -16,6 +16,9 @@ import script.library.*;
  *   atmo.landing_point.yaw - yaw angle for ship to land at
  *   atmo.landing_point.time_to_disembark - time allowed docked (-1 = forever)
  *   atmo.landing_point.loc_offset - optional offset for small platforms
+ *
+ * Extended policy (see {@link atmo_landing_manager}): map.category / map.subcategory,
+ * policy.access_mode, faction/guild/allowlist, fees, dock duration override, extend-dock tuning.
  */
 public class atmo_landing_point extends script.base_script
 {
@@ -228,6 +231,16 @@ public class atmo_landing_point extends script.base_script
             return SCRIPT_CONTINUE;
         }
 
+        if (!atmo_landing_manager.canPilotLandAt(self, pilot, ship))
+        {
+            String reason = atmo_landing_manager.getLandingAccessDenialReason(self, pilot, ship);
+            commPlayerIDA(pilot, "Imperial Docking Authority. Landing clearance denied. This platform is restricted.");
+            sendSystemMessageTestingOnly(pilot, "\\#ff4444[Imperial Docking Authority]: You are not cleared to land at this platform.");
+            if (reason != null)
+                sendSystemMessageTestingOnly(pilot, "\\#ffaa44  Reason: " + mapAccessDenialReasonForPlayer(reason));
+            return SCRIPT_CONTINUE;
+        }
+
         if (atmo_landing_registry.isOccupied(self))
         {
             commPlayerIDA(pilot, getRandomMessage(IDA_PAD_OCCUPIED));
@@ -242,16 +255,20 @@ public class atmo_landing_point extends script.base_script
             return SCRIPT_CONTINUE;
         }
 
+        boolean waiveFees = atmo_landing_manager.shouldWaiveLandingFee(self);
+        int baseLandingFee = atmo_landing_manager.resolveBaseLandingFeeCredits(self, MINIMUM_LANDING_FEE);
+        boolean ignoreCityTax = atmo_landing_manager.shouldIgnoreCityLandingTax(self);
+
         // Check and charge landing fee
         int totalFunds = money.getTotalMoney(pilot);
-        int totalLandingFee = MINIMUM_LANDING_FEE;
+        int totalLandingFee = waiveFees ? 0 : baseLandingFee;
         int cityLandingTax = 0;
         int cityId = 0;
         String cityName = null;
 
         // Check if landing point is in a city and apply city landing tax
         location landingLoc = atmo_landing_registry.getLandingLocation(self);
-        if (landingLoc != null)
+        if (!ignoreCityTax && landingLoc != null)
         {
             cityId = getCityAtLocation(landingLoc, 0);
             if (cityId > 0 && cityExists(cityId))
@@ -269,7 +286,8 @@ public class atmo_landing_point extends script.base_script
         {
             commPlayerIDA(pilot, getRandomMessage(IDA_INSUFFICIENT_FUNDS));
             sendSystemMessageTestingOnly(pilot, "\\#ff4444[Imperial Docking Authority]: Insufficient funds for landing fee.");
-            sendSystemMessageTestingOnly(pilot, "\\#ffaa44  Landing fee: " + MINIMUM_LANDING_FEE + " credits.");
+            if (!waiveFees)
+                sendSystemMessageTestingOnly(pilot, "\\#ffaa44  Landing fee: " + baseLandingFee + " credits.");
             if (cityLandingTax > 0)
             {
                 sendSystemMessageTestingOnly(pilot, "\\#ffaa44  " + cityName + " City Landing Tax: " + cityLandingTax + " credits.");
@@ -286,11 +304,14 @@ public class atmo_landing_point extends script.base_script
         }
 
         // Charge the base landing fee (to travel system account)
-        if (!transferBankCreditsToNamedAccount(pilot, money.ACCT_TRAVEL, MINIMUM_LANDING_FEE, "noHandler", "noHandler", new dictionary()))
+        if (!waiveFees)
         {
-            commPlayerIDA(pilot, getRandomMessage(IDA_INSUFFICIENT_FUNDS));
-            sendSystemMessageTestingOnly(pilot, "\\#ff4444[Imperial Docking Authority]: Unable to process landing fee payment.");
-            return SCRIPT_CONTINUE;
+            if (!transferBankCreditsToNamedAccount(pilot, money.ACCT_TRAVEL, baseLandingFee, "noHandler", "noHandler", new dictionary()))
+            {
+                commPlayerIDA(pilot, getRandomMessage(IDA_INSUFFICIENT_FUNDS));
+                sendSystemMessageTestingOnly(pilot, "\\#ff4444[Imperial Docking Authority]: Unable to process landing fee payment.");
+                return SCRIPT_CONTINUE;
+            }
         }
 
         // Charge city landing tax if applicable
@@ -302,7 +323,8 @@ public class atmo_landing_point extends script.base_script
                 if (!money.pay(pilot, cityHall, cityLandingTax, "landing_tax", null, false))
                 {
                     // Refund base fee if city tax fails
-                    transferBankCreditsFromNamedAccount(money.ACCT_TRAVEL, pilot, MINIMUM_LANDING_FEE, "noHandler", "noHandler", new dictionary());
+                    if (!waiveFees)
+                        transferBankCreditsFromNamedAccount(money.ACCT_TRAVEL, pilot, baseLandingFee, "noHandler", "noHandler", new dictionary());
                     commPlayerIDA(pilot, getRandomMessage(IDA_INSUFFICIENT_FUNDS));
                     sendSystemMessageTestingOnly(pilot, "\\#ff4444[Imperial Docking Authority]: Unable to process city landing tax.");
                     return SCRIPT_CONTINUE;
@@ -339,7 +361,10 @@ public class atmo_landing_point extends script.base_script
         // Comm the pilot with clearance granted
         commPlayerIDA(pilot, getRandomMessage(IDA_CLEARANCE_GRANTED));
         sendSystemMessageTestingOnly(pilot, "\\#00ccff[Imperial Docking Authority]: Landing clearance granted for " + name + ".");
-        sendSystemMessageTestingOnly(pilot, "\\#88ddaa  Landing fee of " + MINIMUM_LANDING_FEE + " credits has been charged.");
+        if (waiveFees)
+            sendSystemMessageTestingOnly(pilot, "\\#88ddaa  Landing fees waived for this platform.");
+        else
+            sendSystemMessageTestingOnly(pilot, "\\#88ddaa  Landing fee of " + baseLandingFee + " credits has been charged.");
         if (cityLandingTax > 0 && cityName != null)
         {
             sendSystemMessageTestingOnly(pilot, "\\#88ddaa  " + cityName + " City Landing Tax: " + cityLandingTax + " credits.");
@@ -361,6 +386,8 @@ public class atmo_landing_point extends script.base_script
 
         // Store reference on ship for tracking
         setObjVar(ship, "atmo.landing.landed_at", self);
+
+        atmo_landing_manager.onShipLandedAtPoint(ship, self);
 
         float yaw = atmo_landing_registry.getLandingYaw(self);
         applyShipYaw(ship, yaw);
@@ -409,6 +436,33 @@ public class atmo_landing_point extends script.base_script
             return;
 
         setYaw(ship, yaw);
+    }
+
+    private static String mapAccessDenialReasonForPlayer(String code)
+    {
+        if (code == null)
+            return "access denied";
+        if (code.equals("owner_pilot_only"))
+            return "only the ship owner may request landing here";
+        if (code.equals("gm_only"))
+            return "authorized personnel only";
+        if (code.equals("faction_not_allowed"))
+            return "your faction is not cleared for this platform";
+        if (code.equals("faction_whitelist_empty"))
+            return "platform faction access is not configured";
+        if (code.equals("guild_mismatch"))
+            return "your guild is not assigned to this platform";
+        if (code.equals("guild_not_configured"))
+            return "guild-only platform is missing guild_id";
+        if (code.equals("not_on_allowlist"))
+            return "you are not on the landing allow-list";
+        if (code.equals("allowlist_empty"))
+            return "allow-list is empty";
+        if (code.equals("missing_required_skill"))
+            return "missing required skill certification";
+        if (code.equals("below_min_level"))
+            return "below minimum combat level";
+        return code;
     }
 
     private void notifyShipOccupants(obj_id ship, String message) throws InterruptedException
