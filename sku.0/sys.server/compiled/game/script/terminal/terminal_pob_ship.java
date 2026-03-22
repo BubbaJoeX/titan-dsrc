@@ -15,12 +15,13 @@ public class terminal_pob_ship extends script.base_script
     private static final int MENU_MOVE_FIRST_ITEM = menu_info_types.SERVER_MENU2;
     private static final int MENU_DELETE_ALL_ITEMS = menu_info_types.SERVER_MENU3;
     private static final int MENU_BOARDING_PERMISSIONS = menu_info_types.SERVER_MENU4;
-    private static final int MENU_DOCKING_CONTROL = menu_info_types.SERVER_MENU5;
+    private static final int MENU_DOCKING_ROOT = menu_info_types.SERVER_MENU5;
     private static final int MENU_CHECK_DOCKING_TIME = menu_info_types.SERVER_MENU6;
     private static final int MENU_EXTEND_DOCKING = menu_info_types.SERVER_MENU7;
     private static final int MENU_MANAGE_ACCESS = menu_info_types.SERVER_MENU8;
     private static final int MENU_STORAGE_REDEED = menu_info_types.SERVER_MENU9;
     private static final int MENU_ITEM_MANAGEMENT = menu_info_types.SERVER_MENU10;
+    private static final int MENU_MOORAGE_INFO = menu_info_types.SERVER_MENU14;
     private static final int MENU_FIND_ALL_ITEMS = menu_info_types.SERVER_MENU11;
     private static final int MENU_SEARCH_ITEMS = menu_info_types.SERVER_MENU12;
     private static final int MENU_UNDOCK = menu_info_types.SERVER_MENU13;
@@ -37,7 +38,8 @@ public class terminal_pob_ship extends script.base_script
     public static final string_id SID_STORAGE_INCREASE_REDEED_TITLE = new string_id("player_structure", "sui_storage_redeed_title");
     public static final string_id SID_STORAGE_INCREASE_REDEED_PROMPT = new string_id("player_structure", "sui_storage_redeed_prompt");
     public static final string_id SID_BOARDING_PERMISSIONS = string_id.unlocalized("Boarding Permissions");
-    public static final string_id SID_DOCKING_CONTROL = string_id.unlocalized("Docking Control");
+    public static final string_id SID_DOCKING = string_id.unlocalized("Docking");
+    public static final string_id SID_MOORAGE_INFO = string_id.unlocalized("Moorage Status");
     public static final string_id SID_CHECK_DOCKING_TIME = string_id.unlocalized("Check Docking Time");
     public static final string_id SID_EXTEND_DOCKING = string_id.unlocalized("Extend Docking Time");
     public static final string_id SID_UNDOCK = string_id.unlocalized("Undock Ship");
@@ -83,16 +85,23 @@ public class terminal_pob_ship extends script.base_script
             }
         }
 
-        // Docking control - available to all players aboard when docked at landing point
-        if (isIdValid(ship) && hasObjVar(ship, "atmo.landing.docked"))
+        // Docking — all passengers; timed-mooring actions when docked, status when not
+        if (isIdValid(ship))
         {
-            int dockingRoot = mi.addRootMenu(MENU_DOCKING_CONTROL, SID_DOCKING_CONTROL);
-            mi.addSubMenu(dockingRoot, MENU_CHECK_DOCKING_TIME, SID_CHECK_DOCKING_TIME);
-            if (hasObjVar(ship, "atmo.landing.dockExpiry") && canOfferExtendDocking(ship))
+            int dockingRoot = mi.addRootMenu(MENU_DOCKING_ROOT, SID_DOCKING);
+            if (hasObjVar(ship, "atmo.landing.docked"))
             {
-                mi.addSubMenu(dockingRoot, MENU_EXTEND_DOCKING, SID_EXTEND_DOCKING);
+                mi.addSubMenu(dockingRoot, MENU_CHECK_DOCKING_TIME, SID_CHECK_DOCKING_TIME);
+                if (hasObjVar(ship, "atmo.landing.dockExpiry") && canOfferExtendDocking(ship))
+                {
+                    mi.addSubMenu(dockingRoot, MENU_EXTEND_DOCKING, SID_EXTEND_DOCKING);
+                }
+                mi.addSubMenu(dockingRoot, MENU_UNDOCK, SID_UNDOCK);
             }
-            mi.addSubMenu(dockingRoot, MENU_UNDOCK, SID_UNDOCK);
+            else
+            {
+                mi.addSubMenu(dockingRoot, MENU_MOORAGE_INFO, SID_MOORAGE_INFO);
+            }
         }
 
         return SCRIPT_CONTINUE;
@@ -101,7 +110,13 @@ public class terminal_pob_ship extends script.base_script
     {
         obj_id ship = space_transition.getContainingShip(self);
 
-        // Handle docking control - available to all players aboard when docked
+        if (isIdValid(ship) && item == MENU_MOORAGE_INFO)
+        {
+            showMoorageStatus(ship, player);
+            return SCRIPT_CONTINUE;
+        }
+
+        // Timed mooring / undock — all players aboard when docked at landing point
         if (isIdValid(ship) && hasObjVar(ship, "atmo.landing.docked"))
         {
             if (item == MENU_CHECK_DOCKING_TIME)
@@ -441,8 +456,25 @@ public class terminal_pob_ship extends script.base_script
     }
 
     // =====================================================================
-    // Docking Control Methods
+    // Docking / moorage
     // =====================================================================
+
+    private void showMoorageStatus(obj_id ship, obj_id player) throws InterruptedException
+    {
+        if (hasObjVar(ship, "atmo.landing.landed_at"))
+        {
+            String name = hasObjVar(ship, "atmo.landing.name") ? getStringObjVar(ship, "atmo.landing.name") : "a landing point";
+            sendSystemMessageTestingOnly(player, "\\#aaddff[Docking]: Landed at " + name + ".");
+            sendSystemMessageTestingOnly(player, "\\#88ddaa  The captain may take the helm from the bridge to depart when ready.");
+            return;
+        }
+        if (hasObjVar(ship, "atmo.landing.target"))
+        {
+            sendSystemMessageTestingOnly(player, "\\#aaddff[Docking]: Auto-pilot is routing to a landing platform.");
+            return;
+        }
+        sendSystemMessageTestingOnly(player, "\\#778899[Docking]: Not moored at an atmospheric landing platform.");
+    }
 
     private boolean canOfferExtendDocking(obj_id ship) throws InterruptedException
     {
