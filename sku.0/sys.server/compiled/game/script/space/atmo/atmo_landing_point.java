@@ -342,8 +342,8 @@ public class atmo_landing_point extends script.base_script
         }
 
         landingLoc = atmo_landing_registry.getLandingLocation(self);
-        float cruiseAlt = atmo_landing_registry.getCruiseAltitude(self);
-        float landingAlt = atmo_landing_registry.getApproachAltitude(self);
+        float takeoffAlt = atmo_landing_registry.getAutopilotCruiseClimbOffset(self, ship);
+        float landingAlt = atmo_landing_registry.getAutopilotLandingAglOffset(self);
         float yaw = atmo_landing_registry.getLandingYaw(self);
         String name = atmo_landing_registry.getLandingPointName(self);
 
@@ -354,7 +354,7 @@ public class atmo_landing_point extends script.base_script
         dictionary flyParams = new dictionary();
         flyParams.put("x", landingLoc.x);
         flyParams.put("z", landingLoc.z);
-        flyParams.put("takeoffAlt", cruiseAlt);
+        flyParams.put("takeoffAlt", takeoffAlt);
         flyParams.put("landingAlt", landingAlt);
         flyParams.put("owner", pilot);
         flyParams.put("landingPointTarget", self);

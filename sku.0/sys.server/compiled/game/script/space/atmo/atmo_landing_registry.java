@@ -389,6 +389,42 @@ public class atmo_landing_registry extends script.base_script
     }
 
     /**
+     * Native autopilot expects landing altitude as <b>meters above terrain</b> at the destination XZ, not world Y.
+     * Converts {@link #getApproachAltitude}.
+     */
+    public static float getAutopilotLandingAglOffset(obj_id landingPoint) throws InterruptedException
+    {
+        location loc = getLandingLocation(landingPoint);
+        if (loc == null)
+            return 50.0f;
+        float terrainY = getHeightAtLocation(loc.x, loc.z);
+        float wantY = getApproachAltitude(landingPoint);
+        float agl = wantY - terrainY;
+        if (agl < 2.0f)
+            agl = 2.0f;
+        return agl;
+    }
+
+    /**
+     * Takeoff parameter for native autopilot: climb target is {@code terrainAtShip + offset}.
+     * Uses cruise absolute height from the pad.
+     */
+    public static float getAutopilotCruiseClimbOffset(obj_id landingPoint, obj_id ship) throws InterruptedException
+    {
+        if (!isIdValid(ship) || !exists(ship))
+            return 500.0f;
+        location shipLoc = getLocation(ship);
+        if (shipLoc == null)
+            return 500.0f;
+        float terrainAtShip = getHeightAtLocation(shipLoc.x, shipLoc.z);
+        float cruiseAbs = getCruiseAltitude(landingPoint);
+        float offset = cruiseAbs - terrainAtShip;
+        if (offset < 10.0f)
+            offset = 10.0f;
+        return offset;
+    }
+
+    /**
      * Register a landing point on the planet map.
      */
     public static boolean registerOnMap(obj_id landingPoint) throws InterruptedException
@@ -497,12 +533,19 @@ public class atmo_landing_registry extends script.base_script
         if (speed <= 0)
             speed = 50.0f;
 
-        float cruiseAlt = getCruiseAltitude(landingPoint);
-        float landingAlt = getApproachAltitude(landingPoint);
+        float cruiseAbs = getCruiseAltitude(landingPoint);
+        float landAbs = getApproachAltitude(landingPoint);
         float elevatorSpeed = 30.0f;
 
-        float ascentTime = cruiseAlt / elevatorSpeed;
-        float descentTime = (cruiseAlt - landingAlt) / elevatorSpeed;
+        float climbM = cruiseAbs - shipLoc.y;
+        if (climbM < 0.0f)
+            climbM = 0.0f;
+        float descendM = cruiseAbs - landAbs;
+        if (descendM < 0.0f)
+            descendM = 0.0f;
+
+        float ascentTime = climbM / elevatorSpeed;
+        float descentTime = descendM / elevatorSpeed;
         float cruiseTime = dist / speed;
 
         return (int)(ascentTime + cruiseTime + descentTime) + 5;

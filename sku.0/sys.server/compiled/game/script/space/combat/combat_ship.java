@@ -1331,10 +1331,26 @@ public class combat_ship extends script.base_script
         String cardinal = getBearingCardinal(bearing);
 
         float estSpeed = getShipEngineSpeedMaximum(self) * 2.5f;
-        String eta = formatFullETA(dist, estSpeed, AUTOPILOT_TAKEOFF_ALT, AUTOPILOT_LANDING_ALT);
+        if (estSpeed <= 0.0f)
+            estSpeed = 50.0f;
 
+        float terrainHere = getHeightAtLocation(shipLoc.x, shipLoc.z);
+        float cruiseYTarget = terrainHere + takeoffAlt;
         float terrainAtDest = getHeightAtLocation(targetX, targetZ);
-        float landingY = terrainAtDest + AUTOPILOT_LANDING_ALT;
+        float landingY = terrainAtDest + landingAlt;
+
+        float climbM = cruiseYTarget - shipLoc.y;
+        if (climbM < 0.0f)
+            climbM = 0.0f;
+        float descendM = cruiseYTarget - landingY;
+        if (descendM < 0.0f)
+            descendM = 0.0f;
+        float tVert = (climbM + descendM) / ELEVATOR_SPEED;
+        float cruiseTime = dist / estSpeed;
+        int etaTotal = (int)(tVert + cruiseTime) + 5;
+        int etaMins = etaTotal / 60;
+        int etaSecs = etaTotal % 60;
+        String eta = etaMins > 0 ? (etaMins + "m " + etaSecs + "s") : (etaSecs + "s");
 
         playSoundOnShipOccupants(self, SND_COMM);
 
@@ -1349,7 +1365,7 @@ public class combat_ship extends script.base_script
         broadcastToShip(self, "\\#aaddff  Est. Arrival: " + eta);
         broadcastToShip(self, " ");
         broadcastToShip(self, "\\#88bbdd   All hands, prepare for departure.");
-        broadcastToShip(self, "\\#88bbdd   Ascending to cruise altitude " + formatCoord(AUTOPILOT_TAKEOFF_ALT) + "m...");
+        broadcastToShip(self, "\\#88bbdd   Ascending to cruise altitude " + formatCoord(cruiseYTarget) + "m...");
         broadcastToShip(self, " ");
 
         messageTo(self, "shipAutoPilotTick", null, AUTOPILOT_MONITOR_RATE, false);
