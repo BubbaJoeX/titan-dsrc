@@ -1719,17 +1719,30 @@ public class combat_ship extends script.base_script
     public static final int SUMMON_FOLLOW_COST_PER_HOUR = 20000;
     /** Paid orbit mode: one-time activation + per-shot turret billing when firing from the ship datapad (see {@code space_turret}). */
     public static final String OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE = "space.summon.bombardment_orbit_active";
+    /** When true with {@link #OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE}: track over the owner at {@link #SUMMON_BOMBARDMENT_ORBIT_AGL}; when false: circular bombardment orbit. */
+    public static final String OV_SUMMON_BOMBARDMENT_FOLLOW_TRACK = "space.summon.bombardment_follow_track";
     public static final int SUMMON_BOMBARDMENT_ORBIT_ACTIVATION_COST = 50000;
     public static final int SUMMON_BOMBARDMENT_CREDIT_PER_SHOT = 1000;
     /** Cruise height above terrain (m) for bombardment orbit — low hold (standard auto-follow uses {@link #SUMMON_FOLLOW_TAKEOFF_ALT}). */
     public static final float SUMMON_BOMBARDMENT_ORBIT_AGL = 100.0f;
     /** Max horizontal distance (m) from ship to picked ground point for datapad bombardment. */
     public static final float SUMMON_BOMBARDMENT_INSTANT_HORIZONTAL_RANGE = 4000.0f;
+    /** Wider path than {@link #SUMMON_FOLLOW_ORBIT_RADIUS} so turns are gentler. */
+    public static final float SUMMON_BOMBARDMENT_ORBIT_RADIUS = 300.0f;
+    /** Radians added per bombardment follow tick — lower = slower orbit. */
+    public static final float SUMMON_BOMBARDMENT_ORBIT_RAD_PER_TICK = 0.028f;
+    /** Blend toward ideal orbit waypoint each tick (0..1); lower = softer path / easier turns. */
+    public static final float SUMMON_BOMBARDMENT_ORBIT_TARGET_LERP = 0.2f;
     public static final float SUMMON_FOLLOW_ORBIT_RADIUS = 190.0f;
     public static final float SUMMON_FOLLOW_TAKEOFF_ALT = 880.0f;
     public static final float SUMMON_FOLLOW_LANDING_ALT = 420.0f;
     /** Billing / target refresh while auto-follow is active (engine updates heading each alter). */
     private static final int SUMMON_FOLLOW_TICK_S = 5;
+    /** Slower tick for bombardment orbit so autopilot target moves gradually. */
+    private static final int SUMMON_BOMBARDMENT_FOLLOW_TICK_S = 8;
+    private static final String OV_SUMMON_BOMBARD_ORBIT_ANGLE = "space.summon.bombard_orbit_angle";
+    private static final String OV_SUMMON_BOMBARD_SMOOTH_X = "space.summon.bombard_smooth_x";
+    private static final String OV_SUMMON_BOMBARD_SMOOTH_Z = "space.summon.bombard_smooth_z";
 
     private void clearSummonFollowMode(obj_id ship) throws InterruptedException
     {
@@ -1738,6 +1751,10 @@ public class combat_ship extends script.base_script
         removeObjVar(ship, OV_SUMMON_FOLLOW_OWNER);
         removeObjVar(ship, OV_SUMMON_FOLLOW_CRUISE_HOLD);
         removeObjVar(ship, OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE);
+        removeObjVar(ship, OV_SUMMON_BOMBARDMENT_FOLLOW_TRACK);
+        removeObjVar(ship, OV_SUMMON_BOMBARD_ORBIT_ANGLE);
+        removeObjVar(ship, OV_SUMMON_BOMBARD_SMOOTH_X);
+        removeObjVar(ship, OV_SUMMON_BOMBARD_SMOOTH_Z);
     }
 
     public int summonFollowDisable(obj_id self, dictionary params) throws InterruptedException
@@ -1774,7 +1791,12 @@ public class combat_ship extends script.base_script
         if (hasObjVar(self, OV_SUMMON_FOLLOW_ACTIVE) && getBooleanObjVar(self, OV_SUMMON_FOLLOW_ACTIVE))
         {
             if (hasObjVar(self, OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE) && getBooleanObjVar(self, OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE))
-                sendSystemMessageTestingOnly(owner, "\\#ffaa44[Navicomputer]: Bombardment orbit is active. Disable it first to use standard auto-follow.");
+            {
+                if (hasObjVar(self, OV_SUMMON_BOMBARDMENT_FOLLOW_TRACK) && getBooleanObjVar(self, OV_SUMMON_BOMBARDMENT_FOLLOW_TRACK))
+                    sendSystemMessageTestingOnly(owner, "\\#ffaa44[Navicomputer]: Orbital bombardment follow is active. Disable it first to use standard auto-follow.");
+                else
+                    sendSystemMessageTestingOnly(owner, "\\#ffaa44[Navicomputer]: Bombardment circle orbit is active. Disable it first to use standard auto-follow.");
+            }
             else
                 sendSystemMessageTestingOnly(owner, "\\#ffaa44[Navicomputer]: Auto-follow is already active.");
             return SCRIPT_CONTINUE;
@@ -1875,6 +1897,7 @@ public class combat_ship extends script.base_script
         setObjVar(self, OV_SUMMON_FOLLOW_ACTIVE, true);
         setObjVar(self, OV_SUMMON_FOLLOW_OWNER, owner);
         setObjVar(self, OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE, true);
+        setObjVar(self, OV_SUMMON_BOMBARDMENT_FOLLOW_TRACK, false);
         setObjVar(self, OV_SUMMON_FOLLOW_NEXT_BILL, getGameTime() + 86400 * 365);
 
         location playerLoc = getWorldLocation(owner);
@@ -1900,7 +1923,86 @@ public class combat_ship extends script.base_script
 
         sendSystemMessageTestingOnly(owner, "\\#00ff88[Navicomputer]: Bombardment orbit enabled. " + SUMMON_BOMBARDMENT_ORBIT_ACTIVATION_COST + " credits charged.");
         sendSystemMessageTestingOnly(owner, "\\#aaddff  Use \"Bombard ground target\" on your ship datapad: " + SUMMON_BOMBARDMENT_CREDIT_PER_SHOT + " credits per successful turret shot (when in range).");
-        messageTo(self, "summonFollowTick", null, SUMMON_FOLLOW_TICK_S, false);
+        messageTo(self, "summonFollowTick", null, SUMMON_BOMBARDMENT_FOLLOW_TICK_S, false);
+        return SCRIPT_CONTINUE;
+    }
+
+    /** Same billing as {@link #summonBombardmentOrbitEnable}, but the ship stays over the owner at {@link #SUMMON_BOMBARDMENT_ORBIT_AGL} m AGL (track), not a wide circle. */
+    public int summonBombardmentFollowEnable(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (!isAtmosphericFlightScene())
+            return SCRIPT_CONTINUE;
+
+        obj_id owner = params.getObjId("owner");
+        if (!isIdValid(owner) || getOwner(self) != owner)
+            return SCRIPT_CONTINUE;
+
+        if (hasObjVar(self, "atmo.landing.docked"))
+        {
+            sendSystemMessageTestingOnly(owner, "\\#ff4444[Navicomputer]: Undock before enabling bombardment follow.");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (hasObjVar(self, OV_SUMMON_FOLLOW_ACTIVE) && getBooleanObjVar(self, OV_SUMMON_FOLLOW_ACTIVE))
+        {
+            if (hasObjVar(self, OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE) && getBooleanObjVar(self, OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE))
+                sendSystemMessageTestingOnly(owner, "\\#ffaa44[Navicomputer]: Bombardment mode is already active.");
+            else
+                sendSystemMessageTestingOnly(owner, "\\#ff4444[Navicomputer]: Disable standard auto-follow first, then enable bombardment follow.");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (isIdValid(getPilotId(self)))
+        {
+            sendSystemMessageTestingOnly(owner, "\\#ff4444[Navicomputer]: Bombardment follow cannot start while a pilot has the helm.");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (getTotalMoney(owner) < SUMMON_BOMBARDMENT_ORBIT_ACTIVATION_COST)
+        {
+            sendSystemMessageTestingOnly(owner, "\\#ff4444[Navicomputer]: You need at least " + SUMMON_BOMBARDMENT_ORBIT_ACTIVATION_COST + " credits to activate bombardment follow.");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (!transferBankCreditsToNamedAccount(owner, money.ACCT_TRAVEL, SUMMON_BOMBARDMENT_ORBIT_ACTIVATION_COST, "noHandler", "noHandler", new dictionary()))
+        {
+            sendSystemMessageTestingOnly(owner, "\\#ff4444[Navicomputer]: Payment failed. Bombardment follow not started.");
+            return SCRIPT_CONTINUE;
+        }
+
+        setObjVar(self, OV_SUMMON_FOLLOW_ACTIVE, true);
+        setObjVar(self, OV_SUMMON_FOLLOW_OWNER, owner);
+        setObjVar(self, OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE, true);
+        setObjVar(self, OV_SUMMON_BOMBARDMENT_FOLLOW_TRACK, true);
+        setObjVar(self, OV_SUMMON_FOLLOW_NEXT_BILL, getGameTime() + 86400 * 365);
+        removeObjVar(self, OV_SUMMON_BOMBARD_ORBIT_ANGLE);
+        removeObjVar(self, OV_SUMMON_BOMBARD_SMOOTH_X);
+        removeObjVar(self, OV_SUMMON_BOMBARD_SMOOTH_Z);
+
+        location playerLoc = getWorldLocation(owner);
+        dictionary wp = new dictionary();
+        wp.put("x", playerLoc.x);
+        wp.put("z", playerLoc.z);
+        wp.put("owner", owner);
+        wp.put("summon", true);
+        wp.put("cruiseHold", true);
+        wp.put("takeoffAlt", SUMMON_BOMBARDMENT_ORBIT_AGL);
+        wp.put("landingAlt", SUMMON_BOMBARDMENT_ORBIT_AGL);
+        shipSummonEngage(self, wp);
+
+        if (!hasObjVar(self, OV_AUTOPILOT_ACTIVE))
+        {
+            clearSummonFollowMode(self);
+            if (transferBankCreditsFromNamedAccount(money.ACCT_TRAVEL, owner, SUMMON_BOMBARDMENT_ORBIT_ACTIVATION_COST, "noHandler", "noHandler", new dictionary()))
+                sendSystemMessageTestingOnly(owner, "\\#ffaa44[Navicomputer]: Navicomputer could not engage. Your payment was refunded.");
+            else
+                sendSystemMessageTestingOnly(owner, "\\#ff4444[Navicomputer]: Bombardment follow cancelled — refund failed. Contact support if credits are missing.");
+            return SCRIPT_CONTINUE;
+        }
+
+        sendSystemMessageTestingOnly(owner, "\\#00ff88[Navicomputer]: Orbital bombardment follow enabled (" + (int) SUMMON_BOMBARDMENT_ORBIT_AGL + " m AGL). " + SUMMON_BOMBARDMENT_ORBIT_ACTIVATION_COST + " credits charged.");
+        sendSystemMessageTestingOnly(owner, "\\#aaddff  The ship tracks your position. \"Bombard ground target\": " + SUMMON_BOMBARDMENT_CREDIT_PER_SHOT + " cr per successful shot (when in range).");
+        messageTo(self, "summonFollowTick", null, SUMMON_BOMBARDMENT_FOLLOW_TICK_S, false);
         return SCRIPT_CONTINUE;
     }
 
@@ -1928,6 +2030,9 @@ public class combat_ship extends script.base_script
             return SCRIPT_CONTINUE;
         }
 
+        boolean bombardmentOrbit = hasObjVar(self, OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE) && getBooleanObjVar(self, OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE);
+        int followTickS = bombardmentOrbit ? SUMMON_BOMBARDMENT_FOLLOW_TICK_S : SUMMON_FOLLOW_TICK_S;
+
         if (isIdValid(getPilotId(self)))
         {
             clearSummonFollowMode(self);
@@ -1937,13 +2042,12 @@ public class combat_ship extends script.base_script
 
         if (space_transition.getContainingShip(owner) == self)
         {
-            messageTo(self, "summonFollowTick", null, SUMMON_FOLLOW_TICK_S, false);
+            messageTo(self, "summonFollowTick", null, followTickS, false);
             return SCRIPT_CONTINUE;
         }
 
         int now = getGameTime();
         int nextBill = getIntObjVar(self, OV_SUMMON_FOLLOW_NEXT_BILL);
-        boolean bombardmentOrbit = hasObjVar(self, OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE) && getBooleanObjVar(self, OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE);
         if (!bombardmentOrbit && now >= nextBill)
         {
             if (getTotalMoney(owner) < SUMMON_FOLLOW_COST_PER_HOUR)
@@ -1971,26 +2075,116 @@ public class combat_ship extends script.base_script
         if (cruiseHold && shipIsAutopilotActive(self))
         {
             location pl = getWorldLocation(owner);
-            float angle = (now % 628) * 0.01f;
-            float tx = pl.x + (float) StrictMath.cos(angle) * SUMMON_FOLLOW_ORBIT_RADIUS;
-            float tz = pl.z + (float) StrictMath.sin(angle) * SUMMON_FOLLOW_ORBIT_RADIUS;
+            float tx;
+            float tz;
+            if (bombardmentOrbit)
+            {
+                boolean followTrack = hasObjVar(self, OV_SUMMON_BOMBARDMENT_FOLLOW_TRACK) && getBooleanObjVar(self, OV_SUMMON_BOMBARDMENT_FOLLOW_TRACK);
+                float idealX;
+                float idealZ;
+                if (followTrack)
+                {
+                    idealX = pl.x;
+                    idealZ = pl.z;
+                }
+                else
+                {
+                    float ang;
+                    if (!hasObjVar(self, OV_SUMMON_BOMBARD_ORBIT_ANGLE))
+                    {
+                        location sw = getWorldLocation(self);
+                        ang = (float) StrictMath.atan2(sw.z - pl.z, sw.x - pl.x);
+                    }
+                    else
+                    {
+                        ang = getFloatObjVar(self, OV_SUMMON_BOMBARD_ORBIT_ANGLE);
+                        ang += SUMMON_BOMBARDMENT_ORBIT_RAD_PER_TICK;
+                        float twoPi = (float) (StrictMath.PI * 2.0);
+                        if (ang >= twoPi)
+                            ang -= twoPi;
+                        else if (ang < 0f)
+                            ang += twoPi;
+                    }
+                    setObjVar(self, OV_SUMMON_BOMBARD_ORBIT_ANGLE, ang);
+                    idealX = pl.x + (float) StrictMath.cos(ang) * SUMMON_BOMBARDMENT_ORBIT_RADIUS;
+                    idealZ = pl.z + (float) StrictMath.sin(ang) * SUMMON_BOMBARDMENT_ORBIT_RADIUS;
+                }
+                float sx;
+                float sz;
+                if (!hasObjVar(self, OV_SUMMON_BOMBARD_SMOOTH_X))
+                {
+                    location sw = getWorldLocation(self);
+                    sx = sw.x;
+                    sz = sw.z;
+                }
+                else
+                {
+                    sx = getFloatObjVar(self, OV_SUMMON_BOMBARD_SMOOTH_X);
+                    sz = getFloatObjVar(self, OV_SUMMON_BOMBARD_SMOOTH_Z);
+                }
+                float l = SUMMON_BOMBARDMENT_ORBIT_TARGET_LERP;
+                sx = sx + (idealX - sx) * l;
+                sz = sz + (idealZ - sz) * l;
+                setObjVar(self, OV_SUMMON_BOMBARD_SMOOTH_X, sx);
+                setObjVar(self, OV_SUMMON_BOMBARD_SMOOTH_Z, sz);
+                tx = sx;
+                tz = sz;
+            }
+            else
+            {
+                float angle = (now % 628) * 0.01f;
+                tx = pl.x + (float) StrictMath.cos(angle) * SUMMON_FOLLOW_ORBIT_RADIUS;
+                tz = pl.z + (float) StrictMath.sin(angle) * SUMMON_FOLLOW_ORBIT_RADIUS;
+            }
             shipUpdateAutopilotTargetXZ(self, tx, tz);
             setObjVar(self, OV_AUTOPILOT_TARGET_X, tx);
             setObjVar(self, OV_AUTOPILOT_TARGET_Z, tz);
-            messageTo(self, "summonFollowTick", null, SUMMON_FOLLOW_TICK_S, false);
+            messageTo(self, "summonFollowTick", null, followTickS, false);
             return SCRIPT_CONTINUE;
         }
 
         if (shipIsAutopilotActive(self))
         {
-            messageTo(self, "summonFollowTick", null, SUMMON_FOLLOW_TICK_S, false);
+            messageTo(self, "summonFollowTick", null, followTickS, false);
             return SCRIPT_CONTINUE;
         }
 
         location pl = getWorldLocation(owner);
-        float angle = (now % 628) * 0.01f;
-        float tx = pl.x + (float) StrictMath.cos(angle) * SUMMON_FOLLOW_ORBIT_RADIUS;
-        float tz = pl.z + (float) StrictMath.sin(angle) * SUMMON_FOLLOW_ORBIT_RADIUS;
+        float tx;
+        float tz;
+        if (bombardmentOrbit)
+        {
+            boolean followTrack = hasObjVar(self, OV_SUMMON_BOMBARDMENT_FOLLOW_TRACK) && getBooleanObjVar(self, OV_SUMMON_BOMBARDMENT_FOLLOW_TRACK);
+            if (followTrack)
+            {
+                tx = pl.x;
+                tz = pl.z;
+            }
+            else
+            {
+                float ang;
+                if (!hasObjVar(self, OV_SUMMON_BOMBARD_ORBIT_ANGLE))
+                {
+                    location sw = getWorldLocation(self);
+                    ang = (float) StrictMath.atan2(sw.z - pl.z, sw.x - pl.x);
+                    setObjVar(self, OV_SUMMON_BOMBARD_ORBIT_ANGLE, ang);
+                }
+                else
+                {
+                    ang = getFloatObjVar(self, OV_SUMMON_BOMBARD_ORBIT_ANGLE);
+                }
+                tx = pl.x + (float) StrictMath.cos(ang) * SUMMON_BOMBARDMENT_ORBIT_RADIUS;
+                tz = pl.z + (float) StrictMath.sin(ang) * SUMMON_BOMBARDMENT_ORBIT_RADIUS;
+            }
+            removeObjVar(self, OV_SUMMON_BOMBARD_SMOOTH_X);
+            removeObjVar(self, OV_SUMMON_BOMBARD_SMOOTH_Z);
+        }
+        else
+        {
+            float angle = (now % 628) * 0.01f;
+            tx = pl.x + (float) StrictMath.cos(angle) * SUMMON_FOLLOW_ORBIT_RADIUS;
+            tz = pl.z + (float) StrictMath.sin(angle) * SUMMON_FOLLOW_ORBIT_RADIUS;
+        }
 
         float orbitAgl = bombardmentOrbit ? SUMMON_BOMBARDMENT_ORBIT_AGL : SUMMON_FOLLOW_TAKEOFF_ALT;
         dictionary wp = new dictionary();
@@ -2004,7 +2198,7 @@ public class combat_ship extends script.base_script
         wp.put("quietSummon", true);
         shipSummonEngage(self, wp);
 
-        messageTo(self, "summonFollowTick", null, SUMMON_FOLLOW_TICK_S, false);
+        messageTo(self, "summonFollowTick", null, followTickS, false);
         return SCRIPT_CONTINUE;
     }
 
