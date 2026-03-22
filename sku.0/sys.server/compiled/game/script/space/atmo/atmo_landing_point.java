@@ -15,6 +15,7 @@ import script.library.*;
  *   atmo.landing_point.disembark_loc - location to disembark when landed
  *   atmo.landing_point.yaw - yaw angle for ship to land at
  *   atmo.landing_point.time_to_disembark - time allowed docked (-1 = forever)
+ *   atmo.landing_point.landing_altitude - optional world Y (m) for autopilot touchdown; default is loc.y
  *   atmo.landing_point.loc_offset - optional offset for small platforms
  *
  * Extended policy (see {@link atmo_landing_manager}): map.category / map.subcategory (script metadata only;

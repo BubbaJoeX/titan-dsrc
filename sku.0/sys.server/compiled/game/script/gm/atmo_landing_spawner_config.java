@@ -18,6 +18,7 @@ public class atmo_landing_spawner_config extends script.base_script
     public static final int MENU_SET_DISEMBARK = menu_info_types.SERVER_MENU4;
     public static final int MENU_SET_YAW = menu_info_types.SERVER_MENU5;
     public static final int MENU_SET_TIME = menu_info_types.SERVER_MENU6;
+    public static final int MENU_SET_LANDING_ALT = menu_info_types.SERVER_MENU10;
     public static final int MENU_SHOW_CONFIG = menu_info_types.SERVER_MENU7;
     public static final int MENU_CLEAR_CONFIG = menu_info_types.SERVER_MENU8;
     public static final int MENU_APPLY = menu_info_types.SERVER_MENU9;
@@ -34,6 +35,7 @@ public class atmo_landing_spawner_config extends script.base_script
         mi.addSubMenu(configRoot, MENU_SET_DISEMBARK, string_id.unlocalized("Set Disembark Location"));
         mi.addSubMenu(configRoot, MENU_SET_YAW, string_id.unlocalized("Set Yaw Angle"));
         mi.addSubMenu(configRoot, MENU_SET_TIME, string_id.unlocalized("Set Time Limit"));
+        mi.addSubMenu(configRoot, MENU_SET_LANDING_ALT, string_id.unlocalized("Set Landing Altitude"));
         mi.addSubMenu(configRoot, MENU_SHOW_CONFIG, string_id.unlocalized("Show Configuration"));
         mi.addSubMenu(configRoot, MENU_CLEAR_CONFIG, string_id.unlocalized("Clear Configuration"));
         mi.addSubMenu(configRoot, MENU_APPLY, string_id.unlocalized("Apply & Activate"));
@@ -65,6 +67,10 @@ public class atmo_landing_spawner_config extends script.base_script
         else if (item == menu_info_types.SERVER_MENU6)
         {
             showSetTimeUI(self, player);
+        }
+        else if (item == MENU_SET_LANDING_ALT)
+        {
+            showSetLandingAltitudeUI(self, player);
         }
         else if (item == menu_info_types.SERVER_MENU7)
         {
@@ -226,6 +232,55 @@ public class atmo_landing_spawner_config extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
+    private void showSetLandingAltitudeUI(obj_id self, obj_id player) throws InterruptedException
+    {
+        String current = "";
+        if (hasObjVar(self, atmo_landing_registry.OBJVAR_LANDING_ALTITUDE))
+            current = String.valueOf(getFloatObjVar(self, atmo_landing_registry.OBJVAR_LANDING_ALTITUDE));
+
+        String title = "Set Landing Altitude";
+        String prompt = "World Y (meters) for autopilot touchdown.\n\nLeave empty and OK to clear (use fly-to location Y).\n\nCurrent: "
+            + (current.isEmpty() ? "(from landing loc Y)" : current);
+
+        sui.inputbox(self, player, prompt, title, "handleSetLandingAltitude", current);
+    }
+
+    public int handleSetLandingAltitude(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        int bp = sui.getIntButtonPressed(params);
+
+        if (bp != sui.BP_OK)
+            return SCRIPT_CONTINUE;
+
+        String input = sui.getInputBoxText(params);
+        if (input == null)
+            input = "";
+        input = input.trim();
+
+        if (input.isEmpty())
+        {
+            removeObjVar(self, atmo_landing_registry.OBJVAR_LANDING_ALTITUDE);
+            sendSystemMessageTestingOnly(player, "\\#00ff88[GM]: Landing altitude cleared — autopilot will use landing location Y.");
+            return SCRIPT_CONTINUE;
+        }
+
+        float alt;
+        try
+        {
+            alt = Float.parseFloat(input);
+        }
+        catch (NumberFormatException e)
+        {
+            sendSystemMessageTestingOnly(player, "\\#ff4444[GM]: Invalid number. Enter altitude in meters (e.g. 125.5).");
+            return SCRIPT_CONTINUE;
+        }
+
+        setObjVar(self, atmo_landing_registry.OBJVAR_LANDING_ALTITUDE, alt);
+        sendSystemMessageTestingOnly(player, "\\#00ff88[GM]: Landing altitude set to Y = " + alt + " m");
+        return SCRIPT_CONTINUE;
+    }
+
     private void showCurrentConfig(obj_id self, obj_id player) throws InterruptedException
     {
         sendSystemMessageTestingOnly(player, "\\#00ccff========================================");
@@ -241,6 +296,10 @@ public class atmo_landing_spawner_config extends script.base_script
         {
             location loc = getLocationObjVar(self, atmo_landing_registry.OBJVAR_LOC);
             sendSystemMessageTestingOnly(player, "\\#aaddff  Location: [" + Math.round(loc.x) + ", " + Math.round(loc.y) + ", " + Math.round(loc.z) + "]");
+            if (hasObjVar(self, atmo_landing_registry.OBJVAR_LANDING_ALTITUDE))
+                sendSystemMessageTestingOnly(player, "\\#aaddff  Landing altitude Y: " + getFloatObjVar(self, atmo_landing_registry.OBJVAR_LANDING_ALTITUDE) + " m (override)");
+            else
+                sendSystemMessageTestingOnly(player, "\\#778899  Landing altitude Y: (uses location Y: " + Math.round(loc.y) + ")");
         }
         else
             sendSystemMessageTestingOnly(player, "\\#ff4444  Location: (NOT SET)");

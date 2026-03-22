@@ -17,6 +17,8 @@ public class atmo_landing_registry extends script.base_script
     public static final String OBJVAR_YAW = OBJVAR_ROOT + ".yaw";
     public static final String OBJVAR_NAME = OBJVAR_ROOT + ".name";
     public static final String OBJVAR_TIME_TO_DISEMBARK = OBJVAR_ROOT + ".time_to_disembark";
+    /** Optional world Y (meters) for autopilot landing height; if unset, {@link #getApproachAltitude} uses {@code loc.y}. */
+    public static final String OBJVAR_LANDING_ALTITUDE = OBJVAR_ROOT + ".landing_altitude";
     public static final String OBJVAR_LOC_OFFSET = OBJVAR_ROOT + ".loc_offset";
     public static final String OBJVAR_OCCUPIED_BY = OBJVAR_ROOT + ".occupied_by";
     public static final String OBJVAR_OCCUPIED_ETA = OBJVAR_ROOT + ".occupied_eta";
@@ -345,13 +347,16 @@ public class atmo_landing_registry extends script.base_script
     }
 
     /**
-     * Get landing altitude for a landing point (uses loc.y directly from the landing point).
+     * World Y (meters) the ship should use as landing altitude for autopilot.
+     * Uses {@link #OBJVAR_LANDING_ALTITUDE} when set; otherwise {@code loc.y} from the fly-to location.
      */
     public static float getApproachAltitude(obj_id landingPoint) throws InterruptedException
     {
         location loc = getLandingLocation(landingPoint);
         if (loc == null)
             return 50.0f;
+        if (hasObjVar(landingPoint, OBJVAR_LANDING_ALTITUDE))
+            return getFloatObjVar(landingPoint, OBJVAR_LANDING_ALTITUDE);
         return loc.y;
     }
 

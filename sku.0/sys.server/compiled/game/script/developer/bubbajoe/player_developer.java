@@ -823,11 +823,27 @@ public class player_developer extends base_script
             boolean setDockTime = false;
             int accessMode = atmo_landing_manager.ACCESS_PUBLIC;
             boolean setAccessMode = false;
+            float landingAltitudeM = 0.0f;
+            boolean setLandingAltitude = false;
 
             Vector nameTokens = new Vector();
             while (tok.hasMoreTokens())
             {
                 String t = tok.nextToken();
+                if (t.equalsIgnoreCase("--alt") && tok.hasMoreTokens())
+                {
+                    try
+                    {
+                        landingAltitudeM = Float.parseFloat(tok.nextToken());
+                        setLandingAltitude = true;
+                    }
+                    catch (NumberFormatException e)
+                    {
+                        broadcast(self, "\\#ff4444[Landing Point]: --alt requires a number (world Y meters).");
+                        return SCRIPT_CONTINUE;
+                    }
+                    continue;
+                }
                 if (t.equalsIgnoreCase("--cat") && tok.hasMoreTokens())
                 {
                     mapCat = tok.nextToken();
@@ -887,6 +903,9 @@ public class player_developer extends base_script
             else
                 setObjVar(egg, atmo_landing_registry.OBJVAR_TIME_TO_DISEMBARK, -1);
 
+            if (setLandingAltitude)
+                setObjVar(egg, atmo_landing_registry.OBJVAR_LANDING_ALTITUDE, landingAltitudeM);
+
             if (mapCat != null && mapCat.length() > 0)
                 setObjVar(egg, atmo_landing_manager.OBJVAR_MAP_CATEGORY, mapCat);
             if (mapSub != null && mapSub.length() > 0)
@@ -909,13 +928,13 @@ public class player_developer extends base_script
                 : "Landing Point (Unconfigured)";
             setName(egg, displayName);
 
-            boolean anyFlag = setDockTime || setAccessMode || (mapCat != null && mapCat.length() > 0) || (mapSub != null && mapSub.length() > 0);
+            boolean anyFlag = setDockTime || setAccessMode || setLandingAltitude || (mapCat != null && mapCat.length() > 0) || (mapSub != null && mapSub.length() > 0);
 
             broadcast(self, "\\#00ff88[Landing Point]: Spawn egg created at your location.");
             broadcast(self, "\\#aaddff  Location: [" + Math.round(playerLoc.x) + ", " + Math.round(playerLoc.y) + ", " + Math.round(playerLoc.z) + "]");
             broadcast(self, "\\#aaddff  Yaw: " + Math.round(yaw) + " degrees");
             if (name.length() == 0 && !anyFlag)
-                broadcast(self, "\\#778899  Optional: name, --time <sec>, --access <0-4>; --cat/--sub = script metadata only (map is always atmo_landing).");
+                broadcast(self, "\\#778899  Optional: name, --alt <world Y m>, --time <sec>, --access <0-4>; --cat/--sub = script metadata only.");
 
             if (hasObjVar(egg, atmo_landing_registry.OBJVAR_NAME))
             {
@@ -933,6 +952,8 @@ public class player_developer extends base_script
                 broadcast(self, "\\#aaddff  map.subcategory (script only): " + mapSub);
             if (setDockTime)
                 broadcast(self, "\\#aaddff  Dock time (sec): " + dockTimeSeconds);
+            if (setLandingAltitude)
+                broadcast(self, "\\#aaddff  Landing altitude Y (m): " + landingAltitudeM);
             if (setAccessMode && accessMode >= atmo_landing_manager.ACCESS_PUBLIC && accessMode <= atmo_landing_manager.ACCESS_GM_ONLY)
                 broadcast(self, "\\#aaddff  Access mode: " + accessMode);
 
