@@ -12,6 +12,7 @@ package script.ai;/*
 
 import script.*;
 import script.library.*;
+import script.space.combat.combat_ship;
 
 import java.util.ArrayList;
 import java.util.List;
