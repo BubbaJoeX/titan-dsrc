@@ -123,6 +123,9 @@ public class space_turret extends script.base_script
         {
             return 0;
         }
+        // Record who initiated this ground strike so kill credit can resolve to the turret user.
+        utils.setScriptVar(ship, xp.VAR_SHIP_GROUND_ATTACK_CREDIT_PLAYER, payer);
+        utils.setScriptVar(ship, xp.VAR_SHIP_GROUND_ATTACK_CREDIT_TIME, getGameTime());
         int fired = 0;
         int[] slots = getShipChassisSlots(ship);
         if (slots == null)

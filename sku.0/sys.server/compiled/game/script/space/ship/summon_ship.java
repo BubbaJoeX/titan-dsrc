@@ -110,24 +110,24 @@ public class summon_ship extends script.base_script
 
         if (aboard)
         {
-            entries.add("Land at landing point…");
+            entries.add("Land at landing point.");
             actions.add("land");
         }
         else
         {
-            entries.add("Summon ship to my location");
+            entries.add("Summon ship to my location.");
             actions.add("summon");
 
             if (bombardmentOn)
             {
-                entries.add("Return to landing altitude (ends bombardment)");
+                entries.add("Return to landing altitude (ends bombardment).");
                 actions.add("return_landing");
-                entries.add("Disable bombardment (orbit / follow)");
+                entries.add("Disable bombardment (orbit / follow).");
                 actions.add("follow_disable");
             }
             else if (normalFollowOn)
             {
-                entries.add("Return to landing altitude (ends auto-follow)");
+                entries.add("Return to landing altitude (ends auto-follow).");
                 actions.add("return_landing");
                 entries.add("Disable auto-follow");
                 actions.add("follow_disable");
@@ -144,7 +144,7 @@ public class summon_ship extends script.base_script
                 actions.add("bombardment_follow_enable");
             }
 
-            entries.add("Remote land at landing point…");
+            entries.add("Remote land at landing point...");
             actions.add("remote_land");
         }
 

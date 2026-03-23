@@ -1450,10 +1450,78 @@ public class ai extends script.base_script
         if (hasLoot)
         {
             corpse.showLootMeParticle(self);
+            autoLootShipToGroundKills(self, pks);
         }
         setObjVar(self, "readyToLoot", true);
         xp.cleanupCreditForKills();
         return SCRIPT_CONTINUE;
+    }
+    public void autoLootShipToGroundKills(obj_id self, obj_id[] pks) throws InterruptedException
+    {
+        if (!isIdValid(self) || pks == null || pks.length == 0)
+        {
+            return;
+        }
+        obj_id deathblowAttacker = getObjIdObjVar(self, xp.VAR_LANDED_DEATHBLOW);
+        boolean shipDeathblow = isIdValid(deathblowAttacker) && space_utils.isPlayerControlledShip(deathblowAttacker);
+        obj_id lootBox = obj_id.NULL_ID;
+        obj_id fallbackInv = obj_id.NULL_ID;
+        for (obj_id killer : pks)
+        {
+            if (!isIdValid(killer) || !isPlayer(killer))
+            {
+                continue;
+            }
+            if (!isIdValid(fallbackInv))
+            {
+                obj_id killerInv = utils.getInventoryContainer(killer);
+                if (isIdValid(killerInv))
+                {
+                    fallbackInv = killerInv;
+                }
+            }
+            if (!shipDeathblow)
+            {
+                continue;
+            }
+            obj_id killerShip = space_transition.getContainingShip(killer);
+            if (!isIdValid(killerShip) || killerShip != deathblowAttacker)
+            {
+                continue;
+            }
+            if (hasObjVar(killerShip, "objLootBox"))
+            {
+                lootBox = getObjIdObjVar(killerShip, "objLootBox");
+                if (isIdValid(lootBox))
+                {
+                    break;
+                }
+            }
+        }
+        obj_id targetContainer = lootBox;
+        if (!isIdValid(targetContainer))
+        {
+            targetContainer = fallbackInv;
+        }
+        if (!isIdValid(targetContainer))
+        {
+            return;
+        }
+        obj_id corpseInv = utils.getInventoryContainer(self);
+        if (!isIdValid(corpseInv))
+        {
+            return;
+        }
+        obj_id[] lootItems = getContents(corpseInv);
+        if (lootItems == null || lootItems.length == 0)
+        {
+            return;
+        }
+        int moved = moveObjects(lootItems, targetContainer);
+        if (moved > 0)
+        {
+            corpse.clearLootMeParticle(self);
+        }
     }
 
     public int corpseCleanup(obj_id self, dictionary params) throws InterruptedException

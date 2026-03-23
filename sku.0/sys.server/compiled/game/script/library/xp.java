@@ -110,6 +110,10 @@ public class xp extends script.base_script
     public static final String VAR_DAMAGE_TALLY = VAR_CREDIT_FOR_KILLS + ".damageTally";
     public static final String VAR_DAMAGE_COUNT = VAR_CREDIT_FOR_KILLS + ".damageCount";
     public static final String VAR_COMBAT_TIMESTAMP = VAR_CREDIT_FOR_KILLS + ".timestamp";
+    public static final String VAR_SHIP_GROUND_ATTACK_CREDIT_BASE = "space.groundAttackCredit";
+    public static final String VAR_SHIP_GROUND_ATTACK_CREDIT_PLAYER = VAR_SHIP_GROUND_ATTACK_CREDIT_BASE + ".player";
+    public static final String VAR_SHIP_GROUND_ATTACK_CREDIT_TIME = VAR_SHIP_GROUND_ATTACK_CREDIT_BASE + ".time";
+    public static final int SHIP_GROUND_ATTACK_CREDIT_WINDOW = 10;
     public static final int MAX_PLAYERS = 30;
     public static final int MAX_DISTANCE = 190;
     public static final double PRIM_KILL_PERCENT = 0.2;
@@ -643,6 +647,11 @@ public class xp extends script.base_script
         {
             return;
         }
+        attacker = resolveGroundCombatCreditAttacker(attacker);
+        if (!isIdValid(attacker))
+        {
+            return;
+        }
         if (!utils.hasScriptVar(target, VAR_COMBAT_TIMESTAMP))
         {
             utils.setScriptVar(target, VAR_COMBAT_TIMESTAMP, getGameTime());
@@ -700,6 +709,39 @@ public class xp extends script.base_script
             int xpTally = dam + utils.getIntScriptVar(target, xpTypePath);
             utils.setScriptVar(target, xpTypePath, xpTally);
         }
+    }
+    public static obj_id resolveGroundCombatCreditAttacker(obj_id attacker) throws InterruptedException
+    {
+        if (!isIdValid(attacker))
+        {
+            return attacker;
+        }
+        if (isPlayer(attacker) || pet_lib.isPet(attacker) || beast_lib.isBeast(attacker))
+        {
+            return attacker;
+        }
+        if (!space_utils.isPlayerControlledShip(attacker))
+        {
+            return attacker;
+        }
+        int now = getGameTime();
+        obj_id turretShooter = utils.getObjIdScriptVar(attacker, VAR_SHIP_GROUND_ATTACK_CREDIT_PLAYER);
+        int creditTime = utils.getIntScriptVar(attacker, VAR_SHIP_GROUND_ATTACK_CREDIT_TIME);
+        if (isIdValid(turretShooter) && isPlayer(turretShooter) && creditTime > 0 && (now - creditTime) <= SHIP_GROUND_ATTACK_CREDIT_WINDOW)
+        {
+            return turretShooter;
+        }
+        obj_id pilot = space_utils.getPilotForRealsies(attacker);
+        if (isIdValid(pilot) && isPlayer(pilot))
+        {
+            return pilot;
+        }
+        obj_id owner = getOwner(attacker);
+        if (isIdValid(owner) && isPlayer(owner))
+        {
+            return owner;
+        }
+        return attacker;
     }
     public static void removeXpListCombatant(obj_id target, obj_id combatant) throws InterruptedException
     {

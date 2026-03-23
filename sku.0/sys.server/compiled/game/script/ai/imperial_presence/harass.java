@@ -344,6 +344,12 @@ public class harass extends script.base_script
             enterCheckpointMode(self);
             return false;
         }
+        location targetLocation = getLocation(target);
+        if (targetLocation == null || isIdValid(targetLocation.cell))
+        {
+            enterCheckpointMode(self);
+            return false;
+        }
         if (isIdValid(target) && target.isLoaded())
         {
             utils.setScriptVar(target, "being_scanned", 1);
@@ -368,6 +374,17 @@ public class harass extends script.base_script
     public int followHarass(obj_id self, dictionary params) throws InterruptedException
     {
         obj_id target = utils.getObjIdScriptVar(self, SCRIPTVAR_TARGET);
+        if (!isIdValid(target))
+        {
+            enterCheckpointMode(self);
+            return SCRIPT_CONTINUE;
+        }
+        location targetLocation = getLocation(target);
+        if (targetLocation == null || isIdValid(targetLocation.cell))
+        {
+            enterCheckpointMode(self);
+            return SCRIPT_CONTINUE;
+        }
         ai_lib.aiFollow(self, target);
         return SCRIPT_CONTINUE;
     }
