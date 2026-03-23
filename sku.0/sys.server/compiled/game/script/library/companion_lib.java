@@ -529,6 +529,26 @@ public class companion_lib extends script.base_script
         return isIdValid(pet) && exists(pet) && hasObjVar(pet, OBJVAR_STORY_COMPANION_ID);
     }
     /**
+     * {@link pet_lib#createPetFromData} spawns a fresh creature; copy roster identity from the PCD so scripts
+     * ({@link #isStoryCompanionPet}, incap rules, pet bar) match the first grant.
+     */
+    public static void copyStoryCompanionIdentityFromPcdToPet(obj_id pcd, obj_id pet) throws InterruptedException
+    {
+        if (!isIdValid(pcd) || !exists(pcd) || !isIdValid(pet) || !exists(pet))
+        {
+            return;
+        }
+        if (!isStoryCompanionControlDevice(pcd))
+        {
+            return;
+        }
+        copyObjVar(pcd, pet, OBJVAR_STORY_COMPANION_ID);
+        if (hasObjVar(pcd, OBJVAR_COMBAT_STANCE))
+        {
+            copyObjVar(pcd, pet, OBJVAR_COMBAT_STANCE);
+        }
+    }
+    /**
      * Creature that should receive BM pet-bar commands: a called beast-master pet if any, else an active story companion combat pet.
      */
     public static obj_id getPetBarCombatCreature(obj_id player) throws InterruptedException

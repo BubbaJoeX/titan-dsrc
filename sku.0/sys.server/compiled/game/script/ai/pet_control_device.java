@@ -484,6 +484,7 @@ public class pet_control_device extends script.base_script
         obj_id pet = callable.getCDCallable(pcd);
         if (isIdValid(pet) && companion_lib.isStoryCompanionControlDevice(pcd))
         {
+            companion_lib.copyStoryCompanionIdentityFromPcdToPet(pcd, pet);
             pet_lib.setCraftedPetStatsByGrowth(pcd, pet, 10);
         }
         if (pet_lib.isMountPcd(pcd))
@@ -1950,7 +1951,9 @@ public class pet_control_device extends script.base_script
             return SCRIPT_CONTINUE;
         }
         int petType = pet_lib.getPetType(calledPet, self);
-        if (pet_lib.countPetsOfType(self, petType) > pet_lib.getMaxPets(self, petType))
+        obj_id datapad = getContainedBy(self);
+        obj_id master = isIdValid(datapad) ? getContainedBy(datapad) : null;
+        if (isIdValid(master) && beast_lib.isValidPlayer(master) && pet_lib.countPetsOfType(master, petType) > pet_lib.getMaxPets(master, petType))
         {
             messageTo(calledPet, "handlePackRequest", null, 1, false);
         }

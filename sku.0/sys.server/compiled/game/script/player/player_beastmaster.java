@@ -739,7 +739,14 @@ public class player_beastmaster extends script.base_script
             sendSystemMessage(self, new string_id("spam", "pet_beyond_healing"));
             return SCRIPT_OVERRIDE;
         }
-        beast_lib.doAttackCommand(beast, self);
+        if (companion_lib.isStoryCompanionPet(beast))
+        {
+            pet_lib.doAttackCommand(beast, self);
+        }
+        else 
+        {
+            beast_lib.doAttackCommand(beast, self);
+        }
         return SCRIPT_CONTINUE;
     }
     public int bm_pet_trick_1(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException

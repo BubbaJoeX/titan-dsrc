@@ -3572,10 +3572,13 @@ public class pet_lib extends script.base_script
             maxDamage = 10;
         }
         obj_id creatureWeapon = getCurrentWeapon(pet);
-        setWeaponMaxDamage(creatureWeapon, maxDamage);
-        setWeaponMinDamage(creatureWeapon, minDamage);
-        setWeaponAttackSpeed(creatureWeapon, wpnSpeed);
-        weapons.setWeaponData(creatureWeapon);
+        if (isIdValid(creatureWeapon))
+        {
+            setWeaponMaxDamage(creatureWeapon, maxDamage);
+            setWeaponMinDamage(creatureWeapon, minDamage);
+            setWeaponAttackSpeed(creatureWeapon, wpnSpeed);
+            weapons.setWeaponData(creatureWeapon);
+        }
         creatureWeapon = aiGetPrimaryWeapon(pet);
         if (isIdValid(creatureWeapon))
         {
@@ -4425,6 +4428,10 @@ public class pet_lib extends script.base_script
     }
     public static boolean cancelAttackDueToFactionalRestrictions(obj_id pet, obj_id target) throws InterruptedException
     {
+        if (companion_lib.isStoryCompanionPet(pet))
+        {
+            return false;
+        }
         obj_id master = getMaster(pet);
         if (!isIdValid(master) || !exists(master) || !master.isLoaded())
         {

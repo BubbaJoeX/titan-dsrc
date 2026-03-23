@@ -1113,7 +1113,12 @@ public class pet extends script.base_script
             pet_lib.killPet(self);
             return SCRIPT_CONTINUE;
         }
-        if ((!master.isLoaded()) || getDistance(self, master) > combat_engine.getMaxCombatRange())
+        if (!master.isLoaded())
+        {
+            pet_lib.killPet(self);
+            return SCRIPT_CONTINUE;
+        }
+        if (getDistance(self, master) > combat_engine.getMaxCombatRange() && !companion_lib.isStoryCompanionPet(self))
         {
             pet_lib.killPet(self);
             return SCRIPT_CONTINUE;
