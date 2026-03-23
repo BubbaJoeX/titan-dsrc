@@ -74,7 +74,7 @@ public class combat_base extends script.base_script
         obj_id player = self;
         if (testPetBar && isPlayer(self))
         {
-            obj_id beast = beast_lib.getBeastOnPlayer(self);
+            obj_id beast = companion_lib.getPetBarCombatCreature(self);
             if (!isIdValid(beast) || !exists(beast) || !beast_lib.canPerformCommand(self, beast, actionName))
             {
                 return false;

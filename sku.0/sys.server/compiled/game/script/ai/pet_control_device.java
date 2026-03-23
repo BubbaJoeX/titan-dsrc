@@ -494,6 +494,10 @@ public class pet_control_device extends script.base_script
             dictionary parms = new dictionary();
             parms.put("calledPet", pet);
             messageTo(pcd, "handleValidatePet", parms, 5, false);
+            if (!hasObjVar(pcd, "ai.pet.trainedMount") && companion_lib.isStoryCompanionControlDevice(pcd))
+            {
+                companion_lib.refreshStoryCompanionPetBar(player, pet);
+            }
         }
         utils.removeScriptVar(player, CALLED_FOR_PET);
         if (hasObjVar(pcd, "ai.pet.trainedMount"))

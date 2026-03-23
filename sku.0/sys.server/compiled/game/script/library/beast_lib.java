@@ -2751,6 +2751,21 @@ public class beast_lib extends script.base_script
     }
     public static boolean canPerformCommand(obj_id player, obj_id pet, String command) throws InterruptedException
     {
+        if (isIdValid(pet) && exists(pet) && hasObjVar(pet, "companion.storyId"))
+        {
+            String[] storyList = getTrainedSkills(pet);
+            if (storyList != null)
+            {
+                for (int si = 0; si < storyList.length; ++si)
+                {
+                    if (storyList[si] != null && storyList[si].equals(command))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
         int additionalAbilitySlot = getSkillStatisticModifier(player, "expertise_bm_add_pet_bar");
         String[] abilityList = getTrainedSkills(pet);
         for (int i = 0; i < abilityList.length; i++)

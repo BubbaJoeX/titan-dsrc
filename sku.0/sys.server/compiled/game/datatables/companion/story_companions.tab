@@ -1,6 +1,6 @@
-companion_id	companion_name	creature_name	level	role	companion_weapon	companion_favorite_gifts	companion_speed	grant_message
-s	s	s	i[0]	s	s	s	f[1.2]	c
-companion_demo_bodyguard	Veteran Guard	aaph_koden	0	tank			1.2	A disciplined ally has joined your cause. Check your datapad (NPC companion).
-companion_demo_scoundrel	Slice McCandles	criminal	12	dps			1.2	A wily operative agrees to fight at your side. Check your datapad (NPC companion).
-companion_demo_medic	Corpsman Reeves	mission_bounty_rebel_medic	20	healer			1.2	A field medic joins your roster. Check your datapad (NPC companion).
-companion_greeata	Greeata	greeata	55	dps			1.2	Greeata is now on your datapad as an NPC companion.
+companion_id	companion_name	creature_name	level	role	companion_weapon	companion_favorite_gifts	companion_speed	companion_pet_bar_abilities	grant_message
+s	s	s	i[0]	s	s	s	f[1.2]	s	c
+companion_demo_bodyguard	Veteran Guard	aaph_koden	0	tank			1.2	bm_bite_2,bm_charge_1	A disciplined ally has joined your cause. Check your datapad (NPC companion).
+companion_demo_scoundrel	Slice McCandles	criminal	12	dps			1.2	bm_slash_2,bm_hamstring_2	A wily operative agrees to fight at your side. Check your datapad (NPC companion).
+companion_demo_medic	Corpsman Reeves	mission_bounty_rebel_medic	20	healer			1.2	bm_siphon_1,bm_siphon_2	A field medic joins your roster. Check your datapad (NPC companion).
+companion_greeata	Greeata	greeata	55	dps			1.2	bm_slash_4,bm_claw_3	Greeata is now on your datapad as an NPC companion.

@@ -465,4 +465,158 @@ public class companion_lib extends script.base_script
         }
         return true;
     }
+    public static boolean isStoryCompanionPet(obj_id pet) throws InterruptedException
+    {
+        return isIdValid(pet) && exists(pet) && hasObjVar(pet, OBJVAR_STORY_COMPANION_ID);
+    }
+    /**
+     * Creature that should receive BM pet-bar commands: a called beast-master pet if any, else an active story companion combat pet.
+     */
+    public static obj_id getPetBarCombatCreature(obj_id player) throws InterruptedException
+    {
+        if (!beast_lib.isValidPlayer(player))
+        {
+            return null;
+        }
+        obj_id beast = beast_lib.getBeastOnPlayer(player);
+        if (isIdValid(beast) && exists(beast))
+        {
+            return beast;
+        }
+        obj_id combat = callable.getCallable(player, callable.CALLABLE_TYPE_COMBAT_PET);
+        if (isStoryCompanionPet(combat))
+        {
+            return combat;
+        }
+        return null;
+    }
+    public static boolean isValidBeastSpecialForStoryPetBar(String abilityName) throws InterruptedException
+    {
+        if (abilityName == null || abilityName.length() < 1 || abilityName.equals("empty"))
+        {
+            return false;
+        }
+        return dataTableSearchColumnForString(abilityName, "ability_name", beast_lib.BEASTS_SPECIALS) > -1;
+    }
+    /** Up to four {@code beast_specials} ability_name entries for the BM-style pet bar (comma-separated in datatable). */
+    public static String[] getStoryCompanionTrainedSkillsFromTable(String companionId) throws InterruptedException
+    {
+        String[] trained = 
+        {
+            "empty",
+            "empty",
+            "empty",
+            "empty"
+        };
+        if (!isValidStoryCompanionRow(companionId))
+        {
+            return trained;
+        }
+        String raw = dataTableGetString(STORY_COMPANIONS_TABLE, companionId, "companion_pet_bar_abilities");
+        if (raw == null || raw.length() < 1)
+        {
+            return trained;
+        }
+        String[] parts = utils.split(raw, ',');
+        if (parts == null)
+        {
+            return trained;
+        }
+        int idx = 0;
+        for (int p = 0; p < parts.length && idx < trained.length; ++p)
+        {
+            String t = parts[p];
+            if (t == null)
+            {
+                continue;
+            }
+            t = t.trim();
+            if (t.length() < 1)
+            {
+                continue;
+            }
+            if (isValidBeastSpecialForStoryPetBar(t))
+            {
+                trained[idx++] = t;
+            }
+        }
+        return trained;
+    }
+    public static String[] buildStoryCompanionPetBar(obj_id player, obj_id pet, String[] knownSkills) throws InterruptedException
+    {
+        String[] barData = (String[])beast_lib.PET_BAR_DEFAULT_ARRAY.clone();
+        barData[0] = beast_lib.BM_COMMAND_ATTACK;
+        barData[1] = beast_lib.BM_COMMAND_FOLLOW;
+        barData[2] = beast_lib.BM_COMMAND_STAY;
+        barData[7] = beast_lib.BM_COMMAND_DISABLED;
+        barData[8] = beast_lib.BM_COMMAND_DISABLED;
+        if (knownSkills != null && knownSkills.length > 0 && knownSkills[0] != null && !knownSkills[0].equals("empty"))
+        {
+            barData[3] = knownSkills[0];
+        }
+        int additional = getSkillStatisticModifier(player, "expertise_bm_add_pet_bar");
+        if (additional > 3)
+        {
+            additional = 3;
+        }
+        for (int i = 0; i < additional; ++i)
+        {
+            if (knownSkills != null && knownSkills.length > i + 1)
+            {
+                String s = knownSkills[i + 1];
+                if (s != null && !s.equals("empty"))
+                {
+                    barData[i + 4] = s;
+                }
+            }
+        }
+        return barData;
+    }
+    /**
+     * Links the client BM pet bar to this story companion: {@code setBeastmasterPet}, command slots, and {@code abilities.trained_skills} on the pet.
+     */
+    public static void refreshStoryCompanionPetBar(obj_id player, obj_id pet) throws InterruptedException
+    {
+        if (!beast_lib.isValidPlayer(player) || !isStoryCompanionPet(pet))
+        {
+            return;
+        }
+        String companionId = getStringObjVar(pet, OBJVAR_STORY_COMPANION_ID);
+        String[] trained = getStoryCompanionTrainedSkillsFromTable(companionId);
+        setObjVar(pet, beast_lib.PET_TRAINED_SKILLS_LIST, trained);
+        String[] bar = buildStoryCompanionPetBar(player, pet, trained);
+        setBeastmasterPet(player, pet);
+        setBeastmasterPetCommands(player, bar);
+        String[] toggles = 
+        {
+            "",
+            "",
+            "",
+            "",
+            ""
+        };
+        setBeastmasterToggledPetCommands(player, toggles);
+    }
+    public static void clearStoryCompanionPetBarIfActive(obj_id player, obj_id pet) throws InterruptedException
+    {
+        if (!beast_lib.isValidPlayer(player) || !isIdValid(pet))
+        {
+            return;
+        }
+        obj_id cur = getBeastmasterPet(player);
+        if (cur == pet)
+        {
+            setBeastmasterPet(player, null);
+            setBeastmasterPetCommands(player, (String[])beast_lib.PET_BAR_DEFAULT_ARRAY.clone());
+            String[] toggles = 
+            {
+                "",
+                "",
+                "",
+                "",
+                ""
+            };
+            setBeastmasterToggledPetCommands(player, toggles);
+        }
+    }
 }

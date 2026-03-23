@@ -57,7 +57,15 @@ public class player_beastmaster extends script.base_script
         }
         else 
         {
-            setBeastmasterPet(self, null);
+            obj_id sc = callable.getCallable(self, callable.CALLABLE_TYPE_COMBAT_PET);
+            if (companion_lib.isStoryCompanionPet(sc))
+            {
+                companion_lib.refreshStoryCompanionPetBar(self, sc);
+            }
+            else 
+            {
+                setBeastmasterPet(self, null);
+            }
         }
         return SCRIPT_CONTINUE;
     }
@@ -682,7 +690,7 @@ public class player_beastmaster extends script.base_script
     }
     public int bm_follow_1(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException
     {
-        obj_id beast = beast_lib.getBeastOnPlayer(self);
+        obj_id beast = companion_lib.getPetBarCombatCreature(self);
         if (!isIdValid(beast) || !exists(beast))
         {
             sendSystemMessage(self, new string_id("spam", "no_beast_out"));
@@ -700,7 +708,7 @@ public class player_beastmaster extends script.base_script
     }
     public int bm_stay_1(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException
     {
-        obj_id beast = beast_lib.getBeastOnPlayer(self);
+        obj_id beast = companion_lib.getPetBarCombatCreature(self);
         if (!isIdValid(beast) || !exists(beast))
         {
             sendSystemMessage(self, new string_id("spam", "no_beast_out"));
@@ -718,7 +726,7 @@ public class player_beastmaster extends script.base_script
     }
     public int bm_pet_attack_1(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException
     {
-        obj_id beast = beast_lib.getBeastOnPlayer(self);
+        obj_id beast = companion_lib.getPetBarCombatCreature(self);
         if (!isIdValid(beast) || !exists(beast))
         {
             sendSystemMessage(self, new string_id("spam", "no_beast_out"));

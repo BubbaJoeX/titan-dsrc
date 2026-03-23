@@ -1926,6 +1926,11 @@ public class pet extends script.base_script
             }
         }
         debugServerConsoleMsg(null, "+++ pet.messageHandler handlePackRequest +++ destroying the pet now");
+        obj_id master = getMaster(self);
+        if (isIdValid(master) && companion_lib.isStoryCompanionPet(self))
+        {
+            companion_lib.clearStoryCompanionPetBarIfActive(master, self);
+        }
         obj_id petControlDevice = callable.getCallableCD(self);
         utils.setScriptVar(self, "stored", true);
         dictionary messageData = new dictionary();
