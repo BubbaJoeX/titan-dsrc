@@ -2285,6 +2285,15 @@ public class ai extends script.base_script
 
     public int OnCreatureDamaged(obj_id self, obj_id attacker, int damage) throws InterruptedException
     {
+        if (damage > 0 && isIdValid(attacker) && space_utils.isPlayerControlledShip(attacker))
+        {
+            boolean bombardmentMode = hasObjVar(attacker, combat_ship.OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE) && getBooleanObjVar(attacker, combat_ship.OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE);
+            int lastTurretShot = utils.getIntScriptVar(attacker, xp.VAR_SHIP_GROUND_ATTACK_CREDIT_TIME);
+            if (bombardmentMode && lastTurretShot > 0 && (getGameTime() - lastTurretShot) <= xp.SHIP_GROUND_ATTACK_CREDIT_WINDOW)
+            {
+                applyBombardmentTurretDamageScale(self, damage);
+            }
+        }
         if (!utils.hasScriptVar(self,"alliesCalled"))
         {
             obj_id[] allies = getCreaturesInRange(getLocation(self), 64.0f);
@@ -2301,6 +2310,76 @@ public class ai extends script.base_script
             utils.setScriptVar(self,"alliesCalled",1);
         }
         return SCRIPT_CONTINUE;
+    }
+    public void applyBombardmentTurretDamageScale(obj_id self, int baseDamage) throws InterruptedException
+    {
+        if (!isIdValid(self) || baseDamage <= 0)
+        {
+            return;
+        }
+        int level = getLevel(self);
+        if (level < 1)
+        {
+            level = 1;
+        }
+        int difficultyClass = 0;
+        if (hasObjVar(self, "difficultyClass"))
+        {
+            difficultyClass = getIntObjVar(self, "difficultyClass");
+        }
+        float levelScale = 60.0f / (level + 10.0f);
+        if (levelScale < 0.35f)
+        {
+            levelScale = 0.35f;
+        }
+        else if (levelScale > 2.0f)
+        {
+            levelScale = 2.0f;
+        }
+        float difficultyScale = 1.0f;
+        if (difficultyClass == 1)
+        {
+            difficultyScale = 0.75f;
+        }
+        else if (difficultyClass >= 2)
+        {
+            difficultyScale = 0.50f;
+        }
+        float totalScale = levelScale * difficultyScale;
+        if (totalScale < 0.20f)
+        {
+            totalScale = 0.20f;
+        }
+        else if (totalScale > 2.0f)
+        {
+            totalScale = 2.0f;
+        }
+        int scaledDamage = Math.round(baseDamage * totalScale);
+        if (scaledDamage < 1)
+        {
+            scaledDamage = 1;
+        }
+        int damageDelta = scaledDamage - baseDamage;
+        if (damageDelta == 0)
+        {
+            return;
+        }
+        int currentHealth = getAttrib(self, HEALTH);
+        if (currentHealth <= 0)
+        {
+            return;
+        }
+        int newHealth = currentHealth - damageDelta;
+        int maxHealth = getMaxHitpoints(self);
+        if (newHealth > maxHealth)
+        {
+            newHealth = maxHealth;
+        }
+        if (newHealth < 0)
+        {
+            newHealth = 0;
+        }
+        setAttrib(self, HEALTH, newHealth);
     }
 
     public int dizzyCheckFailed(obj_id self, dictionary params) throws InterruptedException
