@@ -16,6 +16,7 @@ import script.library.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Vector;
 
 import static script.systems.city.city_hire.*;
 
