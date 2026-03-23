@@ -330,7 +330,7 @@ public class pet_control_device extends script.base_script
                 return SCRIPT_CONTINUE;
             }
             int petLevel = getLevelFromPetControlDevice(self);
-            if (getLevel(player) < petLevel - pet_lib.MAX_PET_LEVELS_ABOVE_CALLER && !pet_lib.isMountPcd(self))
+            if (getLevel(player) < petLevel - pet_lib.MAX_PET_LEVELS_ABOVE_CALLER && !pet_lib.isMountPcd(self) && !companion_lib.isStoryCompanionControlDevice(self))
             {
                 sendSystemMessage(player, pet_lib.SID_SYS_CANT_CALL_LEVEL);
                 return SCRIPT_CONTINUE;
@@ -1686,6 +1686,10 @@ public class pet_control_device extends script.base_script
     }
     public boolean isSameFaction(obj_id petControlDevice) throws InterruptedException
     {
+        if (companion_lib.isStoryCompanionControlDevice(petControlDevice))
+        {
+            return true;
+        }
         obj_id datapad = getContainedBy(petControlDevice);
         if (!isIdValid(datapad))
         {
@@ -1851,7 +1855,7 @@ public class pet_control_device extends script.base_script
             return true;
         }
         int niche = dataTableGetInt(pet_lib.CREATURE_TABLE, creatureName, "niche");
-        if (niche == NICHE_NPC || niche == NICHE_VEHICLE)
+        if ((niche == NICHE_NPC || niche == NICHE_VEHICLE) && !companion_lib.isStoryCompanionControlDevice(petControlDevice))
         {
             sendSystemMessage(newMaster, new string_id("pet/pet_menu", "bad_type"));
             sendSystemMessage(transferer, new string_id("pet/pet_menu", "bad_type"));

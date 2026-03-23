@@ -134,6 +134,10 @@ public class companion_lib extends script.base_script
         }
         return v;
     }
+    public static boolean isStoryCompanionControlDevice(obj_id cd) throws InterruptedException
+    {
+        return isIdValid(cd) && exists(cd) && hasObjVar(cd, OBJVAR_STORY_COMPANION_ID);
+    }
     public static boolean playerOwnsStoryCompanion(obj_id player, String companionId) throws InterruptedException
     {
         return isIdValid(findStoryCompanionControlDevice(player, companionId));
