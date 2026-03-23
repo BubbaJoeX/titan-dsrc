@@ -51,7 +51,7 @@ public class terminal_pob_ship extends script.base_script
     public static final int EXTEND_COST = 20000;
     public static final int EXTEND_TIME = 300;
 
-    /** Same root as {@code combat_ship.OV_AUTOPILOT_ACTIVE} — server atmospheric autopilot. */
+    /** Same root as {@code combat_ship.OV_AUTOPILOT_ACTIVE} server atmospheric autopilot. */
     private static final String OV_SHIP_AUTOPILOT_ACTIVE = "space.autopilot.active";
 
     public int OnAttach(obj_id self) throws InterruptedException
@@ -91,7 +91,7 @@ public class terminal_pob_ship extends script.base_script
 
         }
 
-        // Docking — all passengers; timed-mooring actions when docked, status when not
+        // Docking - -  all passengers; timed-mooring actions when docked, status when not
         if (isIdValid(ship))
         {
             int dockingRoot = mi.addRootMenu(MENU_DOCKING_ROOT, SID_DOCKING);
@@ -122,7 +122,7 @@ public class terminal_pob_ship extends script.base_script
             return SCRIPT_CONTINUE;
         }
 
-        // Timed mooring / undock — all players aboard when docked at landing point
+        // Timed mooring / undock -- all players aboard when docked at landing point
         if (isIdValid(ship) && hasObjVar(ship, "atmo.landing.docked"))
         {
             if (item == MENU_CHECK_DOCKING_TIME)
@@ -485,7 +485,7 @@ public class terminal_pob_ship extends script.base_script
                 obj_id occ = atmo_landing_registry.getOccupyingShip(pad);
                 boolean weHoldPad = isIdValid(occ) && occ == ship;
 
-                // Pad already shows this ship landed — moored even if script autopilot objvars were not cleared yet.
+                // Pad already shows this ship landed -- moored even if script autopilot objvars were not cleared yet.
                 if (weHoldPad && atmo_landing_registry.isLanded(pad))
                 {
                     String name = atmo_landing_registry.getLandingPointName(pad);
@@ -569,7 +569,7 @@ public class terminal_pob_ship extends script.base_script
 
         if (remaining <= 0)
         {
-            sendSystemMessageTestingOnly(player, "\\#ff4444[Docking Control]: Forced departure is overdue — leave the pad or expect auto-relocation.");
+            sendSystemMessageTestingOnly(player, "\\#ff4444[Docking Control]: Forced departure is overdue -- leave the pad or expect auto-relocation.");
         }
         else
         {
@@ -579,13 +579,13 @@ public class terminal_pob_ship extends script.base_script
             sendSystemMessageTestingOnly(player, "\\#aaddff[Docking Control]: " + name);
             sendSystemMessageTestingOnly(player, "\\#aaddff  Time until forced departure: " + timeStr + (grace > 0 ? " (includes " + grace + "s platform grace)" : ""));
             if (grace > 0 && paidRemaining <= 0 && remaining > 0)
-                sendSystemMessageTestingOnly(player, "\\#ffaa44  Paid mooring time has ended — you are in the grace window. Extend at this terminal to add time.");
+                sendSystemMessageTestingOnly(player, "\\#ffaa44  Paid mooring time has ended -- you are in the grace window. Extend at this terminal to add time.");
             else if (grace > 0 && paidRemaining > 0)
             {
                 int pm = paidRemaining / 60;
                 int ps = paidRemaining % 60;
                 String paidStr = pm > 0 ? (pm + "m " + ps + "s") : (ps + "s");
-                sendSystemMessageTestingOnly(player, "\\#778899  Paid mooring window: " + paidStr + " — extend before it ends to avoid relying on grace.");
+                sendSystemMessageTestingOnly(player, "\\#778899  Paid mooring window: " + paidStr + " -- extend before it ends to avoid relying on grace.");
             }
             if (canOfferExtendDocking(ship))
                 sendSystemMessageTestingOnly(player, "\\#aaddff  Extension: " + extendCost + " credits for +" + (extendSec / 60) + " min (Starship Management Terminal → Docking).");

@@ -1228,7 +1228,7 @@ public class combat_ship extends script.base_script
                 && hasObjVar(self, OV_SUMMON_FOLLOW_ACTIVE) && getBooleanObjVar(self, OV_SUMMON_FOLLOW_ACTIVE))
             {
                 if (!quietArr)
-                    sendSystemMessageTestingOnly(summonOwner, "\\#aaddff[Navicomputer]: Auto-follow active — high orbit near you (" + SUMMON_FOLLOW_COST_PER_HOUR + " cr/hr).");
+                    sendSystemMessageTestingOnly(summonOwner, "\\#aaddff[Navicomputer]: Auto-follow active -- high orbit near you (" + SUMMON_FOLLOW_COST_PER_HOUR + " cr/hr).");
                 messageTo(self, "summonFollowTick", null, SUMMON_FOLLOW_TICK_S, false);
             }
         }
@@ -1613,7 +1613,7 @@ public class combat_ship extends script.base_script
             }
         }
 
-        // Engine reported AP_ARRIVED without a phase delta vs last tick — still run arrival once.
+        // Engine reported AP_ARRIVED without a phase delta vs last tick -- still run arrival once.
         if (phase == AP_ARRIVED && hasObjVar(self, OV_AUTOPILOT_ACTIVE) && hasObjVar(self, "atmo.landing.target") && !hasObjVar(self, "atmo.landing.landed_at"))
         {
             finishAutopilotArrival(self, shipLoc);
@@ -1672,7 +1672,7 @@ public class combat_ship extends script.base_script
     {
         shipClearAutopilot(ship);
 
-        // Clear reservation only (still on approach — not landed / docked)
+        // Clear reservation only (still on approach -- not landed / docked)
         if (hasObjVar(ship, "atmo.landing.target")
             && !hasObjVar(ship, "atmo.landing.landed_at")
             && !hasObjVar(ship, "atmo.landing.docked"))
@@ -1723,13 +1723,13 @@ public class combat_ship extends script.base_script
     public static final String OV_SUMMON_BOMBARDMENT_FOLLOW_TRACK = "space.summon.bombardment_follow_track";
     public static final int SUMMON_BOMBARDMENT_ORBIT_ACTIVATION_COST = 50000;
     public static final int SUMMON_BOMBARDMENT_CREDIT_PER_SHOT = 1000;
-    /** Cruise height above terrain (m) for bombardment orbit — low hold (standard auto-follow uses {@link #SUMMON_FOLLOW_TAKEOFF_ALT}). */
+    /** Cruise height above terrain (m) for bombardment orbit -- low hold (standard auto-follow uses {@link #SUMMON_FOLLOW_TAKEOFF_ALT}). */
     public static final float SUMMON_BOMBARDMENT_ORBIT_AGL = 100.0f;
     /** Max horizontal distance (m) from ship to picked ground point for datapad bombardment. */
     public static final float SUMMON_BOMBARDMENT_INSTANT_HORIZONTAL_RANGE = 4000.0f;
     /** Wider path than {@link #SUMMON_FOLLOW_ORBIT_RADIUS} so turns are gentler. */
     public static final float SUMMON_BOMBARDMENT_ORBIT_RADIUS = 300.0f;
-    /** Radians added per bombardment follow tick — lower = slower orbit. */
+    /** Radians added per bombardment follow tick -- lower = slower orbit. */
     public static final float SUMMON_BOMBARDMENT_ORBIT_RAD_PER_TICK = 0.028f;
     /** Blend toward ideal orbit waypoint each tick (0..1); lower = softer path / easier turns. */
     public static final float SUMMON_BOMBARDMENT_ORBIT_TARGET_LERP = 0.2f;
@@ -1841,7 +1841,7 @@ public class combat_ship extends script.base_script
             if (transferBankCreditsFromNamedAccount(money.ACCT_TRAVEL, owner, SUMMON_FOLLOW_COST_PER_HOUR, "noHandler", "noHandler", new dictionary()))
                 sendSystemMessageTestingOnly(owner, "\\#ffaa44[Navicomputer]: Navicomputer could not engage. Your payment was refunded.");
             else
-                sendSystemMessageTestingOnly(owner, "\\#ff4444[Navicomputer]: Auto-follow cancelled — refund failed. Contact support if credits are missing.");
+                sendSystemMessageTestingOnly(owner, "\\#ff4444[Navicomputer]: Auto-follow cancelled -- refund failed. Contact support if credits are missing.");
             return SCRIPT_CONTINUE;
         }
 
@@ -1917,7 +1917,7 @@ public class combat_ship extends script.base_script
             if (transferBankCreditsFromNamedAccount(money.ACCT_TRAVEL, owner, SUMMON_BOMBARDMENT_ORBIT_ACTIVATION_COST, "noHandler", "noHandler", new dictionary()))
                 sendSystemMessageTestingOnly(owner, "\\#ffaa44[Navicomputer]: Navicomputer could not engage. Your payment was refunded.");
             else
-                sendSystemMessageTestingOnly(owner, "\\#ff4444[Navicomputer]: Bombardment orbit cancelled — refund failed. Contact support if credits are missing.");
+                sendSystemMessageTestingOnly(owner, "\\#ff4444[Navicomputer]: Bombardment orbit cancelled -- refund failed. Contact support if credits are missing.");
             return SCRIPT_CONTINUE;
         }
 
@@ -1996,7 +1996,7 @@ public class combat_ship extends script.base_script
             if (transferBankCreditsFromNamedAccount(money.ACCT_TRAVEL, owner, SUMMON_BOMBARDMENT_ORBIT_ACTIVATION_COST, "noHandler", "noHandler", new dictionary()))
                 sendSystemMessageTestingOnly(owner, "\\#ffaa44[Navicomputer]: Navicomputer could not engage. Your payment was refunded.");
             else
-                sendSystemMessageTestingOnly(owner, "\\#ff4444[Navicomputer]: Bombardment follow cancelled — refund failed. Contact support if credits are missing.");
+                sendSystemMessageTestingOnly(owner, "\\#ff4444[Navicomputer]: Bombardment follow cancelled -- refund failed. Contact support if credits are missing.");
             return SCRIPT_CONTINUE;
         }
 
@@ -2036,7 +2036,7 @@ public class combat_ship extends script.base_script
         if (isIdValid(getPilotId(self)))
         {
             clearSummonFollowMode(self);
-            sendSystemMessageTestingOnly(owner, "\\#ffaa44[Navicomputer]: Auto-follow stopped — a pilot has the helm.");
+            sendSystemMessageTestingOnly(owner, "\\#ffaa44[Navicomputer]: Auto-follow stopped -- a pilot has the helm.");
             return SCRIPT_CONTINUE;
         }
 
@@ -2053,7 +2053,7 @@ public class combat_ship extends script.base_script
             if (getTotalMoney(owner) < SUMMON_FOLLOW_COST_PER_HOUR)
             {
                 clearSummonFollowMode(self);
-                sendSystemMessageTestingOnly(owner, "\\#ff4444[Navicomputer]: Auto-follow ended — insufficient credits for the next hour.");
+                sendSystemMessageTestingOnly(owner, "\\#ff4444[Navicomputer]: Auto-follow ended -- insufficient credits for the next hour.");
                 if (hasObjVar(self, OV_AUTOPILOT_ACTIVE))
                     shipAutoPilotCancelInternal(self, "Auto-follow suspended: payment failed.");
                 return SCRIPT_CONTINUE;
@@ -2061,7 +2061,7 @@ public class combat_ship extends script.base_script
             if (!transferBankCreditsToNamedAccount(owner, money.ACCT_TRAVEL, SUMMON_FOLLOW_COST_PER_HOUR, "noHandler", "noHandler", new dictionary()))
             {
                 clearSummonFollowMode(self);
-                sendSystemMessageTestingOnly(owner, "\\#ff4444[Navicomputer]: Auto-follow ended — payment failed.");
+                sendSystemMessageTestingOnly(owner, "\\#ff4444[Navicomputer]: Auto-follow ended -- payment failed.");
                 if (hasObjVar(self, OV_AUTOPILOT_ACTIVE))
                     shipAutoPilotCancelInternal(self, "Auto-follow suspended: payment failed.");
                 return SCRIPT_CONTINUE;

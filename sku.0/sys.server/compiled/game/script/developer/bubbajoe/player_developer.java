@@ -2295,6 +2295,39 @@ public class player_developer extends base_script
             }
             return SCRIPT_CONTINUE;
         }
+        else if (cmd.equalsIgnoreCase("makeHireable"))
+        {
+            if (!tok.hasMoreTokens())
+            {
+                broadcast(self, "Usage: /developer makeHireable [story_companion_id] — target a creature. Example: companion_greeata");
+                return SCRIPT_CONTINUE;
+            }
+            String storyId = tok.nextToken();
+            obj_id npc = getIntendedTarget(self);
+            if (!isIdValid(npc) || isPlayer(npc) || npc == self || !isMob(npc))
+            {
+                broadcast(self, "Target a creature (intended / look-at target), not yourself.");
+                return SCRIPT_CONTINUE;
+            }
+            if (!companion_lib.isValidStoryCompanionRow(storyId))
+            {
+                broadcast(self, "Unknown story_companions id: " + storyId);
+                return SCRIPT_CONTINUE;
+            }
+            if (companion_lib.resolveHireConversationScript(storyId) == null)
+            {
+                broadcast(self, "No hire conversation wired for " + storyId + " yet (add it in companion_lib.resolveHireConversationScript).");
+                return SCRIPT_CONTINUE;
+            }
+            if (!companion_lib.applyMakeHireableToNpc(npc, storyId))
+            {
+                broadcast(self, "makeHireable failed.");
+                return SCRIPT_CONTINUE;
+            }
+            broadcast(self, "makeHireable: " + storyId + " on " + getName(npc) + " (" + npc + ").");
+            LOG("ethereal", "[Developer]: " + getPlayerFullName(self) + " used /developer makeHireable " + storyId + " on " + npc);
+            return SCRIPT_CONTINUE;
+        }
         else if (cmd.equalsIgnoreCase("say"))
         {
             StringBuilder speech = new StringBuilder(tok.nextToken());

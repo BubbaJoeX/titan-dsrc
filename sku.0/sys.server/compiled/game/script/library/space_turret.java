@@ -13,9 +13,9 @@ public class space_turret extends script.base_script
     {
     }
 
-    /** {@link #fireOrbitalStrikeAtGroundPick} — not in bombardment orbit, wrong scene / owner, or invalid. */
+    /** {@link #fireOrbitalStrikeAtGroundPick} -- not in bombardment orbit, wrong scene / owner, or invalid. */
     public static final int ORBITAL_FIRE_NOT_ELIGIBLE = -1;
-    /** {@link #fireOrbitalStrikeAtGroundPick} — bombardment orbit active but ship farther than max horizontal range. */
+    /** {@link #fireOrbitalStrikeAtGroundPick} -- bombardment orbit active but ship farther than max horizontal range. */
     public static final int ORBITAL_FIRE_TOO_FAR = -2;
 
     /**
@@ -149,7 +149,7 @@ public class space_turret extends script.base_script
                 }
                 else
                 {
-                    sendSystemMessage(payer, string_id.unlocalized("Insufficient credits — strike stopped after " + fired + " shot(s)."));
+                    sendSystemMessage(payer, string_id.unlocalized("Insufficient credits -- strike stopped after " + fired + " shot(s)."));
                 }
                 return fired;
             }

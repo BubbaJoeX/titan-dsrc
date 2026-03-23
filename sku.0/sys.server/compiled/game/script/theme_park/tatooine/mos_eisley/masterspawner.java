@@ -2,6 +2,7 @@ package script.theme_park.tatooine.mos_eisley;
 
 import script.dictionary;
 import script.library.ai_lib;
+import script.library.companion_lib;
 import script.library.create;
 import script.library.performance;
 import script.location;
@@ -138,15 +139,20 @@ public class masterspawner extends script.base_script
     {
         obj_id room = getCellId(self, "cantina");
         obj_id itho = create.object("patron_ithorian_male", new location(15.89f, 1.0f, 2.48f, "tatooine", room));
-        obj_id greeata = create.object("commoner", new location(16.46f, 1.0f, 2.98f, "tatooine", room));
+        obj_id greeata = create.object(companion_lib.GREEATA_WORLD_MOBILE_TEMPLATE, new location(16.46f, 1.0f, 2.98f, "tatooine", room));
         setYaw(itho, 36);
-        setYaw(greeata, -129);
         setCreatureStatic(itho, true);
-        setCreatureStatic(greeata, true);
         setInvulnerable(itho, true);
-        setInvulnerable(greeata, true);
         ai_lib.setDefaultCalmMood(itho, "nervous");
-        ai_lib.setDefaultCalmMood(greeata, "conversation");
+        if (isIdValid(greeata))
+        {
+            companion_lib.prepareHireConversationNpc(greeata, companion_lib.GREEATA_CONVERSATION_SCRIPT);
+            setName(greeata, "Greeata");
+            setYaw(greeata, -129);
+            setCreatureStatic(greeata, true);
+            setInvulnerable(greeata, true);
+            ai_lib.setDefaultCalmMood(greeata, "conversation");
+        }
     }
     public void spawnAudience(obj_id self) throws InterruptedException
     {

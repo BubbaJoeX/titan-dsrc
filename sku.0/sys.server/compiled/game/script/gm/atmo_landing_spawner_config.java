@@ -291,7 +291,7 @@ public class atmo_landing_spawner_config extends script.base_script
         if (input.isEmpty())
         {
             removeObjVar(self, atmo_landing_registry.OBJVAR_LANDING_ALTITUDE);
-            sendSystemMessageTestingOnly(player, "\\#00ff88[GM]: Landing altitude cleared — autopilot will use landing location Y.");
+            sendSystemMessageTestingOnly(player, "\\#00ff88[GM]: Landing altitude cleared -- autopilot will use landing location Y.");
             return SCRIPT_CONTINUE;
         }
 
@@ -484,7 +484,7 @@ public class atmo_landing_spawner_config extends script.base_script
         if (input.isEmpty() || input.equals("-1"))
         {
             removeObjVar(self, atmo_landing_manager.OBJVAR_LANDING_FEE);
-            sendSystemMessageTestingOnly(player, "\\#00ff88[GM]: Landing fee cleared — pad uses script default.");
+            sendSystemMessageTestingOnly(player, "\\#00ff88[GM]: Landing fee cleared -- pad uses script default.");
             return SCRIPT_CONTINUE;
         }
         int fee;
@@ -536,7 +536,7 @@ public class atmo_landing_spawner_config extends script.base_script
         if (input.isEmpty())
         {
             removeObjVar(self, atmo_landing_manager.OBJVAR_DOCK_GRACE_SECONDS);
-            sendSystemMessageTestingOnly(player, "\\#00ff88[GM]: Dock grace cleared — pads use default (" + atmo_landing_manager.DEFAULT_DOCK_GRACE_SECONDS + " s).");
+            sendSystemMessageTestingOnly(player, "\\#00ff88[GM]: Dock grace cleared -- pads use default (" + atmo_landing_manager.DEFAULT_DOCK_GRACE_SECONDS + " s).");
             return SCRIPT_CONTINUE;
         }
         int sec;

@@ -100,16 +100,16 @@ A physics-driven autopilot that flies POB ships autonomously through four phases
 
 ### C++ Implementation (`PlayerShipController`)
 
-- `setAutopilotTarget(target, takeoffAlt, landingAlt)` — Flattens ship transform (yaw only), resets dynamics model, begins ascending.
-- `realAlter()` — Per-frame state machine. During cruising, uses `AutopilotShipObjectInterface` which overrides max speed (base + booster × 0.75), yaw rate (2.0 rad/s), and zeroes pitch/roll limits.
-- `receiveTransform()` — Returns early when autopilot is active, blocking client input.
+- `setAutopilotTarget(target, takeoffAlt, landingAlt)` -- Flattens ship transform (yaw only), resets dynamics model, begins ascending.
+- `realAlter()` -- Per-frame state machine. During cruising, uses `AutopilotShipObjectInterface` which overrides max speed (base + booster × 0.75), yaw rate (2.0 rad/s), and zeroes pitch/roll limits.
+- `receiveTransform()` -- Returns early when autopilot is active, blocking client input.
 - Yaw control uses a dead-zone (0.02 rad / ~1°) with direct `setYawRate(0)` to prevent oscillation/spinning.
 
 ### Java Monitoring (`combat_ship.java`)
 
-- `shipAutoPilotEngage` — Validates ownership, calls native `shipSetAutopilotTarget`, calculates ETA, broadcasts roleplay messages.
-- `shipAutoPilotTick` — Polls `shipGetAutopilotPhase()` every 2 seconds. On phase transitions, broadcasts messages (ascending, cruising, descending, arrived). Periodic status updates during cruising (distance, bearing, ETA).
-- `shipAutoPilotCancel` / `shipAutoPilotCancelInternal` — Clears autopilot, broadcasts cancellation messages.
+- `shipAutoPilotEngage` -- Validates ownership, calls native `shipSetAutopilotTarget`, calculates ETA, broadcasts roleplay messages.
+- `shipAutoPilotTick` -- Polls `shipGetAutopilotPhase()` every 2 seconds. On phase transitions, broadcasts messages (ascending, cruising, descending, arrived). Periodic status updates during cruising (distance, bearing, ETA).
+- `shipAutoPilotCancel` / `shipAutoPilotCancelInternal` -- Clears autopilot, broadcasts cancellation messages.
 
 ### Triggering Autopilot
 
@@ -136,7 +136,7 @@ A physics-driven autopilot that flies POB ships autonomously through four phases
 
 Allows a player on the ground to summon their deployed POB ship to their location via autopilot.
 
-**Script**: `space.ship.summon_ship` — Attach to any crafted object to grant the radial.
+**Script**: `space.ship.summon_ship` -- Attach to any crafted object to grant the radial.
 
 **Trigger**: Radial menu → **Summon Ship** (only visible in atmospheric flight when a deployed ship exists and the player is not aboard it).
 
@@ -156,7 +156,7 @@ Allows a player on the ground to summon their deployed POB ship to their locatio
 
 ## POB Ship Boarding & Parking
 
-POB ships can be "parked" in atmospheric flight — the ship stays loaded in the world after the pilot exits, allowing players to board from the ground.
+POB ships can be "parked" in atmospheric flight -- the ship stays loaded in the world after the pilot exits, allowing players to board from the ground.
 
 ### Boarding from Ground
 
@@ -212,11 +212,11 @@ Ship weapons can damage ground targets in atmospheric flight.
 
 Attach to a spawner object with objvars:
 
-- `atmo.spawns` — String array of ship template types
-- `atmo.spawnCount` — Number of ships per type
-- `atmo.cruiseAltitude` — Flight altitude (default 200m)
-- `atmo.spawnRadius` — Spawn radius around spawner
-- `atmo.behavior` — `loiter`, `patrol`, or `idle`
+- `atmo.spawns` -- String array of ship template types
+- `atmo.spawnCount` -- Number of ships per type
+- `atmo.cruiseAltitude` -- Flight altitude (default 200m)
+- `atmo.spawnRadius` -- Spawn radius around spawner
+- `atmo.behavior` -- `loiter`, `patrol`, or `idle`
 
 Ships spawn at terrain-aware altitudes and follow patrol paths where each waypoint's Y is `getHeightAtLocation() + cruiseAlt`.
 
@@ -256,7 +256,7 @@ Ships at altitude need to see ground objects (NPCs, buildings, creatures) and vi
 
 `combat_ship.checkAtmosphericAltitude` (scheduled every 2s):
 
-- At 4000m: Broadcasts warning — "Approaching upper atmosphere boundary."
+- At 4000m: Broadcasts warning -- "Approaching upper atmosphere boundary."
 - At 5000m: Triggers warp to the adjacent space zone (e.g., `tatooine` → `space_tatooine`).
 
 **Files**: `PlayerShipController.cpp`, `combat_ship.java`

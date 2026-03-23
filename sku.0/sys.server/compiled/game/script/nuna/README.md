@@ -1,4 +1,4 @@
-# Nuna — Player entitlement & currency tracker
+# Nuna -- Player entitlement & currency tracker
 
 Location: `sku.0/sys.server/compiled/game/script/nuna/README.md`
 

@@ -17,7 +17,7 @@ public class summon_ship extends script.base_script
     public static final float SUMMON_LANDING_ALT  = 50.0f;
 
     private static final int MENU_STARSHIP_REMOTE = menu_info_types.SERVER_MENU1;
-    /** Ground targeting ({@link #OnGroundTargetLoc}) — same menu type as other datapad ground-pick tools. */
+    /** Ground targeting ({@link #OnGroundTargetLoc}) -- same menu type as other datapad ground-pick tools. */
     private static final int MENU_GROUND_BOMBARD = menu_info_types.ITEM_USE;
 
     public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi) throws InterruptedException
@@ -59,7 +59,7 @@ public class summon_ship extends script.base_script
         }
         else if (r == space_turret.ORBITAL_FIRE_TOO_FAR)
         {
-            sendSystemMessageTestingOnly(player, "\\#88ff88[Navicomputer]: Ship too far — move within "
+            sendSystemMessageTestingOnly(player, "\\#88ff88[Navicomputer]: Ship too far -- move within "
                 + (int) combat_ship.SUMMON_BOMBARDMENT_INSTANT_HORIZONTAL_RANGE + " m horizontal of this point or bring the ship closer.");
         }
         else if (r > 0)
@@ -139,7 +139,7 @@ public class summon_ship extends script.base_script
                 entries.add("Enable bombardment orbit (circle), " + combat_ship.SUMMON_BOMBARDMENT_ORBIT_ACTIVATION_COST + " cr + "
                     + combat_ship.SUMMON_BOMBARDMENT_CREDIT_PER_SHOT + " cr/strike");
                 actions.add("bombardment_enable");
-                entries.add("Enable orbital bombardment follow, " + (int) combat_ship.SUMMON_BOMBARDMENT_ORBIT_AGL + " m over you — "
+                entries.add("Enable orbital bombardment follow, " + (int) combat_ship.SUMMON_BOMBARDMENT_ORBIT_AGL + " m over you -- "
                     + combat_ship.SUMMON_BOMBARDMENT_ORBIT_ACTIVATION_COST + " cr + " + combat_ship.SUMMON_BOMBARDMENT_CREDIT_PER_SHOT + " cr/strike");
                 actions.add("bombardment_follow_enable");
             }

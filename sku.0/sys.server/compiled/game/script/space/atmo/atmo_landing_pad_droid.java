@@ -27,7 +27,7 @@ public class atmo_landing_pad_droid extends script.base_script
     private static final String PALETTE_COLOR_1 = "private/index_color_1";
     private static final String PALETTE_COLOR_2 = "private/index_color_2";
 
-    /** HTML-style accent pairs (R,G,B) — closest palette match applied per channel. */
+    /** HTML-style accent pairs (R,G,B) -- closest palette match applied per channel. */
     private static final int[][] HTML_TONES = new int[][]
     {
         { 0x00, 0x88, 0xff },
@@ -136,7 +136,7 @@ public class atmo_landing_pad_droid extends script.base_script
         if (prev == STATE_LANDED && cur == STATE_CLEAR)
             line = pick(new String[]
             {
-                "*whistle* Traffic clear — previous occupant has departed " + name + ".",
+                "*whistle* Traffic clear -- previous occupant has departed " + name + ".",
                 "Pad open. All clear at " + name + ".",
                 "Departure logged. Standing by at " + name + "."
             });
@@ -145,19 +145,19 @@ public class atmo_landing_pad_droid extends script.base_script
             {
                 "*beep* Inbound signature on approach to " + name + ".",
                 "Traffic alert: vessel on vector for " + name + ".",
-                "Tracking incoming traffic — " + name + "."
+                "Tracking incoming traffic -- " + name + "."
             });
         else if (cur == STATE_LANDED)
             line = pick(new String[]
             {
-                "*happy beep* Contact down — " + name + " is occupied.",
+                "*happy beep* Contact down -- " + name + " is occupied.",
                 "Pad secured. Vessel on deck at " + name + ".",
                 "Landing complete at " + name + ". Mooring clock running."
             });
         else
             line = pick(new String[]
             {
-                "*idle chirp* " + name + " — no traffic. Systems nominal.",
+                "*idle chirp* " + name + " -- no traffic. Systems nominal.",
                 "Scanning approaches for " + name + ". All quiet.",
                 "Standing by at " + name + ". Clear skies."
             });
