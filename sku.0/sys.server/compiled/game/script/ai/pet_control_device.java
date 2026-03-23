@@ -476,8 +476,16 @@ public class pet_control_device extends script.base_script
                 return SCRIPT_CONTINUE;
             }
         }
+        if (companion_lib.isStoryCompanionControlDevice(pcd))
+        {
+            companion_lib.applyStoryCompanionPcdStatsForPlayer(player, pcd);
+        }
         pet_lib.createPetFromData(pcd);
         obj_id pet = callable.getCDCallable(pcd);
+        if (isIdValid(pet) && companion_lib.isStoryCompanionControlDevice(pcd))
+        {
+            pet_lib.setCraftedPetStatsByGrowth(pcd, pet, 10);
+        }
         if (pet_lib.isMountPcd(pcd))
         {
             if (!hasObjVar(pcd, "pet.species"))

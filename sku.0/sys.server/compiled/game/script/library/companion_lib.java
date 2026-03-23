@@ -243,18 +243,76 @@ public class companion_lib extends script.base_script
         }
         return 1 + (influence / 1000);
     }
-    public static int resolveSpawnLevel(String creatureName, int tableLevel) throws InterruptedException
+    /**
+     * Story companion combat level from the owner: if {@code level} in {@code story_companions} is 0, uses the
+     * player's level; if positive, uses the lesser of that cap and the player's level. Matches pet combat rules
+     * (non-traders capped at 60 like crafted pets).
+     */
+    public static int resolveEffectiveStoryCompanionLevel(obj_id player, String creatureName, int tableLevel) throws InterruptedException
     {
+        if (!beast_lib.isValidPlayer(player))
+        {
+            return 1;
+        }
+        int pl = getLevel(player);
+        if (pl < 1)
+        {
+            pl = 1;
+        }
+        int cap = pl;
         if (tableLevel > 0)
         {
-            return tableLevel;
+            cap = Math.min(tableLevel, pl);
         }
-        int base = utils.dataTableGetInt(create.CREATURE_TABLE, creatureName, "BaseLevel");
-        if (base < 1)
+        if (cap > 60 && !craftinglib.isTrader(player))
         {
-            base = 1;
+            cap = 60;
         }
-        return base;
+        return cap;
+    }
+    /**
+     * Writes {@code creature_attribs.level} and combat stats on the PCD from {@code stat_balance.iff} for the
+     * effective level (player-based). Call before {@code pet_lib#createPetFromData} and after granting.
+     */
+    public static void applyStoryCompanionPcdStatsForPlayer(obj_id player, obj_id pcd) throws InterruptedException
+    {
+        if (!beast_lib.isValidPlayer(player) || !isStoryCompanionControlDevice(pcd))
+        {
+            return;
+        }
+        String companionId = getStringObjVar(pcd, OBJVAR_STORY_COMPANION_ID);
+        String creatureName = getStringObjVar(pcd, "pet.creatureName");
+        if (creatureName == null || creatureName.length() < 1)
+        {
+            return;
+        }
+        if (!isValidStoryCompanionRow(companionId))
+        {
+            return;
+        }
+        int tableLevel = dataTableGetInt(STORY_COMPANIONS_TABLE, companionId, "level");
+        int level = resolveEffectiveStoryCompanionLevel(player, creatureName, tableLevel);
+        if (level < 1)
+        {
+            level = 1;
+        }
+        int health = dataTableGetInt(pet_lib.TBL_MOB_STAT_BALANCE, level - 1, "HP");
+        int iconst = dataTableGetInt(pet_lib.TBL_MOB_STAT_BALANCE, level - 1, "HealthRegen");
+        float dps = dataTableGetFloat(pet_lib.TBL_MOB_STAT_BALANCE, level - 1, "damagePerSecond");
+        int minDamage = Math.round((dps * 2.0f) * 0.5f);
+        int maxDamage = Math.round((dps * 2.0f) * 1.5f);
+        int toHit = dataTableGetInt(pet_lib.TBL_MOB_STAT_BALANCE, level - 1, "ToHit");
+        int defenseValue = dataTableGetInt(pet_lib.TBL_MOB_STAT_BALANCE, level - 1, "Def");
+        int general_protection = dataTableGetInt(pet_lib.TBL_MOB_STAT_BALANCE, level - 1, "Armor");
+        bio_engineer.stripOldStats(pcd);
+        setObjVar(pcd, "creature_attribs.level", level);
+        setObjVar(pcd, "creature_attribs." + create.MAXATTRIBNAMES[HEALTH], health);
+        setObjVar(pcd, "creature_attribs." + create.MAXATTRIBNAMES[CONSTITUTION], iconst);
+        setObjVar(pcd, "creature_attribs.minDamage", minDamage);
+        setObjVar(pcd, "creature_attribs.maxDamage", maxDamage);
+        setObjVar(pcd, "creature_attribs.toHitChance", toHit);
+        setObjVar(pcd, "creature_attribs.defenseValue", defenseValue);
+        setObjVar(pcd, "creature_attribs.general_protection", general_protection);
     }
     /**
      * For mobs spawned from a creatures-table name (e.g. {@code aaph_koden}): remove every script on the object,
@@ -309,7 +367,7 @@ public class companion_lib extends script.base_script
         }
         String creatureName = dataTableGetString(STORY_COMPANIONS_TABLE, companionId, "creature_name");
         int tableLevel = dataTableGetInt(STORY_COMPANIONS_TABLE, companionId, "level");
-        int spawnLevel = resolveSpawnLevel(creatureName, tableLevel);
+        int spawnLevel = resolveEffectiveStoryCompanionLevel(player, creatureName, tableLevel);
         String roleStr = dataTableGetString(STORY_COMPANIONS_TABLE, companionId, "role");
         int stance = parseRoleString(roleStr);
         location loc = getLocation(player);
@@ -335,6 +393,7 @@ public class companion_lib extends script.base_script
         {
             attachScript(cd, "systems.companion.companion_story_pcd");
         }
+        applyStoryCompanionPcdStatsForPlayer(player, cd);
         if (!hasScript(player, "ai.pet_master"))
         {
             attachScript(player, "ai.pet_master");
