@@ -1119,7 +1119,7 @@ public class pet extends script.base_script
             return SCRIPT_CONTINUE;
         }
         boolean isFactionPet = (ai_lib.isNpc(self) || ai_lib.aiGetNiche(self) == NICHE_VEHICLE || ai_lib.isAndroid(self));
-        if (hasObjVar(self, battlefield.VAR_CONSTRUCTED) || isFactionPet)
+        if (hasObjVar(self, battlefield.VAR_CONSTRUCTED) || (isFactionPet && !companion_lib.isStoryCompanionPet(self)))
         {
             reallyKill(self);
             return SCRIPT_CONTINUE;
