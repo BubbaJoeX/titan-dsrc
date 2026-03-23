@@ -1466,6 +1466,8 @@ public class ai extends script.base_script
         boolean shipDeathblow = isIdValid(deathblowAttacker) && space_utils.isPlayerControlledShip(deathblowAttacker);
         obj_id lootBox = obj_id.NULL_ID;
         obj_id fallbackInv = obj_id.NULL_ID;
+        Vector eligiblePlayers = new Vector();
+        eligiblePlayers.setSize(0);
         for (obj_id killer : pks)
         {
             if (!isIdValid(killer) || !isPlayer(killer))
@@ -1482,6 +1484,7 @@ public class ai extends script.base_script
             }
             if (!shipDeathblow)
             {
+                eligiblePlayers = utils.addElement(eligiblePlayers, killer);
                 continue;
             }
             obj_id killerShip = space_transition.getContainingShip(killer);
@@ -1489,6 +1492,7 @@ public class ai extends script.base_script
             {
                 continue;
             }
+            eligiblePlayers = utils.addElement(eligiblePlayers, killer);
             if (hasObjVar(killerShip, "objLootBox"))
             {
                 lootBox = getObjIdObjVar(killerShip, "objLootBox");
@@ -1517,10 +1521,109 @@ public class ai extends script.base_script
         {
             return;
         }
-        int moved = moveObjects(lootItems, targetContainer);
+        obj_id[] itemsToMove = processAutoLootCashItems(self, lootItems, eligiblePlayers);
+        int moved = 0;
+        if (itemsToMove != null && itemsToMove.length > 0)
+        {
+            moved = moveObjects(itemsToMove, targetContainer);
+        }
         if (moved > 0)
         {
             corpse.clearLootMeParticle(self);
+        }
+    }
+    public obj_id[] processAutoLootCashItems(obj_id corpse, obj_id[] lootItems, Vector eligiblePlayers) throws InterruptedException
+    {
+        if (lootItems == null || lootItems.length == 0)
+        {
+            return lootItems;
+        }
+        Vector itemsToMove = new Vector();
+        itemsToMove.setSize(0);
+        for (obj_id lootItem : lootItems)
+        {
+            if (!isIdValid(lootItem))
+            {
+                continue;
+            }
+            String templateName = getTemplateName(lootItem);
+            boolean isCashItem = loot.isCashLootItem(lootItem) || (templateName != null && templateName.equals(loot.CASH_ITEM_TEMPLATE));
+            if (!isCashItem)
+            {
+                itemsToMove = utils.addElement(itemsToMove, lootItem);
+                continue;
+            }
+            int cashAmount = getIntObjVar(lootItem, "loot.cashAmount");
+            if (cashAmount > 0)
+            {
+                autoDepositLootCashToBank(corpse, cashAmount, eligiblePlayers);
+            }
+            destroyObject(lootItem);
+        }
+        if (itemsToMove.size() == 0)
+        {
+            return null;
+        }
+        obj_id[] result = new obj_id[itemsToMove.size()];
+        itemsToMove.toArray(result);
+        return result;
+    }
+    public void autoDepositLootCashToBank(obj_id corpse, int cashAmount, Vector eligiblePlayers) throws InterruptedException
+    {
+        if (!isIdValid(corpse) || cashAmount <= 0 || eligiblePlayers == null || eligiblePlayers.size() == 0)
+        {
+            return;
+        }
+        obj_id payer = ((obj_id)eligiblePlayers.get(0));
+        if (!isIdValid(payer) || !isPlayer(payer))
+        {
+            return;
+        }
+        obj_id gid = getGroupObject(payer);
+        Vector payoutTargets = new Vector();
+        payoutTargets.setSize(0);
+        if (isIdValid(gid))
+        {
+            for (Object eligiblePlayer : eligiblePlayers) {
+                obj_id member = ((obj_id) eligiblePlayer);
+                if (isIdValid(member) && isPlayer(member) && getGroupObject(member) == gid) {
+                    payoutTargets = utils.addElement(payoutTargets, member);
+                }
+            }
+        }
+        if (payoutTargets.size() == 0)
+        {
+            payoutTargets = utils.addElement(payoutTargets, payer);
+        }
+        int splitCount = payoutTargets.size();
+        int perPlayer = cashAmount / splitCount;
+        int remainder = cashAmount % splitCount;
+        for (int i = 0; i < splitCount; i++)
+        {
+            obj_id target = ((obj_id)payoutTargets.get(i));
+            if (!isIdValid(target) || !isPlayer(target))
+            {
+                continue;
+            }
+            int payout = perPlayer;
+            if (remainder > 0)
+            {
+                payout++;
+                remainder--;
+            }
+            if (payout <= 0)
+            {
+                continue;
+            }
+            int safePayout = group.getSafeDifference(target, payout);
+            if (safePayout <= 0)
+            {
+                continue;
+            }
+            if (transferBankCreditsFromNamedAccount(money.ACCT_NPC_LOOT, target, safePayout, null, null, null))
+            {
+                utils.moneyInMetric(corpse, money.ACCT_NPC_LOOT, safePayout);
+            }
         }
     }
 

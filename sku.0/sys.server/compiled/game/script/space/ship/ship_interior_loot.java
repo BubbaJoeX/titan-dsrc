@@ -11,6 +11,7 @@ public class ship_interior_loot extends script.base_script
     }
     public int OnAttach(obj_id self) throws InterruptedException
     {
+        setName(self, "Item Intake Container");
         messageTo(self, "setupShip", null, 1, false);
         LOG("space", self + " ATTACH !!ATTACH !!ATTACH !!ATTACH !!");
         return SCRIPT_CONTINUE;
