@@ -4816,6 +4816,16 @@ public class base_player extends script.base_script
     }
     public int OnCreatureDamaged(obj_id self, obj_id attacker, obj_id weapon, int[] damage) throws InterruptedException
     {
+        if (isIdValid(attacker) && space_utils.isPlayerControlledShip(attacker))
+        {
+            boolean bombardmentMode = hasObjVar(attacker, "space.summon.bombardment_orbit_active") && getBooleanObjVar(attacker, "space.summon.bombardment_orbit_active");
+            int lastTurretShot = utils.getIntScriptVar(attacker, xp.VAR_SHIP_GROUND_ATTACK_CREDIT_TIME);
+            if (bombardmentMode && lastTurretShot > 0 && (getGameTime() - lastTurretShot) <= xp.SHIP_GROUND_ATTACK_CREDIT_WINDOW)
+            {
+                negateTurretDamageOnPlayer(self, damage);
+                return SCRIPT_CONTINUE;
+            }
+        }
         if (meditation.isMeditating(self))
         {
             meditation.endMeditation(self);
@@ -4835,6 +4845,31 @@ public class base_player extends script.base_script
         }
         metrics.logArmorStatus(self);
         return SCRIPT_CONTINUE;
+    }
+    public void negateTurretDamageOnPlayer(obj_id self, int[] damage) throws InterruptedException
+    {
+        if (!isIdValid(self) || damage == null || damage.length < 1)
+        {
+            return;
+        }
+        // Damage array uses value/index pairs; values for health/action/mind are at 0/2/4.
+        for (int i = 0; i < damage.length; i += 2)
+        {
+            int damageAmount = damage[i];
+            if (damageAmount <= 0)
+            {
+                continue;
+            }
+            int attribIndex = i / 2;
+            int currentValue = getAttrib(self, attribIndex);
+            int maxValue = getMaxAttrib(self, attribIndex);
+            int newValue = currentValue + damageAmount;
+            if (newValue > maxValue)
+            {
+                newValue = maxValue;
+            }
+            setAttrib(self, attribIndex, newValue);
+        }
     }
     public int OnTargeted(obj_id self, obj_id attacker) throws InterruptedException
     {
