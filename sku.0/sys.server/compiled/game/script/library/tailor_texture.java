@@ -15,7 +15,7 @@ public class tailor_texture extends script.base_script
             return false;
         }
         String t = getTemplateName(item);
-        return t != null && t.startsWith("object/tangible/wearables/armor/");
+        return t != null && t.startsWith("object/tangible/wearables/");
     }
 
     public static boolean hasTailorPngTexture(obj_id item) throws InterruptedException

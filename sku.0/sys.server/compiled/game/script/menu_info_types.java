@@ -429,9 +429,6 @@ public class menu_info_types
 	public static final int LANDMINE_REVERSE_TRIGGER				= index++;
 	public static final int REWARD_TRADE_IN							= index++;
 
-	public static final int SERVER_TAILOR_TEXTURE_SET_ARMOR			= index++;
-	public static final int SERVER_TAILOR_TEXTURE_CLEAR_ARMOR		= index++;
-
 // VERY END
 	//----------------------------------------------------------------------
 	//--

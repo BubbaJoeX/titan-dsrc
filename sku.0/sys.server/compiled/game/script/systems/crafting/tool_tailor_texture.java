@@ -19,6 +19,11 @@ public class tool_tailor_texture extends script.base_script
     private static final String VAR_PENDING_ARMOR = "tool_tailor_texture.pendingArmor";
     private static final String SKILL_TAILOR_NOVICE = "crafting_tailor_novice";
 
+    // SERVER_MENU44/45: reuse existing radial types so RadialMenuManager::getRangeForMenuType() succeeds
+    // without rebuilding radial_menu.iff (new menu types past the table end are dropped in Client.cpp).
+    private static final int MENU_SET_PNG_URL = menu_info_types.SERVER_MENU44;
+    private static final int MENU_CLEAR_PNG_URL = menu_info_types.SERVER_MENU45;
+
     public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi) throws InterruptedException
     {
         if (!isIdValid(player) || !exists(player) || !utils.isNestedWithin(self, player))
@@ -32,8 +37,8 @@ public class tool_tailor_texture extends script.base_script
                 return SCRIPT_CONTINUE;
             }
         }
-        mi.addRootMenu(menu_info_types.SERVER_TAILOR_TEXTURE_SET_ARMOR, string_id.unlocalized("Armor: Set PNG URL"));
-        mi.addRootMenu(menu_info_types.SERVER_TAILOR_TEXTURE_CLEAR_ARMOR, string_id.unlocalized("Armor: Clear PNG URL"));
+        mi.addRootMenu(MENU_SET_PNG_URL, string_id.unlocalized("Armor: Set PNG URL"));
+        mi.addRootMenu(MENU_CLEAR_PNG_URL, string_id.unlocalized("Armor: Clear PNG URL"));
         return SCRIPT_CONTINUE;
     }
 
@@ -43,15 +48,15 @@ public class tool_tailor_texture extends script.base_script
         {
             return SCRIPT_CONTINUE;
         }
-        if (!hasSkill(player, SKILL_TAILOR_NOVICE))
+        if (!hasSkill(player, SKILL_TAILOR_NOVICE) && !isGod(player))
         {
             return SCRIPT_CONTINUE;
         }
-        if (item == menu_info_types.SERVER_TAILOR_TEXTURE_SET_ARMOR)
+        if (item == MENU_SET_PNG_URL)
         {
             beginSetTexture(self, player);
         }
-        else if (item == menu_info_types.SERVER_TAILOR_TEXTURE_CLEAR_ARMOR)
+        else if (item == MENU_CLEAR_PNG_URL)
         {
             beginClearTexture(self, player);
         }
