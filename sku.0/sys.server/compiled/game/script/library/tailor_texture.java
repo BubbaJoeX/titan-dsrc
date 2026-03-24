@@ -71,7 +71,8 @@ public class tailor_texture extends script.base_script
 
     public static void clearTailorPngUrl(obj_id armor) throws InterruptedException
     {
-        clearCondition(armor, CONDITION_MAGIC_PAINTING_URL);
+        // Remove objvars before clearing condition so server TangibleObject::clearCondition ->
+        // updateRemoteTextureUrlFromObjvars() sees texture.* already gone.
         if (hasObjVar(armor, OBJ_TEXTURE_URL))
         {
             removeObjVar(armor, OBJ_TEXTURE_URL);
@@ -92,5 +93,6 @@ public class tailor_texture extends script.base_script
         {
             removeObjVar(armor, "texture.scrollV");
         }
+        clearCondition(armor, CONDITION_MAGIC_PAINTING_URL);
     }
 }
