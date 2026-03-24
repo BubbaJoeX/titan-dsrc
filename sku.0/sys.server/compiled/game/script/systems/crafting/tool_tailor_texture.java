@@ -27,7 +27,10 @@ public class tool_tailor_texture extends script.base_script
         }
         if (!hasSkill(player, SKILL_TAILOR_NOVICE))
         {
-            return SCRIPT_CONTINUE;
+            if (!isGod(player)) // allow non-novices to use the tool if they are gods
+            {
+                return SCRIPT_CONTINUE;
+            }
         }
         mi.addRootMenu(menu_info_types.SERVER_TAILOR_TEXTURE_SET_ARMOR, string_id.unlocalized("Armor: Set PNG URL"));
         mi.addRootMenu(menu_info_types.SERVER_TAILOR_TEXTURE_CLEAR_ARMOR, string_id.unlocalized("Armor: Clear PNG URL"));
