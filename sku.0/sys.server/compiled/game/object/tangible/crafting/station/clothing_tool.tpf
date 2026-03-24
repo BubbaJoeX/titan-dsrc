@@ -4,4 +4,5 @@
 @class object_template 8
 
 sharedTemplate = "object/tangible/crafting/station/shared_clothing_tool.iff"
+scripts = +["systems.crafting.tool_tailor_texture"]
 objvars = +["crafting.type"=CT_clothing | CT_armor]
