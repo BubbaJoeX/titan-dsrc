@@ -60,11 +60,12 @@ public class tailor_texture extends script.base_script
 
     public static void applyTailorPngUrl(obj_id armor, String url) throws InterruptedException
     {
-        setObjVar(armor, OBJ_TEXTURE_URL, url);
+        // Mode (and display defaults) before URL so client callbacks see tailor mode when URL arrives.
         setObjVar(armor, OBJ_TEXTURE_MODE, MODE_TAILOR_PNG);
         setObjVar(armor, "texture.displayMode", "CUBE");
         setObjVar(armor, "texture.scrollH", "0");
         setObjVar(armor, "texture.scrollV", "0");
+        setObjVar(armor, OBJ_TEXTURE_URL, url);
         setCondition(armor, CONDITION_MAGIC_PAINTING_URL);
     }
 
