@@ -65,10 +65,12 @@ public class tailor_texture extends script.base_script
         setObjVar(armor, "texture.displayMode", "CUBE");
         setObjVar(armor, "texture.scrollH", "0");
         setObjVar(armor, "texture.scrollV", "0");
+        setCondition(armor, CONDITION_MAGIC_PAINTING_URL);
     }
 
     public static void clearTailorPngUrl(obj_id armor) throws InterruptedException
     {
+        clearCondition(armor, CONDITION_MAGIC_PAINTING_URL);
         if (hasObjVar(armor, OBJ_TEXTURE_URL))
         {
             removeObjVar(armor, OBJ_TEXTURE_URL);
