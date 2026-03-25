@@ -36,6 +36,9 @@ public class turret_gunner_lib extends script.base_script
 	public static final String VAR_EYE_OFF_Z = "turret.gunner.eye_off_z";
 	public static final String VAR_MAX_RANGE = "turret.gunner.max_range";
 
+	/** Animation mood while in the gunner seat (see appearance/animation/*sitting_chair*). */
+	public static final String GUNNER_MOUNT_ANIM_MOOD = "sitting_chair";
+
 	public static final String SCRIPTVAR_SUSPEND_AI_TRIGGERS = "turret.gunner.suspendAiTriggers";
 
 	public static final String VAR_RET_CELL = "turretGunner.ret.cell";
@@ -185,6 +188,8 @@ public class turret_gunner_lib extends script.base_script
 
 		setInvulnerable(player, true);
 		setLocation(player, seat);
+		setPosture(player, POSTURE_SITTING);
+		setAnimationMood(player, GUNNER_MOUNT_ANIM_MOOD);
 
 		setTurretGunnerMountTurretId(player, turret);
 
@@ -243,6 +248,9 @@ public class turret_gunner_lib extends script.base_script
 		removeObjVar(player, VAR_RET_CELL);
 		removeObjVar(player, VAR_RET_SCENE);
 
+		setPosture(player, POSTURE_UPRIGHT);
+		setAnimationMood(player, "calm");
+
 		return true;
 	}
 
@@ -274,6 +282,8 @@ public class turret_gunner_lib extends script.base_script
 		else
 		{
 			setInvulnerable(player, false);
+			setPosture(player, POSTURE_UPRIGHT);
+			setAnimationMood(player, "calm");
 			removeObjVar(player, VAR_PLAYER_MOUNTED_ON);
 			removeObjVar(player, VAR_RET_X);
 			removeObjVar(player, VAR_RET_Y);
