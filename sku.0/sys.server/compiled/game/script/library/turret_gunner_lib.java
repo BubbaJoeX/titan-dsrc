@@ -94,7 +94,7 @@ public class turret_gunner_lib extends script.base_script
 		{
 			return;
 		}
-		if (!hasObjVar(turret, "objWeapon") && !turret.createWeapon(turret))
+		if (!hasObjVar(turret, "objWeapon") && !script.library.turret.createWeapon(turret))
 		{
 			return;
 		}
