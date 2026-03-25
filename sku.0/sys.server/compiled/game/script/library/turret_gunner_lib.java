@@ -31,6 +31,9 @@ public class turret_gunner_lib extends script.base_script
 	public static final String VAR_OFF_X = "turret.gunner.off_x";
 	public static final String VAR_OFF_Y = "turret.gunner.off_y";
 	public static final String VAR_OFF_Z = "turret.gunner.off_z";
+	public static final String VAR_EYE_OFF_X = "turret.gunner.eye_off_x";
+	public static final String VAR_EYE_OFF_Y = "turret.gunner.eye_off_y";
+	public static final String VAR_EYE_OFF_Z = "turret.gunner.eye_off_z";
 	public static final String VAR_MAX_RANGE = "turret.gunner.max_range";
 
 	public static final String SCRIPTVAR_SUSPEND_AI_TRIGGERS = "turret.gunner.suspendAiTriggers";
@@ -74,6 +77,50 @@ public class turret_gunner_lib extends script.base_script
 			return getFloatObjVar(turret, VAR_MAX_RANGE);
 		}
 		return DEFAULT_MAX_MOUNT_RANGE;
+	}
+
+	/**
+	 * Copies base kinetic DPS band, attack speed, and elemental damage from the player's held weapon onto the
+	 * turret's spawned {@code objWeapon} (template/type unchanged).
+	 */
+	public static void applyPlayerHeldWeaponStatsToTurretWeapon(obj_id turret, obj_id player) throws InterruptedException
+	{
+		if (!isIdValid(turret) || !isIdValid(player) || !exists(turret) || !exists(player))
+		{
+			return;
+		}
+		obj_id held = getHeldWeapon(player);
+		if (!isIdValid(held) || !isWeapon(held))
+		{
+			return;
+		}
+		if (!hasObjVar(turret, "objWeapon") && !turret.createWeapon(turret))
+		{
+			return;
+		}
+		obj_id tw = getObjIdObjVar(turret, "objWeapon");
+		if (!isIdValid(tw))
+		{
+			return;
+		}
+		int minD = getWeaponMinDamage(held);
+		int maxD = getWeaponMaxDamage(held);
+		if (maxD < minD)
+		{
+			int swap = minD;
+			minD = maxD;
+			maxD = swap;
+		}
+		setWeaponMinDamage(tw, minD);
+		setWeaponMaxDamage(tw, maxD);
+		float spd = getWeaponAttackSpeed(held);
+		if (spd > 0.0f)
+		{
+			setWeaponAttackSpeed(tw, spd);
+		}
+		int elemType = getWeaponElementalType(held);
+		int elemVal = getWeaponElementalValue(held);
+		setWeaponElementalDamage(tw, elemType, elemVal);
 	}
 
 	public static void clearAiTargetsAndEngagement(obj_id turretObj) throws InterruptedException
@@ -143,10 +190,12 @@ public class turret_gunner_lib extends script.base_script
 
 		// Designer-controlled camera origin offset (local turret frame).
 		// Defaults to a reasonable "eye height" in case objvars are not present.
-		float eyeX = hasObjVar(turret, "turret.gunner.eye_off_x") ? getFloatObjVar(turret, "turret.gunner.eye_off_x") : 0.0f;
-		float eyeY = hasObjVar(turret, "turret.gunner.eye_off_y") ? getFloatObjVar(turret, "turret.gunner.eye_off_y") : 1.6f;
-		float eyeZ = hasObjVar(turret, "turret.gunner.eye_off_z") ? getFloatObjVar(turret, "turret.gunner.eye_off_z") : 0.0f;
+		float eyeX = hasObjVar(turret, VAR_EYE_OFF_X) ? getFloatObjVar(turret, VAR_EYE_OFF_X) : 0.0f;
+		float eyeY = hasObjVar(turret, VAR_EYE_OFF_Y) ? getFloatObjVar(turret, VAR_EYE_OFF_Y) : 1.6f;
+		float eyeZ = hasObjVar(turret, VAR_EYE_OFF_Z) ? getFloatObjVar(turret, VAR_EYE_OFF_Z) : 0.0f;
 		setTurretGunnerEyeOffsets(player, eyeX, eyeY, eyeZ);
+
+		applyPlayerHeldWeaponStatsToTurretWeapon(turret, player);
 
 		return true;
 	}
