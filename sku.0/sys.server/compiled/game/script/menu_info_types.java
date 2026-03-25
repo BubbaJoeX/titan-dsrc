@@ -432,9 +432,6 @@ public class menu_info_types
 	// Player-manned installation turrets (Battlefront-style gunner seat; server radial enter/exit).
 	public static final int SERVER_TURRET_GUNNER_ENTER				= index++;
 	public static final int SERVER_TURRET_GUNNER_EXIT					= index++;
-	public static final int SERVER_TURRET_GUNNER_GM_SEAT_OFFSETS			= index++;
-	public static final int SERVER_TURRET_GUNNER_GM_EYE_OFFSETS			= index++;
-	public static final int SERVER_TURRET_GUNNER_GM_NUDGE				= index++;
 
 // VERY END
 	//----------------------------------------------------------------------

@@ -86,11 +86,12 @@ public class turret_gunner_station extends script.base_script
 			}
 		}
 
+		// God tools reuse generic SERVER_MENU slots (labels from SID_*; already in radial_menu.tab).
 		if (isGod(player))
 		{
-			mi.addRootMenu(menu_info_types.SERVER_TURRET_GUNNER_GM_SEAT_OFFSETS, SID_GM_SEAT);
-			mi.addRootMenu(menu_info_types.SERVER_TURRET_GUNNER_GM_EYE_OFFSETS, SID_GM_EYE);
-			mi.addRootMenu(menu_info_types.SERVER_TURRET_GUNNER_GM_NUDGE, SID_GM_NUDGE);
+			mi.addRootMenu(menu_info_types.SERVER_MENU1, SID_GM_SEAT);
+			mi.addRootMenu(menu_info_types.SERVER_MENU2, SID_GM_EYE);
+			mi.addRootMenu(menu_info_types.SERVER_MENU3, SID_GM_NUDGE);
 		}
 
 		return SCRIPT_CONTINUE;
@@ -122,7 +123,7 @@ public class turret_gunner_station extends script.base_script
 			}
 			return SCRIPT_CONTINUE;
 		}
-		if (item == menu_info_types.SERVER_TURRET_GUNNER_GM_SEAT_OFFSETS)
+		if (item == menu_info_types.SERVER_MENU1)
 		{
 			if (!isGod(player))
 			{
@@ -136,7 +137,7 @@ public class turret_gunner_station extends script.base_script
 			sui.inputbox(self, player, prompt, "GM: Seat offsets", "handleGmSeatOffsetsInput", def);
 			return SCRIPT_CONTINUE;
 		}
-		if (item == menu_info_types.SERVER_TURRET_GUNNER_GM_EYE_OFFSETS)
+		if (item == menu_info_types.SERVER_MENU2)
 		{
 			if (!isGod(player))
 			{
@@ -150,7 +151,7 @@ public class turret_gunner_station extends script.base_script
 			sui.inputbox(self, player, prompt, "GM: Eye offsets", "handleGmEyeOffsetsInput", def);
 			return SCRIPT_CONTINUE;
 		}
-		if (item == menu_info_types.SERVER_TURRET_GUNNER_GM_NUDGE)
+		if (item == menu_info_types.SERVER_MENU3)
 		{
 			if (!isGod(player))
 			{
