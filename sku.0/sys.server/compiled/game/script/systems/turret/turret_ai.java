@@ -558,7 +558,8 @@ public class turret_ai extends script.systems.combat.combat_base_old
         float az = params.getFloat("aimZ");
         location turretLoc = getLocation(self);
         location aimLoc = new location(ax, ay, az, turretLoc.area, turretLoc.cell);
-        obj_id[] inCone = getObjectsInCone(self, aimLoc, turret.FACTION_TURRET_RANGE, 9.0f);
+        // Wider half-angle than AI bursts: gunner aims by camera; ~45° total cone matches FPS tolerance.
+        obj_id[] inCone = getObjectsInCone(self, aimLoc, turret.FACTION_TURRET_RANGE, 22.5f);
         if (inCone == null || inCone.length == 0)
         {
             return SCRIPT_CONTINUE;

@@ -2467,6 +2467,42 @@ public class base_player extends script.base_script
         {
             return SCRIPT_CONTINUE;
         }
+        String p = params != null ? params.trim() : "";
+        if (p.regionMatches(true, 0, "aim ", 0, 4))
+        {
+            String rest = p.substring(4).trim();
+            String[] tok = rest.split("\\s+");
+            if (tok.length >= 3)
+            {
+                try
+                {
+                    float ax = Float.parseFloat(tok[0]);
+                    float ay = Float.parseFloat(tok[1]);
+                    float az = Float.parseFloat(tok[2]);
+                    location tLoc = getLocation(target);
+                    float dx = ax - tLoc.x;
+                    float dy = ay - tLoc.y;
+                    float dz = az - tLoc.z;
+                    float distSq = dx * dx + dy * dy + dz * dz;
+                    if (distSq >= 1.0f && distSq <= 260000.0f)
+                    {
+                        utils.setScriptVar(target, turret_gunner_lib.SCRIPTVAR_AIM_WX, ax);
+                        utils.setScriptVar(target, turret_gunner_lib.SCRIPTVAR_AIM_WY, ay);
+                        utils.setScriptVar(target, turret_gunner_lib.SCRIPTVAR_AIM_WZ, az);
+                        dictionary d = new dictionary();
+                        d.put("gunner", self);
+                        d.put("aimX", ax);
+                        d.put("aimY", ay);
+                        d.put("aimZ", az);
+                        messageTo(target, "handleGunnerDirectionalShot", d, 0, false);
+                    }
+                }
+                catch (NumberFormatException e)
+                {
+                }
+            }
+            return SCRIPT_CONTINUE;
+        }
         if (utils.hasScriptVar(target, turret_gunner_lib.SCRIPTVAR_AIM_WX) && utils.hasScriptVar(target, turret_gunner_lib.SCRIPTVAR_AIM_WY) && utils.hasScriptVar(target, turret_gunner_lib.SCRIPTVAR_AIM_WZ))
         {
             float ax = utils.getFloatScriptVar(target, turret_gunner_lib.SCRIPTVAR_AIM_WX);
