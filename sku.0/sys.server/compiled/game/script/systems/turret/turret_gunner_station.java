@@ -171,8 +171,8 @@ public class turret_gunner_station extends script.base_script
 				"Seat X -0.1",
 				"Seat Z +0.1",
 				"Seat Z -0.1",
-				"Reset eye to  [0, 1.6, 0]",
-				"Reset seat to  [0, 0.25, 0]"
+				"Reset eye to [0.0, 1.6, 0.0]",
+				"Reset seat to [0.0, 0.25, 0.0]"
 			};
 			sui.listbox(self, player, "Adjust turret.gunner offsets in small steps (meters).", sui.OK_CANCEL, "GM: Nudge offsets", items, "handleGmNudgeOffsets", true, false);
 			return SCRIPT_CONTINUE;

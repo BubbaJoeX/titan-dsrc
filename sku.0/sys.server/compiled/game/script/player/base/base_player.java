@@ -2394,10 +2394,43 @@ public class base_player extends script.base_script
         {
             return SCRIPT_CONTINUE;
         }
+        String p = params != null ? params.trim() : "";
+        if (p.regionMatches(true, 0, "aim ", 0, 4))
+        {
+            String rest = p.substring(4).trim();
+            String[] tok = rest.split("\\s+");
+            if (tok.length < 3)
+            {
+                return SCRIPT_CONTINUE;
+            }
+            try
+            {
+                float ax = Float.parseFloat(tok[0]);
+                float ay = Float.parseFloat(tok[1]);
+                float az = Float.parseFloat(tok[2]);
+                location tLoc = getLocation(target);
+                float dx = ax - tLoc.x;
+                float dy = ay - tLoc.y;
+                float dz = az - tLoc.z;
+                float distSq = dx * dx + dy * dy + dz * dz;
+                if (distSq < 1.0f || distSq > 260000.0f)
+                {
+                    return SCRIPT_CONTINUE;
+                }
+                utils.setScriptVar(target, turret_gunner_lib.SCRIPTVAR_AIM_WX, ax);
+                utils.setScriptVar(target, turret_gunner_lib.SCRIPTVAR_AIM_WY, ay);
+                utils.setScriptVar(target, turret_gunner_lib.SCRIPTVAR_AIM_WZ, az);
+                utils.removeScriptVar(target, "turret.gunner.manualTarget");
+            }
+            catch (NumberFormatException e)
+            {
+                return SCRIPT_CONTINUE;
+            }
+            return SCRIPT_CONTINUE;
+        }
         obj_id aim = obj_id.NULL_ID;
         try
         {
-            String p = params != null ? params.trim() : "";
             if (p.length() > 0 && !p.equals("0"))
             {
                 long nid = Long.parseLong(p);
@@ -2411,6 +2444,9 @@ public class base_player extends script.base_script
         {
             return SCRIPT_CONTINUE;
         }
+        utils.removeScriptVar(target, turret_gunner_lib.SCRIPTVAR_AIM_WX);
+        utils.removeScriptVar(target, turret_gunner_lib.SCRIPTVAR_AIM_WY);
+        utils.removeScriptVar(target, turret_gunner_lib.SCRIPTVAR_AIM_WZ);
         if (isIdValid(aim) && exists(aim) && turret.isValidTarget(target, aim))
         {
             utils.setScriptVar(target, "turret.gunner.manualTarget", aim);
@@ -2429,6 +2465,19 @@ public class base_player extends script.base_script
         }
         if (!turret_gunner_lib.isOccupied(target) || turret_gunner_lib.getOccupant(target) != self)
         {
+            return SCRIPT_CONTINUE;
+        }
+        if (utils.hasScriptVar(target, turret_gunner_lib.SCRIPTVAR_AIM_WX) && utils.hasScriptVar(target, turret_gunner_lib.SCRIPTVAR_AIM_WY) && utils.hasScriptVar(target, turret_gunner_lib.SCRIPTVAR_AIM_WZ))
+        {
+            float ax = utils.getFloatScriptVar(target, turret_gunner_lib.SCRIPTVAR_AIM_WX);
+            float ay = utils.getFloatScriptVar(target, turret_gunner_lib.SCRIPTVAR_AIM_WY);
+            float az = utils.getFloatScriptVar(target, turret_gunner_lib.SCRIPTVAR_AIM_WZ);
+            dictionary d = new dictionary();
+            d.put("gunner", self);
+            d.put("aimX", ax);
+            d.put("aimY", ay);
+            d.put("aimZ", az);
+            messageTo(target, "handleGunnerDirectionalShot", d, 0, false);
             return SCRIPT_CONTINUE;
         }
         if (!utils.hasScriptVar(target, "turret.gunner.manualTarget"))

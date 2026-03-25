@@ -538,6 +538,62 @@ public class turret_ai extends script.systems.combat.combat_base_old
         }
         return recycleDelay;
     }
+    public int handleGunnerDirectionalShot(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (params == null || params.isEmpty())
+        {
+            return SCRIPT_CONTINUE;
+        }
+        obj_id gunner = params.getObjId("gunner");
+        if (!isIdValid(gunner) || !turret_gunner_lib.isOccupied(self) || turret_gunner_lib.getOccupant(self) != gunner)
+        {
+            return SCRIPT_CONTINUE;
+        }
+        if (!utils.hasScriptVar(self, turret_gunner_lib.SCRIPTVAR_SUSPEND_AI_TRIGGERS))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        float ax = params.getFloat("aimX");
+        float ay = params.getFloat("aimY");
+        float az = params.getFloat("aimZ");
+        location turretLoc = getLocation(self);
+        location aimLoc = new location(ax, ay, az, turretLoc.area, turretLoc.cell);
+        obj_id[] inCone = getObjectsInCone(self, aimLoc, turret.FACTION_TURRET_RANGE, 9.0f);
+        if (inCone == null || inCone.length == 0)
+        {
+            return SCRIPT_CONTINUE;
+        }
+        obj_id best = null;
+        float bestDistSq = Float.MAX_VALUE;
+        for (obj_id oid : inCone)
+        {
+            if (!isIdValid(oid) || oid == self || oid == gunner)
+            {
+                continue;
+            }
+            if (!turret.isValidTarget(self, oid))
+            {
+                continue;
+            }
+            location oLoc = getLocation(oid);
+            float dx = oLoc.x - aimLoc.x;
+            float dy = oLoc.y - aimLoc.y;
+            float dz = oLoc.z - aimLoc.z;
+            float d2 = dx * dx + dy * dy + dz * dz;
+            if (d2 < bestDistSq)
+            {
+                bestDistSq = d2;
+                best = oid;
+            }
+        }
+        if (!isIdValid(best))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        turret.engageTarget(self, best);
+        doAttack(best);
+        return SCRIPT_CONTINUE;
+    }
     public int handleGunnerSingleShot(obj_id self, dictionary params) throws InterruptedException
     {
         if (params == null || params.isEmpty())

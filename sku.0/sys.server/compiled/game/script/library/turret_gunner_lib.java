@@ -41,6 +41,11 @@ public class turret_gunner_lib extends script.base_script
 
 	public static final String SCRIPTVAR_SUSPEND_AI_TRIGGERS = "turret.gunner.suspendAiTriggers";
 
+	/** World-space aim point (from gunner camera); used for cone acquisition instead of reticle object id. */
+	public static final String SCRIPTVAR_AIM_WX = "turret.gunner.aim_wx";
+	public static final String SCRIPTVAR_AIM_WY = "turret.gunner.aim_wy";
+	public static final String SCRIPTVAR_AIM_WZ = "turret.gunner.aim_wz";
+
 	public static final String VAR_RET_CELL = "turretGunner.ret.cell";
 	public static final String VAR_RET_X = "turretGunner.ret.x";
 	public static final String VAR_RET_Y = "turretGunner.ret.y";
@@ -218,6 +223,9 @@ public class turret_gunner_lib extends script.base_script
 
 		utils.removeScriptVar(turret, SCRIPTVAR_SUSPEND_AI_TRIGGERS);
 		utils.removeScriptVar(turret, "turret.gunner.manualTarget");
+		utils.removeScriptVar(turret, SCRIPTVAR_AIM_WX);
+		utils.removeScriptVar(turret, SCRIPTVAR_AIM_WY);
+		utils.removeScriptVar(turret, SCRIPTVAR_AIM_WZ);
 
 		removeObjVar(turret, VAR_GUNNER_OCCUPANT);
 		removeObjVar(player, VAR_PLAYER_MOUNTED_ON);
@@ -264,6 +272,9 @@ public class turret_gunner_lib extends script.base_script
 		else if (hasObjVar(turret, VAR_GUNNER_OCCUPANT))
 		{
 			utils.removeScriptVar(turret, SCRIPTVAR_SUSPEND_AI_TRIGGERS);
+			utils.removeScriptVar(turret, SCRIPTVAR_AIM_WX);
+			utils.removeScriptVar(turret, SCRIPTVAR_AIM_WY);
+			utils.removeScriptVar(turret, SCRIPTVAR_AIM_WZ);
 			removeObjVar(turret, VAR_GUNNER_OCCUPANT);
 		}
 	}
