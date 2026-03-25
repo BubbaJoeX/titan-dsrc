@@ -17,11 +17,11 @@ public class turret_gunner_station extends script.base_script
 {
 	private static final float GM_NUDGE_STEP = 0.1f;
 
-	private static final string_id SID_ENTER = new string_id("", "Enter Gunner Seat");
-	private static final string_id SID_EXIT = new string_id("", "Exit Gunner Seat");
-	private static final string_id SID_GM_SEAT = new string_id("", "GM: Set seat offsets (x y z)");
-	private static final string_id SID_GM_EYE = new string_id("", "GM: Set eye/camera offsets (x y z)");
-	private static final string_id SID_GM_NUDGE = new string_id("", "GM: Nudge offsets…");
+	private static final string_id SID_ENTER = new string_id("Enter Gunner Seat");
+	private static final string_id SID_EXIT = new string_id("Exit Gunner Seat");
+	private static final string_id SID_GM_SEAT = new string_id("GM: Set seat offsets (x y z)");
+	private static final string_id SID_GM_EYE = new string_id("GM: Set eye/camera offsets (x y z)");
+	private static final string_id SID_GM_NUDGE = new string_id("GM: Nudge offsets…");
 
 	public turret_gunner_station()
 	{
