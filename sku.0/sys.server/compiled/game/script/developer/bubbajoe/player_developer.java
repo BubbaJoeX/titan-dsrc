@@ -9009,8 +9009,8 @@ public class player_developer extends base_script
                 return SCRIPT_CONTINUE;
             }
             setYaw(turret, getYaw(player));
-            setIntObjVar(turret, turret_gunner_lib.VAR_DEV_GUNNER_ONLY, 1);
-            setIntObjVar(turret, turret_gunner_lib.VAR_PLAYER_CONTROLLABLE, 1);
+            setObjVar(turret, turret_gunner_lib.VAR_DEV_GUNNER_ONLY, 1);
+            setObjVar(turret, turret_gunner_lib.VAR_PLAYER_CONTROLLABLE, 1);
             if (hasScript(turret, "systems.turret.turret_ai"))
             {
                 detachScript(turret, "systems.turret.turret_ai");
