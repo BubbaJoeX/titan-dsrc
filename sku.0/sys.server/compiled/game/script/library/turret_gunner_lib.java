@@ -12,8 +12,8 @@ import script.obj_id;
  * {@code turret.gunner.max_range} (float, optional — radial mount range, default 12m)<br>
  * {@code turret.dev.attackSpeedScale} (float, optional — multiplies post-shot recycle delay in {@code turret_ai})<br>
  * <p>
- * Phase 2 (client / command table): mouse yaw/pitch and WASD strafe should drive aim via
- * {@code systems.turret.turret_gunner_station} messages or a dedicated command; this library keeps seat + state ready.
+ * Gunner aim is driven client-side (camera + turret mesh slew) with server combat commands
+ * {@code turretGunnerAim} / {@code turretGunnerFire}; this library keeps seat + state ready.
  */
 public class turret_gunner_lib extends script.base_script
 {
@@ -35,9 +35,6 @@ public class turret_gunner_lib extends script.base_script
 	public static final String VAR_EYE_OFF_Y = "turret.gunner.eye_off_y";
 	public static final String VAR_EYE_OFF_Z = "turret.gunner.eye_off_z";
 	public static final String VAR_MAX_RANGE = "turret.gunner.max_range";
-
-	/** Animation mood while in the gunner seat (see appearance/animation/*sitting_chair*). */
-	public static final String GUNNER_MOUNT_ANIM_MOOD = "sitting_chair";
 
 	public static final String SCRIPTVAR_SUSPEND_AI_TRIGGERS = "turret.gunner.suspendAiTriggers";
 
@@ -193,8 +190,8 @@ public class turret_gunner_lib extends script.base_script
 
 		setInvulnerable(player, true);
 		setLocation(player, seat);
-		setPosture(player, POSTURE_SITTING);
-		setAnimationMood(player, GUNNER_MOUNT_ANIM_MOOD);
+		setPosture(player, POSTURE_UPRIGHT);
+		setAnimationMood(player, "calm");
 
 		setTurretGunnerMountTurretId(player, turret);
 
