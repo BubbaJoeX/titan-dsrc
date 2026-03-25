@@ -21,6 +21,9 @@ public class turret_gunner_lib extends script.base_script
 	{
 	}
 
+	/** When set (non-zero), {@link script.systems.turret.turret_gunner_station} swaps {@code turret_ai} for {@code turret_gunner_combat} on load. */
+	public static final String VAR_DEV_GUNNER_ONLY = "turret.dev.gunnerOnly";
+
 	public static final String VAR_PLAYER_CONTROLLABLE = "turret.playerControllable";
 	public static final String VAR_GUNNER_OCCUPANT = "turret.gunner.occupant";
 	public static final String VAR_PLAYER_MOUNTED_ON = "turretGunner.mountedOn";

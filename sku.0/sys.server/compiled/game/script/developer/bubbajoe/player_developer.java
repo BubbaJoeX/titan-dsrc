@@ -4606,6 +4606,18 @@ public class player_developer extends base_script
             listbox(self, self, "Select a template.", OK_CANCEL, "Template Search", listObjectFilesByTerm(keyterm), "handleTemplateLookup", true, false);
             return SCRIPT_CONTINUE;
         }
+        else if (cmd.equalsIgnoreCase("makeTurret"))
+        {
+            broadcast(self, "Loading GCW turret templates. Please wait...");
+            String[] gcwTurrets = getAllTemplates(self, "installation/turret/gcw", "", false);
+            if (gcwTurrets == null || gcwTurrets.length == 0)
+            {
+                broadcast(self, "No .iff templates found in object/installation/turret/gcw (check server data path).");
+                return SCRIPT_CONTINUE;
+            }
+            listbox(self, self, "Select a GCW turret template to spawn at your position:", OK_CANCEL, "Developer: Make Turret", gcwTurrets, "handleMakeTurret", true, false);
+            return SCRIPT_CONTINUE;
+        }
         else if (cmd.equalsIgnoreCase("randomizeContainer"))
         {
             obj_id[] contents = utils.getContents(target, true);
@@ -8962,6 +8974,57 @@ public class player_developer extends base_script
             detachAllScripts(template);
             broadcast(self, "Template created: " + template);
             return SCRIPT_CONTINUE;
+        }
+        return SCRIPT_CONTINUE;
+    }
+
+    public int handleMakeTurret(obj_id self, dictionary params) throws InterruptedException
+    {
+        int button = getIntButtonPressed(params);
+        obj_id player = getPlayerId(params);
+        int selectionIndex = getListboxSelectedRow(params);
+        if (button == BP_CANCEL)
+        {
+            return SCRIPT_CONTINUE;
+        }
+        if (button == BP_OK)
+        {
+            String[] selections = getAllTemplates(self, "installation/turret/gcw", "", false);
+            if (selections == null || selections.length == 0)
+            {
+                broadcast(player, "No GCW turret templates found.");
+                return SCRIPT_CONTINUE;
+            }
+            if (selectionIndex < 0 || selectionIndex >= selections.length)
+            {
+                broadcast(player, "Invalid list selection.");
+                return SCRIPT_CONTINUE;
+            }
+            String templateName = selections[selectionIndex];
+            location loc = getLocation(player);
+            obj_id turret = createObject(templateName, loc);
+            if (!isIdValid(turret))
+            {
+                broadcast(player, "Failed to create object: " + templateName);
+                return SCRIPT_CONTINUE;
+            }
+            setYaw(turret, getYaw(player));
+            setIntObjVar(turret, turret_gunner_lib.VAR_DEV_GUNNER_ONLY, 1);
+            setIntObjVar(turret, turret_gunner_lib.VAR_PLAYER_CONTROLLABLE, 1);
+            if (hasScript(turret, "systems.turret.turret_ai"))
+            {
+                detachScript(turret, "systems.turret.turret_ai");
+            }
+            if (!hasScript(turret, "systems.turret.turret_gunner_combat"))
+            {
+                attachScript(turret, "systems.turret.turret_gunner_combat");
+            }
+            if (!hasScript(turret, "systems.turret.turret_gunner_station"))
+            {
+                attachScript(turret, "systems.turret.turret_gunner_station");
+            }
+            broadcast(player, "Spawned gunner turret " + turret + " (" + templateName + "): turret_ai removed, turret_gunner_combat + turret_gunner_station.");
+            LOG("ethereal", "[Developer]: " + getPlayerFullName(player) + " used /developer makeTurret -> " + templateName);
         }
         return SCRIPT_CONTINUE;
     }

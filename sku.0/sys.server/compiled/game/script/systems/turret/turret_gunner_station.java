@@ -17,11 +17,22 @@ public class turret_gunner_station extends script.base_script
 	{
 	}
 
-	private static final string_id SID_ENTER = new string_id("", "Enter Gunner Seat");
-	private static final string_id SID_EXIT = new string_id("", "Exit Gunner Seat");
+	private static final string_id SID_ENTER = new string_id("Enter Gunner Seat");
+	private static final string_id SID_EXIT = new string_id("Exit Gunner Seat");
 
 	public int OnInitialize(obj_id self) throws InterruptedException
 	{
+		if (hasObjVar(self, turret_gunner_lib.VAR_DEV_GUNNER_ONLY) && getIntObjVar(self, turret_gunner_lib.VAR_DEV_GUNNER_ONLY) != 0)
+		{
+			if (hasScript(self, "systems.turret.turret_ai"))
+			{
+				detachScript(self, "systems.turret.turret_ai");
+			}
+			if (!hasScript(self, "systems.turret.turret_gunner_combat"))
+			{
+				attachScript(self, "systems.turret.turret_gunner_combat");
+			}
+		}
 		if (turret_gunner_lib.isOccupied(self))
 		{
 			obj_id g = turret_gunner_lib.getOccupant(self);
