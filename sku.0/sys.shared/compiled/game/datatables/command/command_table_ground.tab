@@ -3,6 +3,7 @@ s	c	"e(immediate=0,front=1,normal=2)[normal]"	s	s	s	s	f	s	b[1]	b[1]	b[1]	b[1]	b[
 eject		normal	cmdEject				0		1	1	1	1	1	1	1	1	1	0	0	0	0	0	0	0	0	0	0			1	1	0	1	1	0	0	0	0	0	0	1	1	1	1	0	1	0	0	0									0		0	0	0	0				none		2			0				0										
 turretGunnerAim		immediate	cmdTurretGunnerAim				0		1	1	1	1	1	1	1	1	1	0	0	0	0	0	0	0	0	0	0			1	1	0	1	1	0	0	0	0	0	0	1	1	1	1	0	1	0	0	0									0		0	0	0	0				required		2			0				0										
 turretGunnerFire		immediate	cmdTurretGunnerFire				0		1	1	1	1	1	1	1	1	1	0	0	0	0	0	0	0	0	0	0			1	1	0	1	1	0	0	0	0	0	0	1	1	1	1	0	1	0	0	0									0		0	0	0	0				required		2			0				0										
+turretGunnerExit		immediate	cmdTurretGunnerExit				0		1	1	1	1	1	1	1	1	1	0	0	0	0	0	0	0	0	0	0			1	1	0	1	1	0	0	0	0	0	0	1	1	1	1	0	1	0	0	0									0		0	0	0	0				required		2			0				0										
 launchIntoSpace		normal			launchIntoSpace																				0	0						0																										0	0	0	0	0	0	0			required		1				16													
 unstick		immediate			handleUnstick																							1	1																																						none					0				0										
 waypointServer		normal	cmdWaypoint	cmdWaypointFail																								1	1																			0																			none	0	0			0				0										

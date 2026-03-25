@@ -2531,6 +2531,19 @@ public class base_player extends script.base_script
         messageTo(target, "handleGunnerSingleShot", d, 0, false);
         return SCRIPT_CONTINUE;
     }
+    public int cmdTurretGunnerExit(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException
+    {
+        if (!isIdValid(target) || !exists(target))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        if (!turret_gunner_lib.isOccupied(target) || turret_gunner_lib.getOccupant(target) != self)
+        {
+            return SCRIPT_CONTINUE;
+        }
+        turret_gunner_lib.tryUnmount(target, self);
+        return SCRIPT_CONTINUE;
+    }
     public int handleDelayedEjection(obj_id self, dictionary params) throws InterruptedException
     {
         if (params == null)
