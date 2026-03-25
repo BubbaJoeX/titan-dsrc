@@ -1,6 +1,6 @@
 package script.systems.turret;
 
-import script.library.menu_info_types;
+import script.menu_info_types;
 import script.library.turret_gunner_lib;
 import script.library.utils;
 import script.menu_info;
