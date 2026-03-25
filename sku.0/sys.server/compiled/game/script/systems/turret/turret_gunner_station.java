@@ -21,7 +21,7 @@ public class turret_gunner_station extends script.base_script
 	private static final string_id SID_EXIT = new string_id("Exit Gunner Seat");
 	private static final string_id SID_GM_SEAT = new string_id("GM: Set seat offsets (x y z)");
 	private static final string_id SID_GM_EYE = new string_id("GM: Set eye/camera offsets (x y z)");
-	private static final string_id SID_GM_NUDGE = new string_id("GM: Nudge offsets…");
+	private static final string_id SID_GM_NUDGE = new string_id("GM: Nudge offsets...");
 
 	public turret_gunner_station()
 	{
@@ -171,8 +171,8 @@ public class turret_gunner_station extends script.base_script
 				"Seat X -0.1",
 				"Seat Z +0.1",
 				"Seat Z -0.1",
-				"Reset eye → 0 1.6 0",
-				"Reset seat → 0 0.25 0"
+				"Reset eye to  [0, 1.6, 0]",
+				"Reset seat to  [0, 0.25, 0]"
 			};
 			sui.listbox(self, player, "Adjust turret.gunner offsets in small steps (meters).", sui.OK_CANCEL, "GM: Nudge offsets", items, "handleGmNudgeOffsets", true, false);
 			return SCRIPT_CONTINUE;
