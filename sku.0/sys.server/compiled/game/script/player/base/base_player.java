@@ -2189,6 +2189,7 @@ public class base_player extends script.base_script
     }
     public int OnLogout(obj_id self) throws InterruptedException
     {
+        turret_gunner_lib.onPlayerLogout(self);
         if (hasObjVar(self, pclib.VAR_CONSENT_FROM_ID))
         {
             pclib.relinquishConsents(self);
@@ -2377,6 +2378,72 @@ public class base_player extends script.base_script
         outparams.put("loc", getLocation(self));
         messageTo(self, "handleDelayedEjection", outparams, 10.0f, false);
         sendSystemMessage(self, SID_SYS_EJECT_REQUEST);
+        return SCRIPT_CONTINUE;
+    }
+    public int cmdTurretGunnerAim(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException
+    {
+        if (!isIdValid(target) || !exists(target))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        if (!turret_gunner_lib.isPlayerControllableTurret(target))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        if (!turret_gunner_lib.isOccupied(target) || turret_gunner_lib.getOccupant(target) != self)
+        {
+            return SCRIPT_CONTINUE;
+        }
+        obj_id aim = obj_id.NULL_ID;
+        try
+        {
+            String p = params != null ? params.trim() : "";
+            if (p.length() > 0 && !p.equals("0"))
+            {
+                long nid = Long.parseLong(p);
+                if (nid != 0)
+                {
+                    aim = obj_id.getObjId(nid);
+                }
+            }
+        }
+        catch (NumberFormatException e)
+        {
+            return SCRIPT_CONTINUE;
+        }
+        if (isIdValid(aim) && exists(aim) && turret.isValidTarget(target, aim))
+        {
+            utils.setScriptVar(target, "turret.gunner.manualTarget", aim);
+        }
+        else
+        {
+            utils.removeScriptVar(target, "turret.gunner.manualTarget");
+        }
+        return SCRIPT_CONTINUE;
+    }
+    public int cmdTurretGunnerFire(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException
+    {
+        if (!isIdValid(target) || !exists(target))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        if (!turret_gunner_lib.isOccupied(target) || turret_gunner_lib.getOccupant(target) != self)
+        {
+            return SCRIPT_CONTINUE;
+        }
+        if (!utils.hasScriptVar(target, "turret.gunner.manualTarget"))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        obj_id aim = utils.getObjIdScriptVar(target, "turret.gunner.manualTarget");
+        if (!isIdValid(aim) || !exists(aim) || !turret.isValidTarget(target, aim))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        dictionary d = new dictionary();
+        d.put("gunner", self);
+        d.put("target", aim);
+        messageTo(target, "handleGunnerSingleShot", d, 0, false);
         return SCRIPT_CONTINUE;
     }
     public int handleDelayedEjection(obj_id self, dictionary params) throws InterruptedException

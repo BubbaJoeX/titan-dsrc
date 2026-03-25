@@ -2363,7 +2363,7 @@ public class combat_ship extends script.base_script
         }
         else
         {
-            sendSystemMessageTestingOnly(owner, "\\#778899[Navicomputer]: Repositioning to follow orbit… ETA ~" + eta + ".");
+            sendSystemMessageTestingOnly(owner, "\\#778899[Navicomputer]: Repositioning to follow orbit... ETA ~" + eta + ".");
         }
 
         messageTo(self, "shipAutoPilotTick", null, AUTOPILOT_MONITOR_RATE, false);

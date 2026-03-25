@@ -205,7 +205,7 @@ public class atmo_landing_docked extends script.base_script
 
             commPlayer(ship, player, pp, "object/mobile/space_comm_station.iff");
 
-            sendSystemMessageTestingOnly(player, "\\#ffaa44[Docking Control]: WARNING — " + secondsUntilRemoval + " s until forced departure from " + name + ".");
+            sendSystemMessageTestingOnly(player, "\\#ffaa44[Docking Control]: WARNING: " + secondsUntilRemoval + " s until forced departure from " + name + ".");
             sendSystemMessageTestingOnly(player, "\\#ffaa44  Use the Starship Management Terminal → Extend Docking Time or Undock.");
             if (graceSeconds > 0)
                 sendSystemMessageTestingOnly(player, "\\#778899  (Includes up to " + graceSeconds + " s platform grace after paid mooring time.)");

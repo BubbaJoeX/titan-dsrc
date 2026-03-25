@@ -2299,7 +2299,7 @@ public class player_developer extends base_script
         {
             if (!tok.hasMoreTokens())
             {
-                broadcast(self, "Usage: /developer makeHireable [story_companion_id] — target a creature. Example: companion_greeata");
+                broadcast(self, "Usage: /developer makeHireable [story_companion_id] -- target a creature. Example: companion_greeata");
                 return SCRIPT_CONTINUE;
             }
             String storyId = tok.nextToken();

@@ -11062,6 +11062,21 @@ public class base_class
         {
             _setPerformanceListenTarget(getLongWithNull(actor), getLongWithNull(target));
         }
+        private static native long _getTurretGunnerMountTurretId(long actor);
+        public static obj_id getTurretGunnerMountTurretId(obj_id actor)
+        {
+            return getObjIdWithNull(_getTurretGunnerMountTurretId(getLongWithNull(actor)));
+        }
+        private static native void _setTurretGunnerMountTurretId(long actor, long turret);
+        public static void setTurretGunnerMountTurretId(obj_id actor, obj_id turret)
+        {
+            _setTurretGunnerMountTurretId(getLongWithNull(actor), getLongWithNull(turret));
+        }
+        private static native void _setTurretGunnerEyeOffsets(long actor, float x, float y, float z);
+        public static void setTurretGunnerEyeOffsets(obj_id actor, float x, float y, float z)
+        {
+            _setTurretGunnerEyeOffsets(getLongWithNull(actor), x, y, z);
+        }
         /**
          * Get a creature's current performance watch target.
          * @param  actor  the creature to get the target from

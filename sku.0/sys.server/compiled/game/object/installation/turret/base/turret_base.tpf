@@ -27,11 +27,16 @@ sharedTemplate = "object/installation/turret/base/shared_turret_base.iff"
 objvars = [
 	"strWeaponTemplate" = "object/weapon/ranged/turret/turret_block_large.iff",
 	"pvpCanAttack" = 1,
-	"turret" = ["isActive" = 1]]
+	"turret" = ["isActive" = 1],
+	"turret.playerControllable" = 0,
+	"turret.gunner.off_x" = 0.0,
+	"turret.gunner.off_y" = 0.25,
+	"turret.gunner.off_z" = 0.0,
+	"turret.gunner.max_range" = 12.0]
 
 
 scripts = [
-	"systems.turret.turret_ai", "systems.combat.credit_for_kills", "systems.combat.combat_actions_turret"]
+	"systems.turret.turret_ai", "systems.turret.turret_gunner_station", "systems.combat.credit_for_kills", "systems.combat.combat_actions_turret"]
 
 
 

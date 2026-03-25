@@ -12,7 +12,7 @@ import java.util.Vector;
  * access rules, fee overrides, dock duration overrides, and extend-dock tuning.
  * <p>
  * {@code atmo.landing_point.map.*} objvars are optional metadata for scripts (filtering, tools). They are
- * not passed to {@code addPlanetaryMapLocation} — the engine only accepts categories/subcategories defined
+ * not passed to {@code addPlanetaryMapLocation} -- the engine only accepts categories/subcategories defined
  * in {@code planet_map_cat.tab} (currently only {@code atmo_landing} with an empty subcategory).
  */
 public class atmo_landing_manager extends script.base_script
@@ -177,7 +177,7 @@ public class atmo_landing_manager extends script.base_script
     }
 
     /**
-     * Credits charged for initial landing (before city tax). Does not apply waivers — caller checks {@link #shouldWaiveLandingFee}.
+     * Credits charged for initial landing (before city tax). Does not apply waivers -- caller checks {@link #shouldWaiveLandingFee}.
      */
     public static int resolveBaseLandingFeeCredits(obj_id landingPoint, int scriptDefaultMinimum) throws InterruptedException
     {

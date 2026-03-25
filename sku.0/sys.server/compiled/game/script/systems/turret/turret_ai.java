@@ -108,6 +108,10 @@ public class turret_ai extends script.systems.combat.combat_base_old
     }
     public int OnTriggerVolumeEntered(obj_id self, String volumeName, obj_id who) throws InterruptedException
     {
+        if (utils.hasScriptVar(self, "turret.gunner.suspendAiTriggers"))
+        {
+            return SCRIPT_CONTINUE;
+        }
         if (!isIdValid(who))
         {
             return SCRIPT_CONTINUE;
@@ -134,6 +138,10 @@ public class turret_ai extends script.systems.combat.combat_base_old
     }
     public int OnTriggerVolumeExited(obj_id self, String volumeName, obj_id who) throws InterruptedException
     {
+        if (utils.hasScriptVar(self, "turret.gunner.suspendAiTriggers"))
+        {
+            return SCRIPT_CONTINUE;
+        }
         if (volumeName.equals(turret.ALERT_VOLUME_NAME) && who != self)
         {
             turret.removeTarget(self, who);
@@ -160,7 +168,10 @@ public class turret_ai extends script.systems.combat.combat_base_old
             explodeTurret(self, attacker);
             return SCRIPT_CONTINUE;
         }
-        turret.addTarget(self, attacker);
+        if (!utils.hasScriptVar(self, "turret.gunner.suspendAiTriggers"))
+        {
+            turret.addTarget(self, attacker);
+        }
         if (!utils.hasScriptVar(self, "playingEffect"))
         {
             int smolder = 2000;
@@ -187,6 +198,10 @@ public class turret_ai extends script.systems.combat.combat_base_old
     }
     public int OnSawAttack(obj_id self, obj_id defender, obj_id[] attackers) throws InterruptedException
     {
+        if (utils.hasScriptVar(self, "turret.gunner.suspendAiTriggers"))
+        {
+            return SCRIPT_CONTINUE;
+        }
         if (getConfigSetting("GameServer", "disableAICombat") != null)
         {
             setWantSawAttackTriggers(self, false);
@@ -516,7 +531,36 @@ public class turret_ai extends script.systems.combat.combat_base_old
         String[] strPlaybackNames = makePlaybackNames("fire_turret", cbtHitData, cbtWeaponData, cbtDefenderResults);
         doCombatResults(strPlaybackNames[0], cbtAttackerResults, cbtDefenderResults);
         combat.doBasicCombatSpam("shoot", cbtAttackerResults, cbtDefenderResults, cbtHitData);
-        return cbtWeaponData.attackSpeed + rand(0, 2);
+        float recycleDelay = cbtWeaponData.attackSpeed + rand(0, 2);
+        if (hasObjVar(self, "turret.dev.attackSpeedScale"))
+        {
+            recycleDelay *= getFloatObjVar(self, "turret.dev.attackSpeedScale");
+        }
+        return recycleDelay;
+    }
+    public int handleGunnerSingleShot(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (params == null || params.isEmpty())
+        {
+            return SCRIPT_CONTINUE;
+        }
+        obj_id gunner = params.getObjId("gunner");
+        obj_id tgt = params.getObjId("target");
+        if (!isIdValid(gunner) || !turret_gunner_lib.isOccupied(self) || turret_gunner_lib.getOccupant(self) != gunner)
+        {
+            return SCRIPT_CONTINUE;
+        }
+        if (!utils.hasScriptVar(self, turret_gunner_lib.SCRIPTVAR_SUSPEND_AI_TRIGGERS))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        if (!isIdValid(tgt) || !turret.isValidTarget(self, tgt))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        turret.engageTarget(self, tgt);
+        doAttack(tgt);
+        return SCRIPT_CONTINUE;
     }
     public int handleTurretAttack(obj_id self, dictionary params) throws InterruptedException
     {

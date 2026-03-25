@@ -429,6 +429,10 @@ public class menu_info_types
 	public static final int LANDMINE_REVERSE_TRIGGER				= index++;
 	public static final int REWARD_TRADE_IN							= index++;
 
+	// Player-manned installation turrets (Battlefront-style gunner seat; server radial enter/exit).
+	public static final int SERVER_TURRET_GUNNER_ENTER				= index++;
+	public static final int SERVER_TURRET_GUNNER_EXIT					= index++;
+
 // VERY END
 	//----------------------------------------------------------------------
 	//--
