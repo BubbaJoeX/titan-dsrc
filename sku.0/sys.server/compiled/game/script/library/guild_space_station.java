@@ -4,6 +4,7 @@ import script.dictionary;
 import script.location;
 import script.obj_id;
 import script.string_id;
+import script.library.utils;
 
 /**
  * Guild-owned space station instance (dungeon_hub building + orbit marker + ClusterWideData).
@@ -38,12 +39,23 @@ public class guild_space_station extends script.base_script
     public static final String OV_ACCESS_WHITELIST = "guildStation.access.whitelist";
     /** Set on player while cross-scene transfer to dungeon_hub is pending (comlink warp). */
     public static final String OV_PENDING_COMLINK_WARP = "guildStation.pendingComlinkWarp";
+    /** Comlink ClusterWide follow-up: warp vs orbit refresh (scriptvar on comlink). */
+    public static final String SV_COMLINK_CW_ACTION = "guildStation.pendingCwAction";
+    public static final String COMLINK_ACTION_WARP = "warp";
+    public static final String COMLINK_ACTION_ORBIT = "orbit";
 
     private static final String TEMPLATE_ORBIT_SHIP = "object/ship/spacestation_neutral.iff";
 
     public static String cwElementName(int guildId)
     {
         return "guild_" + guildId;
+    }
+
+    /** Cache on guild terminal: hide purchase menu after a station is registered in ClusterWideData. */
+    public static void markGuildTerminalPurchaseCached(obj_id terminal, int guildId) throws InterruptedException
+    {
+        if (isIdValid(terminal) && exists(terminal))
+            utils.setScriptVar(terminal, "guildStation.reg." + guildId, true);
     }
 
     public static location computeHubSlot(int guildId)
@@ -93,10 +105,52 @@ public class guild_space_station extends script.base_script
         return marker;
     }
 
+    /**
+     * Refresh orbit marker at the player's current outdoor position (comlink flow). Updates building objvars when the
+     * station exists on this process, otherwise updates ClusterWideData only.
+     */
+    public static void applyOrbitBeaconRefreshFromComlink(obj_id player, int guildId, dictionary cw) throws InterruptedException
+    {
+        if (cw == null || player == null)
+            return;
+        location loc = getLocation(player);
+        if (loc == null || loc.area == null)
+            return;
+        String planet = loc.area;
+        float ox = loc.x;
+        float oz = loc.z;
+        obj_id oldMarker = cw.containsKey("orbit_marker_id") ? cw.getObjId("orbit_marker_id") : obj_id.NULL_ID;
+        obj_id newMarker = spawnOrbitMarkerForPlanet(player, guildId, planet, ox, oz, oldMarker);
+        if (!isIdValid(newMarker))
+            return;
+
+        obj_id building = cw.containsKey("building_id") ? cw.getObjId("building_id") : obj_id.NULL_ID;
+        if (isIdValid(building) && exists(building))
+        {
+            setObjVar(building, OV_ORBIT_PLANET, planet);
+            setObjVar(building, OV_ORBIT_X, ox);
+            setObjVar(building, OV_ORBIT_Z, oz);
+            setObjVar(building, OV_ORBIT_MARKER, newMarker);
+            messageTo(building, "guildStationPushCw", null, 0.5f, false);
+        }
+        else
+        {
+            cw.put("orbit_planet", planet);
+            cw.put("orbit_x", ox);
+            cw.put("orbit_z", oz);
+            cw.put("orbit_marker_id", newMarker);
+            replaceClusterWideData(CW_MANAGER, cwElementName(guildId), cw, true, -1);
+        }
+        sendSystemMessage(player, string_id.unlocalized("Orbit beacon updated above your current position."));
+    }
+
     public static void syncBuildingPermissions(obj_id building, int guildId) throws InterruptedException
     {
         if (!isIdValid(building))
             return;
+        obj_id leader = guildGetLeader(guildId);
+        if (isIdValid(leader) && exists(leader))
+            setOwner(building, leader);
         int mode = hasObjVar(building, OV_ACCESS_MODE) ? getIntObjVar(building, OV_ACCESS_MODE) : ACCESS_GUILD;
         permissionsRemoveAllAllowed(building);
         permissionsMakePrivate(building);
@@ -346,15 +400,11 @@ public class guild_space_station extends script.base_script
     public static void onClusterWidePurchaseResponse(obj_id terminal, obj_id player, int guildId, String planet, float ox, float oz, String manage_name, String name, int request_id, String[] element_name_list, dictionary[] data, int lock_key) throws InterruptedException
     {
         String el = cwElementName(guildId);
-        if (data != null && data.length > 0 && data[0] != null)
+        if (data != null && data.length > 0 && data[0] != null && data[0].containsKey("guild_id"))
         {
-            obj_id existing = data[0].getObjId("building_id");
-            if (isIdValid(existing) && exists(existing))
-            {
-                sendSystemMessage(player, string_id.unlocalized("Your guild already has a registered space station."));
-                releaseClusterWideDataLock(manage_name, lock_key);
-                return;
-            }
+            sendSystemMessage(player, string_id.unlocalized("Your guild already has a registered space station."));
+            releaseClusterWideDataLock(manage_name, lock_key);
+            return;
         }
 
         int nextMaint = getCalendarTime() + MAINTENANCE_PERIOD_SEC;
@@ -367,6 +417,7 @@ public class guild_space_station extends script.base_script
             releaseClusterWideDataLock(manage_name, lock_key);
 
             grantComlink(player, guildId);
+            markGuildTerminalPurchaseCached(terminal, guildId);
             sendSystemMessage(player, string_id.unlocalized("[Guild] Guild space station registered. Visit the hub sector to materialize the station, or use your comlink while there."));
             CustomerServiceLog("guild_space_station", "Guild " + guildId + " purchased station (hub building deferred) leader " + player);
             return;
@@ -398,6 +449,7 @@ public class guild_space_station extends script.base_script
         releaseClusterWideDataLock(manage_name, lock_key);
 
         grantComlink(player, guildId);
+        markGuildTerminalPurchaseCached(terminal, guildId);
         sendSystemMessage(player, string_id.unlocalized("[Guild] Guild space station deployed. A comlink has been placed in your inventory."));
         CustomerServiceLog("guild_space_station", "Guild " + guildId + " purchased station building " + building + " leader " + player);
     }

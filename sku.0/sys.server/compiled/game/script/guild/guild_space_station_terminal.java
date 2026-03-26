@@ -1,7 +1,6 @@
 package script.guild;
 
 import script.dictionary;
-import script.location;
 import script.menu_info;
 import script.menu_info_data;
 import script.menu_info_types;
@@ -13,7 +12,7 @@ import script.library.sui;
 import script.library.utils;
 
 /**
- * Interior terminal: maintenance payment, access policy, orbit beacon refresh.
+ * Interior terminal: maintenance payment and access policy. Orbit beacon placement uses the guild comlink (SUI).
  */
 public class guild_space_station_terminal extends script.base_script
 {
@@ -32,8 +31,7 @@ public class guild_space_station_terminal extends script.base_script
         mi.addRootMenu(menu_info_types.SERVER_MENU1, string_id.unlocalized("Pay Station Maintenance (500,000 cr)"));
         mi.addRootMenu(menu_info_types.SERVER_MENU2, string_id.unlocalized("Access: All Guild Members"));
         mi.addRootMenu(menu_info_types.SERVER_MENU3, string_id.unlocalized("Access: Minimum Rank..."));
-        mi.addRootMenu(menu_info_types.SERVER_MENU4, string_id.unlocalized("Refresh Orbit Beacon Here"));
-        for (int mt : new int[] { menu_info_types.SERVER_MENU1, menu_info_types.SERVER_MENU2, menu_info_types.SERVER_MENU3, menu_info_types.SERVER_MENU4 })
+        for (int mt : new int[] { menu_info_types.SERVER_MENU1, menu_info_types.SERVER_MENU2, menu_info_types.SERVER_MENU3 })
         {
             menu_info_data md = mi.getMenuItemByType(mt);
             if (md != null)
@@ -72,20 +70,6 @@ public class guild_space_station_terminal extends script.base_script
         {
             utils.setScriptVar(player, "guildStation.terminalBuilding", building);
             sui.inputbox(self, player, getString(string_id.unlocalized("Enter the minimum guild rank name (must match guild rank system).")), sui.OK_CANCEL, getString(string_id.unlocalized("Guild Rank Gate")), sui.INPUT_NORMAL, null, "handleGuildStationRankInput");
-            return SCRIPT_CONTINUE;
-        }
-        if (item == menu_info_types.SERVER_MENU4)
-        {
-            location loc = getLocation(player);
-            setObjVar(building, guild_space_station.OV_ORBIT_PLANET, loc.area);
-            setObjVar(building, guild_space_station.OV_ORBIT_X, loc.x);
-            setObjVar(building, guild_space_station.OV_ORBIT_Z, loc.z);
-            obj_id old = hasObjVar(building, guild_space_station.OV_ORBIT_MARKER) ? getObjIdObjVar(building, guild_space_station.OV_ORBIT_MARKER) : obj_id.NULL_ID;
-            obj_id m = guild_space_station.spawnOrbitMarkerForPlanet(player, guildId, loc.area, loc.x, loc.z, old);
-            if (isIdValid(m))
-                setObjVar(building, guild_space_station.OV_ORBIT_MARKER, m);
-            messageTo(building, "guildStationPushCw", null, 0.5f, false);
-            sendSystemMessage(player, string_id.unlocalized("Orbit beacon updated above your current position."));
             return SCRIPT_CONTINUE;
         }
         return SCRIPT_CONTINUE;

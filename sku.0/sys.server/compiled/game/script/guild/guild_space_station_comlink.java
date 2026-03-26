@@ -7,10 +7,11 @@ import script.menu_info_types;
 import script.obj_id;
 import script.string_id;
 import script.library.guild_space_station;
+import script.library.sui;
 import script.library.utils;
 
 /**
- * Inventory comlink: requests clearance and warps to the guild's dungeon_hub station instance.
+ * Inventory guild device (comlink): SUI menu for docking warp vs orbit beacon refresh.
  */
 public class guild_space_station_comlink extends script.base_script
 {
@@ -24,7 +25,7 @@ public class guild_space_station_comlink extends script.base_script
         {
             menu_info_data data = mi.getMenuItemByType(menu_info_types.ITEM_USE);
             if (data == null)
-                mi.addRootMenu(menu_info_types.ITEM_USE, string_id.unlocalized("Contact Guild Station"));
+                mi.addRootMenu(menu_info_types.ITEM_USE, string_id.unlocalized("Guild Station Comlink"));
             data = mi.getMenuItemByType(menu_info_types.ITEM_USE);
             if (data != null)
                 data.setServerNotify(true);
@@ -43,8 +44,58 @@ public class guild_space_station_comlink extends script.base_script
         }
         if (!hasObjVar(self, guild_space_station.OV_GUILD_ID))
             return SCRIPT_CONTINUE;
-        int guildId = getIntObjVar(self, guild_space_station.OV_GUILD_ID);
+        if (getGuildId(player) != getIntObjVar(self, guild_space_station.OV_GUILD_ID))
+        {
+            sendSystemMessage(player, string_id.unlocalized("This comlink is tuned to another guild."));
+            return SCRIPT_CONTINUE;
+        }
+        String[] options = new String[]
+        {
+            "Request docking clearance (travel to guild station)",
+            "Orbit beacon: place visual above your current position"
+        };
+        sui.listbox(self, player, "Select an action:", sui.OK_CANCEL, "Guild Station Comlink", options, "handleGuildComlinkMainMenu", true, false);
+        return SCRIPT_CONTINUE;
+    }
+
+    public int handleGuildComlinkMainMenu(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        if (sui.getIntButtonPressed(params) != sui.BP_OK)
+            return SCRIPT_CONTINUE;
+        if (!isIdValid(player) || !exists(player))
+            return SCRIPT_CONTINUE;
+        if (getContainedBy(self) != utils.getInventoryContainer(player))
+            return SCRIPT_CONTINUE;
+        int row = sui.getListboxSelectedRow(params);
+        if (row == 0)
+        {
+            utils.setScriptVar(self, "guildStation.pendingPlayer", player);
+            utils.setScriptVar(self, guild_space_station.SV_COMLINK_CW_ACTION, guild_space_station.COMLINK_ACTION_WARP);
+            int guildId = getIntObjVar(self, guild_space_station.OV_GUILD_ID);
+            getClusterWideData(guild_space_station.CW_MANAGER, guild_space_station.cwElementName(guildId), false, self);
+            return SCRIPT_CONTINUE;
+        }
+        if (row == 1)
+        {
+            sui.msgbox(self, player, "Place the orbital station prop roughly 3000m above your current position on this planet? You must be outdoors on the correct planet.", sui.OK_CANCEL, "Orbit Beacon", sui.MSG_NORMAL, "handleGuildComlinkOrbitConfirm");
+            return SCRIPT_CONTINUE;
+        }
+        return SCRIPT_CONTINUE;
+    }
+
+    public int handleGuildComlinkOrbitConfirm(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        if (sui.getIntButtonPressed(params) != sui.BP_OK)
+            return SCRIPT_CONTINUE;
+        if (!isIdValid(player) || !exists(player))
+            return SCRIPT_CONTINUE;
+        if (getContainedBy(self) != utils.getInventoryContainer(player))
+            return SCRIPT_CONTINUE;
         utils.setScriptVar(self, "guildStation.pendingPlayer", player);
+        utils.setScriptVar(self, guild_space_station.SV_COMLINK_CW_ACTION, guild_space_station.COMLINK_ACTION_ORBIT);
+        int guildId = getIntObjVar(self, guild_space_station.OV_GUILD_ID);
         getClusterWideData(guild_space_station.CW_MANAGER, guild_space_station.cwElementName(guildId), false, self);
         return SCRIPT_CONTINUE;
     }
@@ -55,6 +106,8 @@ public class guild_space_station_comlink extends script.base_script
             return SCRIPT_CONTINUE;
         obj_id player = utils.getObjIdScriptVar(self, "guildStation.pendingPlayer");
         utils.removeScriptVar(self, "guildStation.pendingPlayer");
+        String action = utils.hasScriptVar(self, guild_space_station.SV_COMLINK_CW_ACTION) ? utils.getStringScriptVar(self, guild_space_station.SV_COMLINK_CW_ACTION) : guild_space_station.COMLINK_ACTION_WARP;
+        utils.removeScriptVar(self, guild_space_station.SV_COMLINK_CW_ACTION);
         if (!isIdValid(player) || !exists(player))
         {
             if (lock_key != 0)
@@ -69,7 +122,15 @@ public class guild_space_station_comlink extends script.base_script
             return SCRIPT_CONTINUE;
         }
         dictionary d = data[0];
-        guild_space_station.warpPlayerToStation(player, d);
+        int guildId = d.getInt("guild_id");
+        if (guild_space_station.COMLINK_ACTION_ORBIT.equals(action))
+        {
+            guild_space_station.applyOrbitBeaconRefreshFromComlink(player, guildId, d);
+        }
+        else
+        {
+            guild_space_station.warpPlayerToStation(player, d);
+        }
         if (lock_key != 0)
             releaseClusterWideDataLock(manage_name, lock_key);
         return SCRIPT_CONTINUE;

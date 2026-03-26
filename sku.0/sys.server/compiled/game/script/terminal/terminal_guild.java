@@ -84,6 +84,10 @@ public class terminal_guild extends script.terminal.base.base_terminal
     public static final string_id SID_ALIGN_NEUTRAL = new string_id("guild", "align_neutral");
     public static final string_id SID_BEGIN_GCW_REGION_DEFENDER = new string_id("guild", "begin_gcw_region_defender");
     public static final string_id SID_END_GCW_REGION_DEFENDER = new string_id("guild", "end_gcw_region_defender");
+    private boolean guildHasRegisteredStationCached(obj_id self, int guildId) throws InterruptedException
+    {
+        return utils.hasScriptVar(self, "guildStation.reg." + guildId) && utils.getBooleanScriptVar(self, "guildStation.reg." + guildId);
+    }
     public int getStructureGuildId(obj_id self) throws InterruptedException
     {
         int guildId = 0;
@@ -273,10 +277,13 @@ public class terminal_guild extends script.terminal.base.base_terminal
                 {
                     mi.addSubMenu(guildManagementMenu, menu_info_types.SERVER_MENU23, SID_BEGIN_GCW_REGION_DEFENDER);
                 }
-                mi.addSubMenu(guildManagementMenu, menu_info_types.SERVER_MENU51, string_id.unlocalized("Purchase Guild Space Station (50,000,000 cr)"));
-                menu_info_data midPurchase = mi.getMenuItem(menu_info_types.SERVER_MENU51, guildManagementMenu);
-                if (midPurchase != null)
-                    midPurchase.setServerNotify(true);
+                if (!guildHasRegisteredStationCached(self, guildId))
+                {
+                    mi.addSubMenu(guildManagementMenu, menu_info_types.SERVER_MENU51, string_id.unlocalized("Purchase Guild Space Station (50,000,000 cr)"));
+                    menu_info_data midPurchase = mi.getMenuItem(menu_info_types.SERVER_MENU51, guildManagementMenu);
+                    if (midPurchase != null)
+                        midPurchase.setServerNotify(true);
+                }
             }
             int memberManagementMenu = mi.addRootMenu(menu_info_types.SERVER_GUILD_MEMBER_MANAGEMENT, SID_GUILD_MEMBER_MANAGEMENT);
             mi.addSubMenu(memberManagementMenu, menu_info_types.SERVER_GUILD_MEMBERS, SID_GUILD_MEMBERS);
@@ -345,6 +352,10 @@ public class terminal_guild extends script.terminal.base.base_terminal
                     }
                 }
             }
+        }
+        if (guildId != 0 && (player == guildLeader || isGod(player)))
+        {
+            getClusterWideData(guild_space_station.CW_MANAGER, guild_space_station.cwElementName(guildId), false, self);
         }
         return super.OnObjectMenuRequest(self, player, mi);
     }
@@ -1008,19 +1019,37 @@ public class terminal_guild extends script.terminal.base.base_terminal
     {
         if (!manage_name.equals(guild_space_station.CW_MANAGER))
             return SCRIPT_CONTINUE;
-        if (!utils.hasScriptVar(self, "guildStation.pendingPurchase"))
+        if (name != null && name.startsWith("guild_"))
+        {
+            try
+            {
+                int gid = Integer.parseInt(name.substring(6));
+                boolean reg = data != null && data.length > 0 && data[0] != null && data[0].containsKey("guild_id");
+                utils.setScriptVar(self, "guildStation.reg." + gid, reg);
+            }
+            catch (NumberFormatException ignore)
+            {
+            }
+        }
+        if (utils.hasScriptVar(self, "guildStation.pendingPurchase"))
+        {
+            obj_id player = utils.getObjIdScriptVar(self, "guildStation.pendingPurchase");
+            int guildId = utils.getIntScriptVar(self, "guildStation.pendingGuildId");
+            String planet = utils.getStringScriptVar(self, "guildStation.orbitPlanet");
+            float ox = utils.getFloatScriptVar(self, "guildStation.orbitX");
+            float oz = utils.getFloatScriptVar(self, "guildStation.orbitZ");
+            utils.removeScriptVar(self, "guildStation.pendingPurchase");
+            utils.removeScriptVar(self, "guildStation.pendingGuildId");
+            utils.removeScriptVar(self, "guildStation.orbitPlanet");
+            utils.removeScriptVar(self, "guildStation.orbitX");
+            utils.removeScriptVar(self, "guildStation.orbitZ");
+            guild_space_station.onClusterWidePurchaseResponse(self, player, guildId, planet, ox, oz, manage_name, name, request_id, element_name_list, data, lock_key);
             return SCRIPT_CONTINUE;
-        obj_id player = utils.getObjIdScriptVar(self, "guildStation.pendingPurchase");
-        int guildId = utils.getIntScriptVar(self, "guildStation.pendingGuildId");
-        String planet = utils.getStringScriptVar(self, "guildStation.orbitPlanet");
-        float ox = utils.getFloatScriptVar(self, "guildStation.orbitX");
-        float oz = utils.getFloatScriptVar(self, "guildStation.orbitZ");
-        utils.removeScriptVar(self, "guildStation.pendingPurchase");
-        utils.removeScriptVar(self, "guildStation.pendingGuildId");
-        utils.removeScriptVar(self, "guildStation.orbitPlanet");
-        utils.removeScriptVar(self, "guildStation.orbitX");
-        utils.removeScriptVar(self, "guildStation.orbitZ");
-        guild_space_station.onClusterWidePurchaseResponse(self, player, guildId, planet, ox, oz, manage_name, name, request_id, element_name_list, data, lock_key);
+        }
+        if (lock_key != 0)
+        {
+            releaseClusterWideDataLock(manage_name, lock_key);
+        }
         return SCRIPT_CONTINUE;
     }
 }
