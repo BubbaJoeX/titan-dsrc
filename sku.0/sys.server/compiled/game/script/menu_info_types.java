@@ -137,7 +137,10 @@ public class menu_info_types
 	public static final int OPEN_STORYTELLER_RECIPE    = index++;
 	public static final int GOD_TELEPORT			   = index++;
 	public static final int ITEM_MOVEMENT_MODE			   = index++;
-
+	/** Must match {@code CuiMenuInfoTypes.h} (before {@code CLIENT_MENU_LAST}). */
+	public static final int GM_CRAFT_SCHEMATIC         = index++;
+	/** Must match {@code CuiMenuInfoTypes.h} (before {@code CLIENT_MENU_LAST}). */
+	public static final int GM_CRATE_SCHEMATIC         = index++;
 
 	/// do not add any constants between here and SERVER_DIVIDER
 	/// unless they also exist on the client
@@ -146,7 +149,7 @@ public class menu_info_types
 	//-----------------------------------------------------------------------------
 
 	/**
-	* this is a dummy data element to delineate the client-server shared and server-only menu items
+	* Dummy delineator; numeric value must equal C++ {@code CLIENT_MENU_LAST} (same index as this row in radial_menu.iff).
 	*/
 	public static final int SERVER_DIVIDER          = index++;
 
