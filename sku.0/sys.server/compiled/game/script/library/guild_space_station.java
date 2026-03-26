@@ -62,7 +62,7 @@ public class guild_space_station extends script.base_script
         obj_id inv = utils.getInventoryContainer(player);
         if (!isIdValid(inv))
             return;
-        obj_id comlink = createObject("object/tangible/loot/tool/guild_space_station_comlink.iff", inv);
+        obj_id comlink = createObject("object/tangible/loot/tool/guild_space_station_comlink.iff", inv, "");
         if (!isIdValid(comlink))
             return;
         setObjVar(comlink, OV_GUILD_ID, guildId);
@@ -110,7 +110,7 @@ public class guild_space_station extends script.base_script
                     try
                     {
                         long lid = Long.parseLong(s.trim());
-                        obj_id who = new obj_id(lid);
+                        obj_id who = obj_id.getObjId(lid);
                         if (isIdValid(who) && exists(who))
                             permissionsAddAllowed(building, getPlayerName(who));
                     }
