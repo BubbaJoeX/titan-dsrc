@@ -594,6 +594,7 @@ public class guild_space_station extends script.base_script
             }
             registerGuildStationReturnShip(player);
             preparePlayerForGuildStationTravel(player);
+            space_transition.detachPlayerFromShipForCrossSceneWarp(player);
             setObjVar(player, OV_PENDING_COMLINK_WARP, guildId);
             location hubLoc = computeHubSlot(guildId);
             warpPlayer(player, "dungeon_hub", hubLoc.x, hubLoc.y, hubLoc.z, null, hubLoc.x, hubLoc.y, hubLoc.z, "msgGuildStationComlinkTravelComplete", true);
@@ -624,6 +625,7 @@ public class guild_space_station extends script.base_script
         }
         registerGuildStationReturnShip(player);
         preparePlayerForGuildStationTravel(player);
+        space_transition.detachPlayerFromShipForCrossSceneWarp(player);
         // forceLoadScreen true: required when coming from another scene/process so the client loads the interior cell (same pattern as space_dungeon.moveSinglePlayerIntoDungeon).
         warpPlayer(player, bLoc.area, bLoc.x, bLoc.y, bLoc.z, building, "hangarbay1", 5.0f, 0.0f, 5.0f, "", true);
     }

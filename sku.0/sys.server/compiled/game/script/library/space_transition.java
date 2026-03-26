@@ -1838,4 +1838,29 @@ public class space_transition extends script.base_script
         obj_id pilot = getPilotId(ship);
         return !isIdValid(pilot);
     }
+
+    /**
+     * If the player is still inside a ship in space or atmospheric flight, moves them to open coordinates in the same scene
+     * (no cell parent) so a subsequent {@code warpPlayer} to another scene relocates only the player, not the vessel.
+     * Invoke after unpilot / {@code preparePlayerForGuildStationTravel}-style prep when a cross-scene transfer follows.
+     */
+    public static void detachPlayerFromShipForCrossSceneWarp(obj_id player) throws InterruptedException
+    {
+        if (!isIdValid(player) || !exists(player))
+            return;
+        if (!isSpaceScene() && !isAtmosphericFlightScene())
+            return;
+        obj_id ship = getContainingShip(player);
+        if (!isIdValid(ship) || !exists(ship))
+            return;
+        location shipLoc = getLocation(ship);
+        if (shipLoc == null || shipLoc.area == null || shipLoc.area.length() < 1)
+            return;
+        float theta = rand() * (2.0f * (float)Math.PI);
+        float offset = 35.0f;
+        float nx = shipLoc.x + offset * (float)StrictMath.cos(theta);
+        float nz = shipLoc.z + offset * (float)StrictMath.sin(theta);
+        float ny = shipLoc.y;
+        warpPlayer(player, shipLoc.area, nx, ny, nz, null, nx, ny, nz, null, false);
+    }
 }
