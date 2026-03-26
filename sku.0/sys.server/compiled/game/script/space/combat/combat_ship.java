@@ -1156,6 +1156,13 @@ public class combat_ship extends script.base_script
     public static final String OV_AUTOPILOT_OWNER     = "space.autopilot.owner";
     public static final String OV_AUTOPILOT_TICKS     = "space.autopilot.ticks";
     public static final String OV_AUTOPILOT_LAST_PHASE = "space.autopilot.lastPhase";
+    /** Cockpit-only fighter autopilot: last waypoint seen per monitor tick (detect stationary target). */
+    public static final String OV_FIGHTER_STATIONARY_LAST_X = "space.autopilot.fighter.lastX";
+    public static final String OV_FIGHTER_STATIONARY_LAST_Z = "space.autopilot.fighter.lastZ";
+    public static final String OV_FIGHTER_STATIONARY_TICKS = "space.autopilot.fighter.stationaryTicks";
+    private static final float FIGHTER_STATIONARY_CLOSE_M = 50.0f;
+    private static final float FIGHTER_STATIONARY_EPSILON_M = 0.75f;
+    private static final int   FIGHTER_STATIONARY_TICKS_REQUIRED = 5;
     public static final float  AUTOPILOT_TAKEOFF_ALT  = 500.0f;
     public static final float  AUTOPILOT_LANDING_ALT  = 50.0f;
     public static final float  AUTOPILOT_MONITOR_RATE = 2.0f;
@@ -1392,7 +1399,15 @@ public class combat_ship extends script.base_script
             broadcastToShip(self, "\\#00ccff[Navicomputer]: Previous auto-pilot course cancelled. Recalculating...");
         }
 
-        if (!shipSetAutopilotTarget(self, targetX, targetZ, takeoffAlt, landingAlt))
+        boolean isPob = space_utils.isShipWithInterior(self);
+        removeObjVar(self, OV_FIGHTER_STATIONARY_LAST_X);
+        removeObjVar(self, OV_FIGHTER_STATIONARY_LAST_Z);
+        removeObjVar(self, OV_FIGHTER_STATIONARY_TICKS);
+
+        boolean apOk = isPob
+            ? shipSetAutopilotTarget(self, targetX, targetZ, takeoffAlt, landingAlt)
+            : shipSetAutopilotTargetFighter(self, targetX, targetZ, takeoffAlt, landingAlt);
+        if (!apOk)
         {
             if (npcControlled)
                 script_logs.logToGodsInRange(self, SHUTTLE_LOG_RANGE, "Shuttle combat_ship: shipSetAutopilotTarget FAILED");
@@ -1560,6 +1575,40 @@ public class combat_ship extends script.base_script
         float dz = targetZ - shipLoc.z;
         float horizDist = (float) StrictMath.sqrt(dx * dx + dz * dz);
 
+        boolean isPobShip = space_utils.isShipWithInterior(self);
+        if (!isPobShip)
+        {
+            if (phase == AP_CRUISING && horizDist < FIGHTER_STATIONARY_CLOSE_M)
+            {
+                float lastX = hasObjVar(self, OV_FIGHTER_STATIONARY_LAST_X) ? getFloatObjVar(self, OV_FIGHTER_STATIONARY_LAST_X) : targetX;
+                float lastZ = hasObjVar(self, OV_FIGHTER_STATIONARY_LAST_Z) ? getFloatObjVar(self, OV_FIGHTER_STATIONARY_LAST_Z) : targetZ;
+                if (StrictMath.abs(targetX - lastX) < FIGHTER_STATIONARY_EPSILON_M && StrictMath.abs(targetZ - lastZ) < FIGHTER_STATIONARY_EPSILON_M)
+                {
+                    int st = hasObjVar(self, OV_FIGHTER_STATIONARY_TICKS) ? getIntObjVar(self, OV_FIGHTER_STATIONARY_TICKS) : 0;
+                    st++;
+                    setObjVar(self, OV_FIGHTER_STATIONARY_TICKS, st);
+                    if (st >= FIGHTER_STATIONARY_TICKS_REQUIRED && shipFighterAutopilotBeginDescent(self))
+                    {
+                        removeObjVar(self, OV_FIGHTER_STATIONARY_LAST_X);
+                        removeObjVar(self, OV_FIGHTER_STATIONARY_LAST_Z);
+                        removeObjVar(self, OV_FIGHTER_STATIONARY_TICKS);
+                    }
+                }
+                else
+                {
+                    setObjVar(self, OV_FIGHTER_STATIONARY_LAST_X, targetX);
+                    setObjVar(self, OV_FIGHTER_STATIONARY_LAST_Z, targetZ);
+                    setObjVar(self, OV_FIGHTER_STATIONARY_TICKS, 0);
+                }
+            }
+            else
+            {
+                removeObjVar(self, OV_FIGHTER_STATIONARY_LAST_X);
+                removeObjVar(self, OV_FIGHTER_STATIONARY_LAST_Z);
+                removeObjVar(self, OV_FIGHTER_STATIONARY_TICKS);
+            }
+        }
+
         if (phase != lastPhase)
         {
             setObjVar(self, OV_AUTOPILOT_LAST_PHASE, phase);
@@ -1588,8 +1637,11 @@ public class combat_ship extends script.base_script
                         broadcastToShip(self, "\\#00ccff[Navicomputer]: Cruise altitude reached. Departing now.");
                         broadcastToShip(self, "\\#aaddff  Heading: " + formatCoord(bearing) + " deg (" + cardinal + ") | Distance: " + formatCoord(horizDist) + "m | ETA: " + eta);
                         broadcastToShip(self, " ");
-                        broadcastToShip(self, "\\#88bbdd  We have reached cruise altitude. You are free to move about the cabin.");
-                        broadcastToShip(self, " ");
+                        if (isPobShip)
+                        {
+                            broadcastToShip(self, "\\#88bbdd  We have reached cruise altitude. You are free to move about the cabin.");
+                            broadcastToShip(self, " ");
+                        }
                     }
                     break;
                 }
@@ -1600,9 +1652,12 @@ public class combat_ship extends script.base_script
                         broadcastToShip(self, " ");
                         broadcastToShip(self, "\\#aaddff[Navicomputer]: Approaching destination. Beginning descent...");
                         broadcastToShip(self, " ");
-                        broadcastToShip(self, "\\#88bbdd  Attention passengers, we are beginning our descent.");
-                        broadcastToShip(self, "\\#88bbdd   Please prepare for arrival.");
-                        broadcastToShip(self, " ");
+                        if (isPobShip)
+                        {
+                            broadcastToShip(self, "\\#88bbdd  Attention passengers, we are beginning our descent.");
+                            broadcastToShip(self, "\\#88bbdd   Please prepare for arrival.");
+                            broadcastToShip(self, " ");
+                        }
                     }
                     break;
                 case AP_ARRIVED:

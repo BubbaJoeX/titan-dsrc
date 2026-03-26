@@ -25943,6 +25943,16 @@ public class base_class
     {
         return _shipSetAutopilotTargetHold(getLongWithNull(shipId), targetX, targetZ, takeoffAlt, landingAlt, holdCruise);
     }
+    private static native boolean _shipSetAutopilotTargetFighter(long shipId, float targetX, float targetZ, float takeoffAlt, float landingAlt);
+    public static boolean shipSetAutopilotTargetFighter(obj_id shipId, float targetX, float targetZ, float takeoffAlt, float landingAlt)
+    {
+        return _shipSetAutopilotTargetFighter(getLongWithNull(shipId), targetX, targetZ, takeoffAlt, landingAlt);
+    }
+    private static native boolean _shipFighterAutopilotBeginDescent(long shipId);
+    public static boolean shipFighterAutopilotBeginDescent(obj_id shipId)
+    {
+        return _shipFighterAutopilotBeginDescent(getLongWithNull(shipId));
+    }
     private static native boolean _shipUpdateAutopilotTargetXZ(long shipId, float x, float z);
     public static boolean shipUpdateAutopilotTargetXZ(obj_id shipId, float x, float z)
     {
