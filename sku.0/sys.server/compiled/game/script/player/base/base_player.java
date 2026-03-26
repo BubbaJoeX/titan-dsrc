@@ -2533,15 +2533,24 @@ public class base_player extends script.base_script
     }
     public int cmdTurretGunnerExit(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException
     {
-        if (!isIdValid(target) || !exists(target))
+        if (!isIdValid(self) || !exists(self))
         {
             return SCRIPT_CONTINUE;
         }
-        if (!turret_gunner_lib.isOccupied(target) || turret_gunner_lib.getOccupant(target) != self)
+        if (!hasObjVar(self, turret_gunner_lib.VAR_PLAYER_MOUNTED_ON))
         {
             return SCRIPT_CONTINUE;
         }
-        turret_gunner_lib.tryUnmount(target, self);
+        obj_id turret = getObjIdObjVar(self, turret_gunner_lib.VAR_PLAYER_MOUNTED_ON);
+        if (!isIdValid(turret) || !exists(turret))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        if (!turret_gunner_lib.isOccupied(turret) || turret_gunner_lib.getOccupant(turret) != self)
+        {
+            return SCRIPT_CONTINUE;
+        }
+        turret_gunner_lib.tryUnmount(turret, self);
         return SCRIPT_CONTINUE;
     }
     public int handleDelayedEjection(obj_id self, dictionary params) throws InterruptedException

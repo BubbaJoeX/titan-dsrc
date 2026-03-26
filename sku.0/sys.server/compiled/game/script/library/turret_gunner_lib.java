@@ -10,6 +10,7 @@ import script.obj_id;
  * {@code turret.playerControllable} (int/bool, non-zero = mountable radial)<br>
  * {@code turret.gunner.off_x}, {@code off_y}, {@code off_z} (float, meters in parent/world frame — see setLocation)<br>
  * {@code turret.gunner.max_range} (float, optional — radial mount range, default 12m)<br>
+ * {@code turret.gunner.damage_percent} (int, optional — gunner hit damage as % of defender max HP, 1–100, default 12)<br>
  * {@code turret.dev.attackSpeedScale} (float, optional — multiplies post-shot recycle delay in {@code turret_ai})<br>
  * <p>
  * Gunner aim is driven client-side (camera + turret mesh slew) with server combat commands
@@ -299,5 +300,60 @@ public class turret_gunner_lib extends script.base_script
 			removeObjVar(player, VAR_RET_CELL);
 			removeObjVar(player, VAR_RET_SCENE);
 		}
+	}
+
+	/** Integer objvar on turret: max % of defender max HP per gunner hit (1–100). Default {@link #DEFAULT_GUNNER_DAMAGE_PERCENT}. */
+	public static final String VAR_GUNNER_DAMAGE_PERCENT = "turret.gunner.damage_percent";
+	public static final int DEFAULT_GUNNER_DAMAGE_PERCENT = 12;
+
+	public static int getGunnerDamagePercent(obj_id turret) throws InterruptedException
+	{
+		if (!isIdValid(turret) || !hasObjVar(turret, VAR_GUNNER_DAMAGE_PERCENT))
+		{
+			return DEFAULT_GUNNER_DAMAGE_PERCENT;
+		}
+		int p = getIntObjVar(turret, VAR_GUNNER_DAMAGE_PERCENT);
+		if (p < 1)
+		{
+			return 1;
+		}
+		if (p > 100)
+		{
+			return 100;
+		}
+		return p;
+	}
+
+	/** Gunner hit damage: {@code percent}% of defender max hitpoints (rounded), at least 1. */
+	public static int computeGunnerPercentHitDamage(obj_id defender, int percent) throws InterruptedException
+	{
+		if (!isIdValid(defender))
+		{
+			return 0;
+		}
+		int maxHp = getMaxHitpoints(defender);
+		if (maxHp < 1)
+		{
+			maxHp = 1;
+		}
+		int pct = percent;
+		if (pct < 1)
+		{
+			pct = 1;
+		}
+		if (pct > 100)
+		{
+			pct = 100;
+		}
+		long raw = ((long) maxHp * (long) pct + 50L) / 100L;
+		if (raw < 1L)
+		{
+			raw = 1L;
+		}
+		if (raw > (long) Integer.MAX_VALUE)
+		{
+			return Integer.MAX_VALUE;
+		}
+		return (int) raw;
 	}
 }

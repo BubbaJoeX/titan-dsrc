@@ -411,6 +411,13 @@ public class turret_ai extends script.systems.combat.combat_base_old
     }
     public float doAttack(obj_id target) throws InterruptedException
     {
+        return doAttack(target, obj_id.NULL_ID);
+    }
+    /**
+     * @param gunnerForCredit player credited for damage/XP/loot/credits; use {@link obj_id#NULL_ID} for AI turret shots (attacker = turret).
+     */
+    public float doAttack(obj_id target, obj_id gunnerForCredit) throws InterruptedException
+    {
         obj_id self = getSelf();
         obj_id base = getObjIdObjVar(self, hq.VAR_DEFENSE_PARENT);
         if (!isIdValid(self) || !isIdValid(target))
@@ -494,20 +501,35 @@ public class turret_ai extends script.systems.combat.combat_base_old
         };
         int intChanceToApplyEffect = 0;
         obj_id objWeapon = getObjIdObjVar(self, "objWeapon");
+        obj_id combatAttacker = self;
+        final boolean gunnerPlayerShot = isIdValid(gunnerForCredit) && isPlayer(gunnerForCredit);
+        if (gunnerPlayerShot)
+        {
+            combatAttacker = gunnerForCredit;
+        }
         attacker_data cbtAttackerData = new attacker_data();
         weapon_data cbtWeaponData = new weapon_data();
         obj_id[] objDefenders = new obj_id[1];
         objDefenders[0] = target;
         defender_data[] cbtDefenderData = new defender_data[objDefenders.length];
-        if (!getCombatData(self, objDefenders, cbtAttackerData, cbtDefenderData, cbtWeaponData))
+        if (!getCombatData(combatAttacker, objDefenders, cbtAttackerData, cbtDefenderData, cbtWeaponData))
         {
             return -1.0f;
         }
         cbtWeaponData = getWeaponData(objWeapon);
         hit_result[] cbtHitData = new hit_result[1];
         cbtHitData[0] = calculateHit(cbtAttackerData, cbtDefenderData[0], cbtWeaponData);
+        if (gunnerPlayerShot && cbtHitData[0].success)
+        {
+            int pct = turret_gunner_lib.getGunnerDamagePercent(self);
+            int scaled = turret_gunner_lib.computeGunnerPercentHitDamage(target, pct);
+            cbtHitData[0].damage = scaled;
+            cbtHitData[0].elementalDamage = 0;
+            cbtHitData[0].critDamage = 0;
+            cbtHitData[0].bleedDamage = 0;
+        }
         attacker_results cbtAttackerResults = new attacker_results();
-        cbtAttackerResults.id = self;
+        cbtAttackerResults.id = combatAttacker;
         defender_results[] cbtDefenderResults = new defender_results[1];
         cbtDefenderResults[0] = new defender_results();
         cbtAttackerResults.endPosture = -1;
@@ -592,7 +614,7 @@ public class turret_ai extends script.systems.combat.combat_base_old
             return SCRIPT_CONTINUE;
         }
         turret.engageTarget(self, best);
-        doAttack(best);
+        doAttack(best, gunner);
         return SCRIPT_CONTINUE;
     }
     public int handleGunnerSingleShot(obj_id self, dictionary params) throws InterruptedException
@@ -616,7 +638,7 @@ public class turret_ai extends script.systems.combat.combat_base_old
             return SCRIPT_CONTINUE;
         }
         turret.engageTarget(self, tgt);
-        doAttack(tgt);
+        doAttack(tgt, gunner);
         return SCRIPT_CONTINUE;
     }
     public int handleTurretAttack(obj_id self, dictionary params) throws InterruptedException
