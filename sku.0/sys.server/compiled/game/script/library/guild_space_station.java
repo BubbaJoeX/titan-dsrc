@@ -57,9 +57,9 @@ public class guild_space_station extends script.base_script
     }
 
     /**
-     * Dismount, store callables, pack surface ship before station travel.
-     * In atmospheric flight or space, do not call packShip then warp in the same frame — packShip defers finalize and
-     * cross-scene warps have caused client AlterScheduler crashes. Unpilot instead; ground players still get packShip.
+     * Dismount, store callables, pack ship before station travel.
+     * In space or atmospheric flight, {@link space_transition#packShip} unpilots, ejects passengers as needed, and
+     * packs the ship (atmospheric uses a deferred finalize path inside the space library).
      */
     public static void preparePlayerForGuildStationTravel(obj_id player) throws InterruptedException
     {
@@ -69,9 +69,11 @@ public class guild_space_station extends script.base_script
         callable.storeCallables(player);
         if (isAtmosphericFlightScene() || isSpaceScene())
         {
-            obj_id piloted = getPilotedShip(player);
-            if (isIdValid(piloted))
-                unpilotShip(player);
+            obj_id ship = space_transition.getContainingShip(player);
+            if (!isIdValid(ship))
+                ship = getPilotedShip(player);
+            if (isIdValid(ship) && exists(ship))
+                space_transition.packShip(ship);
             return;
         }
         obj_id ship = space_transition.getContainingShip(player);
