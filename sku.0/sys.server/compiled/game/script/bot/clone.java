@@ -99,7 +99,15 @@ public class clone extends base_script
         }
         if (text.equals("update"))
         {
-            transferPlayerData(self, speaker, null);
+            byte[] packed = bot_lib.packCharacterTransferData(speaker, true, true);
+            if (packed != null && packed.length > 0 && bot_lib.applyCharacterTransferData(self, packed))
+            {
+                broadcast(speaker, "CTS snapshot applied from your character to this bot.");
+            }
+            else
+            {
+                broadcast(speaker, "CTS snapshot failed (pack or OnDownloadCharacter).");
+            }
         }
         else if (text.equals("duel"))
         {
