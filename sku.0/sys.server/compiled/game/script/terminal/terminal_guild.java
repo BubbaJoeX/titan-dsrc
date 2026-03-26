@@ -273,6 +273,10 @@ public class terminal_guild extends script.terminal.base.base_terminal
                 {
                     mi.addSubMenu(guildManagementMenu, menu_info_types.SERVER_MENU23, SID_BEGIN_GCW_REGION_DEFENDER);
                 }
+                mi.addSubMenu(guildManagementMenu, menu_info_types.SERVER_MENU51, string_id.unlocalized("Purchase Guild Space Station (50,000,000 cr)"));
+                menu_info_data midPurchase = mi.getMenuItem(menu_info_types.SERVER_MENU51, guildManagementMenu);
+                if (midPurchase != null)
+                    midPurchase.setServerNotify(true);
             }
             int memberManagementMenu = mi.addRootMenu(menu_info_types.SERVER_GUILD_MEMBER_MANAGEMENT, SID_GUILD_MEMBER_MANAGEMENT);
             mi.addSubMenu(memberManagementMenu, menu_info_types.SERVER_GUILD_MEMBERS, SID_GUILD_MEMBERS);
@@ -287,13 +291,6 @@ public class terminal_guild extends script.terminal.base.base_terminal
             if (player == guildLeader || isGod(player))
             {
                 mi.addSubMenu(memberManagementMenu, menu_info_types.SERVER_MENU1, SID_GUILD_LEADER_CHANGE);
-            }
-            if (player == guildLeader || isGod(player))
-            {
-                mi.addRootMenu(menu_info_types.SERVER_MENU51, string_id.unlocalized("Purchase Guild Space Station (50,000,000 cr)"));
-                menu_info_data midPurchase = mi.getMenuItemByType(menu_info_types.SERVER_MENU51);
-                if (midPurchase != null)
-                    midPurchase.setServerNotify(true);
             }
             int menu = -1;
             if (!guild.hasElectionEnded(player))
