@@ -124,6 +124,24 @@ public class guild_space_station extends script.base_script
     }
 
     /**
+     * Orbit beacon: invulnerable, conversable, display name {@code Station: <abbrev>}. Call from marker attach/init
+     * whenever the object is created or refreshed (e.g. comlink orbit move).
+     */
+    public static void applyOrbitMarkerPresentation(obj_id marker) throws InterruptedException
+    {
+        if (!isIdValid(marker) || !exists(marker))
+            return;
+        setInvulnerable(marker, true);
+        setCondition(marker, CONDITION_CONVERSABLE);
+        if (!hasObjVar(marker, OV_GUILD_ID))
+            return;
+        int guildId = getIntObjVar(marker, OV_GUILD_ID);
+        if (guildId <= 0 || !guildExists(guildId))
+            return;
+        setName(marker, "Station: <" + guildGetAbbrev(guildId) + ">");
+    }
+
+    /**
      * Spawns the atmospheric "orbit" prop over the given point. Must be invoked on a server running {@code planet}'s scene.
      */
     public static obj_id spawnOrbitMarkerForPlanet(obj_id player, int guildId, String planet, float x, float z, obj_id destroyOld) throws InterruptedException
@@ -142,6 +160,7 @@ public class guild_space_station extends script.base_script
         {
             setObjVar(marker, OV_GUILD_ID, guildId);
             attachScript(marker, "guild.guild_space_station_orbit_marker");
+            applyOrbitMarkerPresentation(marker);
         }
         return marker;
     }

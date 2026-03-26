@@ -30,16 +30,14 @@ public class guild_space_station_orbit_marker extends conversation_base
     @Override
     public int OnInitialize(obj_id self) throws InterruptedException
     {
-        setInvulnerable(self, true);
-        setCondition(self, CONDITION_CONVERSABLE);
+        guild_space_station.applyOrbitMarkerPresentation(self);
         return SCRIPT_CONTINUE;
     }
 
     @Override
     public int OnAttach(obj_id self) throws InterruptedException
     {
-        setInvulnerable(self, true);
-        setCondition(self, CONDITION_CONVERSABLE);
+        guild_space_station.applyOrbitMarkerPresentation(self);
         return SCRIPT_CONTINUE;
     }
 
