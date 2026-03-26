@@ -1,7 +1,10 @@
 package script.player;
 
 import script.dictionary;
+import script.location;
 import script.library.guild;
+import script.library.guild_space_station;
+import script.library.money;
 import script.library.player_structure;
 import script.library.sui;
 import script.library.utils;
@@ -1847,6 +1850,32 @@ public class player_guild extends script.base_script
             guild.disband(guildId, player);
         }
         guild.removeWindowPid(self);
+        return SCRIPT_CONTINUE;
+    }
+
+    /** Guild terminal purchase SUI; must use player as msgbox owner (see terminal_guild disband pattern). */
+    public int onGuildStationPurchaseConfirm(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id terminal = utils.getObjIdScriptVar(self, "guildStation.purchaseTerminal");
+        utils.removeScriptVar(self, "guildStation.purchaseTerminal");
+        if (!isIdValid(terminal) || !exists(terminal))
+            return SCRIPT_CONTINUE;
+        if (sui.getIntButtonPressed(params) != sui.BP_OK)
+            return SCRIPT_CONTINUE;
+        int guildId = getGuildId(self);
+        if (guildId == 0)
+            return SCRIPT_CONTINUE;
+        obj_id leader = guildGetLeader(guildId);
+        if (self != leader && !isGod(self))
+            return SCRIPT_CONTINUE;
+        location loc = getLocation(self);
+        dictionary d = new dictionary();
+        d.put("guildStationTerminal", terminal);
+        d.put("guildStationGuildId", guildId);
+        d.put("orbitPlanet", loc.area);
+        d.put("orbitX", loc.x);
+        d.put("orbitZ", loc.z);
+        money.requestPayment(self, money.ACCT_TRAVEL, guild_space_station.PURCHASE_COST_CREDITS, "guildStationPurchaseMoneyOk", d, true);
         return SCRIPT_CONTINUE;
     }
     public int onMasterGuildWarTableDictionaryResponse(obj_id self, dictionary params) throws InterruptedException

@@ -376,7 +376,8 @@ public class terminal_guild extends script.terminal.base.base_terminal
         final obj_id guildLeader = guildGetLeader(guildId);
         if (item == menu_info_types.SERVER_MENU51 && (player == guildLeader || isGod(player)))
         {
-            sui.msgbox(self, player, getString(string_id.unlocalized("Purchase a guild space station for 50 million credits? Your guild receives a hub instance in Unknown Regions and a shuttle comlink.")), sui.YES_NO, getString(string_id.unlocalized("Guild Space Station")), sui.MSG_NORMAL, "handleGuildStationPurchaseConfirm");
+            utils.setScriptVar(player, "guildStation.purchaseTerminal", self);
+            sui.msgbox(player, player, getString(string_id.unlocalized("Purchase a guild space station for 50 million credits? Your guild receives a hub instance in Unknown Regions and a shuttle comlink.")), sui.YES_NO, getString(string_id.unlocalized("Guild Space Station")), sui.MSG_NORMAL, "onGuildStationPurchaseConfirm");
             return SCRIPT_CONTINUE;
         }
         if (item == menu_info_types.ITEM_USE || item == menu_info_types.SERVER_GUILD_INFO)
@@ -982,28 +983,6 @@ public class terminal_guild extends script.terminal.base.base_terminal
         }
         int pid = sui.tableRowMajor(self, player, sui.OK_CANCEL, "List of Guilds", "onGuildsListResponse", null, table_titles, table_types, guildsData);
         guild.setWindowPid(self, pid);
-        return SCRIPT_CONTINUE;
-    }
-
-    public int handleGuildStationPurchaseConfirm(obj_id self, dictionary params) throws InterruptedException
-    {
-        obj_id player = sui.getPlayerId(params);
-        if (sui.getIntButtonPressed(params) != sui.BP_OK)
-            return SCRIPT_CONTINUE;
-        int guildId = getGuildId(player);
-        if (guildId == 0)
-            return SCRIPT_CONTINUE;
-        obj_id leader = guildGetLeader(guildId);
-        if (player != leader && !isGod(player))
-            return SCRIPT_CONTINUE;
-        location loc = getLocation(player);
-        dictionary d = new dictionary();
-        d.put("guildStationTerminal", self);
-        d.put("guildStationGuildId", guildId);
-        d.put("orbitPlanet", loc.area);
-        d.put("orbitX", loc.x);
-        d.put("orbitZ", loc.z);
-        money.requestPayment(player, money.ACCT_TRAVEL, guild_space_station.PURCHASE_COST_CREDITS, "guildStationPurchaseMoneyOk", d, true);
         return SCRIPT_CONTINUE;
     }
 
