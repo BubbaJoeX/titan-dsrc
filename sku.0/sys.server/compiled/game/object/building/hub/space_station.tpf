@@ -13,8 +13,9 @@ interestRadius = 1
 sharedTemplate = "object/building/hub/shared_space_station.iff"
 
 
-scripts =+["structure.municipal.cloning_facility"]
+scripts =+["structure.municipal.cloning_facility", "guild.guild_space_station_building"]
 
+objvars =+["guildStation.access.mode"=0]
 
-persistByDefault = false
+persistByDefault = true
 updateRanges[UR_far] = 180

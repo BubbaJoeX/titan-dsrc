@@ -1,6 +1,7 @@
 package script.player;
 
 import script.dictionary;
+import script.library.guild_space_station;
 import script.library.money;
 import script.library.prose;
 import script.library.sui;
@@ -361,6 +362,27 @@ public class player_money extends script.base_script
         {
             money.pay(self, target, amt, returnHandler, params, notify);
         }
+        return SCRIPT_CONTINUE;
+    }
+
+    public int guildStationPurchaseMoneyOk(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id terminal = params.getObjId("guildStationTerminal");
+        if (!isIdValid(terminal))
+            return SCRIPT_CONTINUE;
+        messageTo(terminal, "guildStationPurchasePaid", params, 0, false);
+        return SCRIPT_CONTINUE;
+    }
+
+    public int guildStationMaintenancePaid(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id building = params.getObjId("guildStationBuilding");
+        if (!isIdValid(building))
+            return SCRIPT_CONTINUE;
+        int next = getCalendarTime() + guild_space_station.MAINTENANCE_PERIOD_SEC;
+        setObjVar(building, guild_space_station.OV_MAINTENANCE_NEXT, next);
+        messageTo(building, "guildStationPushCw", null, 0.5f, false);
+        sendSystemMessage(self, string_id.unlocalized("Guild station maintenance paid."));
         return SCRIPT_CONTINUE;
     }
 }

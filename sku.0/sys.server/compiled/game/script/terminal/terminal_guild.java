@@ -288,6 +288,10 @@ public class terminal_guild extends script.terminal.base.base_terminal
             {
                 mi.addSubMenu(memberManagementMenu, menu_info_types.SERVER_MENU1, SID_GUILD_LEADER_CHANGE);
             }
+            if (player == guildLeader || isGod(player))
+            {
+                mi.addRootMenu(menu_info_types.SERVER_MENU51, string_id.unlocalized("Purchase Guild Space Station (50,000,000 cr)"));
+            }
             int menu = -1;
             if (!guild.hasElectionEnded(player))
             {
@@ -370,6 +374,11 @@ public class terminal_guild extends script.terminal.base.base_terminal
             return SCRIPT_CONTINUE;
         }
         final obj_id guildLeader = guildGetLeader(guildId);
+        if (item == menu_info_types.SERVER_MENU51 && (player == guildLeader || isGod(player)))
+        {
+            sui.msgbox(self, player, getString(string_id.unlocalized("Purchase a guild space station for 50 million credits? Your guild receives a hub instance in Unknown Regions and a shuttle comlink.")), sui.YES_NO, getString(string_id.unlocalized("Guild Space Station")), sui.MSG_NORMAL, "handleGuildStationPurchaseConfirm");
+            return SCRIPT_CONTINUE;
+        }
         if (item == menu_info_types.ITEM_USE || item == menu_info_types.SERVER_GUILD_INFO)
         {
             guild.showGuildInfo(player);
@@ -973,6 +982,66 @@ public class terminal_guild extends script.terminal.base.base_terminal
         }
         int pid = sui.tableRowMajor(self, player, sui.OK_CANCEL, "List of Guilds", "onGuildsListResponse", null, table_titles, table_types, guildsData);
         guild.setWindowPid(self, pid);
+        return SCRIPT_CONTINUE;
+    }
+
+    public int handleGuildStationPurchaseConfirm(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        if (sui.getIntButtonPressed(params) != sui.BP_OK)
+            return SCRIPT_CONTINUE;
+        int guildId = getGuildId(player);
+        if (guildId == 0)
+            return SCRIPT_CONTINUE;
+        obj_id leader = guildGetLeader(guildId);
+        if (player != leader && !isGod(player))
+            return SCRIPT_CONTINUE;
+        location loc = getLocation(player);
+        dictionary d = new dictionary();
+        d.put("guildStationTerminal", self);
+        d.put("guildStationGuildId", guildId);
+        d.put("orbitPlanet", loc.area);
+        d.put("orbitX", loc.x);
+        d.put("orbitZ", loc.z);
+        money.requestPayment(player, money.ACCT_TRAVEL, guild_space_station.PURCHASE_COST_CREDITS, "guildStationPurchaseMoneyOk", d, true);
+        return SCRIPT_CONTINUE;
+    }
+
+    public int guildStationPurchasePaid(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = params.getObjId(money.DICT_PLAYER_ID);
+        int guildId = params.getInt("guildStationGuildId");
+        String planet = params.getString("orbitPlanet");
+        float ox = params.getFloat("orbitX");
+        float oz = params.getFloat("orbitZ");
+        if (!isIdValid(player))
+            return SCRIPT_CONTINUE;
+        utils.setScriptVar(self, "guildStation.pendingPurchase", player);
+        utils.setScriptVar(self, "guildStation.pendingGuildId", guildId);
+        utils.setScriptVar(self, "guildStation.orbitPlanet", planet);
+        utils.setScriptVar(self, "guildStation.orbitX", ox);
+        utils.setScriptVar(self, "guildStation.orbitZ", oz);
+        getClusterWideData(guild_space_station.CW_MANAGER, guild_space_station.cwElementName(guildId), true, self);
+        return SCRIPT_CONTINUE;
+    }
+
+    public int OnClusterWideDataResponse(obj_id self, String manage_name, String name, int request_id, String[] element_name_list, dictionary[] data, int lock_key) throws InterruptedException
+    {
+        if (!manage_name.equals(guild_space_station.CW_MANAGER))
+            return SCRIPT_CONTINUE;
+        if (!utils.hasScriptVar(self, "guildStation.pendingPurchase"))
+            return SCRIPT_CONTINUE;
+        obj_id player = utils.getObjIdScriptVar(self, "guildStation.pendingPurchase");
+        int guildId = utils.getIntScriptVar(self, "guildStation.pendingGuildId");
+        String planet = utils.getStringScriptVar(self, "guildStation.orbitPlanet");
+        float ox = utils.getFloatScriptVar(self, "guildStation.orbitX");
+        float oz = utils.getFloatScriptVar(self, "guildStation.orbitZ");
+        utils.removeScriptVar(self, "guildStation.pendingPurchase");
+        utils.removeScriptVar(self, "guildStation.pendingGuildId");
+        utils.removeScriptVar(self, "guildStation.orbitPlanet");
+        utils.removeScriptVar(self, "guildStation.orbitX");
+        utils.removeScriptVar(self, "guildStation.orbitZ");
+        guild_space_station.onClusterWidePurchaseResponse(self, player, guildId, planet, ox, oz, manage_name, name, request_id, element_name_list, data, lock_key);
         return SCRIPT_CONTINUE;
     }
 }

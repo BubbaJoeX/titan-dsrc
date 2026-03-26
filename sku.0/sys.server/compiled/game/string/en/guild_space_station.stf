@@ -1,0 +1,21 @@
+guild_space_station.stf        0
+VERSION 0
+
+STRING_TABLE
+menu_purchase_station	Purchase Guild Space Station (50,000,000 cr)
+purchase_confirm	Purchase a guild space station for 50 million credits? Your guild receives a hub instance in Unknown Regions and a shuttle comlink.
+purchase_title	Guild Space Station
+terminal_name	Guild Station Management
+terminal_desc	Configure orbit beacon, access, and maintenance for your guild space station.
+comlink_name	Guild Station Comlink
+comlink_desc	Encrypted channel to your guild's orbital station above the planet.
+orbit_name	Guild Orbital Beacon
+orbit_desc	A guild-registered navigation beacon in high atmosphere.
+pay_maintenance	Pay Station Maintenance (500,000 cr)
+set_access_guild	Access: All Guild Members
+set_access_rank	Access: Minimum Rank...
+set_orbit_here	Refresh Orbit Beacon Here
+rank_prompt	Enter the minimum guild rank name (must match guild rank system).
+rank_title	Guild Rank Gate
+orbit_request_docking	Request Docking Clearance
+purchase_confirm_short	Confirm purchase for 50M credits?
