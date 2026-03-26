@@ -531,6 +531,9 @@ public class turret_ai extends script.systems.combat.combat_base_old
             cbtHitData[0].elementalDamage = 0;
             cbtHitData[0].critDamage = 0;
             cbtHitData[0].bleedDamage = 0;
+            // Native CombatEngine::onSuccessfulAttack indexes defender skeleton attackMods[hitLocation];
+            // Java calculateHit can yield locations past that table (flytext still shows) so damage was dropped.
+            cbtHitData[0].hitLocation = HIT_LOCATION_BODY;
         }
         obj_id damageCreditAttacker = gunnerPlayerShot ? gunnerForCredit : self;
         attacker_results cbtAttackerResults = new attacker_results();
