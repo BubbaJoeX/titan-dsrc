@@ -47,6 +47,11 @@ public class guild_space_station_orbit_marker extends conversation_base
     @Override
     public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info menuInfo) throws InterruptedException
     {
+        // Same pattern as conversation_base: client handles CONVERSE_START (npcConversationStart) without server notify.
+        int convMenu = menuInfo.addRootMenu(menu_info_types.CONVERSE_START, null);
+        menu_info_data convData = menuInfo.getMenuItemById(convMenu);
+        if (convData != null)
+            convData.setServerNotify(false);
         menuInfo.addRootMenu(menu_info_types.SERVER_MENU1, string_id.unlocalized("Request Landing"));
         menuInfo.addRootMenu(menu_info_types.SERVER_MENU2, string_id.unlocalized("Station Information"));
         menu_info_data md1 = menuInfo.getMenuItemByType(menu_info_types.SERVER_MENU1);
@@ -84,8 +89,9 @@ public class guild_space_station_orbit_marker extends conversation_base
     @Override
     public int OnStartNpcConversation(obj_id self, obj_id player) throws InterruptedException
     {
+        // Do not return SCRIPT_OVERRIDE alone — the client needs npcEndConversationWithMessage or it never clears comm UI.
         if (ai_lib.isInCombat(self) || ai_lib.isInCombat(player))
-            return SCRIPT_OVERRIDE;
+            return serverSide_endConversation(player, "Unable to establish a comm channel while in combat.");
         if (!hasObjVar(self, guild_space_station.OV_GUILD_ID))
             return serverSide_endConversation(player, "This beacon is not transmitting a guild identity.");
         return serverSide_startConversation(
