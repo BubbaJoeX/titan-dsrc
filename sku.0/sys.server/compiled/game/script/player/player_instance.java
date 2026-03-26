@@ -107,6 +107,10 @@ public class player_instance extends script.base_script
         {
             return SCRIPT_CONTINUE;
         }
+        if (manage_name.equals(guild_space_station.CW_MANAGER))
+        {
+            return SCRIPT_CONTINUE;
+        }
         CustomerServiceLog(instance.INSTANCE_DEBUG_LOG, "OnClusterWideDataResponse-player " + self + "(" + getPlayerName(self) + ")recieved trigger");
         int requestType = instance.getInstanceRequestType(self);
         CustomerServiceLog(instance.INSTANCE_DEBUG_LOG, "OnClusterWideDataResponse-player " + self + "(" + getPlayerName(self) + ")'s requestType is " + requestType);

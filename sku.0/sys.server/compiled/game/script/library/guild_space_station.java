@@ -48,6 +48,8 @@ public class guild_space_station extends script.base_script
     public static final String SV_COMLINK_CW_ACTION = "guildStation.pendingCwAction";
     public static final String COMLINK_ACTION_WARP = "warp";
     public static final String COMLINK_ACTION_ORBIT = "orbit";
+    /** Player scriptvar: pending getClusterWideData("guild_*") to respawn hub buildings / orbit markers after restart. */
+    public static final String SV_BOOTSTRAP_PENDING = "guildStation.bootstrapCwPending";
 
     private static final String TEMPLATE_ORBIT_SHIP = "object/ship/spacestation_neutral.iff";
 
@@ -165,7 +167,8 @@ public class guild_space_station extends script.base_script
     {
         if (!getCurrentSceneName().equals(planet))
         {
-            sendSystemMessage(player, string_id.unlocalized("Orbit beacon must be refreshed while you are on " + planet + "."));
+            if (isIdValid(player) && exists(player))
+                sendSystemMessage(player, string_id.unlocalized("Orbit beacon must be refreshed while you are on " + planet + "."));
             return obj_id.NULL_ID;
         }
         if (isIdValid(destroyOld) && exists(destroyOld))
@@ -698,5 +701,82 @@ public class guild_space_station extends script.base_script
         obj_id m = hasObjVar(building, OV_ORBIT_MARKER) ? getObjIdObjVar(building, OV_ORBIT_MARKER) : obj_id.NULL_ID;
         sb.append("\nMarker object: ").append(isIdValid(m) && exists(m) ? "active" : "not found in scene");
         return sb.toString();
+    }
+
+    /**
+     * Queues a cluster-wide read of all guild station rows; {@link #handleBootstrapClusterResponse} respawns missing
+     * dungeon_hub buildings and planetary orbit markers (obj_ids in CW do not survive process restart).
+     */
+    public static void requestGuildStationSceneBootstrap(obj_id player) throws InterruptedException
+    {
+        if (!isIdValid(player) || !exists(player))
+            return;
+        utils.setScriptVar(player, SV_BOOTSTRAP_PENDING, true);
+        getClusterWideData(CW_MANAGER, "guild_*", false, player);
+    }
+
+    /**
+     * @return true if this was a bootstrap response (consumes pending flag; releases lock when non-zero).
+     */
+    public static boolean handleBootstrapClusterResponse(obj_id player, String manage_name, dictionary[] data, int lock_key) throws InterruptedException
+    {
+        if (!manage_name.equals(CW_MANAGER) || !utils.hasScriptVar(player, SV_BOOTSTRAP_PENDING))
+            return false;
+        utils.removeScriptVar(player, SV_BOOTSTRAP_PENDING);
+        try
+        {
+            if (data != null)
+            {
+                for (int i = 0; i < data.length; ++i)
+                {
+                    dictionary row = data[i];
+                    if (row == null || !row.containsKey("guild_id"))
+                        continue;
+                    int guildId = row.getInt("guild_id");
+                    if (guildId <= 0)
+                        continue;
+                    if (getCurrentSceneName().equals("dungeon_hub"))
+                        ensureStationBuildingOnHub(player, guildId, row);
+                    if (row.containsKey("orbit_planet") && getCurrentSceneName().equals(row.getString("orbit_planet")))
+                        ensureOrbitMarkerFromClusterRow(row, guildId);
+                }
+            }
+        }
+        finally
+        {
+            if (lock_key != 0)
+                releaseClusterWideDataLock(manage_name, lock_key);
+        }
+        return true;
+    }
+
+    /**
+     * If CW lists an orbit marker that no longer exists (new process), spawn one and update CW / local building objvars.
+     */
+    public static void ensureOrbitMarkerFromClusterRow(dictionary cw, int guildId) throws InterruptedException
+    {
+        if (cw == null || !cw.containsKey("orbit_planet") || !cw.containsKey("orbit_x") || !cw.containsKey("orbit_z"))
+            return;
+        String planet = cw.getString("orbit_planet");
+        if (!getCurrentSceneName().equals(planet))
+            return;
+        obj_id markerId = cw.containsKey("orbit_marker_id") ? cw.getObjId("orbit_marker_id") : obj_id.NULL_ID;
+        if (isIdValid(markerId) && exists(markerId))
+            return;
+        float ox = cw.getFloat("orbit_x");
+        float oz = cw.getFloat("orbit_z");
+        obj_id newMarker = spawnOrbitMarkerForPlanet(null, guildId, planet, ox, oz, obj_id.NULL_ID);
+        if (!isIdValid(newMarker))
+            return;
+        cw.put("orbit_marker_id", newMarker);
+        obj_id building = cw.containsKey("building_id") ? cw.getObjId("building_id") : obj_id.NULL_ID;
+        if (!isIdValid(building) || !exists(building))
+        {
+            cw.remove("building_id");
+            building = obj_id.NULL_ID;
+        }
+        if (isIdValid(building) && exists(building) && hasObjVar(building, OV_GUILD_ID))
+            setObjVar(building, OV_ORBIT_MARKER, newMarker);
+        replaceClusterWideData(CW_MANAGER, cwElementName(guildId), cw, true, -1);
     }
 }

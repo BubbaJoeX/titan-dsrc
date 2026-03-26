@@ -1679,6 +1679,19 @@ public class base_player extends script.base_script
         /*
         @Note: handle any on login code for player here
         */
+        messageTo(self, "guildStationSceneBootstrapRequest", null, 8.0f, false);
+        return SCRIPT_CONTINUE;
+    }
+    public int guildStationSceneBootstrapRequest(obj_id self, dictionary params) throws InterruptedException
+    {
+        guild_space_station.requestGuildStationSceneBootstrap(self);
+        messageTo(self, "guildStationBootstrapClearPending", null, 45.0f, false);
+        return SCRIPT_CONTINUE;
+    }
+    public int guildStationBootstrapClearPending(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (utils.hasScriptVar(self, guild_space_station.SV_BOOTSTRAP_PENDING))
+            utils.removeScriptVar(self, guild_space_station.SV_BOOTSTRAP_PENDING);
         return SCRIPT_CONTINUE;
     }
     public int disconnectPlayerCtsCompletedOrInProgress(obj_id self, dictionary params) throws InterruptedException
@@ -11762,6 +11775,10 @@ public class base_player extends script.base_script
     }
     public int OnClusterWideDataResponse(obj_id self, String manage_name, String data_name, int request_id, String[] element_name_list, dictionary[] dungeon_data, int lock_key) throws InterruptedException
     {
+        if (guild_space_station.handleBootstrapClusterResponse(self, manage_name, dungeon_data, lock_key))
+        {
+            return SCRIPT_CONTINUE;
+        }
         if (guild_space_station.handlePendingComlinkClusterResponse(self, manage_name, dungeon_data, lock_key))
         {
             return SCRIPT_CONTINUE;
