@@ -377,7 +377,7 @@ public class terminal_guild extends script.terminal.base.base_terminal
         if (item == menu_info_types.SERVER_MENU51 && (player == guildLeader || isGod(player)))
         {
             utils.setScriptVar(player, "guildStation.purchaseTerminal", self);
-            sui.msgbox(player, player, getString(string_id.unlocalized("Purchase a guild space station for 50 million credits? Your guild receives a hub instance in Unknown Regions and a shuttle comlink.")), sui.YES_NO, getString(string_id.unlocalized("Guild Space Station")), sui.MSG_NORMAL, "onGuildStationPurchaseConfirm");
+            sui.msgbox(player, player, "Purchase a guild space station for 50 million credits? Your guild receives a hub instance in Unknown Regions and a shuttle comlink.", sui.YES_NO, "Guild Space Station", sui.MSG_NORMAL, "onGuildStationPurchaseConfirm");
             return SCRIPT_CONTINUE;
         }
         if (item == menu_info_types.ITEM_USE || item == menu_info_types.SERVER_GUILD_INFO)
