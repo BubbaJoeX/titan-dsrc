@@ -1940,6 +1940,7 @@ wookiee_ability_1	commandClicky	normal	wookiee_ability_1	failSpecialAttack			1	w
 wookieeRoar		normal	wookieeRoar	cmdInnateFail			1	wookieeRoar		0			0	0	0	0	0	0	0			0	0	0			0				0													0				0	0	0	0	0																						optional		2			0				1			species_innate		1	3600
 zabrak_ability_1	commandClicky	normal	zabrak_ability_1	failSpecialAttack			1	zabrak_ability_1	1	0	1	1	1	0	1	1	0	0	0	0	0	0	0	0	0	0	0			0	0	1	1		1	0	0	1	1	1	1	0	1	0	1	1	1	1	0	0									0		0	0	0	0	0								other	none		2		combat_ranged				combat	1	ALL		species_ability		0.25	600			1
 botExecute		immediate	cmdBotExecute																												0	1												1																														none									0
+botCtsApply		immediate	cmdBotCtsApply																												0	1												1																														none									0
 botSetup		immediate	cmdBotSetup																												0	1												1																														none									0
 botReset		immediate	cmdBotReset																												0	1												1																														none									0
 manageLoot		immediate	manageLoot				1		1	0	1	1	1	0	1	1	1	0	0	0	0	0	0	0	0	0	0			0	0	1	1		1	0	0	1	1	1	1	0	1	0	1	1	1	1	0	0									0		0	0	0	0										none					0			other	0										0

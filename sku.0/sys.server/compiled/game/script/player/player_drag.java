@@ -1,5 +1,6 @@
 package script.player;
 
+import script.library.bot_lib;
 import script.library.sui;
 import script.obj_id;
 import script.dictionary;
@@ -49,21 +50,39 @@ public class player_drag extends script.base_script
 
     public int cmdBotExecute(obj_id self, obj_id target, String params, float defaultTime)
     {
-        if (params == null || params.isEmpty())
+        if (params == null || params.trim().isEmpty())
+        {
+            broadcast(self, "[Bot]: No parameters supplied. Usage: /botExecute <characterFirstName> <passkey> <command and args>");
+            return SCRIPT_CONTINUE;
+        }
+
+        StringTokenizer st = new StringTokenizer(params);
+        if (!st.hasMoreTokens())
         {
             broadcast(self, "[Bot]: No parameters supplied.");
             return SCRIPT_CONTINUE;
         }
-
-        String[] paramsArray = split(params, ' ');
-        String playerName = paramsArray[0];
-        String passkey = paramsArray.length > 1 ? paramsArray[1] : "";
-        String commandToSend = paramsArray.length > 2 ? paramsArray[2] : "";
-        StringBuilder commandParameters = new StringBuilder();
-
-        for (int i = 3; i < paramsArray.length; i++)
+        String playerName = st.nextToken();
+        if (!st.hasMoreTokens())
         {
-            commandParameters.append(paramsArray[i]).append(" ");
+            broadcast(self, "[Bot]: Passkey required.");
+            return SCRIPT_CONTINUE;
+        }
+        String passkey = st.nextToken();
+        StringBuilder commandRest = new StringBuilder();
+        while (st.hasMoreTokens())
+        {
+            if (commandRest.length() > 0)
+            {
+                commandRest.append(' ');
+            }
+            commandRest.append(st.nextToken());
+        }
+        String fullCommand = commandRest.toString().trim();
+        if (fullCommand.isEmpty())
+        {
+            broadcast(self, "[Bot]: No command after passkey.");
+            return SCRIPT_CONTINUE;
         }
 
         obj_id player = getPlayerIdFromFirstName(toLower(playerName));
@@ -73,20 +92,78 @@ public class player_drag extends script.base_script
             return SCRIPT_CONTINUE;
         }
 
-        if (passkey.isEmpty() || (!passkey.equals(getStringObjVar(player, "challengeCode")) && !isGod(self)))
+        if (!isGod(self) && (passkey.isEmpty() || !hasObjVar(player, "challengeCode") || !passkey.equals(getStringObjVar(player, "challengeCode"))))
         {
             broadcast(self, "Invalid challenge code for " + getPlayerFullName(player) + "!");
             return SCRIPT_CONTINUE;
         }
 
-        if (commandToSend.contains("botReset") || commandToSend.contains("botSetup") || commandToSend.contains("botExecute"))
+        String firstToken = fullCommand.split("\\s+")[0];
+        if (firstToken.equalsIgnoreCase("botReset")
+                || firstToken.equalsIgnoreCase("botSetup")
+                || firstToken.equalsIgnoreCase("botExecute")
+                || firstToken.equalsIgnoreCase("botCtsApply"))
         {
             broadcast(self, "[Bot]: Invalid or illegal command.");
             return SCRIPT_CONTINUE;
         }
 
-        sendConsoleCommand("/" + commandToSend, player);
-        broadcast(self, "[Bot]: Command " + commandToSend + " sent to " + getPlayerFullName(player));
+        sendConsoleCommand("/" + fullCommand, player);
+        broadcast(self, "[Bot]: /" + fullCommand + " → " + getPlayerFullName(player));
+        return SCRIPT_CONTINUE;
+    }
+
+    /**
+     * Apply a Character Transfer snapshot from one live character to another (CTS upload → download pipeline).
+     * Usage: /botCtsApply &lt;targetFirstName&gt; &lt;passkey&gt; &lt;sourceFirstName&gt;
+     */
+    public int cmdBotCtsApply(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException
+    {
+        if (params == null || params.trim().isEmpty())
+        {
+            broadcast(self, "Usage: /botCtsApply <targetFirstName> <passkey> <sourceFirstName>");
+            return SCRIPT_CONTINUE;
+        }
+        StringTokenizer st = new StringTokenizer(params);
+        if (st.countTokens() < 3)
+        {
+            broadcast(self, "Usage: /botCtsApply <targetFirstName> <passkey> <sourceFirstName>");
+            return SCRIPT_CONTINUE;
+        }
+        String targetName = st.nextToken();
+        String passkey = st.nextToken();
+        String sourceName = st.nextToken();
+
+        obj_id bot = getPlayerIdFromFirstName(toLower(targetName));
+        obj_id source = getPlayerIdFromFirstName(toLower(sourceName));
+        if (!isIdValid(bot))
+        {
+            broadcast(self, "Target character '" + targetName + "' not found.");
+            return SCRIPT_CONTINUE;
+        }
+        if (!isIdValid(source))
+        {
+            broadcast(self, "Source character '" + sourceName + "' not found.");
+            return SCRIPT_CONTINUE;
+        }
+        if (!isGod(self) && (!hasObjVar(bot, "challengeCode") || !passkey.equals(getStringObjVar(bot, "challengeCode"))))
+        {
+            broadcast(self, "Invalid challenge code for target " + getPlayerFullName(bot) + ".");
+            return SCRIPT_CONTINUE;
+        }
+
+        byte[] packed = bot_lib.packCharacterTransferData(source, true, true);
+        if (packed == null || packed.length == 0)
+        {
+            broadcast(self, "CTS pack failed (OnUploadCharacter). Check source character CTS/skill state and logs.");
+            return SCRIPT_CONTINUE;
+        }
+        if (!bot_lib.applyCharacterTransferData(bot, packed))
+        {
+            broadcast(self, "CTS apply failed (OnDownloadCharacter).");
+            return SCRIPT_CONTINUE;
+        }
+        broadcast(self, "CTS snapshot applied: " + getPlayerFullName(source) + " → " + getPlayerFullName(bot));
         return SCRIPT_CONTINUE;
     }
 

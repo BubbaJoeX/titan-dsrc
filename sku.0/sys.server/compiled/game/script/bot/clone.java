@@ -8,13 +8,12 @@ package script.bot;/*
     Unauthorized usage, viewing or sharing of this file is prohibited.
 */
 
-import java.io.File;
-import java.nio.file.Files;
 import java.util.Random;
 import java.util.StringTokenizer;
 
 import script.*;
 import script.library.*;
+import script.library.bot_lib;
 
 import script.combat_engine.combat_data;
 
@@ -89,7 +88,6 @@ public class clone extends base_script
         {
             LOG("ScriptEntry", ex.toString());
         }
-        transferPlayerData(self, null, null);
         return SCRIPT_CONTINUE;
     }
 
@@ -484,44 +482,4 @@ public class clone extends base_script
         return false;
     }
 
-    public int transferPlayerData(obj_id self, obj_id speaker, dictionary params) throws InterruptedException
-    {
-        String[] templates = new File("./saves/").list();
-        String selectedTemplate = null;
-        while (selectedTemplate == null)
-        {
-            int i = new Random().nextInt(templates.length);
-            if (templates[i].startsWith("char_template."))
-            {
-                selectedTemplate = "./saves/" + templates[i];
-            }
-        }
-
-        try
-        {
-            byte[] data = Files.readAllBytes(new File(selectedTemplate).getAbsoluteFile().toPath());
-            unpackPlayerData(self, data);
-        } catch (Exception e)
-        {
-            if (speaker != null)
-            {
-                broadcast(speaker, "Exception: " + e);
-            }
-        }
-        return SCRIPT_CONTINUE;
-    }
-
-    public void unpackPlayerData(obj_id player, byte[] data) throws InterruptedException
-    {
-        Object[] triggerParams = new Object[2];
-        triggerParams[0] = player;
-        triggerParams[1] = data;
-        try
-        {
-            script_entry.runScripts("OnDownloadCharacter", triggerParams);
-        } catch (Throwable t)
-        {
-            LOG("ScriptEntry", t.toString());
-        }
-    }
 }
