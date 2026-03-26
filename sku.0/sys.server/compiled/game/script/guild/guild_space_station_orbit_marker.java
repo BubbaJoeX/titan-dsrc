@@ -3,7 +3,6 @@ package script.guild;
 import script.conversation.base.ConvoResponse;
 import script.conversation.base.conversation_base;
 import script.dictionary;
-import script.library.ai_lib;
 import script.library.guild_space_station;
 import script.library.utils;
 import script.menu_info;
@@ -13,7 +12,9 @@ import script.obj_id;
 import script.string_id;
 
 /**
- * Orbit beacon: invulnerable. Ground = conversation UI. Atmospheric flight / space = radial (cockpit has no convo options).
+ * Orbit beacon: invulnerable. Uses server radial options only — the client is a {@code ShipObject} (tangible ship, not a
+ * creature), so {@code CONVERSE_START} often never appears because {@code C_conversable} does not reliably apply to ships
+ * in the radial builder. {@code SERVER_MENU1}/{@code SERVER_MENU2} work in all scenes (ground, atmo flight, space).
  */
 public class guild_space_station_orbit_marker extends conversation_base
 {
@@ -41,32 +42,17 @@ public class guild_space_station_orbit_marker extends conversation_base
         return SCRIPT_CONTINUE;
     }
 
-    /** Cockpit / space: client does not show conversation replies — use radial. Ground: CONVERSE only. */
-    private static boolean useAtmoFlightRadialMenu() throws InterruptedException
-    {
-        return isAtmosphericFlightScene() || isSpaceScene();
-    }
-
     @Override
     public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info menuInfo) throws InterruptedException
     {
-        if (useAtmoFlightRadialMenu())
-        {
-            menuInfo.addRootMenu(menu_info_types.SERVER_MENU1, string_id.unlocalized("Request Landing"));
-            menuInfo.addRootMenu(menu_info_types.SERVER_MENU2, string_id.unlocalized("Station Information"));
-            menu_info_data md1 = menuInfo.getMenuItemByType(menu_info_types.SERVER_MENU1);
-            if (md1 != null)
-                md1.setServerNotify(true);
-            menu_info_data md2 = menuInfo.getMenuItemByType(menu_info_types.SERVER_MENU2);
-            if (md2 != null)
-                md2.setServerNotify(true);
-        }
-        else
-        {
-            int menu = menuInfo.addRootMenu(menu_info_types.CONVERSE_START, null);
-            menu_info_data menuInfoData = menuInfo.getMenuItemById(menu);
-            menuInfoData.setServerNotify(false);
-        }
+        menuInfo.addRootMenu(menu_info_types.SERVER_MENU1, string_id.unlocalized("Request Landing"));
+        menuInfo.addRootMenu(menu_info_types.SERVER_MENU2, string_id.unlocalized("Station Information"));
+        menu_info_data md1 = menuInfo.getMenuItemByType(menu_info_types.SERVER_MENU1);
+        if (md1 != null)
+            md1.setServerNotify(true);
+        menu_info_data md2 = menuInfo.getMenuItemByType(menu_info_types.SERVER_MENU2);
+        if (md2 != null)
+            md2.setServerNotify(true);
         setCondition(self, CONDITION_CONVERSABLE);
         return SCRIPT_CONTINUE;
     }
@@ -96,22 +82,8 @@ public class guild_space_station_orbit_marker extends conversation_base
     @Override
     public int OnStartNpcConversation(obj_id self, obj_id player) throws InterruptedException
     {
-        if (useAtmoFlightRadialMenu())
-            return SCRIPT_OVERRIDE;
-        if (ai_lib.isInCombat(self) || ai_lib.isInCombat(player))
-            return SCRIPT_OVERRIDE;
-        if (!hasObjVar(self, guild_space_station.OV_GUILD_ID))
-            return serverSide_endConversation(player, "This beacon is not transmitting a guild identity.");
-        return serverSide_startConversation(
-            player,
-            self,
-            "Guild orbital station beacon online.\nHow may I direct your traffic?",
-            BRANCH_MAIN,
-            new ConvoResponse[] {
-                convo("landing", "Request Landing."),
-                convo("station_info", "Station Information.")
-            }
-        );
+        // All interaction is via server radial menus; ship templates rarely open conversation UI reliably.
+        return SCRIPT_OVERRIDE;
     }
 
     @Override
