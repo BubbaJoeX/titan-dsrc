@@ -4,6 +4,8 @@ import script.dictionary;
 import script.location;
 import script.obj_id;
 import script.string_id;
+import java.util.Vector;
+
 import script.library.callable;
 import script.library.space_transition;
 import script.library.sui;
@@ -124,7 +126,7 @@ public class guild_space_station extends script.base_script
     }
 
     /**
-     * Orbit beacon: invulnerable, conversable, display name {@code Station: <abbrev>}. Call from marker attach/init
+     * Orbit beacon: invulnerable, conversable, display name {@code Station: [abbrev]} (no angle brackets — client comm UI). Call from marker attach/init
      * whenever the object is created or refreshed (e.g. comlink orbit move).
      */
     public static void applyOrbitMarkerPresentation(obj_id marker) throws InterruptedException
@@ -138,7 +140,8 @@ public class guild_space_station extends script.base_script
         int guildId = getIntObjVar(marker, OV_GUILD_ID);
         if (guildId <= 0 || !guildExists(guildId))
             return;
-        setName(marker, "Station: <" + guildGetAbbrev(guildId) + ">");
+        // Avoid '<'/'>' in names — client/UI can treat them as markup and break hail/comm on ships.
+        setName(marker, "Station: [" + guildGetAbbrev(guildId) + "]");
     }
 
     /**
@@ -527,5 +530,155 @@ public class guild_space_station extends script.base_script
         dictionary snap = buildCwSnapshot(building, guildId, marker);
         replaceClusterWideData(CW_MANAGER, cwElementName(guildId), snap, true, lock_key);
         releaseClusterWideDataLock(manage_name, lock_key);
+    }
+
+    public static String accessModeLabel(int mode)
+    {
+        switch (mode)
+        {
+            case ACCESS_GUILD:
+                return "All guild members";
+            case ACCESS_RANK:
+                return "Minimum rank";
+            case ACCESS_WHITELIST:
+                return "Whitelist only";
+            default:
+                return "Unknown";
+        }
+    }
+
+    public static String describeAccessPolicy(obj_id building) throws InterruptedException
+    {
+        int mode = hasObjVar(building, OV_ACCESS_MODE) ? getIntObjVar(building, OV_ACCESS_MODE) : ACCESS_GUILD;
+        StringBuilder sb = new StringBuilder();
+        sb.append("Mode: ").append(accessModeLabel(mode)).append("\n");
+        if (mode == ACCESS_RANK && hasObjVar(building, OV_ACCESS_MIN_RANK))
+            sb.append("Minimum rank: ").append(getStringObjVar(building, OV_ACCESS_MIN_RANK)).append("\n");
+        if (mode == ACCESS_WHITELIST)
+        {
+            String packed = hasObjVar(building, OV_ACCESS_WHITELIST) ? getStringObjVar(building, OV_ACCESS_WHITELIST) : "";
+            sb.append("Whitelist entries: ").append(countWhitelistEntries(packed)).append("\n");
+        }
+        return sb.toString();
+    }
+
+    public static int countWhitelistEntries(String packed)
+    {
+        if (packed == null || packed.length() < 1)
+            return 0;
+        String[] parts = split(packed, ':');
+        int c = 0;
+        for (String p : parts)
+        {
+            if (p != null && p.trim().length() > 0)
+                c++;
+        }
+        return c;
+    }
+
+    public static String whitelistAddPacked(String packed, obj_id pid) throws InterruptedException
+    {
+        if (!isIdValid(pid))
+            return packed != null ? packed : "";
+        String needle = Long.toString(pid.getValue());
+        if (packed == null || packed.length() < 1)
+            return needle;
+        String[] parts = split(packed, ':');
+        for (String p : parts)
+        {
+            if (p != null && p.trim().equals(needle))
+                return packed;
+        }
+        return packed + ":" + needle;
+    }
+
+    public static String whitelistRemovePacked(String packed, obj_id pid) throws InterruptedException
+    {
+        if (packed == null || packed.length() < 1 || !isIdValid(pid))
+            return packed != null ? packed : "";
+        String needle = Long.toString(pid.getValue());
+        String[] parts = split(packed, ':');
+        StringBuilder out = new StringBuilder();
+        for (String p : parts)
+        {
+            if (p == null || p.trim().length() < 1)
+                continue;
+            if (p.trim().equals(needle))
+                continue;
+            if (out.length() > 0)
+                out.append(':');
+            out.append(p.trim());
+        }
+        return out.toString();
+    }
+
+    public static obj_id[] parseWhitelistObjIds(String packed) throws InterruptedException
+    {
+        if (packed == null || packed.length() < 1)
+            return new obj_id[0];
+        String[] parts = split(packed, ':');
+        Vector v = new Vector();
+        for (String p : parts)
+        {
+            if (p == null || p.trim().length() < 1)
+                continue;
+            try
+            {
+                long lid = Long.parseLong(p.trim());
+                obj_id oid = obj_id.getObjId(lid);
+                if (isIdValid(oid))
+                    v.add(oid);
+            }
+            catch (NumberFormatException ignore)
+            {
+            }
+        }
+        obj_id[] out = new obj_id[v.size()];
+        v.copyInto(out);
+        return out;
+    }
+
+    /** Multi-line summary for management terminal / msgbox. */
+    public static String formatStationStatusSummary(obj_id building, int guildId) throws InterruptedException
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Guild: ").append(guildGetName(guildId)).append(" <").append(guildGetAbbrev(guildId)).append(">\n");
+        sb.append("Registered members: ").append(guildGetCountMembersOnly(guildId)).append("\n");
+        if (hasObjVar(building, OV_MAINTENANCE_NEXT))
+        {
+            int t = getIntObjVar(building, OV_MAINTENANCE_NEXT);
+            sb.append("Next maintenance due: ").append(getCalendarTimeStringLocal(t)).append("\n");
+            if (getCalendarTime() >= t)
+                sb.append("Billing status: OVERDUE\n");
+            else
+                sb.append("Billing status: current\n");
+        }
+        else
+            sb.append("Maintenance: not scheduled — pay to set the next cycle.\n");
+        sb.append(describeAccessPolicy(building));
+        if (hasObjVar(building, OV_ORBIT_PLANET))
+        {
+            sb.append("Orbit planet: ").append(getStringObjVar(building, OV_ORBIT_PLANET));
+            sb.append("\nSurface X/Z: ").append(getFloatObjVar(building, OV_ORBIT_X)).append(", ").append(getFloatObjVar(building, OV_ORBIT_Z)).append("\n");
+            obj_id m = hasObjVar(building, OV_ORBIT_MARKER) ? getObjIdObjVar(building, OV_ORBIT_MARKER) : obj_id.NULL_ID;
+            sb.append("Beacon marker: ").append(isIdValid(m) && exists(m) ? "present" : "missing or offline").append("\n");
+        }
+        else
+            sb.append("Orbit beacon: not registered.\n");
+        return sb.toString();
+    }
+
+    public static String formatOrbitBeaconDetails(obj_id building) throws InterruptedException
+    {
+        if (!hasObjVar(building, OV_ORBIT_PLANET))
+            return "No orbit beacon is registered for this station.";
+        StringBuilder sb = new StringBuilder();
+        sb.append("Planet: ").append(getStringObjVar(building, OV_ORBIT_PLANET));
+        sb.append("\nGround X: ").append(getFloatObjVar(building, OV_ORBIT_X));
+        sb.append("\nGround Z: ").append(getFloatObjVar(building, OV_ORBIT_Z));
+        sb.append("\nAltitude over terrain: ").append(ORBIT_HEIGHT_M).append(" m (fixed).");
+        obj_id m = hasObjVar(building, OV_ORBIT_MARKER) ? getObjIdObjVar(building, OV_ORBIT_MARKER) : obj_id.NULL_ID;
+        sb.append("\nMarker object: ").append(isIdValid(m) && exists(m) ? "active" : "not found in scene");
+        return sb.toString();
     }
 }

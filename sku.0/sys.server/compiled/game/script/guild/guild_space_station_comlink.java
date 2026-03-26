@@ -19,9 +19,15 @@ public class guild_space_station_comlink extends script.base_script
     {
     }
 
+    /** True if the comlink is anywhere in this player's inventory (including bags), not only the root slot. */
+    private static boolean comlinkIsCarriedBy(obj_id self, obj_id player) throws InterruptedException
+    {
+        return isIdValid(player) && utils.getContainingPlayer(self) == player;
+    }
+
     public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi) throws InterruptedException
     {
-        if (getContainedBy(self) == utils.getInventoryContainer(player))
+        if (comlinkIsCarriedBy(self, player))
         {
             menu_info_data data = mi.getMenuItemByType(menu_info_types.ITEM_USE);
             if (data == null)
@@ -37,9 +43,9 @@ public class guild_space_station_comlink extends script.base_script
     {
         if (item != menu_info_types.ITEM_USE)
             return SCRIPT_CONTINUE;
-        if (getContainedBy(self) != utils.getInventoryContainer(player))
+        if (!comlinkIsCarriedBy(self, player))
         {
-            sendSystemMessage(player, string_id.unlocalized("Keep the comlink in your inventory to use it."));
+            sendSystemMessage(player, string_id.unlocalized("Keep the comlink on your character to use it."));
             return SCRIPT_CONTINUE;
         }
         if (!hasObjVar(self, guild_space_station.OV_GUILD_ID))
@@ -65,7 +71,7 @@ public class guild_space_station_comlink extends script.base_script
             return SCRIPT_CONTINUE;
         if (!isIdValid(player) || !exists(player))
             return SCRIPT_CONTINUE;
-        if (getContainedBy(self) != utils.getInventoryContainer(player))
+        if (!comlinkIsCarriedBy(self, player))
             return SCRIPT_CONTINUE;
         int row = sui.getListboxSelectedRow(params);
         if (row == 0)
@@ -91,7 +97,7 @@ public class guild_space_station_comlink extends script.base_script
             return SCRIPT_CONTINUE;
         if (!isIdValid(player) || !exists(player))
             return SCRIPT_CONTINUE;
-        if (getContainedBy(self) != utils.getInventoryContainer(player))
+        if (!comlinkIsCarriedBy(self, player))
             return SCRIPT_CONTINUE;
         utils.setScriptVar(self, "guildStation.pendingPlayer", player);
         utils.setScriptVar(self, guild_space_station.SV_COMLINK_CW_ACTION, guild_space_station.COMLINK_ACTION_ORBIT);
