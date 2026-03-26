@@ -155,9 +155,19 @@ public class guild_space_station_orbit_marker extends conversation_base
                 releaseClusterWideDataLock(manage_name, lock_key);
             return SCRIPT_CONTINUE;
         }
-        guild_space_station.warpPlayerToStation(player, data[0]);
+        guild_space_station.handleOrbitLandingClusterResponse(player, data[0], self);
         if (lock_key != 0)
             releaseClusterWideDataLock(manage_name, lock_key);
+        return SCRIPT_CONTINUE;
+    }
+
+    /** Clears deferred POB docking prompts if guild members leave the SUI open past the timeout. */
+    public int guildPobLandingTimeout(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id ship = params.getObjId("ship");
+        if (!isIdValid(ship) || !exists(ship))
+            return SCRIPT_CONTINUE;
+        guild_space_station.clearPobLandingState(ship);
         return SCRIPT_CONTINUE;
     }
 }

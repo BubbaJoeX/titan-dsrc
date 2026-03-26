@@ -61,6 +61,7 @@ public class guild_space_station_terminal extends script.base_script
     {
         bindMgmt(self, player, building);
         String[] rows = {
+            "Return to your vessel (airlock)",
             "Status & overview",
             "Maintenance...",
             "Access control...",
@@ -191,18 +192,21 @@ public class guild_space_station_terminal extends script.base_script
         switch (idx)
         {
             case 0:
-                sui.msgbox(self, player, guild_space_station.formatStationStatusSummary(building, guildId), sui.OK_ONLY, "Station status", sui.MSG_NORMAL, "noHandler");
+                guild_space_station.warpPlayerReturnToShipFromStation(player);
                 break;
             case 1:
-                openMaintenanceSub(self, player);
+                sui.msgbox(self, player, guild_space_station.formatStationStatusSummary(building, guildId), sui.OK_ONLY, "Station status", sui.MSG_NORMAL, "noHandler");
                 break;
             case 2:
-                openAccessSub(self, player, mayConfigureStation(player, guildId));
+                openMaintenanceSub(self, player);
                 break;
             case 3:
-                openOrbitSub(self, player);
+                openAccessSub(self, player, mayConfigureStation(player, guildId));
                 break;
             case 4:
+                openOrbitSub(self, player);
+                break;
+            case 5:
                 openToolsSub(self, player, mayConfigureStation(player, guildId));
                 break;
             default:

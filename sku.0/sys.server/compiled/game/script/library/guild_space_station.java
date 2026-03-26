@@ -8,6 +8,7 @@ import java.util.Vector;
 
 import script.library.callable;
 import script.library.space_transition;
+import script.library.space_utils;
 import script.library.sui;
 import script.library.utils;
 
@@ -50,6 +51,13 @@ public class guild_space_station extends script.base_script
     public static final String COMLINK_ACTION_ORBIT = "orbit";
     /** Player scriptvar: pending getClusterWideData("guild_*") to respawn hub buildings / orbit markers after restart. */
     public static final String SV_BOOTSTRAP_PENDING = "guildStation.bootstrapCwPending";
+
+    /** Player objvar: POB ship to return to from the guild station hangar (airlock). */
+    public static final String OV_GUILD_RETURN_SHIP = "guildStation.returnShip";
+    /** Ship scriptvar: ClusterWide row while guild members confirm POB station docking. */
+    public static final String SV_LANDING_CW = "guildStation.landingCw";
+    /** Ship scriptvar: number of guild members who have not yet answered the docking prompt. */
+    public static final String SV_LANDING_REMAINING = "guildStation.landingRemaining";
 
     private static final String TEMPLATE_ORBIT_SHIP = "object/ship/spacestation_neutral.iff";
 
@@ -303,6 +311,159 @@ public class guild_space_station extends script.base_script
         return false;
     }
 
+    /** Remember POB for airlock return from the station hangar (cleared when used or invalid). */
+    private static void registerGuildStationReturnShip(obj_id player) throws InterruptedException
+    {
+        if (!isIdValid(player) || !exists(player))
+            return;
+        obj_id ship = space_transition.getContainingShip(player);
+        if (space_utils.isShipWithInterior(ship))
+            setObjVar(player, OV_GUILD_RETURN_SHIP, ship);
+    }
+
+    /**
+     * Orbit beacon: after ClusterWide resolves, either prompt guild members in a POB or warp immediately.
+     * @return true if landing was deferred (SUIs); false if caller should invoke {@link #warpPlayerToStation} immediately.
+     */
+    public static boolean startPobGuildLandingIfNeeded(obj_id player, dictionary cw, obj_id orbitMarker) throws InterruptedException
+    {
+        if (cw == null || !isIdValid(player) || !exists(player))
+            return false;
+        int guildId = cw.getInt("guild_id");
+        obj_id ship = space_transition.getContainingShip(player);
+        if (!isIdValid(ship) || !exists(ship) || !space_utils.isShipWithInterior(ship))
+            return false;
+        Vector all = space_transition.getContainedPlayers(ship, null);
+        if (all == null || all.size() < 1)
+            return false;
+        Vector guildMembers = new Vector();
+        for (int i = 0; i < all.size(); ++i)
+        {
+            obj_id p = (obj_id)all.get(i);
+            if (isIdValid(p) && exists(p) && getGuildId(p) == guildId)
+                guildMembers.add(p);
+        }
+        for (int i = 0; i < all.size(); ++i)
+        {
+            obj_id p = (obj_id)all.get(i);
+            if (isIdValid(p) && exists(p) && getGuildId(p) != guildId)
+                sendSystemMessage(p, string_id.unlocalized("You remain aboard while guild members handle the station visit."));
+        }
+        if (guildMembers.size() <= 1)
+            return false;
+        utils.setScriptVar(ship, SV_LANDING_CW, cw);
+        utils.setScriptVar(ship, SV_LANDING_REMAINING, guildMembers.size());
+        String prompt = "Your guild station has cleared this ship for docking.\n\nExit to the station interior?";
+        for (int i = 0; i < guildMembers.size(); ++i)
+        {
+            obj_id member = (obj_id)guildMembers.get(i);
+            if (isIdValid(member) && exists(member))
+                sui.msgbox(member, member, prompt, sui.YES_NO, "Station docking", sui.MSG_QUESTION, "handleGuildStationPobLandingOptIn");
+        }
+        if (isIdValid(orbitMarker) && exists(orbitMarker))
+        {
+            dictionary to = new dictionary();
+            to.put("ship", ship);
+            messageTo(orbitMarker, "guildPobLandingTimeout", to, 120.0f, false);
+        }
+        return true;
+    }
+
+    public static void clearPobLandingState(obj_id ship) throws InterruptedException
+    {
+        if (!isIdValid(ship))
+            return;
+        utils.removeScriptVar(ship, SV_LANDING_CW);
+        utils.removeScriptVar(ship, SV_LANDING_REMAINING);
+    }
+
+    /** Called from {@code base_player.handleGuildStationPobLandingOptIn}. */
+    public static void onGuildLandingOptInFromPlayer(obj_id player, dictionary params) throws InterruptedException
+    {
+        int bp = sui.getIntButtonPressed(params);
+        obj_id ship = space_transition.getContainingShip(player);
+        if (!isIdValid(ship) || !exists(ship))
+            return;
+        if (!utils.hasScriptVar(ship, SV_LANDING_REMAINING))
+        {
+            sendSystemMessage(player, string_id.unlocalized("That docking request has expired or already completed."));
+            return;
+        }
+        dictionary cw = utils.getDictionaryScriptVar(ship, SV_LANDING_CW);
+        if (cw == null)
+        {
+            clearPobLandingState(ship);
+            return;
+        }
+        int remaining = utils.getIntScriptVar(ship, SV_LANDING_REMAINING);
+        remaining--;
+        utils.setScriptVar(ship, SV_LANDING_REMAINING, remaining);
+        if (bp == sui.BP_OK)
+        {
+            warpPlayerToStation(player, cw);
+        }
+        else
+        {
+            sendSystemMessage(player, string_id.unlocalized("You remain aboard the vessel."));
+        }
+        if (remaining <= 0)
+            clearPobLandingState(ship);
+    }
+
+    /**
+     * Return from guild station hangar to the interior of the ship that was left in space (airlock).
+     */
+    public static void warpPlayerReturnToShipFromStation(obj_id player) throws InterruptedException
+    {
+        if (!isIdValid(player) || !exists(player))
+            return;
+        if (!hasObjVar(player, OV_GUILD_RETURN_SHIP))
+        {
+            sendSystemMessage(player, string_id.unlocalized("No vessel is registered for airlock return. Land from a player ship with an interior to use this."));
+            return;
+        }
+        obj_id ship = getObjIdObjVar(player, OV_GUILD_RETURN_SHIP);
+        if (!isIdValid(ship) || !exists(ship))
+        {
+            sendSystemMessage(player, string_id.unlocalized("Your vessel is no longer in the sector."));
+            removeObjVar(player, OV_GUILD_RETURN_SHIP);
+            return;
+        }
+        if (!space_utils.isShipWithInterior(ship))
+        {
+            removeObjVar(player, OV_GUILD_RETURN_SHIP);
+            return;
+        }
+        location shipLoc = getLocation(ship);
+        if (shipLoc == null || shipLoc.area == null || shipLoc.area.length() < 1)
+        {
+            sendSystemMessage(player, string_id.unlocalized("Unable to locate your vessel."));
+            return;
+        }
+        location dest = space_transition.getShipBoardingDestination(ship);
+        if (dest == null)
+        {
+            sendSystemMessage(player, string_id.unlocalized("Unable to find an airlock entry point on your vessel."));
+            return;
+        }
+        String[] cellNames = getCellNames(ship);
+        if (cellNames != null)
+        {
+            String boarderName = getFirstName(player);
+            for (String cellName : cellNames)
+            {
+                obj_id cellId = getCellId(ship, cellName);
+                if (isIdValid(cellId))
+                {
+                    permissionsAddAllowed(cellId, boarderName);
+                    sendDirtyCellPermissionsUpdate(cellId, player, true);
+                }
+            }
+        }
+        removeObjVar(player, OV_GUILD_RETURN_SHIP);
+        warpPlayer(player, shipLoc.area, shipLoc.x, shipLoc.y, shipLoc.z, dest.cell, dest.x, dest.y, dest.z, "", true);
+    }
+
     public static boolean isMaintenanceOverdue(obj_id building) throws InterruptedException
     {
         if (!hasObjVar(building, OV_MAINTENANCE_NEXT))
@@ -405,6 +566,18 @@ public class guild_space_station extends script.base_script
         return true;
     }
 
+    /**
+     * Orbit beacon landing after ClusterWide row is available: multi-guild POB prompts opt-in; otherwise warps immediately.
+     */
+    public static void handleOrbitLandingClusterResponse(obj_id player, dictionary cw, obj_id orbitMarker) throws InterruptedException
+    {
+        if (cw == null || player == null)
+            return;
+        if (startPobGuildLandingIfNeeded(player, cw, orbitMarker))
+            return;
+        warpPlayerToStation(player, cw);
+    }
+
     /** ClusterWideData row for this guild. */
     public static void warpPlayerToStation(obj_id player, dictionary cw) throws InterruptedException
     {
@@ -419,6 +592,7 @@ public class guild_space_station extends script.base_script
                 sendSystemMessage(player, string_id.unlocalized("[Navicomputer] You are not cleared for this station."));
                 return;
             }
+            registerGuildStationReturnShip(player);
             preparePlayerForGuildStationTravel(player);
             setObjVar(player, OV_PENDING_COMLINK_WARP, guildId);
             location hubLoc = computeHubSlot(guildId);
@@ -448,6 +622,7 @@ public class guild_space_station extends script.base_script
             sendSystemMessage(player, string_id.unlocalized("[Navicomputer] Guild station is offline."));
             return;
         }
+        registerGuildStationReturnShip(player);
         preparePlayerForGuildStationTravel(player);
         // forceLoadScreen true: required when coming from another scene/process so the client loads the interior cell (same pattern as space_dungeon.moveSinglePlayerIntoDungeon).
         warpPlayer(player, bLoc.area, bLoc.x, bLoc.y, bLoc.z, building, "hangarbay1", 5.0f, 0.0f, 5.0f, "", true);

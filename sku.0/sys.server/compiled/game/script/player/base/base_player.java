@@ -3466,6 +3466,12 @@ public class base_player extends script.base_script
         }
         return SCRIPT_CONTINUE;
     }
+    public int handleGuildStationPobLandingOptIn(obj_id self, dictionary params) throws InterruptedException
+    {
+        guild_space_station.onGuildLandingOptInFromPlayer(self, params);
+        return SCRIPT_CONTINUE;
+    }
+
     public int handleReviveSUI(obj_id self, dictionary params) throws InterruptedException
     {
         int bp = sui.getIntButtonPressed(params);
