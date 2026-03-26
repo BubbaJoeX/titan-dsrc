@@ -54,13 +54,24 @@ public class guild_space_station extends script.base_script
         return "guild_" + guildId;
     }
 
-    /** Pack POB/cockpit ship, store callables, dismount before station travel (matches dungeon travel prep). */
+    /**
+     * Dismount, store callables, pack surface ship before station travel.
+     * In atmospheric flight or space, do not call packShip then warp in the same frame — packShip defers finalize and
+     * cross-scene warps have caused client AlterScheduler crashes. Unpilot instead; ground players still get packShip.
+     */
     public static void preparePlayerForGuildStationTravel(obj_id player) throws InterruptedException
     {
         if (!isIdValid(player) || !exists(player))
             return;
         utils.dismountRiderJetpackCheck(player);
         callable.storeCallables(player);
+        if (isAtmosphericFlightScene() || isSpaceScene())
+        {
+            obj_id piloted = getPilotedShip(player);
+            if (isIdValid(piloted))
+                unpilotShip(player);
+            return;
+        }
         obj_id ship = space_transition.getContainingShip(player);
         if (isIdValid(ship) && exists(ship))
             space_transition.packShip(ship);

@@ -13,7 +13,7 @@ import script.obj_id;
 import script.string_id;
 
 /**
- * Atmospheric orbit prop: invulnerable; true conversation UI (no radial actions).
+ * Orbit beacon: invulnerable. Ground = conversation UI. Atmospheric flight / space = radial (cockpit has no convo options).
  */
 public class guild_space_station_orbit_marker extends conversation_base
 {
@@ -43,19 +43,64 @@ public class guild_space_station_orbit_marker extends conversation_base
         return SCRIPT_CONTINUE;
     }
 
+    /** Cockpit / space: client does not show conversation replies — use radial. Ground: CONVERSE only. */
+    private static boolean useAtmoFlightRadialMenu() throws InterruptedException
+    {
+        return isAtmosphericFlightScene() || isSpaceScene();
+    }
+
     @Override
     public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info menuInfo) throws InterruptedException
     {
-        int menu = menuInfo.addRootMenu(menu_info_types.CONVERSE_START, null);
-        menu_info_data menuInfoData = menuInfo.getMenuItemById(menu);
-        menuInfoData.setServerNotify(false);
+        if (useAtmoFlightRadialMenu())
+        {
+            menuInfo.addRootMenu(menu_info_types.SERVER_MENU1, string_id.unlocalized("Request Landing"));
+            menuInfo.addRootMenu(menu_info_types.SERVER_MENU2, string_id.unlocalized("Station Information"));
+            menu_info_data md1 = menuInfo.getMenuItemByType(menu_info_types.SERVER_MENU1);
+            if (md1 != null)
+                md1.setServerNotify(true);
+            menu_info_data md2 = menuInfo.getMenuItemByType(menu_info_types.SERVER_MENU2);
+            if (md2 != null)
+                md2.setServerNotify(true);
+        }
+        else
+        {
+            int menu = menuInfo.addRootMenu(menu_info_types.CONVERSE_START, null);
+            menu_info_data menuInfoData = menuInfo.getMenuItemById(menu);
+            menuInfoData.setServerNotify(false);
+        }
         setCondition(self, CONDITION_CONVERSABLE);
         return SCRIPT_CONTINUE;
     }
 
     @Override
+    public int OnObjectMenuSelect(obj_id self, obj_id player, int item) throws InterruptedException
+    {
+        if (item != menu_info_types.SERVER_MENU1 && item != menu_info_types.SERVER_MENU2)
+            return SCRIPT_CONTINUE;
+        if (!hasObjVar(self, guild_space_station.OV_GUILD_ID))
+            return SCRIPT_CONTINUE;
+        int guildId = getIntObjVar(self, guild_space_station.OV_GUILD_ID);
+        if (item == menu_info_types.SERVER_MENU1)
+        {
+            handleOrbitLandingRequest(self, player, guildId);
+            return SCRIPT_CONTINUE;
+        }
+        guild_space_station.showStationInformationToPlayer(player, guildId);
+        return SCRIPT_CONTINUE;
+    }
+
+    private void handleOrbitLandingRequest(obj_id self, obj_id player, int guildId) throws InterruptedException
+    {
+        utils.setScriptVar(self, "guildStation.pendingPlayer", player);
+        getClusterWideData(guild_space_station.CW_MANAGER, guild_space_station.cwElementName(guildId), false, self);
+    }
+
+    @Override
     public int OnStartNpcConversation(obj_id self, obj_id player) throws InterruptedException
     {
+        if (useAtmoFlightRadialMenu())
+            return SCRIPT_OVERRIDE;
         if (ai_lib.isInCombat(self) || ai_lib.isInCombat(player))
             return SCRIPT_OVERRIDE;
         if (!hasObjVar(self, guild_space_station.OV_GUILD_ID))
@@ -90,8 +135,7 @@ public class guild_space_station_orbit_marker extends conversation_base
         if (responseIdIs(response, "landing"))
         {
             serverSide_endConversation(player, "Acknowledged. Navicomputer is processing your clearance request.");
-            utils.setScriptVar(self, "guildStation.pendingPlayer", player);
-            getClusterWideData(guild_space_station.CW_MANAGER, guild_space_station.cwElementName(guildId), false, self);
+            handleOrbitLandingRequest(self, player, guildId);
             return SCRIPT_CONTINUE;
         }
         if (responseIdIs(response, "station_info"))
