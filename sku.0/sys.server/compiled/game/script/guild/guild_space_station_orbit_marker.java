@@ -3,6 +3,7 @@ package script.guild;
 import script.conversation.base.ConvoResponse;
 import script.conversation.base.conversation_base;
 import script.dictionary;
+import script.library.ai_lib;
 import script.library.guild_space_station;
 import script.library.utils;
 import script.menu_info;
@@ -12,9 +13,10 @@ import script.obj_id;
 import script.string_id;
 
 /**
- * Orbit beacon: invulnerable. Uses server radial options only — the client is a {@code ShipObject} (tangible ship, not a
- * creature), so {@code CONVERSE_START} often never appears because {@code C_conversable} does not reliably apply to ships
- * in the radial builder. {@code SERVER_MENU1}/{@code SERVER_MENU2} work in all scenes (ground, atmo flight, space).
+ * Orbit beacon: invulnerable. The template is a {@code ShipObject}, so the radial often omits {@code CONVERSE_START};
+ * we always add {@code SERVER_MENU1}/{@code SERVER_MENU2}. {@code /comm} and {@code conversationStart} still use the
+ * normal NPC conversation path ({@link #OnStartNpcConversation}) — that must not return {@code SCRIPT_OVERRIDE} alone or
+ * those commands do nothing on the client.
  */
 public class guild_space_station_orbit_marker extends conversation_base
 {
@@ -82,8 +84,20 @@ public class guild_space_station_orbit_marker extends conversation_base
     @Override
     public int OnStartNpcConversation(obj_id self, obj_id player) throws InterruptedException
     {
-        // All interaction is via server radial menus; ship templates rarely open conversation UI reliably.
-        return SCRIPT_OVERRIDE;
+        if (ai_lib.isInCombat(self) || ai_lib.isInCombat(player))
+            return SCRIPT_OVERRIDE;
+        if (!hasObjVar(self, guild_space_station.OV_GUILD_ID))
+            return serverSide_endConversation(player, "This beacon is not transmitting a guild identity.");
+        return serverSide_startConversation(
+            player,
+            self,
+            "Guild orbital station beacon online.\nHow may I direct your traffic?",
+            BRANCH_MAIN,
+            new ConvoResponse[] {
+                convo("landing", "Request Landing."),
+                convo("station_info", "Station Information.")
+            }
+        );
     }
 
     @Override
