@@ -23,6 +23,9 @@ public class guild_space_station_comlink extends script.base_script
         if (getContainedBy(self) == utils.getInventoryContainer(player))
         {
             menu_info_data data = mi.getMenuItemByType(menu_info_types.ITEM_USE);
+            if (data == null)
+                mi.addRootMenu(menu_info_types.ITEM_USE, string_id.unlocalized("Contact Guild Station"));
+            data = mi.getMenuItemByType(menu_info_types.ITEM_USE);
             if (data != null)
                 data.setServerNotify(true);
         }
