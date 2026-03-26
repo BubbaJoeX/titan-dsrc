@@ -188,13 +188,18 @@ public class guild_space_station extends script.base_script
             sendSystemMessage(player, string_id.unlocalized("[Navicomputer] You are not cleared for this station."));
             return;
         }
-        obj_id cell = getCellId(building, "hangarbay1");
-        if (!isIdValid(cell))
+        if (!isIdValid(getCellId(building, "hangarbay1")))
         {
             sendSystemMessage(player, string_id.unlocalized("[Navicomputer] Docking bay not found."));
             return;
         }
-        warpPlayer(player, "dungeon_hub", 0.0f, 0.0f, 0.0f, cell, 0.0f, 0.0f, 0.0f);
+        location bLoc = getLocation(building);
+        if (bLoc == null || bLoc.area == null || bLoc.area.length() < 1)
+        {
+            sendSystemMessage(player, string_id.unlocalized("[Navicomputer] Guild station is offline."));
+            return;
+        }
+        warpPlayer(player, bLoc.area, bLoc.x, bLoc.y, bLoc.z, building, "hangarbay1", 5.0f, 0.0f, 5.0f);
     }
 
     public static dictionary buildCwSnapshot(obj_id building, int guildId, obj_id orbitMarkerId) throws InterruptedException
