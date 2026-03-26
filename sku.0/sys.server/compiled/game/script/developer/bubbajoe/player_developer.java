@@ -48,8 +48,104 @@ public class player_developer extends base_script
     private String[][] paginatedData = new String[0][0]; // Placeholder for paginated data
     private String searchFilter = ""; // Filter for searching by name
 
+    /** Colon-separated FIFO queue of script class names touched by recent /developer git pull (max GIT_PULL_SCRIPT_HISTORY_MAX). */
+    public static final String OV_GIT_PULL_SCRIPT_HISTORY = "developer.gitPullScriptHistory";
+    private static final int GIT_PULL_SCRIPT_HISTORY_MAX = 20;
+
     public player_developer()
     {
+    }
+
+    private static Set<String> parseChangedJavaScriptsFromGitDiff(String diffResult)
+    {
+        Set<String> updatedFiles = new HashSet<>();
+        if (diffResult == null || diffResult.trim().length() < 1)
+            return updatedFiles;
+        final String prefix = "sku.0/sys.server/compiled/game/script/";
+        String[] diffLines = diffResult.split("\n");
+        for (String rawLine : diffLines)
+        {
+            String line = rawLine.trim();
+            if (line.length() < 1 || !line.endsWith(".java"))
+                continue;
+            String fileName = line;
+            int idx = fileName.indexOf(prefix);
+            if (idx >= 0)
+                fileName = fileName.substring(idx + prefix.length());
+            else if (fileName.startsWith("script/"))
+                fileName = fileName.substring("script/".length());
+            fileName = fileName.replace("/", ".").replace(".java", "");
+            if (fileName.length() > 0)
+                updatedFiles.add(fileName);
+        }
+        return updatedFiles;
+    }
+
+    private static void appendGitPullScriptHistory(obj_id player, Set<String> scripts) throws InterruptedException
+    {
+        if (!isIdValid(player) || scripts == null || scripts.isEmpty())
+            return;
+        LinkedList<String> q = new LinkedList<>();
+        if (hasObjVar(player, OV_GIT_PULL_SCRIPT_HISTORY))
+        {
+            String packed = getStringObjVar(player, OV_GIT_PULL_SCRIPT_HISTORY);
+            if (packed != null && packed.length() > 0)
+            {
+                String[] parts = split(packed, ':');
+                for (String p : parts)
+                {
+                    if (p != null && p.length() > 0 && !q.contains(p))
+                        q.addLast(p);
+                }
+            }
+        }
+        for (String s : scripts)
+        {
+            if (s == null || s.length() < 1)
+                continue;
+            if (!q.contains(s))
+                q.addLast(s);
+            while (q.size() > GIT_PULL_SCRIPT_HISTORY_MAX)
+                q.removeFirst();
+        }
+        StringBuilder out = new StringBuilder();
+        for (String s : q)
+        {
+            if (out.length() > 0)
+                out.append(':');
+            out.append(s);
+        }
+        setObjVar(player, OV_GIT_PULL_SCRIPT_HISTORY, out.toString());
+    }
+
+    private static void reloadGitPullScriptHistoryQueue(obj_id player, int maxReload) throws InterruptedException
+    {
+        if (!isIdValid(player) || !hasObjVar(player, OV_GIT_PULL_SCRIPT_HISTORY))
+        {
+            broadcast(player, "No script history queue yet — run /developer git pull with .java changes first.");
+            return;
+        }
+        String packed = getStringObjVar(player, OV_GIT_PULL_SCRIPT_HISTORY);
+        if (packed == null || packed.length() < 1)
+        {
+            broadcast(player, "Script history queue is empty.");
+            return;
+        }
+        String[] parts = split(packed, ':');
+        int start = Math.max(0, parts.length - maxReload);
+        StringBuilder statusMessage = new StringBuilder();
+        int count = 0;
+        for (int i = start; i < parts.length; ++i)
+        {
+            String className = parts[i];
+            if (className == null || className.length() < 1)
+                continue;
+            boolean reloadSuccess = reloadScript(className);
+            count++;
+            String status = reloadSuccess ? "MODIFIED | \\#11d91fRELOAD OK\\#." : "MODIFIED | \\#bf0420RELOAD FAILED\\#.";
+            statusMessage.append(className).append(" (").append(status).append(")\n");
+        }
+        broadcast(player, "History queue reload: " + count + " script(s) (up to last " + maxReload + "):\n" + statusMessage.toString());
     }
 
     public static String[] listObjectFilesByTerm(String searchTerm)
@@ -3438,15 +3534,21 @@ public class player_developer extends base_script
             if (!tok.hasMoreTokens())
             {
                 broadcast(self, "Syntax: /developer git <command>");
-                broadcast(self, "Command options: pull");
+                broadcast(self, "Command options: pull | reloadHistory");
+                broadcast(self, "pull: git pull main, record changed scripts (history max " + GIT_PULL_SCRIPT_HISTORY_MAX + "), ant compile; on failure reloads last " + GIT_PULL_SCRIPT_HISTORY_MAX + " from queue.");
+                broadcast(self, "reloadHistory: reload up to " + GIT_PULL_SCRIPT_HISTORY_MAX + " scripts from the saved queue (after fixing a compile error).");
             }
             else
             {
                 final String arg = tok.nextToken();
-                if (arg.equals("pull"))
+                if (arg.equalsIgnoreCase("reloadHistory"))
+                {
+                    reloadGitPullScriptHistoryQueue(self, GIT_PULL_SCRIPT_HISTORY_MAX);
+                    LOG("ethereal", "[Developer]: " + getPlayerFullName(self) + " used /developer git reloadHistory");
+                }
+                else if (arg.equals("pull"))
                 {
                     broadcast(self, "Please Wait... Pulling and Compiling.");
-                    // 1. Run git pull to update files
                     final String result = system_process.runAndGetOutput("git pull origin main", new File("/home/swg/swg-main/dsrc/"));
                     if (result.contains("Already up to date."))
                     {
@@ -3457,53 +3559,38 @@ public class player_developer extends base_script
                         sendConsoleMessage(self, result);
                         broadcast(self, "Repo 'dsrc' has been updated.");
 
-                        // 2. Run ant compile_java to compile the code
-                        String compileResult = system_process.runAndGetOutput("ant compile_java", new File("/home/swg/swg-main/"));
-                        if (compileResult.contains("BUILD SUCCESSFUL"))
+                        String diffResult = system_process.runAndGetOutput("git diff --name-only ORIG_HEAD HEAD", new File("/home/swg/swg-main/dsrc/"));
+                        if (diffResult == null || diffResult.trim().length() < 1)
                         {
-                            sendConsoleMessage(self, "BUILD SUCCESSFUL");
+                            diffResult = system_process.runAndGetOutput("git diff --name-only HEAD~1 HEAD", new File("/home/swg/swg-main/dsrc/"));
                         }
-                        else
+                        Set<String> updatedFiles = parseChangedJavaScriptsFromGitDiff(diffResult);
+                        appendGitPullScriptHistory(self, updatedFiles);
+
+                        String compileResult = system_process.runAndGetOutput("ant compile_java", new File("/home/swg/swg-main/"));
+                        if (!compileResult.contains("BUILD SUCCESSFUL"))
                         {
-                            broadcast(self, "Build cancelled!");
+                            broadcast(self, "ERROR: ant compile_java failed. Full output sent to console.");
+                            sendConsoleMessage(self, compileResult);
+                            broadcast(self, "Reloading up to " + GIT_PULL_SCRIPT_HISTORY_MAX + " scripts from history queue (recovers scripts that compiled earlier)...");
+                            reloadGitPullScriptHistoryQueue(self, GIT_PULL_SCRIPT_HISTORY_MAX);
+                            LOG("ethereal", "[Developer]: " + getPlayerFullName(self) + " used /developer git pull (compile FAILED)");
                             return SCRIPT_CONTINUE;
                         }
 
-                        // 3. Get the list of changed files since the last commit using git diff
-                        String diffResult = system_process.runAndGetOutput("git diff --name-only HEAD~1", new File("/home/swg/swg-main/dsrc/"));
+                        sendConsoleMessage(self, "BUILD SUCCESSFUL");
 
-                        // Parse the diff result to get modified .java files
-                        Set<String> updatedFiles = new HashSet<>();
-                        String[] diffLines = diffResult.split("\n");
-
-                        for (String line : diffLines)
-                        {
-                            // Check if the line refers to a .java file (either modified or added)
-                            if (line.endsWith(".java"))
-                            {
-                                String fileName = line.trim();  // Get the file name from the diff output
-
-                                // Chop off the "sku.0/sys.server/compiled/game/script/" part
-                                fileName = fileName.replace("sku.0/sys.server/compiled/game/script/", "");
-
-                                // Replace slashes with periods and remove the ".java" extension
-                                fileName = fileName.replace("/", ".").replace(".java", "");
-
-                                updatedFiles.add(fileName);
-                            }
-                        }
-
-                        // 4. Prepare the message to display the status of each file
                         StringBuilder statusMessage = new StringBuilder();
+                        if (updatedFiles.isEmpty())
+                        {
+                            statusMessage.append("No .java script paths in this pull diff (non-java only, or diff empty). History queue updated if any scripts were listed.\n");
+                        }
                         for (String className : updatedFiles)
                         {
                             boolean reloadSuccess = reloadScript(className);
-
-                            String status = reloadSuccess ? "MODIFIED | \\#11d91fCOMPILED & RELOADED\\#." : "MODIFIED | \\#bf0420COMPILATION FAILURE\\#.";
+                            String status = reloadSuccess ? "MODIFIED | \\#11d91fCOMPILED & RELOADED\\#." : "MODIFIED | \\#bf0420RELOAD FAILED\\#.";
                             statusMessage.append(className).append(" (").append(status).append(")\n");
                         }
-
-                        // 5. Show the status message in a SUI msgbox
                         msgbox(self, statusMessage.toString());
                     }
                 }
