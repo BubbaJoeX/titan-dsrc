@@ -73,7 +73,6 @@ public class guild_space_station_orbit_marker extends conversation_base
         return SCRIPT_CONTINUE;
     }
 
-    @Override
     public int OnObjectMenuSelect(obj_id self, obj_id player, int item) throws InterruptedException
     {
         if (item != menu_info_types.SERVER_MENU1 && item != menu_info_types.SERVER_MENU2)
