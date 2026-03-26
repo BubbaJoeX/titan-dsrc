@@ -448,7 +448,16 @@ public class turret_ai extends script.systems.combat.combat_base_old
                 return 2.0f;
             }
         }
-        if (!turret.isValidTarget(self, target))
+        final boolean gunnerPlayerShot = isIdValid(gunnerForCredit) && isPlayer(gunnerForCredit);
+        if (gunnerPlayerShot)
+        {
+            if (!turret.isGunnerValidTarget(self, gunnerForCredit, target))
+            {
+                turret.removeTarget(self, target);
+                return 2.0f;
+            }
+        }
+        else if (!turret.isValidTarget(self, target))
         {
             turret.removeTarget(self, target);
             return 2.0f;
@@ -501,18 +510,13 @@ public class turret_ai extends script.systems.combat.combat_base_old
         };
         int intChanceToApplyEffect = 0;
         obj_id objWeapon = getObjIdObjVar(self, "objWeapon");
-        obj_id combatAttacker = self;
-        final boolean gunnerPlayerShot = isIdValid(gunnerForCredit) && isPlayer(gunnerForCredit);
-        if (gunnerPlayerShot)
-        {
-            combatAttacker = gunnerForCredit;
-        }
+        // Use turret for hit resolution (gunner is invulnerable while mounted; native getCombatData(player) can fail).
         attacker_data cbtAttackerData = new attacker_data();
         weapon_data cbtWeaponData = new weapon_data();
         obj_id[] objDefenders = new obj_id[1];
         objDefenders[0] = target;
         defender_data[] cbtDefenderData = new defender_data[objDefenders.length];
-        if (!getCombatData(combatAttacker, objDefenders, cbtAttackerData, cbtDefenderData, cbtWeaponData))
+        if (!getCombatData(self, objDefenders, cbtAttackerData, cbtDefenderData, cbtWeaponData))
         {
             return -1.0f;
         }
@@ -528,8 +532,9 @@ public class turret_ai extends script.systems.combat.combat_base_old
             cbtHitData[0].critDamage = 0;
             cbtHitData[0].bleedDamage = 0;
         }
+        obj_id damageCreditAttacker = gunnerPlayerShot ? gunnerForCredit : self;
         attacker_results cbtAttackerResults = new attacker_results();
-        cbtAttackerResults.id = combatAttacker;
+        cbtAttackerResults.id = damageCreditAttacker;
         defender_results[] cbtDefenderResults = new defender_results[1];
         cbtDefenderResults[0] = new defender_results();
         cbtAttackerResults.endPosture = -1;
@@ -549,7 +554,7 @@ public class turret_ai extends script.systems.combat.combat_base_old
             cbtDefenderResults[0].result = COMBAT_RESULT_MISS;
         }
         debugServerConsoleMsg(self, "hitdata");
-        finalizeDamage(cbtAttackerData.id, cbtWeaponData, cbtDefenderData, cbtHitData, cbtDefenderResults, null);
+        finalizeDamage(damageCreditAttacker, cbtWeaponData, cbtDefenderData, cbtHitData, cbtDefenderResults, null);
         String[] strPlaybackNames = makePlaybackNames("fire_turret", cbtHitData, cbtWeaponData, cbtDefenderResults);
         doCombatResults(strPlaybackNames[0], cbtAttackerResults, cbtDefenderResults);
         combat.doBasicCombatSpam("shoot", cbtAttackerResults, cbtDefenderResults, cbtHitData);
@@ -594,7 +599,7 @@ public class turret_ai extends script.systems.combat.combat_base_old
             {
                 continue;
             }
-            if (!turret.isValidTarget(self, oid))
+            if (!turret.isGunnerValidTarget(self, gunner, oid))
             {
                 continue;
             }
@@ -633,7 +638,7 @@ public class turret_ai extends script.systems.combat.combat_base_old
         {
             return SCRIPT_CONTINUE;
         }
-        if (!isIdValid(tgt) || !turret.isValidTarget(self, tgt))
+        if (!isIdValid(tgt) || !turret.isGunnerValidTarget(self, gunner, tgt))
         {
             return SCRIPT_CONTINUE;
         }

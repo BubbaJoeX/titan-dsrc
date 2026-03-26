@@ -145,6 +145,52 @@ public class turret extends script.base_script
         String objvar = getStringObjVar(self, OBJVAR_CAN_ATTACK);
         return hasObjVar(target, objvar) || objvar.equals("all") || (objvar.equals("allPlayers") && isPlayer(target));
     }
+    /**
+     * Player gunner shots: PvE NPCs (e.g. thugs) are valid when the gunner may attack them.
+     * {@link #isValidTarget} uses {@link #pvpIsEnemy} on the turret object, which is often false for neutral installations.
+     */
+    public static boolean isGunnerValidTarget(obj_id turret, obj_id gunner, obj_id target) throws InterruptedException
+    {
+        if (!isIdValid(turret) || !isIdValid(gunner) || !isIdValid(target))
+        {
+            return false;
+        }
+        if (target == turret || target == gunner)
+        {
+            return false;
+        }
+        location there = getLocation(target);
+        location here = getLocation(turret);
+        if (!isIdValid(here.cell))
+        {
+            if (there == null || isIdValid(there.cell))
+            {
+                return false;
+            }
+        }
+        else
+        {
+            if (there.cell != here.cell)
+            {
+                return false;
+            }
+        }
+        region btlField = battlefield.getBattlefield(turret);
+        if (btlField != null)
+        {
+            return pvpIsEnemy(turret, target) || pvpCanAttack(gunner, target);
+        }
+        float dist = getDistance(here, there);
+        if (dist > TURRET_RANGE + 1)
+        {
+            return false;
+        }
+        if (hasObjVar(target, OBJVAR_TURRET_FRIEND))
+        {
+            return false;
+        }
+        return pvpCanAttack(gunner, target);
+    }
     public static boolean isValidTarget(obj_id turret, obj_id target) throws InterruptedException
     {
         if (!isIdValid(turret) || !isIdValid(target))
