@@ -145,6 +145,18 @@ public class guild_space_station extends script.base_script
     }
 
     /**
+     * Destroys known orbit beacon objects before placing a new one (CW row and building objvar can reference different ids).
+     * Call with ids from registration; each id is destroyed at most once.
+     */
+    public static void destroyOrbitMarkersForGuildMove(obj_id markerFromCw, obj_id markerFromBuilding) throws InterruptedException
+    {
+        if (isIdValid(markerFromCw) && exists(markerFromCw))
+            destroyObject(markerFromCw);
+        if (isIdValid(markerFromBuilding) && exists(markerFromBuilding))
+            destroyObject(markerFromBuilding);
+    }
+
+    /**
      * Spawns the atmospheric "orbit" prop over the given point. Must be invoked on a server running {@code planet}'s scene.
      */
     public static obj_id spawnOrbitMarkerForPlanet(obj_id player, int guildId, String planet, float x, float z, obj_id destroyOld) throws InterruptedException
@@ -182,12 +194,16 @@ public class guild_space_station extends script.base_script
         String planet = loc.area;
         float ox = loc.x;
         float oz = loc.z;
-        obj_id oldMarker = cw.containsKey("orbit_marker_id") ? cw.getObjId("orbit_marker_id") : obj_id.NULL_ID;
-        obj_id newMarker = spawnOrbitMarkerForPlanet(player, guildId, planet, ox, oz, oldMarker);
+        obj_id building = cw.containsKey("building_id") ? cw.getObjId("building_id") : obj_id.NULL_ID;
+        obj_id oldFromCw = cw.containsKey("orbit_marker_id") ? cw.getObjId("orbit_marker_id") : obj_id.NULL_ID;
+        obj_id oldFromBuilding = obj_id.NULL_ID;
+        if (isIdValid(building) && exists(building) && hasObjVar(building, OV_ORBIT_MARKER))
+            oldFromBuilding = getObjIdObjVar(building, OV_ORBIT_MARKER);
+        destroyOrbitMarkersForGuildMove(oldFromCw, oldFromBuilding);
+        obj_id newMarker = spawnOrbitMarkerForPlanet(player, guildId, planet, ox, oz, obj_id.NULL_ID);
         if (!isIdValid(newMarker))
             return;
 
-        obj_id building = cw.containsKey("building_id") ? cw.getObjId("building_id") : obj_id.NULL_ID;
         if (isIdValid(building) && exists(building))
         {
             setObjVar(building, OV_ORBIT_PLANET, planet);
