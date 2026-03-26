@@ -1,41 +1,105 @@
 package script.guild;
 
+import script.conversation.base.ConvoResponse;
+import script.conversation.base.conversation_base;
 import script.dictionary;
+import script.library.ai_lib;
+import script.library.guild_space_station;
+import script.library.utils;
 import script.menu_info;
 import script.menu_info_data;
 import script.menu_info_types;
 import script.obj_id;
 import script.string_id;
-import script.library.guild_space_station;
-import script.library.utils;
 
 /**
- * Atmospheric prop ~3000m above the orbit point; players request docking (same as comlink).
+ * Atmospheric orbit prop: invulnerable; true conversation UI (no radial actions).
  */
-public class guild_space_station_orbit_marker extends script.base_script
+public class guild_space_station_orbit_marker extends conversation_base
 {
+    public static final String CONVERSATION = "guild.guild_space_station_orbit_marker";
+    public static final String SCRIPT_NAME = "guild_space_station_orbit_marker";
+    private static final int BRANCH_MAIN = 1;
+
     public guild_space_station_orbit_marker()
     {
+        super.scriptName = SCRIPT_NAME;
+        super.conversation = CONVERSATION;
     }
 
-    public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi) throws InterruptedException
+    @Override
+    public int OnInitialize(obj_id self) throws InterruptedException
     {
-        mi.addRootMenu(menu_info_types.ITEM_USE, string_id.unlocalized("Request Docking Clearance"));
-        menu_info_data data = mi.getMenuItemByType(menu_info_types.ITEM_USE);
-        if (data != null)
-            data.setServerNotify(true);
+        setInvulnerable(self, true);
+        setCondition(self, CONDITION_CONVERSABLE);
         return SCRIPT_CONTINUE;
     }
 
-    public int OnObjectMenuSelect(obj_id self, obj_id player, int item) throws InterruptedException
+    @Override
+    public int OnAttach(obj_id self) throws InterruptedException
     {
-        if (item != menu_info_types.ITEM_USE)
-            return SCRIPT_CONTINUE;
+        setInvulnerable(self, true);
+        setCondition(self, CONDITION_CONVERSABLE);
+        return SCRIPT_CONTINUE;
+    }
+
+    @Override
+    public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info menuInfo) throws InterruptedException
+    {
+        int menu = menuInfo.addRootMenu(menu_info_types.CONVERSE_START, null);
+        menu_info_data menuInfoData = menuInfo.getMenuItemById(menu);
+        menuInfoData.setServerNotify(false);
+        setCondition(self, CONDITION_CONVERSABLE);
+        return SCRIPT_CONTINUE;
+    }
+
+    @Override
+    public int OnStartNpcConversation(obj_id self, obj_id player) throws InterruptedException
+    {
+        if (ai_lib.isInCombat(self) || ai_lib.isInCombat(player))
+            return SCRIPT_OVERRIDE;
         if (!hasObjVar(self, guild_space_station.OV_GUILD_ID))
+            return serverSide_endConversation(player, "This beacon is not transmitting a guild identity.");
+        return serverSide_startConversation(
+            player,
+            self,
+            "Guild orbital station beacon online.\nHow may I direct your traffic?",
+            BRANCH_MAIN,
+            new ConvoResponse[] {
+                convo("landing", "Request Landing."),
+                convo("station_info", "Station Information.")
+            }
+        );
+    }
+
+    @Override
+    public int OnNpcConversationResponse(obj_id self, String conversationId, obj_id player, string_id response) throws InterruptedException
+    {
+        if (!conversationId.equals(SCRIPT_NAME))
             return SCRIPT_CONTINUE;
+        if (!utils.hasScriptVar(player, conversation + ".branchId"))
+            return SCRIPT_CONTINUE;
+        int branchId = utils.getIntScriptVar(player, conversation + ".branchId");
+        if (branchId != BRANCH_MAIN)
+        {
+            utils.removeScriptVar(player, conversation + ".branchId");
+            return SCRIPT_CONTINUE;
+        }
         int guildId = getIntObjVar(self, guild_space_station.OV_GUILD_ID);
-        utils.setScriptVar(self, "guildStation.pendingPlayer", player);
-        getClusterWideData(guild_space_station.CW_MANAGER, guild_space_station.cwElementName(guildId), false, self);
+
+        if (responseIdIs(response, "landing"))
+        {
+            serverSide_endConversation(player, "Acknowledged. Navicomputer is processing your clearance request.");
+            utils.setScriptVar(self, "guildStation.pendingPlayer", player);
+            getClusterWideData(guild_space_station.CW_MANAGER, guild_space_station.cwElementName(guildId), false, self);
+            return SCRIPT_CONTINUE;
+        }
+        if (responseIdIs(response, "station_info"))
+        {
+            guild_space_station.showStationInformationToPlayer(player, guildId);
+            return serverSide_endConversation(player, "End of transmission.");
+        }
+        utils.removeScriptVar(player, conversation + ".branchId");
         return SCRIPT_CONTINUE;
     }
 

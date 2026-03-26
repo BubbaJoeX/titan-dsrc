@@ -4,6 +4,9 @@ import script.dictionary;
 import script.location;
 import script.obj_id;
 import script.string_id;
+import script.library.callable;
+import script.library.space_transition;
+import script.library.sui;
 import script.library.utils;
 
 /**
@@ -49,6 +52,33 @@ public class guild_space_station extends script.base_script
     public static String cwElementName(int guildId)
     {
         return "guild_" + guildId;
+    }
+
+    /** Pack POB/cockpit ship, store callables, dismount before station travel (matches dungeon travel prep). */
+    public static void preparePlayerForGuildStationTravel(obj_id player) throws InterruptedException
+    {
+        if (!isIdValid(player) || !exists(player))
+            return;
+        utils.dismountRiderJetpackCheck(player);
+        callable.storeCallables(player);
+        obj_id ship = space_transition.getContainingShip(player);
+        if (isIdValid(ship) && exists(ship))
+            space_transition.packShip(ship);
+    }
+
+    /** SUI summary for orbit marker "Station Information" option. */
+    public static void showStationInformationToPlayer(obj_id player, int guildId) throws InterruptedException
+    {
+        if (guildId <= 0 || !guildExists(guildId))
+        {
+            sendSystemMessage(player, string_id.unlocalized("No guild data is available for this station."));
+            return;
+        }
+        String name = guildGetName(guildId);
+        String abbrev = guildGetAbbrev(guildId);
+        int members = guildGetCountMembersOnly(guildId);
+        String msg = "Guild: " + name + " <" + abbrev + ">\nRegistered members: " + members;
+        sui.msgbox(player, player, msg, sui.OK_ONLY, "Station Information", sui.MSG_NORMAL, "noHandler");
     }
 
     /** Cache on guild terminal: hide purchase menu after a station is registered in ClusterWideData. */
@@ -336,6 +366,7 @@ public class guild_space_station extends script.base_script
                 sendSystemMessage(player, string_id.unlocalized("[Navicomputer] You are not cleared for this station."));
                 return;
             }
+            preparePlayerForGuildStationTravel(player);
             setObjVar(player, OV_PENDING_COMLINK_WARP, guildId);
             location hubLoc = computeHubSlot(guildId);
             warpPlayer(player, "dungeon_hub", hubLoc.x, hubLoc.y, hubLoc.z, null, hubLoc.x, hubLoc.y, hubLoc.z, "msgGuildStationComlinkTravelComplete", true);
@@ -364,6 +395,7 @@ public class guild_space_station extends script.base_script
             sendSystemMessage(player, string_id.unlocalized("[Navicomputer] Guild station is offline."));
             return;
         }
+        preparePlayerForGuildStationTravel(player);
         // forceLoadScreen true: required when coming from another scene/process so the client loads the interior cell (same pattern as space_dungeon.moveSinglePlayerIntoDungeon).
         warpPlayer(player, bLoc.area, bLoc.x, bLoc.y, bLoc.z, building, "hangarbay1", 5.0f, 0.0f, 5.0f, "", true);
     }
