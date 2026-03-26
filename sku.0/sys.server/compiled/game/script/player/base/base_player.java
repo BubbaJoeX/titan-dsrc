@@ -11762,6 +11762,10 @@ public class base_player extends script.base_script
     }
     public int OnClusterWideDataResponse(obj_id self, String manage_name, String data_name, int request_id, String[] element_name_list, dictionary[] dungeon_data, int lock_key) throws InterruptedException
     {
+        if (guild_space_station.handlePendingComlinkClusterResponse(self, manage_name, dungeon_data, lock_key))
+        {
+            return SCRIPT_CONTINUE;
+        }
         if (dungeon_data == null || dungeon_data.length == 0)
         {
             return SCRIPT_CONTINUE;

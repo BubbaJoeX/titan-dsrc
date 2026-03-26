@@ -590,6 +590,14 @@ public class player_travel extends script.base_script
         CustomerServiceLog("travel", getFirstName(self) + " (" + self + ") has traveled to dungeon " + dungeon_name);
         return SCRIPT_CONTINUE;
     }
+    public int msgGuildStationComlinkTravelComplete(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (!hasObjVar(self, guild_space_station.OV_PENDING_COMLINK_WARP))
+            return SCRIPT_CONTINUE;
+        int guildId = getIntObjVar(self, guild_space_station.OV_PENDING_COMLINK_WARP);
+        getClusterWideData(guild_space_station.CW_MANAGER, guild_space_station.cwElementName(guildId), false, self);
+        return SCRIPT_CONTINUE;
+    }
     public int msgDungeonTravelConfirmed(obj_id self, dictionary params) throws InterruptedException
     {
         if (!utils.hasScriptVar(self, space_dungeon.SCRIPT_VAR_DUNGEON_PENDING) || !utils.hasScriptVar(self, space_dungeon.SCRIPT_VAR_DUNGEON_ID_PENDING))

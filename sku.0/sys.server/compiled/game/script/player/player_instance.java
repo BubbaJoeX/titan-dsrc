@@ -103,6 +103,10 @@ public class player_instance extends script.base_script
     }
     public int OnClusterWideDataResponse(obj_id self, String manage_name, String name, int request_id, String[] element_name_list, dictionary[] data, int lock_key) throws InterruptedException
     {
+        if (guild_space_station.handlePendingComlinkClusterResponse(self, manage_name, data, lock_key))
+        {
+            return SCRIPT_CONTINUE;
+        }
         CustomerServiceLog(instance.INSTANCE_DEBUG_LOG, "OnClusterWideDataResponse-player " + self + "(" + getPlayerName(self) + ")recieved trigger");
         int requestType = instance.getInstanceRequestType(self);
         CustomerServiceLog(instance.INSTANCE_DEBUG_LOG, "OnClusterWideDataResponse-player " + self + "(" + getPlayerName(self) + ")'s requestType is " + requestType);

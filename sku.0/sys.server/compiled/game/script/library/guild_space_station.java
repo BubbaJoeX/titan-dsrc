@@ -36,6 +36,8 @@ public class guild_space_station extends script.base_script
     public static final int ACCESS_WHITELIST = 2;
     public static final String OV_ACCESS_MIN_RANK = "guildStation.access.minRank";
     public static final String OV_ACCESS_WHITELIST = "guildStation.access.whitelist";
+    /** Set on player while cross-scene transfer to dungeon_hub is pending (comlink warp). */
+    public static final String OV_PENDING_COMLINK_WARP = "guildStation.pendingComlinkWarp";
 
     private static final String TEMPLATE_ORBIT_SHIP = "object/ship/spacestation_neutral.iff";
 
@@ -242,17 +244,51 @@ public class guild_space_station extends script.base_script
         return building;
     }
 
+    /**
+     * Completes comlink flow after cross-scene transfer: player arrived on dungeon_hub and ClusterWideData arrived on the player.
+     * @return true if this response was consumed (caller should return SCRIPT_CONTINUE)
+     */
+    public static boolean handlePendingComlinkClusterResponse(obj_id player, String manage_name, dictionary[] data, int lock_key) throws InterruptedException
+    {
+        if (!manage_name.equals(CW_MANAGER) || !hasObjVar(player, OV_PENDING_COMLINK_WARP))
+            return false;
+        removeObjVar(player, OV_PENDING_COMLINK_WARP);
+        if (data != null && data.length > 0 && data[0] != null)
+        {
+            warpPlayerToStation(player, data[0]);
+        }
+        else
+        {
+            sendSystemMessage(player, string_id.unlocalized("[Navicomputer] No guild station registration found."));
+        }
+        if (lock_key != 0)
+        {
+            releaseClusterWideDataLock(manage_name, lock_key);
+        }
+        return true;
+    }
+
     /** ClusterWideData row for this guild. */
     public static void warpPlayerToStation(obj_id player, dictionary cw) throws InterruptedException
     {
         if (cw == null)
             return;
-        obj_id building = cw.containsKey("building_id") ? cw.getObjId("building_id") : obj_id.NULL_ID;
         int guildId = cw.getInt("guild_id");
-        if (getCurrentSceneName().equals("dungeon_hub"))
+
+        if (!getCurrentSceneName().equals("dungeon_hub"))
         {
-            building = ensureStationBuildingOnHub(player, guildId, cw);
+            if (!playerCanEnterStation(player, guildId, cw))
+            {
+                sendSystemMessage(player, string_id.unlocalized("[Navicomputer] You are not cleared for this station."));
+                return;
+            }
+            setObjVar(player, OV_PENDING_COMLINK_WARP, guildId);
+            location hubLoc = computeHubSlot(guildId);
+            warpPlayer(player, "dungeon_hub", hubLoc.x, hubLoc.y, hubLoc.z, null, hubLoc.x, hubLoc.y, hubLoc.z, "msgGuildStationComlinkTravelComplete", true);
+            return;
         }
+
+        obj_id building = ensureStationBuildingOnHub(player, guildId, cw);
         if (!isIdValid(building) || !exists(building))
         {
             sendSystemMessage(player, string_id.unlocalized("[Navicomputer] Guild station is offline."));
