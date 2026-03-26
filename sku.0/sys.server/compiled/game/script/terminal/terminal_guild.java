@@ -291,6 +291,9 @@ public class terminal_guild extends script.terminal.base.base_terminal
             if (player == guildLeader || isGod(player))
             {
                 mi.addRootMenu(menu_info_types.SERVER_MENU51, string_id.unlocalized("Purchase Guild Space Station (50,000,000 cr)"));
+                menu_info_data midPurchase = mi.getMenuItemByType(menu_info_types.SERVER_MENU51);
+                if (midPurchase != null)
+                    midPurchase.setServerNotify(true);
             }
             int menu = -1;
             if (!guild.hasElectionEnded(player))

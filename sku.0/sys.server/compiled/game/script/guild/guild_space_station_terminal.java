@@ -3,6 +3,7 @@ package script.guild;
 import script.dictionary;
 import script.location;
 import script.menu_info;
+import script.menu_info_data;
 import script.menu_info_types;
 import script.obj_id;
 import script.string_id;
@@ -32,6 +33,12 @@ public class guild_space_station_terminal extends script.base_script
         mi.addRootMenu(menu_info_types.SERVER_MENU2, string_id.unlocalized("Access: All Guild Members"));
         mi.addRootMenu(menu_info_types.SERVER_MENU3, string_id.unlocalized("Access: Minimum Rank..."));
         mi.addRootMenu(menu_info_types.SERVER_MENU4, string_id.unlocalized("Refresh Orbit Beacon Here"));
+        for (int mt : new int[] { menu_info_types.SERVER_MENU1, menu_info_types.SERVER_MENU2, menu_info_types.SERVER_MENU3, menu_info_types.SERVER_MENU4 })
+        {
+            menu_info_data md = mi.getMenuItemByType(mt);
+            if (md != null)
+                md.setServerNotify(true);
+        }
         return SCRIPT_CONTINUE;
     }
 
