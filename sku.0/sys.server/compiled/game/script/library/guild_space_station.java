@@ -171,13 +171,88 @@ public class guild_space_station extends script.base_script
         return getCalendarTime() >= getIntObjVar(building, OV_MAINTENANCE_NEXT);
     }
 
+    /** ClusterWide snapshot when the hub building does not exist yet (purchase finalized on a non-hub scene). */
+    public static dictionary buildCwSnapshotWithoutBuilding(int guildId, String planet, float ox, float oz, obj_id orbitMarkerId, int maintenanceNext) throws InterruptedException
+    {
+        dictionary d = new dictionary();
+        d.put("guild_id", guildId);
+        if (planet != null && planet.length() > 0)
+            d.put("orbit_planet", planet);
+        d.put("orbit_x", ox);
+        d.put("orbit_z", oz);
+        if (isIdValid(orbitMarkerId))
+            d.put("orbit_marker_id", orbitMarkerId);
+        d.put("maintenance_next", maintenanceNext);
+        d.put("access_mode", ACCESS_GUILD);
+        return d;
+    }
+
+    /** Apply ClusterWide fields to a freshly spawned hub building (lazy spawn on dungeon_hub). */
+    public static void applyClusterWideToBuilding(obj_id building, int guildId, dictionary cw) throws InterruptedException
+    {
+        if (!isIdValid(building) || cw == null)
+            return;
+        setObjVar(building, OV_GUILD_ID, guildId);
+        if (cw.containsKey("orbit_planet"))
+            setObjVar(building, OV_ORBIT_PLANET, cw.getString("orbit_planet"));
+        if (cw.containsKey("orbit_x"))
+            setObjVar(building, OV_ORBIT_X, cw.getFloat("orbit_x"));
+        if (cw.containsKey("orbit_z"))
+            setObjVar(building, OV_ORBIT_Z, cw.getFloat("orbit_z"));
+        if (cw.containsKey("maintenance_next"))
+            setObjVar(building, OV_MAINTENANCE_NEXT, cw.getInt("maintenance_next"));
+        if (cw.containsKey("access_mode"))
+            setObjVar(building, OV_ACCESS_MODE, cw.getInt("access_mode"));
+        if (cw.containsKey("access_min_rank"))
+            setObjVar(building, OV_ACCESS_MIN_RANK, cw.getString("access_min_rank"));
+        if (cw.containsKey("access_whitelist"))
+            setObjVar(building, OV_ACCESS_WHITELIST, cw.getString("access_whitelist"));
+        if (cw.containsKey("orbit_marker_id"))
+        {
+            obj_id marker = cw.getObjId("orbit_marker_id");
+            if (isIdValid(marker))
+                setObjVar(building, OV_ORBIT_MARKER, marker);
+        }
+    }
+
+    /**
+     * Ensures the guild station building exists in the current process (dungeon_hub). Purchase may run on another scene,
+     * so CW can list a building_id that does not exist here until we spawn it.
+     */
+    public static obj_id ensureStationBuildingOnHub(obj_id player, int guildId, dictionary cw) throws InterruptedException
+    {
+        if (cw == null || !getCurrentSceneName().equals("dungeon_hub"))
+            return obj_id.NULL_ID;
+        obj_id building = cw.containsKey("building_id") ? cw.getObjId("building_id") : obj_id.NULL_ID;
+        if (isIdValid(building) && exists(building))
+            return building;
+
+        location hubLoc = computeHubSlot(guildId);
+        building = createObject("object/building/hub/space_station.iff", hubLoc);
+        if (!isIdValid(building))
+        {
+            CustomerServiceLog("guild_space_station", "ensureStationBuildingOnHub: createObject failed guild " + guildId + " player " + player);
+            return obj_id.NULL_ID;
+        }
+        applyClusterWideToBuilding(building, guildId, cw);
+        syncBuildingPermissions(building, guildId);
+        obj_id marker = hasObjVar(building, OV_ORBIT_MARKER) ? getObjIdObjVar(building, OV_ORBIT_MARKER) : obj_id.NULL_ID;
+        dictionary snap = buildCwSnapshot(building, guildId, marker);
+        replaceClusterWideData(CW_MANAGER, cwElementName(guildId), snap, true, -1);
+        return building;
+    }
+
     /** ClusterWideData row for this guild. */
     public static void warpPlayerToStation(obj_id player, dictionary cw) throws InterruptedException
     {
         if (cw == null)
             return;
-        obj_id building = cw.getObjId("building_id");
+        obj_id building = cw.containsKey("building_id") ? cw.getObjId("building_id") : obj_id.NULL_ID;
         int guildId = cw.getInt("guild_id");
+        if (getCurrentSceneName().equals("dungeon_hub"))
+        {
+            building = ensureStationBuildingOnHub(player, guildId, cw);
+        }
         if (!isIdValid(building) || !exists(building))
         {
             sendSystemMessage(player, string_id.unlocalized("[Navicomputer] Guild station is offline."));
@@ -245,6 +320,21 @@ public class guild_space_station extends script.base_script
             }
         }
 
+        int nextMaint = getCalendarTime() + MAINTENANCE_PERIOD_SEC;
+        obj_id orbitMarker = spawnOrbitMarkerForPlanet(player, guildId, planet, ox, oz, obj_id.NULL_ID);
+
+        if (!getCurrentSceneName().equals("dungeon_hub"))
+        {
+            dictionary snap = buildCwSnapshotWithoutBuilding(guildId, planet, ox, oz, orbitMarker, nextMaint);
+            replaceClusterWideData(CW_MANAGER, el, snap, true, lock_key);
+            releaseClusterWideDataLock(manage_name, lock_key);
+
+            grantComlink(player, guildId);
+            sendSystemMessage(player, string_id.unlocalized("[Guild] Guild space station registered. Visit the hub sector to materialize the station, or use your comlink while there."));
+            CustomerServiceLog("guild_space_station", "Guild " + guildId + " purchased station (hub building deferred) leader " + player);
+            return;
+        }
+
         location hubLoc = computeHubSlot(guildId);
         obj_id building = createObject("object/building/hub/space_station.iff", hubLoc);
         if (!isIdValid(building))
@@ -259,11 +349,8 @@ public class guild_space_station extends script.base_script
         setObjVar(building, OV_ORBIT_X, ox);
         setObjVar(building, OV_ORBIT_Z, oz);
         setObjVar(building, OV_ACCESS_MODE, ACCESS_GUILD);
-        int nextMaint = getCalendarTime() + MAINTENANCE_PERIOD_SEC;
         setObjVar(building, OV_MAINTENANCE_NEXT, nextMaint);
 
-        obj_id oldMarker = obj_id.NULL_ID;
-        obj_id orbitMarker = spawnOrbitMarkerForPlanet(player, guildId, planet, ox, oz, oldMarker);
         if (isIdValid(orbitMarker))
             setObjVar(building, OV_ORBIT_MARKER, orbitMarker);
 
