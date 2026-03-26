@@ -59,9 +59,10 @@ public class guild_space_station extends script.base_script
     }
 
     /**
-     * Dismount, store callables, pack ship before station travel.
-     * In space or atmospheric flight, {@link space_transition#packShip} unpilots, ejects passengers as needed, and
-     * packs the ship (atmospheric uses a deferred finalize path inside the space library).
+     * Dismount, store callables, pack surface ship before station travel.
+     * In space or atmospheric flight, only {@link #unpilotShip} — do not call {@link space_transition#packShip} before
+     * {@code warpPlayer}: packing then cross-scene warp has left ships stuck, unpackable, or SCD-desynced. Ground players
+     * still get {@code packShip} for their deployed ship.
      */
     public static void preparePlayerForGuildStationTravel(obj_id player) throws InterruptedException
     {
@@ -71,11 +72,9 @@ public class guild_space_station extends script.base_script
         callable.storeCallables(player);
         if (isAtmosphericFlightScene() || isSpaceScene())
         {
-            obj_id ship = space_transition.getContainingShip(player);
-            if (!isIdValid(ship))
-                ship = getPilotedShip(player);
-            if (isIdValid(ship) && exists(ship))
-                space_transition.packShip(ship);
+            obj_id piloted = getPilotedShip(player);
+            if (isIdValid(piloted))
+                unpilotShip(player);
             return;
         }
         obj_id ship = space_transition.getContainingShip(player);
