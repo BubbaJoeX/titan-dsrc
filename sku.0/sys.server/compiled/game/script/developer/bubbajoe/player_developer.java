@@ -41,6 +41,10 @@ public class player_developer extends base_script
     public static final String PFP = "localhost:5000/pfp.png";
     public static final int STIPEND = 150000;
     public static float PLANETWIDE = 16000.0f;
+
+    /** Server-side path for guild station default interior layout (TSV). Written by /developer updateBaseStation. */
+    public static final String GUILD_STATION_LAYOUT_TAB_PATH =
+            "/home/swg/swg-main/dsrc/sku.0/sys.server/compiled/game/datatables/guild/station_layout.tab";
     private final int pageSize = 10; // Number of items per page
     // Variables for pagination
     private int currentPage = 0; // Current page
@@ -5699,6 +5703,21 @@ public class player_developer extends base_script
             }
             exportHousingContents(self, building, tok.nextToken());
         }
+        else if (cmd.equalsIgnoreCase("updateBaseStation"))
+        {
+            if (isInWorldCell(self))
+            {
+                broadcast(self, "Stand inside the guild station building (interior cell), not the open world, then run /developer updateBaseStation again.");
+                return SCRIPT_CONTINUE;
+            }
+            obj_id building = getTopMostContainer(self);
+            if (!isIdValid(building))
+            {
+                broadcast(self, "Could not resolve a building from your position.");
+                return SCRIPT_CONTINUE;
+            }
+            return exportGuildStationLayout(self, building);
+        }
         else if (cmd.equalsIgnoreCase("housingTable"))
         {
             showAllHousing(self);
@@ -7145,6 +7164,153 @@ public class player_developer extends base_script
         saveTextOnClient(who, filename, fileContent.toString());
 
         return SCRIPT_CONTINUE;
+    }
+
+    /**
+     * Writes all placeable objects in the building's cells to {@link #GUILD_STATION_LAYOUT_TAB_PATH}
+     * for use as the default guild station interior layout. Columns: template, x, y, z, cell, scale_x, scale_y, scale_z, script, objvars.
+     * Skips the same categories as housing export (creatures, AI, exportLock, etc.).
+     */
+    public int exportGuildStationLayout(obj_id who, obj_id building) throws InterruptedException
+    {
+        StringBuilder fileContent = new StringBuilder();
+        fileContent.append("template\tx\ty\tz\tcell\tscale_x\tscale_y\tscale_z\tscript\tobjvars\n");
+
+        int total = 0;
+        obj_id[] cells = getCellIds(building);
+        if (cells == null || cells.length == 0)
+        {
+            broadcast(who, "No cells found on building " + building + ".");
+            return SCRIPT_CONTINUE;
+        }
+
+        for (obj_id cell : cells)
+        {
+            obj_id[] contents = getContents(cell);
+            if (contents == null)
+            {
+                continue;
+            }
+            for (obj_id content : contents)
+            {
+                if (!isIdValid(content))
+                {
+                    continue;
+                }
+                if (isPlayer(content))
+                {
+                    continue;
+                }
+                if (hasScript(content, "ai.ai")
+                        || hasScript(content, "ai.beast")
+                        || hasScript(content, "ai.creature_combat")
+                        || hasScript(content, "ai.pet")
+                        || hasScript(content, "system.bookworm.book"))
+                {
+                    continue;
+                }
+                if (hasObjVar(content, "exportLock"))
+                {
+                    continue;
+                }
+
+                String template = getTemplateName(content);
+                if (isBadTemplate(template))
+                {
+                    continue;
+                }
+
+                location loc = getLocation(content);
+                obj_id parentCell = getContainedBy(content);
+                String cellName = "";
+                if (isIdValid(parentCell))
+                {
+                    String cn = getCellName(parentCell);
+                    if (cn != null)
+                    {
+                        cellName = stationLayoutTabSafe(cn);
+                    }
+                }
+
+                vector sv = getScaleVector(content);
+                float scx = 1.0f;
+                float scy = 1.0f;
+                float scz = 1.0f;
+                if (sv != null)
+                {
+                    scx = sv.x;
+                    scy = sv.y;
+                    scz = sv.z;
+                }
+                String scripts = getPackedScripts(content);
+                if (scripts == null)
+                {
+                    scripts = "";
+                }
+                scripts = stationLayoutTabSafe(scripts.replace("\t", ","));
+
+                String objvars = getPackedObjvars(content);
+                if (objvars == null)
+                {
+                    objvars = "";
+                }
+                objvars = stationLayoutTabSafe(objvars);
+
+                fileContent.append(stationLayoutTabSafe(template))
+                        .append("\t")
+                        .append(String.format(Locale.US, "%.6f", loc.x))
+                        .append("\t")
+                        .append(String.format(Locale.US, "%.6f", loc.y))
+                        .append("\t")
+                        .append(String.format(Locale.US, "%.6f", loc.z))
+                        .append("\t")
+                        .append(cellName)
+                        .append("\t")
+                        .append(String.format(Locale.US, "%.6f", scx))
+                        .append("\t")
+                        .append(String.format(Locale.US, "%.6f", scy))
+                        .append("\t")
+                        .append(String.format(Locale.US, "%.6f", scz))
+                        .append("\t")
+                        .append(scripts)
+                        .append("\t")
+                        .append(objvars)
+                        .append("\n");
+                total++;
+            }
+        }
+
+        try
+        {
+            File out = new File(GUILD_STATION_LAYOUT_TAB_PATH);
+            File parent = out.getParentFile();
+            if (parent != null && !parent.exists())
+            {
+                parent.mkdirs();
+            }
+            try (FileWriter fw = new FileWriter(out))
+            {
+                fw.write(fileContent.toString());
+            }
+            broadcast(who, "Guild station layout saved: " + GUILD_STATION_LAYOUT_TAB_PATH + " (" + total + " objects). Reload datatables if required.");
+            LOG("ethereal", "[Developer]: " + getPlayerFullName(who) + " used /developer updateBaseStation -> " + GUILD_STATION_LAYOUT_TAB_PATH
+                    + " rows=" + total + " building=" + building);
+        }
+        catch (IOException e)
+        {
+            broadcast(who, "Failed to write guild station layout: " + e.getMessage());
+            LOG("ethereal", "[Guild Station Layout]: " + e);
+        }
+        return SCRIPT_CONTINUE;
+    }
+
+    private static String stationLayoutTabSafe(String s)
+    {
+        if (s == null || s.isEmpty())
+        {
+            return "";
+        }
+        return s.replace("\t", " ").replace("\r", " ").replace("\n", " ");
     }
 
     private boolean isBadTemplate(String template)

@@ -10611,6 +10611,18 @@ public class base_class
         }
 
         /**
+         * Returns per-axis object scale (x, y, z) from the server object (appearance / {@code Object::getScale}).
+         * Use this for tangibles and structures; {@link #getScale(obj_id)} remains the creature uniform scale factor.
+         * @param target object id
+         * @return scale vector, or {@code null} if the object is not loaded or conversion fails
+         */
+        private static native vector _getScaleVector(long target);
+        public static vector getScaleVector(obj_id target)
+        {
+            return _getScaleVector(getLongWithNull(target));
+        }
+
+        /**
          * Sets the scale of a creature.
          * @param target        creature we want to set
          * @param scale         the creature's new scale
