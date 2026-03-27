@@ -23966,6 +23966,12 @@ public class base_class
     {
         _aiUnEquipWeapons(getLongWithNull(ai));
     }
+    private static native void _clearAiWeaponCombatProfiles(long creature);
+    /** Server: clears AI {@code ai_combat_profiles} weapon-action state on this creature (no datatable-driven combat specials). */
+    public static void clearAiWeaponCombatProfiles(obj_id creature)
+    {
+        _clearAiWeaponCombatProfiles(getLongWithNull(creature));
+    }
     private static native boolean _aiHasPrimaryWeapon(long ai);
     public static boolean aiHasPrimaryWeapon(obj_id ai)
     {

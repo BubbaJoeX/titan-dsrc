@@ -1867,12 +1867,6 @@ public class pet extends script.base_script
             food.petEatFood(self, master, item, player);
             return SCRIPT_CONTINUE;
         }
-        obj_id petControlDevice = callable.getCallableCD(self);
-        obj_id petInv = utils.getInventoryContainer(petControlDevice);
-        if (!isIdValid(petInv))
-        {
-            return SCRIPT_CONTINUE;
-        }
         if (player != master)
         {
             return SCRIPT_CONTINUE;
@@ -1882,6 +1876,12 @@ public class pet extends script.base_script
             return SCRIPT_CONTINUE;
         }
         if (companion_lib.handleStoryCompanionWeaponGift(self, item, player))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        obj_id petControlDevice = callable.getCallableCD(self);
+        obj_id petInv = utils.getInventoryContainer(petControlDevice);
+        if (!isIdValid(petInv))
         {
             return SCRIPT_CONTINUE;
         }

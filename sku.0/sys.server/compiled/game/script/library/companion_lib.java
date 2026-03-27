@@ -386,6 +386,7 @@ public class companion_lib extends script.base_script
             }
         }
         create.attachCreatureScripts(pet, "", true);
+        clearAiWeaponCombatProfiles(pet);
     }
     /**
      * Adds a story companion as a packed NPC pet control device on the datapad (SWTOR-style unlock).
@@ -818,11 +819,6 @@ public class companion_lib extends script.base_script
         {
             return false;
         }
-        obj_id petInv = utils.getInventoryContainer(pet);
-        if (!isIdValid(petInv))
-        {
-            return false;
-        }
         obj_id ownerInv = utils.getInventoryContainer(giver);
         if (!isIdValid(ownerInv))
         {
@@ -848,19 +844,33 @@ public class companion_lib extends script.base_script
                 }
             }
         }
-        if (getContainedBy(item) != petInv)
+        obj_id petInv = utils.getInventoryContainer(pet);
+        if (isIdValid(petInv))
         {
-            if (!putIn(item, petInv, giver))
+            if (getContainedBy(item) != petInv)
             {
-                sendSystemMessage(giver, string_id.unlocalized("Could not move the weapon to your companion."));
+                if (!putIn(item, petInv, giver))
+                {
+                    sendSystemMessage(giver, string_id.unlocalized("Could not move the weapon to your companion."));
+                    return false;
+                }
+            }
+        }
+        else
+        {
+            if (!equip(item, pet))
+            {
+                sendSystemMessage(giver, string_id.unlocalized("Could not equip the weapon on your companion."));
                 return false;
             }
         }
         if (!setCurrentWeapon(pet, item))
         {
             sendSystemMessage(giver, string_id.unlocalized("Your companion could not equip that weapon."));
+            clearAiWeaponCombatProfiles(pet);
             return true;
         }
+        clearAiWeaponCombatProfiles(pet);
         sendSystemMessage(giver, string_id.unlocalized("Your companion equips the new weapon; the old one was moved to your inventory."));
         return true;
     }

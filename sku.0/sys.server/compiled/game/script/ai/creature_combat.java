@@ -423,7 +423,10 @@ public class creature_combat extends script.systems.combat.combat_base
             {
                 if (dict.getBoolean("ai.combat.cover.foundTarget"))
                 {
-                    attack(target);
+                    if (!companion_lib.isStoryCompanionPet(self))
+                    {
+                        attack(target);
+                    }
                 }
             }
         }
