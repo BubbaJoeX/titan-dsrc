@@ -2798,6 +2798,32 @@ public class beast_lib extends script.base_script
     }
     public static int getAvailableTrainingSlots(obj_id pet, String abilityName) throws InterruptedException
     {
+        if (companion_lib.isStoryCompanionPet(pet))
+        {
+            if (companion_lib.usesHumanoidStoryCompanionPetBar(pet))
+            {
+                String[] taught = companion_lib.getTaughtAbilitiesArray(pet);
+                int openSlots = 0;
+                for (int i = 0; i < taught.length; ++i)
+                {
+                    if (taught[i].equals("empty") || isSkillUpgrade(pet, abilityName))
+                    {
+                        openSlots++;
+                    }
+                }
+                return openSlots;
+            }
+            String[] knownSkills = getTrainedSkills(pet);
+            int openSlots = 0;
+            for (int i = 0; i < knownSkills.length && i < 4; ++i)
+            {
+                if (knownSkills[i].equals("empty") || isSkillUpgrade(pet, abilityName))
+                {
+                    openSlots++;
+                }
+            }
+            return openSlots;
+        }
         String[] knownSkills = getTrainedSkills(pet);
         int additionalAbilitySlot = getSkillStatisticModifier(getBCDPlayer(getBeastBCD(pet)), "expertise_bm_add_pet_bar");
         int openSlots = 0;

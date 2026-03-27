@@ -58,7 +58,8 @@ public class companion_story_pcd extends script.base_script
             {
                 "Clear slot 1",
                 "Clear slot 2",
-                "Clear slot 3"
+                "Clear slot 3",
+                "Clear slot 4"
             };
             sui.listbox(self, player, "Remove the taught command from a pet bar slot.", sui.OK_CANCEL, "Clear slot", slots, "handleClearTaughtSlotSui", true, false);
             return SCRIPT_CONTINUE;
@@ -163,9 +164,10 @@ public class companion_story_pcd extends script.base_script
         utils.setScriptVar(player, SV_TRAIN_SKILL, skills[row]);
         String[] slots = 
         {
-            "Slot 1 (pet bar)",
-            "Slot 2 (pet bar)",
-            "Slot 3 (pet bar)"
+            "Slot 1 (companion bar)",
+            "Slot 2 (companion bar)",
+            "Slot 3 (companion bar)",
+            "Slot 4 (companion bar)"
         };
         sui.listbox(self, player, "Assign to which pet bar slot?", sui.OK_CANCEL, "Slot", slots, "handleTrainSlotPickSui", true, false);
         return SCRIPT_CONTINUE;
@@ -189,7 +191,7 @@ public class companion_story_pcd extends script.base_script
             return SCRIPT_CONTINUE;
         }
         int slotRow = sui.getListboxSelectedRow(params);
-        if (slotRow < 0 || slotRow > 2)
+        if (slotRow < 0 || slotRow > 3)
         {
             utils.removeScriptVar(player, SV_TRAIN_PCD);
             utils.removeScriptVar(player, SV_TRAIN_SKILL);
@@ -226,7 +228,7 @@ public class companion_story_pcd extends script.base_script
             return SCRIPT_CONTINUE;
         }
         int slotRow = sui.getListboxSelectedRow(params);
-        if (slotRow < 0 || slotRow > 2)
+        if (slotRow < 0 || slotRow > 3)
         {
             utils.removeScriptVar(player, SV_TRAIN_PCD);
             return SCRIPT_CONTINUE;
