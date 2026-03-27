@@ -7175,6 +7175,7 @@ public class player_developer extends base_script
     {
         StringBuilder fileContent = new StringBuilder();
         fileContent.append("template\tx\ty\tz\tcell\tscale_x\tscale_y\tscale_z\tscript\tobjvars\n");
+        fileContent.append("s\tf\tf\tf\ts\tf\tf\tf\ts\tp\n");
 
         int total = 0;
         obj_id[] cells = getCellIds(building);
