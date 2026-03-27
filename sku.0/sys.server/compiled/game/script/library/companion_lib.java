@@ -37,6 +37,11 @@ public class companion_lib extends script.base_script
         CMD_BAR_SLOT_B,
         CMD_BAR_SLOT_C
     };
+    /**
+     * Pet bar strings sent to the client may use {@code base|displayCommand}; the client parses this in
+     * {@code SwgCuiToolbar::onPetCommandsChanged} so icons/tooltips use {@code displayCommand} while execution stays {@code base}.
+     */
+    public static final String PET_BAR_CMD_DISPLAY_SEPARATOR = "|";
     public static final String OBJVAR_INFLUENCE_PREFIX = "companion.influence.";
     public static final int STANCE_TANK = 0;
     public static final int STANCE_HEALER = 1;
@@ -698,6 +703,25 @@ public class companion_lib extends script.base_script
         }
         return out;
     }
+    /**
+     * Encodes a pet bar slot for the client UI bridge: {@code companion_bar_slot_a|meleeHit} shows meleeHit icon/tooltip but still executes {@code companion_bar_slot_a}.
+     */
+    public static String encodeCompanionBarSlotForClientUi(String slotCommand, String taughtOrEmpty) throws InterruptedException
+    {
+        if (slotCommand == null || slotCommand.length() < 1)
+        {
+            return "";
+        }
+        if (taughtOrEmpty == null || taughtOrEmpty.length() < 1 || taughtOrEmpty.equals("empty"))
+        {
+            return slotCommand;
+        }
+        if (taughtOrEmpty.indexOf(PET_BAR_CMD_DISPLAY_SEPARATOR) >= 0)
+        {
+            return slotCommand;
+        }
+        return slotCommand + PET_BAR_CMD_DISPLAY_SEPARATOR + taughtOrEmpty;
+    }
     public static String[] buildHumanoidStoryCompanionPetBar(obj_id player, obj_id pet) throws InterruptedException
     {
         String[] barData = (String[])beast_lib.PET_BAR_DEFAULT_ARRAY.clone();
@@ -707,11 +731,76 @@ public class companion_lib extends script.base_script
         barData[7] = beast_lib.BM_COMMAND_DISABLED;
         barData[8] = beast_lib.BM_COMMAND_DISABLED;
         String[] cmds = getHumanoidStoryCompanionTrainedCommands();
+        String[] taught = getTaughtAbilitiesArray(pet);
         barData[3] = cmds[0];
-        barData[4] = cmds[1];
-        barData[5] = cmds[2];
-        barData[6] = cmds[3];
+        barData[4] = encodeCompanionBarSlotForClientUi(cmds[1], taught[0]);
+        barData[5] = encodeCompanionBarSlotForClientUi(cmds[2], taught[1]);
+        barData[6] = encodeCompanionBarSlotForClientUi(cmds[3], taught[2]);
         return barData;
+    }
+    /**
+     * Owner drags a weapon onto the story companion: equip it; previous non-creature weapon goes to the owner's inventory.
+     */
+    public static boolean handleStoryCompanionWeaponGift(obj_id pet, obj_id item, obj_id giver) throws InterruptedException
+    {
+        if (!isStoryCompanionPet(pet) || !isIdValid(item) || !exists(item) || !isWeapon(item))
+        {
+            return false;
+        }
+        if (!beast_lib.isValidPlayer(giver))
+        {
+            return false;
+        }
+        obj_id master = getMaster(pet);
+        if (!isIdValid(master) || giver != master)
+        {
+            return false;
+        }
+        obj_id petInv = utils.getInventoryContainer(pet);
+        if (!isIdValid(petInv))
+        {
+            return false;
+        }
+        obj_id ownerInv = utils.getInventoryContainer(giver);
+        if (!isIdValid(ownerInv))
+        {
+            return false;
+        }
+        obj_id cur = getCurrentWeapon(pet);
+        if (!isIdValid(cur))
+        {
+            cur = getDefaultWeapon(pet);
+        }
+        if (isIdValid(cur) && exists(cur) && cur != item)
+        {
+            if (utils.hasScriptVar(cur, "isCreatureWeapon") || hasObjVar(cur, "isCreatureWeapon"))
+            {
+                destroyObject(cur);
+            }
+            else
+            {
+                if (!putIn(cur, ownerInv, giver))
+                {
+                    sendSystemMessage(giver, string_id.unlocalized("No room in your inventory for the companion's old weapon."));
+                    return false;
+                }
+            }
+        }
+        if (getContainedBy(item) != petInv)
+        {
+            if (!putIn(item, petInv, giver))
+            {
+                sendSystemMessage(giver, string_id.unlocalized("Could not move the weapon to your companion."));
+                return false;
+            }
+        }
+        if (!setCurrentWeapon(pet, item))
+        {
+            sendSystemMessage(giver, string_id.unlocalized("Your companion could not equip that weapon."));
+            return true;
+        }
+        sendSystemMessage(giver, string_id.unlocalized("Your companion equips the new weapon; the old one was moved to your inventory."));
+        return true;
     }
     public static void toggleCompanionWeaponModeFromBar(obj_id player) throws InterruptedException
     {
@@ -777,6 +866,10 @@ public class companion_lib extends script.base_script
             return false;
         }
         if (commandName.startsWith("companion_bar"))
+        {
+            return false;
+        }
+        if (commandName.indexOf(PET_BAR_CMD_DISPLAY_SEPARATOR) >= 0)
         {
             return false;
         }

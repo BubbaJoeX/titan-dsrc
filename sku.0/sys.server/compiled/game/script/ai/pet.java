@@ -1881,6 +1881,10 @@ public class pet extends script.base_script
         {
             return SCRIPT_CONTINUE;
         }
+        if (companion_lib.handleStoryCompanionWeaponGift(self, item, player))
+        {
+            return SCRIPT_CONTINUE;
+        }
         if (pet_lib.isDroidPet(self))
         {
             if (!pet_lib.hasContainer(self))
