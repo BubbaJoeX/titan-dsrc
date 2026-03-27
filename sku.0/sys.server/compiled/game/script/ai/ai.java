@@ -2556,13 +2556,16 @@ public class ai extends script.base_script
 
     public int OnHearSpeech(obj_id self, obj_id speaker, String text) throws Exception
     {
-        if (isGod(speaker) && getDistance(self, speaker) < 2.5f && hasObjVar(speaker, "player_ai"))
+        /*if (isGod(speaker) && getDistance(self, speaker) < 2.5f && hasObjVar(speaker, "player_ai"))
         {
             String response = openwebui.getChatCompletion(openwebui.API_KEY, self, text, speaker);
-            chat.chat(self, response);
-            showFlyText(self, string_id.unlocalized("!"), 3.0f, colors.YELLOW);
-             return SCRIPT_CONTINUE;
-        }
+            if (response != null && !response.isEmpty())
+            {
+                chat.chat(self, response);
+                showFlyText(self, string_id.unlocalized("!"), 3.0f, colors.YELLOW);
+            }
+            return SCRIPT_CONTINUE;
+        }*/
         return SCRIPT_CONTINUE;
     }
 

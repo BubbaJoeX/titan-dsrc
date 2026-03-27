@@ -35,9 +35,13 @@ public class ai_brain extends script.base_script
             return SCRIPT_CONTINUE;
         }
 
-        if (getDistance(self, speaker) < 4.5f)
+        if (getDistance(self, speaker) < 4.5f && openwebui.OLLAMA_ENABLED)
         {
-            debugSpeakMsg(self, openwebui.getChatCompletion(openwebui.API_KEY, self, text, speaker));
+            String reply = openwebui.getChatCompletion(openwebui.API_KEY, self, text, speaker);
+            if (reply != null && !reply.isEmpty())
+            {
+                debugSpeakMsg(self, reply);
+            }
         }
 
         return SCRIPT_CONTINUE;

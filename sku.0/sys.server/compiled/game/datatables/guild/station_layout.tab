@@ -1,2 +1,15 @@
 template	x	y	z	cell	scale_x	scale_y	scale_z	script	objvars
 s	f	f	f	s	f	f	f	s	p
+object/tangible/terminal/terminal_elevator.iff	37.769646	-0.550376	-1.251058	elevator	1.000000	1.000000	1.000000	script.systems.elevator.elevator	$|
+object/tangible/terminal/terminal_elevator_up.iff	37.752262	-30.532896	-1.252314	elevator	1.000000	1.000000	1.000000	script.systems.elevator.elevator_up	$|
+object/tangible/terminal/terminal_elevator_down.iff	37.773235	29.442461	-1.250329	elevator	1.000000	1.000000	1.000000	script.systems.elevator.elevator_down	$|
+object/tangible/terminal/terminal_quad_screen.iff	-15.449516	0.613310	47.502087	inaldra	1.000000	1.000000	1.000000	script.guild.guild_space_station_terminal	$|
+object/static/item/item_star_destroyer_starfield_box.iff	52.432171	0.800000	-38.199257	hangarbay2	1.000000	1.000000	1.000000		$|
+object/static/item/item_star_destroyer_starfield_box.iff	57.807697	0.800000	42.338501	hangarbay1	1.000000	1.000000	1.000000		$|
+object/static/worldbuilding/building/thm_all_energy_coil_s01.iff	60.926258	27.783552	35.036304	hangarbay1	2.152970	2.152970	2.152970		$|
+object/static/worldbuilding/building/echo_base_hb_sign.iff	30.362591	4.772731	22.054422	hall4	1.695700	1.695700	1.695700		$|
+object/static/worldbuilding/building/echo_base_hb_sign.iff	30.413254	4.780484	-22.108551	hall3	1.695700	1.695700	1.695700		$|
+object/static/worldbuilding/building/echo_base_rec_sign.iff	28.533062	1.459836	-0.060891	hall3	2.011930	2.011930	2.011930		$|
+object/tangible/sign/player/shop_sign_s02.iff	-12.227897	0.800000	32.459896	hall1	1.000000	1.000000	1.000000	script.systems.sign.sign	sign.godCustomName|4|Guild Master's Chambers|$|
+object/static/worldbuilding/building/echo_base_cm_sign.iff	-11.463852	4.751574	35.315502	hall1	1.695700	1.695700	1.695700		$|
+object/static/worldbuilding/building/echo_base_med_sign.iff	-30.217041	4.760163	21.952349	hall1	1.664080	1.664080	1.664080		$|

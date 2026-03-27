@@ -2102,6 +2102,10 @@ public class pet extends script.base_script
     }
     public int OnSawEmote(obj_id self, obj_id performer, String emote) throws InterruptedException
     {
+        if (!isIdValid(self) || !exists(self))
+        {
+            return SCRIPT_CONTINUE;
+        }
         obj_id master = getMaster(self);
         if (performer != master)
         {

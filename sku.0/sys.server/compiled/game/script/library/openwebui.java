@@ -13,12 +13,19 @@ import java.util.Arrays;
 public class openwebui extends script.base_script
 {
 
+    /** Set true to call the remote Ollama endpoint; false skips HTTP and avoids 401/NPE in AI triggers. */
+    public static final boolean OLLAMA_ENABLED = false;
+
     public static final String API_KEY = "sk-15a20859ffd140d1b0c8025f08b7b0e4";
     public static final String MODEL = "llama3:latest";
     public static final String PROMPT_LIMITER = "Respond to the prompt in character, with no more than 200 characters, unless you need to finish the sentence but you MUST keep it short. Context: ";
 
     public static String getChatCompletion(String apiKey, obj_id target, String prompt, obj_id speaker) throws Exception
     {
+        if (!OLLAMA_ENABLED)
+        {
+            return "";
+        }
         String url = "http://swgor.com:8888/ollama/api/generate";
         HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
         connection.setRequestMethod("POST");
@@ -70,6 +77,10 @@ public class openwebui extends script.base_script
 
     public static String getCompletion(String apiKey, String prompt) throws Exception
     {
+        if (!OLLAMA_ENABLED)
+        {
+            return "[Ollama disabled]";
+        }
         String url = "http://swgor.com:8888/ollama/api/generate";
         HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
         connection.setRequestMethod("POST");
@@ -133,12 +144,18 @@ public class openwebui extends script.base_script
 
     public static String[] buildCulture(obj_id target, obj_id speaker)
     {
-        String speakerName = getPlayerFullName(speaker);
-        String currentPlanet = getLocation(target).area;
+        if (target == null || !isIdValid(target))
+        {
+            String sn = (speaker != null && isIdValid(speaker)) ? getPlayerFullName(speaker) : "?";
+            return new String[]{"?", "?", "?", "?", "?", sn, "?", "?", "?"};
+        }
+        location loc = getLocation(target);
+        String speakerName = (speaker != null && isIdValid(speaker)) ? getPlayerFullName(speaker) : "?";
+        String currentPlanet = (loc != null && loc.area != null) ? loc.area : "?";
         String template = getTemplateName(target);
         String name = getEncodedName(target);
         float size = getScale(target);
-        String location = getLocation(target).toReadableFormat(true);
+        String location = (loc != null) ? loc.toReadableFormat(true) : "?";
         String[] scripts = getScriptList(target);
         int species = getSpecies(target);
 
