@@ -24,6 +24,11 @@ public class companion_lib extends script.base_script
     /** Up to four player commands the owner teaches; stored on PCD and pet (humanoid bar). */
     public static final String OBJVAR_TAUGHT_ABILITIES = "companion.taughtAbilities";
     public static final int TAUGHT_SLOT_COUNT = 4;
+    /**
+     * Three programmable pet-bar slots (attack / follow / stay style) — slash command names the owner assigns; stored on PCD and pet.
+     */
+    public static final String OBJVAR_CORE_BAR_COMMANDS = "companion.coreBarCommands";
+    public static final int CORE_BAR_SLOT_COUNT = 3;
     public static final String COMMAND_TABLE_PATH = "datatables/command/command_table.iff";
     /** Player command names (see command_table.tab + player_beastmaster); used instead of beast_specials for humanoid skeleton companions. */
     public static final String CMD_BAR_WEAPON_TOGGLE = "companion_bar_weapon_toggle";
@@ -31,7 +36,18 @@ public class companion_lib extends script.base_script
     public static final String CMD_BAR_SLOT_B = "companion_bar_slot_b";
     public static final String CMD_BAR_SLOT_C = "companion_bar_slot_c";
     public static final String CMD_BAR_SLOT_D = "companion_bar_slot_d";
-    public static final String[] HUMANOID_COMPANION_BAR_COMMANDS = 
+    /** Executable pet-bar wrappers (suffix avoids client icon path stripping on {@code _0}). */
+    public static final String CMD_BAR_CORE_SLOT_0 = "companion_bar_core_slot0";
+    public static final String CMD_BAR_CORE_SLOT_1 = "companion_bar_core_slot1";
+    public static final String CMD_BAR_CORE_SLOT_2 = "companion_bar_core_slot2";
+    public static final String[] COMPANION_CORE_BAR_WRAPPER_COMMANDS = 
+    {
+        CMD_BAR_CORE_SLOT_0,
+        CMD_BAR_CORE_SLOT_1,
+        CMD_BAR_CORE_SLOT_2
+    };
+    /** Granted with {@link #COMPANION_CORE_BAR_WRAPPER_COMMANDS} when a story companion pet bar is active. */
+    public static final String[] HUMANOID_COMPANION_ONLY_BAR_COMMANDS = 
     {
         CMD_BAR_WEAPON_TOGGLE,
         CMD_BAR_SLOT_A,
@@ -417,12 +433,23 @@ public class companion_lib extends script.base_script
         }
         setObjVar(cd, OBJVAR_STORY_COMPANION_ID, companionId);
         setObjVar(cd, OBJVAR_COMBAT_STANCE, stance);
-        setObjVar(cd, OBJVAR_TAUGHT_ABILITIES, new String[]
+        String[] taughtEmpty = 
         {
             "empty",
             "empty",
+            "empty",
             "empty"
-        });
+        };
+        setObjVar(cd, OBJVAR_TAUGHT_ABILITIES, taughtEmpty);
+        setObjVar(pet, OBJVAR_TAUGHT_ABILITIES, taughtEmpty);
+        String[] coreDefaults = 
+        {
+            beast_lib.BM_COMMAND_ATTACK,
+            beast_lib.BM_COMMAND_FOLLOW,
+            beast_lib.BM_COMMAND_STAY
+        };
+        setObjVar(cd, OBJVAR_CORE_BAR_COMMANDS, coreDefaults);
+        setObjVar(pet, OBJVAR_CORE_BAR_COMMANDS, coreDefaults);
         if (!hasScript(cd, "systems.companion.companion_story_pcd"))
         {
             attachScript(cd, "systems.companion.companion_story_pcd");
@@ -597,6 +624,10 @@ public class companion_lib extends script.base_script
         {
             copyObjVar(pcd, pet, OBJVAR_TAUGHT_ABILITIES);
         }
+        if (hasObjVar(pcd, OBJVAR_CORE_BAR_COMMANDS))
+        {
+            copyObjVar(pcd, pet, OBJVAR_CORE_BAR_COMMANDS);
+        }
         syncCompanionTaughtCommandGrants(pet);
     }
     /**
@@ -649,38 +680,52 @@ public class companion_lib extends script.base_script
     {
         return isStoryCompanionPet(pet) && ai_lib.isHumanSkeleton(pet);
     }
-    public static void grantHumanoidCompanionBarCommands(obj_id player) throws InterruptedException
+    public static void grantCompanionCoreBarUiCommands(obj_id player) throws InterruptedException
     {
         if (!beast_lib.isValidPlayer(player))
         {
             return;
         }
-        for (int i = 0; i < HUMANOID_COMPANION_BAR_COMMANDS.length; ++i)
+        for (int i = 0; i < COMPANION_CORE_BAR_WRAPPER_COMMANDS.length; ++i)
         {
-            grantCommand(player, HUMANOID_COMPANION_BAR_COMMANDS[i]);
+            grantCommand(player, COMPANION_CORE_BAR_WRAPPER_COMMANDS[i]);
         }
+    }
+    public static void grantHumanoidCompanionOnlyBarCommands(obj_id player) throws InterruptedException
+    {
+        if (!beast_lib.isValidPlayer(player))
+        {
+            return;
+        }
+        for (int i = 0; i < HUMANOID_COMPANION_ONLY_BAR_COMMANDS.length; ++i)
+        {
+            grantCommand(player, HUMANOID_COMPANION_ONLY_BAR_COMMANDS[i]);
+        }
+    }
+    /** Revokes every story-companion pet bar UI command (core wrappers + humanoid-only). */
+    public static void revokeStoryCompanionPetBarUiCommands(obj_id player) throws InterruptedException
+    {
+        if (!beast_lib.isValidPlayer(player))
+        {
+            return;
+        }
+        for (int i = 0; i < COMPANION_CORE_BAR_WRAPPER_COMMANDS.length; ++i)
+        {
+            revokeCommand(player, COMPANION_CORE_BAR_WRAPPER_COMMANDS[i]);
+        }
+        for (int i = 0; i < HUMANOID_COMPANION_ONLY_BAR_COMMANDS.length; ++i)
+        {
+            revokeCommand(player, HUMANOID_COMPANION_ONLY_BAR_COMMANDS[i]);
+        }
+    }
+    public static void grantHumanoidCompanionBarCommands(obj_id player) throws InterruptedException
+    {
+        grantCompanionCoreBarUiCommands(player);
+        grantHumanoidCompanionOnlyBarCommands(player);
     }
     public static void revokeHumanoidCompanionBarCommands(obj_id player) throws InterruptedException
     {
-        if (!beast_lib.isValidPlayer(player))
-        {
-            return;
-        }
-        for (int i = 0; i < HUMANOID_COMPANION_BAR_COMMANDS.length; ++i)
-        {
-            revokeCommand(player, HUMANOID_COMPANION_BAR_COMMANDS[i]);
-        }
-    }
-    public static String[] getHumanoidStoryCompanionTrainedCommands()
-    {
-        return new String[]
-        {
-            CMD_BAR_WEAPON_TOGGLE,
-            CMD_BAR_SLOT_A,
-            CMD_BAR_SLOT_B,
-            CMD_BAR_SLOT_C,
-            CMD_BAR_SLOT_D
-        };
+        revokeStoryCompanionPetBarUiCommands(player);
     }
     /** Slot placeholder commands for the four teachable humanoid bar positions (matches {@link #TAUGHT_SLOT_COUNT}). */
     public static String[] getHumanoidCompanionSlotPlaceholders()
@@ -738,11 +783,15 @@ public class companion_lib extends script.base_script
     public static String[] buildHumanoidStoryCompanionPetBar(obj_id player, obj_id pet) throws InterruptedException
     {
         String[] barData = (String[])beast_lib.PET_BAR_DEFAULT_ARRAY.clone();
-        barData[0] = "empty";
-        barData[1] = "empty";
-        barData[2] = "empty";
         barData[7] = beast_lib.BM_COMMAND_DISABLED;
         barData[8] = beast_lib.BM_COMMAND_DISABLED;
+        String[] coreCmd = getCoreBarCommandsArray(pet);
+        for (int i = 0; i < CORE_BAR_SLOT_COUNT; ++i)
+        {
+            String w = getCoreBarWrapperCommandForIndex(i);
+            String c = coreCmd[i];
+            barData[i] = encodeCompanionBarSlotForClientUi(w, (c == null || c.equals("empty")) ? "" : c);
+        }
         String[] cmds = getHumanoidCompanionSlotPlaceholders();
         String[] taught = getTaughtAbilitiesArray(pet);
         for (int i = 0; i < 4; ++i)
@@ -868,6 +917,50 @@ public class companion_lib extends script.base_script
         }
         return def;
     }
+    public static String getCoreBarWrapperCommandForIndex(int index)
+    {
+        switch (index)
+        {
+            case 0:
+            return CMD_BAR_CORE_SLOT_0;
+            case 1:
+            return CMD_BAR_CORE_SLOT_1;
+            case 2:
+            return CMD_BAR_CORE_SLOT_2;
+            default:
+            return "";
+        }
+    }
+    public static String[] getCoreBarCommandsArray(obj_id obj) throws InterruptedException
+    {
+        if (!isIdValid(obj) || !exists(obj) || !hasObjVar(obj, OBJVAR_CORE_BAR_COMMANDS))
+        {
+            return new String[]
+            {
+                beast_lib.BM_COMMAND_ATTACK,
+                beast_lib.BM_COMMAND_FOLLOW,
+                beast_lib.BM_COMMAND_STAY
+            };
+        }
+        String[] def = new String[CORE_BAR_SLOT_COUNT];
+        for (int i = 0; i < CORE_BAR_SLOT_COUNT; ++i)
+        {
+            def[i] = "empty";
+        }
+        String[] raw = getStringArrayObjVar(obj, OBJVAR_CORE_BAR_COMMANDS);
+        if (raw == null || raw.length < 1)
+        {
+            return def;
+        }
+        for (int i = 0; i < CORE_BAR_SLOT_COUNT; ++i)
+        {
+            if (i < raw.length && raw[i] != null && raw[i].length() > 0)
+            {
+                def[i] = raw[i];
+            }
+        }
+        return def;
+    }
     public static boolean canPlayerTeachCommandToCompanion(obj_id player, String commandName) throws InterruptedException
     {
         if (!beast_lib.isValidPlayer(player) || commandName == null || commandName.length() < 1)
@@ -900,6 +993,71 @@ public class companion_lib extends script.base_script
             return false;
         }
         return true;
+    }
+    /**
+     * Core bar slots accept standard pet / beastmaster commands (and any command the strict ability teach path allows).
+     */
+    public static boolean canPlayerTeachCoreBarCommand(obj_id player, String commandName) throws InterruptedException
+    {
+        if (canPlayerTeachCommandToCompanion(player, commandName))
+        {
+            return true;
+        }
+        if (!beast_lib.isValidPlayer(player) || commandName == null || commandName.length() < 1)
+        {
+            return false;
+        }
+        if (commandName.equals("empty"))
+        {
+            return false;
+        }
+        if (commandName.startsWith("companion_bar"))
+        {
+            return false;
+        }
+        if (commandName.indexOf(PET_BAR_CMD_DISPLAY_SEPARATOR) >= 0)
+        {
+            return false;
+        }
+        if (!hasCommand(player, commandName))
+        {
+            return false;
+        }
+        if (dataTableSearchColumnForString(commandName, "commandName", COMMAND_TABLE_PATH) < 0)
+        {
+            return false;
+        }
+        String hook = dataTableGetString(COMMAND_TABLE_PATH, commandName, "scriptHook");
+        if (hook != null && hook.length() > 0)
+        {
+            return true;
+        }
+        return commandName.startsWith("bm_") || commandName.startsWith("pet");
+    }
+    public static String[] getCompanionCoreBarTrainableCommandList(obj_id player) throws InterruptedException
+    {
+        String[] all = getCommandListingForPlayer(player);
+        if (all == null || all.length < 1)
+        {
+            return new String[0];
+        }
+        Vector v = new Vector();
+        for (int i = 0; i < all.length; ++i)
+        {
+            String c = all[i];
+            if (c == null)
+            {
+                continue;
+            }
+            if (canPlayerTeachCoreBarCommand(player, c))
+            {
+                v.addElement(c);
+            }
+        }
+        String[] out = new String[v.size()];
+        v.copyInto(out);
+        Arrays.sort(out);
+        return out;
     }
     public static String[] getCompanionTrainableCommandList(obj_id player) throws InterruptedException
     {
@@ -993,6 +1151,70 @@ public class companion_lib extends script.base_script
             sendSystemMessage(player, string_id.unlocalized("Companion will use \"" + normalized + "\" from pet bar slot " + (slot + 1) + " (separate cooldown from the companion)."));
         }
     }
+    public static void setCoreBarCommandOnPcd(obj_id pcd, int slot, String commandName, obj_id player) throws InterruptedException
+    {
+        if (!isStoryCompanionControlDevice(pcd) || slot < 0 || slot >= CORE_BAR_SLOT_COUNT || !beast_lib.isValidPlayer(player))
+        {
+            return;
+        }
+        String normalized = commandName == null ? "empty" : commandName.trim();
+        if (normalized.length() < 1)
+        {
+            normalized = "empty";
+        }
+        if (!normalized.equals("empty") && !canPlayerTeachCoreBarCommand(player, normalized))
+        {
+            sendSystemMessage(player, string_id.unlocalized("You cannot assign that command to this companion core bar slot."));
+            return;
+        }
+        String[] c = getCoreBarCommandsArray(pcd);
+        c[slot] = normalized;
+        setObjVar(pcd, OBJVAR_CORE_BAR_COMMANDS, c);
+        obj_id pet = callable.getCDCallable(pcd);
+        if (isIdValid(pet) && exists(pet) && isStoryCompanionPet(pet))
+        {
+            setObjVar(pet, OBJVAR_CORE_BAR_COMMANDS, c);
+            refreshStoryCompanionPetBar(player, pet);
+        }
+        if (normalized.equals("empty"))
+        {
+            sendSystemMessage(player, string_id.unlocalized("Companion core bar slot " + (slot + 1) + " cleared (generic icon until you assign a command)."));
+        }
+        else
+        {
+            sendSystemMessage(player, string_id.unlocalized("Companion core bar slot " + (slot + 1) + " will run \"" + normalized + "\"."));
+        }
+    }
+    public static void executeCompanionCoreBarSlot(obj_id player, int slotIndex) throws InterruptedException
+    {
+        if (slotIndex < 0 || slotIndex >= CORE_BAR_SLOT_COUNT)
+        {
+            return;
+        }
+        obj_id pet = getPetBarCombatCreature(player);
+        if (!isStoryCompanionPet(pet))
+        {
+            sendSystemMessage(player, string_id.unlocalized("No story companion is active."));
+            return;
+        }
+        String[] core = getCoreBarCommandsArray(pet);
+        String cmd = core[slotIndex];
+        if (cmd == null || cmd.equals("empty"))
+        {
+            sendSystemMessage(player, string_id.unlocalized("Assign a command to this core slot from the companion control device."));
+            return;
+        }
+        obj_id target = getIntendedTarget(player);
+        if (!isIdValid(target))
+        {
+            target = getLookAtTarget(player);
+        }
+        if (!isIdValid(target))
+        {
+            target = player;
+        }
+        queueCommand(player, getStringCrc(cmd.toLowerCase()), target, "", COMMAND_PRIORITY_DEFAULT);
+    }
     public static void executeCompanionTaughtSlot(obj_id player, int slotIndex) throws InterruptedException
     {
         if (slotIndex < 0 || slotIndex >= TAUGHT_SLOT_COUNT)
@@ -1079,11 +1301,15 @@ public class companion_lib extends script.base_script
     public static String[] buildStoryCompanionPetBar(obj_id player, obj_id pet, String[] knownSkills) throws InterruptedException
     {
         String[] barData = (String[])beast_lib.PET_BAR_DEFAULT_ARRAY.clone();
-        barData[0] = "empty";
-        barData[1] = "empty";
-        barData[2] = "empty";
         barData[7] = beast_lib.BM_COMMAND_DISABLED;
         barData[8] = beast_lib.BM_COMMAND_DISABLED;
+        String[] coreCmd = getCoreBarCommandsArray(pet);
+        for (int i = 0; i < CORE_BAR_SLOT_COUNT; ++i)
+        {
+            String w = getCoreBarWrapperCommandForIndex(i);
+            String c = coreCmd[i];
+            barData[i] = encodeCompanionBarSlotForClientUi(w, (c == null || c.equals("empty")) ? "" : c);
+        }
         for (int i = 0; i < 4; ++i)
         {
             String s = "empty";
@@ -1104,10 +1330,11 @@ public class companion_lib extends script.base_script
         {
             return;
         }
+        revokeHumanoidCompanionBarCommands(player);
+        grantCompanionCoreBarUiCommands(player);
         if (usesHumanoidStoryCompanionPetBar(pet))
         {
-            revokeHumanoidCompanionBarCommands(player);
-            grantHumanoidCompanionBarCommands(player);
+            grantHumanoidCompanionOnlyBarCommands(player);
             String[] trained = buildHumanoidStoryCompanionTrainedSkillsForPet(pet);
             setObjVar(pet, beast_lib.PET_TRAINED_SKILLS_LIST, trained);
             String[] bar = buildHumanoidStoryCompanionPetBar(player, pet);
@@ -1116,7 +1343,6 @@ public class companion_lib extends script.base_script
         }
         else
         {
-            revokeHumanoidCompanionBarCommands(player);
             String companionId = getStringObjVar(pet, OBJVAR_STORY_COMPANION_ID);
             String[] trained = getStoryCompanionTrainedSkillsFromTable(companionId);
             setObjVar(pet, beast_lib.PET_TRAINED_SKILLS_LIST, trained);

@@ -774,6 +774,21 @@ public class player_beastmaster extends script.base_script
         companion_lib.executeCompanionTaughtSlot(self, 3);
         return SCRIPT_CONTINUE;
     }
+    public int companion_bar_core_slot0(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException
+    {
+        companion_lib.executeCompanionCoreBarSlot(self, 0);
+        return SCRIPT_CONTINUE;
+    }
+    public int companion_bar_core_slot1(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException
+    {
+        companion_lib.executeCompanionCoreBarSlot(self, 1);
+        return SCRIPT_CONTINUE;
+    }
+    public int companion_bar_core_slot2(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException
+    {
+        companion_lib.executeCompanionCoreBarSlot(self, 2);
+        return SCRIPT_CONTINUE;
+    }
     public int bm_pet_trick_1(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException
     {
         obj_id beast = beast_lib.getBeastOnPlayer(self);
