@@ -674,6 +674,30 @@ public class companion_lib extends script.base_script
             CMD_BAR_SLOT_C
         };
     }
+    /**
+     * Values for {@link beast_lib#PET_TRAINED_SKILLS_LIST}: the client and {@link beast_lib#canPerformCommand} use this list for
+     * pet-bar slot labels/icons and for validating actions queued on the pet. Slots 1–3 must reflect taught player commands when set
+     * (not only the {@code companion_bar_slot_*} placeholders), or the bar will not update and taught abilities will not validate.
+     */
+    public static String[] buildHumanoidStoryCompanionTrainedSkillsForPet(obj_id pet) throws InterruptedException
+    {
+        String[] cmds = getHumanoidStoryCompanionTrainedCommands();
+        String[] out = new String[4];
+        out[0] = cmds[0];
+        String[] taught = getTaughtAbilitiesArray(pet);
+        for (int i = 0; i < 3; ++i)
+        {
+            if (taught[i] != null && !taught[i].equals("empty"))
+            {
+                out[i + 1] = taught[i];
+            }
+            else
+            {
+                out[i + 1] = cmds[i + 1];
+            }
+        }
+        return out;
+    }
     public static String[] buildHumanoidStoryCompanionPetBar(obj_id player, obj_id pet) throws InterruptedException
     {
         String[] barData = (String[])beast_lib.PET_BAR_DEFAULT_ARRAY.clone();
@@ -989,7 +1013,7 @@ public class companion_lib extends script.base_script
         {
             revokeHumanoidCompanionBarCommands(player);
             grantHumanoidCompanionBarCommands(player);
-            String[] trained = getHumanoidStoryCompanionTrainedCommands();
+            String[] trained = buildHumanoidStoryCompanionTrainedSkillsForPet(pet);
             setObjVar(pet, beast_lib.PET_TRAINED_SKILLS_LIST, trained);
             String[] bar = buildHumanoidStoryCompanionPetBar(player, pet);
             setBeastmasterPet(player, pet);

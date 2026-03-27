@@ -2764,6 +2764,21 @@ public class beast_lib extends script.base_script
                     }
                 }
             }
+            if (companion_lib.isStoryCompanionPet(pet) && companion_lib.usesHumanoidStoryCompanionPetBar(pet))
+            {
+                if ("meleeHit".equals(command) || "rangedShot".equals(command))
+                {
+                    return true;
+                }
+                String[] taught = companion_lib.getTaughtAbilitiesArray(pet);
+                for (int ti = 0; ti < taught.length; ++ti)
+                {
+                    if (taught[ti] != null && !taught[ti].equals("empty") && taught[ti].equals(command))
+                    {
+                        return true;
+                    }
+                }
+            }
             return false;
         }
         int additionalAbilitySlot = getSkillStatisticModifier(player, "expertise_bm_add_pet_bar");
