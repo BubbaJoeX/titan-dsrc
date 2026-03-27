@@ -485,6 +485,7 @@ public class pet_control_device extends script.base_script
         if (isIdValid(pet) && companion_lib.isStoryCompanionControlDevice(pcd))
         {
             companion_lib.copyStoryCompanionIdentityFromPcdToPet(pcd, pet);
+            companion_lib.applyStoryCompanionFactionFromOwner(player, pet);
             pet_lib.setCraftedPetStatsByGrowth(pcd, pet, 10);
         }
         if (pet_lib.isMountPcd(pcd))

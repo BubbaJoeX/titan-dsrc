@@ -4106,8 +4106,24 @@ public class pet_lib extends script.base_script
                 obj_id currentPet = callable.getCDCallable(controller);
                 if (isIdValid(currentPet) && currentPet != pet)
                 {
-                    destroyObject(pet);
-                    return;
+                    if (companion_lib.isStoryCompanionPet(pet))
+                    {
+                        callable.setCDCallable(controller, pet);
+                        obj_id m = getMaster(pet);
+                        if (beast_lib.isValidPlayer(m))
+                        {
+                            String strObjVar = callable.getCallableTypeObjVar(callable.CALLABLE_TYPE_COMBAT_PET);
+                            if (strObjVar != null)
+                            {
+                                utils.setScriptVar(m, strObjVar, pet);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        destroyObject(pet);
+                        return;
+                    }
                 }
             }
         }
@@ -4401,6 +4417,10 @@ public class pet_lib extends script.base_script
     }
     public static boolean isSameFaction(obj_id pet, obj_id master) throws InterruptedException
     {
+        if (companion_lib.isStoryCompanionPet(pet))
+        {
+            return true;
+        }
         String creatureName = getCreatureName(pet);
         if (creatureName == null || creatureName.equals(""))
         {
