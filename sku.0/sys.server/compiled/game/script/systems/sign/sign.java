@@ -302,13 +302,13 @@ public class sign extends script.base_script
         if (text.isEmpty())
         {
             removeObjVar(self, OV_SIGN_GOD_CUSTOM_NAME);
-            sendSystemMessage(player, "God custom sign name cleared (" + OV_SIGN_GOD_CUSTOM_NAME + ").");
+            sendSystemMessage(player, "God custom sign name cleared (" + OV_SIGN_GOD_CUSTOM_NAME + ").", null);
             CustomerServiceLog("playerStructure", "God " + getPlayerFullName(player) + " cleared god sign name on " + self);
             return SCRIPT_CONTINUE;
         }
         setObjVar(self, OV_SIGN_GOD_CUSTOM_NAME, text);
         setName(self, text);
-        sendSystemMessage(player, "Sign name set and saved.");
+        sendSystemMessage(player, "Sign name set and saved.", null);
         CustomerServiceLog("playerStructure", "God " + getPlayerFullName(player) + " set god sign name on " + self + " to: " + text);
         return SCRIPT_CONTINUE;
     }
