@@ -508,6 +508,7 @@ public class player_travel extends script.base_script
     {
         LOG("LOG_CHANNEL", "player_travel::msgTravelToStarport -- " + self + "  " + params);
         location loc = params.getLocation("location");
+        space_transition.detachPlayerFromShipForCrossSceneWarp(self);
         warpPlayer(self, loc.area, loc.x, loc.y, loc.z, null, 0.0f, 0.0f, 0.0f);
         return SCRIPT_CONTINUE;
     }

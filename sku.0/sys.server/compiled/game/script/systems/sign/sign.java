@@ -25,10 +25,49 @@ public class sign extends script.base_script
     public static final string_id SID_NOT_CITY_ABANDONED = new string_id("city/city", "not_city_abandoned");
     public static final int cityMinTimeDelayBetweenSameServerRequests = 300;
     public static final String cityTimeOfLastSameServerRequest = "timeOfLastSameServerRequest";
+    /** Persisted display name when set by a god (see God: Set Sign Name). */
+    public static final String OV_SIGN_GOD_CUSTOM_NAME = "sign.godCustomName";
+    public static final int MAX_SIGN_GOD_NAME_LEN = 128;
     //@TODO: Add in custom door bell
 
     public sign()
     {
+    }
+
+    public int OnInitialize(obj_id self) throws InterruptedException
+    {
+        applyGodCustomSignName(self);
+        return SCRIPT_CONTINUE;
+    }
+
+    public int OnAttach(obj_id self) throws InterruptedException
+    {
+        applyGodCustomSignName(self);
+        return SCRIPT_CONTINUE;
+    }
+
+    private void applyGodCustomSignName(obj_id self) throws InterruptedException
+    {
+        if (!isIdValid(self) || !exists(self) || !hasObjVar(self, OV_SIGN_GOD_CUSTOM_NAME))
+        {
+            return;
+        }
+        String n = getStringObjVar(self, OV_SIGN_GOD_CUSTOM_NAME);
+        if (n == null)
+        {
+            return;
+        }
+        n = n.trim();
+        if (n.isEmpty())
+        {
+            removeObjVar(self, OV_SIGN_GOD_CUSTOM_NAME);
+            return;
+        }
+        if (n.length() > MAX_SIGN_GOD_NAME_LEN)
+        {
+            n = n.substring(0, MAX_SIGN_GOD_NAME_LEN);
+        }
+        setName(self, n);
     }
 
     public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi) throws InterruptedException
@@ -38,17 +77,21 @@ public class sign extends script.base_script
         {
             menuData.setServerNotify(true);
         }
+        if (isGod(player))
+        {
+            mi.addRootMenu(menu_info_types.SERVER_MENU12, string_id.unlocalized("God: Set Sign Name"));
+        }
         deltadictionary scriptvars = self.getScriptVars();
         if (!utils.hasScriptVar(self, "player_structure.parent"))
         {
-            LOG("sissynoid", "Player (" + player + ")" + getPlayerFullName(player) + " attempted to access a house sign(" + self + ") - and the sign has no parent (parent is the House ObjId).");
-            CustomerServiceLog("playerStructure", "Player (" + player + ")" + getPlayerFullName(player) + " attempted to access a house sign(" + self + ") - and the sign has no parent (parent is the House ObjId).");
+            if (!isGod(player))
+            {
+                LOG("sissynoid", "Player (" + player + ")" + getPlayerFullName(player) + " attempted to access a house sign(" + self + ") - and the sign has no parent (parent is the House ObjId).");
+                CustomerServiceLog("playerStructure", "Player (" + player + ")" + getPlayerFullName(player) + " attempted to access a house sign(" + self + ") - and the sign has no parent (parent is the House ObjId).");
+            }
             return SCRIPT_CONTINUE;
         }
-        else
-        {
-            mi.addRootMenu(menu_info_types.SERVER_MENU3, new string_id("Ring Doorbell"));
-        }
+        mi.addRootMenu(menu_info_types.SERVER_MENU3, new string_id("Ring Doorbell"));
         obj_id house = scriptvars.getObjId("player_structure.parent");
         if (player_structure.canShowPackOption(player, house))
         {
@@ -65,6 +108,22 @@ public class sign extends script.base_script
 
     public int OnObjectMenuSelect(obj_id self, obj_id player, int item) throws InterruptedException
     {
+        if (item == menu_info_types.SERVER_MENU12)
+        {
+            if (!isGod(player))
+            {
+                return SCRIPT_CONTINUE;
+            }
+            String def = "";
+            if (hasObjVar(self, OV_SIGN_GOD_CUSTOM_NAME))
+            {
+                def = getStringObjVar(self, OV_SIGN_GOD_CUSTOM_NAME);
+            }
+            String prompt = "Enter display name for this sign (saved to objvar " + OV_SIGN_GOD_CUSTOM_NAME + "). Leave empty to clear.";
+            String title = "God: Sign Name";
+            sui.inputbox(self, player, prompt, title, "handleSignGodCustomName", MAX_SIGN_GOD_NAME_LEN, false, def);
+            return SCRIPT_CONTINUE;
+        }
         if (item == menu_info_types.ITEM_USE)
         {
             obj_id parent = obj_id.NULL_ID;
@@ -212,6 +271,45 @@ public class sign extends script.base_script
                 }
             }
         }
+        return SCRIPT_CONTINUE;
+    }
+
+    public int handleSignGodCustomName(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (params == null || params.isEmpty())
+        {
+            return SCRIPT_CONTINUE;
+        }
+        obj_id player = sui.getPlayerId(params);
+        if (!isIdValid(player) || !isGod(player))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        if (sui.getIntButtonPressed(params) == sui.BP_CANCEL)
+        {
+            return SCRIPT_CONTINUE;
+        }
+        String text = sui.getInputBoxText(params);
+        if (text == null)
+        {
+            text = "";
+        }
+        text = text.trim();
+        if (text.length() > MAX_SIGN_GOD_NAME_LEN)
+        {
+            text = text.substring(0, MAX_SIGN_GOD_NAME_LEN);
+        }
+        if (text.isEmpty())
+        {
+            removeObjVar(self, OV_SIGN_GOD_CUSTOM_NAME);
+            sendSystemMessage(player, "God custom sign name cleared (" + OV_SIGN_GOD_CUSTOM_NAME + ").");
+            CustomerServiceLog("playerStructure", "God " + getPlayerFullName(player) + " cleared god sign name on " + self);
+            return SCRIPT_CONTINUE;
+        }
+        setObjVar(self, OV_SIGN_GOD_CUSTOM_NAME, text);
+        setName(self, text);
+        sendSystemMessage(player, "Sign name set and saved.");
+        CustomerServiceLog("playerStructure", "God " + getPlayerFullName(player) + " set god sign name on " + self + " to: " + text);
         return SCRIPT_CONTINUE;
     }
 

@@ -1187,6 +1187,8 @@ public class travel extends script.base_script
             LOG("LOG_CHANNEL", "travel::movePlayerToDestination -- location is null");
             return false;
         }
+        // Same-scene open-terrain placement before cross-planet warp (avoids client DPVS/ship teardown issues in atmospheric flight).
+        space_transition.detachPlayerFromShipForCrossSceneWarp(player);
         location arrival = utils.getRandomAwayLocation(loc, MIN_RANDOM_DISTANCE, MAX_RANDOM_DISTANCE);
         if (arrival.cell == null || arrival.cell == obj_id.NULL_ID)
         {
