@@ -453,6 +453,9 @@ public class companion_lib extends script.base_script
      */
     public static final String GREEATA_WORLD_MOBILE_TEMPLATE = "object/mobile/twilek_female.iff";
     public static final String GREEATA_CONVERSATION_SCRIPT = "conversation.companion_greeata";
+    /** Set on hire NPCs using {@link #applyMakeHireableToNpc}; read by {@link #GENERIC_HIRE_CONVERSATION_SCRIPT}. */
+    public static final String OBJVAR_HIRE_COMPANION_ID = "companion.hireCompanionId";
+    public static final String GENERIC_HIRE_CONVERSATION_SCRIPT = "conversation.companion_common_hire";
     public static void detachAllScriptsFromObject(obj_id obj) throws InterruptedException
     {
         if (!isIdValid(obj) || !exists(obj))
@@ -512,7 +515,7 @@ public class companion_lib extends script.base_script
         }
     }
     /**
-     * Hire UI script for a {@code story_companions} row. Extend when adding new companion conversations.
+     * Hire UI script for a {@code story_companions} row: Greeata uses {@link #GREEATA_CONVERSATION_SCRIPT}; all other valid rows use {@link #GENERIC_HIRE_CONVERSATION_SCRIPT}.
      */
     public static String resolveHireConversationScript(String storyCompanionId) throws InterruptedException
     {
@@ -523,6 +526,10 @@ public class companion_lib extends script.base_script
         if ("companion_greeata".equals(storyCompanionId))
         {
             return GREEATA_CONVERSATION_SCRIPT;
+        }
+        if (isValidStoryCompanionRow(storyCompanionId))
+        {
+            return GENERIC_HIRE_CONVERSATION_SCRIPT;
         }
         return null;
     }
@@ -545,6 +552,7 @@ public class companion_lib extends script.base_script
             return false;
         }
         prepareHireConversationNpc(npc, convo);
+        setObjVar(npc, OBJVAR_HIRE_COMPANION_ID, storyCompanionId);
         if ("companion_greeata".equals(storyCompanionId))
         {
             setName(npc, "Greeata");
