@@ -42,9 +42,12 @@ public class player_developer extends base_script
     public static final int STIPEND = 150000;
     public static float PLANETWIDE = 16000.0f;
 
-    /** Server-side path for guild station default interior layout (TSV). Written by /developer updateBaseStation. */
+    /**
+     * Absolute path written by the game client via {@link #saveTextOnClient(obj_id, String, String)} for /developer updateBaseStation.
+     * Change the drive or root if your tree is not under {@code D:/titan}.
+     */
     public static final String GUILD_STATION_LAYOUT_TAB_PATH =
-            "/home/swg/swg-main/dsrc/sku.0/sys.server/compiled/game/datatables/guild/station_layout.tab";
+            "D:/titan/dsrc/sku.0/sys.server/compiled/game/datatables/guild/station_layout.tab";
     private final int pageSize = 10; // Number of items per page
     // Variables for pagination
     private int currentPage = 0; // Current page
@@ -7167,8 +7170,9 @@ public class player_developer extends base_script
     }
 
     /**
-     * Writes all placeable objects in the building's cells to {@link #GUILD_STATION_LAYOUT_TAB_PATH}
-     * for use as the default guild station interior layout. Columns: template, x, y, z, cell, scale_x, scale_y, scale_z, script, objvars.
+     * Builds the guild station layout TSV and sends it to the developer's machine via {@link #saveTextOnClient(obj_id, String, String)}
+     * at {@link #GUILD_STATION_LAYOUT_TAB_PATH}.
+     * Columns: template, x, y, z, cell, scale_x, scale_y, scale_z, script, objvars.
      * Skips the same categories as housing export (creatures, AI, exportLock, etc.).
      */
     public int exportGuildStationLayout(obj_id who, obj_id building) throws InterruptedException
@@ -7281,27 +7285,11 @@ public class player_developer extends base_script
             }
         }
 
-        try
-        {
-            File out = new File(GUILD_STATION_LAYOUT_TAB_PATH);
-            File parent = out.getParentFile();
-            if (parent != null && !parent.exists())
-            {
-                parent.mkdirs();
-            }
-            try (FileWriter fw = new FileWriter(out))
-            {
-                fw.write(fileContent.toString());
-            }
-            broadcast(who, "Guild station layout saved: " + GUILD_STATION_LAYOUT_TAB_PATH + " (" + total + " objects). Reload datatables if required.");
-            LOG("ethereal", "[Developer]: " + getPlayerFullName(who) + " used /developer updateBaseStation -> " + GUILD_STATION_LAYOUT_TAB_PATH
-                    + " rows=" + total + " building=" + building);
-        }
-        catch (IOException e)
-        {
-            broadcast(who, "Failed to write guild station layout: " + e.getMessage());
-            LOG("ethereal", "[Guild Station Layout]: " + e);
-        }
+        String text = fileContent.toString();
+        saveTextOnClient(who, GUILD_STATION_LAYOUT_TAB_PATH, text);
+        broadcast(who, "Guild station layout sent to client: " + GUILD_STATION_LAYOUT_TAB_PATH + " (" + total + " rows).");
+        LOG("ethereal", "[Developer]: " + getPlayerFullName(who) + " used /developer updateBaseStation -> saveTextOnClient " + GUILD_STATION_LAYOUT_TAB_PATH
+                + " rows=" + total + " building=" + building);
         return SCRIPT_CONTINUE;
     }
 
