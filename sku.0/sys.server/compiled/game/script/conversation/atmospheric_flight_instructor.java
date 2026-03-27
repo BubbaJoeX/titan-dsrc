@@ -30,7 +30,7 @@ public class atmospheric_flight_instructor extends script.conversation.base.conv
         super.conversation = conversation;
     }
 
-    private static ConvoResponse[] mainMenuResponses()
+    private ConvoResponse[] mainMenuResponses()
     {
         return new ConvoResponse[] {
             convo("topic_overview", "What is atmospheric flight?"),
@@ -44,7 +44,7 @@ public class atmospheric_flight_instructor extends script.conversation.base.conv
         };
     }
 
-    private static ConvoResponse[] backOrDone()
+    private ConvoResponse[] backOrDone()
     {
         return new ConvoResponse[] {
             convo("back_main", "Back to the main topics."),
