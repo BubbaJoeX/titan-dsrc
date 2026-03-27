@@ -26386,6 +26386,14 @@ public class base_class
 	{
 		return _setBeastmasterPet(getLongWithNull(object), getLongWithNull(pet));
 	}
+	/**
+	 * Replicated UI hint for the beastmaster pet bar role icon (companion stance: -1 default, 0–2 per companion_lib).
+	 */
+	private static native boolean _setCompanionPetStanceUi(long object, int stance);
+	public static boolean setCompanionPetStanceUi(obj_id object, int stance)
+	{
+		return _setCompanionPetStanceUi(getLongWithNull(object), stance);
+	}
     /**
      * Sets the beastmaster pet commands available for the current pet
      * @param object    the pet owner

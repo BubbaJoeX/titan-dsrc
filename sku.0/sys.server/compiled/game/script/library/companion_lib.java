@@ -1131,6 +1131,27 @@ public class companion_lib extends script.base_script
             ""
         };
         setBeastmasterToggledPetCommands(player, toggles);
+        syncCompanionPetStanceUiToPlayer(player, pet);
+    }
+    /**
+     * Pushes {@link #OBJVAR_COMBAT_STANCE} to the client via {@link script.base_class#setCompanionPetStanceUi} for the pet bar role icon.
+     */
+    private static void syncCompanionPetStanceUiToPlayer(obj_id player, obj_id pet) throws InterruptedException
+    {
+        if (!beast_lib.isValidPlayer(player) || !isIdValid(pet))
+        {
+            return;
+        }
+        int stance = STANCE_DPS;
+        if (hasObjVar(pet, OBJVAR_COMBAT_STANCE))
+        {
+            stance = getIntObjVar(pet, OBJVAR_COMBAT_STANCE);
+        }
+        if (stance < STANCE_TANK || stance > STANCE_DPS)
+        {
+            stance = STANCE_DPS;
+        }
+        setCompanionPetStanceUi(player, stance);
     }
     public static void clearStoryCompanionPetBarIfActive(obj_id player, obj_id pet) throws InterruptedException
     {
