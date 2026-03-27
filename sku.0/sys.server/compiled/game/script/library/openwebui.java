@@ -1,5 +1,6 @@
 package script.library;
 
+import script.location;
 import script.obj_id;
 import script.string_id;
 
