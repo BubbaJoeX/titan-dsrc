@@ -2615,6 +2615,57 @@ public class player_developer extends base_script
             broadcast(self, "URL: " + url + " | Scale: " + scale);
             return SCRIPT_CONTINUE;
         }
+        else if (cmd.equalsIgnoreCase("spawnTelevisionTemplate"))
+        {
+            if (!tok.hasMoreTokens())
+            {
+                broadcast(self, "Usage: /developer spawnTelevisionTemplate <template> <url> [scale]");
+                return SCRIPT_CONTINUE;
+            }
+            String template = tok.nextToken();
+            String url = tok.nextToken();
+            float scale = 1.0f;
+            if (tok.hasMoreTokens())
+            {
+                try
+                {
+                    scale = Float.parseFloat(tok.nextToken());
+                }
+                catch (NumberFormatException e)
+                {
+                    scale = 1.0f;
+                }
+            }
+            if (scale < 0.1f) scale = 0.1f;
+            if (scale > 20.0f) scale = 20.0f;
+
+            obj_id tv = spawnVideoPlayerCustomTemplate(self, template, url, scale, true);
+            if (!isIdValid(tv))
+            {
+                broadcast(self, "Failed to create television object.");
+                return SCRIPT_CONTINUE;
+            }
+
+            broadcast(self, "Spawned video player at your location.");
+            broadcast(self, "URL: " + url + " | Scale: " + scale);
+            return SCRIPT_CONTINUE;
+        }
+        else if (cmd.equalsIgnoreCase("makeIntoTV"))
+        {
+            String url = "https://www.youtube.com/watch?v=Y069SX7CdiI"; //temp hard coded stream
+            obj_id tv = getTarget(self);
+            setObjVar(tv, "stream.url", url);
+            setObjVar(tv, "timestamp", "0");
+            setObjVar(tv, "stream.loop", "1");
+            setObjVar(tv, "stream.aspect", "4:3");
+            setObjVar(tv, "stream.startTime", String.valueOf(getCalendarTime()));
+            setName(tv, "Video Player");
+            setScale(tv, 1.0f);
+            attachScript(tv, "terminal.magic_video_player");
+            setCondition(self, CONDITION_MAGIC_VIDEO_PLAYER);
+            broadcast(self, "Made " + tv + " into a video player.");
+            return SCRIPT_CONTINUE;
+        }
         else if (cmd.equalsIgnoreCase("dynamicsTest"))
         {
             // Open SUI panel to configure TangibleDynamics on hard target

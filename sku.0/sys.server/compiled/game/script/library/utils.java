@@ -7275,6 +7275,43 @@ public class utils extends script.base_script
         return tv;
     }
 
+    public static obj_id spawnVideoPlayerCustomTemplate(obj_id spawner, String template, String url, float scale, boolean autoPlay) throws InterruptedException
+    {
+        if (!isIdValid(spawner))
+            return null;
+
+        if (url == null || url.trim().isEmpty())
+            return null;
+
+        url = url.trim();
+
+        if (scale < 0.1f) scale = 0.1f;
+        if (scale > 20.0f) scale = 20.0f;
+
+        location loc = getLocation(spawner);
+        if (loc == null)
+            return null;
+
+        obj_id tv = createObject(template, loc);
+        if (!isIdValid(tv))
+            return null;
+
+        setObjVar(tv, "stream.url", url);
+        setObjVar(tv, "timestamp", "0");
+        setObjVar(tv, "stream.loop", "1");
+        setObjVar(tv, "stream.aspect", "4:3");
+        setObjVar(tv, "stream.startTime", String.valueOf(getCalendarTime()));
+        setName(tv, "Video Player");
+        setScale(tv, scale);
+        attachScript(tv, "terminal.magic_video_player");
+
+        if (autoPlay)
+            setCondition(tv, CONDITION_MAGIC_VIDEO_PLAYER);
+
+        LOG("video_player", "[spawnVideoPlayer] " + getName(spawner) + " (" + spawner + ") spawned video player " + tv + " url=" + url + " scale=" + scale);
+        return tv;
+    }
+
     public static obj_id spawnVideoPlayer(obj_id spawner, String url) throws InterruptedException
     {
         return spawnVideoPlayer(spawner, url, 1.0f, true);
