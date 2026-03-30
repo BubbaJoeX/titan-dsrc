@@ -1,67 +1,75 @@
 objid	container	server_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	scripts	objvars
 i	i	h	i	f	f	f	f	f	f	f	s	p
--2133527664	0		0	2040	90	1794	0.99955	0	-0.0299955	0		buildoutObjectId|0|-2133527664|$|
--2093773463	0		0	2012.42	90	1812.19	0.69196	0	0.721935	0		buildoutObjectId|0|-2093773463|$|
--2090498086	0		0	1998.64	90	1802.37	0.996802	0	0.0799147	0		buildoutObjectId|0|-2090498086|$|
--2083494600	0		0	1998.83	90.1265	1806.61	-0.663731	0	0.747971	0		buildoutObjectId|0|-2083494600|$|
--2079230854	0		0	1998.93	91.1538	1805.46	-0.663731	0	0.747971	0		buildoutObjectId|0|-2079230854|$|
--1984474295	0		0	524.971	240.3	811.395	0.924909	0	-0.380188	0		buildoutObjectId|0|-1984474295|$|
--1960783934	0		0	1998.39	90	1804.64	0.998988	0	-0.0449848	0		buildoutObjectId|0|-1960783934|$|
--1946274642	0		0	1998.81	90	1806.03	-0.663731	0	0.747971	0		buildoutObjectId|0|-1946274642|$|
--1927376940	0		0	2004.17	90	1797	0.998988	0	-0.0449855	0		buildoutObjectId|0|-1927376940|$|
--1926939364	0		0	505.763	242.881	789.941	1	0	0	0		buildoutObjectId|0|-1926939364|$|
--1911026651	0		0	522.679	240.202	811.666	1	0	0	0		buildoutObjectId|0|-1911026651|$|
--1908401984	0		0	2006.94	90	1808.84	0.0507732	0	0.99871	0		buildoutObjectId|0|-1908401984|$|
--1847828235	0		0	2012.89	90.8854	1814.91	-0.204346	0	0.978899	0		buildoutObjectId|0|-1847828235|$|
--1829344285	0		0	527.138	239.785	813.35	0.996877	-0.00187305	0.0249271	-0.0749063		buildoutObjectId|0|-1829344285|$|
--1720483051	0		0	1999.62	90.4491	1812.85	0.707108	0.707105	0	0		buildoutObjectId|0|-1720483051|$|
--1702863084	0		0	525.423	239.937	814.527	1	0	0	0		buildoutObjectId|0|-1702863084|$|
--1677962170	0		0	1998.94	90.1265	1805.45	-0.663731	0	0.747971	0		buildoutObjectId|0|-1677962170|$|
--1668142224	0		0	2013.22	90	1814.46	0.960835	0	0.277121	0		buildoutObjectId|0|-1668142224|$|
--1647848179	0		0	1999.54	90	1802.16	-3.20013e-008	0	1	0		buildoutObjectId|0|-1647848179|$|
--1621582391	0		0	2013.28	90	1812.96	0.854301	0	0.519779	0		buildoutObjectId|0|-1621582391|$|
--1556862676	0		0	2012.38	90.8854	1812.59	0.999687	0	-0.025	0		buildoutObjectId|0|-1556862676|$|
--1404749586	0		0	528.112	240.276	808.658	1	0	0	0		buildoutObjectId|0|-1404749586|$|
--1385636081	0		0	508.98	243.505	783.557	-0.262678	0	0.964884	0		buildoutObjectId|0|-1385636081|$|
--1295830984	0		0	522.229	239.526	815.261	0.839937	0.0561154	-0.532467	-0.0885189		buildoutObjectId|0|-1295830984|$|
--1281070622	0		0	504.973	244.688	788.075	1	0	0	0		buildoutObjectId|0|-1281070622|$|
--1241413427	0		0	1998.8	91.0273	1806.04	-0.663731	0	0.747971	0		buildoutObjectId|0|-1241413427|$|
--1062241431	0		0	1999.21	90	1800.97	1	0	0	0		buildoutObjectId|0|-1062241431|$|
--993045221	0		0	510.857	242.024	786.13	0.970137	0	0.242556	0		buildoutObjectId|0|-993045221|$|
--986586605	0		0	526.817	240.361	805.944	0.95579	0	-0.29405	0	systems.spawning.spawner_area	buildoutObjectId|0|-986586605|fltMaxSpawnTime|2|2.000000|fltMinSpawnTime|2|1.000000|fltRadius|2|0.000000|intDefaultBehavior|0|1|intGoodLocationSpawner|0|0|intSpawnCount|0|1|intSpawnSystem|0|1|registerWithController|0|1|strName|4|eteto_ice_cream|strSpawnerType|4|area|strSpawns|4|eteto_topan_ice_cream|$|
--977230724	0		0	2034.65	90	1811.8	-0.678264	0	0.734818	0		buildoutObjectId|0|-977230724|portalProperty.crc|0|1376564094|travel.point_name|4|Jabba's Palace|$|
--1246571693	-977230724		1	0	0	0	1	0	0	0		buildoutObjectId|0|-1246571693|$|
--1674091023	-977230724		2	0	0	0	1	0	0	0		buildoutObjectId|0|-1674091023|$|
--1182814570	-977230724		3	0	0	0	1	0	0	0		buildoutObjectId|0|-1182814570|$|
--882045225	-1182814570		3	0.039409	0.125265	-6.11584	1	0	0	0	space.terminal.terminal_space	buildoutObjectId|0|-882045225|$|
--1550073655	-977230724		4	0	0	0	1	0	0	0		buildoutObjectId|0|-1550073655|$|
--409244986	-977230724		5	0	0	0	1	0	0	0		buildoutObjectId|0|-409244986|$|
--280675418	-977230724		6	0	0	0	1	0	0	0		buildoutObjectId|0|-280675418|$|
--976317925	0		0	2012.31	90	1810.21	0.741564	0	0.670882	0		buildoutObjectId|0|-976317925|$|
--942219052	0		0	1998.12	90	1812.42	1	0	0	0		buildoutObjectId|0|-942219052|$|
--879410635	0		0	1998.82	91.1538	1806.62	-0.663731	0	0.747971	0		buildoutObjectId|0|-879410635|$|
--854658269	0		0	1998.16	90	1801.36	1	0	0	0		buildoutObjectId|0|-854658269|$|
--842940576	0		0	526.021	240.187	810.151	1	0	0	0		buildoutObjectId|0|-842940576|$|
--774325041	0		0	2007.24	90	1806.13	0.0530731	0	0.998591	0		buildoutObjectId|0|-774325041|$|
--751867451	0		0	2017.55	90.0011	1799.9	0.0399893	0	0.9992	0		buildoutObjectId|0|-751867451|$|
--694282569	0		0	2010.5	90	1815.11	0.997888	0	-0.0649541	0		buildoutObjectId|0|-694282569|$|
--641399737	0		0	2017.39	90.0029	1801.89	0.0399893	0	0.9992	0		buildoutObjectId|0|-641399737|$|
--609843239	0		0	2023.45	90	1801.37	0.9992	0	-0.0399893	0		buildoutObjectId|0|-609843239|$|
--565923755	0		0	2012.53	90	1815.19	-0.248175	0	0.968715	0		buildoutObjectId|0|-565923755|$|
--556911782	0		0	2014.22	90	1800.63	0.94441	0	0.328769	0		buildoutObjectId|0|-556911782|$|
--555016066	0		0	2012.41	90	1813.07	0.084103	0	0.996457	0		buildoutObjectId|0|-555016066|$|
--517957242	0		0	2040	95.0361	1794	1	0	0	0		buildoutObjectId|0|-517957242|$|
--496532867	0		0	523.8	239.903	814.79	-0.558218	0.0756229	0.817933	0.116877		buildoutObjectId|0|-496532867|$|
--440896052	0		0	521.89	240.261	812.82	0.890973	-0.00396176	0.453973	-0.0077754		buildoutObjectId|0|-440896052|$|
--416999969	0		0	2036.54	90	1802.71	0.0399893	0	0.9992	0		buildoutObjectId|0|-416999969|$|
--231542615	0		0	2012.01	90	1813.83	0.854301	0	0.519779	0		buildoutObjectId|0|-231542615|$|
--30614889	0		0	523.679	239.84	809.48	1	0	0	0		buildoutObjectId|0|-30614889|$|
--1969877872	0		0	1975.35	93.3615	1771.19	1	0	0	0	gm.atmo_landing_spawner_config:space.atmo.atmo_landing_point	atmo.landing_point.disembark_loc|8|-6213.126953 90.000000 -6421.938477 tatooine 0|atmo.landing_point.landing_altitude|2|120.000000|atmo.landing_point.loc|8|-6211.858887 90.000000 -6424.747559 tatooine 0|atmo.landing_point.name|4|Jabba's Courtyard|atmo.landing_point.occupied_state|0|0|atmo.landing_point.pad_droid|6|11002500892|atmo.landing_point.policy.dock_grace_seconds|0|120|atmo.landing_point.policy.landing_fee_credits|0|25000|atmo.landing_point.time_to_disembark|0|900|atmo.landing_point.yaw|2|91.940002|$|
--1882220134	0		0	1979.54	85.3615	1767.14	1	0	0	0		$|
--1882218928	0		0	1993.54	85.29	1773.14	0.707108	0	0.707106	0		$|
--1882217778	0		0	1979.54	93.3615	1775.14	1	0	0	0		$|
--1882217339	0		0	1971.54	93.3615	1767.14	0.707108	0	0.707106	0		$|
--1882216906	0		0	1979.54	93.3615	1759.14	1	0	0	0		$|
--1882215848	0		0	1987.54	93.3874	1767.14	0.707108	0	0.707106	0		$|
--1882215114	0		0	1987.54	93.3874	1762.14	0.707108	0	0.707106	0		$|
--1882214969	0		0	1987.54	93.3874	1760.14	0.707108	0	0.707106	0		$|
+-680833787	0	object/building/tatooine/housing_tatt_style02_small.iff	0	2012.03	90	1763.27	-0.707106	0	0.707107	0	systems.elevator.tat_sm_ply_house_elevators	alreadySpawned|0|1|portalProperty.crc|0|1036126063|terminal1|6|12204068114|terminal2|6|12204068117|terminal3|6|12204068120|$|
+-680833786	-680833787	object/cell/cell.iff	1	0	0	0	1	0	0	0		$|
+-680833785	-680833787	object/cell/cell.iff	2	0	0	0	1	0	0	0		$|
+-680833784	-680833787	object/cell/cell.iff	3	0	0	0	1	0	0	0		$|
+-680833783	-680833787	object/cell/cell.iff	4	0	0	0	1	0	0	0		$|
+-680833782	-680833787	object/cell/cell.iff	5	0	0	0	1	0	0	0		$|
+-680833781	-680833787	object/cell/cell.iff	6	0	0	0	1	0	0	0		$|
+-680833780	-680833787	object/cell/cell.iff	7	0	0	0	1	0	0	0		$|
+-680833779	-680833787	object/cell/cell.iff	8	0	0	0	1	0	0	0		$|
+-680833778	-680833787	object/cell/cell.iff	9	0	0	0	1	0	0	0	systems.elevator.button_check	$|
+-680833774	-680833778	object/tangible/terminal/terminal_elevator.iff	9	-1.01	0.26	1.37	0.707107	0	0.707107	0	systems.elevator.elevator	$|
+-680833771	-680833778	object/tangible/terminal/terminal_elevator.iff	9	-1.01	-4.87	1.37	0.707107	0	0.707107	0	systems.elevator.elevator	$|
+-680833768	-680833778	object/tangible/terminal/terminal_elevator.iff	9	-1.01	-10.03	1.37	0.707107	0	0.707107	0	systems.elevator.elevator	$|
+-680833777	-680833787	object/cell/cell.iff	10	0	0	0	1	0	0	0		$|
+-680833317	0	object/building/tatooine/housing_tatt_style03_med.iff	0	1985.27	89.7817	1788.2	0.707108	0	0.707106	0		portalProperty.crc|0|-1537017197|$|
+-680833316	-680833317	object/cell/cell.iff	1	0	0	0	1	0	0	0		$|
+-680833315	-680833317	object/cell/cell.iff	2	0	0	0	1	0	0	0		$|
+-680833314	-680833317	object/cell/cell.iff	3	0	0	0	1	0	0	0		$|
+-680833313	-680833317	object/cell/cell.iff	4	0	0	0	1	0	0	0		$|
+-680833312	-680833317	object/cell/cell.iff	5	0	0	0	1	0	0	0		$|
+-680833311	-680833317	object/cell/cell.iff	6	0	0	0	1	0	0	0		$|
+-680833310	-680833317	object/cell/cell.iff	7	0	0	0	1	0	0	0		$|
+-680833309	-680833317	object/cell/cell.iff	8	0	0	0	1	0	0	0		$|
+-680833308	-680833317	object/cell/cell.iff	9	0	0	0	1	0	0	0		$|
+-680833307	-680833317	object/cell/cell.iff	10	0	0	0	1	0	0	0		$|
+-680833306	-680833317	object/cell/cell.iff	11	0	0	0	1	0	0	0		$|
+-680833305	-680833317	object/cell/cell.iff	12	0	0	0	1	0	0	0		$|
+-680832464	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff	0	2000.51	89.0668	1795.51	0.707107	0	0.707106	0		$|
+-680832400	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	2005.38	89.0668	1796.27	1	0	0	0		$|
+-680832213	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff	0	2009.31	89.0855	1795.49	0.707116	0	0.707097	0		$|
+-680832212	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	2014.23	89.0668	1796.25	1	0	0	0		$|
+-680832122	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff	0	2013.48	89.0668	1791.28	4.63426e-006	0	1	0		$|
+-680831960	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff	0	2013.43	89.0668	1782.39	4.63426e-006	0	1	0		$|
+-680831959	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	2014.21	89.0668	1786.38	0.707107	0	0.707106	0		$|
+-680831706	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	2014.18	89.0668	1777.46	0.70711	0	0.707103	0		$|
+-680831705	0	object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff	0	2013.39	89.0668	1773.47	5e-006	0	1	0		$|
+-680831617	0	object/static/structure/tatooine/pillar_pristine_large_style_01.iff	0	2014.14	89.0668	1768.52	0.707112	0	0.707101	0		$|
+-680830380	0	object/static/structure/tatooine/skeleton_greater_krayt_head.iff	0	1994.01	94.2358	1779.86	0	0	1	0		$|
+-680829093	0	object/static/structure/tatooine/antenna_tatt_style_1.iff	0	2005.31	98.1977	1786.24	1	0	0	0		$|
+-680828798	0	object/static/structure/tatooine/debris_tatt_pipe_dual_unconnected.iff	0	1996.95	90	1779.72	0.0157962	0	0.999875	0		$|
+-680828242	0	object/static/particle/particle_smoke.iff	0	1989.84	98.1243	1780.31	1	0	0	0		$|
+-680827270	0	object/static/structure/tatooine/planter_window_style_01.iff	0	1987.59	92.6453	1777.1	1	0	0	0		$|
+-680827068	0	object/static/structure/tatooine/planter_window_style_01.iff	0	1982.95	92.5795	1777.13	1	0	0	0		$|
+-680826956	0	object/static/structure/tatooine/planter_window_style_01.iff	0	1978.28	92.5605	1777.2	1	0	0	0		$|
+-680822856	0	object/building/tatooine/tower_jabbas_palace.iff	0	1982.54	25.8224	1880.83	1	0	0	0		$|
+-680817479	0	object/static/structure/tatooine/palette_supply_02.iff	0	1988.68	90	1764.66	1	0	0	0		$|
+-680817472	0	object/static/structure/tatooine/palette_supply_01.iff	0	1988.62	90	1767.39	1	0	0	0		$|
+-680817071	0	object/static/structure/tatooine/palette_supply_05.iff	0	1988.62	90	1762.04	1	0	0	0		$|
+-680816641	0	object/static/structure/tatooine/palette_tatooine_food_crates_02.iff	0	1988.48	90	1759.07	1	0	0	0		$|
+-680815986	0	object/static/structure/tatooine/palette_tatooine_style_01.iff	0	1982.8	91.0212	1756.38	0.862807	-0.505533	0	0		$|
+-680814559	0	object/static/structure/tatooine/pillar_watto_junkshop.iff	0	1970.97	90	1745.8	1	0	0	0		$|
+-680814160	0	object/static/structure/tatooine/pillar_watto_junkshop.iff	0	1987.28	90	1733.15	1	0	0	0		$|
+-680813911	0	object/static/structure/tatooine/pillar_watto_junkshop.iff	0	2005.38	90	1733.39	1	0	0	0		$|
+-680813493	0	object/static/structure/tatooine/pillar_watto_junkshop.iff	0	2018.84	90	1745.27	1	0	0	0		$|
+-680810569	0	object/static/particle/pt_airport_race_light_group.iff	0	1978.63	93.6722	1764.49	-0.65521	0.641724	-0.284775	-0.278913		$|
+-680778233	0	object/static/particle/pt_survey.iff	0	2001.8	91.6488	1748.32	1	0	0	0		$|
+-680767074	0	object/static/structure/corellia/corl_power_transformer_s02.iff	0	2005.31	90	1786.29	1	0	0	0		$|
+-680761753	0	object/static/structure/corellia/corl_tent_hut_s01.iff	0	1996.14	90	1737.66	0.0107967	0	0.999941	0		$|
+-680758956	0	object/tangible/ground_spawning/patrol_spawner.iff	0	1996.2	90	1743.3	1	0	0	0	systems.spawning.spawner_patrol	fltMaxSpawnTime|2|60.000000|fltMinSpawnTime|2|1.000000|fltRadius|2|5.000000|fromGodClient|0|1|intDefaultBehavior|0|3|intGoodLocationSpawner|0|0|intSpawnCount|0|8|intSpawnSystem|0|1|patrolPathType|4|oscillate|registerWithController|0|1|strName|4|jabba_courtyard_enforcer|strPatrolPointNames|5|jabba_courtyard_enforcer_12204142932_1:jabba_courtyard_enforcer_12204142932_2:jabba_courtyard_enforcer_12204142932_3:jabba_courtyard_enforcer_12204142932_4:jabba_courtyard_enforcer_12204142932_5:jabba_courtyard_enforcer_12204142932_6:jabba_courtyard_enforcer_12204142932_7:jabba_courtyard_enforcer_12204142932_8:jabba_courtyard_enforcer_12204142932_9:jabba_courtyard_enforcer_12204142932_10:jabba_courtyard_enforcer_12204142932_11:jabba_courtyard_enforcer_12204142932_12:jabba_courtyard_enforcer_12204142932_13:jabba_courtyard_enforcer_12204142932_14:|strSpawnerType|4|patrol|strSpawns|4|jabba_enforcer|$|
+-680758955	0	object/tangible/ground_spawning/patrol_waypoint.iff	0	2012.2	90	1745.7	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|jabba_courtyard_enforcer_12204142932_1|registerWithController|0|1|$|
+-680758954	0	object/tangible/ground_spawning/patrol_waypoint.iff	0	2013.2	90	1754.9	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|jabba_courtyard_enforcer_12204142932_2|registerWithController|0|1|$|
+-680758953	0	object/tangible/ground_spawning/patrol_waypoint.iff	0	2000.1	90	1756.3	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|jabba_courtyard_enforcer_12204142932_3|registerWithController|0|1|$|
+-680758952	0	object/tangible/ground_spawning/patrol_waypoint.iff	0	2001.1	90	1770.4	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|jabba_courtyard_enforcer_12204142932_4|registerWithController|0|1|$|
+-680758951	0	object/tangible/ground_spawning/patrol_waypoint.iff	0	2005.5	90	1773.8	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|jabba_courtyard_enforcer_12204142932_5|registerWithController|0|1|$|
+-680758950	0	object/tangible/ground_spawning/patrol_waypoint.iff	0	2011.7	90	1778.8	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|jabba_courtyard_enforcer_12204142932_6|registerWithController|0|1|$|
+-680758949	0	object/tangible/ground_spawning/patrol_waypoint.iff	0	2011.9	90	1793.7	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|jabba_courtyard_enforcer_12204142932_7|registerWithController|0|1|$|
+-680758948	0	object/tangible/ground_spawning/patrol_waypoint.iff	0	1998.5	90	1794.1	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|jabba_courtyard_enforcer_12204142932_8|registerWithController|0|1|$|
+-680758947	0	object/tangible/ground_spawning/patrol_waypoint.iff	0	1998.3	90	1776.4	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|jabba_courtyard_enforcer_12204142932_9|registerWithController|0|1|$|
+-680758946	0	object/tangible/ground_spawning/patrol_waypoint.iff	0	1992	90	1774.8	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|jabba_courtyard_enforcer_12204142932_10|registerWithController|0|1|$|
+-680758945	0	object/tangible/ground_spawning/patrol_waypoint.iff	0	1968.9	90	1775.6	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|jabba_courtyard_enforcer_12204142932_11|registerWithController|0|1|$|
+-680758944	0	object/tangible/ground_spawning/patrol_waypoint.iff	0	1968.5	90	1751.5	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|jabba_courtyard_enforcer_12204142932_12|registerWithController|0|1|$|
+-680758943	0	object/tangible/ground_spawning/patrol_waypoint.iff	0	1979.6	90	1749.9	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|jabba_courtyard_enforcer_12204142932_13|registerWithController|0|1|$|
+-680758942	0	object/tangible/ground_spawning/patrol_waypoint.iff	0	1989.7	90	1744.6	1	0	0	0	systems.spawning.patrol_point_setup	ignoreInBuildoutArray|0|1|pointName|4|jabba_courtyard_enforcer_12204142932_14|registerWithController|0|1|$|
