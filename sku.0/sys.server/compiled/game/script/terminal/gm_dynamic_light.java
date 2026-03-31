@@ -88,9 +88,9 @@ public class gm_dynamic_light extends script.base_script
         if (!canEditLight(player))
             return SCRIPT_CONTINUE;
 
-        mi.addRootMenu(MENU_TOGGLE, string_id.unlocalized("Light: " + (isOverrideOn(self) ? "On — tap to turn off" : "Off — tap to turn on")));
-        mi.addRootMenu(MENU_EDIT_VALUES, string_id.unlocalized("Set R G B Range Intensity..."));
-        mi.addRootMenu(MENU_CLEAR_CDF, string_id.unlocalized("Clear override (restore CDF)"));
+        mi.addRootMenu(MENU_TOGGLE, string_id.unlocalized("Light: " + (isOverrideOn(self) ? "On - tap to turn off" : "Off - tap to turn on")));
+        mi.addRootMenu(MENU_EDIT_VALUES, string_id.unlocalized("Set Values"));
+        mi.addRootMenu(MENU_CLEAR_CDF, string_id.unlocalized("Clear/Restore"));
 
         return SCRIPT_CONTINUE;
     }
@@ -105,7 +105,7 @@ public class gm_dynamic_light extends script.base_script
             if (isOverrideOn(self))
             {
                 clearDynamicLightObjVars(self);
-                sendSystemMessage(player, string_id.unlocalized("Dynamic light off — using CDF defaults on this object."));
+                sendSystemMessage(player, string_id.unlocalized("Dynamic light off - using defaults on this object."));
             }
             else
             {
@@ -125,7 +125,7 @@ public class gm_dynamic_light extends script.base_script
                 if (hasObjVar(self, OV_INTENSITY))
                     intensity = getFloatObjVar(self, OV_INTENSITY);
                 applyDynamicLight(self, r, g, b, range, intensity);
-                sendSystemMessage(player, string_id.unlocalized("Dynamic light on — RGB " + r + " " + g + " " + b + ", range " + range + ", intensity " + intensity));
+                sendSystemMessage(player, string_id.unlocalized("Dynamic light on - RGB " + r + " " + g + " " + b + ", range " + range + ", intensity " + intensity));
             }
             return SCRIPT_CONTINUE;
         }
@@ -177,7 +177,7 @@ public class gm_dynamic_light extends script.base_script
         }
         catch (NumberFormatException e)
         {
-            sendSystemMessage(player, string_id.unlocalized("Invalid number. Use decimals e.g. 1 1 1 10 1"));
+            sendSystemMessage(player, string_id.unlocalized("Invalid number. Use decimals e.g. 1.0 1.0 1.0 10.0 1.0"));
         }
         return SCRIPT_CONTINUE;
     }
