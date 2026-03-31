@@ -2580,6 +2580,41 @@ public class player_developer extends base_script
             LOG("ethereal", "[Developer]: ***" + getName(self) + "*** used /developer clearMagicPainting on " + getName(target));
             return SCRIPT_CONTINUE;
         }
+        else if (cmd.equalsIgnoreCase("setLight"))
+        {
+            if (target == null || target == obj_id.NULL_ID || !isIdValid(target))
+            {
+                broadcast(self, "No valid target. Target a tangible with CDF lights (e.g. housing fixture) first.");
+                return SCRIPT_CONTINUE;
+            }
+            if (tok.countTokens() < 5)
+            {
+                broadcast(self, "Usage: /developer setLight <r> <g> <b> <range> <intensity>");
+                broadcast(self, "Target an object, then run this to push dynamicLight.* objvars and sync client point lights.");
+                return SCRIPT_CONTINUE;
+            }
+            try
+            {
+                float r = Float.parseFloat(tok.nextToken());
+                float g = Float.parseFloat(tok.nextToken());
+                float b = Float.parseFloat(tok.nextToken());
+                float range = Float.parseFloat(tok.nextToken());
+                float intensity = Float.parseFloat(tok.nextToken());
+                setObjVar(target, "dynamicLight.override", 1);
+                setObjVar(target, "dynamicLight.r", r);
+                setObjVar(target, "dynamicLight.g", g);
+                setObjVar(target, "dynamicLight.b", b);
+                setObjVar(target, "dynamicLight.range", range);
+                setObjVar(target, "dynamicLight.intensity", intensity);
+                broadcast(self, "Set dynamic light on " + getName(target) + ": rgb=" + r + ", " + g + ", " + b + " range=" + range + " intensity=" + intensity);
+                LOG("ethereal", "[Developer]: ***" + getName(self) + "*** used /developer setLight on " + target + " (" + getName(target) + ") rgb=" + r + "," + g + "," + b + " range=" + range + " intensity=" + intensity);
+            }
+            catch (NumberFormatException e)
+            {
+                broadcast(self, "Invalid number. Usage: /developer setLight <r> <g> <b> <range> <intensity>");
+            }
+            return SCRIPT_CONTINUE;
+        }
         else if (cmd.equalsIgnoreCase("spawnTelevision"))
         {
             if (!tok.hasMoreTokens())
