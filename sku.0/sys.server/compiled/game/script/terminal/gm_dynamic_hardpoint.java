@@ -183,7 +183,7 @@ public class gm_dynamic_hardpoint extends script.base_script
             return SCRIPT_CONTINUE;
 
         int idMisc = mi.addRootMenu(ROOT_MISC, string_id.unlocalized("GM: hp_dyn misc"));
-        mi.addSubMenu(idMisc, MISC_SLOT, string_id.unlocalized("Set slot index (" + SLOT_MIN + "–" + SLOT_MAX + ")"));
+        mi.addSubMenu(idMisc, MISC_SLOT, string_id.unlocalized("Set slot index (" + SLOT_MIN + "-" + SLOT_MAX + ")"));
         mi.addSubMenu(idMisc, MISC_CLEAR_ALL, string_id.unlocalized("Clear all hp_dyn"));
 
         int idApp = mi.addRootMenu(ROOT_APP, string_id.unlocalized("GM: hp_dyn appearance"));
