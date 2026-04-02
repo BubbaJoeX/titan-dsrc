@@ -19,7 +19,7 @@ import script.library.sui;
  *   <li>Misc: {@code SERVER_MENU25}–{@code SERVER_MENU26}</li>
  *   <li>App: {@code SERVER_MENU27}–{@code SERVER_MENU33}</li>
  *   <li>Light: {@code SERVER_MENU34}–{@code SERVER_MENU37}, {@code SERVER_MENU41}–{@code SERVER_MENU44}</li>
- *   <li>Fx: {@code SERVER_MENU45}–{@code SERVER_MENU52}</li>
+ *   <li>Fx: {@code SERVER_MENU45} {@code SERVER_MENU52}</li>
  * </ul>
  */
 public class gm_dynamic_hardpoint extends script.base_script
@@ -232,7 +232,7 @@ public class gm_dynamic_hardpoint extends script.base_script
 
         if (item == MISC_SLOT)
         {
-            promptInt(self, player, "hp_dyn slot", "Slot index " + SLOT_MIN + "–" + SLOT_MAX + " (current " + getSlot(player) + "):", "handleGmHpDynSlotInput", getSlot(player));
+            promptInt(self, player, "hp_dyn slot", "Slot index " + SLOT_MIN + "-" + SLOT_MAX + " (current " + getSlot(player) + "):", "handleGmHpDynSlotInput", getSlot(player));
             return SCRIPT_CONTINUE;
         }
 
@@ -312,17 +312,17 @@ public class gm_dynamic_hardpoint extends script.base_script
         }
         if (item == LIGHT_R)
         {
-            promptFloat(self, player, "r (light)", "Red 0–1+:", "handleGmHpDynLightRInput", getSlotFloat(self, player, "r", 1.0f));
+            promptFloat(self, player, "r (light)", "Red 0-1+:", "handleGmHpDynLightRInput", getSlotFloat(self, player, "r", 1.0f));
             return SCRIPT_CONTINUE;
         }
         if (item == LIGHT_G)
         {
-            promptFloat(self, player, "g (light)", "Green 0–1+:", "handleGmHpDynLightGInput", getSlotFloat(self, player, "g", 1.0f));
+            promptFloat(self, player, "g (light)", "Green 0-1+:", "handleGmHpDynLightGInput", getSlotFloat(self, player, "g", 1.0f));
             return SCRIPT_CONTINUE;
         }
         if (item == LIGHT_B)
         {
-            promptFloat(self, player, "b (light)", "Blue 0–1+:", "handleGmHpDynLightBInput", getSlotFloat(self, player, "b", 1.0f));
+            promptFloat(self, player, "b (light)", "Blue 0-1+:", "handleGmHpDynLightBInput", getSlotFloat(self, player, "b", 1.0f));
             return SCRIPT_CONTINUE;
         }
         if (item == LIGHT_RANGE)
@@ -393,7 +393,7 @@ public class gm_dynamic_hardpoint extends script.base_script
         }
         if (v < SLOT_MIN || v > SLOT_MAX)
         {
-            sendSystemMessage(player, string_id.unlocalized("Slot must be " + SLOT_MIN + "–" + SLOT_MAX + "."));
+            sendSystemMessage(player, string_id.unlocalized("Slot must be " + SLOT_MIN + "-" + SLOT_MAX + "."));
             return SCRIPT_CONTINUE;
         }
         setObjVar(player, OV_PLAYER_SLOT, v);
