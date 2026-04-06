@@ -156,7 +156,7 @@ public class storage_management_terminal extends script.base_script
             typeLabel = "Template";
         else
             typeLabel = "Name";
-        return "[" + (idx + 1) + "] " + typeLabel + ": " + value + "  ->  \"" + targetName + "\"";
+        return (idx + 1) + " " + typeLabel + ": " + value + " - " + targetName;
     }
 
     // ---------------------------------------------------------------
@@ -175,7 +175,6 @@ public class storage_management_terminal extends script.base_script
             if (!isIdValid(cell))
                 continue;
 
-            containers.add(cell);
             addChildContainers(cell, containers, self);
         }
         return containers;
@@ -468,14 +467,14 @@ public class storage_management_terminal extends script.base_script
         obj_id structure = getTopMostContainer(self);
         if (!isIdValid(structure))
         {
-            broadcast(player, "This terminal must be placed inside a structure.");
+            broadcast(player, "This terminal must be placed inside a structure");
             return SCRIPT_CONTINUE;
         }
 
         obj_id owner = getOwner(structure);
         if (!player.equals(owner) && !isGod(player))
         {
-            broadcast(player, "You must be the owner of this structure to use this terminal.");
+            broadcast(player, "You must be the owner of this structure to use this terminal");
             return SCRIPT_CONTINUE;
         }
 
@@ -492,12 +491,12 @@ public class storage_management_terminal extends script.base_script
     {
         int ruleCount = getRuleCount(self);
         String[] options = {
-            "View / Edit Rules (" + ruleCount + " rules)",
+            "View Rules - " + ruleCount + " configured",
             "Add Rule",
             "Sort Now",
             "Clear All Rules"
         };
-        sui.listbox(self, player, "Storage Management Terminal\\nConfigure item routing rules, then Sort to move items to their assigned containers.", sui.OK_CANCEL, "Storage Management", options, "handleMainMenu", true);
+        sui.listbox(self, player, "Storage Management Terminal\nConfigure item routing rules; then Sort to move items to their assigned containers", sui.OK_CANCEL, "Storage Management", options, "handleMainMenu", true);
     }
 
     public int handleMainMenu(obj_id self, dictionary params) throws InterruptedException
@@ -541,7 +540,7 @@ public class storage_management_terminal extends script.base_script
         int count = getRuleCount(self);
         if (count == 0)
         {
-            sui.msgbox(self, player, "No rules configured yet. Use 'Add Rule' to create one.", sui.OK_ONLY, "Storage Management", "handleRuleListBack");
+            sui.msgbox(self, player, "No rules configured yet; use Add Rule to create one", sui.OK_ONLY, "Storage Management", "handleRuleListBack");
             return;
         }
 
@@ -549,7 +548,7 @@ public class storage_management_terminal extends script.base_script
         for (int i = 0; i < count; i++)
             entries[i] = formatRule(self, i);
 
-        sui.listbox(self, player, "Select a rule to manage it.", sui.OK_CANCEL, "Rules", entries, "handleRuleSelect", true);
+        sui.listbox(self, player, "Select a rule to manage", sui.OK_CANCEL, "Rules", entries, "handleRuleSelect", true);
     }
 
     public int handleRuleListBack(obj_id self, dictionary params) throws InterruptedException
@@ -580,7 +579,7 @@ public class storage_management_terminal extends script.base_script
         String ruleText = formatRule(self, idx);
 
         String[] actions = {"Delete", "Move Up", "Move Down", "Back to Rules"};
-        sui.listbox(self, player, "Rule: " + ruleText + "\\nSelect an action.", sui.OK_CANCEL, "Edit Rule", actions, "handleRuleAction", true);
+        sui.listbox(self, player, "Rule: " + ruleText + "\nSelect an action", sui.OK_CANCEL, "Manage Rule", actions, "handleRuleAction", true);
         return SCRIPT_CONTINUE;
     }
 
@@ -602,14 +601,14 @@ public class storage_management_terminal extends script.base_script
         {
             case 0: // Delete
                 removeRule(self, ruleIdx);
-                broadcast(player, "Rule deleted.");
+                broadcast(player, "Rule deleted");
                 showRuleList(self, player);
                 break;
             case 1: // Move Up
                 if (ruleIdx > 0)
                 {
                     swapRules(self, ruleIdx, ruleIdx - 1);
-                    broadcast(player, "Rule moved up.");
+                    broadcast(player, "Rule moved up");
                 }
                 showRuleList(self, player);
                 break;
@@ -617,7 +616,7 @@ public class storage_management_terminal extends script.base_script
                 if (ruleIdx < count - 1)
                 {
                     swapRules(self, ruleIdx, ruleIdx + 1);
-                    broadcast(player, "Rule moved down.");
+                    broadcast(player, "Rule moved down");
                 }
                 showRuleList(self, player);
                 break;
@@ -637,8 +636,8 @@ public class storage_management_terminal extends script.base_script
 
     private void showAddRuleTypeMenu(obj_id self, obj_id player) throws InterruptedException
     {
-        String[] types = {"Game Object Type (category)", "Template Name (substring)", "Item Name (substring)"};
-        sui.listbox(self, player, "What should this rule match on?", sui.OK_CANCEL, "Add Rule: Match Type", types, "handleAddRuleType", true);
+        String[] types = {"Game Object Type - category", "Template Name - substring", "Item Name - substring"};
+        sui.listbox(self, player, "Select what this rule should match on", sui.OK_CANCEL, "Add Rule - Match Type", types, "handleAddRuleType", true);
     }
 
     public int handleAddRuleType(obj_id self, dictionary params) throws InterruptedException
@@ -660,11 +659,11 @@ public class storage_management_terminal extends script.base_script
                 break;
             case 1:
                 svSetString(player, "newRuleType", "template");
-                sui.inputbox(self, player, "Enter a template name substring to match (e.g. 'krayt_tissue'):", "Add Rule: Template", "handleAddRuleValue", "");
+                sui.inputbox(self, player, "Enter a template name substring to match:", "Add Rule - Template", "handleAddRuleValue", "");
                 break;
             case 2:
                 svSetString(player, "newRuleType", "name");
-                sui.inputbox(self, player, "Enter an item name substring to match (e.g. 'Exceptional'):", "Add Rule: Item Name", "handleAddRuleValue", "");
+                sui.inputbox(self, player, "Enter an item name substring to match:", "Add Rule - Item Name", "handleAddRuleValue", "");
                 break;
             default:
                 showMainMenu(self, player);
@@ -679,7 +678,7 @@ public class storage_management_terminal extends script.base_script
 
     private void showGotCategoryMenu(obj_id self, obj_id player) throws InterruptedException
     {
-        sui.listbox(self, player, "Select a Game Object Type category.", sui.OK_CANCEL, "Add Rule: Category", GOT_CATEGORIES, "handleAddRuleGotCategory", true);
+        sui.listbox(self, player, "Select a Game Object Type category", sui.OK_CANCEL, "Add Rule - Category", GOT_CATEGORIES, "handleAddRuleGotCategory", true);
     }
 
     public int handleAddRuleGotCategory(obj_id self, dictionary params) throws InterruptedException
@@ -723,7 +722,7 @@ public class storage_management_terminal extends script.base_script
         String text = sui.getInputBoxText(params);
         if (text == null || text.trim().isEmpty())
         {
-            broadcast(player, "Value cannot be empty.");
+            broadcast(player, "Value cannot be empty");
             showAddRuleTypeMenu(self, player);
             return SCRIPT_CONTINUE;
         }
@@ -743,7 +742,7 @@ public class storage_management_terminal extends script.base_script
         obj_id structure = svGetObjId(player, "structure");
         if (structure == null || !isIdValid(structure))
         {
-            broadcast(player, "Structure not found. Please try again.");
+            broadcast(player, "Structure not found");
             showMainMenu(self, player);
             return;
         }
@@ -751,7 +750,7 @@ public class storage_management_terminal extends script.base_script
         ArrayList<obj_id> containers = getValidContainers(structure, self);
         if (containers.isEmpty())
         {
-            broadcast(player, "No valid containers found in this structure.");
+            broadcast(player, "No valid containers found in this structure");
             showMainMenu(self, player);
             return;
         }
@@ -765,7 +764,7 @@ public class storage_management_terminal extends script.base_script
         }
 
         svSetObjIdArray(player, "containerIds", ids);
-        sui.listbox(self, player, "Select the destination container for this rule.", sui.OK_CANCEL, "Add Rule: Destination", names, "handleAddRuleTarget", true);
+        sui.listbox(self, player, "Select the destination container for this rule", sui.OK_CANCEL, "Add Rule - Destination", names, "handleAddRuleTarget", true);
     }
 
     public int handleAddRuleTarget(obj_id self, dictionary params) throws InterruptedException
@@ -796,7 +795,7 @@ public class storage_management_terminal extends script.base_script
         String displayValue = svGetString(player, "newRuleDisplayValue");
         if (displayValue == null)
             displayValue = ruleValue;
-        broadcast(player, "Rule added: " + ruleType.toUpperCase() + " '" + displayValue + "' -> '" + targetName + "'");
+        broadcast(player, "Rule added: " + ruleType.toUpperCase() + " " + displayValue + " - " + targetName);
 
         showMainMenu(self, player);
         return SCRIPT_CONTINUE;
@@ -811,7 +810,7 @@ public class storage_management_terminal extends script.base_script
         int ruleCount = getRuleCount(self);
         if (ruleCount == 0)
         {
-            broadcast(player, "No rules configured. Add rules first.");
+            broadcast(player, "No rules configured; add rules first");
             showMainMenu(self, player);
             return;
         }
@@ -819,7 +818,7 @@ public class storage_management_terminal extends script.base_script
         obj_id structure = svGetObjId(player, "structure");
         if (structure == null || !isIdValid(structure))
         {
-            broadcast(player, "Structure not found.");
+            broadcast(player, "Structure not found");
             return;
         }
 
@@ -828,10 +827,10 @@ public class storage_management_terminal extends script.base_script
         int noMatch = results[1];
         int failed = results[2];
 
-        String summary = "Sort complete.\\n\\n"
-            + "Items routed: " + moved + "\\n"
-            + "No matching rule: " + noMatch + "\\n"
-            + "Failed (container full?): " + failed;
+        String summary = "Sort complete\n\n"
+            + "Items routed: " + moved + "\n"
+            + "No matching rule: " + noMatch + "\n"
+            + "Failed to move: " + failed;
 
         sui.msgbox(self, player, summary, sui.OK_ONLY, "Sort Results", "handleSortDone");
     }
@@ -849,7 +848,7 @@ public class storage_management_terminal extends script.base_script
 
     private void showClearConfirm(obj_id self, obj_id player) throws InterruptedException
     {
-        sui.msgbox(self, player, "Are you sure you want to delete ALL routing rules?", sui.OK_CANCEL, "Confirm Clear", "handleClearConfirm");
+        sui.msgbox(self, player, "Are you sure you want to delete ALL routing rules", sui.OK_CANCEL, "Confirm Clear", "handleClearConfirm");
     }
 
     public int handleClearConfirm(obj_id self, dictionary params) throws InterruptedException
@@ -859,7 +858,7 @@ public class storage_management_terminal extends script.base_script
         if (btn == sui.BP_OK)
         {
             clearAllRules(self);
-            broadcast(player, "All rules cleared.");
+            broadcast(player, "All rules cleared");
         }
         showMainMenu(self, player);
         return SCRIPT_CONTINUE;
