@@ -12,7 +12,12 @@ public class storage_management_terminal extends script.base_script
 
     private static final String OV_PREFIX   = "smt.rules";
     private static final String OV_COUNT    = OV_PREFIX + ".count";
+    private static final String OV_SOURCE   = "smt.source";
     private static final String SV_PREFIX   = "smt.session";
+
+    private static final String SOURCE_SELF      = "self";
+    private static final String SOURCE_HOUSE     = "house";
+    private static final String SOURCE_INVENTORY = "inventory";
 
     private static final String[] GOT_CATEGORIES = {
         "Armor",
@@ -144,6 +149,27 @@ public class storage_management_terminal extends script.base_script
         removeObjVar(self, OV_PREFIX);
     }
 
+    private String getSource(obj_id self) throws InterruptedException
+    {
+        if (hasObjVar(self, OV_SOURCE))
+            return getStringObjVar(self, OV_SOURCE);
+        return SOURCE_SELF;
+    }
+
+    private void setSource(obj_id self, String source) throws InterruptedException
+    {
+        setObjVar(self, OV_SOURCE, source);
+    }
+
+    private String getSourceDisplayName(String source)
+    {
+        if (source.equals(SOURCE_HOUSE))
+            return "House";
+        if (source.equals(SOURCE_INVENTORY))
+            return "Player Inventory";
+        return "Terminal Storage";
+    }
+
     private String formatRule(obj_id self, int idx) throws InterruptedException
     {
         String type = getRuleType(self, idx);
@@ -235,18 +261,31 @@ public class storage_management_terminal extends script.base_script
     //  Sortable item scan
     // ---------------------------------------------------------------
 
-    private ArrayList<obj_id> getSortableItems(obj_id structure, obj_id self) throws InterruptedException
+    private ArrayList<obj_id> getSortableItems(obj_id self, obj_id player, obj_id structure, String source) throws InterruptedException
     {
         ArrayList<obj_id> items = new ArrayList<>();
-        obj_id[] cells = getContents(structure);
-        if (cells == null)
-            return items;
 
-        for (obj_id cell : cells)
+        if (source.equals(SOURCE_SELF))
         {
-            if (!isIdValid(cell))
-                continue;
-            collectItems(cell, items, self);
+            collectItems(self, items, self);
+        }
+        else if (source.equals(SOURCE_INVENTORY))
+        {
+            obj_id inv = utils.getInventoryContainer(player);
+            if (isIdValid(inv))
+                collectItems(inv, items, self);
+        }
+        else
+        {
+            obj_id[] cells = getContents(structure);
+            if (cells == null)
+                return items;
+            for (obj_id cell : cells)
+            {
+                if (!isIdValid(cell))
+                    continue;
+                collectItems(cell, items, self);
+            }
         }
         return items;
     }
@@ -336,7 +375,8 @@ public class storage_management_terminal extends script.base_script
         if (ruleCount == 0)
             return new int[]{0, 0, 0};
 
-        ArrayList<obj_id> items = getSortableItems(structure, self);
+        String source = getSource(self);
+        ArrayList<obj_id> items = getSortableItems(self, player, structure, source);
 
         for (obj_id item : items)
         {
@@ -490,13 +530,16 @@ public class storage_management_terminal extends script.base_script
     private void showMainMenu(obj_id self, obj_id player) throws InterruptedException
     {
         int ruleCount = getRuleCount(self);
+        String source = getSource(self);
+        String sourceLabel = getSourceDisplayName(source);
         String[] options = {
             "View Rules - " + ruleCount + " configured",
             "Add Rule",
             "Sort Now",
+            "Set Source - " + sourceLabel,
             "Clear All Rules"
         };
-        sui.listbox(self, player, "Storage Management Terminal\nConfigure item routing rules; then Sort to move items to their assigned containers", sui.OK_CANCEL, "Storage Management", options, "handleMainMenu", true);
+        sui.listbox(self, player, "Storage Management Terminal\nSource: " + sourceLabel + "\nConfigure routing rules; then Sort to move items to their destinations", sui.OK_CANCEL, "Storage Management", options, "handleMainMenu", true);
     }
 
     public int handleMainMenu(obj_id self, dictionary params) throws InterruptedException
@@ -522,12 +565,64 @@ public class storage_management_terminal extends script.base_script
                 doSort(self, player);
                 break;
             case 3:
+                showSourceMenu(self, player);
+                break;
+            case 4:
                 showClearConfirm(self, player);
                 break;
             default:
                 svClear(player);
                 break;
         }
+        return SCRIPT_CONTINUE;
+    }
+
+    // ---------------------------------------------------------------
+    //  Source selection
+    // ---------------------------------------------------------------
+
+    private void showSourceMenu(obj_id self, obj_id player) throws InterruptedException
+    {
+        String current = getSource(self);
+        String[] options = {
+            "Terminal Storage - sort from this terminal" + (current.equals(SOURCE_SELF) ? " -current-" : ""),
+            "House - sort from all rooms" + (current.equals(SOURCE_HOUSE) ? " -current-" : ""),
+            "Player Inventory - sort from your inventory" + (current.equals(SOURCE_INVENTORY) ? " -current-" : "")
+        };
+        sui.listbox(self, player, "Select where items are sourced from when sorting", sui.OK_CANCEL, "Set Source", options, "handleSourceSelect", true);
+    }
+
+    public int handleSourceSelect(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        int btn = sui.getIntButtonPressed(params);
+        if (btn == sui.BP_CANCEL)
+        {
+            showMainMenu(self, player);
+            return SCRIPT_CONTINUE;
+        }
+
+        int idx = sui.getListboxSelectedRow(params);
+        String newSource;
+        switch (idx)
+        {
+            case 0:
+                newSource = SOURCE_SELF;
+                break;
+            case 1:
+                newSource = SOURCE_HOUSE;
+                break;
+            case 2:
+                newSource = SOURCE_INVENTORY;
+                break;
+            default:
+                showMainMenu(self, player);
+                return SCRIPT_CONTINUE;
+        }
+
+        setSource(self, newSource);
+        broadcast(player, "Source set to: " + getSourceDisplayName(newSource));
+        showMainMenu(self, player);
         return SCRIPT_CONTINUE;
     }
 
