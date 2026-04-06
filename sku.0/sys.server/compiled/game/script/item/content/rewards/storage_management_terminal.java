@@ -655,15 +655,15 @@ public class storage_management_terminal extends script.base_script
         switch (idx)
         {
             case 0:
-                svSet(player, "newRuleType", "got");
+                svSetString(player, "newRuleType", "got");
                 showGotCategoryMenu(self, player);
                 break;
             case 1:
-                svSet(player, "newRuleType", "template");
+                svSetString(player, "newRuleType", "template");
                 sui.inputbox(self, player, "Enter a template name substring to match (e.g. 'krayt_tissue'):", "Add Rule: Template", "handleAddRuleValue", "");
                 break;
             case 2:
-                svSet(player, "newRuleType", "name");
+                svSetString(player, "newRuleType", "name");
                 sui.inputbox(self, player, "Enter an item name substring to match (e.g. 'Exceptional'):", "Add Rule: Item Name", "handleAddRuleValue", "");
                 break;
             default:
@@ -700,8 +700,8 @@ public class storage_management_terminal extends script.base_script
         }
 
         String gotName = getGameObjectTypeName(GOT_CATEGORY_IDS[idx]);
-        svSet(player, "newRuleValue", gotName);
-        svSet(player, "newRuleDisplayValue", GOT_CATEGORIES[idx]);
+        svSetString(player, "newRuleValue", gotName);
+        svSetString(player, "newRuleDisplayValue", GOT_CATEGORIES[idx]);
         showTargetContainerMenu(self, player);
         return SCRIPT_CONTINUE;
     }
@@ -728,8 +728,8 @@ public class storage_management_terminal extends script.base_script
             return SCRIPT_CONTINUE;
         }
 
-        svSet(player, "newRuleValue", text.trim());
-        svSet(player, "newRuleDisplayValue", text.trim());
+        svSetString(player, "newRuleValue", text.trim());
+        svSetString(player, "newRuleDisplayValue", text.trim());
         showTargetContainerMenu(self, player);
         return SCRIPT_CONTINUE;
     }
@@ -764,7 +764,7 @@ public class storage_management_terminal extends script.base_script
             names[i] = getContainerDisplayName(ids[i]);
         }
 
-        svSet(player, "containerIds", ids);
+        svSetObjIdArray(player, "containerIds", ids);
         sui.listbox(self, player, "Select the destination container for this rule.", sui.OK_CANCEL, "Add Rule: Destination", names, "handleAddRuleTarget", true);
     }
 
@@ -779,7 +779,7 @@ public class storage_management_terminal extends script.base_script
         }
 
         int idx = sui.getListboxSelectedRow(params);
-        obj_id[] containerIds = (obj_id[]) utils.getScriptVar(player, SV_PREFIX + ".containerIds");
+        obj_id[] containerIds = svGetObjIdArray(player, "containerIds");
         if (containerIds == null || idx < 0 || idx >= containerIds.length)
         {
             showMainMenu(self, player);
@@ -881,3 +881,4 @@ public class storage_management_terminal extends script.base_script
             LOG("ethereal", "[SMT]: " + message);
         }
     }
+}
