@@ -12,6 +12,7 @@ package script.content.fun;/*
   fun.asteroid.notify_radius (float) — players who get system messages / sounds, default 384
   fun.asteroid.cooldown (int) — seconds before the event can run again, default 90; set 0 to disable
   Spawn templates: CRC table paths under object/ship/asteroid, excluding /base/, mapping /shared_ → / for server createObject; fallback object/tangible/usable/asteroid.iff if none left.
+  fun.asteroid.spawned_ids (obj_id[]) — maintained automatically; stale ids pruned when you open the list menu.
 @Created: Tuesday, 2/25/2025, at 7:56 PM,
 @Copyright © SWG: Titan 2025.
     Unauthorized usage, viewing or sharing of this file is prohibited.
@@ -20,6 +21,7 @@ package script.content.fun;/*
 import java.util.Vector;
 
 import script.*;
+import script.library.sui;
 
 public class asteroid_spawner extends base_script
 {
@@ -41,6 +43,9 @@ public class asteroid_spawner extends base_script
     private static volatile String[] s_cachedShipAsteroidTemplates;
 
     private static final String COOLDOWN_OBJVAR = "fun.asteroid.last_shower";
+    private static final String OV_SPAWNED_ASTEROID_IDS = "fun.asteroid.spawned_ids";
+
+    private static final int M_LIST_SPAWNED = menu_info_types.SERVER_MENU2;
 
     private static final String SND_ALERT = "sound/sys_comm_generic.snd";
 
@@ -102,6 +107,7 @@ public class asteroid_spawner extends base_script
         }
         mi.addRootMenu(menu_info_types.ITEM_USE, string_id.unlocalized("Meteor shower (spectacle)"));
         mi.addRootMenu(menu_info_types.SERVER_MENU1, string_id.unlocalized("Meteor shower (quick)"));
+        mi.addRootMenu(M_LIST_SPAWNED, string_id.unlocalized("List spawned asteroids"));
         return SCRIPT_CONTINUE;
     }
 
@@ -113,6 +119,12 @@ public class asteroid_spawner extends base_script
         }
         if (!isGod(player))
         {
+            return SCRIPT_CONTINUE;
+        }
+
+        if (item == M_LIST_SPAWNED)
+        {
+            showSpawnedAsteroidList(self, player);
             return SCRIPT_CONTINUE;
         }
 
@@ -211,6 +223,7 @@ public class asteroid_spawner extends base_script
                 applyReducedAsteroidScale(asteroid, tmpl);
                 attachScript(asteroid, "content.fun.fallen_asteroid");
                 setName(asteroid, ASTEROID_NAMES[rand(0, ASTEROID_NAMES.length - 1)]);
+                registerSpawnedAsteroid(self, asteroid);
                 playImpactEffects(impact, audience);
                 blog("Spawned asteroid at: " + impact.toLogFormat());
             }
@@ -395,6 +408,100 @@ public class asteroid_spawner extends base_script
     private static int getCooldownSeconds(obj_id self) throws InterruptedException
     {
         return getIntConfig(self, "fun.asteroid.cooldown", DEFAULT_COOLDOWN_SEC);
+    }
+
+    private static void registerSpawnedAsteroid(obj_id spawner, obj_id asteroid) throws InterruptedException
+    {
+        if (!isIdValid(spawner) || !isIdValid(asteroid))
+        {
+            return;
+        }
+        obj_id[] cur = getObjIdArrayObjVar(spawner, OV_SPAWNED_ASTEROID_IDS);
+        if (cur == null)
+        {
+            cur = new obj_id[0];
+        }
+        obj_id[] next = new obj_id[cur.length + 1];
+        System.arraycopy(cur, 0, next, 0, cur.length);
+        next[cur.length] = asteroid;
+        setObjVar(spawner, OV_SPAWNED_ASTEROID_IDS, next);
+    }
+
+    /**
+     * Returns still-existing asteroids, rewrites {@link #OV_SPAWNED_ASTEROID_IDS} if anything was purged.
+     */
+    private static obj_id[] getLiveSpawnedAsteroids(obj_id spawner) throws InterruptedException
+    {
+        obj_id[] cur = getObjIdArrayObjVar(spawner, OV_SPAWNED_ASTEROID_IDS);
+        if (cur == null || cur.length == 0)
+        {
+            return new obj_id[0];
+        }
+        Vector live = new Vector();
+        for (int i = 0; i < cur.length; ++i)
+        {
+            if (isIdValid(cur[i]) && exists(cur[i]))
+            {
+                live.add(cur[i]);
+            }
+        }
+        obj_id[] arr = new obj_id[live.size()];
+        for (int i = 0; i < live.size(); ++i)
+        {
+            arr[i] = (obj_id) live.get(i);
+        }
+        if (arr.length != cur.length)
+        {
+            if (arr.length == 0)
+            {
+                removeObjVar(spawner, OV_SPAWNED_ASTEROID_IDS);
+            }
+            else
+            {
+                setObjVar(spawner, OV_SPAWNED_ASTEROID_IDS, arr);
+            }
+        }
+        return arr;
+    }
+
+    private static String shortTemplateLabel(String fullPath)
+    {
+        if (fullPath == null || fullPath.isEmpty())
+        {
+            return "?";
+        }
+        int slash = fullPath.lastIndexOf('/');
+        if (slash >= 0 && slash + 1 < fullPath.length())
+        {
+            return fullPath.substring(slash + 1);
+        }
+        return fullPath;
+    }
+
+    private void showSpawnedAsteroidList(obj_id self, obj_id player) throws InterruptedException
+    {
+        obj_id[] ids = getLiveSpawnedAsteroids(self);
+        if (ids.length == 0)
+        {
+            sendSystemMessage(player, "No spawned meteor fragments are tracked (or all have been removed).", "");
+            return;
+        }
+        String[] rows = new String[ids.length];
+        for (int i = 0; i < ids.length; ++i)
+        {
+            obj_id a = ids[i];
+            String nm = getName(a);
+            String tpl = getTemplateName(a);
+            location loc = getLocation(a);
+            String locStr = loc != null ? loc.toReadableFormat(true) : "?";
+            rows[i] = (nm != null ? nm : "?") + " — " + shortTemplateLabel(tpl) + " @ " + locStr;
+        }
+        sui.listbox(self, player, "Fragments spawned from this relay (stale entries are removed automatically).", sui.OK_ONLY, "Spawned asteroids", rows, "handleSpawnedAsteroidListOk", true, false);
+    }
+
+    public int handleSpawnedAsteroidListOk(obj_id self, dictionary params) throws InterruptedException
+    {
+        return SCRIPT_CONTINUE;
     }
 
     private static float frand(float min, float max)
