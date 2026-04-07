@@ -11162,6 +11162,22 @@ public class base_class
         }
 
         /**
+         * Display title for the player's account staff tier (from staff_ranks.iff), independent of /gm toggle.
+         */
+        private static native String _getStaffRankTitle(long target);
+        public static String getStaffRankTitle(obj_id target)
+        {
+            return _getStaffRankTitle(getLongWithNull(target));
+        }
+
+        /** Rank title for a numeric admin level (0-50). */
+        private static native String _getStaffRankTitleForLevel(int level);
+        public static String getStaffRankTitleForLevel(int level)
+        {
+            return _getStaffRankTitleForLevel(level);
+        }
+
+        /**
          * Get the master of a creature (for pet support).
          * @param target  the creature to get the master of
          * @return the obj_id of the creature's master

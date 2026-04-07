@@ -1,5 +1,6 @@
 package script.library;
 
+import script.dictionary;
 import script.location;
 import script.obj_id;
 
@@ -11,6 +12,8 @@ import script.obj_id;
  * {@code turret.gunner.off_x}, {@code off_y}, {@code off_z} (float, meters in parent/world frame — see setLocation)<br>
  * {@code turret.gunner.max_range} (float, optional — radial mount range, default 12m)<br>
  * {@code turret.gunner.damage_percent} (int, optional — gunner hit damage as % of defender max HP, 1–100, default 12)<br>
+ * {@code turret.gunner.sync_leader} (int, optional — non-zero = GM “sync mode”: other turrets in range mirror gunner fire)<br>
+ * {@code turret.gunner.sync_range} (float, optional — meters for sync neighbor search, default 80)<br>
  * {@code turret.dev.attackSpeedScale} (float, optional — multiplies post-shot recycle delay in {@code turret_ai})<br>
  * <p>
  * Gunner aim is driven client-side (camera + turret mesh slew) with server combat commands
@@ -38,6 +41,15 @@ public class turret_gunner_lib extends script.base_script
 	public static final String VAR_MAX_RANGE = "turret.gunner.max_range";
 
 	public static final String SCRIPTVAR_SUSPEND_AI_TRIGGERS = "turret.gunner.suspendAiTriggers";
+
+	/** Batch script var on player while the “load weapon stats” listbox is open. */
+	public static final String SCRIPTVAR_LOAD_WEAPON_IDS = "turret.gunner.loadWeaponIds";
+
+	/** Integer objvar: non-zero means this turret is a sync leader (GM). */
+	public static final String VAR_SYNC_LEADER = "turret.gunner.sync_leader";
+	/** Float objvar: max distance (m) from leader to slave turrets for sync. */
+	public static final String VAR_SYNC_RANGE = "turret.gunner.sync_range";
+	public static final float DEFAULT_SYNC_RANGE = 80.0f;
 
 	/** World-space aim point (from gunner camera); used for cone acquisition instead of reticle object id. */
 	public static final String SCRIPTVAR_AIM_WX = "turret.gunner.aim_wx";
@@ -86,6 +98,95 @@ public class turret_gunner_lib extends script.base_script
 	}
 
 	/**
+	 * True if {@code item} is anywhere under the player's container tree (inventory, equipped slots, bags, etc.).
+	 */
+	public static boolean isItemInPlayerContainerTree(obj_id player, obj_id item) throws InterruptedException
+	{
+		if (!isIdValid(player) || !isIdValid(item))
+		{
+			return false;
+		}
+		obj_id c = getContainedBy(item);
+		while (isIdValid(c))
+		{
+			if (c == player)
+			{
+				return true;
+			}
+			c = getContainedBy(c);
+		}
+		return false;
+	}
+
+	/**
+	 * Copies min/max damage, attack speed, and elemental damage from {@code weaponSource} onto the turret's
+	 * {@code objWeapon} (weapon template unchanged).
+	 */
+	public static void applyWeaponStatsFromWeaponObject(obj_id turret, obj_id weaponSource) throws InterruptedException
+	{
+		if (!isIdValid(turret) || !isIdValid(weaponSource) || !exists(turret) || !exists(weaponSource))
+		{
+			return;
+		}
+		if (!isWeapon(weaponSource))
+		{
+			return;
+		}
+		if (!hasObjVar(turret, "objWeapon") && !script.library.turret.createWeapon(turret))
+		{
+			return;
+		}
+		obj_id tw = getObjIdObjVar(turret, "objWeapon");
+		if (!isIdValid(tw))
+		{
+			return;
+		}
+		int minD = getWeaponMinDamage(weaponSource);
+		int maxD = getWeaponMaxDamage(weaponSource);
+		if (maxD < minD)
+		{
+			int swap = minD;
+			minD = maxD;
+			maxD = swap;
+		}
+		setWeaponMinDamage(tw, minD);
+		setWeaponMaxDamage(tw, maxD);
+		float spd = getWeaponAttackSpeed(weaponSource);
+		if (spd > 0.0f)
+		{
+			setWeaponAttackSpeed(tw, spd);
+		}
+		int elemType = getWeaponElementalType(weaponSource);
+		int elemVal = getWeaponElementalValue(weaponSource);
+		setWeaponElementalDamage(tw, elemType, elemVal);
+	}
+
+	/**
+	 * Applies stats from a weapon the player actually carries (inventory / equipment tree).
+	 */
+	public static boolean tryApplyWeaponStatsFromInventoryWeapon(obj_id turret, obj_id player, obj_id weapon) throws InterruptedException
+	{
+		if (!isIdValid(turret) || !isIdValid(player) || !isIdValid(weapon))
+		{
+			return false;
+		}
+		if (!exists(turret) || !exists(player) || !exists(weapon))
+		{
+			return false;
+		}
+		if (!isWeapon(weapon))
+		{
+			return false;
+		}
+		if (!isItemInPlayerContainerTree(player, weapon))
+		{
+			return false;
+		}
+		applyWeaponStatsFromWeaponObject(turret, weapon);
+		return true;
+	}
+
+	/**
 	 * Copies base kinetic DPS band, attack speed, and elemental damage from the player's held weapon onto the
 	 * turret's spawned {@code objWeapon} (template/type unchanged).
 	 */
@@ -100,33 +201,114 @@ public class turret_gunner_lib extends script.base_script
 		{
 			return;
 		}
-		if (!hasObjVar(turret, "objWeapon") && !script.library.turret.createWeapon(turret))
+		applyWeaponStatsFromWeaponObject(turret, held);
+	}
+
+	public static float getSyncRangeMeters(obj_id turret) throws InterruptedException
+	{
+		if (!hasObjVar(turret, VAR_SYNC_RANGE))
+		{
+			return DEFAULT_SYNC_RANGE;
+		}
+		float r = getFloatObjVar(turret, VAR_SYNC_RANGE);
+		if (r < 1.0f)
+		{
+			return 1.0f;
+		}
+		if (r > 512.0f)
+		{
+			return 512.0f;
+		}
+		return r;
+	}
+
+	public static boolean isSyncLeader(obj_id turret) throws InterruptedException
+	{
+		return isIdValid(turret) && exists(turret) && hasObjVar(turret, VAR_SYNC_LEADER) && getIntObjVar(turret, VAR_SYNC_LEADER) != 0;
+	}
+
+	private static boolean isTurretSyncNeighbor(obj_id candidate, obj_id leader) throws InterruptedException
+	{
+		if (!isIdValid(candidate) || candidate == leader)
+		{
+			return false;
+		}
+		if (!exists(candidate))
+		{
+			return false;
+		}
+		if (getHitpoints(candidate) < 1)
+		{
+			return false;
+		}
+		if (!hasObjVar(candidate, "objWeapon"))
+		{
+			return false;
+		}
+		if (utils.hasScriptVar(candidate, SCRIPTVAR_SUSPEND_AI_TRIGGERS))
+		{
+			return false;
+		}
+		return hasScript(candidate, "systems.turret.turret_ai") || hasScript(candidate, "systems.turret.turret_gunner_combat");
+	}
+
+	/**
+	 * After a successful gunner shot from {@code leader}, tells nearby eligible turrets to fire in parallel.
+	 *
+	 * @param useWorldAimCone if true, slaves use the leader's world aim point and each picks a target in cone; if false, slaves shoot {@code explicitTarget} using the leader gunner's PvP rules.
+	 */
+	public static void propagateGunnerSyncFire(obj_id leader, obj_id gunner, obj_id explicitTarget, float aimX, float aimY, float aimZ, boolean useWorldAimCone) throws InterruptedException
+	{
+		if (!isSyncLeader(leader))
 		{
 			return;
 		}
-		obj_id tw = getObjIdObjVar(turret, "objWeapon");
-		if (!isIdValid(tw))
+		if (!isIdValid(gunner) || !exists(gunner) || !isPlayer(gunner))
 		{
 			return;
 		}
-		int minD = getWeaponMinDamage(held);
-		int maxD = getWeaponMaxDamage(held);
-		if (maxD < minD)
+		float range = getSyncRangeMeters(leader);
+		location loc = getLocation(leader);
+		obj_id[] near = getObjectsInRange(loc, range);
+		if (near == null || near.length == 0)
 		{
-			int swap = minD;
-			minD = maxD;
-			maxD = swap;
+			return;
 		}
-		setWeaponMinDamage(tw, minD);
-		setWeaponMaxDamage(tw, maxD);
-		float spd = getWeaponAttackSpeed(held);
-		if (spd > 0.0f)
+		float stagger = 0.0f;
+		for (obj_id other : near)
 		{
-			setWeaponAttackSpeed(tw, spd);
+			if (!isTurretSyncNeighbor(other, leader))
+			{
+				continue;
+			}
+			if (getDistance(leader, other) > range)
+			{
+				continue;
+			}
+			dictionary d = new dictionary();
+			d.put("syncGunner", gunner);
+			if (useWorldAimCone)
+			{
+				d.put("aimX", aimX);
+				d.put("aimY", aimY);
+				d.put("aimZ", aimZ);
+				messageTo(other, "handleSyncedSalvoDirectional", d, stagger, false);
+			}
+			else
+			{
+				if (!isIdValid(explicitTarget))
+				{
+					continue;
+				}
+				d.put("syncTarget", explicitTarget);
+				messageTo(other, "handleSyncedSalvoTarget", d, stagger, false);
+			}
+			stagger += 0.03f;
+			if (stagger > 0.45f)
+			{
+				stagger = 0.45f;
+			}
 		}
-		int elemType = getWeaponElementalType(held);
-		int elemVal = getWeaponElementalValue(held);
-		setWeaponElementalDamage(tw, elemType, elemVal);
 	}
 
 	public static void clearAiTargetsAndEngagement(obj_id turretObj) throws InterruptedException
@@ -224,6 +406,8 @@ public class turret_gunner_lib extends script.base_script
 		utils.removeScriptVar(turret, SCRIPTVAR_AIM_WX);
 		utils.removeScriptVar(turret, SCRIPTVAR_AIM_WY);
 		utils.removeScriptVar(turret, SCRIPTVAR_AIM_WZ);
+
+		utils.removeBatchScriptVar(player, SCRIPTVAR_LOAD_WEAPON_IDS);
 
 		removeObjVar(turret, VAR_GUNNER_OCCUPANT);
 		removeObjVar(player, VAR_PLAYER_MOUNTED_ON);

@@ -1,0 +1,53 @@
+level	rankTitle
+i	s
+0	PLAYER
+1	Trial Helper
+2	Junior Helper
+3	Helper
+4	Senior Helper
+5	Lead Helper
+6	Trial Game Master (GM)
+7	Junior Game Master
+8	Game Master
+9	Senior Game Master
+10	Lead Game Master
+11	Trial Moderator
+12	Junior Moderator
+13	Moderator
+14	Senior Moderator
+15	Lead Moderator
+16	Trial Event Coordinator
+17	Event Coordinator
+18	Senior Event Coordinator
+19	Lead Event Coordinator
+20	Event Manager
+21	Trial Developer
+22	Junior Developer
+23	Developer
+24	Senior Developer
+25	Lead Developer
+26	Trial Systems Administrator
+27	Systems Administrator
+28	Senior Systems Administrator
+29	Lead Systems Administrator
+30	Infrastructure Manager
+31	Trial Designer
+32	Game Designer
+33	Senior Game Designer
+34	Lead Game Designer
+35	Creative Director
+36	Trial Community Manager
+37	Community Manager
+38	Senior Community Manager
+39	Lead Community Manager
+40	Community Director
+41	Project Manager
+42	Senior Project Manager
+43	Operations Manager
+44	Technical Director
+45	Studio Director
+46	Executive Producer
+47	Chief Technology Officer (CTO)
+48	Chief Operating Officer (COO)
+49	Co-Owner
+50	Owner / Server Administrator

@@ -10,7 +10,8 @@ import script.obj_id;
  * gunner-driven shots ({@code handleGunnerSingleShot}) but does not auto-acquire targets via triggers.
  * Used when {@code systems.turret.turret_ai} is detached in favor of manual gunner control.
  */
-public class turret_gunner_combat extends turret_ai
+public class
+turret_gunner_combat extends turret_ai
 {
 	public turret_gunner_combat()
 	{

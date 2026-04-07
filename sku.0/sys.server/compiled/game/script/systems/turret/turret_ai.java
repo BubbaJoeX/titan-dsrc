@@ -622,7 +622,11 @@ public class turret_ai extends script.systems.combat.combat_base_old
             return SCRIPT_CONTINUE;
         }
         turret.engageTarget(self, best);
-        doAttack(best, gunner);
+        float recycleDir = doAttack(best, gunner);
+        if (recycleDir >= 0.0f && recycleDir != 2.0f)
+        {
+            turret_gunner_lib.propagateGunnerSyncFire(self, gunner, best, ax, ay, az, true);
+        }
         return SCRIPT_CONTINUE;
     }
     public int handleGunnerSingleShot(obj_id self, dictionary params) throws InterruptedException
@@ -646,7 +650,123 @@ public class turret_ai extends script.systems.combat.combat_base_old
             return SCRIPT_CONTINUE;
         }
         turret.engageTarget(self, tgt);
-        doAttack(tgt, gunner);
+        float recycleSingle = doAttack(tgt, gunner);
+        if (recycleSingle >= 0.0f && recycleSingle != 2.0f)
+        {
+            turret_gunner_lib.propagateGunnerSyncFire(self, gunner, tgt, 0.0f, 0.0f, 0.0f, false);
+        }
+        return SCRIPT_CONTINUE;
+    }
+
+    /**
+     * Sync salvo: fire at the leader's target using the leader gunner's PvP validity; damage uses normal AI turret rules.
+     */
+    public int handleSyncedSalvoTarget(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (params == null || params.isEmpty())
+        {
+            return SCRIPT_CONTINUE;
+        }
+        if (utils.hasScriptVar(self, turret_gunner_lib.SCRIPTVAR_SUSPEND_AI_TRIGGERS))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        obj_id gunner = params.getObjId("syncGunner");
+        if (!isIdValid(gunner) || !exists(gunner) || !isPlayer(gunner))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        obj_id tgt = params.getObjId("syncTarget");
+        if (!isIdValid(tgt) || !exists(tgt))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        if (getHitpoints(self) < 1)
+        {
+            return SCRIPT_CONTINUE;
+        }
+        if (!hasObjVar(self, "objWeapon"))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        if (!turret.isGunnerValidTarget(self, gunner, tgt))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        if (!canSee(self, tgt))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        turret.engageTarget(self, tgt);
+        doAttack(tgt, obj_id.NULL_ID);
+        return SCRIPT_CONTINUE;
+    }
+
+    /**
+     * Sync salvo: each slave aims at the leader's world aim point and picks the closest valid target in cone (gunner rules).
+     */
+    public int handleSyncedSalvoDirectional(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (params == null || params.isEmpty())
+        {
+            return SCRIPT_CONTINUE;
+        }
+        if (utils.hasScriptVar(self, turret_gunner_lib.SCRIPTVAR_SUSPEND_AI_TRIGGERS))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        obj_id gunner = params.getObjId("syncGunner");
+        if (!isIdValid(gunner) || !exists(gunner) || !isPlayer(gunner))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        if (getHitpoints(self) < 1)
+        {
+            return SCRIPT_CONTINUE;
+        }
+        if (!hasObjVar(self, "objWeapon"))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        float ax = params.getFloat("aimX");
+        float ay = params.getFloat("aimY");
+        float az = params.getFloat("aimZ");
+        location turretLoc = getLocation(self);
+        location aimLoc = new location(ax, ay, az, turretLoc.area, turretLoc.cell);
+        obj_id[] inCone = getObjectsInCone(self, aimLoc, turret.FACTION_TURRET_RANGE, 22.5f);
+        if (inCone == null || inCone.length == 0)
+        {
+            return SCRIPT_CONTINUE;
+        }
+        obj_id best = null;
+        float bestDistSq = Float.MAX_VALUE;
+        for (obj_id oid : inCone)
+        {
+            if (!isIdValid(oid) || oid == self || oid == gunner)
+            {
+                continue;
+            }
+            if (!turret.isGunnerValidTarget(self, gunner, oid))
+            {
+                continue;
+            }
+            location oLoc = getLocation(oid);
+            float dx = oLoc.x - aimLoc.x;
+            float dy = oLoc.y - aimLoc.y;
+            float dz = oLoc.z - aimLoc.z;
+            float d2 = dx * dx + dy * dy + dz * dz;
+            if (d2 < bestDistSq)
+            {
+                bestDistSq = d2;
+                best = oid;
+            }
+        }
+        if (!isIdValid(best))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        turret.engageTarget(self, best);
+        doAttack(best, obj_id.NULL_ID);
         return SCRIPT_CONTINUE;
     }
     public int handleTurretAttack(obj_id self, dictionary params) throws InterruptedException

@@ -9,6 +9,8 @@ import script.menu_info;
 import script.obj_id;
 import script.string_id;
 
+import java.util.Vector;
+
 /**
  * Radial: enter/exit gunner seat on player-controllable installation turrets.
  * Requires {@code turret.playerControllable} = 1 (or non-zero) on the turret.
@@ -22,6 +24,9 @@ public class turret_gunner_station extends script.base_script
 	private static final string_id SID_GM_SEAT = new string_id("GM: Set seat offsets (x y z)");
 	private static final string_id SID_GM_EYE = new string_id("GM: Set eye/camera offsets (x y z)");
 	private static final string_id SID_GM_NUDGE = new string_id("GM: Nudge offsets...");
+	private static final string_id SID_LOAD_WEAPON = new string_id("Load Turret Weapon Stats...");
+	private static final string_id SID_GM_SYNC = new string_id("GM: Toggle Gunner Sync Mode");
+	private static final string_id SID_GM_SYNC_RANGE = new string_id("GM: Set Gunner Sync Range (m)");
 
 	public turret_gunner_station()
 	{
@@ -83,6 +88,7 @@ public class turret_gunner_station extends script.base_script
 			if (isIdValid(occ) && occ == player)
 			{
 				mi.addRootMenu(menu_info_types.SERVER_TURRET_GUNNER_EXIT, SID_EXIT);
+				mi.addRootMenu(menu_info_types.SERVER_MENU4, SID_LOAD_WEAPON);
 			}
 		}
 
@@ -92,6 +98,8 @@ public class turret_gunner_station extends script.base_script
 			mi.addRootMenu(menu_info_types.SERVER_MENU1, SID_GM_SEAT);
 			mi.addRootMenu(menu_info_types.SERVER_MENU2, SID_GM_EYE);
 			mi.addRootMenu(menu_info_types.SERVER_MENU3, SID_GM_NUDGE);
+			mi.addRootMenu(menu_info_types.SERVER_MENU5, SID_GM_SYNC);
+			mi.addRootMenu(menu_info_types.SERVER_MENU6, SID_GM_SYNC_RANGE);
 		}
 
 		return SCRIPT_CONTINUE;
@@ -107,7 +115,7 @@ public class turret_gunner_station extends script.base_script
 		{
 			if (turret_gunner_lib.tryMount(self, player))
 			{
-				sendSystemMessageTestingOnly(player, "Mounted turret gunner seat.");
+				sendSystemMessageTestingOnly(player, "Mounted turret gunner seat. Press 'T' to dismount.");
 			}
 			else
 			{
@@ -151,6 +159,41 @@ public class turret_gunner_station extends script.base_script
 			sui.inputbox(self, player, prompt, "GM: Eye offsets", "handleGmEyeOffsetsInput", def);
 			return SCRIPT_CONTINUE;
 		}
+		if (item == menu_info_types.SERVER_MENU4)
+		{
+			if (!turret_gunner_lib.isOccupied(self) || turret_gunner_lib.getOccupant(self) != player)
+			{
+				return SCRIPT_CONTINUE;
+			}
+			openGunnerWeaponLoadSui(self, player);
+			return SCRIPT_CONTINUE;
+		}
+		if (item == menu_info_types.SERVER_MENU5)
+		{
+			if (!isGod(player))
+			{
+				return SCRIPT_CONTINUE;
+			}
+			boolean on = !turret_gunner_lib.isSyncLeader(self);
+			setObjVar(self, turret_gunner_lib.VAR_SYNC_LEADER, on ? 1 : 0);
+			if (on && !hasObjVar(self, turret_gunner_lib.VAR_SYNC_RANGE))
+			{
+				setObjVar(self, turret_gunner_lib.VAR_SYNC_RANGE, turret_gunner_lib.DEFAULT_SYNC_RANGE);
+			}
+			sendSystemMessageTestingOnly(player, "[GM] Gunner sync leader " + (on ? "ON" : "OFF") + ".");
+			return SCRIPT_CONTINUE;
+		}
+		if (item == menu_info_types.SERVER_MENU6)
+		{
+			if (!isGod(player))
+			{
+				return SCRIPT_CONTINUE;
+			}
+			String def = Float.toString(turret_gunner_lib.getSyncRangeMeters(self));
+			String prompt = "Max distance (meters) for other turrets to mirror this turret's gunner fire.\nAllowed range: 1-512.";
+			sui.inputbox(self, player, prompt, "GM: Gunner sync range", "handleGmSyncRangeInput", def);
+			return SCRIPT_CONTINUE;
+		}
 		if (item == menu_info_types.SERVER_MENU3)
 		{
 			if (!isGod(player))
@@ -176,6 +219,129 @@ public class turret_gunner_station extends script.base_script
 			};
 			sui.listbox(self, player, "Adjust turret.gunner offsets in small steps (meters).", sui.OK_CANCEL, "GM: Nudge offsets", items, "handleGmNudgeOffsets", true, false);
 			return SCRIPT_CONTINUE;
+		}
+		return SCRIPT_CONTINUE;
+	}
+
+	private void openGunnerWeaponLoadSui(obj_id turret, obj_id player) throws InterruptedException
+	{
+		Vector weapons = new Vector();
+		Vector labels = new Vector();
+		obj_id held = getHeldWeapon(player);
+		if (isIdValid(held) && exists(held) && isWeapon(held))
+		{
+			weapons.add(held);
+			labels.add("[Held] " + getEncodedName(held) + " - " + getTemplateName(held));
+		}
+		obj_id inv = getInventoryContainer(player);
+		if (isIdValid(inv))
+		{
+			obj_id[] fromInv = utils.getContents(inv, true);
+			if (fromInv != null)
+			{
+				for (obj_id o : fromInv)
+				{
+					if (!isIdValid(o) || !exists(o) || !isWeapon(o))
+					{
+						continue;
+					}
+					if (weapons.contains(o))
+					{
+						continue;
+					}
+					weapons.add(o);
+					labels.add(getEncodedName(o) + " - " + getTemplateName(o));
+				}
+			}
+		}
+		if (weapons.size() < 1)
+		{
+			sendSystemMessageTestingOnly(player, "No weapons in inventory (or held) to copy stats from.");
+			return;
+		}
+		obj_id[] idArr = new obj_id[weapons.size()];
+		String[] rows = new String[weapons.size()];
+		for (int i = 0; i < weapons.size(); ++i)
+		{
+			idArr[i] = (obj_id) weapons.get(i);
+			rows[i] = (String) labels.get(i);
+		}
+		utils.setBatchScriptVar(player, turret_gunner_lib.SCRIPTVAR_LOAD_WEAPON_IDS, idArr);
+		sui.listbox(turret, player, "The turret keeps its weapon object; stats (damage, speed, elemental) are copied from the item you pick.", sui.OK_CANCEL, "Turret weapon stats", rows, "handleGunnerWeaponPick", true, false);
+	}
+
+	public int handleGunnerWeaponPick(obj_id self, dictionary params) throws InterruptedException
+	{
+		obj_id player = sui.getPlayerId(params);
+		if (!isIdValid(player))
+		{
+			return SCRIPT_CONTINUE;
+		}
+		if (utils.hasObjIdBatchScriptVar(player, turret_gunner_lib.SCRIPTVAR_LOAD_WEAPON_IDS))
+		{
+			if (sui.getIntButtonPressed(params) != sui.BP_OK)
+			{
+				utils.removeBatchScriptVar(player, turret_gunner_lib.SCRIPTVAR_LOAD_WEAPON_IDS);
+				return SCRIPT_CONTINUE;
+			}
+			int row = sui.getListboxSelectedRow(params);
+			obj_id[] ids = utils.getObjIdBatchScriptVar(player, turret_gunner_lib.SCRIPTVAR_LOAD_WEAPON_IDS);
+			utils.removeBatchScriptVar(player, turret_gunner_lib.SCRIPTVAR_LOAD_WEAPON_IDS);
+			if (ids == null || row < 0 || row >= ids.length)
+			{
+				return SCRIPT_CONTINUE;
+			}
+			if (!turret_gunner_lib.isOccupied(self) || turret_gunner_lib.getOccupant(self) != player)
+			{
+				return SCRIPT_CONTINUE;
+			}
+			obj_id w = ids[row];
+			if (turret_gunner_lib.tryApplyWeaponStatsFromInventoryWeapon(self, player, w))
+			{
+				sendSystemMessageTestingOnly(player, "Turret weapon stats updated from the selected weapon.");
+			}
+			else
+			{
+				sendSystemMessageTestingOnly(player, "Could not apply weapon stats (invalid item or not in your inventory).");
+			}
+		}
+		return SCRIPT_CONTINUE;
+	}
+
+	public int handleGmSyncRangeInput(obj_id self, dictionary params) throws InterruptedException
+	{
+		obj_id player = sui.getPlayerId(params);
+		if (!isGod(player))
+		{
+			return SCRIPT_CONTINUE;
+		}
+		if (sui.getIntButtonPressed(params) != sui.BP_OK)
+		{
+			return SCRIPT_CONTINUE;
+		}
+		String raw = sui.getInputBoxText(params);
+		if (raw == null || raw.trim().isEmpty())
+		{
+			sendSystemMessageTestingOnly(player, "[GM] Empty input.");
+			return SCRIPT_CONTINUE;
+		}
+		try
+		{
+			float r = Float.parseFloat(raw.trim());
+			if (r < 1.0f)
+			{
+				r = 1.0f;
+			}
+			if (r > 512.0f)
+			{
+				r = 512.0f;
+			}
+			setObjVar(self, turret_gunner_lib.VAR_SYNC_RANGE, r);
+			sendSystemMessageTestingOnly(player, "[GM] Gunner sync range set to " + r + " m.");
+		}
+		catch (NumberFormatException e)
+		{
+			sendSystemMessageTestingOnly(player, "[GM] Invalid number.");
 		}
 		return SCRIPT_CONTINUE;
 	}
