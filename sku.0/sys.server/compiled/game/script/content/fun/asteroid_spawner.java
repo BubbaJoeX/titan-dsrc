@@ -31,7 +31,13 @@ public class asteroid_spawner extends base_script
     private static final float DEFAULT_NOTIFY_RADIUS = 384.0f;
     private static final int DEFAULT_COOLDOWN_SEC = 90;
 
-    private static final String ASTEROID_TEMPLATE = "object/tangible/usable/asteroid.iff";
+    /** Retain this fraction of baseline scale (75% reduction vs that baseline). */
+    private static final float ASTEROID_SCALE_AFTER_REDUCTION = 0.25f;
+
+    private static final String ASTEROID_SHIP_TEMPLATE_PREFIX = "object/ship/asteroid";
+    private static final String FALLBACK_ASTEROID_TEMPLATE = "object/tangible/usable/asteroid.iff";
+    private static volatile String[] s_cachedShipAsteroidTemplates;
+
     private static final String COOLDOWN_OBJVAR = "fun.asteroid.last_shower";
 
     private static final String SND_ALERT = "sound/sys_comm_generic.snd";
@@ -195,10 +201,12 @@ public class asteroid_spawner extends base_script
         for (int i = 0; i < forWave; i++)
         {
             location impact = randomImpactLocation(anchor, range);
-            obj_id asteroid = createObject(pickAsteroidTemplate(), impact);
+            String tmpl = pickAsteroidTemplate();
+            obj_id asteroid = createObject(tmpl, impact);
 
             if (isIdValid(asteroid))
             {
+                applyReducedAsteroidScale(asteroid, tmpl);
                 attachScript(asteroid, "content.fun.fallen_asteroid");
                 setName(asteroid, ASTEROID_NAMES[rand(0, ASTEROID_NAMES.length - 1)]);
                 playImpactEffects(impact, audience);
@@ -425,6 +433,28 @@ public class asteroid_spawner extends base_script
             return FALLBACK_ASTEROID_TEMPLATE;
         }
         return t[rand(0, t.length - 1)];
+    }
+
+    /**
+     * Uses the object's current scale if non-zero, otherwise the template default, then multiplies by
+     * {@link #ASTEROID_SCALE_AFTER_REDUCTION} (75% smaller than that baseline).
+     */
+    private static void applyReducedAsteroidScale(obj_id asteroid, String serverTemplate) throws InterruptedException
+    {
+        float base = getScale(asteroid);
+        if (base <= 0f && serverTemplate != null && !serverTemplate.isEmpty())
+        {
+            base = getDefaultScaleFromObjectTemplate(serverTemplate);
+        }
+        if (base <= 0f)
+        {
+            base = 1.0f;
+        }
+        float scaled = base * ASTEROID_SCALE_AFTER_REDUCTION;
+        if (scaled > 0f)
+        {
+            setScale(asteroid, scaled);
+        }
     }
 
     public void blog(String msg)
