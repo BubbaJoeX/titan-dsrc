@@ -10,6 +10,7 @@ package script.event.anniversary;/*
 */
 
 import script.*;
+import script.library.gm;
 import script.library.static_item;
 import script.library.sui;
 import script.library.utils;
@@ -45,7 +46,8 @@ public class gift_object extends stadium_lib
         }
         if (isGod(player))
         {
-            mi.addRootMenu(menu_info_types.SERVER_MENU1, new string_id("[GM] Override Gift Lockout"));
+            int gmRoot = mi.addRootMenu(menu_info_types.SERVER_MENU40, gm.SID_RADIAL_GM_ROOT);
+            mi.addSubMenu(gmRoot, menu_info_types.SERVER_MENU1, new string_id("Override Gift Lockout"));
         }
         return SCRIPT_CONTINUE;
     }

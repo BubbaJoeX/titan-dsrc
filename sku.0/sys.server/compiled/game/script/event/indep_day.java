@@ -10,6 +10,7 @@ package script.event;/*
 */
 
 import script.*;
+import script.library.gm;
 import script.library.utils;
 
 public class indep_day extends base_script
@@ -38,7 +39,8 @@ public class indep_day extends base_script
         mi.addRootMenu(menu_info_types.ITEM_USE, new string_id("Claim Holiday Gift"));
         if (isGod(player))
         {
-            mi.addRootMenu(menu_info_types.SERVER_MENU1, new string_id("[GM] Reset For Self"));
+            int gmRoot = mi.addRootMenu(menu_info_types.SERVER_MENU40, gm.SID_RADIAL_GM_ROOT);
+            mi.addSubMenu(gmRoot, menu_info_types.SERVER_MENU1, new string_id("Reset For Self"));
         }
         return SCRIPT_CONTINUE;
     }

@@ -35,17 +35,16 @@ public class recycler extends base_script
         int menu4 = mi.addRootMenu(menu_info_types.SERVER_MENU13, new string_id("Current Rewards"));
         if (isGod(player))
         {
-            int menu3 = mi.addRootMenu(menu_info_types.SERVER_MENU2, new string_id("[GodMode] Recycler Menu"));
-            mi.addSubMenu(menu3, menu_info_types.SERVER_MENU3, new string_id("Clear Rewards"));
-            mi.addSubMenu(menu3, menu_info_types.SERVER_MENU4, new string_id("Clear Points (Self)"));
-            mi.addSubMenu(menu3, menu_info_types.SERVER_MENU12, new string_id("Clear Total Scrapped"));
-            mi.addSubMenu(menu3, menu_info_types.SERVER_MENU5, new string_id("Set Item to Recycle"));
-            int tiersettings = mi.addRootMenu(menu_info_types.SERVER_MENU6, new string_id("[GodMode] Modify Rewards"));
-            mi.addSubMenu(tiersettings, menu_info_types.SERVER_MENU7, new string_id("Set Tier 1 Reward"));
-            mi.addSubMenu(tiersettings, menu_info_types.SERVER_MENU8, new string_id("Set Tier 2 Reward"));
-            mi.addSubMenu(tiersettings, menu_info_types.SERVER_MENU9, new string_id("Set Tier 3 Reward"));
-            mi.addSubMenu(tiersettings, menu_info_types.SERVER_MENU10, new string_id("Set Tier 4 Reward"));
-            mi.addSubMenu(tiersettings, menu_info_types.SERVER_MENU11, new string_id("Set Tier 5 Reward"));
+            int gmRoot = mi.addRootMenu(menu_info_types.SERVER_MENU40, gm.SID_RADIAL_GM_ROOT);
+            mi.addSubMenu(gmRoot, menu_info_types.SERVER_MENU3, new string_id("Clear Rewards"));
+            mi.addSubMenu(gmRoot, menu_info_types.SERVER_MENU4, new string_id("Clear Points (Self)"));
+            mi.addSubMenu(gmRoot, menu_info_types.SERVER_MENU12, new string_id("Clear Total Scrapped"));
+            mi.addSubMenu(gmRoot, menu_info_types.SERVER_MENU5, new string_id("Set Item to Recycle"));
+            mi.addSubMenu(gmRoot, menu_info_types.SERVER_MENU7, new string_id("Set Tier 1 Reward"));
+            mi.addSubMenu(gmRoot, menu_info_types.SERVER_MENU8, new string_id("Set Tier 2 Reward"));
+            mi.addSubMenu(gmRoot, menu_info_types.SERVER_MENU9, new string_id("Set Tier 3 Reward"));
+            mi.addSubMenu(gmRoot, menu_info_types.SERVER_MENU10, new string_id("Set Tier 4 Reward"));
+            mi.addSubMenu(gmRoot, menu_info_types.SERVER_MENU11, new string_id("Set Tier 5 Reward"));
         }
         return SCRIPT_CONTINUE;
     }

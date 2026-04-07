@@ -66,6 +66,10 @@ public class combat_base extends script.base_script
     }
     public boolean combatStandardAction(String actionName, obj_id self, obj_id target, obj_id objWeapon, String params, combat_data actionData, boolean isTangibleAttacking, boolean testPetBar, int overloadDamage) throws InterruptedException
     {
+        if (isPlayer(self) && turret_gunner_lib.isMountedAsGunner(self))
+        {
+            return false;
+        }
         if (combat.isStunned(self))
         {
             return false;

@@ -509,6 +509,20 @@ public class turret_gunner_lib extends script.base_script
 	}
 
 	/** Gunner hit damage: {@code percent}% of defender max hitpoints (rounded), at least 1. */
+	/** True while the player is in a gunner seat (objvar + client mount id). */
+	public static boolean isMountedAsGunner(obj_id player) throws InterruptedException
+	{
+		if (!isIdValid(player) || !isPlayer(player))
+		{
+			return false;
+		}
+		if (hasObjVar(player, VAR_PLAYER_MOUNTED_ON))
+		{
+			return true;
+		}
+		return isIdValid(getTurretGunnerMountTurretId(player));
+	}
+
 	public static int computeGunnerPercentHitDamage(obj_id defender, int percent) throws InterruptedException
 	{
 		if (!isIdValid(defender))

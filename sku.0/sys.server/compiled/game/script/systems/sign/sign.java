@@ -79,7 +79,8 @@ public class sign extends script.base_script
         }
         if (isGod(player))
         {
-            mi.addRootMenu(menu_info_types.SERVER_MENU12, string_id.unlocalized("God: Set Sign Name"));
+            int gmRoot = mi.addRootMenu(menu_info_types.SERVER_MENU28, gm.SID_RADIAL_GM_ROOT);
+            mi.addSubMenu(gmRoot, menu_info_types.SERVER_MENU12, string_id.unlocalized("Set Sign Name"));
         }
         deltadictionary scriptvars = self.getScriptVars();
         if (!utils.hasScriptVar(self, "player_structure.parent"))

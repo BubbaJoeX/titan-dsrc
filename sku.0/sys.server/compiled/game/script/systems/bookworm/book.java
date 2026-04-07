@@ -2,6 +2,7 @@ package script.systems.bookworm;
 
 import script.*;
 import script.library.buff;
+import script.library.gm;
 import script.library.sui;
 //import script.library.oracle;
 import script.library.utils;
@@ -32,7 +33,8 @@ public class book extends base_script
         }
         if (isGod(player))
         {
-            mi.addRootMenu(menu_info_types.SERVER_MENU4, unlocalized("[GM] Claim Book"));
+            int gmRoot = mi.addRootMenu(menu_info_types.SERVER_MENU40, gm.SID_RADIAL_GM_ROOT);
+            mi.addSubMenu(gmRoot, menu_info_types.SERVER_MENU4, unlocalized("Claim Book"));
         }
         return SCRIPT_CONTINUE;
     }

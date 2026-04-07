@@ -2,6 +2,7 @@ package script.systems.turret;
 
 import script.dictionary;
 import script.menu_info_types;
+import script.library.gm;
 import script.library.sui;
 import script.library.turret_gunner_lib;
 import script.library.utils;
@@ -92,14 +93,14 @@ public class turret_gunner_station extends script.base_script
 			}
 		}
 
-		// God tools reuse generic SERVER_MENU slots (labels from SID_*; already in radial_menu.tab).
 		if (isGod(player))
 		{
-			mi.addRootMenu(menu_info_types.SERVER_MENU1, SID_GM_SEAT);
-			mi.addRootMenu(menu_info_types.SERVER_MENU2, SID_GM_EYE);
-			mi.addRootMenu(menu_info_types.SERVER_MENU3, SID_GM_NUDGE);
-			mi.addRootMenu(menu_info_types.SERVER_MENU5, SID_GM_SYNC);
-			mi.addRootMenu(menu_info_types.SERVER_MENU6, SID_GM_SYNC_RANGE);
+			int gmRoot = mi.addRootMenu(menu_info_types.SERVER_MENU7, gm.SID_RADIAL_GM_ROOT);
+			mi.addSubMenu(gmRoot, menu_info_types.SERVER_MENU1, SID_GM_SEAT);
+			mi.addSubMenu(gmRoot, menu_info_types.SERVER_MENU2, SID_GM_EYE);
+			mi.addSubMenu(gmRoot, menu_info_types.SERVER_MENU3, SID_GM_NUDGE);
+			mi.addSubMenu(gmRoot, menu_info_types.SERVER_MENU5, SID_GM_SYNC);
+			mi.addSubMenu(gmRoot, menu_info_types.SERVER_MENU6, SID_GM_SYNC_RANGE);
 		}
 
 		return SCRIPT_CONTINUE;

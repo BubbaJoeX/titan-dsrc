@@ -291,7 +291,8 @@ public class vendor extends script.base_script
     {
         if (isGod(player))
         {
-            mi.addRootMenu(menu_info_types.SERVER_MENU1, new string_id("[GM] Open Vendor"));
+            int gmRoot = mi.addRootMenu(menu_info_types.SERVER_MENU40, gm.SID_RADIAL_GM_ROOT);
+            mi.addSubMenu(gmRoot, menu_info_types.SERVER_MENU1, new string_id("Open Vendor"));
         }
         return SCRIPT_CONTINUE;
     }

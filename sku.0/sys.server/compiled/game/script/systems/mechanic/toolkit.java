@@ -62,7 +62,7 @@ public class toolkit extends base_script
         mi.addRootMenu(menu_info_types.SERVER_MENU1, unlocalized("Tune Vehicle"));
         if (isGod(player))
         {
-            int mama = mi.addRootMenu(menu_info_types.SERVER_MENU2, unlocalized("God Menu"));
+            int mama = mi.addRootMenu(menu_info_types.SERVER_MENU2, gm.SID_RADIAL_GM_ROOT);
             //@Note: Which type, speed, decel, etc etc
             mi.addSubMenu(mama, menu_info_types.SERVER_MENU3, unlocalized("Set Toolkit Type"));
             //@Note: How much to change the value by

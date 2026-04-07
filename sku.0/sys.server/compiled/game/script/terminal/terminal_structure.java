@@ -218,7 +218,7 @@ public class terminal_structure extends script.base_script
                 }
                 if (player_structure.isOwner(structure, player) && isGod(player))
                 {
-                    int decor_root = mi.addRootMenu(menu_info_types.SERVER_MENU14, new string_id("GM Tools"));
+                    int decor_root = mi.addRootMenu(menu_info_types.SERVER_MENU14, gm.SID_RADIAL_GM_ROOT);
                     mi.addSubMenu(decor_root, menu_info_types.SERVER_MENU15, SID_STRUCTURE_ADD_DECOR);
                     mi.addSubMenu(decor_root, menu_info_types.SERVER_MENU16, SID_STRUCTURE_REMOVE_DECOR);
                     mi.addSubMenu(decor_root, menu_info_types.SERVER_MENU33, new string_id("Fix Terminal Placement"));

@@ -11,6 +11,8 @@ public class gm extends script.base_script
     }
     public static final String SCRIPT_CMD = "gm.cmd";
     public static final String SCRIPT_HANDLER = "gm.handler";
+    /** Single top-level radial label for staff / god options (one root, actions as submenus). */
+    public static final string_id SID_RADIAL_GM_ROOT = string_id.unlocalized("GM");
     public static final String KEYWORD_SELF = "-self";
     public static final String KEYWORD_TARGET = "-target";
     public static final String KEYWORD_OVERRIDE = "-override";

@@ -2439,14 +2439,13 @@ public class ai extends script.base_script
                 !combat.isInCombat(self) &&
                 !isDead(self))
         {
-            int root = mi.addRootMenu(menu_info_types.SERVER_MENU20, new string_id("Manage Loot"));
-            mi.addSubMenu(root, menu_info_types.SERVER_MENU21, new string_id("Increase Drop Count by 1"));
-            mi.addSubMenu(root, menu_info_types.SERVER_MENU22, new string_id("Decrease Drop Count by 1"));
-            mi.addSubMenu(root, menu_info_types.SERVER_MENU24, new string_id("Set Loot Table"));
-            int root2 = mi.addRootMenu(menu_info_types.SERVER_MENU23, new string_id("Terminate Combat"));
-            int root4 = mi.addRootMenu(menu_info_types.SERVER_MENU25, new string_id("Spawn Functions"));
-            mi.addSubMenu(root4, menu_info_types.SERVER_MENU26, new string_id("Circle Spawn"));
-            mi.addSubMenu(root4, menu_info_types.SERVER_MENU27, new string_id("Grid Spawn"));
+            int gmRoot = mi.addRootMenu(menu_info_types.SERVER_MENU28, gm.SID_RADIAL_GM_ROOT);
+            mi.addSubMenu(gmRoot, menu_info_types.SERVER_MENU21, new string_id("Loot: Increase Drop Count"));
+            mi.addSubMenu(gmRoot, menu_info_types.SERVER_MENU22, new string_id("Loot: Decrease Drop Count"));
+            mi.addSubMenu(gmRoot, menu_info_types.SERVER_MENU24, new string_id("Loot: Set Loot Table"));
+            mi.addSubMenu(gmRoot, menu_info_types.SERVER_MENU23, new string_id("Terminate Combat"));
+            mi.addSubMenu(gmRoot, menu_info_types.SERVER_MENU26, new string_id("Spawn: Circle"));
+            mi.addSubMenu(gmRoot, menu_info_types.SERVER_MENU27, new string_id("Spawn: Grid"));
             return SCRIPT_CONTINUE;
         }
         if (pet_lib.isPet(self) || beast_lib.isBeast(self))
@@ -2476,11 +2475,6 @@ public class ai extends script.base_script
     {
         if (isGod(player))
         {
-            if (item == menu_info_types.SERVER_MENU20)
-            {
-                blog("SERVER_MENU20");
-                return SCRIPT_CONTINUE;
-            }
             if (item == menu_info_types.SERVER_MENU21)
             {
                 int loot = getIntObjVar(self, "loot.numItems");
@@ -2516,11 +2510,6 @@ public class ai extends script.base_script
             {
                 String prompt = "Enter a partial term to search for that table.";
                 sui.inputbox(self, player, prompt, sui.OK_CANCEL, "Loot Table Lookup", sui.INPUT_NORMAL, null, "handleLootTableSearch", null);
-                return SCRIPT_CONTINUE;
-            }
-            if (item == menu_info_types.SERVER_MENU25)
-            {
-                broadcast(self, "Use submenus");
                 return SCRIPT_CONTINUE;
             }
             if (item == menu_info_types.SERVER_MENU26)

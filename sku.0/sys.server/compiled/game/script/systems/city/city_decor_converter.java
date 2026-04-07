@@ -8,6 +8,7 @@ package script.systems.city;/*
 
 import script.*;
 import script.library.create;
+import script.library.gm;
 import script.library.static_item;
 import script.library.utils;
 
@@ -138,7 +139,8 @@ public class city_decor_converter extends base_script
     {
         if (isGod(player))
         {
-            mi.addRootMenu(menu_info_types.SERVER_MENU1, new string_id("[GM] Create Actor Deed"));
+            int gmRoot = mi.addRootMenu(menu_info_types.SERVER_MENU40, gm.SID_RADIAL_GM_ROOT);
+            mi.addSubMenu(gmRoot, menu_info_types.SERVER_MENU1, new string_id("Create Actor Deed"));
         }
         return SCRIPT_CONTINUE;
     }
