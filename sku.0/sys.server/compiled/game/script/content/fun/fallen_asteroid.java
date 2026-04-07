@@ -36,7 +36,7 @@ public class fallen_asteroid extends base_script
     private static final float DEFAULT_SUI_RANGE = 15.0f;
     private static final float DEFAULT_FINISH_RANGE = 18.0f;
 
-    private static final String DEFAULT_RESOURCE = "asteroid";
+    private static final String DEFAULT_RESOURCE = "space_metal_obsidian";
 
     private static final String CEF_IMPACT = "clienteffect/combat_explosion_lair_large.cef";
     private static final String CEF_DUST = "clienteffect/lair_med_damage_smoke.cef";
@@ -222,7 +222,7 @@ public class fallen_asteroid extends base_script
         float finishRange = getFloatSetting(self, "fun.fallen_asteroid.finish_range", DEFAULT_FINISH_RANGE);
         if (getDistance(player, self) > finishRange)
         {
-            sendSystemMessage(player, "You moved too far from the fragment—the ore cools and locks back into the rock.", "");
+            sendSystemMessage(player, "You moved too far from the fragment, the ore cools and locks back into the rock.", "");
             return SCRIPT_CONTINUE;
         }
 
@@ -258,7 +258,7 @@ public class fallen_asteroid extends base_script
         }
         else
         {
-            sendSystemMessage(player, "The mass still holds recoverable material—you could extract again.", "");
+            sendSystemMessage(player, "The mass still holds recoverable material... you could extract again.", "");
         }
 
         return SCRIPT_CONTINUE;
@@ -305,7 +305,8 @@ public class fallen_asteroid extends base_script
         }
         if (!isIdValid(resourceType))
         {
-            sendSystemMessage(player, "The deposit yields nothing usable—resource type is misconfigured.", "");
+            sendSystemMessage(player, "The deposit yields nothing usable.", "");
+            //Resource type is misconfigured.
             return;
         }
 
