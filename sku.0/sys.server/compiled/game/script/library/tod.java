@@ -1,5 +1,7 @@
 package script.library;
 
+import script.obj_id;
+
 /**
  * Time-of-day helpers for scene environment cycle ({@link #getLocalTime()}, {@link #getLocalDayLength()}).
  * <p>
