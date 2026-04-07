@@ -3455,10 +3455,23 @@ public class player_developer extends base_script
         }
         else if (cmd.equalsIgnoreCase("animate"))
         {
-            String animationFile = tok.nextToken();
-            //all_b_[animationFile] ?
-            doAnimationAction(target, animationFile);
-            broadcast(self, "Animation '" + animationFile + "' performed on " + getName(target));
+            if (!tok.hasMoreTokens())
+            {
+                broadcast(self, "Usage: /developer animate <string>");
+                broadcast(self, "  Logical .ash/.lat action (e.g. all_m_face_emote_wave) or raw .ans on that object's .sat:");
+                broadcast(self, "  ans:relative/path.ans   ansl:... (loop)   ans:appearance/animation/.../file.ans");
+                broadcast(self, "Look at the creature/object to drive; if none, uses you.");
+                return SCRIPT_CONTINUE;
+            }
+            StringBuilder animationSpec = new StringBuilder(tok.nextToken());
+            while (tok.hasMoreTokens())
+            {
+                animationSpec.append(" ").append(tok.nextToken());
+            }
+            String animationFile = animationSpec.toString();
+            doAnimationAction(iTarget, animationFile);
+            broadcast(self, "Animation \"" + animationFile + "\" sent to clients for " + getName(iTarget));
+            LOG("ethereal", "[Developer]: " + getPlayerFullName(self) + " used /developer animate \"" + animationFile + "\" on " + getName(iTarget));
             return SCRIPT_CONTINUE;
         }
         else if (cmd.equalsIgnoreCase("renameContainerContents"))

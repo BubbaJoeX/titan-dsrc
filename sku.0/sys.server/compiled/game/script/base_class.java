@@ -13718,6 +13718,22 @@ public class base_class
     * @defgroup animationMethods animation, sound, and special effect methods
     */
 /*@{*/
+    /**
+     * Plays a client animation on a tangible/creature with a skeletal (.sat) appearance.
+     * <p>
+     * Normal use: {@code animationActionName} is a logical action from the creature's .ash / .lat
+     * (same names as the client animation debugger), resolved through the state hierarchy.
+     * <p>
+     * Raw keyframe (.ans) on the object's current skeleton: use a reserved prefix (client-side):
+     * <ul>
+     *   <li>{@code ans:}&lt;path&gt; — play the .ans once (queued on the client's {@code loop} track)</li>
+     *   <li>{@code ansl:}&lt;path&gt; — same, looping</li>
+     * </ul>
+     * {@code path} is either a full tree path starting with {@code appearance/} (e.g.
+     * {@code appearance/animation/creature/rancor/rancor_bite.ans}) or a path relative to
+     * {@code appearance/animation/} (e.g. {@code creature/rancor/rancor_bite.ans}). The .ans must
+     * match the skeleton rig used by that object's .sat.
+     */
     private static native void   _doAnimationAction(long target, String animationActionName);
     public static void   doAnimationAction (obj_id target, String animationActionName)
     {
