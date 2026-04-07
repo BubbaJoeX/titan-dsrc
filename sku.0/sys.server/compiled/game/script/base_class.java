@@ -26704,6 +26704,16 @@ public class base_class
 		return getObjIdWithNull(_getAppearanceInventory(getLongWithNull(player)));
 	}
 
+	/**
+	 * Creatures only. If the template defines an appearance slot but it is empty, creates the standard appearance inventory container
+	 * (same as player fixup). Use for NPCs/mannequins that need equip/appearance without a full player inventory setup.
+	 */
+	private static native boolean _ensureAppearanceInventory(long creature);
+	public static boolean ensureAppearanceInventory(obj_id creature)
+	{
+		return _ensureAppearanceInventory(getLongWithNull(creature));
+	}
+
 	// Sets the OID of the original creature we used for our Decoy. This allows the client to display it like a normal player.
 	private static native boolean _setDecoyOrigin(long creature, long origin);
 	public static boolean setDecoyOrigin(obj_id creature, obj_id origin)

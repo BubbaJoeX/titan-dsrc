@@ -57,6 +57,7 @@ public class mannequin extends base_script
             setName(self, "Mannequin");
         }
         setSuppressTemplateClientDataFile(self, true);
+        ensureAppearanceInventory(self);
     }
 
     public int OnGetAttributes(obj_id self, obj_id player, String[] names, String[] attribs) throws InterruptedException
@@ -286,8 +287,24 @@ public class mannequin extends base_script
         return SCRIPT_CONTINUE;
     }
 
+    /** Ensures server created appearance_inventory in the appearance slot; fails if the template has no appearance slot. */
+    private boolean requireAppearanceInventory(obj_id self, obj_id player) throws InterruptedException
+    {
+        ensureAppearanceInventory(self);
+        if (isIdValid(getAppearanceInventory(self)))
+        {
+            return true;
+        }
+        broadcast(player, "This creature template has no appearance inventory slot. Use a humanoid-style creature (slotted + appearance slot), or add that slot to the template.");
+        return false;
+    }
+
     private void showEquipListbox(obj_id self, obj_id player) throws InterruptedException
     {
+        if (!requireAppearanceInventory(self, player))
+        {
+            return;
+        }
         utils.removeScriptVar(player, SV_ROW_IDS);
         obj_id pInv = utils.getInventoryContainer(player);
         if (!isIdValid(pInv))
@@ -332,6 +349,10 @@ public class mannequin extends base_script
 
     private void showRemoveListbox(obj_id self, obj_id player) throws InterruptedException
     {
+        if (!requireAppearanceInventory(self, player))
+        {
+            return;
+        }
         utils.removeScriptVar(player, SV_ROW_IDS);
         obj_id appInv = getAppearanceInventory(self);
         if (!isIdValid(appInv))
@@ -387,6 +408,10 @@ public class mannequin extends base_script
 
     private void equipFromPlayerInventory(obj_id self, obj_id player, obj_id item) throws InterruptedException
     {
+        if (!requireAppearanceInventory(self, player))
+        {
+            return;
+        }
         obj_id appInv = getAppearanceInventory(self);
         if (!isIdValid(appInv))
         {
