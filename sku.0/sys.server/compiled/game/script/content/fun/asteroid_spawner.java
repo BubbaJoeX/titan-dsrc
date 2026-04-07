@@ -1,11 +1,11 @@
 package script.content.fun;/*
 @Origin: dsrc.script.content.fun
 @Author:  BubbaJoeX
-@Purpose: Triggers a staged asteroid shower with warnings, waves, and local effects
+@Purpose: Triggers a staged asteroid shower with warnings, waves, and local effects (impacts scattered around world origin 0,0)
 @Requirements: <no requirements>
 @Notes: Optional objvars on the spawner object:
   fun.asteroid.count (int) — fragments to spawn, default 8
-  fun.asteroid.range (float) — scatter radius in meters, default 7530
+  fun.asteroid.range (float) — scatter radius in meters from world (0,0), default 7560
   fun.asteroid.waves (int) — impact waves, default 3
   fun.asteroid.wave_gap (float) — seconds between waves, default 2.5
   fun.asteroid.warning_delay (float) — seconds before first sky effects, default 2.0
@@ -27,7 +27,7 @@ public class asteroid_spawner extends base_script
 {
     public static final boolean LOGGING = false;
 
-    private static final float DEFAULT_SPAWN_RANGE = 7530.0f;
+    private static final float DEFAULT_SPAWN_RANGE = 7560.0f;
     private static final int DEFAULT_ASTEROID_COUNT = 8;
     private static final int DEFAULT_WAVES = 3;
     private static final float DEFAULT_WAVE_GAP = 2.5f;
@@ -35,8 +35,8 @@ public class asteroid_spawner extends base_script
     private static final float DEFAULT_NOTIFY_RADIUS = 384.0f;
     private static final int DEFAULT_COOLDOWN_SEC = 90;
 
-    /** Retain this fraction of baseline scale (75% reduction vs that baseline). */
-    private static final float ASTEROID_SCALE_AFTER_REDUCTION = 0.25f;
+    /** Retain this fraction of baseline scale */
+    private static final float ASTEROID_SCALE_AFTER_REDUCTION = 0.05f;
 
     private static final String ASTEROID_SHIP_TEMPLATE_PREFIX = "object/ship/asteroid";
     private static final String FALLBACK_ASTEROID_TEMPLATE = "object/tangible/usable/asteroid.iff";
@@ -51,6 +51,7 @@ public class asteroid_spawner extends base_script
 
     private static final String CEF_SKY_BURST = "clienteffect/lair_hvy_damage_fire.cef";
     private static final String CEF_IMPACT = "clienteffect/combat_explosion_lair_large.cef";
+    private static final String CEF_CAMSHAKE = "clienteffect/int_camshake_heavy.cef";
     private static final String CEF_DUST = "clienteffect/lair_med_damage_smoke.cef";
 
     private static final String[] WARNING_LINES =
@@ -169,21 +170,22 @@ public class asteroid_spawner extends base_script
             return SCRIPT_CONTINUE;
         }
 
-        location anchor = unpackAnchor(params);
+        location spawnAnchor = unpackAnchor(params);
         float notifyR = params.getFloat("notify_radius");
         obj_id instigator = params.getObjId("instigator");
 
-        obj_id[] audience = getAllPlayers(anchor, notifyR);
+        location notifyAnchor = getNotifyAnchorForPlayers(instigator, self, spawnAnchor);
+        obj_id[] audience = getAllPlayers(notifyAnchor, notifyR);
         String warn = WARNING_LINES[rand(0, WARNING_LINES.length - 1)];
         notifyAudience(audience, warn);
 
-        playHorizonEffects(anchor, audience);
+        playHorizonEffects(spawnAnchor, audience);
         playAlertSounds(audience);
 
         float waveGap = params.getFloat("wave_gap");
         messageTo(self, "asteroidSpawnWave", params, waveGap + 1.25f, false);
 
-        blog("Warning phase at " + anchor.toLogFormat() + " instigator=" + instigator);
+        blog("Warning phase spawn=" + spawnAnchor.toLogFormat() + " notify=" + notifyAnchor.toLogFormat() + " instigator=" + instigator);
         return SCRIPT_CONTINUE;
     }
 
@@ -194,7 +196,7 @@ public class asteroid_spawner extends base_script
             return SCRIPT_CONTINUE;
         }
 
-        location anchor = unpackAnchor(params);
+        location spawnAnchor = unpackAnchor(params);
         float range = params.getFloat("range");
         int wave = params.getInt("wave");
         int waves = params.getInt("waves");
@@ -205,7 +207,8 @@ public class asteroid_spawner extends base_script
         boolean quick = params.getBoolean("quick");
 
         int forWave = asteroidsForWave(wave, waves, total);
-        obj_id[] audience = getAllPlayers(anchor, notifyR);
+        location notifyAnchor = getNotifyAnchorForPlayers(instigator, self, spawnAnchor);
+        obj_id[] audience = getAllPlayers(notifyAnchor, notifyR);
 
         if (forWave > 0 && !quick)
         {
@@ -214,7 +217,7 @@ public class asteroid_spawner extends base_script
 
         for (int i = 0; i < forWave; i++)
         {
-            location impact = randomImpactLocation(anchor, range);
+            location impact = randomImpactLocation(spawnAnchor, range);
             String tmpl = pickAsteroidTemplate();
             obj_id asteroid = createObject(tmpl, impact);
 
@@ -252,7 +255,7 @@ public class asteroid_spawner extends base_script
 
     private static dictionary buildEventParams(obj_id self, obj_id instigator, boolean quick) throws InterruptedException
     {
-        location anchor = getAnchorLocation(self);
+        location spawnAnchor = getWorldOriginAnchor(self);
         int total = getIntConfig(self, "fun.asteroid.count", DEFAULT_ASTEROID_COUNT);
         int waves = getIntConfig(self, "fun.asteroid.waves", DEFAULT_WAVES);
         if (waves < 1)
@@ -265,10 +268,10 @@ public class asteroid_spawner extends base_script
         }
 
         dictionary p = new dictionary();
-        p.put("ax", anchor.x);
-        p.put("ay", anchor.y);
-        p.put("az", anchor.z);
-        p.put("scene", anchor.area);
+        p.put("ax", spawnAnchor.x);
+        p.put("ay", spawnAnchor.y);
+        p.put("az", spawnAnchor.z);
+        p.put("scene", spawnAnchor.area);
         p.put("range", getFloatConfig(self, "fun.asteroid.range", DEFAULT_SPAWN_RANGE));
         p.put("waves", waves);
         p.put("total", total);
@@ -280,14 +283,44 @@ public class asteroid_spawner extends base_script
         return p;
     }
 
-    private static location getAnchorLocation(obj_id self) throws InterruptedException
+    /**
+     * Meteor impacts scatter around world XZ origin; Y is terrain height at (0,0). Scene comes from the spawner (or current).
+     */
+    private static location getWorldOriginAnchor(obj_id spawner) throws InterruptedException
     {
-        location here = getLocation(self);
-        if (here == null)
+        String scene = getCurrentSceneName();
+        if (isIdValid(spawner) && exists(spawner))
         {
-            return new location(0, 0, 0, getCurrentSceneName());
+            location sp = getLocation(spawner);
+            if (sp != null && sp.area != null && !sp.area.isEmpty())
+            {
+                scene = sp.area;
+            }
         }
-        return here;
+        float y = getHeightAtLocation(0.0f, 0.0f) + 0.25f;
+        return new location(0.0f, y, 0.0f, scene);
+    }
+
+    /** Players to notify/hear effects: instigator, else spawner, else spawn anchor. */
+    private static location getNotifyAnchorForPlayers(obj_id instigator, obj_id spawner, location fallback) throws InterruptedException
+    {
+        if (isIdValid(instigator) && exists(instigator))
+        {
+            location L = getLocation(instigator);
+            if (L != null)
+            {
+                return L;
+            }
+        }
+        if (isIdValid(spawner) && exists(spawner))
+        {
+            location L = getLocation(spawner);
+            if (L != null)
+            {
+                return L;
+            }
+        }
+        return fallback;
     }
 
     private static location unpackAnchor(dictionary params) throws InterruptedException
@@ -354,6 +387,7 @@ public class asteroid_spawner extends base_script
             return;
         }
         playClientEffectLoc(audience, CEF_IMPACT, impact, 0.0f);
+        playClientEffectLoc(audience, CEF_CAMSHAKE, impact, 0.0f);
         playClientEffectLoc(audience, CEF_DUST, impact, 0.0f);
     }
 
