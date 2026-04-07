@@ -233,7 +233,7 @@ public class turret_gunner_station extends script.base_script
 			weapons.add(held);
 			labels.add("[Held] " + getEncodedName(held) + " - " + getTemplateName(held));
 		}
-		obj_id inv = getInventoryContainer(player);
+		obj_id inv = utils.getInventoryContainer(player);
 		if (isIdValid(inv))
 		{
 			obj_id[] fromInv = utils.getContents(inv, true);
