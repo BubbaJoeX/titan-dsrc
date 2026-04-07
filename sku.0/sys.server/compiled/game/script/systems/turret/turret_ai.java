@@ -540,14 +540,20 @@ public class turret_ai extends script.systems.combat.combat_base_old
         cbtAttackerResults.id = damageCreditAttacker;
         defender_results[] cbtDefenderResults = new defender_results[1];
         cbtDefenderResults[0] = new defender_results();
-        cbtAttackerResults.endPosture = -1;
-        debugServerConsoleMsg(self, "posture set");
+        // doCombatResults applies endPosture to CreatureObject attackers only; POSTURE_NONE (-1) is invalid there.
+        int attackerEndPosture = POSTURE_UPRIGHT;
+        if (gunnerPlayerShot)
+        {
+            int p = getPosture(gunnerForCredit);
+            if (p >= 0 && p < POSTURE_COUNT)
+            {
+                attackerEndPosture = p;
+            }
+        }
+        cbtAttackerResults.endPosture = attackerEndPosture;
         cbtAttackerResults.weapon = objWeapon;
-        debugServerConsoleMsg(self, "weapon");
         cbtDefenderResults[0].id = target;
-        debugServerConsoleMsg(self, "target");
         cbtDefenderResults[0].endPosture = getPosture(target);
-        debugServerConsoleMsg(self, "defender posture");
         if (cbtHitData[0].success)
         {
             cbtDefenderResults[0].result = COMBAT_RESULT_HIT;
@@ -556,7 +562,6 @@ public class turret_ai extends script.systems.combat.combat_base_old
         {
             cbtDefenderResults[0].result = COMBAT_RESULT_MISS;
         }
-        debugServerConsoleMsg(self, "hitdata");
         finalizeDamage(damageCreditAttacker, cbtWeaponData, cbtDefenderData, cbtHitData, cbtDefenderResults, null);
         String[] strPlaybackNames = makePlaybackNames("fire_turret", cbtHitData, cbtWeaponData, cbtDefenderResults);
         doCombatResults(strPlaybackNames[0], cbtAttackerResults, cbtDefenderResults);

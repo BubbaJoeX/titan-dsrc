@@ -62,7 +62,16 @@ public class turret extends script.base_script
         }
         utils.setScriptVar(turret, "ai.combat.isInCombat", true);
         utils.setScriptVar(turret, SCRIPTVAR_ENGAGED, target);
-        setCombatTarget(turret, target);
+        // setCombatTarget maps to setLookAtTarget, which only accepts CreatureObject/ShipObject.
+        // Gunner-operated turrets: credit combat facing to the mounted player.
+        if (turret_gunner_lib.isOccupied(turret))
+        {
+            obj_id gunner = turret_gunner_lib.getOccupant(turret);
+            if (isIdValid(gunner))
+            {
+                setCombatTarget(gunner, target);
+            }
+        }
     }
     public static void disengage(obj_id turret) throws InterruptedException
     {
@@ -72,7 +81,14 @@ public class turret extends script.base_script
         }
         utils.removeScriptVar(turret, "ai.combat.isInCombat");
         utils.removeScriptVar(turret, SCRIPTVAR_ENGAGED);
-        setCombatTarget(turret, null);
+        if (turret_gunner_lib.isOccupied(turret))
+        {
+            obj_id gunner = turret_gunner_lib.getOccupant(turret);
+            if (isIdValid(gunner))
+            {
+                setCombatTarget(gunner, null);
+            }
+        }
     }
     public static boolean isEngaged(obj_id turret) throws InterruptedException
     {
