@@ -11,11 +11,13 @@ package script.content.fun;/*
   fun.asteroid.warning_delay (float) — seconds before first sky effects, default 2.0
   fun.asteroid.notify_radius (float) — players who get system messages / sounds, default 384
   fun.asteroid.cooldown (int) — seconds before the event can run again, default 90; set 0 to disable
-  Spawn templates: discovered at runtime via getObjectTemplateNamesWithPrefix("object/ship/asteroid") (CRC table), with fallback to object/tangible/usable/asteroid.iff if none.
+  Spawn templates: CRC table paths under object/ship/asteroid, excluding /base/, mapping /shared_ → / for server createObject; fallback object/tangible/usable/asteroid.iff if none left.
 @Created: Tuesday, 2/25/2025, at 7:56 PM,
 @Copyright © SWG: Titan 2025.
     Unauthorized usage, viewing or sharing of this file is prohibited.
 */
+
+import java.util.Vector;
 
 import script.*;
 
@@ -401,6 +403,59 @@ public class asteroid_spawner extends base_script
     }
 
     /**
+     * Drops {@code /base/} paths (abstract bases). Maps {@code /shared_} → {@code /} so CRC-table shared paths match server templates.
+     */
+    private static String[] filterServerAsteroidTemplates(String[] raw)
+    {
+        if (raw == null || raw.length == 0)
+        {
+            return new String[0];
+        }
+        Vector out = new Vector();
+        for (int i = 0; i < raw.length; ++i)
+        {
+            String p = raw[i];
+            if (p == null || p.length() == 0)
+            {
+                continue;
+            }
+            if (p.toLowerCase().indexOf("/base/") >= 0)
+            {
+                continue;
+            }
+            String mapped = p.replace("/shared_", "/");
+            int slash = mapped.lastIndexOf('/');
+            if (slash >= 0 && mapped.regionMatches(true, slash + 1, "shared_", 0, 7))
+            {
+                mapped = mapped.substring(0, slash + 1) + mapped.substring(slash + 1 + 7);
+            }
+            if (mapped.length() == 0)
+            {
+                continue;
+            }
+            boolean dup = false;
+            for (int j = 0; j < out.size(); ++j)
+            {
+                if (mapped.equals(out.get(j)))
+                {
+                    dup = true;
+                    break;
+                }
+            }
+            if (!dup)
+            {
+                out.add(mapped);
+            }
+        }
+        String[] arr = new String[out.size()];
+        for (int i = 0; i < out.size(); ++i)
+        {
+            arr[i] = (String) out.get(i);
+        }
+        return arr;
+    }
+
+    /**
      * Templates whose server pathname starts with {@link #ASTEROID_SHIP_TEMPLATE_PREFIX}, cached after first use.
      */
     private static String[] getShipAsteroidTemplates()
@@ -414,7 +469,8 @@ public class asteroid_spawner extends base_script
         {
             if (s_cachedShipAsteroidTemplates == null)
             {
-                String[] found = getObjectTemplateNamesWithPrefix(ASTEROID_SHIP_TEMPLATE_PREFIX);
+                String[] raw = getObjectTemplateNamesWithPrefix(ASTEROID_SHIP_TEMPLATE_PREFIX);
+                String[] found = filterServerAsteroidTemplates(raw);
                 if (found == null || found.length == 0)
                 {
                     found = new String[]{FALLBACK_ASTEROID_TEMPLATE};
