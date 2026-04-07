@@ -11,6 +11,7 @@ package script.content.fun;/*
   fun.asteroid.warning_delay (float) — seconds before first sky effects, default 2.0
   fun.asteroid.notify_radius (float) — players who get system messages / sounds, default 384
   fun.asteroid.cooldown (int) — seconds before the event can run again, default 90; set 0 to disable
+  Spawn templates: discovered at runtime via getObjectTemplateNamesWithPrefix("object/ship/asteroid") (CRC table), with fallback to object/tangible/usable/asteroid.iff if none.
 @Created: Tuesday, 2/25/2025, at 7:56 PM,
 @Copyright © SWG: Titan 2025.
     Unauthorized usage, viewing or sharing of this file is prohibited.
@@ -120,7 +121,7 @@ public class asteroid_spawner extends base_script
             int elapsed = getGameTime() - last;
             if (elapsed < cd)
             {
-                sendSystemMessage(player, "Meteor relay is still cooling down. ~" + (cd - elapsed) + "s remaining.", "");
+                sendSystemMessage(player, "Meteor relay is still cooling down. - " + (cd - elapsed) + "s remaining.", "");
                 return SCRIPT_CONTINUE;
             }
         }
@@ -194,7 +195,7 @@ public class asteroid_spawner extends base_script
         for (int i = 0; i < forWave; i++)
         {
             location impact = randomImpactLocation(anchor, range);
-            obj_id asteroid = createObject(ASTEROID_TEMPLATE, impact);
+            obj_id asteroid = createObject(pickAsteroidTemplate(), impact);
 
             if (isIdValid(asteroid))
             {
@@ -219,7 +220,7 @@ public class asteroid_spawner extends base_script
                 setObjVar(self, COOLDOWN_OBJVAR, getGameTime());
             }
             String who = isIdValid(instigator) ? getPlayerName(instigator) : "Unknown";
-            notifyAudience(audience, "The meteor shower subsides. The terrain settles—" + who + " released the sequence.");
+            notifyAudience(audience, "The meteor shower subsides.");
             blog("Meteor shower complete.");
         }
 
@@ -389,6 +390,41 @@ public class asteroid_spawner extends base_script
     private static float frand(float min, float max)
     {
         return min + (float) Math.random() * (max - min);
+    }
+
+    /**
+     * Templates whose server pathname starts with {@link #ASTEROID_SHIP_TEMPLATE_PREFIX}, cached after first use.
+     */
+    private static String[] getShipAsteroidTemplates()
+    {
+        String[] c = s_cachedShipAsteroidTemplates;
+        if (c != null)
+        {
+            return c;
+        }
+        synchronized (asteroid_spawner.class)
+        {
+            if (s_cachedShipAsteroidTemplates == null)
+            {
+                String[] found = getObjectTemplateNamesWithPrefix(ASTEROID_SHIP_TEMPLATE_PREFIX);
+                if (found == null || found.length == 0)
+                {
+                    found = new String[]{FALLBACK_ASTEROID_TEMPLATE};
+                }
+                s_cachedShipAsteroidTemplates = found;
+            }
+            return s_cachedShipAsteroidTemplates;
+        }
+    }
+
+    private static String pickAsteroidTemplate()
+    {
+        String[] t = getShipAsteroidTemplates();
+        if (t == null || t.length == 0)
+        {
+            return FALLBACK_ASTEROID_TEMPLATE;
+        }
+        return t[rand(0, t.length - 1)];
     }
 
     public void blog(String msg)

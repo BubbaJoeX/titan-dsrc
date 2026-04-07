@@ -4234,6 +4234,12 @@ public class base_class
     public static native int getGameObjectTypeFromTemplate(int templateCrc);
 
     /**
+     * Server object template paths from the loaded template CRC table that start with {@code prefix}
+     * (TreeFile-style path, e.g. {@code "object/ship/asteroid"}). Lexicographically sorted.
+     */
+    public static native String[] getObjectTemplateNamesWithPrefix(String prefix);
+
+    /**
     * Test game object type
     */
 
