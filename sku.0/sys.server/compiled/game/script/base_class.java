@@ -13739,6 +13739,8 @@ public class base_class
      *   <li>{@code anim:clear} — stop raw .ans playback on the {@code loop} track</li>
      *   <li>{@code anim:bind} — stop {@code loop}, {@code action}, and {@code add} tracks (pose toward bind/rest)</li>
      * </ul>
+     * Display mannequins skip template .cdf via {@link #setSuppressTemplateClientDataFile(obj_id, boolean)} (authoritative creature only).
+     * Setting suppress to true also notifies clients to strip already-applied .cdf mesh wearables; use {@link #setAuthoritativeClientAnimationAction} for pose state that late joiners must see.
      */
     private static native void   _doAnimationAction(long target, String animationActionName);
     public static void   doAnimationAction (obj_id target, String animationActionName)
@@ -26625,6 +26627,25 @@ public class base_class
 	public static boolean setForceShowHam(obj_id target, boolean show)
 	{
 		return _setForceShowHam(getLongWithNull(target), show);
+	}
+
+	/**
+	 * Creatures only. When true, clients skip applying the shared template clientDataFile (.cdf), so baked wearables do not block dressing (e.g. content.mannequin).
+	 */
+	private static native boolean _setSuppressTemplateClientDataFile(long target, boolean suppress);
+	public static boolean setSuppressTemplateClientDataFile(obj_id target, boolean suppress)
+	{
+		return _setSuppressTemplateClientDataFile(getLongWithNull(target), suppress);
+	}
+
+	/**
+	 * Creatures only. Shared autodelta string replayed on every client (including after baselines) using the same rules as {@link #doAnimationAction}.
+	 * Use with {@link #doAnimationAction} when you need immediate replay of the same spec (e.g. Apply twice). Empty string clears the stored spec only (does not run anim:clear on clients).
+	 */
+	private static native boolean _setAuthoritativeClientAnimationAction(long target, String action);
+	public static boolean setAuthoritativeClientAnimationAction(obj_id target, String action)
+	{
+		return _setAuthoritativeClientAnimationAction(getLongWithNull(target), action != null ? action : "");
 	}
 
 	// IsAPlayerAppearanceInventoryContainer
