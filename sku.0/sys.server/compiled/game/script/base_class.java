@@ -19104,6 +19104,15 @@ public class base_class
     public static native float getLocalTime();
 
     /**
+     * Set normalized environment time of day for this scene (0..1 over the terrain day cycle).
+     * Does not change server game/cooldown clocks; updates connected clients immediately via {@code ServerTimeMessage}.
+     *
+     * @param normalizedTimeOfDay 0 = cycle start, 1 = end of cycle (values clamped)
+     * @return false if terrain is unavailable or cycle length is invalid
+     */
+    public static native boolean setLocalTime(float normalizedTimeOfDay);
+
+    /**
      *  Query the local terrain day length
      *
      * @return the day/night split from 0..1 (ie. 0.5 is the split between day/night)

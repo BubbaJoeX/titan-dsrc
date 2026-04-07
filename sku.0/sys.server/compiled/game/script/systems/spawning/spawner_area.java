@@ -47,6 +47,14 @@ public class spawner_area extends script.base_script
             setName(self, "(LOCKED SPAWNER: " + getStringObjVar(self, "strSpawns") + ")");
             return SCRIPT_CONTINUE;
         }
+        if (!tod.canSpawnForTimePolicy(self))
+        {
+            if (tod.hasTimeSpawnPolicy(self))
+            {
+                messageTo(self, "doSpawnEvent", null, tod.getTimePolicyRetrySeconds(self), false);
+            }
+            return SCRIPT_CONTINUE;
+        }
         if (!spawning.checkSpawnCount(self))
         {
             return SCRIPT_CONTINUE;
@@ -152,6 +160,14 @@ public class spawner_area extends script.base_script
     }
     public void createMob(String strId, obj_id objLocationObject, location locLocation, float fltRadius, obj_id self) throws InterruptedException
     {
+        if (!tod.canSpawnForTimePolicy(self))
+        {
+            if (tod.hasTimeSpawnPolicy(self))
+            {
+                messageTo(self, "doSpawnEvent", null, tod.getTimePolicyRetrySeconds(self), false);
+            }
+            return;
+        }
         if (!spawning.checkSpawnCount(self))
         {
             return;

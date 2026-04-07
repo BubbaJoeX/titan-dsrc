@@ -4,6 +4,7 @@ import script.*;
 import script.library.ai_lib;
 import script.library.create;
 import script.library.spawning;
+import script.library.tod;
 import script.library.utils;
 
 import java.util.Vector;
@@ -52,6 +53,14 @@ public class spawner_patrol extends script.base_script
     {
         if (!spawning.checkSpawnCount(self))
         {
+            return SCRIPT_CONTINUE;
+        }
+        if (!tod.canSpawnForTimePolicy(self))
+        {
+            if (tod.hasTimeSpawnPolicy(self))
+            {
+                messageTo(self, "doInitialSpawn", params, tod.getTimePolicyRetrySeconds(self), false);
+            }
             return SCRIPT_CONTINUE;
         }
         String strSpawnType = getStringObjVar(self, "strSpawns");
@@ -136,6 +145,14 @@ public class spawner_patrol extends script.base_script
         if (!spawning.checkSpawnCount(self))
         {
             LOG("spawning", "No count 1");
+            return SCRIPT_CONTINUE;
+        }
+        if (!tod.canSpawnForTimePolicy(self))
+        {
+            if (tod.hasTimeSpawnPolicy(self))
+            {
+                messageTo(self, "doSpawnEvent", params, tod.getTimePolicyRetrySeconds(self), false);
+            }
             return SCRIPT_CONTINUE;
         }
         int intGoodLocationSpawner = getIntObjVar(self, "intGoodLocationSpawner");
@@ -229,6 +246,22 @@ public class spawner_patrol extends script.base_script
     }
     public boolean createMob(String strId, obj_id objLocationObject, location locLocation, float fltRadius, obj_id self, boolean doCallBack, int startingPoint) throws InterruptedException
     {
+        if (!tod.canSpawnForTimePolicy(self))
+        {
+            if (tod.hasTimeSpawnPolicy(self))
+            {
+                float delay = tod.getTimePolicyRetrySeconds(self);
+                if (doCallBack)
+                {
+                    messageTo(self, "doSpawnEvent", null, delay, false);
+                }
+                else
+                {
+                    messageTo(self, "doInitialSpawn", null, delay, false);
+                }
+            }
+            return false;
+        }
         if (!spawning.checkSpawnCount(self))
         {
             return false;
