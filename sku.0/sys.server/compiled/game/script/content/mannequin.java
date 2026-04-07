@@ -88,9 +88,9 @@ public class mannequin extends base_script
         mi.addSubMenu(root, M_TOGGLE_LOOP, string_id.unlocalized("Toggle Animation Loop (.ans)"));
         mi.addSubMenu(root, M_APPLY, string_id.unlocalized("Apply Animation"));
         mi.addSubMenu(root, M_CLEAR, string_id.unlocalized("Clear Animation"));
-        mi.addSubMenu(root, M_BIND, string_id.unlocalized("Set To Bind (reset pose)"));
-        mi.addSubMenu(root, M_ADD_WEARABLE, string_id.unlocalized("Add Wearable…"));
-        mi.addSubMenu(root, M_RM_WEARABLE, string_id.unlocalized("Remove Wearable…"));
+        mi.addSubMenu(root, M_BIND, string_id.unlocalized("Freeze Animation"));
+        mi.addSubMenu(root, M_ADD_WEARABLE, string_id.unlocalized("Add Wearable..."));
+        mi.addSubMenu(root, M_RM_WEARABLE, string_id.unlocalized("Remove Wearable..."));
         return SCRIPT_CONTINUE;
     }
 
