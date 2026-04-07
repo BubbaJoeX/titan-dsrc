@@ -11252,6 +11252,21 @@ public class base_class
 		}
 
 		/**
+		 * When false, clients apply hologram look only to the base creature mesh, not equipped wearables (mannequin display).
+		 */
+		private static native boolean _getHologramAffectsWearables(long target);
+		public static boolean getHologramAffectsWearables(obj_id target)
+		{
+			return _getHologramAffectsWearables(getLongWithNull(target));
+		}
+
+		private static native boolean _setHologramAffectsWearables(long target, boolean affectsWearables);
+		public static boolean setHologramAffectsWearables(obj_id target, boolean affectsWearables)
+		{
+			return _setHologramAffectsWearables(getLongWithNull(target), affectsWearables);
+		}
+
+		/**
 		* @return true if the creature is visible on the map and radar
 		*/
 		private static native boolean _getVisibleOnMapAndRadar(long target);

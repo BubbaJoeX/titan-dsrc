@@ -1,7 +1,7 @@
 package script.content;/*
 @Origin: dsrc.script.content.mannequin
-@Purpose: Invulnerable display mannequin with radial controls for name, raw/logical animation, loop, clear, bind, wearable add/remove via SUI listbox, and template .cdf suppression for clients.
-@Notes: Uses existing SERVER_MENU44/45 submenus under SERVER_MENU52 (shared menu ids; only this script registers them on the mannequin). Template .cdf suppression plus client strip; authoritative animation string for late joiners; ans:path#frame freeze.
+@Purpose: Invulnerable display mannequin with radial controls for name, raw/logical animation, loop, clear, bind, body-only hologram toggle, wearable add/remove via SUI listbox, and template .cdf suppression for clients.
+@Notes: Uses SERVER_MENU44/45/46 under SERVER_MENU52. Hologram uses HOLOGRAM_TYPE1_QUALITY1 with setHologramAffectsWearables(false) so only the base creature mesh is holographic on clients. Remove list merges appearance inventory contents with getAllWornItems; removal uses putInOverloaded.
 */
 
 import java.util.Vector;
@@ -26,8 +26,11 @@ public class mannequin extends base_script
     private static final int M_BIND = menu_info_types.SERVER_MENU53;
     private static final int M_ADD_WEARABLE = menu_info_types.SERVER_MENU44;
     private static final int M_RM_WEARABLE = menu_info_types.SERVER_MENU45;
+    private static final int M_TOGGLE_HOLO = menu_info_types.SERVER_MENU46;
 
     private static final String SV_ROW_IDS = "content_mannequin.listboxObjIds";
+    /** 1 = body-only hologram active (persisted for re-init). */
+    public static final String OV_HOLO_BODY = "content.mannequin.holoBody";
 
     public int OnAttach(obj_id self)
     {
@@ -58,6 +61,11 @@ public class mannequin extends base_script
         }
         setSuppressTemplateClientDataFile(self, true);
         ensureAppearanceInventory(self);
+        if (hasObjVar(self, OV_HOLO_BODY) && getIntObjVar(self, OV_HOLO_BODY) != 0)
+        {
+            setHologramType(self, HOLOGRAM_TYPE1_QUALITY1);
+            setHologramAffectsWearables(self, false);
+        }
     }
 
     public int OnGetAttributes(obj_id self, obj_id player, String[] names, String[] attribs) throws InterruptedException
@@ -70,9 +78,19 @@ public class mannequin extends base_script
         names[idx] = utils.packStringId(new string_id("Animation"));
         attribs[idx] = hasObjVar(self, OV_ANIM) ? getStringObjVar(self, OV_ANIM) : "(none)";
         idx++;
+        if (idx >= names.length || idx >= attribs.length)
+        {
+            return SCRIPT_CONTINUE;
+        }
         names[idx] = utils.packStringId(new string_id("Loop .ans"));
         attribs[idx] = (hasObjVar(self, OV_LOOP) && getIntObjVar(self, OV_LOOP) != 0) ? "On" : "Off";
         idx++;
+        if (idx >= names.length || idx >= attribs.length)
+        {
+            return SCRIPT_CONTINUE;
+        }
+        names[idx] = utils.packStringId(new string_id("Hologram"));
+        attribs[idx] = (getHologramType(self) != HOLOGRAM_NONE) ? "On (body only)" : "Off";
         return SCRIPT_CONTINUE;
     }
 
@@ -91,6 +109,8 @@ public class mannequin extends base_script
         mi.addSubMenu(root, M_BIND, string_id.unlocalized("Freeze Animation"));
         mi.addSubMenu(root, M_ADD_WEARABLE, string_id.unlocalized("Add Wearable..."));
         mi.addSubMenu(root, M_RM_WEARABLE, string_id.unlocalized("Remove Wearable..."));
+        boolean holoOn = getHologramType(self) != HOLOGRAM_NONE;
+        mi.addSubMenu(root, M_TOGGLE_HOLO, string_id.unlocalized(holoOn ? "Hologram: Off" : "Hologram: On (body only)"));
         return SCRIPT_CONTINUE;
     }
 
@@ -147,6 +167,11 @@ public class mannequin extends base_script
         if (item == M_RM_WEARABLE)
         {
             showRemoveListbox(self, player);
+            return SCRIPT_CONTINUE;
+        }
+        if (item == M_TOGGLE_HOLO)
+        {
+            toggleHologramBodyOnly(self, player);
             return SCRIPT_CONTINUE;
         }
         return SCRIPT_CONTINUE;
@@ -265,9 +290,9 @@ public class mannequin extends base_script
         }
         obj_id item = ids[row];
         obj_id appInv = getAppearanceInventory(self);
-        if (!isIdValid(appInv) || getContainedBy(item) != appInv)
+        if (!isIdValid(appInv) || !itemIsEquippedOrInAppearanceInv(self, item, appInv))
         {
-            broadcast(player, "Item is no longer on the mannequin appearance inventory.");
+            broadcast(player, "That item is no longer equipped or in the mannequin appearance inventory.");
             return SCRIPT_CONTINUE;
         }
         obj_id pInv = utils.getInventoryContainer(player);
@@ -276,7 +301,12 @@ public class mannequin extends base_script
             broadcast(player, "Could not resolve your inventory.");
             return SCRIPT_CONTINUE;
         }
-        if (putIn(item, pInv, player))
+        boolean moved = putInOverloaded(item, pInv);
+        if (!moved)
+        {
+            moved = putIn(item, pInv, player);
+        }
+        if (moved)
         {
             broadcast(player, "Removed item from mannequin to your inventory.");
         }
@@ -360,26 +390,27 @@ public class mannequin extends base_script
             broadcast(player, "Mannequin has no appearance inventory.");
             return;
         }
-        obj_id[] worn = getContents(appInv);
         Vector labelVec = new Vector();
         Vector idVec = new Vector();
-        if (worn != null)
+        obj_id[] inInv = getContents(appInv);
+        if (inInv != null)
         {
-            for (obj_id item : worn)
+            for (obj_id item : inInv)
             {
-                if (!isIdValid(item))
-                {
-                    continue;
-                }
-                idVec.add(item);
-                String nm = getName(item);
-                String st = getStaticItemName(item);
-                labelVec.add((nm != null ? nm : "?") + " — " + (st != null ? st : getTemplateName(item)));
+                addUniqueItemRow(idVec, labelVec, item);
+            }
+        }
+        obj_id[] equipped = getAllWornItems(self, false);
+        if (equipped != null)
+        {
+            for (obj_id item : equipped)
+            {
+                addUniqueItemRow(idVec, labelVec, item);
             }
         }
         if (idVec.size() == 0)
         {
-            broadcast(player, "Mannequin appearance inventory is empty.");
+            broadcast(player, "Nothing equipped or in the mannequin appearance inventory to remove.");
             return;
         }
         obj_id[] ids = new obj_id[idVec.size()];
@@ -423,12 +454,84 @@ public class mannequin extends base_script
             broadcast(player, "Could not move the item into the mannequin appearance inventory.");
             return;
         }
-        if (!equip(item, self))
+        int got = getGameObjectType(item);
+        boolean ok = false;
+        if (isGameObjectTypeOf(got, GOT_weapon))
         {
-            broadcast(player, "Item is in the appearance container but equip() failed (slots/species may not fit this mannequin).");
+            ok = equip(item, self, "hold_r") || equip(item, self, "hold_l");
+        }
+        if (!ok)
+        {
+            ok = equip(item, self);
+        }
+        if (!ok)
+        {
+            broadcast(player, "Item is in the appearance container but equip failed (slots/species may not fit this mannequin).");
             return;
         }
         broadcast(player, "Equipped item on mannequin.");
+    }
+
+    private void toggleHologramBodyOnly(obj_id self, obj_id player) throws InterruptedException
+    {
+        boolean on = hasObjVar(self, OV_HOLO_BODY) && getIntObjVar(self, OV_HOLO_BODY) != 0;
+        if (on)
+        {
+            removeObjVar(self, OV_HOLO_BODY);
+            setHologramType(self, HOLOGRAM_NONE);
+            setHologramAffectsWearables(self, true);
+            broadcast(player, "Mannequin hologram off.");
+        }
+        else
+        {
+            setObjVar(self, OV_HOLO_BODY, 1);
+            setHologramType(self, HOLOGRAM_TYPE1_QUALITY1);
+            setHologramAffectsWearables(self, false);
+            broadcast(player, "Mannequin body hologram on (wearables stay non-holographic on clients).");
+        }
+    }
+
+    private static void addUniqueItemRow(Vector idVec, Vector labelVec, obj_id item) throws InterruptedException
+    {
+        if (!isIdValid(item) || !exists(item))
+        {
+            return;
+        }
+        for (int i = 0; i < idVec.size(); ++i)
+        {
+            if (((obj_id)idVec.get(i)) == item)
+            {
+                return;
+            }
+        }
+        idVec.add(item);
+        String nm = getName(item);
+        String st = getStaticItemName(item);
+        labelVec.add((nm != null ? nm : "?") + " — " + (st != null ? st : getTemplateName(item)));
+    }
+
+    private static boolean itemIsEquippedOrInAppearanceInv(obj_id self, obj_id item, obj_id appInv) throws InterruptedException
+    {
+        if (!isIdValid(item))
+        {
+            return false;
+        }
+        if (isIdValid(appInv) && getContainedBy(item) == appInv)
+        {
+            return true;
+        }
+        obj_id[] worn = getAllWornItems(self, false);
+        if (worn != null)
+        {
+            for (obj_id w : worn)
+            {
+                if (w == item)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private void applyStoredAnimation(obj_id self) throws InterruptedException
