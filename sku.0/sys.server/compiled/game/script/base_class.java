@@ -13733,6 +13733,12 @@ public class base_class
      * {@code appearance/animation/creature/rancor/rancor_bite.ans}) or a path relative to
      * {@code appearance/animation/} (e.g. {@code creature/rancor/rancor_bite.ans}). The .ans must
      * match the skeleton rig used by that object's .sat.
+     * <p>
+     * Client track control (skeletal appearances):
+     * <ul>
+     *   <li>{@code anim:clear} — stop raw .ans playback on the {@code loop} track</li>
+     *   <li>{@code anim:bind} — stop {@code loop}, {@code action}, and {@code add} tracks (pose toward bind/rest)</li>
+     * </ul>
      */
     private static native void   _doAnimationAction(long target, String animationActionName);
     public static void   doAnimationAction (obj_id target, String animationActionName)

@@ -30,10 +30,22 @@ public class entertainer extends base_script
                     10,
             };
 
+
+    private static final String[] DANCES = {
+            "ansl:all_f_dnc_f_belly_loop_high_sp_1.ans",
+            "ansl:all_f_dnc_f_belly_loop_mid_sp_2.ans",
+            "ansl:all_f_dnc_f_belly_loop_mid.ans"
+    };
     public int OnAttach(obj_id self) throws InterruptedException
     {
+        doAnimationAction(self, getRandomDance());
         setupEntertainer(self);
         return SCRIPT_CONTINUE;
+    }
+
+    public String getRandomDance()
+    {
+        return DANCES[(int)(Math.random() * DANCES.length)];
     }
 
     public void setupEntertainer(obj_id self) throws InterruptedException
@@ -43,7 +55,6 @@ public class entertainer extends base_script
         persistObject(self);
         setDescriptionStringId(self, string_id.unlocalized("This entertainer gives low-grade service. It is intended to stay stationary, while providing a low-grade entertainment buff to all those who request it."));
         ai_lib.setDefaultCalmBehavior(self, ai_lib.BEHAVIOR_STOP);
-        setAnimationMood(self, "npc_dance_basic");
     }
 
     public int OnInitialize(obj_id self) throws InterruptedException
@@ -64,6 +75,7 @@ public class entertainer extends base_script
 
         if (item == menu_info_types.SERVER_MENU1)
         {
+            doAnimationAction(self, getRandomDance());
             int pid = sui.createSUIPage(sui.SUI_MSGBOX, self, player, "handleDialogInput");
             sui.setSUIProperty(pid, sui.MSGBOX_PROMPT, sui.PROP_TEXT, BUFF_PROMPT);
             sui.setSUIProperty(pid, sui.MSGBOX_TITLE, sui.PROP_TEXT, BUFF_TITLE);
