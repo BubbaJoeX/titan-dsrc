@@ -2213,6 +2213,35 @@ public class player_developer extends base_script
             LOG("ethereal", "[Developer]: " + getPlayerFullName(self) + " used /developer sendMailWaypoint");
             return SCRIPT_CONTINUE;
         }
+        else if (cmd.equalsIgnoreCase("setTime"))
+        {
+            if (!tok.hasMoreTokens())
+            {
+                broadcast(self, "Usage: /developer setTime <0.0-1.0>  (normalized scene day cycle; same scale as getLocalTime)");
+                broadcast(self, "Example: /developer setTime 0.75  (night on a 50/50 day-night split)");
+                return SCRIPT_CONTINUE;
+            }
+            float v;
+            try
+            {
+                v = Float.parseFloat(tok.nextToken());
+            }
+            catch (NumberFormatException e)
+            {
+                broadcast(self, "Usage: /developer setTime <0.0-1.0>  (invalid number)");
+                return SCRIPT_CONTINUE;
+            }
+            if (tod.setSceneCyclePosition(v))
+            {
+                broadcast(self, "Scene time set to " + v + " (normalized). getLocalTime now ~ " + getLocalTime());
+                LOG("ethereal", "[Developer]: " + getPlayerFullName(self) + " used /developer setTime " + v);
+            }
+            else
+            {
+                broadcast(self, "\\#ff4444[Developer]: setTime failed — no terrain or invalid cycle on this server.");
+            }
+            return SCRIPT_CONTINUE;
+        }
         else if (cmd.equalsIgnoreCase("environment"))
         {
             // /developer environment PATH -> os path environment
