@@ -1318,6 +1318,10 @@ public class base_player extends script.base_script
     }
     public int OnLogin(obj_id self) throws InterruptedException
     {
+        if (!hasCommand(self, "placeItemBounty"))
+        {
+            grantCommand(self, "placeItemBounty");
+        }
         boolean ctsDisconnectRequested = false;
         if (hasObjVar(self, "disableLoginCtsInProgress"))
         {

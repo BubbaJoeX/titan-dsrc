@@ -1,5 +1,5 @@
 objid	container	type	shared_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	sx	sy	sz	radius	portal_layout_crc
-i	i	i	h	i	f	f	f	f	f	f	f	f	f	f	i
+i	i	i	h	i	f	f	f	f	f	f	f	f	f	f	i	h
 -680833787	0	1112885583	object/building/tatooine/shared_housing_tatt_style02_small.iff	0	2012.03	90	1763.27	-0.707106	0	0.707107	0	1	1	1	512	1036126063
 -680833786	-680833787	1396919380	object/cell/shared_cell.iff	1	0	0	0	1	0	0	0	1	1	1	0	0
 -680833785	-680833787	1396919380	object/cell/shared_cell.iff	2	0	0	0	1	0	0	0	1	1	1	0	0
