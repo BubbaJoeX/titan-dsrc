@@ -10,7 +10,7 @@ public class apartment_room_terminal extends script.base_script
     }
 
     public static final int MENU_RENEW_ROOM = menu_info_types.SERVER_MENU53;
-    public static final int MENU_ROOM_STATUS = menu_info_types.SERVER_MENU54;
+    public static final int MENU_ROOM_STATUS = menu_info_types.SERVER_MENU52;
 
     public int OnAttach(obj_id self) throws InterruptedException
     {
