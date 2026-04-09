@@ -1,6 +1,7 @@
 package script.systems.missions.dynamic;
 
 import script.dictionary;
+import script.library.bounty_hunter;
 import script.library.locations;
 import script.library.missions;
 import script.library.utils;
@@ -15,6 +16,7 @@ public class mission_bounty extends script.systems.missions.base.mission_dynamic
     }
     public int OnInitialize(obj_id self) throws InterruptedException
     {
+        bounty_hunter.initializeInvestigationState(self);
         if (!hasScript(self, "systems.missions.base.mission_cleanup_tracker"))
         {
             attachScript(self, "systems.missions.base.mission_cleanup_tracker");
@@ -87,6 +89,7 @@ public class mission_bounty extends script.systems.missions.base.mission_dynamic
     }
     public int OnStartMission(obj_id self, dictionary params) throws InterruptedException
     {
+        bounty_hunter.initializeInvestigationState(self);
         setupInvisibleWaypoint(self);
         if (!hasObjVar(self, "objTarget"))
         {
@@ -98,6 +101,10 @@ public class mission_bounty extends script.systems.missions.base.mission_dynamic
         else 
         {
             obj_id objTarget = getObjIdObjVar(self, "objTarget");
+            if (isIdValid(objTarget))
+            {
+                setObjVar(self, bounty_hunter.OBJVAR_CONTRACT_TYPE, bounty_hunter.CONTRACT_TYPE_PVP);
+            }
             dictionary dctParams = new dictionary();
             dctParams.put("objMission", self);
             dctParams.put("objKiller", getMissionHolder(self));
@@ -181,6 +188,25 @@ public class mission_bounty extends script.systems.missions.base.mission_dynamic
         {
             setObjVar(self, "intCompleted", 1);
             obj_id objPlayer = getMissionHolder(self);
+            boolean captureSuccess = false;
+            if (params != null && !params.isEmpty() && params.containsKey("capture"))
+            {
+                captureSuccess = params.getInt("capture") == 1;
+            }
+            if (captureSuccess)
+            {
+                bounty_hunter.addRenown(objPlayer, "pve_capture", 35);
+                sendSystemMessage(objPlayer, "[BH] Capture confirmed. Bonus renown awarded.", null);
+            }
+            else
+            {
+                bounty_hunter.addRenown(objPlayer, "pve_kill", 20);
+            }
+            location playerLoc = getLocation(objPlayer);
+            if (playerLoc != null)
+            {
+                bounty_hunter.adjustRegionalHeat(playerLoc.area, 2.0f);
+            }
             deliverReward(self);
             playMusic(objPlayer, "sound/music_mission_complete.snd");
             endMission(self);
@@ -223,6 +249,7 @@ public class mission_bounty extends script.systems.missions.base.mission_dynamic
     public int findTarget(obj_id self, dictionary params) throws InterruptedException
     {
         debugServerConsoleMsg(self, "Tracking target");
+        bounty_hunter.applyInvestigationDecay(self);
         dictionary dctParams = new dictionary();
         obj_id objPlayer = getMissionHolder(self);
         utils.setScriptVar(self, "intTracking", 1);
@@ -346,6 +373,8 @@ public class mission_bounty extends script.systems.missions.base.mission_dynamic
     {
         string_id strSpam = new string_id("mission/mission_generic", "target_not_found_" + rand(1, 6));
         sendSystemMessage(getMissionHolder(self), strSpam);
+        bounty_hunter.advanceInvestigationStage(self, "failed_track");
+        bounty_hunter.sendTrailBandMessage(getMissionHolder(self), self);
         utils.removeScriptVar(self, "intTracking");
         return SCRIPT_CONTINUE;
     }
@@ -447,6 +476,8 @@ public class mission_bounty extends script.systems.missions.base.mission_dynamic
         fltTrackSpeed = fltTrackSpeed / 4;
         params.put("intTracksLeft", intTracksLeft);
         int intDroidType = params.getInt("intDroidType");
+        float clueBonus = (intDroidType == DROID_SEEKER) ? 0.05f : 0.02f;
+        bounty_hunter.advanceInvestigationStage(self, "probe", clueBonus);
         boolean sendProbotResponse = false;
         boolean sendSeekerResponse = false;
         boolean booleanCoverState = params.getBoolean("booleanCoverState");
@@ -523,17 +554,20 @@ public class mission_bounty extends script.systems.missions.base.mission_dynamic
         }
         if (sendProbotResponse)
         {
+            locSpawnLocation = bounty_hunter.adjustTrackingLocationForIntel(self, objPlayer, objTarget, locSpawnLocation, intDroidType);
             updateMissionWaypoint(self, locSpawnLocation);
             string_id strSpam = new string_id("mission/mission_generic", "target_location_updated");
             sendSystemMessage(objPlayer, strSpam);
             String strTargetLocation = "target_located_" + locSpawnLocation.area;
             strSpam = new string_id("mission/mission_generic", strTargetLocation);
             sendSystemMessage(objPlayer, strSpam);
+            bounty_hunter.sendTrailBandMessage(objPlayer, self);
             messageTo(self, "probe_Droid_Response", params, fltTrackSpeed, true);
         }
         else if (sendSeekerResponse)
         {
             int intTrackType = params.getInt("intTrackType");
+            locSpawnLocation = bounty_hunter.adjustTrackingLocationForIntel(self, objPlayer, objTarget, locSpawnLocation, intDroidType);
             updateMissionWaypoint(self, locSpawnLocation);
             string_id strSpam = new string_id("mission/mission_generic", "target_location_updated");
             sendSystemMessage(objPlayer, strSpam);
@@ -554,6 +588,7 @@ public class mission_bounty extends script.systems.missions.base.mission_dynamic
                     sendSystemMessage(objPlayer, msg, null);
                 }
             }
+            bounty_hunter.sendTrailBandMessage(objPlayer, self);
             messageTo(self, "probe_Droid_Response", params, fltTrackSpeed, true);
         }
         return SCRIPT_CONTINUE;

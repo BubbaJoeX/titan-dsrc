@@ -32,6 +32,8 @@ public class pvp extends script.base_script
     public static final int MAX_DISTANCE = 80;
     public static final String VAR_PVP_LAST_KILLS = "pvp_tracker.lastkills";
     public static final String VAR_PVP_LAST_UPDATE = "pvp_tracker.lastupdate";
+    public static final String VAR_BH_REPEAT_BASE = "pvp_tracker.bh_repeat";
+    public static final int BH_REPEAT_NO_PAY_WINDOW = 3600;
     public static final int VISIBILITY_THRESHOLD = 2000;
     public static final int INITIAL_RANKING_VALUE = 1200;
     public static final int XP_FARMING_TRACKING_SLOTS = 20;
@@ -836,9 +838,15 @@ public class pvp extends script.base_script
         {
             return;
         }
+        String pairKey = VAR_BH_REPEAT_BASE + "." + victim + ".last";
+        int lastReward = hasObjVar(killer, pairKey) ? getIntObjVar(killer, pairKey) : 0;
+        int now = getGameTime();
         if (hasKilledVictimRecently(killer, victim))
         {
-            return;
+            if ((now - lastReward) < BH_REPEAT_NO_PAY_WINDOW)
+            {
+                return;
+            }
         }
         registerPlayerKill(killer, victim);
         int bounty = 0;
@@ -846,13 +854,19 @@ public class pvp extends script.base_script
         {
             bounty = getIntObjVar(killer, "bounty.amount");
         }
-        bounty += 1000;
+        int delta = 1000;
+        if ((now - lastReward) < (BH_REPEAT_NO_PAY_WINDOW * 4))
+        {
+            delta = 250;
+        }
+        bounty += delta;
+        setObjVar(killer, pairKey, now);
         setObjVar(killer, "bounty.amount", bounty);
         if (bounty >= 10000)
         {
             setJediBountyValue(killer, bounty);
         }
-        CustomerServiceLog("bounty", "A bounty of 1000 credits has been automatically put on %TU for killing %TT", killer, victim);
+        CustomerServiceLog("bounty", "A bounty of " + delta + " credits has been automatically put on %TU for killing %TT", killer, victim);
     }
     public static void battlefieldWarp(obj_id player, location loc) throws InterruptedException
     {

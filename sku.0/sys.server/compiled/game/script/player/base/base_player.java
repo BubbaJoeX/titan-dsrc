@@ -11623,6 +11623,10 @@ public class base_player extends script.base_script
             bounty_hunter.showSetBountySUI(self, killer);
             return SCRIPT_CONTINUE;
         }
+        if (!bounty_hunter.canPostPlayerBounty(self, killer, amount, true))
+        {
+            return SCRIPT_CONTINUE;
+        }
         if (hasObjVar(killer, "bounty.amount"))
         {
             int bounty = getIntObjVar(killer, "bounty.amount");
@@ -11669,6 +11673,7 @@ public class base_player extends script.base_script
             setJediBountyValue(killer, bounty);
         }
         setObjVar(killer, "bounty.amount", bounty);
+        bounty_hunter.markPlayerBountyPost(self);
         CustomerServiceLog("bounty", "%TU has taken a bounty of " + amount + " credits out on %TT", self, killer);
         return SCRIPT_CONTINUE;
     }

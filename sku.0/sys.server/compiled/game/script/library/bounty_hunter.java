@@ -1,6 +1,7 @@
 package script.library;
 
 import script.*;
+import java.util.Vector;
 
 public class bounty_hunter extends script.base_script
 {
@@ -78,12 +79,683 @@ public class bounty_hunter extends script.base_script
     public static final int DROID_SEEKER = 2;
     public static final int DROID_TRACK_TARGET = 1;
     public static final int DROID_FIND_TARGET = 2;
+    public static final int INVESTIGATION_STAGE_COLD = 0;
+    public static final int INVESTIGATION_STAGE_WARM = 1;
+    public static final int INVESTIGATION_STAGE_CONFIRMED = 2;
+    public static final float INVESTIGATION_DECAY_PER_SECOND = 0.0012f;
+    public static final float INVESTIGATION_COLD_THRESHOLD = 0.34f;
+    public static final float INVESTIGATION_WARM_THRESHOLD = 0.67f;
+    public static final String OBJVAR_INVEST_STAGE = "bh.invest.stage";
+    public static final String OBJVAR_INVEST_CONFIDENCE = "bh.invest.confidence";
+    public static final String OBJVAR_INVEST_LAST_UPDATE = "bh.invest.lastUpdate";
+    public static final String OBJVAR_INVEST_LAST_CLUE = "bh.invest.lastClueType";
+    public static final String OBJVAR_COUNTERPLAY_JAM_UNTIL = "bh.counterplay.jamUntil";
+    public static final String OBJVAR_COUNTERPLAY_DECOY_UNTIL = "bh.counterplay.decoyUntil";
+    public static final String OBJVAR_COUNTERPLAY_DECOY_STRENGTH = "bh.counterplay.decoyStrength";
+    public static final String OBJVAR_RENOWN_POINTS = "bh.renown.points";
+    public static final String OBJVAR_RENOWN_RANK = "bh.renown.rank";
+    public static final String OBJVAR_ANTIGRIEF_LAST_TARGET = "bh.antigrief.lastTarget";
+    public static final String OBJVAR_ANTIGRIEF_LAST_REWARD_TIME = "bh.antigrief.lastRewardTime";
+    public static final String OBJVAR_ANTIGRIEF_LAST_POST_TIME = "bh.antigrief.lastPostTime";
+    public static final String OBJVAR_CONTRACT_TYPE = "bh.contract.type";
+    public static final String CONTRACT_TYPE_PVE = "PVE_NPC";
+    public static final String CONTRACT_TYPE_PVP = "PVP_PLAYER";
+    public static final int ANTIGRIEF_REWARD_COOLDOWN = 1800;
+    public static final int ANTIGRIEF_POST_COOLDOWN = 300;
+    public static final String HEAT_ROOT = "bh.heat";
+    public static final float HEAT_DECAY_PER_SECOND = 0.004f;
+    public static final float HEAT_MAX = 100.0f;
+    public static final float HEAT_MIN = 0.0f;
     public static void debugLogging(String section, String message) throws InterruptedException
     {
         if (CONST_FLAG_DO_LOGGING)
         {
             LOG("debug/bounty_hunter.scriptlib/" + section, message);
         }
+    }
+    public static float clamp(float value, float min, float max) throws InterruptedException
+    {
+        if (value < min)
+        {
+            return min;
+        }
+        if (value > max)
+        {
+            return max;
+        }
+        return value;
+    }
+    public static void initializeMissionContractType(obj_id mission) throws InterruptedException
+    {
+        if (!isIdValid(mission))
+        {
+            return;
+        }
+        if (hasObjVar(mission, "objTarget"))
+        {
+            setObjVar(mission, OBJVAR_CONTRACT_TYPE, CONTRACT_TYPE_PVP);
+        }
+        else
+        {
+            setObjVar(mission, OBJVAR_CONTRACT_TYPE, CONTRACT_TYPE_PVE);
+        }
+    }
+    public static String getMissionContractType(obj_id mission) throws InterruptedException
+    {
+        if (!isIdValid(mission))
+        {
+            return CONTRACT_TYPE_PVE;
+        }
+        if (hasObjVar(mission, OBJVAR_CONTRACT_TYPE))
+        {
+            return getStringObjVar(mission, OBJVAR_CONTRACT_TYPE);
+        }
+        initializeMissionContractType(mission);
+        return hasObjVar(mission, OBJVAR_CONTRACT_TYPE) ? getStringObjVar(mission, OBJVAR_CONTRACT_TYPE) : CONTRACT_TYPE_PVE;
+    }
+    public static int getNextContractId() throws InterruptedException
+    {
+        obj_id store = getHeatStoreObject();
+        if (!isIdValid(store))
+        {
+            return 0;
+        }
+        String key = "bh.contract.nextId";
+        int next = hasObjVar(store, key) ? getIntObjVar(store, key) : 1;
+        setObjVar(store, key, next + 1);
+        return next;
+    }
+    public static boolean openContract(obj_id issuer, obj_id target, int escrow, String contractType) throws InterruptedException
+    {
+        if (!isIdValid(issuer) || !isIdValid(target) || escrow <= 0)
+        {
+            return false;
+        }
+        int id = getNextContractId();
+        if (id <= 0)
+        {
+            return false;
+        }
+        String root = "bh.contract." + id;
+        setObjVar(target, root + ".id", id);
+        setObjVar(target, root + ".issuer", issuer);
+        setObjVar(target, root + ".escrow", escrow);
+        setObjVar(target, root + ".type", (contractType == null || contractType.length() < 1) ? CONTRACT_TYPE_PVP : contractType);
+        setObjVar(target, root + ".state", "OPEN");
+        setObjVar(target, root + ".posted", getGameTime());
+        setObjVar(target, "bh.contract.activeId", id);
+        CustomerServiceLog("bounty", "Contract " + id + " opened by %TU on %TT for escrow " + escrow, issuer, target);
+        return true;
+    }
+    public static boolean acceptContract(obj_id hunter, obj_id target) throws InterruptedException
+    {
+        if (!isIdValid(hunter) || !isIdValid(target))
+        {
+            return false;
+        }
+        if (!hasObjVar(target, "bh.contract.activeId"))
+        {
+            return false;
+        }
+        int id = getIntObjVar(target, "bh.contract.activeId");
+        String root = "bh.contract." + id;
+        if (!hasObjVar(target, root + ".state"))
+        {
+            return false;
+        }
+        String state = getStringObjVar(target, root + ".state");
+        if (!state.equals("OPEN"))
+        {
+            return false;
+        }
+        setObjVar(target, root + ".state", "ACCEPTED");
+        setObjVar(target, root + ".hunter", hunter);
+        setObjVar(target, root + ".accepted", getGameTime());
+        CustomerServiceLog("bounty", "Contract " + id + " accepted by %TU for target %TT", hunter, target);
+        return true;
+    }
+    public static void initializeInvestigationState(obj_id mission) throws InterruptedException
+    {
+        if (!isIdValid(mission))
+        {
+            return;
+        }
+        if (!hasObjVar(mission, OBJVAR_INVEST_STAGE))
+        {
+            setObjVar(mission, OBJVAR_INVEST_STAGE, INVESTIGATION_STAGE_COLD);
+        }
+        if (!hasObjVar(mission, OBJVAR_INVEST_CONFIDENCE))
+        {
+            setObjVar(mission, OBJVAR_INVEST_CONFIDENCE, 0.20f);
+        }
+        setObjVar(mission, OBJVAR_INVEST_LAST_UPDATE, getGameTime());
+        if (!hasObjVar(mission, OBJVAR_INVEST_LAST_CLUE))
+        {
+            setObjVar(mission, OBJVAR_INVEST_LAST_CLUE, "init");
+        }
+        initializeMissionContractType(mission);
+    }
+    public static void applyInvestigationDecay(obj_id mission) throws InterruptedException
+    {
+        if (!isIdValid(mission))
+        {
+            return;
+        }
+        initializeInvestigationState(mission);
+        int now = getGameTime();
+        int lastUpdate = getIntObjVar(mission, OBJVAR_INVEST_LAST_UPDATE);
+        if (lastUpdate <= 0 || now <= lastUpdate)
+        {
+            setObjVar(mission, OBJVAR_INVEST_LAST_UPDATE, now);
+            return;
+        }
+        float current = getFloatObjVar(mission, OBJVAR_INVEST_CONFIDENCE);
+        float delta = (now - lastUpdate) * INVESTIGATION_DECAY_PER_SECOND;
+        float next = clamp(current - delta, 0.0f, 1.0f);
+        setObjVar(mission, OBJVAR_INVEST_CONFIDENCE, next);
+        setObjVar(mission, OBJVAR_INVEST_LAST_UPDATE, now);
+        if (next < INVESTIGATION_COLD_THRESHOLD)
+        {
+            setObjVar(mission, OBJVAR_INVEST_STAGE, INVESTIGATION_STAGE_COLD);
+        }
+        else if (next < INVESTIGATION_WARM_THRESHOLD)
+        {
+            setObjVar(mission, OBJVAR_INVEST_STAGE, INVESTIGATION_STAGE_WARM);
+        }
+        else
+        {
+            setObjVar(mission, OBJVAR_INVEST_STAGE, INVESTIGATION_STAGE_CONFIRMED);
+        }
+    }
+    public static float getInvestigationConfidence(obj_id mission) throws InterruptedException
+    {
+        if (!isIdValid(mission))
+        {
+            return 0.0f;
+        }
+        applyInvestigationDecay(mission);
+        return hasObjVar(mission, OBJVAR_INVEST_CONFIDENCE) ? getFloatObjVar(mission, OBJVAR_INVEST_CONFIDENCE) : 0.0f;
+    }
+    public static int getInvestigationStage(obj_id mission) throws InterruptedException
+    {
+        if (!isIdValid(mission))
+        {
+            return INVESTIGATION_STAGE_COLD;
+        }
+        applyInvestigationDecay(mission);
+        return hasObjVar(mission, OBJVAR_INVEST_STAGE) ? getIntObjVar(mission, OBJVAR_INVEST_STAGE) : INVESTIGATION_STAGE_COLD;
+    }
+    public static float getClueDeltaForType(String clueType) throws InterruptedException
+    {
+        if (clueType == null || clueType.length() < 1)
+        {
+            return 0.10f;
+        }
+        if (clueType.equals("informant"))
+        {
+            return 0.18f;
+        }
+        if (clueType.equals("probe"))
+        {
+            return 0.25f;
+        }
+        if (clueType.equals("seeker"))
+        {
+            return 0.22f;
+        }
+        if (clueType.equals("combat"))
+        {
+            return 0.14f;
+        }
+        if (clueType.equals("capture"))
+        {
+            return 0.35f;
+        }
+        if (clueType.equals("failed_track"))
+        {
+            return -0.10f;
+        }
+        return 0.10f;
+    }
+    public static float advanceInvestigationStage(obj_id mission, String clueType) throws InterruptedException
+    {
+        return advanceInvestigationStage(mission, clueType, 0.0f);
+    }
+    public static float advanceInvestigationStage(obj_id mission, String clueType, float bonus) throws InterruptedException
+    {
+        if (!isIdValid(mission))
+        {
+            return 0.0f;
+        }
+        applyInvestigationDecay(mission);
+        float current = hasObjVar(mission, OBJVAR_INVEST_CONFIDENCE) ? getFloatObjVar(mission, OBJVAR_INVEST_CONFIDENCE) : 0.0f;
+        float next = current + getClueDeltaForType(clueType) + bonus;
+        next = clamp(next, 0.0f, 1.0f);
+        setObjVar(mission, OBJVAR_INVEST_CONFIDENCE, next);
+        setObjVar(mission, OBJVAR_INVEST_LAST_UPDATE, getGameTime());
+        if (clueType != null && clueType.length() > 0)
+        {
+            setObjVar(mission, OBJVAR_INVEST_LAST_CLUE, clueType);
+        }
+        if (next < INVESTIGATION_COLD_THRESHOLD)
+        {
+            setObjVar(mission, OBJVAR_INVEST_STAGE, INVESTIGATION_STAGE_COLD);
+        }
+        else if (next < INVESTIGATION_WARM_THRESHOLD)
+        {
+            setObjVar(mission, OBJVAR_INVEST_STAGE, INVESTIGATION_STAGE_WARM);
+        }
+        else
+        {
+            setObjVar(mission, OBJVAR_INVEST_STAGE, INVESTIGATION_STAGE_CONFIRMED);
+        }
+        return next;
+    }
+    public static String getTrailBandLabel(obj_id mission) throws InterruptedException
+    {
+        int stage = getInvestigationStage(mission);
+        if (stage <= INVESTIGATION_STAGE_COLD)
+        {
+            return "COLD";
+        }
+        if (stage == INVESTIGATION_STAGE_WARM)
+        {
+            return "WARM";
+        }
+        return "CONFIRMED";
+    }
+    public static void sendTrailBandMessage(obj_id player, obj_id mission) throws InterruptedException
+    {
+        if (!isIdValid(player))
+        {
+            return;
+        }
+        String label = getTrailBandLabel(mission);
+        float confidence = getInvestigationConfidence(mission) * 100.0f;
+        sendSystemMessage(player, "[BH Intel] " + label + " trail (" + (int)confidence + "% confidence).", null);
+    }
+    public static location adjustTrackingLocationForIntel(obj_id mission, obj_id hunter, obj_id target, location resolvedLocation, int droidType) throws InterruptedException
+    {
+        if (resolvedLocation == null)
+        {
+            return null;
+        }
+        location adjusted = (location)resolvedLocation.clone();
+        adjusted.cell = obj_id.NULL_ID;
+        int stage = getInvestigationStage(mission);
+        if (isIdValid(target) && isTrackerJammed(target))
+        {
+            advanceInvestigationStage(mission, "failed_track", -0.08f);
+            sendSystemMessage(hunter, "[BH Intel] Tracking signal is being jammed.", null);
+            stage = getInvestigationStage(mission);
+        }
+        if (isIdValid(target) && hasDecoySignal(target))
+        {
+            float strength = hasObjVar(target, OBJVAR_COUNTERPLAY_DECOY_STRENGTH) ? getFloatObjVar(target, OBJVAR_COUNTERPLAY_DECOY_STRENGTH) : 1.0f;
+            int decoyScatter = (int)(1800.0f * strength);
+            adjusted.x = adjusted.x + rand(-decoyScatter, decoyScatter);
+            adjusted.z = adjusted.z + rand(-decoyScatter, decoyScatter);
+            sendSystemMessage(hunter, "[BH Intel] Decoy echoes detected in this sector.", null);
+            return adjusted;
+        }
+        if (stage == INVESTIGATION_STAGE_COLD)
+        {
+            int scatter = (droidType == DROID_SEEKER) ? 2200 : 3200;
+            adjusted.x = adjusted.x + rand(-scatter, scatter);
+            adjusted.z = adjusted.z + rand(-scatter, scatter);
+        }
+        else if (stage == INVESTIGATION_STAGE_WARM)
+        {
+            int scatter = (droidType == DROID_SEEKER) ? 850 : 1250;
+            adjusted.x = adjusted.x + rand(-scatter, scatter);
+            adjusted.z = adjusted.z + rand(-scatter, scatter);
+        }
+        return adjusted;
+    }
+    public static void applyTrackerJam(obj_id target, int durationSeconds) throws InterruptedException
+    {
+        if (!isIdValid(target))
+        {
+            return;
+        }
+        int duration = durationSeconds;
+        if (duration < 10)
+        {
+            duration = 10;
+        }
+        setObjVar(target, OBJVAR_COUNTERPLAY_JAM_UNTIL, getGameTime() + duration);
+    }
+    public static void applyDecoySignal(obj_id target, int durationSeconds) throws InterruptedException
+    {
+        if (!isIdValid(target))
+        {
+            return;
+        }
+        int duration = durationSeconds;
+        if (duration < 10)
+        {
+            duration = 10;
+        }
+        setObjVar(target, OBJVAR_COUNTERPLAY_DECOY_UNTIL, getGameTime() + duration);
+        setObjVar(target, OBJVAR_COUNTERPLAY_DECOY_STRENGTH, 1.0f + (rand(0, 40) / 100.0f));
+    }
+    public static boolean isTrackerJammed(obj_id target) throws InterruptedException
+    {
+        if (!isIdValid(target) || !hasObjVar(target, OBJVAR_COUNTERPLAY_JAM_UNTIL))
+        {
+            return false;
+        }
+        int now = getGameTime();
+        int until = getIntObjVar(target, OBJVAR_COUNTERPLAY_JAM_UNTIL);
+        if (until <= now)
+        {
+            removeObjVar(target, OBJVAR_COUNTERPLAY_JAM_UNTIL);
+            return false;
+        }
+        return true;
+    }
+    public static boolean hasDecoySignal(obj_id target) throws InterruptedException
+    {
+        if (!isIdValid(target) || !hasObjVar(target, OBJVAR_COUNTERPLAY_DECOY_UNTIL))
+        {
+            return false;
+        }
+        int now = getGameTime();
+        int until = getIntObjVar(target, OBJVAR_COUNTERPLAY_DECOY_UNTIL);
+        if (until <= now)
+        {
+            removeObjVar(target, OBJVAR_COUNTERPLAY_DECOY_UNTIL);
+            if (hasObjVar(target, OBJVAR_COUNTERPLAY_DECOY_STRENGTH))
+            {
+                removeObjVar(target, OBJVAR_COUNTERPLAY_DECOY_STRENGTH);
+            }
+            return false;
+        }
+        return true;
+    }
+    public static boolean canPostPlayerBounty(obj_id issuer, obj_id target, int amount, boolean sendMessages) throws InterruptedException
+    {
+        if (!isIdValid(issuer) || !isIdValid(target))
+        {
+            return false;
+        }
+        if (issuer == target)
+        {
+            if (sendMessages)
+            {
+                sendSystemMessage(issuer, "You cannot post a bounty on yourself.", null);
+            }
+            return false;
+        }
+        if (amount < MIN_BOUNTY_SET)
+        {
+            if (sendMessages)
+            {
+                sendSystemMessage(issuer, "Bounty amount below minimum.", null);
+            }
+            return false;
+        }
+        if (getLevel(issuer) < 20 || getLevel(target) < 20)
+        {
+            if (sendMessages)
+            {
+                sendSystemMessage(issuer, "Both participants must be level 20+ for player bounties.", null);
+            }
+            return false;
+        }
+        if (hasObjVar(issuer, OBJVAR_ANTIGRIEF_LAST_POST_TIME))
+        {
+            int nextPost = getIntObjVar(issuer, OBJVAR_ANTIGRIEF_LAST_POST_TIME);
+            if (nextPost > getGameTime())
+            {
+                if (sendMessages)
+                {
+                    sendSystemMessage(issuer, "You recently posted a bounty. Please wait before posting another.", null);
+                }
+                return false;
+            }
+        }
+        return true;
+    }
+    public static void markPlayerBountyPost(obj_id issuer) throws InterruptedException
+    {
+        if (!isIdValid(issuer))
+        {
+            return;
+        }
+        setObjVar(issuer, OBJVAR_ANTIGRIEF_LAST_POST_TIME, getGameTime() + ANTIGRIEF_POST_COOLDOWN);
+    }
+    public static boolean canRewardHunterForTarget(obj_id hunter, obj_id target) throws InterruptedException
+    {
+        if (!isIdValid(hunter) || !isIdValid(target))
+        {
+            return false;
+        }
+        if (hasObjVar(hunter, OBJVAR_ANTIGRIEF_LAST_TARGET) && hasObjVar(hunter, OBJVAR_ANTIGRIEF_LAST_REWARD_TIME))
+        {
+            obj_id lastTarget = getObjIdObjVar(hunter, OBJVAR_ANTIGRIEF_LAST_TARGET);
+            int lastRewardTime = getIntObjVar(hunter, OBJVAR_ANTIGRIEF_LAST_REWARD_TIME);
+            if (lastTarget == target && ((getGameTime() - lastRewardTime) < ANTIGRIEF_REWARD_COOLDOWN))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    public static void recordHunterReward(obj_id hunter, obj_id target) throws InterruptedException
+    {
+        if (!isIdValid(hunter) || !isIdValid(target))
+        {
+            return;
+        }
+        setObjVar(hunter, OBJVAR_ANTIGRIEF_LAST_TARGET, target);
+        setObjVar(hunter, OBJVAR_ANTIGRIEF_LAST_REWARD_TIME, getGameTime());
+    }
+    public static int getRenownRankForPoints(int points) throws InterruptedException
+    {
+        if (points >= 5000)
+        {
+            return 6;
+        }
+        if (points >= 3000)
+        {
+            return 5;
+        }
+        if (points >= 1800)
+        {
+            return 4;
+        }
+        if (points >= 1000)
+        {
+            return 3;
+        }
+        if (points >= 450)
+        {
+            return 2;
+        }
+        if (points >= 150)
+        {
+            return 1;
+        }
+        return 0;
+    }
+    public static int getRenown(obj_id player) throws InterruptedException
+    {
+        if (!isIdValid(player) || !hasObjVar(player, OBJVAR_RENOWN_POINTS))
+        {
+            return 0;
+        }
+        return getIntObjVar(player, OBJVAR_RENOWN_POINTS);
+    }
+    public static int getRenownRank(obj_id player) throws InterruptedException
+    {
+        if (!isIdValid(player))
+        {
+            return 0;
+        }
+        int points = getRenown(player);
+        int rank = getRenownRankForPoints(points);
+        setObjVar(player, OBJVAR_RENOWN_RANK, rank);
+        return rank;
+    }
+    public static void addRenown(obj_id player, String reason, int amount) throws InterruptedException
+    {
+        if (!isIdValid(player) || amount == 0)
+        {
+            return;
+        }
+        int points = getRenown(player);
+        points += amount;
+        if (points < 0)
+        {
+            points = 0;
+        }
+        setObjVar(player, OBJVAR_RENOWN_POINTS, points);
+        int oldRank = hasObjVar(player, OBJVAR_RENOWN_RANK) ? getIntObjVar(player, OBJVAR_RENOWN_RANK) : 0;
+        int newRank = getRenownRankForPoints(points);
+        setObjVar(player, OBJVAR_RENOWN_RANK, newRank);
+        if (newRank > oldRank)
+        {
+            sendSystemMessage(player, "[BH Renown] Rank increased to " + newRank + ".", null);
+        }
+    }
+    public static float getRenownPayoutModifier(obj_id player) throws InterruptedException
+    {
+        int rank = getRenownRank(player);
+        float modifier = 1.0f + (rank * 0.04f);
+        if (modifier > 1.30f)
+        {
+            modifier = 1.30f;
+        }
+        return modifier;
+    }
+    public static String normalizeHeatRegion(String region) throws InterruptedException
+    {
+        if (region == null || region.length() < 1)
+        {
+            return "unknown";
+        }
+        return toLower(region).replace('-', '_').replace(' ', '_');
+    }
+    public static obj_id getHeatStoreObject() throws InterruptedException
+    {
+        return getPlanetByName("tatooine");
+    }
+    public static float getRegionalHeat(String region) throws InterruptedException
+    {
+        obj_id store = getHeatStoreObject();
+        if (!isIdValid(store))
+        {
+            return 0.0f;
+        }
+        String key = normalizeHeatRegion(region);
+        String valuePath = HEAT_ROOT + "." + key + ".value";
+        String lastPath = HEAT_ROOT + "." + key + ".last";
+        if (!hasObjVar(store, valuePath))
+        {
+            return 0.0f;
+        }
+        float value = getFloatObjVar(store, valuePath);
+        int now = getGameTime();
+        int last = hasObjVar(store, lastPath) ? getIntObjVar(store, lastPath) : now;
+        if (now > last)
+        {
+            value = value - ((now - last) * HEAT_DECAY_PER_SECOND);
+            value = clamp(value, HEAT_MIN, HEAT_MAX);
+            setObjVar(store, valuePath, value);
+            setObjVar(store, lastPath, now);
+        }
+        return value;
+    }
+    public static float adjustRegionalHeat(String region, float delta) throws InterruptedException
+    {
+        obj_id store = getHeatStoreObject();
+        if (!isIdValid(store))
+        {
+            return 0.0f;
+        }
+        String key = normalizeHeatRegion(region);
+        String valuePath = HEAT_ROOT + "." + key + ".value";
+        String lastPath = HEAT_ROOT + "." + key + ".last";
+        float value = getRegionalHeat(region);
+        value = clamp(value + delta, HEAT_MIN, HEAT_MAX);
+        setObjVar(store, valuePath, value);
+        setObjVar(store, lastPath, getGameTime());
+        return value;
+    }
+    public static float getRegionalHeatAtLocation(location loc) throws InterruptedException
+    {
+        if (loc == null)
+        {
+            return 0.0f;
+        }
+        return getRegionalHeat(loc.area);
+    }
+    public static int getHeatPayoutBonusPercent(location loc) throws InterruptedException
+    {
+        float heat = getRegionalHeatAtLocation(loc);
+        if (heat < 10.0f)
+        {
+            return 0;
+        }
+        int pct = (int)(heat / 10.0f) * 2;
+        if (pct > 20)
+        {
+            pct = 20;
+        }
+        return pct;
+    }
+    public static obj_id[] getEligibleGroupParticipants(obj_id hunter, obj_id target, float maxRange) throws InterruptedException
+    {
+        Vector participants = new Vector();
+        participants.setSize(0);
+        if (!isIdValid(hunter))
+        {
+            return new obj_id[0];
+        }
+        obj_id groupId = getGroupObject(hunter);
+        if (!isIdValid(groupId))
+        {
+            obj_id[] solo = new obj_id[1];
+            solo[0] = hunter;
+            return solo;
+        }
+        obj_id[] members = getGroupMemberIds(groupId);
+        if (members == null || members.length < 1)
+        {
+            obj_id[] solo = new obj_id[1];
+            solo[0] = hunter;
+            return solo;
+        }
+        for (obj_id member : members)
+        {
+            if (!isIdValid(member) || !isPlayer(member) || isDead(member))
+            {
+                continue;
+            }
+            if (getDistance(member, hunter) > maxRange)
+            {
+                continue;
+            }
+            if (isIdValid(target) && isPlayer(target))
+            {
+                if (!isBeingHuntedByBountyHunter(target, member))
+                {
+                    continue;
+                }
+            }
+            participants = utils.addElement(participants, member);
+        }
+        if (participants.size() < 1)
+        {
+            participants = utils.addElement(participants, hunter);
+        }
+        obj_id[] out = new obj_id[participants.size()];
+        for (int i = 0; i < participants.size(); i++)
+        {
+            out[i] = ((obj_id)participants.get(i));
+        }
+        return out;
     }
     public static boolean isSpammingBountyCheck(obj_id player, boolean sayProse) throws InterruptedException
     {
@@ -375,10 +1047,58 @@ public class bounty_hunter extends script.base_script
         {
             bountyValue = getIntObjVar(target, "bounty.amount");
         }
+        if (!canRewardHunterForTarget(hunter, target))
+        {
+            bountyValue = (int)(bountyValue * 0.10f);
+            sendSystemMessage(hunter, "[BH Anti-Grief] Repeat target detected; payout reduced.", null);
+        }
+        float renownMod = getRenownPayoutModifier(hunter);
+        bountyValue = (int)(bountyValue * renownMod);
+        int heatBonusPercent = getHeatPayoutBonusPercent(getLocation(target));
+        if (heatBonusPercent > 0)
+        {
+            bountyValue = bountyValue + ((bountyValue * heatBonusPercent) / 100);
+        }
+        obj_id[] payoutParticipants = getEligibleGroupParticipants(hunter, target, 192.0f);
+        int participantCount = (payoutParticipants == null || payoutParticipants.length < 1) ? 1 : payoutParticipants.length;
+        int hunterPayout = bountyValue;
+        int share = 0;
+        if (participantCount > 1)
+        {
+            share = bountyValue / participantCount;
+            if (share < 1)
+            {
+                share = 1;
+            }
+            hunterPayout = bountyValue - (share * (participantCount - 1));
+            if (hunterPayout < 1)
+            {
+                hunterPayout = 1;
+            }
+        }
         dictionary d = new dictionary();
         d.put("target", target);
-        d.put("bounty", bountyValue);
-        money.systemPayout(money.ACCT_BOUNTY, hunter, bountyValue, "handleAwardedPlayerBounty", d);
+        d.put("bounty", hunterPayout);
+        money.systemPayout(money.ACCT_BOUNTY, hunter, hunterPayout, "handleAwardedPlayerBounty", d);
+        if (participantCount > 1 && share > 0)
+        {
+            for (obj_id participant : payoutParticipants)
+            {
+                if (participant == hunter)
+                {
+                    continue;
+                }
+                money.bankTo(money.ACCT_BOUNTY, participant, share);
+                sendSystemMessage(participant, "[BH Group Hunt] You received " + share + " credits for assisting.", null);
+            }
+        }
+        recordHunterReward(hunter, target);
+        addRenown(hunter, "player_bounty_kill", 50);
+        location targetLoc = getLocation(target);
+        if (targetLoc != null)
+        {
+            adjustRegionalHeat(targetLoc.area, 6.0f);
+        }
         float factionAdj = getBountyFactionPointAdjustment(hunter, target);
         if (factionAdj != 0.0f)
         {
@@ -406,6 +1126,31 @@ public class bounty_hunter extends script.base_script
         {
             endMission(mission);
         }
+        removeObjVar(target, "bounty");
+        setJediBountyValue(target, 0);
+        removeAllJediBounties(target);
+    }
+    public static void winBountyMissionCapture(obj_id hunter, obj_id target) throws InterruptedException
+    {
+        int bountyValue = 0;
+        if (hasObjVar(target, "bounty.amount"))
+        {
+            bountyValue = getIntObjVar(target, "bounty.amount");
+        }
+        bountyValue = (int)(bountyValue * 1.15f);
+        float renownMod = getRenownPayoutModifier(hunter);
+        bountyValue = (int)(bountyValue * renownMod);
+        dictionary d = new dictionary();
+        d.put("target", target);
+        d.put("bounty", bountyValue);
+        money.systemPayout(money.ACCT_BOUNTY, hunter, bountyValue, "handleAwardedPlayerBounty", d);
+        addRenown(hunter, "player_bounty_capture", 70);
+        recordHunterReward(hunter, target);
+        prose_package pp = new prose_package();
+        pp = prose.setStringId(pp, new string_id("bounty_hunter", "bounty_success_hunter"));
+        pp = prose.setTT(pp, target);
+        pp = prose.setDI(pp, bountyValue);
+        sendSystemMessageProse(hunter, pp);
         removeObjVar(target, "bounty");
         setJediBountyValue(target, 0);
         removeAllJediBounties(target);

@@ -2,6 +2,7 @@ package script.systems.missions.dynamic;
 
 import script.dictionary;
 import script.library.ai_lib;
+import script.library.bounty_hunter;
 import script.library.missions;
 import script.obj_id;
 
@@ -72,6 +73,21 @@ public class mission_bounty_target extends script.systems.missions.base.mission_
             setMind(self, -10000);
         }
         setObjVar(self, "intKilled", 1);
+        obj_id mission = getObjIdObjVar(self, "objMission");
+        if (isIdValid(mission) && !hasObjVar(mission, "intCompleted"))
+        {
+            dictionary d = new dictionary();
+            d.put("capture", 1);
+            setObjVar(mission, "intState", missions.STATE_MISSION_COMPLETE);
+            messageTo(mission, "bountySuccess", d, 0.0f, true);
+            obj_id hunter = getMissionHolder(mission);
+            if (isIdValid(hunter))
+            {
+                bounty_hunter.advanceInvestigationStage(mission, "capture", 0.15f);
+                sendSystemMessage(hunter, "[BH] Target captured alive.", null);
+            }
+            messageTo(self, "destroySelf", null, 6.0f, true);
+        }
         return SCRIPT_CONTINUE;
     }
     public int OnRecapacitated(obj_id self) throws InterruptedException

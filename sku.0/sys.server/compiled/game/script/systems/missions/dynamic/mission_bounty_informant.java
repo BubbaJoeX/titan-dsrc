@@ -50,6 +50,7 @@ public class mission_bounty_informant extends script.systems.missions.base.missi
         obj_id objMissionData = getMissionData(objMission);
         int intInformantLevel = getIntObjVar(objMissionData, "intInformantLevel");
         dictionary dctParams = new dictionary();
+        bounty_hunter.initializeInvestigationState(objMission);
         int intState = getIntObjVar(objMission, "intState");
         if (intState != STATE_BOUNTY_INFORMANT)
         {
@@ -76,13 +77,30 @@ public class mission_bounty_informant extends script.systems.missions.base.missi
                 }
                 return SCRIPT_CONTINUE;
             }
+            float confidence = bounty_hunter.advanceInvestigationStage(objMission, "informant", 0.05f);
+            int intelStage = bounty_hunter.getInvestigationStage(objMission);
             if (intInformantLevel == INFORMANT_EASY)
             {
                 string_id strResponse = new string_id("mission/mission_bounty_informant", "target_easy_" + intIndex);
                 chat.chat(self, speaker, strResponse);
-                updateMissionWaypoint(objMission, getLocationObjVar(objMission, "locSpawnLocation"));
+                location locExact = getLocationObjVar(objMission, "locSpawnLocation");
+                location locHint = bounty_hunter.adjustTrackingLocationForIntel(objMission, speaker, obj_id.NULL_ID, locExact, DROID_PROBOT);
+                updateMissionWaypoint(objMission, locHint);
                 strResponse = new string_id("mission/mission_bounty_informant", "target_location_received");
                 sendSystemMessage(speaker, strResponse);
+                if (intelStage == bounty_hunter.INVESTIGATION_STAGE_COLD)
+                {
+                    sendSystemMessage(speaker, "[BH Intel] Informant only has cold leads.", null);
+                }
+                else if (intelStage == bounty_hunter.INVESTIGATION_STAGE_WARM)
+                {
+                    sendSystemMessage(speaker, "[BH Intel] Lead is warming up.", null);
+                }
+                else
+                {
+                    sendSystemMessage(speaker, "[BH Intel] Strong lead acquired.", null);
+                }
+                bounty_hunter.sendTrailBandMessage(speaker, objMission);
                 setObjVar(objMission, "intState", STATE_BOUNTY_PROBE);
             }
             else if (intInformantLevel == INFORMANT_MEDIUM)
@@ -95,6 +113,8 @@ public class mission_bounty_informant extends script.systems.missions.base.missi
                 strResponse = new string_id("mission/mission_bounty_informant", strPlanetResponse);
                 strResponse = new string_id("mission/mission_bounty_informant", "target_biological_signature");
                 sendSystemMessage(speaker, strResponse);
+                sendSystemMessage(speaker, "[BH Intel] Confidence updated to " + (int)(confidence * 100.0f) + "%.", null);
+                bounty_hunter.sendTrailBandMessage(speaker, objMission);
                 setObjVar(objMission, "intState", STATE_BOUNTY_PROBE);
                 if (hasObjVar(objMission, "intMissionDynamic"))
                 {
@@ -109,6 +129,8 @@ public class mission_bounty_informant extends script.systems.missions.base.missi
                 chat.chat(self, speaker, strResponse);
                 strResponse = new string_id("mission/mission_bounty_informant", "target_biological_signature");
                 sendSystemMessage(speaker, strResponse);
+                sendSystemMessage(speaker, "[BH Intel] Confidence updated to " + (int)(confidence * 100.0f) + "%.", null);
+                bounty_hunter.sendTrailBandMessage(speaker, objMission);
                 setObjVar(objMission, "intState", STATE_BOUNTY_PROBE);
                 if (hasObjVar(objMission, "intMissionDynamic"))
                 {
