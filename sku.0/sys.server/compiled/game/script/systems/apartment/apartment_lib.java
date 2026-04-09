@@ -26,6 +26,8 @@ public class apartment_lib extends script.base_script
     public static final String OV_TERMINAL_MARKER = APARTMENT_ROOT + ".terminal";
     public static final String OV_TERMINAL_BUILDING = APARTMENT_ROOT + ".terminal.building";
     public static final String OV_TERMINAL_CELL = APARTMENT_ROOT + ".terminal.cell";
+    public static final String OV_CELL_BUILDING = APARTMENT_ROOT + ".cell.building";
+    public static final String OV_CELL_NAME = APARTMENT_ROOT + ".cell.name";
 
     public static final String UNIT_STATUS_VACANT = "vacant";
     public static final String UNIT_STATUS_OCCUPIED = "occupied";
@@ -265,6 +267,7 @@ public class apartment_lib extends script.base_script
             setObjVar(building, unitPath + ".rentable", 1);
         }
         cleanupLegacyUnitMarker(building, cellName);
+        setupCellAccessScript(building, cellName);
         applyUnitPermissions(building, cellName);
         refreshUnitLabel(building, cellName);
 
@@ -414,6 +417,21 @@ public class apartment_lib extends script.base_script
         }
         removeObjVar(building, getUnitPath(cellName) + ".labelObject");
         removeObjVar(building, getUnitPath(cellName) + ".forcefieldColor");
+    }
+
+    public static void setupCellAccessScript(obj_id building, String cellName) throws InterruptedException
+    {
+        obj_id cell = getCellId(building, cellName);
+        if (!isIdValid(cell))
+        {
+            return;
+        }
+        if (!hasScript(cell, "systems.apartment.apartment_cell_access"))
+        {
+            attachScript(cell, "systems.apartment.apartment_cell_access");
+        }
+        setObjVar(cell, OV_CELL_BUILDING, building);
+        setObjVar(cell, OV_CELL_NAME, cellName);
     }
 
     public static String computeUnitLabel(obj_id building, String cellName) throws InterruptedException
@@ -573,6 +591,37 @@ public class apartment_lib extends script.base_script
         String[] values = new String[out.size()];
         out.toArray(values);
         return values;
+    }
+
+    public static boolean isPlayerAuthorizedForUnit(obj_id building, String cellName, obj_id player) throws InterruptedException
+    {
+        if (!isIdValid(building) || !isIdValid(player))
+        {
+            return false;
+        }
+        if (isGod(player))
+        {
+            return true;
+        }
+        if (!isUnitRentable(building, cellName))
+        {
+            return true;
+        }
+
+        String status = getUnitStatus(building, cellName);
+        if (UNIT_STATUS_PUBLIC.equals(status))
+        {
+            return true;
+        }
+
+        obj_id owner = getOwner(building);
+        if (isIdValid(owner) && owner == player)
+        {
+            return true;
+        }
+
+        obj_id tenant = getUnitTenant(building, cellName);
+        return isIdValid(tenant) && tenant == player;
     }
 
     public static boolean chargeRent(obj_id player, obj_id building) throws InterruptedException
