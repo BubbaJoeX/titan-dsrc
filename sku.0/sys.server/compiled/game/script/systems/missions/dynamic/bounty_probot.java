@@ -59,6 +59,34 @@ public class bounty_probot extends script.systems.missions.base.mission_dynamic_
         setObjVar(self, OBJVAR_HUNT_HUNTER, hunter);
         setObjVar(self, OBJVAR_HUNT_MISSION, mission);
         setObjVar(self, OBJVAR_HUNT_DROID_TYPE, droidType);
+        // Mirror target combat profile for a fair probe-vs-target fight.
+        int targetLevel = getLevel(target);
+        if (targetLevel < 1)
+        {
+            targetLevel = 1;
+        }
+        setLevel(self, targetLevel);
+        setNpcDifficulty(self, targetLevel);
+        setObjVar(self, "intCombatDifficulty", targetLevel);
+        int targetHealthMax = getMaxAttrib(target, HEALTH);
+        int targetActionMax = getMaxAttrib(target, ACTION);
+        int targetMindMax = getMaxAttrib(target, MIND);
+        if (targetHealthMax < 1)
+        {
+            targetHealthMax = getMaxAttrib(self, HEALTH);
+        }
+        if (targetActionMax < 1)
+        {
+            targetActionMax = getMaxAttrib(self, ACTION);
+        }
+        if (targetMindMax < 1)
+        {
+            targetMindMax = getMaxAttrib(self, MIND);
+        }
+        // Use target max pools so probe durability/offense tracks the hunted player's tier.
+        setAttrib(self, HEALTH, targetHealthMax);
+        setAttrib(self, ACTION, targetActionMax);
+        setAttrib(self, MIND, targetMindMax);
         setInvulnerable(self, false);
         setMovementRun(self);
         follow(self, target, 2.0f, 4.0f);
