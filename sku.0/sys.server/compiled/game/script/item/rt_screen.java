@@ -34,6 +34,10 @@ public class rt_screen extends script.base_script
     public static final int MENU_SET_RESOLUTION = menu_info_types.SERVER_MENU5;
     public static final int MENU_SET_NAME = menu_info_types.SERVER_MENU6;
     public static final int MENU_PICK_UP = menu_info_types.SERVER_MENU7;
+    public static final int MENU_ROOT_FEED = menu_info_types.SERVER_MENU40;
+    public static final int MENU_ROOT_LINKING = menu_info_types.SERVER_MENU41;
+    public static final int MENU_ROOT_SETTINGS = menu_info_types.SERVER_MENU42;
+    public static final int MENU_ROOT_INVENTORY = menu_info_types.SERVER_MENU43;
 
     public int OnAttach(obj_id self) throws InterruptedException
     {
@@ -86,25 +90,30 @@ public class rt_screen extends script.base_script
                 boolean cameraActive = hasObjVar(camera, "rt_camera.isActive") && getBooleanObjVar(camera, "rt_camera.isActive");
                 if (cameraActive)
                 {
-                    mi.addRootMenu(MENU_VIEW_FEED, string_id.unlocalized("View Camera Feed"));
+                    int feedRoot = mi.addRootMenu(MENU_ROOT_FEED, string_id.unlocalized("Camera Feed"));
+                    mi.addSubMenu(feedRoot, MENU_VIEW_FEED, string_id.unlocalized("View Camera Feed"));
                 }
             }
         }
 
         if (isOwner || isGod)
         {
+            int linkingRoot = mi.addRootMenu(MENU_ROOT_LINKING, string_id.unlocalized("Linking"));
+            int settingsRoot = mi.addRootMenu(MENU_ROOT_SETTINGS, string_id.unlocalized("Settings"));
+            int inventoryRoot = mi.addRootMenu(MENU_ROOT_INVENTORY, string_id.unlocalized("Inventory"));
+
             if (!hasLinkedCamera)
             {
-                mi.addRootMenu(MENU_LINK_CAMERA, string_id.unlocalized("Link to Camera"));
+                mi.addSubMenu(linkingRoot, MENU_LINK_CAMERA, string_id.unlocalized("Link to Camera"));
             }
             else
             {
-                mi.addRootMenu(MENU_UNLINK, string_id.unlocalized("Unlink Camera"));
+                mi.addSubMenu(linkingRoot, MENU_UNLINK, string_id.unlocalized("Unlink Camera"));
             }
 
-            mi.addRootMenu(MENU_SET_RESOLUTION, string_id.unlocalized("Set Resolution"));
-            mi.addRootMenu(MENU_SET_NAME, string_id.unlocalized("Set Name"));
-            mi.addRootMenu(MENU_PICK_UP, string_id.unlocalized("Pick Up"));
+            mi.addSubMenu(settingsRoot, MENU_SET_RESOLUTION, string_id.unlocalized("Set Resolution"));
+            mi.addSubMenu(settingsRoot, MENU_SET_NAME, string_id.unlocalized("Set Name"));
+            mi.addSubMenu(inventoryRoot, MENU_PICK_UP, string_id.unlocalized("Pick Up"));
         }
 
         return SCRIPT_CONTINUE;

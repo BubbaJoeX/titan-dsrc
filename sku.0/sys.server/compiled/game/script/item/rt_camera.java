@@ -36,6 +36,10 @@ public class rt_camera extends script.base_script
     public static final int MENU_PICK_UP = menu_info_types.SERVER_MENU6;
     public static final int MENU_LOCK_TO_PARENT = menu_info_types.SERVER_MENU7;
     public static final int MENU_UNLOCK_FROM_PARENT = menu_info_types.SERVER_MENU8;
+    public static final int MENU_ROOT_LINKING = menu_info_types.SERVER_MENU40;
+    public static final int MENU_ROOT_SETTINGS = menu_info_types.SERVER_MENU41;
+    public static final int MENU_ROOT_MOUNTING = menu_info_types.SERVER_MENU42;
+    public static final int MENU_ROOT_INVENTORY = menu_info_types.SERVER_MENU43;
 
     public int OnAttach(obj_id self) throws InterruptedException
     {
@@ -83,32 +87,37 @@ public class rt_camera extends script.base_script
         {
             boolean hasLinkedScreen = hasObjVar(self, OBJVAR_LINKED_SCREEN);
             boolean isActive = hasObjVar(self, OBJVAR_IS_ACTIVE) && getBooleanObjVar(self, OBJVAR_IS_ACTIVE);
+            boolean isLockedToParent = hasObjVar(self, "dynamics.lockParent.parentId");
+
+            int linkRoot = mi.addRootMenu(MENU_ROOT_LINKING, string_id.unlocalized("Link & Stream"));
+            int settingsRoot = mi.addRootMenu(MENU_ROOT_SETTINGS, string_id.unlocalized("Settings"));
+            int mountRoot = mi.addRootMenu(MENU_ROOT_MOUNTING, string_id.unlocalized("Mounting"));
+            int inventoryRoot = mi.addRootMenu(MENU_ROOT_INVENTORY, string_id.unlocalized("Inventory"));
 
             if (!hasLinkedScreen)
             {
-                mi.addRootMenu(MENU_LINK_SCREEN, string_id.unlocalized("Link to Screen"));
+                mi.addSubMenu(linkRoot, MENU_LINK_SCREEN, string_id.unlocalized("Link to Screen"));
             }
             else
             {
-                mi.addRootMenu(MENU_UNLINK, string_id.unlocalized("Unlink Screen"));
-                mi.addRootMenu(MENU_TOGGLE_ACTIVE, string_id.unlocalized(isActive ? "Deactivate" : "Activate"));
+                mi.addSubMenu(linkRoot, MENU_UNLINK, string_id.unlocalized("Unlink Screen"));
+                mi.addSubMenu(linkRoot, MENU_TOGGLE_ACTIVE, string_id.unlocalized(isActive ? "Deactivate" : "Activate"));
             }
 
-            mi.addRootMenu(MENU_SET_FOV, string_id.unlocalized("Set Field of View"));
-            mi.addRootMenu(MENU_SET_NAME, string_id.unlocalized("Set Name"));
+            mi.addSubMenu(settingsRoot, MENU_SET_FOV, string_id.unlocalized("Set Field of View"));
+            mi.addSubMenu(settingsRoot, MENU_SET_NAME, string_id.unlocalized("Set Name"));
 
             // Lock to parent options
-            boolean isLockedToParent = hasObjVar(self, "dynamics.lockParent.parentId");
             if (!isLockedToParent)
             {
-                mi.addRootMenu(MENU_LOCK_TO_PARENT, string_id.unlocalized("Lock to Target"));
+                mi.addSubMenu(mountRoot, MENU_LOCK_TO_PARENT, string_id.unlocalized("Lock to Target"));
             }
             else
             {
-                mi.addRootMenu(MENU_UNLOCK_FROM_PARENT, string_id.unlocalized("Unlock from Parent"));
+                mi.addSubMenu(mountRoot, MENU_UNLOCK_FROM_PARENT, string_id.unlocalized("Unlock from Parent"));
             }
 
-            mi.addRootMenu(MENU_PICK_UP, string_id.unlocalized("Pick Up"));
+            mi.addSubMenu(inventoryRoot, MENU_PICK_UP, string_id.unlocalized("Pick Up"));
         }
 
         return SCRIPT_CONTINUE;
