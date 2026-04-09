@@ -2,6 +2,7 @@ package script.structure;
 
 import script.*;
 import script.library.*;
+import script.systems.apartment.apartment_lib;
 
 import java.util.Arrays;
 import java.util.Vector;
@@ -153,6 +154,14 @@ public class permanent_structure extends script.base_script
                 {
                     if (isPlayer(transferer))
                     {
+                        if (apartment_lib.isApartmentBuilding(structure))
+                        {
+                            String transfererCell = apartment_lib.getPlayerCurrentCellName(structure, transferer);
+                            if (transfererCell != null && apartment_lib.isPlayerAuthorizedForUnit(structure, transfererCell, transferer))
+                            {
+                                return SCRIPT_CONTINUE;
+                            }
+                        }
                         if (player_structure.canPlaceObject(structure, transferer))
                         {
                             return SCRIPT_CONTINUE;
@@ -197,6 +206,14 @@ public class permanent_structure extends script.base_script
                 {
                     if (isPlayer(transferer))
                     {
+                        if (apartment_lib.isApartmentBuilding(structure))
+                        {
+                            String transfererCell = apartment_lib.getPlayerCurrentCellName(structure, transferer);
+                            if (transfererCell != null && apartment_lib.isPlayerAuthorizedForUnit(structure, transfererCell, transferer))
+                            {
+                                return SCRIPT_CONTINUE;
+                            }
+                        }
                         if (player_structure.isAdmin(structure, transferer))
                         {
                             return SCRIPT_CONTINUE;
