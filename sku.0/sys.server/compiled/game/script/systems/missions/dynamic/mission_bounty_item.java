@@ -12,7 +12,7 @@ public class mission_bounty_item extends script.systems.missions.base.mission_dy
     }
     public int OnStartMission(obj_id self, dictionary params) throws InterruptedException
     {
-        setObjVar(self, "intState", missions.STATE_MISSION_IN_PROGRESS);
+        setObjVar(self, "intState", missions.STATE_DYNAMIC_START);
         if (!hasObjVar(self, "bh.itemBountyClueStage"))
         {
             setObjVar(self, "bh.itemBountyClueStage", 0);

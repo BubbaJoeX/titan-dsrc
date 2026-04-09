@@ -22,8 +22,6 @@ public class mission_terminal_bounty extends script.base_script
     }
     public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi) throws InterruptedException
     {
-        int intMissionLevel = getSkillStatMod(player, "bounty_mission_level");
-        UNREF(intMissionLevel);
         float fltDistance = getDistance(player, self);
         if (fltDistance > 10)
         {
