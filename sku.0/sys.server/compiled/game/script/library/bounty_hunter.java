@@ -106,6 +106,12 @@ public class bounty_hunter extends script.base_script
     public static final float HEAT_DECAY_PER_SECOND = 0.004f;
     public static final float HEAT_MAX = 100.0f;
     public static final float HEAT_MIN = 0.0f;
+    public static final String ITEM_BOUNTY_ROOT = "bh.itemBounty";
+    public static final String ITEM_BOUNTY_STATE_OPEN = "OPEN";
+    public static final String ITEM_BOUNTY_STATE_ACCEPTED = "ACCEPTED";
+    public static final String ITEM_BOUNTY_STATE_READY = "READY_FOR_PICKUP";
+    public static final String ITEM_BOUNTY_STATE_PICKED_UP = "PICKED_UP";
+    public static final String GALAXY_SHARED_STORE_PLANET = "tatooine";
     public static void debugLogging(String section, String message) throws InterruptedException
     {
         if (CONST_FLAG_DO_LOGGING)
@@ -212,6 +218,458 @@ public class bounty_hunter extends script.base_script
         setObjVar(target, root + ".hunter", hunter);
         setObjVar(target, root + ".accepted", getGameTime());
         CustomerServiceLog("bounty", "Contract " + id + " accepted by %TU for target %TT", hunter, target);
+        return true;
+    }
+    public static obj_id getItemBountyStore() throws InterruptedException
+    {
+        // This store object is intentionally galaxy-global for the shard.
+        // Using a stable world object keeps item bounties visible from any planet terminal.
+        obj_id store = getPlanetByName(GALAXY_SHARED_STORE_PLANET);
+        if (!isIdValid(store))
+        {
+            store = getHeatStoreObject();
+        }
+        return store;
+    }
+    public static int getNextItemBountyId() throws InterruptedException
+    {
+        obj_id store = getItemBountyStore();
+        if (!isIdValid(store))
+        {
+            return 0;
+        }
+        String key = ITEM_BOUNTY_ROOT + ".nextId";
+        int next = hasObjVar(store, key) ? getIntObjVar(store, key) : 1;
+        setObjVar(store, key, next + 1);
+        return next;
+    }
+    public static boolean isStaticItemNoTradeSharedName(String staticItemName) throws InterruptedException
+    {
+        if (staticItemName == null || staticItemName.length() < 1)
+        {
+            return false;
+        }
+        String[] noTradeShared = dataTableGetStringColumn(static_item.ITEM_NO_TRADE_SHARED_TABLE, 0);
+        if (noTradeShared != null)
+        {
+            for (String entry : noTradeShared)
+            {
+                if (staticItemName.equals(entry))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public static boolean canCreateItemBounty(obj_id creator, obj_id item, boolean sendMessages) throws InterruptedException
+    {
+        if (!isIdValid(creator) || !isPlayer(creator) || !isIdValid(item))
+        {
+            return false;
+        }
+        if (isPlayer(item))
+        {
+            if (sendMessages)
+            {
+                sendSystemMessage(creator, "Item bounty target must be an item object.", null);
+            }
+            return false;
+        }
+        if (isNoTradeShared(item))
+        {
+            if (sendMessages)
+            {
+                sendSystemMessage(creator, "This item is no-trade/shared and cannot be bountied.", null);
+            }
+            return false;
+        }
+        boolean crafted = isCrafted(item);
+        boolean staticLoot = static_item.isStaticItem(item);
+        if (!crafted && !staticLoot)
+        {
+            if (sendMessages)
+            {
+                sendSystemMessage(creator, "Only crafted or static loot items can receive item bounties.", null);
+            }
+            return false;
+        }
+        if (staticLoot)
+        {
+            String staticName = static_item.getStaticItemName(item);
+            if (static_item.isUniqueStaticItem(item) || isStaticItemNoTradeSharedName(staticName))
+            {
+                if (sendMessages)
+                {
+                    sendSystemMessage(creator, "Unique or no-trade static items cannot receive item bounties.", null);
+                }
+                return false;
+            }
+        }
+        return true;
+    }
+    public static boolean createItemBounty(obj_id creator, obj_id item, int reward, obj_id terminal) throws InterruptedException
+    {
+        if (!canCreateItemBounty(creator, item, true))
+        {
+            return false;
+        }
+        if (reward < MIN_BOUNTY_SET || reward > MAX_BOUNTY_SET)
+        {
+            sendSystemMessage(creator, "Item bounty reward must be within standard bounty limits.", null);
+            return false;
+        }
+        obj_id store = getItemBountyStore();
+        if (!isIdValid(store))
+        {
+            return false;
+        }
+        int id = getNextItemBountyId();
+        if (id <= 0)
+        {
+            return false;
+        }
+        String root = ITEM_BOUNTY_ROOT + "." + id;
+        setObjVar(store, root + ".id", id);
+        setObjVar(store, root + ".state", ITEM_BOUNTY_STATE_OPEN);
+        setObjVar(store, root + ".creator", creator);
+        setObjVar(store, root + ".item", item);
+        setObjVar(store, root + ".reward", reward);
+        setObjVar(store, root + ".created", getGameTime());
+        if (isIdValid(terminal))
+        {
+            setObjVar(store, root + ".terminal", terminal);
+        }
+        String template = getTemplateName(item);
+        if (template != null && template.length() > 0)
+        {
+            setObjVar(store, root + ".template", template);
+        }
+        String staticName = static_item.getStaticItemName(item);
+        if (staticName != null && staticName.length() > 0)
+        {
+            setObjVar(store, root + ".staticName", staticName);
+        }
+        if (isCrafted(item))
+        {
+            setObjVar(store, root + ".crafted", 1);
+            obj_id crafter = getCrafter(item);
+            if (isIdValid(crafter))
+            {
+                setObjVar(store, root + ".crafter", crafter);
+            }
+        }
+        else
+        {
+            setObjVar(store, root + ".crafted", 0);
+        }
+        CustomerServiceLog("bounty", "%TU posted item bounty id " + id + " on item %TT for " + reward + " credits", creator, item);
+        return true;
+    }
+    public static int[] getOpenItemBountyIds(int limit) throws InterruptedException
+    {
+        obj_id store = getItemBountyStore();
+        if (!isIdValid(store))
+        {
+            return new int[0];
+        }
+        int next = hasObjVar(store, ITEM_BOUNTY_ROOT + ".nextId") ? getIntObjVar(store, ITEM_BOUNTY_ROOT + ".nextId") : 1;
+        Vector out = new Vector();
+        out.setSize(0);
+        for (int i = 1; i < next; ++i)
+        {
+            String root = ITEM_BOUNTY_ROOT + "." + i;
+            if (!hasObjVar(store, root + ".state"))
+            {
+                continue;
+            }
+            String state = getStringObjVar(store, root + ".state");
+            if (!ITEM_BOUNTY_STATE_OPEN.equals(state))
+            {
+                continue;
+            }
+            out = utils.addElement(out, i);
+            if (limit > 0 && out.size() >= limit)
+            {
+                break;
+            }
+        }
+        int[] ids = new int[out.size()];
+        for (int j = 0; j < out.size(); ++j)
+        {
+            ids[j] = ((Integer)out.get(j));
+        }
+        return ids;
+    }
+    public static int getNextOpenItemBountyId(int afterId) throws InterruptedException
+    {
+        obj_id store = getItemBountyStore();
+        if (!isIdValid(store))
+        {
+            return 0;
+        }
+        int next = hasObjVar(store, ITEM_BOUNTY_ROOT + ".nextId") ? getIntObjVar(store, ITEM_BOUNTY_ROOT + ".nextId") : 1;
+        if (next <= 1)
+        {
+            return 0;
+        }
+        int start = afterId + 1;
+        if (start < 1 || start >= next)
+        {
+            start = 1;
+        }
+        for (int pass = 0; pass < 2; ++pass)
+        {
+            int begin = (pass == 0) ? start : 1;
+            int end = (pass == 0) ? next - 1 : start - 1;
+            for (int i = begin; i <= end; ++i)
+            {
+                String root = ITEM_BOUNTY_ROOT + "." + i;
+                if (!hasObjVar(store, root + ".state"))
+                {
+                    continue;
+                }
+                if (ITEM_BOUNTY_STATE_OPEN.equals(getStringObjVar(store, root + ".state")))
+                {
+                    return i;
+                }
+            }
+        }
+        return 0;
+    }
+    public static String getItemBountyBoardLine(int bountyId) throws InterruptedException
+    {
+        obj_id store = getItemBountyStore();
+        if (!isIdValid(store))
+        {
+            return "Unavailable bounty";
+        }
+        String root = ITEM_BOUNTY_ROOT + "." + bountyId;
+        if (!hasObjVar(store, root + ".state"))
+        {
+            return "Unavailable bounty";
+        }
+        int reward = hasObjVar(store, root + ".reward") ? getIntObjVar(store, root + ".reward") : 0;
+        String profile = (hasObjVar(store, root + ".crafted") && getIntObjVar(store, root + ".crafted") == 1) ? "Crafted profile" : "Static profile";
+        return "[ID " + bountyId + "] " + profile + " - Reward " + reward + " cr";
+    }
+    public static obj_id createItemBountyMissionForHunter(obj_id hunter, obj_id broker, int bountyId) throws InterruptedException
+    {
+        obj_id store = getItemBountyStore();
+        if (!isIdValid(store) || !isIdValid(hunter))
+        {
+            return obj_id.NULL_ID;
+        }
+        String root = ITEM_BOUNTY_ROOT + "." + bountyId;
+        if (!hasObjVar(store, root + ".state") || !ITEM_BOUNTY_STATE_OPEN.equals(getStringObjVar(store, root + ".state")))
+        {
+            return obj_id.NULL_ID;
+        }
+        obj_id item = getObjIdObjVar(store, root + ".item");
+        if (!isIdValid(item))
+        {
+            return obj_id.NULL_ID;
+        }
+        obj_id missionData = createMissionObjectInCreatureMissionBag(hunter);
+        if (!isIdValid(missionData))
+        {
+            return obj_id.NULL_ID;
+        }
+        setMissionType(missionData, "bounty");
+        setMissionRootScriptName(missionData, "systems.missions.dynamic.mission_bounty_item");
+        setMissionStartLocation(missionData, getLocation(hunter));
+        if (isIdValid(broker))
+        {
+            setMissionEndLocation(missionData, getLocation(broker));
+            setObjVar(missionData, "bh.itemBountyBroker", broker);
+        }
+        int reward = hasObjVar(store, root + ".reward") ? getIntObjVar(store, root + ".reward") : 0;
+        setMissionReward(missionData, reward);
+        if (hasObjVar(store, root + ".template"))
+        {
+            setMissionTargetAppearance(missionData, getStringObjVar(store, root + ".template"));
+        }
+        setObjVar(missionData, "bh.itemBountyId", bountyId);
+        setObjVar(missionData, "bh.itemBountyTarget", item);
+        setObjVar(missionData, "bh.itemBountyCreator", getObjIdObjVar(store, root + ".creator"));
+        setObjVar(missionData, "bh.itemBountyClueStage", 0);
+        assignMission(missionData, hunter);
+        setObjVar(store, root + ".state", ITEM_BOUNTY_STATE_ACCEPTED);
+        setObjVar(store, root + ".hunter", hunter);
+        setObjVar(store, root + ".accepted", getGameTime());
+        obj_id creator = hasObjVar(store, root + ".creator") ? getObjIdObjVar(store, root + ".creator") : obj_id.NULL_ID;
+        if (isIdValid(creator) && exists(creator))
+        {
+            sendSystemMessage(creator, "Item bounty #" + bountyId + " has been accepted by a hunter.", null);
+        }
+        CustomerServiceLog("bounty", "%TU accepted item bounty id " + bountyId, hunter);
+        return missionData;
+    }
+    public static obj_id createNextItemBountyMissionForHunter(obj_id hunter, obj_id broker, int afterId) throws InterruptedException
+    {
+        int id = getNextOpenItemBountyId(afterId);
+        if (id <= 0)
+        {
+            return obj_id.NULL_ID;
+        }
+        return createItemBountyMissionForHunter(hunter, broker, id);
+    }
+    public static obj_id getItemBountyMission(obj_id player) throws InterruptedException
+    {
+        if (!isIdValid(player))
+        {
+            return obj_id.NULL_ID;
+        }
+        obj_id[] missionList = getMissionObjects(player);
+        if (missionList == null || missionList.length < 1)
+        {
+            return obj_id.NULL_ID;
+        }
+        for (obj_id mission : missionList)
+        {
+            if (hasObjVar(mission, "bh.itemBountyId"))
+            {
+                return mission;
+            }
+        }
+        return obj_id.NULL_ID;
+    }
+    public static boolean turnInItemBounty(obj_id hunter, obj_id broker) throws InterruptedException
+    {
+        obj_id mission = getItemBountyMission(hunter);
+        if (!isIdValid(mission))
+        {
+            sendSystemMessage(hunter, "You do not have an active item bounty mission.", null);
+            return false;
+        }
+        obj_id item = getObjIdObjVar(mission, "bh.itemBountyTarget");
+        if (!isIdValid(item) || !pclib.isContainedByPlayer(hunter, item))
+        {
+            sendSystemMessage(hunter, "You do not currently possess the required item.", null);
+            return false;
+        }
+        obj_id brokerInv = utils.getInventoryContainer(broker);
+        if (!isIdValid(brokerInv))
+        {
+            sendSystemMessage(hunter, "Broker cannot accept turn-in right now.", null);
+            return false;
+        }
+        if (!putIn(item, brokerInv, hunter))
+        {
+            if (!putIn(item, brokerInv))
+            {
+                sendSystemMessage(hunter, "Turn-in failed. Broker storage is unavailable.", null);
+                return false;
+            }
+        }
+        int bountyId = getIntObjVar(mission, "bh.itemBountyId");
+        obj_id store = getItemBountyStore();
+        String root = ITEM_BOUNTY_ROOT + "." + bountyId;
+        setObjVar(store, root + ".state", ITEM_BOUNTY_STATE_READY);
+        setObjVar(store, root + ".broker", broker);
+        setObjVar(store, root + ".storedItem", item);
+        setObjVar(store, root + ".turnedIn", getGameTime());
+        obj_id creator = hasObjVar(store, root + ".creator") ? getObjIdObjVar(store, root + ".creator") : obj_id.NULL_ID;
+        if (isIdValid(creator))
+        {
+            if (exists(creator))
+            {
+                sendSystemMessage(creator, "Your item bounty #" + bountyId + " is ready for pickup at a bounty broker.", null);
+            }
+            setObjVar(creator, "bh.itemBounty.pendingPickup." + bountyId, 1);
+        }
+        int reward = hasObjVar(store, root + ".reward") ? getIntObjVar(store, root + ".reward") : 0;
+        money.bankTo(money.ACCT_BOUNTY, hunter, reward);
+        sendSystemMessage(hunter, "Item bounty completed and reward paid.", null);
+        endMission(mission);
+        return true;
+    }
+    public static int[] getReadyItemBountiesForCreator(obj_id creator, obj_id broker) throws InterruptedException
+    {
+        obj_id store = getItemBountyStore();
+        if (!isIdValid(store) || !isIdValid(creator))
+        {
+            return new int[0];
+        }
+        int next = hasObjVar(store, ITEM_BOUNTY_ROOT + ".nextId") ? getIntObjVar(store, ITEM_BOUNTY_ROOT + ".nextId") : 1;
+        Vector out = new Vector();
+        out.setSize(0);
+        for (int i = 1; i < next; ++i)
+        {
+            String root = ITEM_BOUNTY_ROOT + "." + i;
+            if (!hasObjVar(store, root + ".state") || !ITEM_BOUNTY_STATE_READY.equals(getStringObjVar(store, root + ".state")))
+            {
+                continue;
+            }
+            obj_id owner = hasObjVar(store, root + ".creator") ? getObjIdObjVar(store, root + ".creator") : obj_id.NULL_ID;
+            if (owner != creator)
+            {
+                continue;
+            }
+            if (isIdValid(broker) && hasObjVar(store, root + ".broker"))
+            {
+                if (getObjIdObjVar(store, root + ".broker") != broker)
+                {
+                    continue;
+                }
+            }
+            out = utils.addElement(out, i);
+        }
+        int[] ids = new int[out.size()];
+        for (int j = 0; j < out.size(); ++j)
+        {
+            ids[j] = ((Integer)out.get(j));
+        }
+        return ids;
+    }
+    public static boolean pickupItemBounty(obj_id creator, obj_id broker, int bountyId) throws InterruptedException
+    {
+        obj_id store = getItemBountyStore();
+        if (!isIdValid(store) || !isIdValid(creator))
+        {
+            return false;
+        }
+        String root = ITEM_BOUNTY_ROOT + "." + bountyId;
+        if (!hasObjVar(store, root + ".state") || !ITEM_BOUNTY_STATE_READY.equals(getStringObjVar(store, root + ".state")))
+        {
+            return false;
+        }
+        obj_id owner = hasObjVar(store, root + ".creator") ? getObjIdObjVar(store, root + ".creator") : obj_id.NULL_ID;
+        if (owner != creator)
+        {
+            return false;
+        }
+        if (isIdValid(broker) && hasObjVar(store, root + ".broker"))
+        {
+            if (getObjIdObjVar(store, root + ".broker") != broker)
+            {
+                return false;
+            }
+        }
+        obj_id item = hasObjVar(store, root + ".storedItem") ? getObjIdObjVar(store, root + ".storedItem") : obj_id.NULL_ID;
+        if (!isIdValid(item))
+        {
+            return false;
+        }
+        obj_id inv = utils.getInventoryContainer(creator);
+        if (!isIdValid(inv))
+        {
+            return false;
+        }
+        if (!putIn(item, inv, creator))
+        {
+            if (!putIn(item, inv))
+            {
+                return false;
+            }
+        }
+        setObjVar(store, root + ".state", ITEM_BOUNTY_STATE_PICKED_UP);
+        setObjVar(store, root + ".pickedUp", getGameTime());
+        if (hasObjVar(creator, "bh.itemBounty.pendingPickup." + bountyId))
+        {
+            removeObjVar(creator, "bh.itemBounty.pendingPickup." + bountyId);
+        }
+        sendSystemMessage(creator, "Recovered item bounty #" + bountyId + " picked up.", null);
         return true;
     }
     public static void initializeInvestigationState(obj_id mission) throws InterruptedException
@@ -1192,6 +1650,9 @@ public class bounty_hunter extends script.base_script
                 for (obj_id obj_id : missionList) {
                     String type = getMissionType(obj_id);
                     if (type.equals("bounty")) {
+                        if (hasObjVar(obj_id, "bh.itemBountyId")) {
+                            continue;
+                        }
                         if (isIdValid(target)) {
                             if (hasObjVar(obj_id, "objTarget")) {
                                 obj_id missionTarget = getObjIdObjVar(obj_id, "objTarget");

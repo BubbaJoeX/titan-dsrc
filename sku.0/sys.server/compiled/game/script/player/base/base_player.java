@@ -3944,6 +3944,132 @@ public class base_player extends script.base_script
         sendSystemMessageTestingOnly(self, "/TIP command failed in command table...");
         return SCRIPT_CONTINUE;
     }
+    public int cmdPlaceItemBounty(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException
+    {
+        if (!isIdValid(self) || !isPlayer(self))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        obj_id itemTarget = isIdValid(target) ? target : getLookAtTarget(self);
+        if (!isIdValid(itemTarget))
+        {
+            sendSystemMessage(self, "No valid item target. Look at the item and try again.", null);
+            return SCRIPT_CONTINUE;
+        }
+        if (!bounty_hunter.canCreateItemBounty(self, itemTarget, true))
+        {
+            return SCRIPT_CONTINUE;
+        }
+
+        String itemName = getAssignedName(itemTarget);
+        if (itemName == null || itemName.length() < 1)
+        {
+            itemName = getEncodedName(itemTarget);
+        }
+        if (itemName == null || itemName.length() < 1)
+        {
+            itemName = localize(getNameStringId(itemTarget));
+        }
+        if (itemName == null || itemName.length() < 1)
+        {
+            itemName = "Unknown";
+        }
+
+        String itemDescription = localize(getDescriptionStringId(itemTarget));
+        if (itemDescription == null || itemDescription.length() < 1)
+        {
+            itemDescription = "N/A";
+        }
+
+        int junkValue = smuggler.getPrice(itemTarget);
+        String junkValueText = (junkValue > 0) ? Integer.toString(junkValue) : "N/A";
+
+        String prompt = "Enter item bounty reward (" + bounty_hunter.MIN_BOUNTY_SET + " - " + bounty_hunter.MAX_BOUNTY_SET + "):";
+        prompt += "\n\nItem Name: " + itemName;
+        prompt += "\nItem Description: " + itemDescription;
+        prompt += "\n(If junkable): Item Value: " + junkValueText;
+
+        String defaultAmount = Integer.toString(bounty_hunter.MIN_BOUNTY_SET);
+        String text = (params == null) ? "" : params.trim();
+        int parsed = utils.stringToInt(text);
+        if (parsed >= bounty_hunter.MIN_BOUNTY_SET && parsed <= bounty_hunter.MAX_BOUNTY_SET)
+        {
+            defaultAmount = Integer.toString(parsed);
+        }
+
+        utils.setScriptVar(self, "bh.itemBounty.commandTarget", itemTarget);
+        sui.inputbox(self, self, prompt, "Place Item Bounty", "handlePlaceItemBountyInput", defaultAmount);
+        return SCRIPT_CONTINUE;
+    }
+    public int cmdPlaceItemBountyFail(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException
+    {
+        sendSystemMessage(self, "Item bounty command failed.", null);
+        return SCRIPT_CONTINUE;
+    }
+    public int handlePlaceItemBountyInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (params == null || params.isEmpty())
+        {
+            return SCRIPT_CONTINUE;
+        }
+        int bp = sui.getIntButtonPressed(params);
+        if (bp == sui.BP_CANCEL)
+        {
+            utils.removeScriptVar(self, "bh.itemBounty.commandTarget");
+            return SCRIPT_CONTINUE;
+        }
+        if (!utils.hasScriptVar(self, "bh.itemBounty.commandTarget"))
+        {
+            sendSystemMessage(self, "Item bounty target is no longer valid.", null);
+            return SCRIPT_CONTINUE;
+        }
+        obj_id itemTarget = utils.getObjIdScriptVar(self, "bh.itemBounty.commandTarget");
+        utils.removeScriptVar(self, "bh.itemBounty.commandTarget");
+        if (!bounty_hunter.canCreateItemBounty(self, itemTarget, true))
+        {
+            return SCRIPT_CONTINUE;
+        }
+
+        int reward = utils.stringToInt(sui.getInputBoxText(params));
+        if (reward < bounty_hunter.MIN_BOUNTY_SET || reward > bounty_hunter.MAX_BOUNTY_SET)
+        {
+            sendSystemMessage(self, "Reward must be between " + bounty_hunter.MIN_BOUNTY_SET + " and " + bounty_hunter.MAX_BOUNTY_SET + ".", null);
+            return SCRIPT_CONTINUE;
+        }
+        if (reward > getTotalMoney(self))
+        {
+            sendSystemMessage(self, "Insufficient funds for item bounty.", null);
+            return SCRIPT_CONTINUE;
+        }
+
+        dictionary d = new dictionary();
+        d.put("targetItem", itemTarget);
+        d.put("reward", reward);
+        money.pay(self, money.ACCT_BOUNTY, reward, "handlePlaceItemBountyTransaction", d, true);
+        return SCRIPT_CONTINUE;
+    }
+    public int handlePlaceItemBountyTransaction(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (params == null || params.isEmpty())
+        {
+            return SCRIPT_CONTINUE;
+        }
+        if (money.getReturnCode(params) == money.RET_FAIL)
+        {
+            sendSystemMessage(self, "Item bounty payment failed.", null);
+            return SCRIPT_CONTINUE;
+        }
+        obj_id item = params.getObjId("targetItem");
+        int reward = params.getInt("reward");
+        if (!bounty_hunter.createItemBounty(self, item, reward, obj_id.NULL_ID))
+        {
+            money.bankTo(money.ACCT_BOUNTY, self, reward);
+            sendSystemMessage(self, "Item bounty creation failed; escrow refunded.", null);
+            return SCRIPT_CONTINUE;
+        }
+        sendSystemMessage(self, "Item bounty posted galaxy-wide.", null);
+        return SCRIPT_CONTINUE;
+    }
     public int cmdCheckForceStatus(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException
     {
         return SCRIPT_CONTINUE;

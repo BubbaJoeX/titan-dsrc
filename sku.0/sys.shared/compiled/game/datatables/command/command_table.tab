@@ -19,6 +19,7 @@ aiIgnore		immediate	cmdAiIgnore	failAdmin				admin																				1	1		0	1		
 aiManipulate		immediate	cmdAiManipulate	failAdmin				admin																				1	1		0	1												1																												player.player_nb		required					0		15	csr	0
 ambush	commandClicky	normal	ambush	failSpecialAttack			1	ambush	1	0	1	1	1	0	1	1	1	0	0	0	0	0	0	0	0	0	0			0	0	1	1		1	0	0	1	1	1	1	0	1	0	1	1	1	1	0	0									0		0	0	0	0	0								enemy	optional		2		combat_ranged	0			combat	1	ALL	HEAVY	ambush	0	0.25	3			1
 announceTrade		immediate	cmdAnnounceTrade																												0	1												1																														none									0
+placeItemBounty		immediate	cmdPlaceItemBounty	cmdPlaceItemBountyFail																												0	1												1																														none									0
 anon		immediate			toggleAnonymous																							1	1		0	1												1																														none		2			0				0
 applyPowerup		immediate			applyPowerup																						0				0	1												0																														required					0				0
 april_fools_boss_emote	commandClicky	normal	april_fools_boss_emote	failSpecialAttack			1		1	0	1	1	1	0	1	1	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	1	1	1	0	0	1	1	1	1	0	1	0	1	1	1	1	0	0	1	1	1	1	1	1	1	1	0	1	0	0	0	0	0	1	1	1	1	1	1		other	optional		2		combat_ranged	0	50		combat	1	ALL	NONE	defaultCooldownGroup	0	0	0			0	1
