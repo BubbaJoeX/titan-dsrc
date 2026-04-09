@@ -121,6 +121,18 @@ public class string_id implements Comparable, Serializable
     }
 
     /**
+     * Same pipe format as {@link #convoResponse} but for quest list/task datatable columns
+     * ({@code quest_pipe:key|journal text}). Client localization shows only the text after {@code |}.
+     */
+    public static string_id questPipe(String key, String displayText)
+    {
+        string_id sid = new string_id();
+        sid.m_table = "quest_pipe";
+        sid.m_asciiId = key + "|" + displayText;
+        return sid;
+    }
+
+    /**
      * Checks if this string_id is a server-side conversation response.
      *
      * @return true if this is a conversation response created via convoResponse()
@@ -128,6 +140,11 @@ public class string_id implements Comparable, Serializable
     public boolean isConvoResponse()
     {
         return "convo_response".equals(m_table);
+    }
+
+    public boolean isQuestPipe()
+    {
+        return "quest_pipe".equals(m_table);
     }
 
     /**
