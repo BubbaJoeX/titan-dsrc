@@ -92,6 +92,7 @@ public class bounty_hunter extends script.base_script
     public static final String OBJVAR_COUNTERPLAY_JAM_UNTIL = "bh.counterplay.jamUntil";
     public static final String OBJVAR_COUNTERPLAY_DECOY_UNTIL = "bh.counterplay.decoyUntil";
     public static final String OBJVAR_COUNTERPLAY_DECOY_STRENGTH = "bh.counterplay.decoyStrength";
+    public static final String OBJVAR_REMOTE_PROBE_NEXT_DISPATCH = "bh.remoteProbe.nextDispatch";
     public static final String OBJVAR_RENOWN_POINTS = "bh.renown.points";
     public static final String OBJVAR_RENOWN_RANK = "bh.renown.rank";
     public static final String OBJVAR_ANTIGRIEF_LAST_TARGET = "bh.antigrief.lastTarget";
@@ -869,6 +870,57 @@ public class bounty_hunter extends script.base_script
             adjusted.z = adjusted.z + rand(-scatter, scatter);
         }
         return adjusted;
+    }
+    public static boolean requestRemoteProbeEngagement(obj_id mission, obj_id hunter, obj_id target, int droidType, String hunterPlanet) throws InterruptedException
+    {
+        if (!isIdValid(mission) || !isIdValid(hunter) || !isIdValid(target) || !isPlayer(target))
+        {
+            return false;
+        }
+        if (droidType != DROID_PROBOT && droidType != DROID_SEEKER)
+        {
+            return false;
+        }
+        location targetLocation = getLocation(target);
+        if (targetLocation == null)
+        {
+            obj_id topmost = getTopMostContainer(target);
+            if (isIdValid(topmost))
+            {
+                targetLocation = getLocation(topmost);
+            }
+        }
+        if (targetLocation == null)
+        {
+            return false;
+        }
+        if (droidType == DROID_SEEKER)
+        {
+            if (hunterPlanet == null || hunterPlanet.length() < 1 || !targetLocation.area.equals(hunterPlanet))
+            {
+                return false;
+            }
+        }
+        int now = getGameTime();
+        String throttlePath = OBJVAR_REMOTE_PROBE_NEXT_DISPATCH + "." + droidType;
+        if (hasObjVar(mission, throttlePath))
+        {
+            int next = getIntObjVar(mission, throttlePath);
+            if (next > now)
+            {
+                return false;
+            }
+        }
+        int cooldown = (droidType == DROID_SEEKER) ? 25 : 45;
+        setObjVar(mission, throttlePath, now + cooldown);
+        dictionary params = new dictionary();
+        params.put("hunter", hunter);
+        params.put("mission", mission);
+        params.put("droidType", droidType);
+        params.put("hunterPlanet", hunterPlanet);
+        params.put("targetSnapshot", targetLocation);
+        messageTo(target, "handleBountyProbeEngagement", params, 0.0f, true);
+        return true;
     }
     public static void applyTrackerJam(obj_id target, int durationSeconds) throws InterruptedException
     {

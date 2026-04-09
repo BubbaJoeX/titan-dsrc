@@ -561,6 +561,10 @@ public class mission_bounty extends script.systems.missions.base.mission_dynamic
             String strTargetLocation = "target_located_" + locSpawnLocation.area;
             strSpam = new string_id("mission/mission_generic", strTargetLocation);
             sendSystemMessage(objPlayer, strSpam);
+            if (isIdValid(objTarget) && isPlayer(objTarget))
+            {
+                bounty_hunter.requestRemoteProbeEngagement(self, objPlayer, objTarget, intDroidType, strHomePlanet);
+            }
             bounty_hunter.sendTrailBandMessage(objPlayer, self);
             messageTo(self, "probe_Droid_Response", params, fltTrackSpeed, true);
         }
@@ -587,6 +591,10 @@ public class mission_bounty extends script.systems.missions.base.mission_dynamic
                     msg += " " + getStringObjVar(objMissionData, "strTargetName");
                     sendSystemMessage(objPlayer, msg, null);
                 }
+            }
+            if (isIdValid(objTarget) && isPlayer(objTarget))
+            {
+                bounty_hunter.requestRemoteProbeEngagement(self, objPlayer, objTarget, intDroidType, strHomePlanet);
             }
             bounty_hunter.sendTrailBandMessage(objPlayer, self);
             messageTo(self, "probe_Droid_Response", params, fltTrackSpeed, true);

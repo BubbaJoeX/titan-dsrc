@@ -4070,6 +4070,80 @@ public class base_player extends script.base_script
         sendSystemMessage(self, "Item bounty posted galaxy-wide.", null);
         return SCRIPT_CONTINUE;
     }
+    public int handleBountyProbeEngagement(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (!isIdValid(self) || !isPlayer(self) || params == null || params.isEmpty())
+        {
+            return SCRIPT_CONTINUE;
+        }
+        obj_id hunter = params.getObjId("hunter");
+        obj_id mission = params.getObjId("mission");
+        int droidType = params.getInt("droidType");
+        if (!isIdValid(hunter) || !isIdValid(mission))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        if (droidType != bounty_hunter.DROID_PROBOT && droidType != bounty_hunter.DROID_SEEKER)
+        {
+            return SCRIPT_CONTINUE;
+        }
+        if (utils.hasScriptVar(self, "bh.remoteProbe.activeDroid"))
+        {
+            obj_id active = utils.getObjIdScriptVar(self, "bh.remoteProbe.activeDroid");
+            if (isIdValid(active) && exists(active))
+            {
+                dictionary refresh = new dictionary();
+                refresh.put("target", self);
+                refresh.put("hunter", hunter);
+                refresh.put("mission", mission);
+                refresh.put("droidType", droidType);
+                messageTo(active, "refreshHuntTarget", refresh, 0.0f, true);
+                return SCRIPT_CONTINUE;
+            }
+            utils.removeScriptVar(self, "bh.remoteProbe.activeDroid");
+        }
+        location spawn = getLocation(self);
+        if (spawn == null)
+        {
+            return SCRIPT_CONTINUE;
+        }
+        if (!isValidId(spawn.cell))
+        {
+            spawn.x = spawn.x + rand(-8, 8);
+            spawn.z = spawn.z + rand(-8, 8);
+        }
+        obj_id droid = createObject("object/creature/npc/droid/imperial_probot_bounty.iff", spawn);
+        if (!isIdValid(droid))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        if (!hasScript(droid, "systems.missions.dynamic.bounty_probot"))
+        {
+            attachScript(droid, "systems.missions.dynamic.bounty_probot");
+        }
+        dictionary setup = new dictionary();
+        setup.put("target", self);
+        setup.put("hunter", hunter);
+        setup.put("mission", mission);
+        setup.put("droidType", droidType);
+        messageTo(droid, "setupHuntTarget", setup, 0.0f, true);
+        utils.setScriptVar(self, "bh.remoteProbe.activeDroid", droid);
+        if (isIdValid(hunter) && exists(hunter))
+        {
+            if (droidType == bounty_hunter.DROID_PROBOT)
+            {
+                prose_package pp = prose.getPackage(new string_id("mission/mission_generic", "target_location_updated"));
+                commPlayer(self, hunter, pp);
+                sendSystemMessage(hunter, "[BH Intel] Arakyd probe has engaged your target.", null);
+            }
+            else
+            {
+                sendSystemMessage(hunter, "[BH Intel] Seeker contact has engaged your target.", null);
+            }
+        }
+        sendSystemMessage(self, "[Warning] A bounty probe has locked onto you.", null);
+        return SCRIPT_CONTINUE;
+    }
     public int cmdCheckForceStatus(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException
     {
         return SCRIPT_CONTINUE;
