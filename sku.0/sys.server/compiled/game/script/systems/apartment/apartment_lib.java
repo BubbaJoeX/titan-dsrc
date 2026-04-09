@@ -440,6 +440,10 @@ public class apartment_lib extends script.base_script
             }
             return "Owner: " + n;
         }
+        if (!isUnitRentable(building, cellName))
+        {
+            return "";
+        }
         return "VACANT";
     }
 
