@@ -191,6 +191,21 @@ public class apartment_lib extends script.base_script
         return status;
     }
 
+    public static boolean isUnitRentable(obj_id building, String cellName) throws InterruptedException
+    {
+        String path = getUnitPath(cellName) + ".rentable";
+        if (!hasObjVar(building, path))
+        {
+            return true;
+        }
+        return getIntObjVar(building, path) == 1;
+    }
+
+    public static void setUnitRentable(obj_id building, String cellName, boolean rentable) throws InterruptedException
+    {
+        setObjVar(building, getUnitPath(cellName) + ".rentable", rentable ? 1 : 0);
+    }
+
     public static void setUnitStatus(obj_id building, String cellName, String status) throws InterruptedException
     {
         setObjVar(building, getUnitPath(cellName) + ".status", status);
@@ -244,6 +259,10 @@ public class apartment_lib extends script.base_script
         if (!hasObjVar(building, unitPath + ".status"))
         {
             setObjVar(building, unitPath + ".status", UNIT_STATUS_VACANT);
+        }
+        if (!hasObjVar(building, unitPath + ".rentable"))
+        {
+            setObjVar(building, unitPath + ".rentable", 1);
         }
         cleanupLegacyUnitMarker(building, cellName);
         applyUnitPermissions(building, cellName);
@@ -525,7 +544,7 @@ public class apartment_lib extends script.base_script
         for (int i = 0; i < cells.length; ++i)
         {
             String c = cells[i];
-            if (UNIT_STATUS_VACANT.equals(getUnitStatus(building, c)))
+            if (UNIT_STATUS_VACANT.equals(getUnitStatus(building, c)) && isUnitRentable(building, c))
             {
                 out = utils.addElement(out, c);
             }
@@ -562,6 +581,11 @@ public class apartment_lib extends script.base_script
         if (!UNIT_STATUS_VACANT.equals(getUnitStatus(building, cellName)))
         {
             sendSystemMessageTestingOnly(player, "[Apartment] That room is no longer vacant.");
+            return false;
+        }
+        if (!isUnitRentable(building, cellName))
+        {
+            sendSystemMessageTestingOnly(player, "[Apartment] That room is not currently available for rent.");
             return false;
         }
         if (countRoomsForPlayer(building, player) >= getRoomCap(building))

@@ -17,6 +17,7 @@ public class apartment_building extends script.base_script
     public static final int MENU_ADMIN_INIT = menu_info_types.SERVER_MENU44;
     public static final int MENU_ADMIN_TOGGLE_PUBLIC = menu_info_types.SERVER_MENU45;
     public static final int MENU_ADMIN_EVICT_CURRENT = menu_info_types.SERVER_MENU46;
+    public static final int MENU_ADMIN_CONFIG_RENTABLE = menu_info_types.SERVER_MENU49;
 
     public int OnAttach(obj_id self) throws InterruptedException
     {
@@ -70,6 +71,7 @@ public class apartment_building extends script.base_script
         {
             int root = mi.addRootMenu(MENU_ROOT_APARTMENT, string_id.unlocalized("Apartment (GM/Admin)"));
             mi.addSubMenu(root, MENU_ADMIN_INIT, string_id.unlocalized("Rebuild Apartment Index"));
+            mi.addSubMenu(root, MENU_ADMIN_CONFIG_RENTABLE, string_id.unlocalized("Configure Rentable Rooms"));
 
             String currentCell = apartment_lib.getPlayerCurrentCellName(self, player);
             if (currentCell != null)
@@ -108,6 +110,11 @@ public class apartment_building extends script.base_script
             toggleCurrentCellPublic(self, player);
             return SCRIPT_CONTINUE;
         }
+        if (item == MENU_ADMIN_CONFIG_RENTABLE && (player == getOwner(self) || isGod(player)))
+        {
+            openRentableConfig(self, player);
+            return SCRIPT_CONTINUE;
+        }
         if (item == MENU_ADMIN_EVICT_CURRENT && (player == getOwner(self) || isGod(player)))
         {
             evictCurrentCell(self, player);
@@ -143,6 +150,73 @@ public class apartment_building extends script.base_script
             return SCRIPT_CONTINUE;
         }
         renewPlayerRooms(self, player);
+        return SCRIPT_CONTINUE;
+    }
+
+    public void openRentableConfig(obj_id self, obj_id player) throws InterruptedException
+    {
+        String[] cells = getCellNames(self);
+        if (cells == null || cells.length < 1)
+        {
+            sendSystemMessageTestingOnly(player, "[Apartment] No cells found on this building.");
+            return;
+        }
+
+        String[] rows = new String[cells.length];
+        for (int i = 0; i < cells.length; ++i)
+        {
+            String cellName = cells[i];
+            apartment_lib.ensureUnitInitialized(self, cellName);
+            boolean rentable = apartment_lib.isUnitRentable(self, cellName);
+            rows[i] = cellName + " [" + (rentable ? "RENTABLE" : "NOT RENTABLE") + "]";
+        }
+
+        utils.setScriptVar(player, "apartment.rentable.building", self);
+        utils.setScriptVar(player, "apartment.rentable.cells", cells);
+        sui.listbox(self, player, "Select a room to toggle rentable/non-rentable.", sui.OK_CANCEL, "Apartment: Rentable Rooms", rows, "handleApartmentRentableConfigSelect", true, false);
+    }
+
+    public int handleApartmentRentableConfigSelect(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (params == null || params.getInt("buttonPressed") != sui.BP_OK)
+        {
+            return SCRIPT_CONTINUE;
+        }
+        obj_id player = sui.getPlayerId(params);
+        if (!isIdValid(player))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        if (!utils.hasScriptVar(player, "apartment.rentable.building") || !utils.hasScriptVar(player, "apartment.rentable.cells"))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        obj_id building = utils.getObjIdScriptVar(player, "apartment.rentable.building");
+        String[] cells = utils.getStringArrayScriptVar(player, "apartment.rentable.cells");
+        utils.removeScriptVar(player, "apartment.rentable.building");
+        utils.removeScriptVar(player, "apartment.rentable.cells");
+
+        if (building != self || cells == null || cells.length < 1)
+        {
+            return SCRIPT_CONTINUE;
+        }
+        if (!(player == getOwner(self) || isGod(player)))
+        {
+            return SCRIPT_CONTINUE;
+        }
+
+        int idx = sui.getListboxSelectedRow(params);
+        if (idx < 0 || idx >= cells.length)
+        {
+            return SCRIPT_CONTINUE;
+        }
+
+        String cellName = cells[idx];
+        boolean current = apartment_lib.isUnitRentable(self, cellName);
+        apartment_lib.setUnitRentable(self, cellName, !current);
+        sendSystemMessageTestingOnly(player, "[Apartment] " + cellName + " is now " + (!current ? "RENTABLE" : "NOT RENTABLE") + ".");
+
+        openRentableConfig(self, player);
         return SCRIPT_CONTINUE;
     }
 
