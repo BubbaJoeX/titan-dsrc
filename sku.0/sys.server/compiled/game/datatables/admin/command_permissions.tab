@@ -194,6 +194,7 @@ object.rollupStructure	50
 object.rotate	50
 object.scaleMovement	50
 object.scaleSize	50
+object.setScale	50
 object.setAdminTitle	50
 object.setBattlefieldMarkerRegionName	50
 object.setCoverVisibility	50
@@ -357,6 +358,7 @@ server.setDebugFlag	50
 server.setExtraDelayPerFrameMs	50
 server.setFrameRateLimit	50
 server.setGodMode	5
+slash.object	50
 server.setMessageToBacklogThreshold	50
 server.setMessageToTimeLimit	50
 server.setNumberOfMoveObjectLists	50
