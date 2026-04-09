@@ -21,6 +21,8 @@ public class permanent_structure extends script.base_script
     public static final string_id SID_INACTIVE_CITIZEN_WARNING_BODY = new string_id("city/city", "inactive_citizen_warning_body");
     public static final string_id SID_INACTIVE_CITIZEN_WARNING_SUBJECT = new string_id("city/city", "inactive_citizen_warning_subject");
     public static final string_id SID_PACKING_CITY_ABANDONED_STRUCTURE = new string_id("city/city", "packing_city_abandoned_structure");
+    public static final int MENU_APARTMENT_CONVERT = menu_info_types.SERVER_MENU47;
+    public static final int MENU_APARTMENT_MANAGE = menu_info_types.SERVER_MENU48;
     public int OnAttach(obj_id self) throws InterruptedException
     {
         dictionary params = new dictionary();
@@ -1907,6 +1909,54 @@ public class permanent_structure extends script.base_script
             {
                 setObjVar(self, "structure.capacity_override", expectedStorageOverrideValue);
             }
+        }
+        return SCRIPT_CONTINUE;
+    }
+    public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi) throws InterruptedException
+    {
+        if (!player_structure.isBuilding(self))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        if (!isIdValid(player) || (!isGod(player) && player != getOwner(self)))
+        {
+            return SCRIPT_CONTINUE;
+        }
+
+        if (!hasScript(self, "structure.apartment_building"))
+        {
+            mi.addRootMenu(MENU_APARTMENT_CONVERT, string_id.unlocalized("Convert To Apartment Building"));
+        }
+        else
+        {
+            mi.addRootMenu(MENU_APARTMENT_MANAGE, string_id.unlocalized("Apartment Management"));
+        }
+        return SCRIPT_CONTINUE;
+    }
+    public int OnObjectMenuSelect(obj_id self, obj_id player, int item) throws InterruptedException
+    {
+        if (!isIdValid(player) || (!isGod(player) && player != getOwner(self)))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        if (item == MENU_APARTMENT_CONVERT)
+        {
+            if (!hasScript(self, "structure.apartment_building"))
+            {
+                attachScript(self, "structure.apartment_building");
+            }
+            dictionary d = new dictionary();
+            d.put("actor", player);
+            messageTo(self, "apartmentInitializeBuilding", d, 0.2f, false);
+            sendSystemMessageTestingOnly(player, "[Apartment] Conversion initialized.");
+            return SCRIPT_CONTINUE;
+        }
+        if (item == MENU_APARTMENT_MANAGE)
+        {
+            dictionary d = new dictionary();
+            d.put("player", player);
+            messageTo(self, "apartmentOpenAdminPanelRequest", d, 0.0f, false);
+            return SCRIPT_CONTINUE;
         }
         return SCRIPT_CONTINUE;
     }
