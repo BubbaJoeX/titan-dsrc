@@ -7,7 +7,7 @@ turretGunnerExit		immediate	cmdTurretGunnerExit				0		1	1	1	1	1	1	1	1	1	0	0	0	0	
 launchIntoSpace		normal			launchIntoSpace																				0	0						0																										0	0	0	0	0	0	0			required		1				16													
 unstick		immediate			handleUnstick																							1	1																																						none					0				0										
 waypointServer		normal	cmdWaypoint	cmdWaypointFail																								1	1																			0																			none	0	0			0				0										
-placeItemBounty		normal	cmdPlaceItemBounty																								1	1																			0																			none	0	0			0				0
+placeItemBounty		normal	cmdPlaceItemBounty	cmdPlaceItemBountyFail																								1	1																			0																			none	0	0			0				0										
 createVendor		immediate	createVendor						1	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0			0	0	0	1	0		0	0	1	1	1	0	0	0	0	0	0	0	0	0									0									none	0				0				0										
 offerRide		immediate	offerRide																									1	1																																						required					1				0										
 acceptRide		immediate	acceptRide																									1	1																																						none					1				0										
