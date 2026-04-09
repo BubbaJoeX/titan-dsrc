@@ -21,7 +21,7 @@ public class apartment_cell_access extends script.base_script
 
         obj_id building = getObjIdObjVar(self, apartment_lib.OV_CELL_BUILDING);
         String cellName = getStringObjVar(self, apartment_lib.OV_CELL_NAME);
-        if (!isIdValid(building) || cellName == null || cellName.length() < 1)
+        if (!isIdValid(building) || cellName == null || cellName.isEmpty())
         {
             return SCRIPT_CONTINUE;
         }

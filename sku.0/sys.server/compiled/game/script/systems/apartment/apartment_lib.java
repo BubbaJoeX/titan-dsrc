@@ -456,7 +456,7 @@ public class apartment_lib extends script.base_script
             {
                 n = "Unknown";
             }
-            return "Owner: " + n;
+            return "Tenant: " + n;
         }
         if (!isUnitRentable(building, cellName))
         {

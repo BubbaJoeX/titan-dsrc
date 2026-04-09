@@ -59,6 +59,17 @@ public class player_developer extends base_script
     public static final String OV_GIT_PULL_SCRIPT_HISTORY = "developer.gitPullScriptHistory";
     private static final int GIT_PULL_SCRIPT_HISTORY_MAX = 20;
 
+    /**
+     * Linux tree root where {@code ant compile_java} / {@code ant compile_tab} run (same as {@code /developer git pull}).
+     * Change if your server layout differs.
+     */
+    private static final String DEV_SWG_MAIN_ROOT = "/home/swg/swg-main";
+    private static final File DEV_SWG_MAIN_DIR = new File(DEV_SWG_MAIN_ROOT);
+    private static final File DEV_SWG_DSRC_DIR = new File(DEV_SWG_MAIN_ROOT + "/dsrc");
+
+    /** Path segment before {@code datatables/...} in compiled game .tab paths. */
+    private static final String DEV_COMPILED_GAME_PREFIX = "compiled/game/";
+
     public player_developer()
     {
     }
@@ -86,6 +97,33 @@ public class player_developer extends base_script
                 updatedFiles.add(fileName);
         }
         return updatedFiles;
+    }
+
+    /**
+     * Parses {@code git diff --name-only} (etc.) lines into TreeFile reload names: {@code datatables/...} without extension,
+     * for use with {@code /server reloadTable <name>.iff}.
+     */
+    private static Set<String> parseChangedDatatableReloadNamesFromGitDiff(String diffResult)
+    {
+        Set<String> out = new LinkedHashSet<>();
+        if (diffResult == null || diffResult.trim().length() < 1)
+            return out;
+        for (String rawLine : diffResult.split("\n"))
+        {
+            String line = rawLine.trim().replace('\\', '/');
+            if (line.length() < 1 || !line.endsWith(".tab"))
+                continue;
+            int k = line.indexOf(DEV_COMPILED_GAME_PREFIX);
+            if (k < 0)
+                continue;
+            String rel = line.substring(k + DEV_COMPILED_GAME_PREFIX.length());
+            if (!rel.startsWith("datatables/"))
+                continue;
+            rel = rel.substring(0, rel.length() - ".tab".length());
+            if (rel.length() > 0)
+                out.add(rel);
+        }
+        return out;
     }
 
     private static void appendGitPullScriptHistory(obj_id player, Set<String> scripts) throws InterruptedException
@@ -3684,7 +3722,7 @@ public class player_developer extends base_script
                 else if (arg.equals("pull"))
                 {
                     broadcast(self, "Please Wait... Pulling and Compiling.");
-                    final String result = system_process.runAndGetOutput("git pull origin main", new File("/home/swg/swg-main/dsrc/"));
+                    final String result = system_process.runAndGetOutput("git pull origin main", DEV_SWG_DSRC_DIR);
                     if (result.contains("Already up to date."))
                     {
                         broadcast(self, "Repo 'dsrc' is already up to date.");
@@ -3694,15 +3732,15 @@ public class player_developer extends base_script
                         sendConsoleMessage(self, result);
                         broadcast(self, "Repo 'dsrc' has been updated.");
 
-                        String diffResult = system_process.runAndGetOutput("git diff --name-only ORIG_HEAD HEAD", new File("/home/swg/swg-main/dsrc/"));
+                        String diffResult = system_process.runAndGetOutput("git diff --name-only ORIG_HEAD HEAD", DEV_SWG_DSRC_DIR);
                         if (diffResult == null || diffResult.trim().length() < 1)
                         {
-                            diffResult = system_process.runAndGetOutput("git diff --name-only HEAD~1 HEAD", new File("/home/swg/swg-main/dsrc/"));
+                            diffResult = system_process.runAndGetOutput("git diff --name-only HEAD~1 HEAD", DEV_SWG_DSRC_DIR);
                         }
                         Set<String> updatedFiles = parseChangedJavaScriptsFromGitDiff(diffResult);
                         appendGitPullScriptHistory(self, updatedFiles);
 
-                        String compileResult = system_process.runAndGetOutput("ant compile_java", new File("/home/swg/swg-main/"));
+                        String compileResult = system_process.runAndGetOutput("ant compile_java", DEV_SWG_MAIN_DIR);
                         if (!compileResult.contains("BUILD SUCCESSFUL"))
                         {
                             broadcast(self, "ERROR: ant compile_java failed. Full output sent to console.");
@@ -3733,7 +3771,53 @@ public class player_developer extends base_script
             }
             return SCRIPT_CONTINUE;
         }
+        else if (cmd.equalsIgnoreCase("ant"))
+        {
+            if (!tok.hasMoreTokens())
+            {
+                broadcast(self, "Syntax: /developer ant tab");
+                broadcast(self, "tab: runs ant compile_tab at " + DEV_SWG_MAIN_ROOT + ", then /server reloadQuests and /server reloadTable for each .tab under datatables/ changed vs HEAD in dsrc.");
+                return SCRIPT_CONTINUE;
+            }
+            final String sub = tok.nextToken();
+            if (!sub.equalsIgnoreCase("tab"))
+            {
+                broadcast(self, "Syntax: /developer ant tab");
+                return SCRIPT_CONTINUE;
+            }
+            broadcast(self, "Please wait — running ant compile_tab...");
+            final String compileResult = system_process.runAndGetOutput("ant compile_tab", DEV_SWG_MAIN_DIR);
+            if (compileResult == null || !compileResult.contains("BUILD SUCCESSFUL"))
+            {
+                broadcast(self, "ERROR: ant compile_tab failed. Full output sent to console.");
+                if (compileResult != null)
+                    sendConsoleMessage(self, compileResult);
+                LOG("ethereal", "[Developer]: " + getPlayerFullName(self) + " used /developer ant tab (compile FAILED)");
+                return SCRIPT_CONTINUE;
+            }
+            broadcast(self, "ant compile_tab BUILD SUCCESSFUL.");
+            sendConsoleCommand("/server reloadQuests", self);
 
+            String diffResult = system_process.runAndGetOutput("git diff --name-only HEAD", DEV_SWG_DSRC_DIR);
+            Set<String> tables = parseChangedDatatableReloadNamesFromGitDiff(diffResult);
+            StringBuilder statusMessage = new StringBuilder();
+            statusMessage.append("reloadQuests sent.\n");
+            if (tables.isEmpty())
+            {
+                statusMessage.append("No changed .tab files under .../compiled/game/datatables/ vs HEAD (uncommitted edits are included). Nothing else to reload.\n");
+            }
+            else
+            {
+                for (String tableBase : tables)
+                {
+                    boolean ok = sendConsoleCommand("/server reloadTable " + tableBase + ".iff", self);
+                    statusMessage.append(tableBase).append(".iff — ").append(ok ? "reload sent" : "reload FAILED").append("\n");
+                }
+            }
+            msgbox(self, statusMessage.toString());
+            LOG("ethereal", "[Developer]: " + getPlayerFullName(self) + " used /developer ant tab (" + tables.size() + " table(s))");
+            return SCRIPT_CONTINUE;
+        }
 
         else if (cmd.equalsIgnoreCase("magicSatchel"))
         {
