@@ -474,6 +474,23 @@ public class apartment_lib extends script.base_script
         permissionsRemoveAllAllowed(cell);
         permissionsRemoveAllBanned(cell);
 
+        // Non-rentable rooms are intentionally open/public.
+        if (!isUnitRentable(building, cellName))
+        {
+            permissionsMakePublic(cell);
+            obj_id owner = getOwner(building);
+            if (isIdValid(owner))
+            {
+                sendDirtyCellPermissionsUpdate(cell, owner, true);
+            }
+            obj_id tenant = getUnitTenant(building, cellName);
+            if (isIdValid(tenant))
+            {
+                sendDirtyCellPermissionsUpdate(cell, tenant, true);
+            }
+            return;
+        }
+
         String status = getUnitStatus(building, cellName);
         if (UNIT_STATUS_PUBLIC.equals(status))
         {
