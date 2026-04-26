@@ -27327,6 +27327,22 @@ public class base_class
         _openTerraformingUI(getLongWithNull(player), cityId);
     }
 
+    private static native void _sendZoneAbilityTrayUpdate(long player, String payload);
+    public static void sendZoneAbilityTrayUpdate(obj_id player, String payload)
+    {
+        if (player == null || payload == null)
+            return;
+        _sendZoneAbilityTrayUpdate(getLongWithNull(player), payload);
+    }
+
+    private static native void _sendZoneAbilityTrayClose(long player);
+    public static void sendZoneAbilityTrayClose(obj_id player)
+    {
+        if (player == null)
+            return;
+        _sendZoneAbilityTrayClose(getLongWithNull(player));
+    }
+
     // ========================================================================
     // speakText - allows any object (including non-creature tangibles) to speak
     // ========================================================================

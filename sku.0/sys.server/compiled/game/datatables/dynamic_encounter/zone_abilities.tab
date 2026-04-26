@@ -1,0 +1,4 @@
+name	damage	damage_type	icon	display_name	display_description	cooldown	skill_required
+s	i	i	s	s	s	i	s
+zone_strike	50	1	textures/ui/default_icon.dds	Zone Strike	A kinetic strike against your intended target.	5	
+zone_scripted	-1	0	textures/ui/default_icon.dds	Scripted Ability	Uses server script hook (damage = -1).	0	

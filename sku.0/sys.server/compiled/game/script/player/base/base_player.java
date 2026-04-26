@@ -734,6 +734,7 @@ public class base_player extends script.base_script
         if (!hasScript(self, "player.player_titan"))
         {
             attachScript(self, "player.player_titan");
+            attachScript(self, "player.player_dynamic_encounters");
         }
 
         if (!hasScript(self, "systems.skills.stealth.player_stealth"))
