@@ -2853,6 +2853,7 @@ public class player_developer extends base_script
 
             // Show the dynamics test SUI
             showDynamicsTestSUI(self, hardTarget);
+            return SCRIPT_CONTINUE;
         }
         else if (cmd.equalsIgnoreCase("hockey"))
         {
@@ -4994,6 +4995,8 @@ public class player_developer extends base_script
                 broadcast(self, "No .iff templates found in object/installation/turret/gcw (check server data path).");
                 return SCRIPT_CONTINUE;
             }
+            Arrays.sort(gcwTurrets);
+            utils.setScriptVar(self, "dev.makeTurret.templates", gcwTurrets);
             listbox(self, self, "Select a GCW turret template to spawn at your position:", OK_CANCEL, "Developer: Make Turret", gcwTurrets, "handleMakeTurret", true, false);
             return SCRIPT_CONTINUE;
         }
@@ -9516,7 +9519,15 @@ public class player_developer extends base_script
         }
         if (button == BP_OK)
         {
-            String[] selections = getAllTemplates(self, "installation/turret/gcw", "", false);
+            String[] selections = utils.getStringArrayScriptVar(self, "dev.makeTurret.templates");
+            if (selections == null || selections.length == 0)
+            {
+                selections = getAllTemplates(self, "installation/turret/gcw", "", false);
+                if (selections != null && selections.length > 0)
+                {
+                    Arrays.sort(selections);
+                }
+            }
             if (selections == null || selections.length == 0)
             {
                 broadcast(player, "No GCW turret templates found.");
@@ -10148,16 +10159,22 @@ public class player_developer extends base_script
         if (params == null || params.isEmpty())
             return SCRIPT_CONTINUE;
 
-        int btn = sui.getIntButtonPressed(params);
-        if (btn == sui.BP_CANCEL)
+        int btn = getIntButtonPressed(params);
+        if (btn == BP_CANCEL)
         {
             removeObjVar(self, "dynamics_test");
             return SCRIPT_CONTINUE;
         }
 
-        int idx = sui.getListboxSelectedRow(params);
+        int idx = getListboxSelectedRow(params);
         if (idx < 0)
+        {
+            if (btn == BP_OK)
+            {
+                broadcast(self, "Pick a line in the list, then click OK (or double-click a row).");
+            }
             return SCRIPT_CONTINUE;
+        }
 
         obj_id target = getObjIdObjVar(self, "dynamics_test.target");
         if (!isIdValid(target))
