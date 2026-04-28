@@ -17633,6 +17633,27 @@ public class base_class
     public static native float getWaterTableHeight(location loc);
 
     /**
+     * Sends DeveloperWaterWaveMessage to this player's game client to enable local procedural wave poles at their position (developer tooling).
+     * @return false if not a player with client, not in world cell, or not below water at player xz.
+     */
+    private static native boolean _developerTriggerLocalWaterWave(long player);
+    public static boolean developerTriggerLocalWaterWave(obj_id player)
+    {
+        return _developerTriggerLocalWaterWave(getLongWithNull(player));
+    }
+
+    /**
+     * Adjusts the local water table by the given delta (meters) for this planet process, updates all same-scene clients, and optionally persists the total offset to a per-scene cfg file in the process working directory.
+     * @param deltaMeters amount to add to the current developer water level offset
+     * @param persist if true, save the new total offset for this scene
+     */
+    private static native boolean _changeLocalWaterLevel(long player, float deltaMeters, boolean persist);
+    public static boolean changeLocalWaterLevel(obj_id player, float deltaMeters, boolean persist)
+    {
+        return _changeLocalWaterLevel(getLongWithNull(player), deltaMeters, persist);
+    }
+
+    /**
      * true if there is exposed water above the terrain in the given rect
      * @param x0 - ll x coord
      * @param y0 - ll y coord

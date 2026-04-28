@@ -2314,6 +2314,55 @@ public class player_developer extends base_script
             LOG("ethereal", "[Developer]: " + getPlayerFullName(self) + " used /developer listWattos");
             return SCRIPT_CONTINUE;
         }
+        else if (cmd.equalsIgnoreCase("makeWave"))
+        {
+            location loc = getLocation(self);
+            if (!isBelowWater(loc))
+            {
+                broadcast(self, "makeWave: stand in open water (below local water table at your position).");
+                return SCRIPT_CONTINUE;
+            }
+            if (!developerTriggerLocalWaterWave(self))
+            {
+                broadcast(self, "makeWave: failed (need active player client and terrain water here).");
+                return SCRIPT_CONTINUE;
+            }
+            broadcast(self, "makeWave: sent wave parameters to your client for this water volume.");
+            LOG("ethereal", "[Developer]: " + getPlayerFullName(self) + " used /developer makeWave");
+            return SCRIPT_CONTINUE;
+        }
+        else if (cmd.equalsIgnoreCase("changeLocalWaterLevel"))
+        {
+            if (!tok.hasMoreTokens())
+            {
+                broadcast(self, "Usage: /developer changeLocalWaterLevel <deltaMeters> [persist]");
+                return SCRIPT_CONTINUE;
+            }
+            float delta;
+            try
+            {
+                delta = Float.parseFloat(tok.nextToken());
+            }
+            catch (NumberFormatException e)
+            {
+                broadcast(self, "changeLocalWaterLevel: delta must be a number.");
+                return SCRIPT_CONTINUE;
+            }
+            boolean persist = false;
+            if (tok.hasMoreTokens())
+            {
+                String p = tok.nextToken();
+                persist = p.equalsIgnoreCase("persist") || p.equalsIgnoreCase("true") || p.equalsIgnoreCase("1") || p.equalsIgnoreCase("yes");
+            }
+            if (!changeLocalWaterLevel(self, delta, persist))
+            {
+                broadcast(self, "changeLocalWaterLevel: failed (must be an in-world player character).");
+                return SCRIPT_CONTINUE;
+            }
+            broadcast(self, "changeLocalWaterLevel: applied delta " + delta + " m to water table offset" + (persist ? " (persisted for this scene)." : "."));
+            LOG("ethereal", "[Developer]: " + getPlayerFullName(self) + " used /developer changeLocalWaterLevel delta=" + delta + " persist=" + persist);
+            return SCRIPT_CONTINUE;
+        }
         else if (cmd.equals("adventPresent"))
         {
             obj_id present = create.object("object/tangible/event_perk/life_day_presents.iff", getLocation(self));
