@@ -1559,7 +1559,8 @@ public class cmd extends script.base_script
         }
         boolean showVarIdxUI = true;
         String varIdxPath = hue.INDEX_BASE + varIdx;
-        if (varIdx > 0)
+        // index_color_0 is valid and must be accepted.
+        if (varIdx >= 0)
         {
             if (palColData.containsKey(varIdxPath))
             {

@@ -63,8 +63,17 @@ public class handler extends script.base_script
             sendSystemMessageTestingOnly(self, "/setHue: unable to confirm valid data!");
             return SCRIPT_CONTINUE;
         }
-        String toPass = "-target " + dta[selrow].substring(dta[selrow].length() - 1);
-        queueCommand(self, (606342220), target, toPass, COMMAND_PRIORITY_DEFAULT);
+        String selectedVarPath = dta[selrow];
+        if (selectedVarPath == null || selectedVarPath.equals(""))
+        {
+            sendSystemMessageTestingOnly(self, "/setHue: selected hue variable path was empty.");
+            return SCRIPT_CONTINUE;
+        }
+
+        // Open the color picker directly for the selected variable path.
+        // Avoid deriving an integer from the last character, which breaks index_color_0
+        // and any non-trivial variable names.
+        gm.showSetHueColorUI(self, target, selectedVarPath);
         return SCRIPT_CONTINUE;
     }
     public int handleHueColorUI(obj_id self, dictionary params) throws InterruptedException
