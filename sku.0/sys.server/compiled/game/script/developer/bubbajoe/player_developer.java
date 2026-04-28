@@ -2335,17 +2335,35 @@ public class player_developer extends base_script
         {
             if (!tok.hasMoreTokens())
             {
-                broadcast(self, "Usage: /developer changeLocalWaterLevel <deltaMeters> [persist]");
+                broadcast(self, "Usage: /developer changeLocalWaterLevel <deltaMeters> [persist] | changeLocalWaterLevel reset [persist]");
+                return SCRIPT_CONTINUE;
+            }
+            String first = tok.nextToken();
+            if (first.equalsIgnoreCase("reset"))
+            {
+                boolean persist = false;
+                if (tok.hasMoreTokens())
+                {
+                    String p = tok.nextToken();
+                    persist = p.equalsIgnoreCase("persist") || p.equalsIgnoreCase("true") || p.equalsIgnoreCase("1") || p.equalsIgnoreCase("yes");
+                }
+                if (!resetLocalWaterLevel(self, persist))
+                {
+                    broadcast(self, "changeLocalWaterLevel reset: failed (must be an in-world player character).");
+                    return SCRIPT_CONTINUE;
+                }
+                broadcast(self, "changeLocalWaterLevel: cleared all local water patches" + (persist ? " (persisted for this scene)." : "."));
+                LOG("ethereal", "[Developer]: " + getPlayerFullName(self) + " used /developer changeLocalWaterLevel reset persist=" + persist);
                 return SCRIPT_CONTINUE;
             }
             float delta;
             try
             {
-                delta = Float.parseFloat(tok.nextToken());
+                delta = Float.parseFloat(first);
             }
             catch (NumberFormatException e)
             {
-                broadcast(self, "changeLocalWaterLevel: delta must be a number.");
+                broadcast(self, "changeLocalWaterLevel: delta must be a number, or use \"reset\".");
                 return SCRIPT_CONTINUE;
             }
             boolean persist = false;
@@ -2354,12 +2372,18 @@ public class player_developer extends base_script
                 String p = tok.nextToken();
                 persist = p.equalsIgnoreCase("persist") || p.equalsIgnoreCase("true") || p.equalsIgnoreCase("1") || p.equalsIgnoreCase("yes");
             }
-            if (!changeLocalWaterLevel(self, delta, persist))
+            location loc = getLocation(self);
+            if (!isBelowWater(loc))
             {
-                broadcast(self, "changeLocalWaterLevel: failed (must be an in-world player character).");
+                broadcast(self, "changeLocalWaterLevel: stand in open water (patch applies only around where you stand).");
                 return SCRIPT_CONTINUE;
             }
-            broadcast(self, "changeLocalWaterLevel: applied delta " + delta + " m to water table offset" + (persist ? " (persisted for this scene)." : "."));
+            if (!changeLocalWaterLevel(self, delta, persist))
+            {
+                broadcast(self, "changeLocalWaterLevel: failed (must be an in-world player character and below water at your position).");
+                return SCRIPT_CONTINUE;
+            }
+            broadcast(self, "changeLocalWaterLevel: applied delta " + delta + " m to local water patch" + (persist ? " (persisted for this scene)." : "."));
             LOG("ethereal", "[Developer]: " + getPlayerFullName(self) + " used /developer changeLocalWaterLevel delta=" + delta + " persist=" + persist);
             return SCRIPT_CONTINUE;
         }

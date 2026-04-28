@@ -17643,14 +17643,21 @@ public class base_class
     }
 
     /**
-     * Adjusts the local water table by the given delta (meters) for this planet process, updates all same-scene clients, and optionally persists the total offset to a per-scene cfg file in the process working directory.
-     * @param deltaMeters amount to add to the current developer water level offset
-     * @param persist if true, save the new total offset for this scene
+     * While standing in open water, adds a local circular patch (about 256m) that raises or lowers the water table there; combines with a patch you already edited at this spot. Optional persist writes all patches for this scene.
      */
     private static native boolean _changeLocalWaterLevel(long player, float deltaMeters, boolean persist);
     public static boolean changeLocalWaterLevel(obj_id player, float deltaMeters, boolean persist)
     {
         return _changeLocalWaterLevel(getLongWithNull(player), deltaMeters, persist);
+    }
+
+    /**
+     * Clears all developer local water patches for this process and optionally persists (empty list) for this scene.
+     */
+    private static native boolean _resetLocalWaterLevel(long player, boolean persist);
+    public static boolean resetLocalWaterLevel(obj_id player, boolean persist)
+    {
+        return _resetLocalWaterLevel(getLongWithNull(player), persist);
     }
 
     /**
