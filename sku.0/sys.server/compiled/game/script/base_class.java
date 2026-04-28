@@ -22992,6 +22992,20 @@ public class base_class
     }
 
     /**
+     * Recompute/refresh mount vehicle turret + gunner bindings for the mount.
+     *
+     * This syncs mount objvar-driven turret attachment and replicated gunner
+     * assignment metadata after script-side mount/turret setup changes.
+     *
+     * @param mountId the mount creature to synchronize.
+     */
+    private static native void _syncMountVehicleTurretGunnerBindings(long mountId);
+    public static void syncMountVehicleTurretGunnerBindings(obj_id mountId)
+    {
+        _syncMountVehicleTurretGunnerBindings(getLongWithNull(mountId));
+    }
+
+    /**
      * Cause the specified rider to mount the specified mount.
      *
      * @param riderId  the obj_id of the player/NPC that will ride the
