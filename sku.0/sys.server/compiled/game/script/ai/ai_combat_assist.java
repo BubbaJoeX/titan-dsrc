@@ -5,6 +5,8 @@ import script.dictionary;
 import script.library.ai_lib;
 import script.library.beast_lib;
 import script.library.factions;
+
+import static script.base_class.pvpGetAlignedFaction;
 import script.obj_id;
 
 import java.util.Vector;
@@ -103,7 +105,11 @@ public class ai_combat_assist extends script.base_script
             if (!canSee(self, creature)) {
                 continue;
             }
-            if (!factions.shareSocialGroup(self, creature) && !factions.areCreaturesAllied(self, creature)) {
+            boolean sociallyLinked = factions.shareSocialGroup(self, creature) || factions.areCreaturesAllied(self, creature);
+            int selfPvpFaction = pvpGetAlignedFaction(self);
+            int creaturePvpFaction = pvpGetAlignedFaction(creature);
+            boolean sameAlignedPvpFaction = (selfPvpFaction != 0 && selfPvpFaction == creaturePvpFaction);
+            if (!sociallyLinked && !sameAlignedPvpFaction) {
                 continue;
             }
             if (Math.abs(getLocation(self).y - getLocation(creature).y) > 6.0f) {
