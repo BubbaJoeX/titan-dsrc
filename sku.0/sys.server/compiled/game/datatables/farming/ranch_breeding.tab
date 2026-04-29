@@ -1,0 +1,4 @@
+rule_key	parent_a_contains	parent_b_contains	offspring_template	cooldown_seconds
+s	s	s	s	i
+beast_pair	beast_s	beast_s	object/tangible/farming/farm_s10.iff	120
+default			object/tangible/farming/farm_s10.iff	300

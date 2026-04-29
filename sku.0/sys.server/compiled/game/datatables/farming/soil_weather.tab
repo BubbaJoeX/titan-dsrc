@@ -1,0 +1,5 @@
+planet	drought_modifier	rain_bonus	soil_ph_bias
+s	f	f	f
+default	0.10	0.05	0.0
+tatooine	0.20	0.0	0.1
+naboo	0.05	0.10	0.0

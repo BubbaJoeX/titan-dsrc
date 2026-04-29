@@ -1004,6 +1004,9 @@ harvesterHarvest		immediate			harvesterHarvest		0																					1	1		0	1		
 harvesterMakeCrate		immediate			harvesterMakeCrate		0																					1	1		0	1					0							1																														optional				resource	0				0
 harvesterSelectResource		immediate			harvesterSelectResource		0																					1	1		0	1					0							1																														optional				resource	0				0
 harvesterTakeSurvey		immediate			harvesterTakeSurvey		0																					1	1		0	1					0							1																														optional				resource	0				0
+farmPlant		immediate			farmPlant		0																					1	1		0	1					0							1																														optional				resource	0				0
+farmHarvest		immediate			farmHarvest		0																					1	1		0	1					0							1																														optional				resource	0				0
+ranchBreed		immediate			ranchBreed		0																					1	1		0	1					0							1																														optional				resource	0				0
 hasVeteranReward		immediate	cmdHasVeteranReward					admin	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	0	1												1																												gm.cmd		required							40	csr	0
 haveconsent		front	cmdHaveConsent				0																					1	1		0	1												1																	0	0	0	0												3			0				0
 heat_aspect	commandClicky	normal	heat_aspect	failSpecialAttack			2		1	0	1	1	1	0	1	1	1	0	0	0	0	0	0	0	0	0	0			0	0	1	1		1	0	0	1	1	1	1	0	1	1	1	1	1	1	0	0									0		0	0	0	0	0								other	optional		2		combat_ranged		96		combat	1	ALL			0	0	2				1

@@ -1,0 +1,6 @@
+key	value_int	value_float
+s	i	f
+daily_harvest_cap_per_player	100	0.0
+sink_seed_credit_cost	0	10.0
+income_mode_yield_multiplier_percent	150	0.0
+rp_mode_growth_time_percent	200	0.0

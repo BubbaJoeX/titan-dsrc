@@ -1,0 +1,3 @@
+crop_id	seed_template	plant_template	grow_seconds	scale_min	scale_max	harvest_template	moisture_bonus	soil_category
+s	s	s	i	f	f	s	f	s
+mvp_wheat	object/tangible/farming/farm_s10.iff	object/tangible/farming/farm_s11.iff	60	0.10	1.20	object/tangible/farming/farm_s10.iff	0.0	default
