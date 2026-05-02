@@ -20,6 +20,14 @@ public class camera_test_convo extends script.conversation.base.conversation_bas
         super.conversation = convoId ;
     }
 
+    public int OnAttach(obj_id self)
+    {
+        setName(self, "Cinematic Camera Tester");
+        setInvulnerable(self, true);
+        setCondition(self, CONDITION_CONVERSABLE);
+        return SCRIPT_CONTINUE;
+    }
+
     private ConvoResponse[] mainMenuResponses()
     {
         return new ConvoResponse[] {
