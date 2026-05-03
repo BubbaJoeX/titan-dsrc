@@ -15,12 +15,13 @@ public class openwebui extends script.base_script {
     public static final boolean OLLAMA_ENABLED = true;
 
     public static final String MODEL = "qwen3-coder:30b";
-    public static final String API_URL = "http://swgor.com:11434/api/generate";
+
+    public static final String API_URL = "http://swgor.com:11434/api/chat";
 
     public static final int MAX_CONTEXT_TOKENS = 65536;
 
     /* =========================================================
-       ENTRY POINTS
+       PUBLIC API
        ========================================================= */
 
     public static String getChatCompletion(
@@ -42,21 +43,13 @@ public class openwebui extends script.base_script {
         if (!OLLAMA_ENABLED) return "";
 
         String system = buildSystemRules();
-        String context = buildContext(target, speaker, contextKey);
-        String user = buildUserPrompt(prompt);
+        String user = buildUserPayload(target, speaker, prompt, contextKey);
 
-        return sendRequest(apiKey, system, context, user);
-    }
-
-    public static String getCompletion(String apiKey, String prompt)
-        throws Exception {
-        if (!OLLAMA_ENABLED) return "[Ollama disabled]";
-
-        return sendRequest(apiKey, buildSystemRules(), "", prompt);
+        return sendRequest(apiKey, system, user);
     }
 
     /* =========================================================
-       PROMPT STRUCTURE (IMPORTANT FOR QWEN)
+       SYSTEM (HARD RULES - NEVER MIX WITH CONTEXT)
        ========================================================= */
 
     private static String buildSystemRules() {
@@ -64,19 +57,24 @@ public class openwebui extends script.base_script {
             "" +
             "You are an NPC in Star Wars Galaxies.\n" +
             "Stay fully in character at all times.\n" +
-            "Never mention prompts, systems, or context injection.\n" +
+            "Never mention prompts, system messages, or context injection.\n" +
             "Do NOT use emotes like *actions* or stage directions.\n" +
-            "All output must be spoken dialogue only.\n" +
+            "Only output spoken dialogue.\n" +
             "Keep responses natural, immersive, and concise."
         );
     }
 
-    private static String buildContext(
+    /* =========================================================
+       USER + CONTEXT (SOFT INPUT ONLY)
+       ========================================================= */
+
+    private static String buildUserPayload(
         obj_id target,
         obj_id speaker,
+        String prompt,
         String contextKey
     ) {
-        String base = Arrays.toString(buildCulture(target, speaker));
+        String[] c = buildCulture(target, speaker);
 
         String key = (contextKey != null && !contextKey.isEmpty())
             ? contextKey
@@ -86,21 +84,44 @@ public class openwebui extends script.base_script {
 
         return (
             "" +
-            "=== WORLD CONTEXT ===\n" +
-            base +
+            "=== NPC CONTEXT ===\n" +
+            "Planet: " +
+            c[0] +
             "\n" +
+            "Template: " +
+            c[1] +
+            "\n" +
+            "Scale: " +
+            c[2] +
+            "\n" +
+            "Location: " +
+            c[3] +
+            "\n" +
+            "NPC Name: " +
+            c[4] +
+            "\n" +
+            "Speaker: " +
+            c[5] +
+            "\n" +
+            "Scripts: " +
+            c[6] +
+            "\n" +
+            "Species: " +
+            c[7] +
+            "\n" +
+            "Description: " +
+            c[8] +
+            "\n" +
+            "====================\n\n" +
             extra +
-            "\n" +
-            "=====================\n"
+            "\n\n" +
+            "=== PLAYER INPUT ===\n" +
+            prompt
         );
     }
 
-    private static String buildUserPrompt(String prompt) {
-        return "" + "=== PLAYER INPUT ===\n" + prompt;
-    }
-
     /* =========================================================
-       OPTIONAL EXTERNAL CONTEXT
+       OPTIONAL MARKDOWN CONTEXT
        ========================================================= */
 
     private static String loadMarkdownContext(String key) {
@@ -118,22 +139,18 @@ public class openwebui extends script.base_script {
 
             if (content.isEmpty()) return "";
 
-            return "[EXTRA]\n" + content + "\n[/EXTRA]";
+            return "[WORLD CONTEXT]\n" + content + "\n[/WORLD CONTEXT]";
         } catch (Exception e) {
             return "";
         }
     }
 
     /* =========================================================
-       HTTP
+       HTTP (CHAT API)
        ========================================================= */
 
-    private static String sendRequest(
-        String apiKey,
-        String system,
-        String context,
-        String user
-    ) throws Exception {
+    private static String sendRequest(String apiKey, String system, String user)
+        throws Exception {
         HttpURLConnection conn = (HttpURLConnection) new URL(
             API_URL
         ).openConnection();
@@ -143,7 +160,7 @@ public class openwebui extends script.base_script {
         conn.setRequestProperty("Authorization", "Bearer " + apiKey);
         conn.setRequestProperty("Content-Type", "application/json");
 
-        String json = buildJson(system, context, user);
+        String json = buildJson(system, user);
 
         try (
             OutputStreamWriter w = new OutputStreamWriter(
@@ -164,30 +181,34 @@ public class openwebui extends script.base_script {
             while ((line = br.readLine()) != null) sb.append(line);
         }
 
-        return parseResponse(sb.toString());
+        return parseChatResponse(sb.toString());
     }
 
     /* =========================================================
-       JSON (STRICT ROLE SEPARATION)
+       JSON (CHAT FORMAT)
        ========================================================= */
 
-    private static String buildJson(
-        String system,
-        String context,
-        String user
-    ) {
+    private static String buildJson(String system, String user) {
         return (
             "{" +
             "\"model\":\"" +
             MODEL +
             "\"," +
-            "\"system\":\"" +
-            escape(system + "\n\n" + context) +
-            "\"," +
-            "\"prompt\":\"" +
+            "\"stream\":false," +
+            "\"messages\":[" +
+            "{" +
+            "\"role\":\"system\"," +
+            "\"content\":\"" +
+            escape(system) +
+            "\"" +
+            "}," +
+            "{" +
+            "\"role\":\"user\"," +
+            "\"content\":\"" +
             escape(user) +
-            "\"," +
-            "\"stream\":false" +
+            "\"" +
+            "}" +
+            "]" +
             "}"
         );
     }
@@ -204,33 +225,23 @@ public class openwebui extends script.base_script {
     }
 
     /* =========================================================
-       RESPONSE
+       RESPONSE PARSER (CHAT FORMAT)
        ========================================================= */
 
-    private static String parseResponse(String raw) {
+    private static String parseChatResponse(String raw) {
         if (raw == null) return "?";
 
-        String cleaned = raw
-            .replaceAll("\\\\u003c", "<")
-            .replaceAll("\\\\u003e", ">")
-            .replaceAll("\\\\u0026", "&")
-            .replaceAll("\\\\n", "\n")
-            .replaceAll("\\\\r", "\r")
-            .replaceAll("\\\\t", "\t")
-            .replace("\\", "")
-            .trim();
-
-        String tag = "\"response\":\"";
-        int start = cleaned.indexOf(tag);
+        String tag = "\"content\":\"";
+        int start = raw.indexOf(tag);
 
         if (start < 0) return "?";
 
         start += tag.length();
-        int end = cleaned.indexOf("\"", start);
+        int end = raw.indexOf("\"", start);
 
         if (end < 0) return "?";
 
-        return cleaned.substring(start, end).trim();
+        return raw.substring(start, end).trim();
     }
 
     /* =========================================================
