@@ -10375,17 +10375,29 @@ public class player_developer extends base_script
 
             case 22: // Set Collision Radius
                 setObjVar(self, "dynamics_test.param", "collisionRadius");
-                sui.inputbox(self, self, "Enter collision radius (meters):", "Set Collision Radius", "handleDynamicsParamInput", "1.0");
+                {
+                    final obj_id suiOwner = self;
+                    final obj_id suiViewer = self;
+                    sui.inputbox(suiOwner, suiViewer, "Enter collision radius (meters):", "Set Collision Radius", "handleDynamicsParamInput", "1.0");
+                }
                 return SCRIPT_CONTINUE;
 
             case 23: // Set Push Speed
                 setObjVar(self, "dynamics_test.param", "pushSpeed");
-                sui.inputbox(self, self, "Enter push speed (m/s):", "Set Push Speed", "handleDynamicsParamInput", "5.0");
+                {
+                    final obj_id suiOwner = self;
+                    final obj_id suiViewer = self;
+                    sui.inputbox(suiOwner, suiViewer, "Enter push speed (m/s):", "Set Push Speed", "handleDynamicsParamInput", "5.0");
+                }
                 return SCRIPT_CONTINUE;
 
             case 24: // Set Push Drag
                 setObjVar(self, "dynamics_test.param", "pushDrag");
-                sui.inputbox(self, self, "Enter push drag coefficient:", "Set Push Drag", "handleDynamicsParamInput", "1.5");
+                {
+                    final obj_id suiOwner = self;
+                    final obj_id suiViewer = self;
+                    sui.inputbox(suiOwner, suiViewer, "Enter push drag coefficient:", "Set Push Drag", "handleDynamicsParamInput", "1.5");
+                }
                 return SCRIPT_CONTINUE;
 
             case 25: // Separator - do nothing
@@ -10496,7 +10508,8 @@ public class player_developer extends base_script
     }
 
     /**
-     * Helper method to show the TangibleDynamics test SUI panel
+     * TangibleDynamics test panel. {@code sui.listbox(suiOwner, suiViewer, ...)}: owner = developer character (this
+     * script); viewer = same player receiving the UI. Edited tangible is stored in {@code dynamics_test.target}.
      */
     private void showDynamicsTestSUI(obj_id self, obj_id target) throws InterruptedException
     {
@@ -10509,6 +10522,9 @@ public class player_developer extends base_script
 
         // Store target for handler
         setObjVar(self, "dynamics_test.target", target);
+
+        final obj_id suiOwner = self;
+        final obj_id suiViewer = self;
 
         String[] options = new String[] {
             "Enable Dynamics (attach handler + set condition)",
@@ -10558,7 +10574,7 @@ public class player_developer extends base_script
             "Create Ferris Wheel Seat"
         };
 
-        sui.listbox(self, self, "Select a TangibleDynamics option for: " + getName(target),
+        sui.listbox(suiOwner, suiViewer, "Select a TangibleDynamics option for: " + getName(target),
             sui.OK_CANCEL, "TangibleDynamics Test Panel", options, "handleDynamicsTestSUI", true, false);
     }
 

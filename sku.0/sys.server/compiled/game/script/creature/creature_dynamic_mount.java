@@ -57,9 +57,14 @@ public class creature_dynamic_mount extends script.base_script
     /**
      * Opens the Dynamic mount authoring listbox. Static so {@link script.ai.ai} can invoke it immediately after
      * {@code attachScript} — avoids {@code messageTo} while {@code m_attachingScript} is active (drops handlers).
+     * <p>
+     * {@code sui.listbox(suiOwner, suiViewer, ...)}: {@code suiOwner} = this creature (scripts / callbacks);
+     * {@code suiViewer} = the player client receiving the page (must match {@link script.library.sui#getPlayerId}).
      */
     public static void openAuthoringMainMenu(obj_id self, obj_id player) throws InterruptedException
     {
+        final obj_id suiOwner = self;
+        final obj_id suiViewer = player;
         int cap = hasObjVar(self, dynamic_mount.VAR_DM_CAPACITY) ? getIntObjVar(self, dynamic_mount.VAR_DM_CAPACITY) : 1;
         cap = Math.min(8, Math.max(1, cap));
         int seat = getEditSeat(player);
@@ -88,7 +93,7 @@ public class creature_dynamic_mount extends script.base_script
             "SERVER: Possess (network primary -> this creature)",
             "SERVER: Release possession (restore avatar primary)",
         };
-        sui.listbox(self, player, "Dynamic mount: /decoratorCamera + gizmo; optional /mountMakerDrive (fallback) or listbox Possess (authoritative). Saddle via gm_dynamic_hardpoint or preset hp_dyn.", sui.OK_CANCEL, "Dynamic mount", rows, "handleDmMainList", true);
+        sui.listbox(suiOwner, suiViewer, "Dynamic mount: /decoratorCamera + gizmo; optional /mountMakerDrive (fallback) or listbox Possess (authoritative). Saddle via gm_dynamic_hardpoint or preset hp_dyn.", sui.OK_CANCEL, "Dynamic mount", rows, "handleDmMainList", true);
     }
 
     /** Legacy messageTo target; forwards to {@link #openAuthoringMainMenu}. */
@@ -132,44 +137,46 @@ public class creature_dynamic_mount extends script.base_script
             return SCRIPT_CONTINUE;
         if (sui.getIntButtonPressed(params) != sui.BP_OK)
             return SCRIPT_CONTINUE;
+        final obj_id suiOwner = self;
+        final obj_id suiViewer = player;
         int row = sui.getListboxSelectedRow(params);
         switch (row)
         {
             case 0:
-                sui.inputbox(self, player, "Capacity 1-8:", "Dynamic mount",
+                sui.inputbox(suiOwner, suiViewer, "Capacity 1-8:", "Dynamic mount",
                         "handleDmCapacityInput", sui.MAX_INPUT_LENGTH, false,
                         Integer.toString(hasObjVar(self, dynamic_mount.VAR_DM_CAPACITY) ? getIntObjVar(self, dynamic_mount.VAR_DM_CAPACITY) : 1));
                 break;
             case 1:
-                sui.inputbox(self, player, "Seat index 0-7 (must be < capacity):", "Dynamic mount",
+                sui.inputbox(suiOwner, suiViewer, "Seat index 0-7 (must be < capacity):", "Dynamic mount",
                         "handleDmSeatIndexInput", sui.MAX_INPUT_LENGTH, false, Integer.toString(getEditSeat(player)));
                 break;
             case 2:
-                sui.inputbox(self, player, "Animation pose name (e.g. rider, normal):", "Dynamic mount",
+                sui.inputbox(suiOwner, suiViewer, "Animation pose name (e.g. rider, normal):", "Dynamic mount",
                         "handleDmPoseInput", sui.MAX_INPUT_LENGTH, false,
                         hasObjVar(self, seatBase(player) + "pose") ? getStringObjVar(self, seatBase(player) + "pose") : "normal");
                 break;
             case 3:
-                sui.inputbox(self, player, "Rider offset X:", "Dynamic mount",
+                sui.inputbox(suiOwner, suiViewer, "Rider offset X:", "Dynamic mount",
                         "handleDmOxInput", sui.MAX_INPUT_LENGTH, false,
                         Float.toString(hasObjVar(self, seatBase(player) + "ox") ? getFloatObjVar(self, seatBase(player) + "ox") : 0.f));
                 break;
             case 4:
-                sui.inputbox(self, player, "Rider offset Y:", "Dynamic mount",
+                sui.inputbox(suiOwner, suiViewer, "Rider offset Y:", "Dynamic mount",
                         "handleDmOyInput", sui.MAX_INPUT_LENGTH, false,
                         Float.toString(hasObjVar(self, seatBase(player) + "oy") ? getFloatObjVar(self, seatBase(player) + "oy") : 0.f));
                 break;
             case 5:
-                sui.inputbox(self, player, "Rider offset Z:", "Dynamic mount",
+                sui.inputbox(suiOwner, suiViewer, "Rider offset Z:", "Dynamic mount",
                         "handleDmOzInput", sui.MAX_INPUT_LENGTH, false,
                         Float.toString(hasObjVar(self, seatBase(player) + "oz") ? getFloatObjVar(self, seatBase(player) + "oz") : 0.f));
                 break;
             case 6:
-                sui.inputbox(self, player, "Preset base name (no path, saved as name.mountpreset):", "Export",
+                sui.inputbox(suiOwner, suiViewer, "Preset base name (no path, saved as name.mountpreset):", "Export",
                         "handleDmExportNameInput", sui.MAX_INPUT_LENGTH, false, "my_mount");
                 break;
             case 7:
-                sui.inputbox(self, player, "Preset base name to load:", "Import",
+                sui.inputbox(suiOwner, suiViewer, "Preset base name to load:", "Import",
                         "handleDmImportNameInput", sui.MAX_INPUT_LENGTH, false, "my_mount");
                 break;
             case 8:

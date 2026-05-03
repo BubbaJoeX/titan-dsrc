@@ -11,6 +11,8 @@ import script.obj_id;
 
 /**
  * Dynamic mount preset I/O and default objvar layout (pairs with engine mount.dm + hp_dyn replication).
+ * In-game SUI lives on {@link script.creature.creature_dynamic_mount} / {@code gm_dynamic_hardpoint} using
+ * {@code sui.listbox(suiOwner, suiViewer)} / {@code sui.inputbox(suiOwner, suiViewer)} (owner = scripted object, viewer = player).
  */
 public class dynamic_mount extends script.base_script
 {

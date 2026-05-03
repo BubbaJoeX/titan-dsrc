@@ -10,6 +10,9 @@ import script.library.sui;
 /**
  * GM / test-center editor for {@code hp_dyn.*} hardpoint overlays (app / light / fx).
  * <p>
+ * SUI: {@code sui.inputbox(suiOwner, suiViewer, ...)} — {@code suiOwner} is this terminal (object that hosts callback
+ * scripts); {@code suiViewer} is the GM player who receives the client page (see {@link script.library.sui}).
+ * <p>
  * Uses only existing {@link menu_info_types} entries. Menu IDs consumed here are documented
  * below; attach this script to a <b>dedicated</b> object (do not mix with other terminals that
  * use the same {@code SERVER_MENU*} types on the same object). Skip {@code SERVER_MENU38}–
@@ -94,21 +97,21 @@ public class gm_dynamic_hardpoint extends script.base_script
         removeObjVar(self, "hp_dyn");
     }
 
-    private static void promptInt(obj_id self, obj_id player, String title, String prompt, String handler, int current) throws InterruptedException
+    private static void promptInt(obj_id suiOwner, obj_id suiViewer, String title, String prompt, String handler, int current) throws InterruptedException
     {
-        sui.inputbox(self, player, prompt, title, handler, sui.MAX_INPUT_LENGTH, false, Integer.toString(current));
+        sui.inputbox(suiOwner, suiViewer, prompt, title, handler, sui.MAX_INPUT_LENGTH, false, Integer.toString(current));
     }
 
-    private static void promptFloat(obj_id self, obj_id player, String title, String prompt, String handler, float current) throws InterruptedException
+    private static void promptFloat(obj_id suiOwner, obj_id suiViewer, String title, String prompt, String handler, float current) throws InterruptedException
     {
-        sui.inputbox(self, player, prompt, title, handler, sui.MAX_INPUT_LENGTH, false, Float.toString(current));
+        sui.inputbox(suiOwner, suiViewer, prompt, title, handler, sui.MAX_INPUT_LENGTH, false, Float.toString(current));
     }
 
-    private static void promptString(obj_id self, obj_id player, String title, String prompt, String handler, String current) throws InterruptedException
+    private static void promptString(obj_id suiOwner, obj_id suiViewer, String title, String prompt, String handler, String current) throws InterruptedException
     {
         if (current == null)
             current = "";
-        sui.inputbox(self, player, prompt, title, handler, sui.MAX_INPUT_LENGTH, false, current);
+        sui.inputbox(suiOwner, suiViewer, prompt, title, handler, sui.MAX_INPUT_LENGTH, false, current);
     }
 
     private static String readInputStringRaw(dictionary params, obj_id player) throws InterruptedException
