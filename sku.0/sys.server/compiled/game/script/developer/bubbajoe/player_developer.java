@@ -483,6 +483,55 @@ public class player_developer extends base_script
             reloadDatatable(self, table);
             LOG("ethereal", "[Developer]: " + getPlayerFullName(self) + " used /developer reloadTable " + table);
         }
+        else if (cmd.equalsIgnoreCase("makeDynamicMount"))
+        {
+            if (!(isGod(self) || hasObjVar(self, "test_center")))
+            {
+                broadcast(self, "makeDynamicMount requires god or test_center.");
+                return SCRIPT_CONTINUE;
+            }
+            obj_id mount = iTarget;
+            if (!isIdValid(mount) || !exists(mount) || !isMob(mount))
+            {
+                broadcast(self, "Target a creature (the dynamic mount).");
+                return SCRIPT_CONTINUE;
+            }
+            String presetName = null;
+            if (tok.hasMoreTokens())
+            {
+                presetName = tok.nextToken();
+            }
+            try
+            {
+                if (presetName != null && presetName.length() > 0)
+                {
+                    dynamic_mount.applyPresetFromFile(mount, presetName);
+                }
+                else if (!hasObjVar(mount, dynamic_mount.VAR_DM_CAPACITY))
+                {
+                    dynamic_mount.ensureMountDefaults(mount, 1);
+                }
+                if (!hasObjVar(mount, dynamic_mount.VAR_DM_ACTIVE))
+                {
+                    setObjVar(mount, dynamic_mount.VAR_DM_ACTIVE, 1);
+                }
+                if (makeDynamicMountable(mount))
+                {
+                    broadcast(self, "Dynamic mount ready on " + getName(mount) + (presetName != null && presetName.length() > 0 ? " (preset \"" + presetName + "\")" : "") + ".");
+                }
+                else
+                {
+                    broadcast(self, "makeDynamicMountable failed for target (check server log).");
+                }
+            }
+            catch (IOException ex)
+            {
+                broadcast(self, "makeDynamicMount I/O error: " + ex.getMessage());
+            }
+            LOG("ethereal", "[Developer]: " + getPlayerFullName(self) + " used /developer makeDynamicMount "
+                    + (presetName != null ? presetName : "") + " creature=" + mount);
+            return SCRIPT_CONTINUE;
+        }
         else if (cmd.equalsIgnoreCase("scriptLogs"))
         {
             script.library.script_logs.show(self);

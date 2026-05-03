@@ -22966,6 +22966,13 @@ public class base_class
         return _makePetMountable(getLongWithNull(petId));
     }
 
+    /** Open-world/designer mounts using mount.dm.* (no pet PCD). Caller must configure objvars first. */
+    private static native boolean _makeDynamicMountable(long creatureId);
+    public static boolean makeDynamicMountable(obj_id creatureId)
+    {
+        return _makeDynamicMountable(getLongWithNull(creatureId));
+    }
+
     /**
      * Return the name of the buildout area for the given
      * (x,z) position.
