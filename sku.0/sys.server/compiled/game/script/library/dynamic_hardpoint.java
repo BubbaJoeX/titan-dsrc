@@ -415,7 +415,7 @@ public class dynamic_hardpoint extends script.base_script
             "FX: Clear this slot only",
         };
         sui.listbox(player, player,
-                "hp_dyn slots: saddles and other appearances attach here; lights and FX per slot. Export preset includes hp_dyn.* with mount.dm.",
+                "hp_dyn: appearances, lights, FX per slot. Hardpoint blank or \"-\" follows the saddle bone on creatures (skeletal); set an explicit name for other bones. Export includes hp_dyn.* with mount.dm.",
                 sui.OK_CANCEL, "Attachments (hp_dyn)", rows, HANDLER_HP_MAIN, true);
     }
 
