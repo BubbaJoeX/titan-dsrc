@@ -2547,6 +2547,11 @@ public class ai extends script.base_script
     {
         if (isGod(speaker) && getDistance(self, speaker) < 2.5f && hasObjVar(speaker, "player_ai"))
         {
+            if (!isMob(self
+            {
+                broadcast(speaker, "hey that thing shouldn't talk, are u on crack");
+                return SCRIPT_CONTINUE;
+            }
             String response = openwebui.getChatCompletion(openwebui.API_KEY, self, text, speaker);
             if (response != null && !response.isEmpty())
             {
