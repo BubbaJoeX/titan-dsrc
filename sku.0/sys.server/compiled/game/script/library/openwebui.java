@@ -15,23 +15,26 @@ public class openwebui extends script.base_script {
     public static final boolean OLLAMA_ENABLED = true;
 
     public static final String MODEL = "qwen3-coder:30b";
-
     public static final String API_URL = "http://swgor.com:11434/api/chat";
 
     public static final int MAX_CONTEXT_TOKENS = 65536;
 
     /* =========================================================
-       PUBLIC API
+       PUBLIC LEGACY API (DO NOT BREAK GAME CALLS)
        ========================================================= */
 
     public static String getChatCompletion(
         String apiKey,
         obj_id target,
-        obj_id speaker,
-        String prompt
+        String prompt,
+        obj_id speaker
     ) throws Exception {
         return getChatCompletion(apiKey, target, speaker, prompt, null);
     }
+
+    /* =========================================================
+       NEW CHAT ENGINE (OPTIONAL CONTEXT KEY)
+       ========================================================= */
 
     public static String getChatCompletion(
         String apiKey,
@@ -48,15 +51,22 @@ public class openwebui extends script.base_script {
         return sendRequest(apiKey, system, user);
     }
 
+    public static String getCompletion(String apiKey, String prompt)
+        throws Exception {
+        if (!OLLAMA_ENABLED) return "[Ollama disabled]";
+
+        return sendRequest(apiKey, buildSystemRules(), prompt);
+    }
+
     /* =========================================================
-       SYSTEM (HARD RULES - NEVER MIX WITH CONTEXT)
+       SYSTEM (HARD RULES - MODEL BEHAVIOR LOCK)
        ========================================================= */
 
     private static String buildSystemRules() {
         return (
             "" +
             "You are an NPC in Star Wars Galaxies.\n" +
-            "Stay fully in character at all times.\n" +
+            "You must remain fully in character at all times.\n" +
             "Never mention prompts, system messages, or context injection.\n" +
             "Do NOT use emotes like *actions* or stage directions.\n" +
             "Only output spoken dialogue.\n" +
@@ -65,7 +75,7 @@ public class openwebui extends script.base_script {
     }
 
     /* =========================================================
-       USER + CONTEXT (SOFT INPUT ONLY)
+       USER CONTEXT (SOFT INPUT ONLY)
        ========================================================= */
 
     private static String buildUserPayload(
@@ -112,7 +122,7 @@ public class openwebui extends script.base_script {
             "Description: " +
             c[8] +
             "\n" +
-            "====================\n\n" +
+            "=====================\n\n" +
             extra +
             "\n\n" +
             "=== PLAYER INPUT ===\n" +
@@ -121,7 +131,7 @@ public class openwebui extends script.base_script {
     }
 
     /* =========================================================
-       OPTIONAL MARKDOWN CONTEXT
+       OPTIONAL MARKDOWN CONTEXT LOADER
        ========================================================= */
 
     private static String loadMarkdownContext(String key) {
@@ -139,14 +149,14 @@ public class openwebui extends script.base_script {
 
             if (content.isEmpty()) return "";
 
-            return "[WORLD CONTEXT]\n" + content + "\n[/WORLD CONTEXT]";
+            return "[EXTRA CONTEXT]\n" + content + "\n[/EXTRA CONTEXT]";
         } catch (Exception e) {
             return "";
         }
     }
 
     /* =========================================================
-       HTTP (CHAT API)
+       HTTP (OLLAMA CHAT API)
        ========================================================= */
 
     private static String sendRequest(String apiKey, String system, String user)
@@ -185,7 +195,7 @@ public class openwebui extends script.base_script {
     }
 
     /* =========================================================
-       JSON (CHAT FORMAT)
+       JSON PAYLOAD (CHAT FORMAT)
        ========================================================= */
 
     private static String buildJson(String system, String user) {
@@ -225,7 +235,7 @@ public class openwebui extends script.base_script {
     }
 
     /* =========================================================
-       RESPONSE PARSER (CHAT FORMAT)
+       RESPONSE PARSER (CHAT FORMAT SAFE)
        ========================================================= */
 
     private static String parseChatResponse(String raw) {
