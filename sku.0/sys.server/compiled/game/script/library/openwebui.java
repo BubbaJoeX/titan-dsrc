@@ -16,7 +16,7 @@ public class openwebui extends script.base_script {
 
     public static final String API_KEY = "ollama";
 
-    public static final String MODEL = "qwen3.6:35b";
+    public static final String MODEL = "qwen3-coder:30b";
 
     public static final int MAX_CONTEXT_TOKENS = 65536;
 
