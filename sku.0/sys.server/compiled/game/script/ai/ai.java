@@ -1,4 +1,4 @@
-package script.ai;/*
+package script.ai; /*
 @Origin: script.bot.clone
 @Author:
     Sony Online Entertainment
@@ -10,132 +10,199 @@ package script.ai;/*
     Unauthorized usage, viewing or sharing of this file is prohibited.
 */
 
-import script.*;
-import script.library.*;
-import script.space.combat.combat_ship;
+import static script.systems.city.city_hire.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Vector;
+import script.*;
+import script.library.*;
+import script.space.combat.combat_ship;
 
-import static script.systems.city.city_hire.*;
+public class ai extends script.base_script {
 
-public class ai extends script.base_script
-{
     public static final boolean LOGGING_ON = false;
     public static final String LOGGING_CATEGORY = "ai_script";
     public static final String MENU_FILE = "pet/pet_menu";
     public static final float CORPSE_CLEANUP_DELAY = 300.0f;
     public static final String CREATURE_TABLE = "datatables/mob/creatures.iff";
-    public static final string_id SID_NOTIFY_STALKED = new string_id("skl_use", "notify_stalked");
-    public static final string_id SID_CANT_MILK = new string_id("skl_use", "milk_cant");
-    public static final string_id SID_MILK_NOT_HIDDEN = new string_id("skl_use", "milk_not_hidden");
-    public static final string_id SID_MILK_BEGIN = new string_id("skl_use", "milk_begin");
-    public static final string_id SID_MILK_TOO_FAR = new string_id("skl_use", "milk_too_far");
-    public static final string_id SID_CANT_MILK_THE_DEAD = new string_id("skl_use", "milk_cant_milk_the_dead");
-    public static final string_id SID_MILK_CONTINUE = new string_id("skl_use", "milk_continue");
-    public static final string_id SID_MILK_SUCCESS = new string_id("skl_use", "milk_success");
-    public static final string_id SID_BEING_MILKED = new string_id("skl_use", "being_milked");
-    public static final string_id SID_CANT_MILK_MOUNTED = new string_id("skl_use", "milk_mounted");
-    public static final string_id SID_CANT_MILK_COMBAT = new string_id("skl_use", "milk_combat");
-    public static final string_id SID_CANT_MILK_INV_FULL = new string_id("skl_use", "milk_inventory_full");
-    public static final string_id SID_ALREADY_RECRUITED = new string_id("collection", "already_recruited");
-    public static final string_id SID_ENEMY_RECRUIT = new string_id("collection", "enemy_recruit");
-    public static final string_id SID_GAVE_RECRUIT_ITEM = new string_id("collection", "gave_recruit_item");
-    public static final string_id SID_NPC_MEATLUMP_SPEAK = new string_id("collection", "npc_meatlump_speak");
-    public static final string_id SID_NO_RECRUIT_REB_IMP = new string_id("collection", "no_recruit_reb_imp");
+    public static final string_id SID_NOTIFY_STALKED = new string_id(
+        "skl_use",
+        "notify_stalked"
+    );
+    public static final string_id SID_CANT_MILK = new string_id(
+        "skl_use",
+        "milk_cant"
+    );
+    public static final string_id SID_MILK_NOT_HIDDEN = new string_id(
+        "skl_use",
+        "milk_not_hidden"
+    );
+    public static final string_id SID_MILK_BEGIN = new string_id(
+        "skl_use",
+        "milk_begin"
+    );
+    public static final string_id SID_MILK_TOO_FAR = new string_id(
+        "skl_use",
+        "milk_too_far"
+    );
+    public static final string_id SID_CANT_MILK_THE_DEAD = new string_id(
+        "skl_use",
+        "milk_cant_milk_the_dead"
+    );
+    public static final string_id SID_MILK_CONTINUE = new string_id(
+        "skl_use",
+        "milk_continue"
+    );
+    public static final string_id SID_MILK_SUCCESS = new string_id(
+        "skl_use",
+        "milk_success"
+    );
+    public static final string_id SID_BEING_MILKED = new string_id(
+        "skl_use",
+        "being_milked"
+    );
+    public static final string_id SID_CANT_MILK_MOUNTED = new string_id(
+        "skl_use",
+        "milk_mounted"
+    );
+    public static final string_id SID_CANT_MILK_COMBAT = new string_id(
+        "skl_use",
+        "milk_combat"
+    );
+    public static final string_id SID_CANT_MILK_INV_FULL = new string_id(
+        "skl_use",
+        "milk_inventory_full"
+    );
+    public static final string_id SID_ALREADY_RECRUITED = new string_id(
+        "collection",
+        "already_recruited"
+    );
+    public static final string_id SID_ENEMY_RECRUIT = new string_id(
+        "collection",
+        "enemy_recruit"
+    );
+    public static final string_id SID_GAVE_RECRUIT_ITEM = new string_id(
+        "collection",
+        "gave_recruit_item"
+    );
+    public static final string_id SID_NPC_MEATLUMP_SPEAK = new string_id(
+        "collection",
+        "npc_meatlump_speak"
+    );
+    public static final string_id SID_NO_RECRUIT_REB_IMP = new string_id(
+        "collection",
+        "no_recruit_reb_imp"
+    );
     public String[] SPEECH_RESPONSES = {
-            "Hey.",
-            "Hello.",
-            "Greetings.",
-            "Hi.",
-            "Howdy.",
-            "What's up?",
-            "How are you?",
-            "Can't talk right now."
+        "Hey.",
+        "Hello.",
+        "Greetings.",
+        "Hi.",
+        "Howdy.",
+        "What's up?",
+        "How are you?",
+        "Can't talk right now.",
     };
 
-    public void initializeScript() throws InterruptedException
-    {
+    public void initializeScript() throws InterruptedException {
         obj_id self = getSelf();
-        LOGC(aiLoggingEnabled(self), "debug_ai", "ai::initializeScript() self(" + self + ":" + getName(self) + ")");
-        if (hasObjVar(self, "ai.threat"))
-        {
+        LOGC(
+            aiLoggingEnabled(self),
+            "debug_ai",
+            "ai::initializeScript() self(" + self + ":" + getName(self) + ")"
+        );
+        if (hasObjVar(self, "ai.threat")) {
             removeObjVar(self, "ai.threat");
         }
-        if (ai_lib.isAggro(self))
-        {
+        if (ai_lib.isAggro(self)) {
             setCondition(self, CONDITION_AGGRESSIVE);
         }
         location loc = getLocation(self);
         boolean setHomeLoc = true;
-        if (loc == null)
-        {
+        if (loc == null) {
             setHomeLoc = false;
-            LOG("debug_ai", "WARNING: got null location in ai.initializeScript for creature " + self);
-        }
-        else if (loc.area == null)
-        {
+            LOG(
+                "debug_ai",
+                "WARNING: got null location in ai.initializeScript for creature " +
+                    self
+            );
+        } else if (loc.area == null) {
             setHomeLoc = false;
-            LOG("debug_ai", "WARNING: null scene from getLocation in ai.initializeScript for creature " + self);
-        }
-        else if (loc.area.isEmpty())
-        {
+            LOG(
+                "debug_ai",
+                "WARNING: null scene from getLocation in ai.initializeScript for creature " +
+                    self
+            );
+        } else if (loc.area.isEmpty()) {
             setHomeLoc = false;
-            LOG("debug_ai", "WARNING: empty scene from getLocation in ai.initializeScript for creature " + self);
+            LOG(
+                "debug_ai",
+                "WARNING: empty scene from getLocation in ai.initializeScript for creature " +
+                    self
+            );
         }
-        if (setHomeLoc)
-        {
+        if (setHomeLoc) {
             aiSetHomeLocation(self, loc);
         }
         setWantSawAttackTriggers(self, aiIsAssist(self) || aiIsGuard(self));
-        if (!hasObjVar(self, "ai.defaultCalmBehavior"))
-        {
+        if (!hasObjVar(self, "ai.defaultCalmBehavior")) {
             setObjVar(self, "ai.defaultCalmBehavior", ai_lib.BEHAVIOR_LOITER);
         }
-        if (!hasObjVar(self, "ai.yaw"))
-        {
+        if (!hasObjVar(self, "ai.yaw")) {
             float ai_yaw = getYaw(self);
             setObjVar(self, "ai.yaw", ai_yaw);
         }
         ai_lib.resetAi();
     }
 
-    public int OnAttach(obj_id self) throws InterruptedException
-    {
-        LOGC(aiLoggingEnabled(self), "debug_ai", "ai::OnAttach() self(" + self + ":" + getName(self) + ")");
+    public int OnAttach(obj_id self) throws InterruptedException {
+        LOGC(
+            aiLoggingEnabled(self),
+            "debug_ai",
+            "ai::OnAttach() self(" + self + ":" + getName(self) + ")"
+        );
         initializeScript();
         return SCRIPT_CONTINUE;
     }
 
-    public int OnAddedToWorld(obj_id self) throws InterruptedException
-    {
-        LOGC(aiLoggingEnabled(self), "debug_ai", "ai::OnAddedToWorld() self(" + self + ":" + getName(self) + ")");
+    public int OnAddedToWorld(obj_id self) throws InterruptedException {
+        LOGC(
+            aiLoggingEnabled(self),
+            "debug_ai",
+            "ai::OnAddedToWorld() self(" + self + ":" + getName(self) + ")"
+        );
         messageTo(self, "handleOnAddedToWorldDelay", null, 2, false);
         return SCRIPT_CONTINUE;
     }
 
-    public int handleOnAddedToWorldDelay(obj_id self, dictionary params) throws InterruptedException
-    {
-        LOGC(aiLoggingEnabled(self), "debug_ai", "ai::OnAddedToWorld() self(" + self + ":" + getName(self) + ")");
+    public int handleOnAddedToWorldDelay(obj_id self, dictionary params)
+        throws InterruptedException {
+        LOGC(
+            aiLoggingEnabled(self),
+            "debug_ai",
+            "ai::OnAddedToWorld() self(" + self + ":" + getName(self) + ")"
+        );
         initializeScript();
         return SCRIPT_CONTINUE;
     }
 
-    public int OnRemovingFromWorld(obj_id self) throws InterruptedException
-    {
-        if (ai_lib.isAiDead(self) && !pet_lib.isPet(self) && !beast_lib.isBeast(self) && isObjectPersisted(self))
-        {
+    public int OnRemovingFromWorld(obj_id self) throws InterruptedException {
+        if (
+            ai_lib.isAiDead(self) &&
+            !pet_lib.isPet(self) &&
+            !beast_lib.isBeast(self) &&
+            isObjectPersisted(self)
+        ) {
             destroyObject(self);
         }
         return SCRIPT_CONTINUE;
     }
 
-    public int OnFleeTargetLost(obj_id self, obj_id oldTarget) throws InterruptedException
-    {
-        if (aiLoggingEnabled(self))
-        {
+    public int OnFleeTargetLost(obj_id self, obj_id oldTarget)
+        throws InterruptedException {
+        if (aiLoggingEnabled(self)) {
             debugSpeakMsg(self, "OnFleeTargetLost(" + oldTarget + ")");
         }
         removeObjVar(self, "ai.threat");
@@ -143,154 +210,220 @@ public class ai extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int OnFleePathNotFound(obj_id self, obj_id oldTarget) throws InterruptedException
-    {
-        if (aiLoggingEnabled(self))
-        {
+    public int OnFleePathNotFound(obj_id self, obj_id oldTarget)
+        throws InterruptedException {
+        if (aiLoggingEnabled(self)) {
             debugSpeakMsg(self, "OnFleePathNotFound(" + oldTarget + ")");
         }
         doDefaultCalmBehavior(self);
         return SCRIPT_CONTINUE;
     }
 
-    public int OnFleeWaypoint(obj_id self, obj_id target) throws InterruptedException
-    {
+    public int OnFleeWaypoint(obj_id self, obj_id target)
+        throws InterruptedException {
         return SCRIPT_CONTINUE;
     }
 
-    public int resumeDefaultCalmBehavior(obj_id self, dictionary params) throws InterruptedException
-    {
-        if (isInNpcConversation(self) || aiIsTethered(self))
-        {
-            if (!hasMessageTo(self, "resumeDefaultCalmBehavior"))
-            {
+    public int resumeDefaultCalmBehavior(obj_id self, dictionary params)
+        throws InterruptedException {
+        if (isInNpcConversation(self) || aiIsTethered(self)) {
+            if (!hasMessageTo(self, "resumeDefaultCalmBehavior")) {
                 messageTo(self, "resumeDefaultCalmBehavior", null, 5, false);
             }
             return SCRIPT_CONTINUE;
         }
-        LOGC(aiLoggingEnabled(self), "debug_ai", "ai::resumeDefaultCalmBehavior() self(" + self + getName(self) + ")");
+        LOGC(
+            aiLoggingEnabled(self),
+            "debug_ai",
+            "ai::resumeDefaultCalmBehavior() self(" + self + getName(self) + ")"
+        );
         doDefaultCalmBehavior(self);
         return SCRIPT_CONTINUE;
     }
 
-    public void doDefaultCalmBehavior(obj_id npc) throws InterruptedException
-    {
-        if (!npc.isLoaded() || !exists(npc))
-        {
-            LOGC(aiLoggingEnabled(npc), "debug_ai", "ai::doDefaultCalmBehavior() npc(?) ISN'T LOADED!");
+    public void doDefaultCalmBehavior(obj_id npc) throws InterruptedException {
+        if (!npc.isLoaded() || !exists(npc)) {
+            LOGC(
+                aiLoggingEnabled(npc),
+                "debug_ai",
+                "ai::doDefaultCalmBehavior() npc(?) ISN'T LOADED!"
+            );
             return;
         }
-        if (ai_lib.isInCombat(npc))
-        {
-            LOGC(aiLoggingEnabled(npc), "debug_ai", "ai::doDefaultCalmBehavior() npc(" + npc + ") I THINK I AM IN COMBAT");
+        if (ai_lib.isInCombat(npc)) {
+            LOGC(
+                aiLoggingEnabled(npc),
+                "debug_ai",
+                "ai::doDefaultCalmBehavior() npc(" +
+                    npc +
+                    ") I THINK I AM IN COMBAT"
+            );
             return;
         }
-        if (ai_lib.isAiDead(npc))
-        {
-            LOGC(aiLoggingEnabled(npc), "debug_ai", "ai::doDefaultCalmBehavior() npc(" + npc + ") I THINK I AM INCAPACITATED");
+        if (ai_lib.isAiDead(npc)) {
+            LOGC(
+                aiLoggingEnabled(npc),
+                "debug_ai",
+                "ai::doDefaultCalmBehavior() npc(" +
+                    npc +
+                    ") I THINK I AM INCAPACITATED"
+            );
             return;
         }
         removeObjVar(npc, "ai.threat");
         ai_lib.setMood(npc, ai_lib.MOOD_CALM);
         messageTo(npc, "redoYaw", null, 30, false);
-        if (ai_lib.isFollowing(npc))
-        {
+        if (ai_lib.isFollowing(npc)) {
             obj_id target = ai_lib.getFollowTarget(npc);
-            LOGC(aiLoggingEnabled(npc), "debug_ai", "ai::doDefaultCalmBehavior() npc(" + npc + ") IS FOLLOWING " + target.toString());
-            if (isIdValid(target) && exists(target) && !ai_lib.isAiDead(target) && isInWorld(target))
-            {
+            LOGC(
+                aiLoggingEnabled(npc),
+                "debug_ai",
+                "ai::doDefaultCalmBehavior() npc(" +
+                    npc +
+                    ") IS FOLLOWING " +
+                    target.toString()
+            );
+            if (
+                isIdValid(target) &&
+                exists(target) &&
+                !ai_lib.isAiDead(target) &&
+                isInWorld(target)
+            ) {
                 ai_lib.resumeFollow(npc);
                 return;
             }
             removeObjVar(npc, "ai.persistantFollowing");
         }
-        if (hasObjVar(npc, "ai.inFormation"))
-        {
-            LOGC(aiLoggingEnabled(npc), "debug_ai", "ai::doDefaultCalmBehavior() npc(" + npc + ") IN FORMATION");
-            if (getPosture(npc) != POSTURE_UPRIGHT)
-            {
+        if (hasObjVar(npc, "ai.inFormation")) {
+            LOGC(
+                aiLoggingEnabled(npc),
+                "debug_ai",
+                "ai::doDefaultCalmBehavior() npc(" + npc + ") IN FORMATION"
+            );
+            if (getPosture(npc) != POSTURE_UPRIGHT) {
                 posture.stand(npc);
             }
             ai_lib.resumeFormationFollowing(npc);
             return;
         }
-        if (ai_lib.canPatrol(npc))
-        {
-            LOGC(aiLoggingEnabled(npc), "debug_ai", "ai::doDefaultCalmBehavior() npc(" + npc + ") PATROLING");
-            if (getPosture(npc) != POSTURE_UPRIGHT)
-            {
+        if (ai_lib.canPatrol(npc)) {
+            LOGC(
+                aiLoggingEnabled(npc),
+                "debug_ai",
+                "ai::doDefaultCalmBehavior() npc(" + npc + ") PATROLING"
+            );
+            if (getPosture(npc) != POSTURE_UPRIGHT) {
                 posture.stand(npc);
             }
             ai_lib.resumePatrol(npc);
             return;
         }
-        if (hasObjVar(npc, "ai.persistentPathing"))
-        {
-            LOGC(aiLoggingEnabled(npc), "debug_ai", "ai::doDefaultCalmBehavior() npc(" + npc + ") PATHING");
-            if (getPosture(npc) != POSTURE_UPRIGHT)
-            {
+        if (hasObjVar(npc, "ai.persistentPathing")) {
+            LOGC(
+                aiLoggingEnabled(npc),
+                "debug_ai",
+                "ai::doDefaultCalmBehavior() npc(" + npc + ") PATHING"
+            );
+            if (getPosture(npc) != POSTURE_UPRIGHT) {
                 posture.stand(npc);
             }
             location pathLoc = getLocationObjVar(npc, "ai.persistentPathing");
             pathTo(npc, pathLoc);
             return;
         }
-        if (hasObjVar(npc, "ai.persistentPathingWaypoint"))
-        {
-            LOGC(aiLoggingEnabled(npc), "debug_ai", "ai::doDefaultCalmBehavior() npc(" + npc + ") ai.persistentPathingWaypoint");
-            if (getPosture(npc) != POSTURE_UPRIGHT)
-            {
+        if (hasObjVar(npc, "ai.persistentPathingWaypoint")) {
+            LOGC(
+                aiLoggingEnabled(npc),
+                "debug_ai",
+                "ai::doDefaultCalmBehavior() npc(" +
+                    npc +
+                    ") ai.persistentPathingWaypoint"
+            );
+            if (getPosture(npc) != POSTURE_UPRIGHT) {
                 posture.stand(npc);
             }
-            String pathWaypoint = getStringObjVar(npc, "ai.persistentPathingWaypoint");
+            String pathWaypoint = getStringObjVar(
+                npc,
+                "ai.persistentPathingWaypoint"
+            );
             pathTo(npc, pathWaypoint);
             return;
         }
-        if (utils.checkConfigFlag("GameServer", "disableAILoitering"))
-        {
-            LOGC(aiLoggingEnabled(npc), "debug_ai", "ai::doDefaultCalmBehavior() npc(" + npc + ") disableAILoitering");
+        if (utils.checkConfigFlag("GameServer", "disableAILoitering")) {
+            LOGC(
+                aiLoggingEnabled(npc),
+                "debug_ai",
+                "ai::doDefaultCalmBehavior() npc(" +
+                    npc +
+                    ") disableAILoitering"
+            );
             return;
         }
         final int defaultBehavior = ai_lib.getDefaultCalmBehavior(npc);
-        switch (defaultBehavior)
-        {
+        switch (defaultBehavior) {
             case ai_lib.BEHAVIOR_STOP:
             case ai_lib.BEHAVIOR_SENTINEL:
-                LOGC(aiLoggingEnabled(npc), "debug_ai", "ai::doDefaultCalmBehavior() npc(" + npc + getName(npc) + ") BEHAVIOR_STOP");
+                LOGC(
+                    aiLoggingEnabled(npc),
+                    "debug_ai",
+                    "ai::doDefaultCalmBehavior() npc(" +
+                        npc +
+                        getName(npc) +
+                        ") BEHAVIOR_STOP"
+                );
                 stop(npc);
                 break;
             case ai_lib.BEHAVIOR_LOITER:
             case ai_lib.BEHAVIOR_WANDER:
             default:
-                if (pet_lib.isPet(npc) || beast_lib.isBeast(npc))
-                {
+                if (pet_lib.isPet(npc) || beast_lib.isBeast(npc)) {
                     aiSetHomeLocation(npc, getLocation(npc));
                 }
                 final float collisionRadius = getObjectCollisionRadius(npc);
                 float minDistance;
                 float maxDistance;
-                if (hasObjVar(npc, "ai.loiterMinRange"))
-                {
+                if (hasObjVar(npc, "ai.loiterMinRange")) {
                     minDistance = getFloatObjVar(npc, "ai.loiterMinRange");
                     maxDistance = getFloatObjVar(npc, "ai.loiterMaxRange");
-                }
-                else
-                {
-                    final float cellDistanceModifier = !isIdValid(getLocation(npc).cell) ? 3.0f : 1.0f;
-                    maxDistance = Math.min(128.0f, collisionRadius * 7.0f * cellDistanceModifier);
+                } else {
+                    final float cellDistanceModifier = !isIdValid(
+                        getLocation(npc).cell
+                    )
+                        ? 3.0f
+                        : 1.0f;
+                    maxDistance = Math.min(
+                        128.0f,
+                        collisionRadius * 7.0f * cellDistanceModifier
+                    );
                     minDistance = 0.0f;
                 }
-                final float minDelay = Math.min(Math.max(8.0f, collisionRadius * 2.0f), 16.0f);
-                final float maxDelay = Math.min(Math.max(8.0f, collisionRadius * 4.0f), 16.0f);
-                loiterLocation(npc, aiGetHomeLocation(npc), minDistance, maxDistance, minDelay, maxDelay);
+                final float minDelay = Math.min(
+                    Math.max(8.0f, collisionRadius * 2.0f),
+                    16.0f
+                );
+                final float maxDelay = Math.min(
+                    Math.max(8.0f, collisionRadius * 4.0f),
+                    16.0f
+                );
+                loiterLocation(
+                    npc,
+                    aiGetHomeLocation(npc),
+                    minDistance,
+                    maxDistance,
+                    minDelay,
+                    maxDelay
+                );
                 break;
         }
     }
 
-    public int OnFollowMoving(obj_id self, obj_id target) throws InterruptedException
-    {
-        if (!ai_lib.isInCombat(self) && !ai_lib.isAiDead(self) && getPosture(self) != POSTURE_UPRIGHT)
-        {
+    public int OnFollowMoving(obj_id self, obj_id target)
+        throws InterruptedException {
+        if (
+            !ai_lib.isInCombat(self) &&
+            !ai_lib.isAiDead(self) &&
+            getPosture(self) != POSTURE_UPRIGHT
+        ) {
             stop(self);
             removeObjVar(self, "ai.combat.moveMode");
             posture.stand(self);
@@ -299,77 +432,83 @@ public class ai extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int OnFollowTargetLost(obj_id self, obj_id oldTarget) throws InterruptedException
-    {
-        LOGC(aiLoggingEnabled(self), "debug_ai", "ai::OnFollowTargetLost() self(" + self + ":" + getName(self) + ")");
-        if (!ai_lib.isInCombat(self))
-        {
+    public int OnFollowTargetLost(obj_id self, obj_id oldTarget)
+        throws InterruptedException {
+        LOGC(
+            aiLoggingEnabled(self),
+            "debug_ai",
+            "ai::OnFollowTargetLost() self(" + self + ":" + getName(self) + ")"
+        );
+        if (!ai_lib.isInCombat(self)) {
             ai_lib.aiStopFollowing(self);
         }
         return SCRIPT_CONTINUE;
     }
 
-    public int OnExitedCombat(obj_id self) throws InterruptedException
-    {
+    public int OnExitedCombat(obj_id self) throws InterruptedException {
         utils.removeScriptVar(self, "sentAllyDistressCall");
         return SCRIPT_CONTINUE;
     }
 
-    public int OnFollowWaiting(obj_id self, obj_id target) throws InterruptedException
-    {
+    public int OnFollowWaiting(obj_id self, obj_id target)
+        throws InterruptedException {
         /*
         if (!target.isLoaded() || !exists(target) || hasObjVar(target, "gm") || ai_lib.isInCombat(self))
         {
             return SCRIPT_CONTINUE;
         }
         */
-        if (!isIdValid(target) || ai_lib.isAiDead(target))
-        {
+        if (!isIdValid(target) || ai_lib.isAiDead(target)) {
             ai_lib.aiStopFollowing(self);
         }
         return SCRIPT_CONTINUE;
     }
 
-    public int OnFollowPathNotFound(obj_id self, obj_id target) throws InterruptedException
-    {
-        LOGC(aiLoggingEnabled(self), "debug_ai", "ai::OnFollowPathNotFound() self(" + self + ":" + getName(self) + ")");
-        if (!ai_lib.isInCombat(self))
-        {
+    public int OnFollowPathNotFound(obj_id self, obj_id target)
+        throws InterruptedException {
+        LOGC(
+            aiLoggingEnabled(self),
+            "debug_ai",
+            "ai::OnFollowPathNotFound() self(" +
+                self +
+                ":" +
+                getName(self) +
+                ")"
+        );
+        if (!ai_lib.isInCombat(self)) {
             ai_lib.aiStopFollowing(self);
         }
         return SCRIPT_CONTINUE;
     }
 
-    public int OnMovePathComplete(obj_id self) throws InterruptedException
-    {
-        if (!isValidId(self) || !exists(self))
-        {
+    public int OnMovePathComplete(obj_id self) throws InterruptedException {
+        if (!isValidId(self) || !exists(self)) {
             return SCRIPT_CONTINUE;
         }
-        LOGC(aiLoggingEnabled(self), "debug_ai", "ai::OnMovePathComplete() self(" + self + ")");
-        if (hasObjVar(self, "ai.persistentPathing"))
-        {
+        LOGC(
+            aiLoggingEnabled(self),
+            "debug_ai",
+            "ai::OnMovePathComplete() self(" + self + ")"
+        );
+        if (hasObjVar(self, "ai.persistentPathing")) {
             location pathLoc = getLocationObjVar(self, "ai.persistentPathing");
-            if (utils.getDistance(self, pathLoc) < 2.0f)
-            {
+            if (utils.getDistance(self, pathLoc) < 2.0f) {
                 removeObjVar(self, "ai.persistentPathing");
             }
         }
-        if (hasObjVar(self, "ai.persistentWaypoint"))
-        {
+        if (hasObjVar(self, "ai.persistentWaypoint")) {
             removeObjVar(self, "ai.persistentPathingWaypoint");
         }
-        if (!ai_lib.isInCombat(self))
-        {
-            if (getBehavior(self) <= BEHAVIOR_CALM)
-            {
+        if (!ai_lib.isInCombat(self)) {
+            if (getBehavior(self) <= BEHAVIOR_CALM) {
                 ai_lib.resumePatrol(self);
             }
-            if (utils.hasScriptVar(self, "pathingToAttack"))
-            {
-                obj_id target = utils.getObjIdScriptVar(self, "pathingToAttack");
-                if (isIdValid(target))
-                {
+            if (utils.hasScriptVar(self, "pathingToAttack")) {
+                obj_id target = utils.getObjIdScriptVar(
+                    self,
+                    "pathingToAttack"
+                );
+                if (isIdValid(target)) {
                     startCombat(self, target);
                 }
                 utils.removeScriptVar(self, "pathingToAttack");
@@ -378,197 +517,351 @@ public class ai extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int OnMovePathNotFound(obj_id self) throws InterruptedException
-    {
-        LOGC(aiLoggingEnabled(self), "debug_ai", "ai::OnMovePathNotFound() self(" + self + ":" + getName(self) + ")");
-        if (utils.hasScriptVar(self, "pathingToAttack"))
-        {
+    public int OnMovePathNotFound(obj_id self) throws InterruptedException {
+        LOGC(
+            aiLoggingEnabled(self),
+            "debug_ai",
+            "ai::OnMovePathNotFound() self(" + self + ":" + getName(self) + ")"
+        );
+        if (utils.hasScriptVar(self, "pathingToAttack")) {
             utils.removeScriptVar(self, "pathingToAttack");
         }
         stop(self);
-        if (getBehavior(self) <= BEHAVIOR_CALM && !ai_lib.isAiDead(self))
-        {
+        if (getBehavior(self) <= BEHAVIOR_CALM && !ai_lib.isAiDead(self)) {
             setLocation(self, aiGetHomeLocation(self));
             messageTo(self, "resumeDefaultCalmBehavior", null, 5, false);
         }
         return SCRIPT_CONTINUE;
     }
 
-    public int OnTriggerVolumeEntered(obj_id self, String volumeName, obj_id breacher) throws InterruptedException
-    {
-        if (utils.hasScriptVar(self, "petBeingInitialized"))
-        {
-            LOGC(aiLoggingEnabled(self), "debug_ai", "ai::OnTriggerVolumeEntered(" + volumeName + ") self(" + self + ":" + getName(self) + ") PET BEING INITIALIZED");
+    public int OnTriggerVolumeEntered(
+        obj_id self,
+        String volumeName,
+        obj_id breacher
+    ) throws InterruptedException {
+        if (utils.hasScriptVar(self, "petBeingInitialized")) {
+            LOGC(
+                aiLoggingEnabled(self),
+                "debug_ai",
+                "ai::OnTriggerVolumeEntered(" +
+                    volumeName +
+                    ") self(" +
+                    self +
+                    ":" +
+                    getName(self) +
+                    ") PET BEING INITIALIZED"
+            );
             return SCRIPT_CONTINUE;
         }
-        if (!isMob(breacher))
-        {
-            LOGC(aiLoggingEnabled(self), "debug_ai", "ai::OnTriggerVolumeEntered(" + volumeName + ") SCRIPT_CONTINUE - The breacher is not a mob");
+        if (!isMob(breacher)) {
+            LOGC(
+                aiLoggingEnabled(self),
+                "debug_ai",
+                "ai::OnTriggerVolumeEntered(" +
+                    volumeName +
+                    ") SCRIPT_CONTINUE - The breacher is not a mob"
+            );
             return SCRIPT_CONTINUE;
         }
-        if (breacher == self)
-        {
-            LOGC(aiLoggingEnabled(self), "debug_ai", "ai::OnTriggerVolumeEntered(" + volumeName + ") SCRIPT_CONTINUE - The breacher == self");
+        if (breacher == self) {
+            LOGC(
+                aiLoggingEnabled(self),
+                "debug_ai",
+                "ai::OnTriggerVolumeEntered(" +
+                    volumeName +
+                    ") SCRIPT_CONTINUE - The breacher == self"
+            );
             return SCRIPT_CONTINUE;
         }
-        if (ai_lib.isAiDead(self))
-        {
-            LOGC(aiLoggingEnabled(self), "debug_ai", "WARNING: ai::OnTriggerVolumeEntered(" + volumeName + ") self(" + self + ":" + getName(self) + ") I AM DEAD");
+        if (ai_lib.isAiDead(self)) {
+            LOGC(
+                aiLoggingEnabled(self),
+                "debug_ai",
+                "WARNING: ai::OnTriggerVolumeEntered(" +
+                    volumeName +
+                    ") self(" +
+                    self +
+                    ":" +
+                    getName(self) +
+                    ") I AM DEAD"
+            );
             return SCRIPT_CONTINUE;
         }
-        if (beast_lib.isBeast(self) && (!beast_lib.getBeastDefensive(self) || !hasCommand(getMaster(self), beast_lib.BM_COMMAND_ATTACK)))
-        {
+        if (
+            beast_lib.isBeast(self) &&
+            (!beast_lib.getBeastDefensive(self) ||
+                !hasCommand(getMaster(self), beast_lib.BM_COMMAND_ATTACK))
+        ) {
             return SCRIPT_CONTINUE;
         }
-        LOGC(aiLoggingEnabled(self), "debug_ai", "ai::OnTriggerVolumeEntered(" + volumeName + ") self(" + self + ":" + getName(self) + ") radius(" + getTriggerVolumeRadius(self, volumeName) + ") breacher(" + breacher + ":" + getName(breacher) + ")");
+        LOGC(
+            aiLoggingEnabled(self),
+            "debug_ai",
+            "ai::OnTriggerVolumeEntered(" +
+                volumeName +
+                ") self(" +
+                self +
+                ":" +
+                getName(self) +
+                ") radius(" +
+                getTriggerVolumeRadius(self, volumeName) +
+                ") breacher(" +
+                breacher +
+                ":" +
+                getName(breacher) +
+                ")"
+        );
         final boolean breacherIsAPlayer = isPlayer(breacher);
-        if (volumeName.equals(ai_lib.ALERT_VOLUME_NAME))
-        {
-            if (breacherIsAPlayer && !ai_lib.isMonster(self))
-            {
+        if (volumeName.equals(ai_lib.ALERT_VOLUME_NAME)) {
+            if (breacherIsAPlayer && !ai_lib.isMonster(self)) {
                 ai_lib.greet(self, breacher);
             }
-            if (hasTriggerVolume(self, ai_lib.AGGRO_VOLUME_NAME))
-            {
+            if (hasTriggerVolume(self, ai_lib.AGGRO_VOLUME_NAME)) {
                 boolean aggro = false;
-                if (pvpIsEnemy(self, breacher))
-                {
-                    LOGC(aiLoggingEnabled(self), "debug_ai", "ai::OnTriggerVolumeEntered(" + volumeName + ") Breacher is a threat (pvp enemy)");
+                if (pvpIsEnemy(self, breacher)) {
+                    LOGC(
+                        aiLoggingEnabled(self),
+                        "debug_ai",
+                        "ai::OnTriggerVolumeEntered(" +
+                            volumeName +
+                            ") Breacher is a threat (pvp enemy)"
+                    );
                     aggro = true;
-                }
-                else
-                {
-                    if (breacherIsAPlayer)
-                    {
-                        final int factionStatus = factions.getFactionStatus(self, breacher);
-                        if (factionStatus == factions.STATUS_ENEMY)
-                        {
-                            LOGC(aiLoggingEnabled(self), "debug_ai", "ai::OnTriggerVolumeEntered(" + volumeName + ") Player breacher is a threat (faction enemy)");
+                } else {
+                    if (breacherIsAPlayer) {
+                        final int factionStatus = factions.getFactionStatus(
+                            self,
+                            breacher
+                        );
+                        if (factionStatus == factions.STATUS_ENEMY) {
+                            LOGC(
+                                aiLoggingEnabled(self),
+                                "debug_ai",
+                                "ai::OnTriggerVolumeEntered(" +
+                                    volumeName +
+                                    ") Player breacher is a threat (faction enemy)"
+                            );
                             aggro = true;
-                        }
-                        else if ((factionStatus == factions.STATUS_NEUTRAL) && aiIsAggressive(self))
-                        {
-                            LOGC(aiLoggingEnabled(self), "debug_ai", "ai::OnTriggerVolumeEntered(" + volumeName + ") Player breacher is a threat (faction neutral, I am aggressive)");
+                        } else if (
+                            (factionStatus == factions.STATUS_NEUTRAL) &&
+                            aiIsAggressive(self)
+                        ) {
+                            LOGC(
+                                aiLoggingEnabled(self),
+                                "debug_ai",
+                                "ai::OnTriggerVolumeEntered(" +
+                                    volumeName +
+                                    ") Player breacher is a threat (faction neutral, I am aggressive)"
+                            );
                             aggro = true;
-                        }
-                        else if (pvpGetAlignedFaction(self) != 0)
-                        {
-                            LOGC(aiLoggingEnabled(self), "debug_ai", "ai::OnTriggerVolumeEntered(" + volumeName + ") Player breacher is a NOT currently a threat (but could be with faction alignment change)");
+                        } else if (pvpGetAlignedFaction(self) != 0) {
+                            LOGC(
+                                aiLoggingEnabled(self),
+                                "debug_ai",
+                                "ai::OnTriggerVolumeEntered(" +
+                                    volumeName +
+                                    ") Player breacher is a NOT currently a threat (but could be with faction alignment change)"
+                            );
                             aggro = true;
+                        } else {
+                            LOGC(
+                                aiLoggingEnabled(self),
+                                "debug_ai",
+                                "ai::OnTriggerVolumeEntered(" +
+                                    volumeName +
+                                    ") Player breacher is a NOT a threat"
+                            );
                         }
-                        else
-                        {
-                            LOGC(aiLoggingEnabled(self), "debug_ai", "ai::OnTriggerVolumeEntered(" + volumeName + ") Player breacher is a NOT a threat");
-                        }
-                    }
-                    else
-                    {
-                        if (aiIsGuard(self))
-                        {
-                            final String breacherFaction = factions.getFaction(breacher);
-                            if ((breacherFaction != null) && (breacherFaction.equals("townsperson") || breacherFaction.equals("ImperialCitizen") || breacherFaction.equals("RebelCitizen")))
-                            {
-                                LOGC(aiLoggingEnabled(self), "debug_ai", "ai::OnTriggerVolumeEntered(" + volumeName + ") guard: AI breacher is a NOT a threat (townsperson)");
-                            }
-                            else
-                            {
-                                if (ai_lib.isSameSocialGroup(self, breacher))
-                                {
-                                    LOGC(aiLoggingEnabled(self), "debug_ai", "ai::OnTriggerVolumeEntered(" + volumeName + ") guard: AI breacher is NOT a threat (same social group)");
-                                }
-                                else if (pet_lib.isPet(breacher) || beast_lib.isBeast(breacher))
-                                {
-                                    LOGC(aiLoggingEnabled(self), "debug_ai", "ai::OnTriggerVolumeEntered(" + volumeName + ") guard: AI breacher is NOT a threat (pet)");
-                                }
-                                else
-                                {
-                                    if (ai_lib.isAnimal(breacher))
-                                    {
-                                        String creatureType = getStringObjVar(self, "creature_type");
-                                        if (creatureType.startsWith("gcw_city"))
-                                        {
-                                            LOGC(aiLoggingEnabled(self), "debug_ai", "ai::OnTriggerVolumeEntered(" + volumeName + ") guard: AI breacher is NOT a threat 										(gcw_city_invasion npc)");
-                                        }
-                                        else
-                                        {
-                                            LOGC(aiLoggingEnabled(self), "debug_ai", "ai::OnTriggerVolumeEntered(" + volumeName + ") guard: AI breacher is a threat (animal)");
+                    } else {
+                        if (aiIsGuard(self)) {
+                            final String breacherFaction = factions.getFaction(
+                                breacher
+                            );
+                            if (
+                                (breacherFaction != null) &&
+                                (breacherFaction.equals("townsperson") ||
+                                    breacherFaction.equals("ImperialCitizen") ||
+                                    breacherFaction.equals("RebelCitizen"))
+                            ) {
+                                LOGC(
+                                    aiLoggingEnabled(self),
+                                    "debug_ai",
+                                    "ai::OnTriggerVolumeEntered(" +
+                                        volumeName +
+                                        ") guard: AI breacher is a NOT a threat (townsperson)"
+                                );
+                            } else {
+                                if (ai_lib.isSameSocialGroup(self, breacher)) {
+                                    LOGC(
+                                        aiLoggingEnabled(self),
+                                        "debug_ai",
+                                        "ai::OnTriggerVolumeEntered(" +
+                                            volumeName +
+                                            ") guard: AI breacher is NOT a threat (same social group)"
+                                    );
+                                } else if (
+                                    pet_lib.isPet(breacher) ||
+                                    beast_lib.isBeast(breacher)
+                                ) {
+                                    LOGC(
+                                        aiLoggingEnabled(self),
+                                        "debug_ai",
+                                        "ai::OnTriggerVolumeEntered(" +
+                                            volumeName +
+                                            ") guard: AI breacher is NOT a threat (pet)"
+                                    );
+                                } else {
+                                    if (ai_lib.isAnimal(breacher)) {
+                                        String creatureType = getStringObjVar(
+                                            self,
+                                            "creature_type"
+                                        );
+                                        if (
+                                            creatureType.startsWith("gcw_city")
+                                        ) {
+                                            LOGC(
+                                                aiLoggingEnabled(self),
+                                                "debug_ai",
+                                                "ai::OnTriggerVolumeEntered(" +
+                                                    volumeName +
+                                                    ") guard: AI breacher is NOT a threat 										(gcw_city_invasion npc)"
+                                            );
+                                        } else {
+                                            LOGC(
+                                                aiLoggingEnabled(self),
+                                                "debug_ai",
+                                                "ai::OnTriggerVolumeEntered(" +
+                                                    volumeName +
+                                                    ") guard: AI breacher is a threat (animal)"
+                                            );
                                             aggro = true;
                                         }
-                                    }
-                                    else if (factions.getFactionStatus(self, breacher) == factions.STATUS_ENEMY)
-                                    {
-                                        LOGC(aiLoggingEnabled(self), "debug_ai", "ai::OnTriggerVolumeEntered(" + volumeName + ") guard: AI breacher is a threat (factional enemy)");
+                                    } else if (
+                                        factions.getFactionStatus(
+                                            self,
+                                            breacher
+                                        ) ==
+                                        factions.STATUS_ENEMY
+                                    ) {
+                                        LOGC(
+                                            aiLoggingEnabled(self),
+                                            "debug_ai",
+                                            "ai::OnTriggerVolumeEntered(" +
+                                                volumeName +
+                                                ") guard: AI breacher is a threat (factional enemy)"
+                                        );
                                         aggro = true;
-                                    }
-                                    else if (hasAttributeAttained(breacher, attrib.THUG))
-                                    {
-                                        LOGC(aiLoggingEnabled(self), "debug_ai", "ai::OnTriggerVolumeEntered(" + volumeName + ") guard: AI breacher is a threat (thug)");
+                                    } else if (
+                                        hasAttributeAttained(
+                                            breacher,
+                                            attrib.THUG
+                                        )
+                                    ) {
+                                        LOGC(
+                                            aiLoggingEnabled(self),
+                                            "debug_ai",
+                                            "ai::OnTriggerVolumeEntered(" +
+                                                volumeName +
+                                                ") guard: AI breacher is a threat (thug)"
+                                        );
                                         aggro = true;
-                                    }
-                                    else
-                                    {
-                                        LOGC(aiLoggingEnabled(self), "debug_ai", "ai::OnTriggerVolumeEntered(" + volumeName + ") guard: AI breacher is NOT a threat");
+                                    } else {
+                                        LOGC(
+                                            aiLoggingEnabled(self),
+                                            "debug_ai",
+                                            "ai::OnTriggerVolumeEntered(" +
+                                                volumeName +
+                                                ") guard: AI breacher is NOT a threat"
+                                        );
                                     }
                                 }
                             }
-                        }
-                        else
-                        {
-                            if (ai_lib.isSameSocialGroup(self, breacher))
-                            {
-                                LOGC(aiLoggingEnabled(self), "debug_ai", "ai::OnTriggerVolumeEntered(" + volumeName + ") AI breacher is NOT a threat (same social group)");
-                            }
-                            else
-                            {
-                                final int factionStatus = factions.getFactionStatus(self, breacher);
-                                if (factionStatus == factions.STATUS_ENEMY)
-                                {
-                                    LOGC(aiLoggingEnabled(self), "debug_ai", "ai::OnTriggerVolumeEntered(" + volumeName + ") AI breacher is a threat (factional enemy)");
+                        } else {
+                            if (ai_lib.isSameSocialGroup(self, breacher)) {
+                                LOGC(
+                                    aiLoggingEnabled(self),
+                                    "debug_ai",
+                                    "ai::OnTriggerVolumeEntered(" +
+                                        volumeName +
+                                        ") AI breacher is NOT a threat (same social group)"
+                                );
+                            } else {
+                                final int factionStatus =
+                                    factions.getFactionStatus(self, breacher);
+                                if (factionStatus == factions.STATUS_ENEMY) {
+                                    LOGC(
+                                        aiLoggingEnabled(self),
+                                        "debug_ai",
+                                        "ai::OnTriggerVolumeEntered(" +
+                                            volumeName +
+                                            ") AI breacher is a threat (factional enemy)"
+                                    );
                                     aggro = true;
-                                }
-                                else
-                                {
-                                    LOGC(aiLoggingEnabled(self), "debug_ai", "ai::OnTriggerVolumeEntered(" + volumeName + ") AI breacher is NOT a threat");
+                                } else {
+                                    LOGC(
+                                        aiLoggingEnabled(self),
+                                        "debug_ai",
+                                        "ai::OnTriggerVolumeEntered(" +
+                                            volumeName +
+                                            ") AI breacher is NOT a threat"
+                                    );
                                 }
                             }
                         }
                     }
                 }
-                if (hasObjVar(self, "storytellerid"))
-                {
-                    if (!utils.hasScriptVar(breacher, "storytellerid"))
-                    {
-                        LOGC(aiLoggingEnabled(self), "debug_ai", "ai::OnTriggerVolumeEntered(" + volumeName + ") Player breacher is a NOT a member of my Story");
+                if (hasObjVar(self, "storytellerid")) {
+                    if (!utils.hasScriptVar(breacher, "storytellerid")) {
+                        LOGC(
+                            aiLoggingEnabled(self),
+                            "debug_ai",
+                            "ai::OnTriggerVolumeEntered(" +
+                                volumeName +
+                                ") Player breacher is a NOT a member of my Story"
+                        );
                         aggro = false;
-                    }
-                    else
-                    {
-                        if (getObjIdObjVar(self, "storytellerid") != utils.getObjIdScriptVar(breacher, "storytellerid"))
-                        {
-                            LOGC(aiLoggingEnabled(self), "debug_ai", "ai::OnTriggerVolumeEntered(" + volumeName + ") Player breacher is a NOT a member of my Story (but he is a member of another Story)");
+                    } else {
+                        if (
+                            getObjIdObjVar(self, "storytellerid") !=
+                            utils.getObjIdScriptVar(breacher, "storytellerid")
+                        ) {
+                            LOGC(
+                                aiLoggingEnabled(self),
+                                "debug_ai",
+                                "ai::OnTriggerVolumeEntered(" +
+                                    volumeName +
+                                    ") Player breacher is a NOT a member of my Story (but he is a member of another Story)"
+                            );
                             aggro = false;
                         }
                     }
                 }
-                if (aggro)
-                {
-                    addTriggerVolumeEventSource(ai_lib.AGGRO_VOLUME_NAME, breacher);
+                if (aggro) {
+                    addTriggerVolumeEventSource(
+                        ai_lib.AGGRO_VOLUME_NAME,
+                        breacher
+                    );
                 }
             }
-        }
-        else if (volumeName.equals(ai_lib.AGGRO_VOLUME_NAME))
-        {
-            if (!isPlayer(breacher))
-            {
+        } else if (volumeName.equals(ai_lib.AGGRO_VOLUME_NAME)) {
+            if (!isPlayer(breacher)) {
                 ai_aggro.requestAggroCheck(breacher);
-            }
-            else
-            {
-                if (!scout.isScentMasked(breacher, self))
-                {
-                    if (isIncapacitated(breacher))
-                    {
-                        LOGC(aiLoggingEnabled(self), "debug_ai", "ai::requestSawRecapacitation() self(" + self + ":" + getName(self) + ") breacher(" + breacher + ":" + getName(breacher) + ") Listening for breacher recapacitation");
+            } else {
+                if (!scout.isScentMasked(breacher, self)) {
+                    if (isIncapacitated(breacher)) {
+                        LOGC(
+                            aiLoggingEnabled(self),
+                            "debug_ai",
+                            "ai::requestSawRecapacitation() self(" +
+                                self +
+                                ":" +
+                                getName(self) +
+                                ") breacher(" +
+                                breacher +
+                                ":" +
+                                getName(breacher) +
+                                ") Listening for breacher recapacitation"
+                        );
                         listenToMessage(breacher, "handleSawRecapacitation");
                     }
                     ai_aggro.requestAggroCheck(breacher);
@@ -578,145 +871,238 @@ public class ai extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int OnTriggerVolumeExited(obj_id self, String volumeName, obj_id breacher) throws InterruptedException
-    {
-        LOGC(aiLoggingEnabled(self), "debug_ai", "ai::OnTriggerVolumeExited(" + volumeName + ") self(" + self + ":" + getName(self) + ") radius(" + getTriggerVolumeRadius(self, volumeName) + ") breacher(" + breacher + ":" + getName(breacher) + ")");
-        if (utils.hasScriptVar(self, "petBeingInitialized"))
-        {
+    public int OnTriggerVolumeExited(
+        obj_id self,
+        String volumeName,
+        obj_id breacher
+    ) throws InterruptedException {
+        LOGC(
+            aiLoggingEnabled(self),
+            "debug_ai",
+            "ai::OnTriggerVolumeExited(" +
+                volumeName +
+                ") self(" +
+                self +
+                ":" +
+                getName(self) +
+                ") radius(" +
+                getTriggerVolumeRadius(self, volumeName) +
+                ") breacher(" +
+                breacher +
+                ":" +
+                getName(breacher) +
+                ")"
+        );
+        if (utils.hasScriptVar(self, "petBeingInitialized")) {
             return SCRIPT_CONTINUE;
         }
-        if (volumeName.equals(ai_lib.ALERT_VOLUME_NAME))
-        {
-            if (isPlayer(breacher) && !ai_lib.isMonster(self))
-            {
+        if (volumeName.equals(ai_lib.ALERT_VOLUME_NAME)) {
+            if (isPlayer(breacher) && !ai_lib.isMonster(self)) {
                 ai_lib.dismiss(self, breacher);
             }
             removeTriggerVolumeEventSource(ai_lib.AGGRO_VOLUME_NAME, breacher);
-            if (hasScript(self, "systems.missions.dynamic.mission_bounty_target"))
-            {
+            if (
+                hasScript(
+                    self,
+                    "systems.missions.dynamic.mission_bounty_target"
+                )
+            ) {
                 obj_id objHunter = getObjIdObjVar(self, "objHunter");
-                if (!isIdValid(objHunter) || objHunter != breacher)
-                {
+                if (!isIdValid(objHunter) || objHunter != breacher) {
                     pvpRemovePersonalEnemyFlags(self, breacher);
                 }
-            }
-            else
-            {
+            } else {
                 pvpRemovePersonalEnemyFlags(self, breacher);
             }
-        }
-        else if (volumeName.equals(ai_lib.AGGRO_VOLUME_NAME))
-        {
-            if (isPlayer(breacher))
-            {
-                LOGC(aiLoggingEnabled(self), "debug_ai", "ai::requestSawRecapacitation() self(" + self + ":" + getName(self) + ") breacher(" + breacher + ":" + getName(breacher) + ") Stop listening for breacher recapacitation");
+        } else if (volumeName.equals(ai_lib.AGGRO_VOLUME_NAME)) {
+            if (isPlayer(breacher)) {
+                LOGC(
+                    aiLoggingEnabled(self),
+                    "debug_ai",
+                    "ai::requestSawRecapacitation() self(" +
+                        self +
+                        ":" +
+                        getName(self) +
+                        ") breacher(" +
+                        breacher +
+                        ":" +
+                        getName(breacher) +
+                        ") Stop listening for breacher recapacitation"
+                );
                 stopListeningToMessage(breacher, "handleSawRecapacitation");
             }
         }
         return SCRIPT_CONTINUE;
     }
 
-    public int OnLoiterWaiting(obj_id self, modifiable_float time) throws InterruptedException
-    {
-        if (ai_lib.isHerdingCreature(self))
-        {
+    public int OnLoiterWaiting(obj_id self, modifiable_float time)
+        throws InterruptedException {
+        if (ai_lib.isHerdingCreature(self)) {
             ai_lib.doAction(self, "eat");
         }
         return SCRIPT_CONTINUE;
     }
 
-    public boolean isThreat(obj_id npc, obj_id breacher) throws InterruptedException
-    {
-        if (hasObjVar(breacher, "gm"))
-        {
-            LOGC(aiLoggingEnabled(npc), "debug_ai", "ai::isThreat() npc(" + npc + ") breacher(" + breacher + ") breacher is a gm");
+    public boolean isThreat(obj_id npc, obj_id breacher)
+        throws InterruptedException {
+        if (hasObjVar(breacher, "gm")) {
+            LOGC(
+                aiLoggingEnabled(npc),
+                "debug_ai",
+                "ai::isThreat() npc(" +
+                    npc +
+                    ") breacher(" +
+                    breacher +
+                    ") breacher is a gm"
+            );
             return false;
         }
-        if (!isValidId(breacher))
-        {
-            LOGC(aiLoggingEnabled(npc), "debug_ai", "ai::isThreat() npc(" + npc + ") breacher(" + breacher + ") invalid breacher id");
+        if (!isValidId(breacher)) {
+            LOGC(
+                aiLoggingEnabled(npc),
+                "debug_ai",
+                "ai::isThreat() npc(" +
+                    npc +
+                    ") breacher(" +
+                    breacher +
+                    ") invalid breacher id"
+            );
             return false;
         }
-        if (!isMob(breacher))
-        {
-            LOGC(aiLoggingEnabled(npc), "debug_ai", "ai::isThreat() npc(" + npc + ") breacher(" + breacher + ") breacher is not a mob");
+        if (!isMob(breacher)) {
+            LOGC(
+                aiLoggingEnabled(npc),
+                "debug_ai",
+                "ai::isThreat() npc(" +
+                    npc +
+                    ") breacher(" +
+                    breacher +
+                    ") breacher is not a mob"
+            );
             return false;
         }
-        if (ai_lib.isAiDead(npc))
-        {
-            LOGC(aiLoggingEnabled(npc), "debug_ai", "ai::isThreat() npc(" + npc + ") breacher(" + breacher + ") npc is dead");
+        if (ai_lib.isAiDead(npc)) {
+            LOGC(
+                aiLoggingEnabled(npc),
+                "debug_ai",
+                "ai::isThreat() npc(" +
+                    npc +
+                    ") breacher(" +
+                    breacher +
+                    ") npc is dead"
+            );
             return false;
         }
-        if (!isPlayer(breacher) && ai_lib.isAiDead(breacher))
-        {
-            LOGC(aiLoggingEnabled(npc), "debug_ai", "ai::isThreat() npc(" + npc + ") breacher(" + breacher + ") breacher is dead ai");
+        if (!isPlayer(breacher) && ai_lib.isAiDead(breacher)) {
+            LOGC(
+                aiLoggingEnabled(npc),
+                "debug_ai",
+                "ai::isThreat() npc(" +
+                    npc +
+                    ") breacher(" +
+                    breacher +
+                    ") breacher is dead ai"
+            );
             return false;
         }
-        if (isInvulnerable(npc))
-        {
-            LOGC(aiLoggingEnabled(npc), "debug_ai", "ai::isThreat() npc(" + npc + ") breacher(" + breacher + ") npc is invulnerable");
+        if (isInvulnerable(npc)) {
+            LOGC(
+                aiLoggingEnabled(npc),
+                "debug_ai",
+                "ai::isThreat() npc(" +
+                    npc +
+                    ") breacher(" +
+                    breacher +
+                    ") npc is invulnerable"
+            );
             return false;
         }
-        if (isInvulnerable(breacher))
-        {
-            LOGC(aiLoggingEnabled(npc), "debug_ai", "ai::isThreat() npc(" + npc + ") breacher(" + breacher + ") breacher is invulnerable");
+        if (isInvulnerable(breacher)) {
+            LOGC(
+                aiLoggingEnabled(npc),
+                "debug_ai",
+                "ai::isThreat() npc(" +
+                    npc +
+                    ") breacher(" +
+                    breacher +
+                    ") breacher is invulnerable"
+            );
             return false;
         }
-        if (!pvpCanAttack(npc, breacher))
-        {
-            LOGC(aiLoggingEnabled(npc), "debug_ai", "ai::isThreat() !pvpCanAttack - npc(" + npc + ":" + getName(npc) + ") npcPvpType(" + pvpGetType(npc) + ") npcPvpAlignedFaction(" + pvpGetAlignedFaction(npc) + ") breacher(" + breacher + ":" + getName(breacher) + ") breacherPvpType(" + pvpGetType(breacher) + ") breacherPvpAlignedFaction(" + pvpGetAlignedFaction(breacher) + ")");
+        if (!pvpCanAttack(npc, breacher)) {
+            LOGC(
+                aiLoggingEnabled(npc),
+                "debug_ai",
+                "ai::isThreat() !pvpCanAttack - npc(" +
+                    npc +
+                    ":" +
+                    getName(npc) +
+                    ") npcPvpType(" +
+                    pvpGetType(npc) +
+                    ") npcPvpAlignedFaction(" +
+                    pvpGetAlignedFaction(npc) +
+                    ") breacher(" +
+                    breacher +
+                    ":" +
+                    getName(breacher) +
+                    ") breacherPvpType(" +
+                    pvpGetType(breacher) +
+                    ") breacherPvpAlignedFaction(" +
+                    pvpGetAlignedFaction(breacher) +
+                    ")"
+            );
             return false;
         }
         obj_id master = getMaster(breacher);
-        if (isIdValid(master) && exists(master))
-        {
-            LOGC(aiLoggingEnabled(npc), "debug_ai", "ai::isThreat() npc(" + npc + ") breacher(" + breacher + ") breacher is a pet/beast with a master");
+        if (isIdValid(master) && exists(master)) {
+            LOGC(
+                aiLoggingEnabled(npc),
+                "debug_ai",
+                "ai::isThreat() npc(" +
+                    npc +
+                    ") breacher(" +
+                    breacher +
+                    ") breacher is a pet/beast with a master"
+            );
             return false;
         }
-        return (ai_lib.isAggroToward(npc, breacher) || ai_lib.isAggroToward(breacher, npc));
+        return (
+            ai_lib.isAggroToward(npc, breacher) ||
+            ai_lib.isAggroToward(breacher, npc)
+        );
     }
 
-    public void goAlert(obj_id npc) throws InterruptedException
-    {
-        if (ai_lib.isAiDead(npc))
-        {
+    public void goAlert(obj_id npc) throws InterruptedException {
+        if (ai_lib.isAiDead(npc)) {
             return;
         }
-        if (ai_lib.isInCombat(npc))
-        {
+        if (ai_lib.isInCombat(npc)) {
             return;
         }
-        if (!hasObjVar(npc, "ai.pathingAwayFrom"))
-        {
+        if (!hasObjVar(npc, "ai.pathingAwayFrom")) {
             stop(npc);
         }
         ai_lib.doAction(npc, ai_lib.ACTION_ALERT);
         ai_lib.setMood(npc, ai_lib.MOOD_NERVOUS);
         obj_id threat = getObjIdObjVar(npc, "ai.threat");
-        if (isIdValid(threat))
-        {
+        if (isIdValid(threat)) {
             //debugSpeakMsg(npc, "FEAR 7");
             addToMentalStateToward(npc, threat, FEAR, -5.0f);
         }
     }
 
-    public void goThreaten(obj_id npc) throws InterruptedException
-    {
-        if (ai_lib.isAiDead(npc))
-        {
+    public void goThreaten(obj_id npc) throws InterruptedException {
+        if (ai_lib.isAiDead(npc)) {
             return;
         }
-        if (ai_lib.isInCombat(npc))
-        {
+        if (ai_lib.isInCombat(npc)) {
             return;
         }
         obj_id threat = getObjIdObjVar(npc, "ai.threat");
-        if (!isIdValid(threat))
-        {
+        if (!isIdValid(threat)) {
             return;
         }
-        if (hasObjVar(threat, "gm"))
-        {
+        if (hasObjVar(threat, "gm")) {
             return;
         }
         stop(npc);
@@ -724,401 +1110,469 @@ public class ai extends script.base_script
         ai_lib.doThreatenAnimation(npc);
         //debugSpeakMsg(npc, "FEAR 8");
         addToMentalStateToward(npc, threat, FEAR, -5.0f);
-        if (!isPlayer(threat))
-        {
+        if (!isPlayer(threat)) {
             //debugSpeakMsg(threat, "FEAR 9");
             addToMentalStateToward(threat, npc, FEAR, 10.0f);
         }
         ai_lib.setMood(npc, ai_lib.MOOD_NERVOUS);
     }
 
-    public int OnBehaviorChange(obj_id self, int newBehavior, int oldBehavior, int[] changeFlags) throws InterruptedException
-    {
+    public int OnBehaviorChange(
+        obj_id self,
+        int newBehavior,
+        int oldBehavior,
+        int[] changeFlags
+    ) throws InterruptedException {
         return SCRIPT_CONTINUE;
     }
 
-    public int handleSetDefaultBehavior(obj_id self, dictionary params) throws InterruptedException
-    {
+    public int handleSetDefaultBehavior(obj_id self, dictionary params)
+        throws InterruptedException {
         doDefaultCalmBehavior(self);
         return SCRIPT_CONTINUE;
     }
 
-    public int OnGetAttributes(obj_id self, obj_id player, String[] names, String[] attribs) throws InterruptedException
-    {
+    public int OnGetAttributes(
+        obj_id self,
+        obj_id player,
+        String[] names,
+        String[] attribs
+    ) throws InterruptedException {
         int idx = utils.getValidAttributeIndex(names);
-        if (idx == -1)
-        {
+        if (idx == -1) {
             blog("idx was negative 1");
             return SCRIPT_CONTINUE;
         }
         String milkType = ai_lib.getMilkType(self);
-        if (milkType != null && ai_lib.isMonster(self) && !beast_lib.isBeast(self))
-        {
+        if (
+            milkType != null &&
+            ai_lib.isMonster(self) &&
+            !beast_lib.isBeast(self)
+        ) {
             names[idx] = "got_milk";
-            string_id strIdMilkType = new string_id("resource/resource_names", milkType);
+            string_id strIdMilkType = new string_id(
+                "resource/resource_names",
+                milkType
+            );
             attribs[idx] = utils.packStringId(strIdMilkType);
             idx++;
         }
         final String creatureName = getCreatureName(self);
-        if (creatureName == null)
-        {
+        if (creatureName == null) {
             return SCRIPT_CONTINUE;
         }
-        if (!hasScript(self, "systems.city.city_actor") && !hasScript(self, "ai.pet") && !hasScript(self, "ai.beast"))
-        {
+        if (
+            !hasScript(self, "systems.city.city_actor") &&
+            !hasScript(self, "ai.pet") &&
+            !hasScript(self, "ai.beast")
+        ) {
             names[idx] = utils.packStringId(new string_id("Loot"));
             String table = getLootTableNames(self);
-            if (table == null)
-            {
+            if (table == null) {
                 table = "N/A";
             }
             attribs[idx] = table;
             idx++;
         }
 
-        dictionary creatureKnowledge = beast_lib.getBeastMasterExamineInfo(player, self, names, attribs, idx);
+        dictionary creatureKnowledge = beast_lib.getBeastMasterExamineInfo(
+            player,
+            self,
+            names,
+            attribs,
+            idx
+        );
         names = creatureKnowledge.getStringArray("names");
         attribs = creatureKnowledge.getStringArray("attribs");
         idx = creatureKnowledge.getInt("idx");
         return SCRIPT_CONTINUE;
     }
 
-    public String getLootTableNames(obj_id self)
-    {
-        if (!hasObjVar(self, "loot.lootTable"))
-        {
+    public String getLootTableNames(obj_id self) {
+        if (!hasObjVar(self, "loot.lootTable")) {
             return "None";
         }
 
         String currentGroups = getStringObjVar(self, "loot.lootTable");
-        if (currentGroups == null || currentGroups.isEmpty())
-        {
+        if (currentGroups == null || currentGroups.isEmpty()) {
             return "None";
         }
 
         String[] lootGroups = split(currentGroups, ',');
         String[] lootGroupNames = new String[lootGroups.length];
 
-        for (int i = 0; i < lootGroups.length; i++)
-        {
-            lootGroupNames[i] = dataTableGetString("datatables/adhoc/loot_tables.iff", lootGroups[i], "NAME");
+        for (int i = 0; i < lootGroups.length; i++) {
+            lootGroupNames[i] = dataTableGetString(
+                "datatables/adhoc/loot_tables.iff",
+                lootGroups[i],
+                "NAME"
+            );
         }
 
         return "\n" + String.join(", ", lootGroupNames);
     }
 
-    public int snareEffectOff(obj_id self, dictionary params) throws InterruptedException
-    {
-        showFlyText(self, new string_id("combat_effects", "no_snare"), 1.0f, colors.TOMATO);
+    public int snareEffectOff(obj_id self, dictionary params)
+        throws InterruptedException {
+        showFlyText(
+            self,
+            new string_id("combat_effects", "no_snare"),
+            1.0f,
+            colors.TOMATO
+        );
         return SCRIPT_CONTINUE;
     }
 
-    public int OnDefenderCombatAction(obj_id self, obj_id attacker, obj_id weapon, int combatResult) throws InterruptedException
-    {
-        if (ai_lib.isAiDead(self) || isInvulnerable(self))
-        {
+    public int OnDefenderCombatAction(
+        obj_id self,
+        obj_id attacker,
+        obj_id weapon,
+        int combatResult
+    ) throws InterruptedException {
+        if (ai_lib.isAiDead(self) || isInvulnerable(self)) {
             return SCRIPT_OVERRIDE;
         }
-        if (combatResult == COMBAT_RESULT_HIT)
-        {
+        if (combatResult == COMBAT_RESULT_HIT) {
             chat.setAngryMood(self);
             ai_lib.barkString(self, "hit");
         }
         return SCRIPT_CONTINUE;
     }
 
-    public int OnSawEmote(obj_id self, obj_id performer, String emote) throws Exception
-    {
+    public int OnSawEmote(obj_id self, obj_id performer, String emote)
+        throws Exception {
         boolean enableSlapDamage = false;
         String[] EMOTE_PET_HUMANOID_RESPONSES = {
-                "I don't like that.",
-                "Please don't touch me.",
-                "In some places we'd be betrothed.",
-                "Ew, your ugly."
+            "I don't like that.",
+            "Please don't touch me.",
+            "In some places we'd be betrothed.",
+            "Ew, your ugly.",
         };
         String[] EMOTE_SLAP_HUMANOID_RESPONSES = {
-                "Ow!",
-                "Please have mercy!",
-                "Ouch!",
-                "-winces in pain-"
+            "Ow!",
+            "Please have mercy!",
+            "Ouch!",
+            "-winces in pain-",
         };
         String[] EMOTE_BMOC_HUMANOID_RESPONSES = {
-                "You picked the wrong one!",
-                "Wanna tussle!?",
-                "Bring it on!",
-                "I am stronger than you!"
+            "You picked the wrong one!",
+            "Wanna tussle!?",
+            "Bring it on!",
+            "I am stronger than you!",
         };
         String[] EMOTE_DANCE_HUMANOID_FEMALE_RESPONSES = {
-                "I love this dance.",
-                "Are you trying to seduce me?",
-                "Feel the vibes.",
-                "Ok, if you say so.."
+            "I love this dance.",
+            "Are you trying to seduce me?",
+            "Feel the vibes.",
+            "Ok, if you say so..",
         };
         String[] EMOTE_DANCE_HUMANOID_MALE_RESPONSES = {
-                "Get outta here!",
-                "What...",
-                "Gross! I'll get cooties!",
-                "Alright... alright.. calm down.",
-                "I'm not that kind of person!!!!",
-                "I respect the vibes, but I don't dance, cretin.",
+            "Get outta here!",
+            "What...",
+            "Gross! I'll get cooties!",
+            "Alright... alright.. calm down.",
+            "I'm not that kind of person!!!!",
+            "I respect the vibes, but I don't dance, cretin.",
         };
         String[] EMOTE_WORSHIP_HUMANOID_RESPONSES = {
-                "That's right. I am superior.",
-                "Have you donated to my righteous cause yet?",
-                "You have been blessed, my child!",
-                "Uuh, what are you doing?"
+            "That's right. I am superior.",
+            "Have you donated to my righteous cause yet?",
+            "You have been blessed, my child!",
+            "Uuh, what are you doing?",
         };
-        if (ai_lib.isAiDead(self))
-        {
+        if (ai_lib.isAiDead(self)) {
             return SCRIPT_CONTINUE;
         }
-        if (ai_lib.isInCombat(self))
-        {
+        if (ai_lib.isInCombat(self)) {
             return SCRIPT_CONTINUE;
         }
-        if (ai_lib.isInCombat(performer))
-        {
+        if (ai_lib.isInCombat(performer)) {
             return SCRIPT_CONTINUE;
         }
-        if (pet_lib.isPet(self) || beast_lib.isBeast(self))
-        {
+        if (pet_lib.isPet(self) || beast_lib.isBeast(self)) {
             return SCRIPT_CONTINUE;
         }
-        if (emote.startsWith("pet"))
-        {
-            if (!ai_lib.isHumanoid(self))
-            {
+        if (emote.startsWith("pet")) {
+            if (!ai_lib.isHumanoid(self)) {
                 showFlyText(self, new string_id("<3"), 1.0f, colors.DEEPPINK);
-            }
-            else
-            {
+            } else {
                 chat.chat(self, getRandomArray(EMOTE_PET_HUMANOID_RESPONSES));
                 doAnimationAction(self, anims.HUMAN_EMT_THREATEN);
             }
             return SCRIPT_CONTINUE;
-        }
-        else if (emote.startsWith("summon") || emote.startsWith("beckon"))
-        {
+        } else if (emote.startsWith("summon") || emote.startsWith("beckon")) {
             showFlyText(self, new string_id("- ! -"), 12.0f, colors.WHITE);
             ai_lib.follow(self, performer, 1.0f, 12.0f);
             return SCRIPT_CONTINUE;
-        }
-        else if (emote.startsWith("halt"))
-        {
+        } else if (emote.startsWith("halt")) {
             showFlyText(self, new string_id("!!!"), 12.0f, colors.WHITE);
             ai.stop(self);
             stopCombat(self);
             return SCRIPT_CONTINUE;
-        }
-        else if (emote.startsWith("shoo") || emote.startsWith("dismiss"))
-        {
+        } else if (emote.startsWith("shoo") || emote.startsWith("dismiss")) {
             showFlyText(self, new string_id("- ! -"), 12.0f, colors.RED);
             ai_lib.aiStopFollowing(self);
             ai_lib.wander(self);
             return SCRIPT_CONTINUE;
-        }
-        else if (emote.startsWith("slap") || emote.startsWith("backhand"))
-        {
-            if (ai_lib.isHumanoid(self) && getCondition(self) != CONDITION_CONVERSABLE)
-            {
+        } else if (emote.startsWith("slap") || emote.startsWith("backhand")) {
+            if (
+                ai_lib.isHumanoid(self) &&
+                getCondition(self) != CONDITION_CONVERSABLE
+            ) {
                 chat.chat(self, getRandomArray(EMOTE_SLAP_HUMANOID_RESPONSES));
-                if (enableSlapDamage)
-                {
+                if (enableSlapDamage) {
                     int damage = rand(256, 1024);
                     int health = getAttrib(self, HEALTH);
                     int newHealth = health - damage;
-                    if (newHealth < 0)
-                    {
+                    if (newHealth < 0) {
                         newHealth = 0;
                     }
                     setAttrib(self, HEALTH, newHealth);
+                } else {
+                    doAnimationAction(
+                        self,
+                        anims.PLAYER_GET_HIT_HEAVY_BACKWARD
+                    );
                 }
-                else
-                {
-                    doAnimationAction(self, anims.PLAYER_GET_HIT_HEAVY_BACKWARD);
-                }
-            }
-            else
-            {
-                showFlyText(self, new string_id("Ouch!"), 1.0f, colors.DEEPPINK);
+            } else {
+                showFlyText(
+                    self,
+                    new string_id("Ouch!"),
+                    1.0f,
+                    colors.DEEPPINK
+                );
             }
             return SCRIPT_CONTINUE;
-        }
-        else if (emote.startsWith("bmoc"))
-        {
-            if (ai_lib.isHumanoid(self) && getCondition(self) != CONDITION_CONVERSABLE)
-            {
+        } else if (emote.startsWith("bmoc")) {
+            if (
+                ai_lib.isHumanoid(self) &&
+                getCondition(self) != CONDITION_CONVERSABLE
+            ) {
                 chat.chat(self, getRandomArray(EMOTE_BMOC_HUMANOID_RESPONSES));
-            }
-            else
-            {
+            } else {
                 showFlyText(self, new string_id("!"), 1.0f, colors.DEEPPINK);
             }
             return SCRIPT_CONTINUE;
-
-        }
-        else if (emote.startsWith("dance"))
-        {
-            if (ai_lib.isHumanoid(self) && getCondition(self) != CONDITION_CONVERSABLE)
-            {
-                if (getGender(self) == GENDER_FEMALE)
-                {
+        } else if (emote.startsWith("dance")) {
+            if (
+                ai_lib.isHumanoid(self) &&
+                getCondition(self) != CONDITION_CONVERSABLE
+            ) {
+                if (getGender(self) == GENDER_FEMALE) {
                     ai_lib.setMood(self, "themepark_oola");
                     ai_lib.setDefaultCalmMood(self, "themepark_oola");
                     setAnimationMood(self, "themepark_oola");
-                    chat.chat(self, getRandomArray(EMOTE_DANCE_HUMANOID_FEMALE_RESPONSES));
+                    chat.chat(
+                        self,
+                        getRandomArray(EMOTE_DANCE_HUMANOID_FEMALE_RESPONSES)
+                    );
+                } else {
+                    chat.chat(
+                        self,
+                        getRandomArray(EMOTE_DANCE_HUMANOID_MALE_RESPONSES)
+                    );
                 }
-                else
-                {
-                    chat.chat(self, getRandomArray(EMOTE_DANCE_HUMANOID_MALE_RESPONSES));
-                }
-            }
-            else
-            {
+            } else {
                 chat.chat(self, "<This creature cannot dance with you.>");
             }
             return SCRIPT_CONTINUE;
-
-        }
-        else if (emote.startsWith("worship"))
-        {
-            if (ai_lib.isHumanoid(self) && getCondition(self) != CONDITION_CONVERSABLE)
-            {
-                chat.chat(self, getRandomArray(EMOTE_WORSHIP_HUMANOID_RESPONSES));
+        } else if (emote.startsWith("worship")) {
+            if (
+                ai_lib.isHumanoid(self) &&
+                getCondition(self) != CONDITION_CONVERSABLE
+            ) {
+                chat.chat(
+                    self,
+                    getRandomArray(EMOTE_WORSHIP_HUMANOID_RESPONSES)
+                );
                 int luckChance = rand(0, 99);
-                if (luckChance >= 50)
-                {
+                if (luckChance >= 50) {
                     float time = 60.0f * 60.0f;
                     float value = rand(50, 65);
                     // @Note: the previous value is equal to 60 minutes with a random pool of 50-65 value
                     buff.applyBuff(performer, "lckConsumable40", time, value);
                     broadcast(performer, "You have been blessed!");
+                } else {
+                    broadcast(
+                        performer,
+                        "Based on your deity, this creature has no interest in you."
+                    );
                 }
-                else
-                {
-                    broadcast(performer, "Based on your deity, this creature has no interest in you.");
-                }
-            }
-            else
-            {
+            } else {
                 chat.chat(self, "<This creature is not worth prophesizing.>");
             }
             return SCRIPT_CONTINUE;
-
         }
         return SCRIPT_CONTINUE;
     }
 
-    public int OnSawAttack(obj_id self, obj_id defender, obj_id[] attackers) throws InterruptedException
-    {
-        LOGC(aiLoggingEnabled(self), "debug_ai", "ai::OnSawAttack() self(" + self + ":" + getName(self) + ") defender (" + defender + ") attackers.length(" + attackers.length + ")");
-        if (beast_lib.isBeast(self))
-        {
+    public int OnSawAttack(obj_id self, obj_id defender, obj_id[] attackers)
+        throws InterruptedException {
+        LOGC(
+            aiLoggingEnabled(self),
+            "debug_ai",
+            "ai::OnSawAttack() self(" +
+                self +
+                ":" +
+                getName(self) +
+                ") defender (" +
+                defender +
+                ") attackers.length(" +
+                attackers.length +
+                ")"
+        );
+        if (beast_lib.isBeast(self)) {
             return SCRIPT_CONTINUE;
         }
-        if (defendLair(self, defender, attackers, false))
-        {
-            if (hasScript(self, "npc.converse.npc_convo"))
-            {
-                if (!isInNpcConversation(self) && !pet_lib.isPet(self) && !beast_lib.isBeast(self))
-                {
+        if (defendLair(self, defender, attackers, false)) {
+            if (hasScript(self, "npc.converse.npc_convo")) {
+                if (
+                    !isInNpcConversation(self) &&
+                    !pet_lib.isPet(self) &&
+                    !beast_lib.isBeast(self)
+                ) {
                     detachScript(self, "npc.converse.npc_convo");
                     clearCondition(self, CONDITION_CONVERSABLE);
                 }
             }
             //debugSpeakMsgc(aiLoggingEnabled(self), self, "lair defense");
-        }
-        else
-        {
-            if (pet_lib.isPet(self) && pet_lib.isGuarding(self, defender))
-            {
-                for (final obj_id attacker : attackers)
-                {
-                    if (isIdValid(attacker))
-                    {
+        } else {
+            if (pet_lib.isPet(self) && pet_lib.isGuarding(self, defender)) {
+                for (final obj_id attacker : attackers) {
+                    if (isIdValid(attacker)) {
                         startCombat(self, attacker);
-                        if (!ai_lib.isInCombat(self) && (defender == getMaster(self)))
-                        {
+                        if (
+                            !ai_lib.isInCombat(self) &&
+                            (defender == getMaster(self))
+                        ) {
                             ai_lib.barkString(self, "ally");
                         }
                     }
                 }
-            }
-            else if (aiIsGuard(self))
-            {
+            } else if (aiIsGuard(self)) {
                 boolean assistDefender = false;
                 final String defenderFaction = factions.getFaction(defender);
-                if (defenderFaction != null)
-                {
-                    if (defenderFaction.equals("townsperson") || defenderFaction.equals("ImperialCitizen") || defenderFaction.equals("RebelCitizen"))
-                    {
+                if (defenderFaction != null) {
+                    if (
+                        defenderFaction.equals("townsperson") ||
+                        defenderFaction.equals("ImperialCitizen") ||
+                        defenderFaction.equals("RebelCitizen")
+                    ) {
                         assistDefender = true;
                     }
                 }
-                if (!assistDefender && ai_lib.isSameSocialGroup(self, defender))
-                {
+                if (
+                    !assistDefender && ai_lib.isSameSocialGroup(self, defender)
+                ) {
                     assistDefender = true;
                 }
-                for (final obj_id attacker : attackers)
-                {
-                    if (isIdValid(attacker))
-                    {
-                        if (assistDefender || hasAttributeAttained(attacker, attrib.THUG) || (ai_lib.isMonster(attacker) && (!pet_lib.isPet(attacker))))
-                        {
-                            debugSpeakMsgc(aiLoggingEnabled(self), self, "OnSawAttackGuard() attacking(" + attacker + ")");
+                for (final obj_id attacker : attackers) {
+                    if (isIdValid(attacker)) {
+                        if (
+                            assistDefender ||
+                            hasAttributeAttained(attacker, attrib.THUG) ||
+                            (ai_lib.isMonster(attacker) &&
+                                (!pet_lib.isPet(attacker)))
+                        ) {
+                            debugSpeakMsgc(
+                                aiLoggingEnabled(self),
+                                self,
+                                "OnSawAttackGuard() attacking(" + attacker + ")"
+                            );
                             ai_combat_assist.assist(self, attacker);
                             break;
-                        }
-                        else if (ai_lib.isSameSocialGroup(self, attacker))
-                        {
-                            debugSpeakMsgc(aiLoggingEnabled(self), self, "OnSawAttack() attacking(" + defender + ")");
+                        } else if (ai_lib.isSameSocialGroup(self, attacker)) {
+                            debugSpeakMsgc(
+                                aiLoggingEnabled(self),
+                                self,
+                                "OnSawAttack() attacking(" + defender + ")"
+                            );
                             ai_combat_assist.assist(self, defender);
                             break;
                         }
                     }
                 }
-            }
-            else
-            {
-                for (final obj_id attacker : attackers)
-                {
-                    if (isIdValid(attacker))
-                    {
-                        if (hasObjVar(self, "storytellerid"))
-                        {
-                            if (!utils.hasScriptVar(defender, "storytellerid") && !utils.hasScriptVar(attacker, "storytellerid"))
-                            {
-                                debugSpeakMsgc(aiLoggingEnabled(self), self, "OnSawAttack() not attacking(" + defender + ") or (" + attacker + ") as they are not a part of my story");
+            } else {
+                for (final obj_id attacker : attackers) {
+                    if (isIdValid(attacker)) {
+                        if (hasObjVar(self, "storytellerid")) {
+                            if (
+                                !utils.hasScriptVar(
+                                    defender,
+                                    "storytellerid"
+                                ) &&
+                                !utils.hasScriptVar(attacker, "storytellerid")
+                            ) {
+                                debugSpeakMsgc(
+                                    aiLoggingEnabled(self),
+                                    self,
+                                    "OnSawAttack() not attacking(" +
+                                        defender +
+                                        ") or (" +
+                                        attacker +
+                                        ") as they are not a part of my story"
+                                );
                                 break;
-                            }
-                            else if (hasObjVar(defender, "storytellerid") && utils.hasScriptVar(attacker, "storytellerid"))
-                            {
-                                if (getObjIdObjVar(self, "storytellerid") == getObjIdObjVar(defender, "storytellerid") && ai_lib.isSameSocialGroup(self, defender))
-                                {
-                                    debugSpeakMsgc(aiLoggingEnabled(self), self, "OnSawAttack() attacking(" + attacker + ")");
+                            } else if (
+                                hasObjVar(defender, "storytellerid") &&
+                                utils.hasScriptVar(attacker, "storytellerid")
+                            ) {
+                                if (
+                                    getObjIdObjVar(self, "storytellerid") ==
+                                        getObjIdObjVar(
+                                            defender,
+                                            "storytellerid"
+                                        ) &&
+                                    ai_lib.isSameSocialGroup(self, defender)
+                                ) {
+                                    debugSpeakMsgc(
+                                        aiLoggingEnabled(self),
+                                        self,
+                                        "OnSawAttack() attacking(" +
+                                            attacker +
+                                            ")"
+                                    );
                                     ai_combat_assist.assist(self, defender);
                                     break;
                                 }
-                            }
-                            else if (utils.hasScriptVar(defender, "storytellerid") && hasObjVar(attacker, "storytellerid"))
-                            {
-                                if (getObjIdObjVar(self, "storytellerid") == getObjIdObjVar(attacker, "storytellerid") && ai_lib.isSameSocialGroup(self, attacker))
-                                {
-                                    debugSpeakMsgc(aiLoggingEnabled(self), self, "OnSawAttack() attacking(" + defender + ")");
+                            } else if (
+                                utils.hasScriptVar(defender, "storytellerid") &&
+                                hasObjVar(attacker, "storytellerid")
+                            ) {
+                                if (
+                                    getObjIdObjVar(self, "storytellerid") ==
+                                        getObjIdObjVar(
+                                            attacker,
+                                            "storytellerid"
+                                        ) &&
+                                    ai_lib.isSameSocialGroup(self, attacker)
+                                ) {
+                                    debugSpeakMsgc(
+                                        aiLoggingEnabled(self),
+                                        self,
+                                        "OnSawAttack() attacking(" +
+                                            defender +
+                                            ")"
+                                    );
                                     ai_combat_assist.assist(self, attacker);
                                     break;
                                 }
                             }
                         }
-                        if (ai_lib.isSameSocialGroup(self, defender))
-                        {
-                            debugSpeakMsgc(aiLoggingEnabled(self), self, "OnSawAttack() attacking(" + attacker + ")");
+                        if (ai_lib.isSameSocialGroup(self, defender)) {
+                            debugSpeakMsgc(
+                                aiLoggingEnabled(self),
+                                self,
+                                "OnSawAttack() attacking(" + attacker + ")"
+                            );
                             ai_combat_assist.assist(self, attacker);
                             break;
-                        }
-                        else if (ai_lib.isSameSocialGroup(self, attacker))
-                        {
-                            debugSpeakMsgc(aiLoggingEnabled(self), self, "OnSawAttack() attacking(" + defender + ")");
+                        } else if (ai_lib.isSameSocialGroup(self, attacker)) {
+                            debugSpeakMsgc(
+                                aiLoggingEnabled(self),
+                                self,
+                                "OnSawAttack() attacking(" + defender + ")"
+                            );
                             ai_combat_assist.assist(self, defender);
                             break;
                         }
@@ -1129,49 +1583,41 @@ public class ai extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
-    public boolean defendLair(obj_id npc, obj_id defender, obj_id[] attackers, boolean isInCombat) throws InterruptedException
-    {
-        if (isMob(defender))
-        {
+    public boolean defendLair(
+        obj_id npc,
+        obj_id defender,
+        obj_id[] attackers,
+        boolean isInCombat
+    ) throws InterruptedException {
+        if (isMob(defender)) {
             return false;
         }
-        if (utils.hasScriptVar(npc, "ai.noLair"))
-        {
+        if (utils.hasScriptVar(npc, "ai.noLair")) {
             return false;
         }
         obj_id myPOI = ai_lib.getLair(npc);
-        if (!isIdValid(myPOI))
-        {
+        if (!isIdValid(myPOI)) {
             return false;
         }
-        if (!hasObjVar(defender, "poi.baseObject"))
-        {
+        if (!hasObjVar(defender, "poi.baseObject")) {
             return false;
         }
-        if (getObjIdObjVar(defender, "poi.baseObject") == myPOI)
-        {
-            if (getHitpoints(defender) >= getMaxHitpoints(defender))
-            {
+        if (getObjIdObjVar(defender, "poi.baseObject") == myPOI) {
+            if (getHitpoints(defender) >= getMaxHitpoints(defender)) {
                 return true;
             }
-            if (pvpGetAlignedFaction(npc) == (221551254))
-            {
+            if (pvpGetAlignedFaction(npc) == (221551254)) {
                 factions.setFaction(npc, "angry");
             }
             int endLoop = attackers.length;
-            if (endLoop > 20)
-            {
+            if (endLoop > 20) {
                 endLoop = 20;
             }
-            for (int i = 0; i < endLoop; i++)
-            {
-                if (isIdValid(attackers[i]))
-                {
-                    if (!isInCombat)
-                    {
+            for (int i = 0; i < endLoop; i++) {
+                if (isIdValid(attackers[i])) {
+                    if (!isInCombat) {
                         startCombat(npc, attackers[i]);
-                        if (utils.hasScriptVar(npc, "pathingToAttack"))
-                        {
+                        if (utils.hasScriptVar(npc, "pathingToAttack")) {
                             utils.removeScriptVar(npc, "pathingToAttack");
                         }
                         return true;
@@ -1183,30 +1629,27 @@ public class ai extends script.base_script
         return false;
     }
 
-    public int stopFleeing(obj_id self, dictionary params) throws InterruptedException
-    {
+    public int stopFleeing(obj_id self, dictionary params)
+        throws InterruptedException {
         //debugSpeakMsg(self, "stopping fleeing");
-        if (!ai_lib.isInCombat(self))
-        {
-            if (getDistance(getLocation(self), aiGetHomeLocation(self)) > 40.0f)
-            {
+        if (!ai_lib.isInCombat(self)) {
+            if (
+                getDistance(getLocation(self), aiGetHomeLocation(self)) > 40.0f
+            ) {
                 pathTo(self, aiGetHomeLocation(self));
             }
         }
         messageTo(self, "redoYaw", null, 30, false);
-        if (getBehavior(self) <= BEHAVIOR_CALM)
-        {
+        if (getBehavior(self) <= BEHAVIOR_CALM) {
             messageTo(self, "resumeDefaultCalmBehavior", null, 5, false);
         }
         return SCRIPT_CONTINUE;
     }
 
-    public int OnIncapacitated(obj_id self, obj_id attacker) throws InterruptedException
-    {
-        if (isIdValid(attacker) && exists(attacker))
-        {
-            if (isPlayer(attacker))
-            {
+    public int OnIncapacitated(obj_id self, obj_id attacker)
+        throws InterruptedException {
+        if (isIdValid(attacker) && exists(attacker)) {
+            if (isPlayer(attacker)) {
                 /*if (groundquests.isQuestActive(attacker, "quest/pharple_day"))
                 {
                     groundquests.sendSignal(attacker, "pharple_day_kill");
@@ -1216,31 +1659,39 @@ public class ai extends script.base_script
                 fillCandyBowl(attacker);
 				*/
             }
-
         }
-        LOGC(aiLoggingEnabled(self), "debug_ai", ("ai::OnIncapacitated() self(" + self + ":" + getName(self) + ") attacker(" + attacker + ")"));
+        LOGC(
+            aiLoggingEnabled(self),
+            "debug_ai",
+            ("ai::OnIncapacitated() self(" +
+                self +
+                ":" +
+                getName(self) +
+                ") attacker(" +
+                attacker +
+                ")")
+        );
         debugSpeakMsgc(aiLoggingEnabled(self), self, "OnIncapacitated");
         chat.setBadMood(self);
         ai_lib.barkString(self, "death");
-        if (!pet_lib.isPet(self) && !beast_lib.isBeast(self) && !utils.hasScriptVar(self, "petBeingInitialized"))
-        {
+        if (
+            !pet_lib.isPet(self) &&
+            !beast_lib.isBeast(self) &&
+            !utils.hasScriptVar(self, "petBeingInitialized")
+        ) {
             obj_id weapon = getCurrentWeapon(self);
-            if (isIdValid(weapon) && !isDefaultWeapon(weapon))
-            {
+            if (isIdValid(weapon) && !isDefaultWeapon(weapon)) {
                 destroyObject(weapon);
             }
             obj_id cInv = utils.getInventoryContainer(self);
-            if (isIdValid(cInv))
-            {
+            if (isIdValid(cInv)) {
                 utils.emptyContainerExceptStorytellerLoot(cInv);
             }
             ai_lib.clearCombatData();
             setObjVar(self, xp.VAR_LANDED_DEATHBLOW, attacker);
-            if (!kill(self))
-            {
+            if (!kill(self)) {
                 obj_id[] haters = getHateList(self);
-                for (obj_id hater : haters)
-                {
+                for (obj_id hater : haters) {
                     removeHateTarget(hater, self);
                 }
                 destroyObject(self);
@@ -1250,150 +1701,208 @@ public class ai extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int OnDeath(obj_id self, obj_id killer, obj_id corpseId) throws InterruptedException
-    {
-        if (isIdValid(killer) && exists(killer) && isIdValid(self) && exists(self))
-        {
+    public int OnDeath(obj_id self, obj_id killer, obj_id corpseId)
+        throws InterruptedException {
+        if (
+            isIdValid(killer) &&
+            exists(killer) &&
+            isIdValid(self) &&
+            exists(self)
+        ) {
             removeHateTarget(killer, self);
         }
         obj_id player = utils.getObjIdScriptVar(self, "ai.listeningTo");
-        if (!isValidId(player) || !exists(player))
-        {
+        if (!isValidId(player) || !exists(player)) {
             return SCRIPT_CONTINUE;
         }
-        if (hasObjVar(self, gcw.GCW_ENTERTAINMENT_FLAG) && utils.hasScriptVar(self, gcw.GCW_SCRIPTVAR_PARENT + ".isGcwEntertained"))
-        {
-            LOG("gcw_entertainer", "NPC is saving time player stopped entertaining");
-            utils.setScriptVar(self, gcw.GCW_STOPPED_ENTERTAINING, getGameTime());
+        if (
+            hasObjVar(self, gcw.GCW_ENTERTAINMENT_FLAG) &&
+            utils.hasScriptVar(
+                self,
+                gcw.GCW_SCRIPTVAR_PARENT + ".isGcwEntertained"
+            )
+        ) {
+            LOG(
+                "gcw_entertainer",
+                "NPC is saving time player stopped entertaining"
+            );
+            utils.setScriptVar(
+                self,
+                gcw.GCW_STOPPED_ENTERTAINING,
+                getGameTime()
+            );
             int pid = sui.getPid(player, gcw.ENTERTAIN_GCW_TROOPS_PID);
-            if (pid > 0)
-            {
+            if (pid > 0) {
                 forceCloseSUIPage(pid);
             }
-            if (hasObjVar(self, gcw.GCW_PATROL_OBJ))
-            {
+            if (hasObjVar(self, gcw.GCW_PATROL_OBJ)) {
                 obj_id patrolObject = getObjIdObjVar(self, gcw.GCW_PATROL_OBJ);
-                if (isValidId(patrolObject))
-                {
+                if (isValidId(patrolObject)) {
                     dictionary webster = new dictionary();
                     webster.put("npc", self);
                     webster.put("player", player);
-                    messageTo(patrolObject, "handleOffensiveEntertainedNpcCleanUp", webster, 1, false);
+                    messageTo(
+                        patrolObject,
+                        "handleOffensiveEntertainedNpcCleanUp",
+                        webster,
+                        1,
+                        false
+                    );
                 }
             }
         }
         return SCRIPT_CONTINUE;
     }
 
-    private void fillCandyBowl(obj_id self) throws InterruptedException
-    {
+    private void fillCandyBowl(obj_id self) throws InterruptedException {
         obj_id pInv = utils.getInventoryContainer(self);
-        LOG("ethereal", "[Halloween]: " + getPlayerFullName(self) + " has killed a mob. Checking for candy bowl.");
+        LOG(
+            "ethereal",
+            "[Halloween]: " +
+                getPlayerFullName(self) +
+                " has killed a mob. Checking for candy bowl."
+        );
         obj_id[] contents = getContents(pInv);
-        LOG("ethereal", "[Halloween]: " + getPlayerFullName(self) + " has " + contents.length + " items in their inventory.");
+        LOG(
+            "ethereal",
+            "[Halloween]: " +
+                getPlayerFullName(self) +
+                " has " +
+                contents.length +
+                " items in their inventory."
+        );
         for (obj_id content : contents) {
-            if (hasObjVar(content, "halloween_24_tag"))
-            {
-                LOG("ethereal", "[Halloween]: " + getPlayerFullName(self) + " has a treat bowl in their inventory.");
+            if (hasObjVar(content, "halloween_24_tag")) {
+                LOG(
+                    "ethereal",
+                    "[Halloween]: " +
+                        getPlayerFullName(self) +
+                        " has a treat bowl in their inventory."
+                );
                 float fillLevel = getFloatObjVar(content, "halloween_24");
-                if (fillLevel >= 100)
-                {
-                    broadcast(pInv, "Your treat bowl is already full. Place this object in your house or bank until October 31st to hide this message.");
-                    LOG("ethereal", "[Halloween]: " + getPlayerFullName(self) + " has a full treat bowl. Returning.");
+                if (fillLevel >= 100) {
+                    broadcast(
+                        pInv,
+                        "Your treat bowl is already full. Place this object in your house or bank until October 31st to hide this message."
+                    );
+                    LOG(
+                        "ethereal",
+                        "[Halloween]: " +
+                            getPlayerFullName(self) +
+                            " has a full treat bowl. Returning."
+                    );
                     return;
                 }
                 float newFillLevel = fillLevel + 0.05f;
-                LOG("ethereal", "[Halloween]: " + getPlayerFullName(self) + " has added candy to their treat bowl. It is now at " + newFillLevel + "% capacity.");
+                LOG(
+                    "ethereal",
+                    "[Halloween]: " +
+                        getPlayerFullName(self) +
+                        " has added candy to their treat bowl. It is now at " +
+                        newFillLevel +
+                        "% capacity."
+                );
                 setObjVar(content, "halloween_24", newFillLevel);
-                broadcast(self, "You have added candy to your treat bowl. It is now at " + newFillLevel + "% capacity.");
-                playClientEffectObj(self, "clienteffect/item_bugs_bats.cef", self, "head");
-                LOG("ethereal", "[Halloween]: " + getPlayerFullName(self) + " - end of candy bowl check.");
+                broadcast(
+                    self,
+                    "You have added candy to your treat bowl. It is now at " +
+                        newFillLevel +
+                        "% capacity."
+                );
+                playClientEffectObj(
+                    self,
+                    "clienteffect/item_bugs_bats.cef",
+                    self,
+                    "head"
+                );
+                LOG(
+                    "ethereal",
+                    "[Halloween]: " +
+                        getPlayerFullName(self) +
+                        " - end of candy bowl check."
+                );
             }
         }
     }
 
-    public int xpDelegated(obj_id self, dictionary params) throws InterruptedException
-    {
+    public int xpDelegated(obj_id self, dictionary params)
+        throws InterruptedException {
         obj_id cInv = utils.getInventoryContainer(self);
-        if (isIdValid(cInv))
-        {
+        if (isIdValid(cInv)) {
             setOwner(cInv, obj_id.NULL_ID);
         }
-        if (!beast_lib.isBeast(self))
-        {
+        if (!beast_lib.isBeast(self)) {
             attachScript(self, corpse.SCRIPT_AI_CORPSE);
             messageTo(self, "aiCorpsePrepared", null, 0, false);
-        }
-        else
-        {
+        } else {
             xp.cleanupCreditForKills();
         }
         return SCRIPT_CONTINUE;
     }
 
-    public int aiCorpsePrepared(obj_id self, dictionary params) throws InterruptedException
-    {
-        obj_id[] killers = getObjIdArrayObjVar(self, scenario.VAR_PRIMARY_KILLERS);
+    public int aiCorpsePrepared(obj_id self, dictionary params)
+        throws InterruptedException {
+        obj_id[] killers = getObjIdArrayObjVar(
+            self,
+            scenario.VAR_PRIMARY_KILLERS
+        );
         obj_id[] pks = null;
-        if (killers != null && killers.length > 0)
-        {
+        if (killers != null && killers.length > 0) {
             pks = xp.getPlayersFromKillerList(killers);
         }
-        if (pks == null || pks.length == 0)
-        {
+        if (pks == null || pks.length == 0) {
             return SCRIPT_CONTINUE;
         }
         boolean hasLoot = loot.addLoot(self);
         boolean hasChanceToDropChroniclesLoot = false;
         boolean hasChanceToMakeEnzyme = false;
-        if (hasObjVar(self, xp.VAR_TOP_GROUP))
-        {
+        if (hasObjVar(self, xp.VAR_TOP_GROUP)) {
             obj_id killCredit = getObjIdObjVar(self, xp.VAR_TOP_GROUP);
-            if (group.isGroupObject(killCredit))
-            {
+            if (group.isGroupObject(killCredit)) {
                 obj_id[] groupMembers = getGroupMemberIds(killCredit);
-                for (obj_id groupMember : groupMembers)
-                {
-                    if (isPlayer(groupMember) && !loot.hasToggledChroniclesLootOff(groupMember))
-                    {
+                for (obj_id groupMember : groupMembers) {
+                    if (
+                        isPlayer(groupMember) &&
+                        !loot.hasToggledChroniclesLootOff(groupMember)
+                    ) {
                         hasChanceToDropChroniclesLoot = true;
                     }
-                    if (isPlayer(groupMember) && !hasObjVar(groupMember, "enzymeBlock"))
-                    {
+                    if (
+                        isPlayer(groupMember) &&
+                        !hasObjVar(groupMember, "enzymeBlock")
+                    ) {
                         hasChanceToMakeEnzyme = true;
                     }
                 }
-            }
-            else
-            {
-                if (isPlayer(killCredit) && !loot.hasToggledChroniclesLootOff(killCredit))
-                {
+            } else {
+                if (
+                    isPlayer(killCredit) &&
+                    !loot.hasToggledChroniclesLootOff(killCredit)
+                ) {
                     hasChanceToDropChroniclesLoot = true;
                 }
-                if (isPlayer(killCredit) && !hasObjVar(killCredit, "enzymeBlock"))
-                {
+                if (
+                    isPlayer(killCredit) &&
+                    !hasObjVar(killCredit, "enzymeBlock")
+                ) {
                     hasChanceToMakeEnzyme = true;
                 }
             }
         }
-        if (hasChanceToDropChroniclesLoot)
-        {
+        if (hasChanceToDropChroniclesLoot) {
             hasLoot |= loot.addChronicleLoot(self);
         }
 
-        if (hasChanceToMakeEnzyme)
-        {
+        if (hasChanceToMakeEnzyme) {
             hasLoot |= loot.addBeastEnzymes(self);
         }
 
-        if (scheduled_drop.isSystemEnabled())
-        {
+        if (scheduled_drop.isSystemEnabled()) {
             int corpseLevel = getLevel(self);
             boolean doNotDropCard = false;
             int difficultyClass = getIntObjVar(self, "difficultyClass");
             int sourceSystem = scheduled_drop.SYSTEM_COMBAT_NORMAL;
-            switch (difficultyClass)
-            {
+            switch (difficultyClass) {
                 case 0:
                     sourceSystem = scheduled_drop.SYSTEM_COMBAT_NORMAL;
                     break;
@@ -1405,52 +1914,55 @@ public class ai extends script.base_script
                     break;
             }
             int delayCount = 0;
-            for (obj_id pk1 : pks)
-            {
-                if (isIdValid(pk1) && (corpseLevel + 5 < getLevel(pk1)))
-                {
+            for (obj_id pk1 : pks) {
+                if (isIdValid(pk1) && (corpseLevel + 5 < getLevel(pk1))) {
                     doNotDropCard = true;
                 }
-                if (isIdValid(pk1) && scheduled_drop.hasCardDelay(pk1, sourceSystem))
-                {
+                if (
+                    isIdValid(pk1) &&
+                    scheduled_drop.hasCardDelay(pk1, sourceSystem)
+                ) {
                     delayCount++;
                 }
             }
-            if (delayCount > pks.length / 2)
-            {
+            if (delayCount > pks.length / 2) {
                 doNotDropCard = true;
             }
             boolean canDrop = scheduled_drop.canDropCard(sourceSystem);
-            for (obj_id pk : pks)
-            {
-                if (isIdValid(pk))
-                {
-                    utils.setScriptVar(pk, scheduled_drop.PLAYER_SCRIPTVAR_DROP_TIME, getGameTime());
-                    if (isGod(pk) && hasObjVar(pk, "qa_tcg_always_drop"))
-                    {
-                        if (!doNotDropCard)
-                        {
+            for (obj_id pk : pks) {
+                if (isIdValid(pk)) {
+                    utils.setScriptVar(
+                        pk,
+                        scheduled_drop.PLAYER_SCRIPTVAR_DROP_TIME,
+                        getGameTime()
+                    );
+                    if (isGod(pk) && hasObjVar(pk, "qa_tcg_always_drop")) {
+                        if (!doNotDropCard) {
                             canDrop = true;
                         }
                     }
-                    if (isGod(pk) && hasObjVar(pk, "qa_tcg"))
-                    {
-                        broadcast(pk, "QA TCG COMBAT.  Do not drop card? " + doNotDropCard + " hasCardDelay? " + scheduled_drop.hasCardDelay(pk, sourceSystem) + " bad level? " + (corpseLevel + 5 < getLevel(pk)));
+                    if (isGod(pk) && hasObjVar(pk, "qa_tcg")) {
+                        broadcast(
+                            pk,
+                            "QA TCG COMBAT.  Do not drop card? " +
+                                doNotDropCard +
+                                " hasCardDelay? " +
+                                scheduled_drop.hasCardDelay(pk, sourceSystem) +
+                                " bad level? " +
+                                (corpseLevel + 5 < getLevel(pk))
+                        );
                     }
                 }
             }
-            if (!doNotDropCard)
-            {
+            if (!doNotDropCard) {
                 obj_id inv = utils.getInventoryContainer(self);
-                if (isIdValid(inv) && canDrop)
-                {
+                if (isIdValid(inv) && canDrop) {
                     scheduled_drop.dropCard(sourceSystem, inv);
                     hasLoot = true;
                 }
             }
         }
-        if (hasLoot)
-        {
+        if (hasLoot) {
             corpse.showLootMeParticle(self);
             autoLootShipToGroundKills(self, pks);
         }
@@ -1458,200 +1970,216 @@ public class ai extends script.base_script
         xp.cleanupCreditForKills();
         return SCRIPT_CONTINUE;
     }
-    public void autoLootShipToGroundKills(obj_id self, obj_id[] pks) throws InterruptedException
-    {
-        if (!isIdValid(self) || pks == null || pks.length == 0)
-        {
+
+    public void autoLootShipToGroundKills(obj_id self, obj_id[] pks)
+        throws InterruptedException {
+        if (!isIdValid(self) || pks == null || pks.length == 0) {
             return;
         }
-        obj_id deathblowAttacker = getObjIdObjVar(self, xp.VAR_LANDED_DEATHBLOW);
-        boolean shipDeathblow = isIdValid(deathblowAttacker) && space_utils.isPlayerControlledShip(deathblowAttacker);
+        obj_id deathblowAttacker = getObjIdObjVar(
+            self,
+            xp.VAR_LANDED_DEATHBLOW
+        );
+        boolean shipDeathblow =
+            isIdValid(deathblowAttacker) &&
+            space_utils.isPlayerControlledShip(deathblowAttacker);
         obj_id lootBox = obj_id.NULL_ID;
         obj_id fallbackInv = obj_id.NULL_ID;
         Vector eligiblePlayers = new Vector();
         eligiblePlayers.setSize(0);
-        for (obj_id killer : pks)
-        {
-            if (!isIdValid(killer) || !isPlayer(killer))
-            {
+        for (obj_id killer : pks) {
+            if (!isIdValid(killer) || !isPlayer(killer)) {
                 continue;
             }
-            if (!isIdValid(fallbackInv))
-            {
+            if (!isIdValid(fallbackInv)) {
                 obj_id killerInv = utils.getInventoryContainer(killer);
-                if (isIdValid(killerInv))
-                {
+                if (isIdValid(killerInv)) {
                     fallbackInv = killerInv;
                 }
             }
-            if (!shipDeathblow)
-            {
+            if (!shipDeathblow) {
                 eligiblePlayers = utils.addElement(eligiblePlayers, killer);
                 continue;
             }
             obj_id killerShip = space_transition.getContainingShip(killer);
-            if (!isIdValid(killerShip) || killerShip != deathblowAttacker)
-            {
+            if (!isIdValid(killerShip) || killerShip != deathblowAttacker) {
                 continue;
             }
             eligiblePlayers = utils.addElement(eligiblePlayers, killer);
-            if (hasObjVar(killerShip, "objLootBox"))
-            {
+            if (hasObjVar(killerShip, "objLootBox")) {
                 lootBox = getObjIdObjVar(killerShip, "objLootBox");
-                if (isIdValid(lootBox))
-                {
+                if (isIdValid(lootBox)) {
                     break;
                 }
             }
         }
         obj_id targetContainer = lootBox;
-        if (!isIdValid(targetContainer))
-        {
+        if (!isIdValid(targetContainer)) {
             targetContainer = fallbackInv;
         }
-        if (!isIdValid(targetContainer))
-        {
+        if (!isIdValid(targetContainer)) {
             return;
         }
         obj_id corpseInv = utils.getInventoryContainer(self);
-        if (!isIdValid(corpseInv))
-        {
+        if (!isIdValid(corpseInv)) {
             return;
         }
         obj_id[] lootItems = getContents(corpseInv);
-        if (lootItems == null || lootItems.length == 0)
-        {
+        if (lootItems == null || lootItems.length == 0) {
             return;
         }
-        obj_id[] itemsToMove = processAutoLootCashItems(self, lootItems, eligiblePlayers);
+        obj_id[] itemsToMove = processAutoLootCashItems(
+            self,
+            lootItems,
+            eligiblePlayers
+        );
         int moved = 0;
-        if (itemsToMove != null && itemsToMove.length > 0)
-        {
+        if (itemsToMove != null && itemsToMove.length > 0) {
             moved = moveObjects(itemsToMove, targetContainer);
         }
-        if (moved > 0)
-        {
+        if (moved > 0) {
             corpse.clearLootMeParticle(self);
         }
     }
-    public obj_id[] processAutoLootCashItems(obj_id corpse, obj_id[] lootItems, Vector eligiblePlayers) throws InterruptedException
-    {
-        if (lootItems == null || lootItems.length == 0)
-        {
+
+    public obj_id[] processAutoLootCashItems(
+        obj_id corpse,
+        obj_id[] lootItems,
+        Vector eligiblePlayers
+    ) throws InterruptedException {
+        if (lootItems == null || lootItems.length == 0) {
             return lootItems;
         }
         Vector itemsToMove = new Vector();
         itemsToMove.setSize(0);
-        for (obj_id lootItem : lootItems)
-        {
-            if (!isIdValid(lootItem))
-            {
+        for (obj_id lootItem : lootItems) {
+            if (!isIdValid(lootItem)) {
                 continue;
             }
             String templateName = getTemplateName(lootItem);
-            boolean isCashItem = loot.isCashLootItem(lootItem) || (templateName != null && templateName.equals(loot.CASH_ITEM_TEMPLATE));
-            if (!isCashItem)
-            {
+            boolean isCashItem =
+                loot.isCashLootItem(lootItem) ||
+                (templateName != null &&
+                    templateName.equals(loot.CASH_ITEM_TEMPLATE));
+            if (!isCashItem) {
                 itemsToMove = utils.addElement(itemsToMove, lootItem);
                 continue;
             }
             int cashAmount = getIntObjVar(lootItem, "loot.cashAmount");
-            if (cashAmount > 0)
-            {
+            if (cashAmount > 0) {
                 autoDepositLootCashToBank(corpse, cashAmount, eligiblePlayers);
             }
             destroyObject(lootItem);
         }
-        if (itemsToMove.size() == 0)
-        {
+        if (itemsToMove.size() == 0) {
             return null;
         }
         obj_id[] result = new obj_id[itemsToMove.size()];
         itemsToMove.toArray(result);
         return result;
     }
-    public void autoDepositLootCashToBank(obj_id corpse, int cashAmount, Vector eligiblePlayers) throws InterruptedException
-    {
-        if (!isIdValid(corpse) || cashAmount <= 0 || eligiblePlayers == null || eligiblePlayers.size() == 0)
-        {
+
+    public void autoDepositLootCashToBank(
+        obj_id corpse,
+        int cashAmount,
+        Vector eligiblePlayers
+    ) throws InterruptedException {
+        if (
+            !isIdValid(corpse) ||
+            cashAmount <= 0 ||
+            eligiblePlayers == null ||
+            eligiblePlayers.size() == 0
+        ) {
             return;
         }
-        obj_id payer = ((obj_id)eligiblePlayers.get(0));
-        if (!isIdValid(payer) || !isPlayer(payer))
-        {
+        obj_id payer = ((obj_id) eligiblePlayers.get(0));
+        if (!isIdValid(payer) || !isPlayer(payer)) {
             return;
         }
         obj_id gid = getGroupObject(payer);
         Vector payoutTargets = new Vector();
         payoutTargets.setSize(0);
-        if (isIdValid(gid))
-        {
+        if (isIdValid(gid)) {
             for (Object eligiblePlayer : eligiblePlayers) {
                 obj_id member = ((obj_id) eligiblePlayer);
-                if (isIdValid(member) && isPlayer(member) && getGroupObject(member) == gid) {
+                if (
+                    isIdValid(member) &&
+                    isPlayer(member) &&
+                    getGroupObject(member) == gid
+                ) {
                     payoutTargets = utils.addElement(payoutTargets, member);
                 }
             }
         }
-        if (payoutTargets.size() == 0)
-        {
+        if (payoutTargets.size() == 0) {
             payoutTargets = utils.addElement(payoutTargets, payer);
         }
         int splitCount = payoutTargets.size();
         int perPlayer = cashAmount / splitCount;
         int remainder = cashAmount % splitCount;
-        for (int i = 0; i < splitCount; i++)
-        {
-            obj_id target = ((obj_id)payoutTargets.get(i));
-            if (!isIdValid(target) || !isPlayer(target))
-            {
+        for (int i = 0; i < splitCount; i++) {
+            obj_id target = ((obj_id) payoutTargets.get(i));
+            if (!isIdValid(target) || !isPlayer(target)) {
                 continue;
             }
             int payout = perPlayer;
-            if (remainder > 0)
-            {
+            if (remainder > 0) {
                 payout++;
                 remainder--;
             }
-            if (payout <= 0)
-            {
+            if (payout <= 0) {
                 continue;
             }
             int safePayout = group.getSafeDifference(target, payout);
-            if (safePayout <= 0)
-            {
+            if (safePayout <= 0) {
                 continue;
             }
-            if (transferBankCreditsFromNamedAccount(money.ACCT_NPC_LOOT, target, safePayout, null, null, null))
-            {
+            if (
+                transferBankCreditsFromNamedAccount(
+                    money.ACCT_NPC_LOOT,
+                    target,
+                    safePayout,
+                    null,
+                    null,
+                    null
+                )
+            ) {
                 utils.moneyInMetric(corpse, money.ACCT_NPC_LOOT, safePayout);
             }
         }
     }
 
-    public int corpseCleanup(obj_id self, dictionary params) throws InterruptedException
-    {
+    public int corpseCleanup(obj_id self, dictionary params)
+        throws InterruptedException {
         destroyObject(self);
         return SCRIPT_CONTINUE;
     }
 
-    public int OnStartNpcConversation(obj_id self, obj_id speaker) throws InterruptedException
-    {
-        LOGC(aiLoggingEnabled(self), "debug_ai", ("ai::OnStartNpcConversation() self(" + self + ":" + getName(self) + ") speaker(" + speaker + ":" + getName(speaker) + ")"));
-        if (!isInNpcConversation(self))
-        {
+    public int OnStartNpcConversation(obj_id self, obj_id speaker)
+        throws InterruptedException {
+        LOGC(
+            aiLoggingEnabled(self),
+            "debug_ai",
+            ("ai::OnStartNpcConversation() self(" +
+                self +
+                ":" +
+                getName(self) +
+                ") speaker(" +
+                speaker +
+                ":" +
+                getName(speaker) +
+                ")")
+        );
+        if (!isInNpcConversation(self)) {
             return SCRIPT_CONTINUE;
         }
-        if (ai_lib.isAiDead(self))
-        {
+        if (ai_lib.isAiDead(self)) {
             return SCRIPT_OVERRIDE;
         }
-        if (ai_lib.isInCombat(self))
-        {
+        if (ai_lib.isInCombat(self)) {
             return SCRIPT_CONTINUE;
         }
-        if (ai_lib.isInCombat(speaker))
-        {
+        if (ai_lib.isInCombat(speaker)) {
             return SCRIPT_CONTINUE;
         }
         ai_lib.setMood(self, ai_lib.MOOD_CALM);
@@ -1661,38 +2189,44 @@ public class ai extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int handleAbortConversation(obj_id self, dictionary params) throws InterruptedException
-    {
-        if (!isInNpcConversation(self))
-        {
-            if (getBehavior(self) <= BEHAVIOR_CALM)
-            {
+    public int handleAbortConversation(obj_id self, dictionary params)
+        throws InterruptedException {
+        if (!isInNpcConversation(self)) {
+            if (getBehavior(self) <= BEHAVIOR_CALM) {
                 messageTo(self, "resumeDefaultCalmBehavior", null, 5, false);
             }
         }
         return SCRIPT_CONTINUE;
     }
 
-    public int OnEndNpcConversation(obj_id self, obj_id speaker) throws InterruptedException
-    {
-        LOGC(aiLoggingEnabled(self), "debug_ai", ("ai::OnEndNpcConversation() self(" + self + ":" + getName(self) + ") speaker(" + speaker + ":" + getName(speaker) + ")"));
-        if (ai_lib.isAiDead(self))
-        {
+    public int OnEndNpcConversation(obj_id self, obj_id speaker)
+        throws InterruptedException {
+        LOGC(
+            aiLoggingEnabled(self),
+            "debug_ai",
+            ("ai::OnEndNpcConversation() self(" +
+                self +
+                ":" +
+                getName(self) +
+                ") speaker(" +
+                speaker +
+                ":" +
+                getName(speaker) +
+                ")")
+        );
+        if (ai_lib.isAiDead(self)) {
             return SCRIPT_OVERRIDE;
         }
-        if (getBehavior(self) <= BEHAVIOR_CALM)
-        {
+        if (getBehavior(self) <= BEHAVIOR_CALM) {
             messageTo(self, "resumeDefaultCalmBehavior", null, 5, false);
         }
         return SCRIPT_CONTINUE;
     }
 
-    public int disableAI(obj_id self, dictionary params) throws InterruptedException
-    {
-        for (String script : getScriptList(self))
-        {
-            if (script.startsWith("ai."))
-            {
+    public int disableAI(obj_id self, dictionary params)
+        throws InterruptedException {
+        for (String script : getScriptList(self)) {
+            if (script.startsWith("ai.")) {
                 detachScript(self, script);
             }
         }
@@ -1700,98 +2234,91 @@ public class ai extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int handleClearPathingFlag(obj_id self, dictionary params) throws InterruptedException
-    {
+    public int handleClearPathingFlag(obj_id self, dictionary params)
+        throws InterruptedException {
         removeObjVar(self, "ai.pathingAwayFrom");
-        if (getBehavior(self) <= BEHAVIOR_CALM)
-        {
+        if (getBehavior(self) <= BEHAVIOR_CALM) {
             messageTo(self, "resumeDefaultCalmBehavior", null, 5, false);
         }
         return SCRIPT_CONTINUE;
     }
 
-    public int handleAnimationAction(obj_id self, dictionary params) throws InterruptedException
-    {
+    public int handleAnimationAction(obj_id self, dictionary params)
+        throws InterruptedException {
         String anim = params.getString("anim");
-        if (anim != null)
-        {
+        if (anim != null) {
             ai_lib.doAction(self, anim);
-        }
-        else
-        {
+        } else {
             String animMood = params.getString("animMood");
-            if (animMood != null)
-            {
+            if (animMood != null) {
                 ai_lib.setMood(self, animMood);
             }
         }
         return SCRIPT_CONTINUE;
     }
 
-    public int handleAddMaster(obj_id self, dictionary params) throws InterruptedException
-    {
+    public int handleAddMaster(obj_id self, dictionary params)
+        throws InterruptedException {
         obj_id pet = params.getObjId("pet");
-        if (!isIdValid(pet))
-        {
+        if (!isIdValid(pet)) {
             return SCRIPT_CONTINUE;
         }
-        if ((pet != self))
-        {
+        if ((pet != self)) {
             return SCRIPT_CONTINUE;
         }
         obj_id controlDevice = params.getObjId("controlDevice");
-        if (!isIdValid(controlDevice))
-        {
+        if (!isIdValid(controlDevice)) {
             controlDevice = callable.getCallableCD(pet);
         }
-        if (!isIdValid(controlDevice))
-        {
+        if (!isIdValid(controlDevice)) {
             return SCRIPT_CONTINUE;
         }
         obj_id master = params.getObjId("master");
-        if (!isIdValid(master))
-        {
+        if (!isIdValid(master)) {
             return SCRIPT_CONTINUE;
         }
-        if (pet_lib.hasMaxPets(master, pet_lib.getPetType(self), pet) && callable.hasCallableCD(self))
-        {
+        if (
+            pet_lib.hasMaxPets(master, pet_lib.getPetType(self), pet) &&
+            callable.hasCallableCD(self)
+        ) {
             destroyObject(self);
             return SCRIPT_CONTINUE;
         }
-        if (!hasScript(self, "ai.pet"))
-        {
+        if (!hasScript(self, "ai.pet")) {
             setMaster(self, master);
             setOwner(utils.getInventoryContainer(self), master);
             attachScript(self, "ai.pet");
             setObjVar(pet, "ai.pet.masterName", getEncodedName(master));
             utils.removeScriptVar(self, "petBeingInitialized");
         }
-        if (!ai_lib.isMonster(self))
-        {
+        if (!ai_lib.isMonster(self)) {
             pet_lib.setupDefaultCommands(self);
         }
         pet_lib.addToPetList(master, self);
         return SCRIPT_CONTINUE;
     }
 
-    public int handleRemoveMaster(obj_id self, dictionary params) throws InterruptedException
-    {
-        if (!pet_lib.hasMaster(self))
-        {
+    public int handleRemoveMaster(obj_id self, dictionary params)
+        throws InterruptedException {
+        if (!pet_lib.hasMaster(self)) {
             return SCRIPT_CONTINUE;
         }
         obj_id pet = params.getObjId("pet");
-        if (pet != self || !isIdValid(pet))
-        {
+        if (pet != self || !isIdValid(pet)) {
             return SCRIPT_CONTINUE;
         }
         params.put("master", getMaster(self));
         final String creatureName = getCreatureName(self);
-        if (creatureName != null)
-        {
+        if (creatureName != null) {
             params.put("ai.creatureName", creatureName);
         }
-        queueCommand(pet, (1188179258), getGroupObject(pet), "", COMMAND_PRIORITY_DEFAULT);
+        queueCommand(
+            pet,
+            (1188179258),
+            getGroupObject(pet),
+            "",
+            COMMAND_PRIORITY_DEFAULT
+        );
         removeObjVar(pet, "ai.pet.masterName");
         ai_lib.aiStopFollowing(pet);
         stop(pet);
@@ -1802,27 +2329,23 @@ public class ai extends script.base_script
         removeObjVar(pet, "ai.pet.guarding");
         removeObjVar(pet, "ai.inFormation");
         pet_lib.removeFromPetList(pet);
-        if (hasScript(pet, "ai.pet"))
-        {
+        if (hasScript(pet, "ai.pet")) {
             detachScript(pet, "ai.pet");
         }
         messageTo(pet, "destroyAbandonedPet", null, 300, true);
         ai_lib.setDefaultCalmBehavior(pet, ai_lib.BEHAVIOR_LOITER);
-        if (ai_lib.isMonster(pet))
-        {
+        if (ai_lib.isMonster(pet)) {
             messageTo(pet, "handleWailingPet", null, 5, false);
         }
         return SCRIPT_CONTINUE;
     }
 
-    public int handleWailingPet(obj_id self, dictionary params) throws InterruptedException
-    {
-        if (pet_lib.hasMaster(self) || ai_lib.isAiDead(self))
-        {
+    public int handleWailingPet(obj_id self, dictionary params)
+        throws InterruptedException {
+        if (pet_lib.hasMaster(self) || ai_lib.isAiDead(self)) {
             return SCRIPT_CONTINUE;
         }
-        switch (rand(1, 3))
-        {
+        switch (rand(1, 3)) {
             case 1:
                 stop(self);
                 ai_lib.doAction(self, "ashamed");
@@ -1832,8 +2355,7 @@ public class ai extends script.base_script
                 ai_lib.doAction(self, "vocalize");
                 break;
             case 3:
-                if (getBehavior(self) <= BEHAVIOR_CALM)
-                {
+                if (getBehavior(self) <= BEHAVIOR_CALM) {
                     doDefaultCalmBehavior(self);
                 }
                 break;
@@ -1842,98 +2364,100 @@ public class ai extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int destroyAbandonedPet(obj_id self, dictionary params) throws InterruptedException
-    {
-        if (!pet_lib.hasMaster(self))
-        {
+    public int destroyAbandonedPet(obj_id self, dictionary params)
+        throws InterruptedException {
+        if (!pet_lib.hasMaster(self)) {
             destroyObject(self);
         }
         return SCRIPT_CONTINUE;
     }
 
-    public boolean crossPortalBreach(obj_id npc, obj_id breacher) throws InterruptedException
-    {
-        return isIdValid(getLocation(npc).cell) != isIdValid(getLocation(breacher).cell) || !canSee(npc, breacher);
+    public boolean crossPortalBreach(obj_id npc, obj_id breacher)
+        throws InterruptedException {
+        return (
+            isIdValid(getLocation(npc).cell) !=
+                isIdValid(getLocation(breacher).cell) ||
+            !canSee(npc, breacher)
+        );
     }
 
-    public void manageCrossPortalBreach(obj_id npc, obj_id breacher) throws InterruptedException
-    {
-        if (isPlayer(breacher))
-        {
+    public void manageCrossPortalBreach(obj_id npc, obj_id breacher)
+        throws InterruptedException {
+        if (isPlayer(breacher)) {
             dictionary params = new dictionary();
             params.put("breacher", breacher);
             messageTo(npc, "handleMonitorMovement", params, 5, false);
         }
     }
 
-    public int handleMonitorMovement(obj_id self, dictionary params) throws InterruptedException
-    {
-        LOGC(aiLoggingEnabled(self), "debug_ai", "ai::handleMonitorMovement() self(" + self + ")");
-        if (ai_lib.isAiDead(self))
-        {
+    public int handleMonitorMovement(obj_id self, dictionary params)
+        throws InterruptedException {
+        LOGC(
+            aiLoggingEnabled(self),
+            "debug_ai",
+            "ai::handleMonitorMovement() self(" + self + ")"
+        );
+        if (ai_lib.isAiDead(self)) {
             return SCRIPT_CONTINUE;
         }
         obj_id breacher = params.getObjId("breacher");
-        if (!isIdValid(breacher) || !exists(breacher) || !isInWorld(breacher) || ai_lib.isAiDead(breacher))
-        {
+        if (
+            !isIdValid(breacher) ||
+            !exists(breacher) ||
+            !isInWorld(breacher) ||
+            ai_lib.isAiDead(breacher)
+        ) {
             return SCRIPT_CONTINUE;
         }
-        if (utils.getElementPositionInArray(getTriggerVolumeContents(self, ai_lib.ALERT_VOLUME_NAME), breacher) == -1)
-        {
+        if (
+            utils.getElementPositionInArray(
+                getTriggerVolumeContents(self, ai_lib.ALERT_VOLUME_NAME),
+                breacher
+            ) ==
+            -1
+        ) {
             return SCRIPT_CONTINUE;
         }
         obj_id yourCell = getLocation(breacher).cell;
-        if (isIdValid(yourCell))
-        {
-            if (yourCell != getLocation(self).cell)
-            {
+        if (isIdValid(yourCell)) {
+            if (yourCell != getLocation(self).cell) {
                 messageTo(self, "handleMonitorMovement", params, 3, false);
-            }
-            else if (ai_lib.isInCombat(self))
-            {
+            } else if (ai_lib.isInCombat(self)) {
                 messageTo(self, "handleMonitorMovement", params, 3, false);
-            }
-            else
-            {
+            } else {
                 startCombat(self, breacher);
             }
         }
         return SCRIPT_CONTINUE;
     }
 
-    public int OnAboutToBeTransferred(obj_id self, obj_id destContainer, obj_id transferer) throws InterruptedException
-    {
-        if (pet_lib.isPet(self))
-        {
+    public int OnAboutToBeTransferred(
+        obj_id self,
+        obj_id destContainer,
+        obj_id transferer
+    ) throws InterruptedException {
+        if (pet_lib.isPet(self)) {
             return SCRIPT_CONTINUE;
         }
-        if (beast_lib.isBeast(self))
-        {
+        if (beast_lib.isBeast(self)) {
             return SCRIPT_CONTINUE;
         }
         obj_id bldg = getTopMostContainer(destContainer);
-        if (isPlayer(bldg))
-        {
+        if (isPlayer(bldg)) {
             return SCRIPT_CONTINUE;
         }
-        if (!isIdValid(destContainer))
-        {
+        if (!isIdValid(destContainer)) {
             return SCRIPT_CONTINUE;
         }
         boolean wontEnter = ai_lib.aiGetNiche(self) == NICHE_VEHICLE;
-        if (!permissionsIsAllowed(destContainer, self))
-        {
+        if (!permissionsIsAllowed(destContainer, self)) {
             wontEnter = true;
         }
-        if (wontEnter)
-        {
-            if (ai_lib.isInCombat(self))
-            {
+        if (wontEnter) {
+            if (ai_lib.isInCombat(self)) {
                 removeObjVar(self, "ai.combat.moveMode");
                 stop(self);
-            }
-            else
-            {
+            } else {
                 stop(self);
                 pathTo(self, aiGetHomeLocation(self));
                 messageTo(self, "resumeDefaultCalmBehavior", null, 20, false);
@@ -1943,32 +2467,42 @@ public class ai extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
-    public boolean fightNotFlee(obj_id npc, obj_id threat) throws InterruptedException
-    {
-        LOGC(aiLoggingEnabled(npc), "debug_ai", "ai::fightNotFlee() npc(" + npc + ") threat(" + threat + ")");
-        if (hasObjVar(threat, "gm"))
-        {
+    public boolean fightNotFlee(obj_id npc, obj_id threat)
+        throws InterruptedException {
+        LOGC(
+            aiLoggingEnabled(npc),
+            "debug_ai",
+            "ai::fightNotFlee() npc(" + npc + ") threat(" + threat + ")"
+        );
+        if (hasObjVar(threat, "gm")) {
             return false;
         }
-        if (!ai_lib.isInCombat(npc))
-        {
-            if (factions.isAggro(npc) && factions.getFactionReaction(npc, threat) == factions.REACTION_NEGATIVE)
-            {
+        if (!ai_lib.isInCombat(npc)) {
+            if (
+                factions.isAggro(npc) &&
+                factions.getFactionReaction(npc, threat) ==
+                factions.REACTION_NEGATIVE
+            ) {
                 startCombat(npc, threat);
                 return true;
             }
-            if (pvpIsEnemy(npc, threat) && pvpCanAttack(npc, threat))
-            {
+            if (pvpIsEnemy(npc, threat) && pvpCanAttack(npc, threat)) {
                 startCombat(npc, threat);
                 return true;
             }
-            if (ai_lib.isMonster(npc) && ai_lib.isMonster(threat) && ai_lib.isAggro(npc))
-            {
+            if (
+                ai_lib.isMonster(npc) &&
+                ai_lib.isMonster(threat) &&
+                ai_lib.isAggro(npc)
+            ) {
                 startCombat(npc, threat);
                 return true;
             }
-            if ((ai_lib.aiGetNiche(npc) == NICHE_CARNIVORE || ai_lib.aiGetNiche(npc) == NICHE_PREDATOR) && ai_lib.aiGetNiche(threat) == NICHE_HERBIVORE)
-            {
+            if (
+                (ai_lib.aiGetNiche(npc) == NICHE_CARNIVORE ||
+                    ai_lib.aiGetNiche(npc) == NICHE_PREDATOR) &&
+                ai_lib.aiGetNiche(threat) == NICHE_HERBIVORE
+            ) {
                 startCombat(npc, threat);
                 return true;
             }
@@ -1976,213 +2510,186 @@ public class ai extends script.base_script
         return false;
     }
 
-    public int handleEntertainmentStart(obj_id self, dictionary params) throws InterruptedException
-    {
+    public int handleEntertainmentStart(obj_id self, dictionary params)
+        throws InterruptedException {
         obj_id player = params.getObjId("entertainer");
-        if (!isIdValid(player))
-        {
+        if (!isIdValid(player)) {
             return SCRIPT_CONTINUE;
         }
-        if (ai_lib.isInCombat(self) || ai_lib.aiIsDead(self))
-        {
+        if (ai_lib.isInCombat(self) || ai_lib.aiIsDead(self)) {
             return SCRIPT_CONTINUE;
         }
-        if (isInNpcConversation(self))
-        {
+        if (isInNpcConversation(self)) {
             return SCRIPT_CONTINUE;
         }
-        if (!ai_lib.isInSameBuilding(self, player))
-        {
+        if (!ai_lib.isInSameBuilding(self, player)) {
             return SCRIPT_CONTINUE;
         }
-        if (hasScript(self, "ai.soldier") && !hasObjVar(self, gcw.GCW_ENTERTAINMENT_FLAG))
-        {
+        if (
+            hasScript(self, "ai.soldier") &&
+            !hasObjVar(self, gcw.GCW_ENTERTAINMENT_FLAG)
+        ) {
             return SCRIPT_CONTINUE;
         }
-        if (instance.isInInstanceArea(self))
-        {
+        if (instance.isInInstanceArea(self)) {
             return SCRIPT_CONTINUE;
         }
-        if (hasObjVar(self, performance.NPC_ENTERTAINMENT_NO_ENTERTAIN))
-        {
+        if (hasObjVar(self, performance.NPC_ENTERTAINMENT_NO_ENTERTAIN)) {
             return SCRIPT_CONTINUE;
         }
-        if (ai_lib.aiGetNiche(self) != NICHE_NPC)
-        {
+        if (ai_lib.aiGetNiche(self) != NICHE_NPC) {
             return SCRIPT_CONTINUE;
         }
-        if (getCreatureName(self).equals("darth_vader"))
-        {
+        if (getCreatureName(self).equals("darth_vader")) {
             return SCRIPT_CONTINUE;
         }
-        if (hasObjVar(self, gcw.GCW_ENTERTAINMENT_FLAG) && !gcw.canEntertainGcwNonPlayingCharacter(player, self))
-        {
+        if (
+            hasObjVar(self, gcw.GCW_ENTERTAINMENT_FLAG) &&
+            !gcw.canEntertainGcwNonPlayingCharacter(player, self)
+        ) {
             return SCRIPT_CONTINUE;
         }
-        if (hasObjVar(self, gcw.GCW_ENTERTAINMENT_FLAG) && utils.hasScriptVar(player, gcw.GCW_SCRIPTVAR_PARENT + ".gcwNpc"))
-        {
+        if (
+            hasObjVar(self, gcw.GCW_ENTERTAINMENT_FLAG) &&
+            utils.hasScriptVar(player, gcw.GCW_SCRIPTVAR_PARENT + ".gcwNpc")
+        ) {
             return SCRIPT_CONTINUE;
         }
         String entertainmentType = params.getString("perf_type");
         String skillName = "healing_music_ability";
-        if (entertainmentType != null)
-        {
-            if (entertainmentType.equals(performance.PERFORMANCE_TYPE_DANCE))
-            {
+        if (entertainmentType != null) {
+            if (entertainmentType.equals(performance.PERFORMANCE_TYPE_DANCE)) {
                 skillName = "healing_dance_ability";
-            }
-            else if (entertainmentType.equals(performance.PERFORMANCE_TYPE_JUGGLE))
-            {
+            } else if (
+                entertainmentType.equals(performance.PERFORMANCE_TYPE_JUGGLE)
+            ) {
                 skillName = "healing_juggle_ability";
             }
         }
         int skillMod = rand(1, 100);
-        if (entertainmentType != null)
-        {
+        if (entertainmentType != null) {
             skillMod = getSkillStatisticModifier(player, skillName);
         }
-        if (skillMod == 0)
-        {
+        if (skillMod == 0) {
             skillMod = rand(1, 100);
         }
-        if (utils.hasScriptVar(self, "ai.listeningTo"))
-        {
-            int oldSkillMod = utils.getIntScriptVar(self, "ai.oldEntertainerSkillMod");
-            if (skillMod < oldSkillMod)
-            {
+        if (utils.hasScriptVar(self, "ai.listeningTo")) {
+            int oldSkillMod = utils.getIntScriptVar(
+                self,
+                "ai.oldEntertainerSkillMod"
+            );
+            if (skillMod < oldSkillMod) {
                 return SCRIPT_CONTINUE;
             }
         }
-        if (hasObjVar(self, "faction_recruit_quest"))
-        {
-            if (!groundquests.isQuestActive(player, gcw.GCW_ENTERTAIN_RALLY))
-            {
+        if (hasObjVar(self, "faction_recruit_quest")) {
+            if (!groundquests.isQuestActive(player, gcw.GCW_ENTERTAIN_RALLY)) {
                 return SCRIPT_CONTINUE;
             }
-            if ((factions.isImperialorImperialHelper(player) && factions.isImperialorImperialHelper(self) && !factions.isOnLeave(player)) || (factions.isRebelorRebelHelper(player) && factions.isRebelorRebelHelper(self) && !factions.isOnLeave(player)))
-            {
+            if (
+                (factions.isImperialorImperialHelper(player) &&
+                    factions.isImperialorImperialHelper(self) &&
+                    !factions.isOnLeave(player)) ||
+                (factions.isRebelorRebelHelper(player) &&
+                    factions.isRebelorRebelHelper(self) &&
+                    !factions.isOnLeave(player))
+            ) {
                 utils.setScriptVar(self, "faction_ent", player);
                 messageTo(self, "readyToTalk", params, 20, false);
                 params.put("lostInterestTime", getGameTime());
                 utils.setScriptVar(self, "lostInterestTime", getGameTime());
                 messageTo(self, "lostInterest", params, 60, false);
-            }
-            else
-            {
+            } else {
                 return SCRIPT_CONTINUE;
             }
         }
         utils.setScriptVar(self, "ai.oldEntertainerSkillMod", skillMod);
-        if (!hasObjVar(self, "ai.oldYaw"))
-        {
+        if (!hasObjVar(self, "ai.oldYaw")) {
             setObjVar(self, "ai.oldYaw", getYaw(self));
         }
         utils.setScriptVar(self, "ai.listeningTo", player);
         faceToBehavior(self, player);
-        if (skillMod < 20)
-        {
-            if (rand(1, 2) == 1)
-            {
+        if (skillMod < 20) {
+            if (rand(1, 2) == 1) {
                 setAnimationMood(self, "npc_sad");
-            }
-            else
-            {
+            } else {
                 setAnimationMood(self, "bored");
             }
-        }
-        else if (skillMod < 50)
-        {
-            if (rand(1, 2) == 1)
-            {
+        } else if (skillMod < 50) {
+            if (rand(1, 2) == 1) {
                 setAnimationMood(self, "bored");
-            }
-            else
-            {
+            } else {
                 setAnimationMood(self, "entertained");
             }
-        }
-        else
-        {
+        } else {
             setAnimationMood(self, "entertained");
         }
         listenToMessage(player, "handlePerformerStopPerforming");
         messageTo(self, "handleNoEntertainment", null, 30, false);
-        if (hasObjVar(self, gcw.GCW_ENTERTAINMENT_FLAG))
-        {
+        if (hasObjVar(self, gcw.GCW_ENTERTAINMENT_FLAG)) {
             gcw.setEntertainGcwNonPlayerCharacter(player, self);
         }
         return SCRIPT_CONTINUE;
     }
 
-    public int handleNoEntertainment(obj_id self, dictionary params) throws InterruptedException
-    {
+    public int handleNoEntertainment(obj_id self, dictionary params)
+        throws InterruptedException {
         boolean stopListening = false;
-        if (!utils.hasScriptVar(self, "ai.listeningTo"))
-        {
+        if (!utils.hasScriptVar(self, "ai.listeningTo")) {
             return SCRIPT_CONTINUE;
         }
         obj_id player = utils.getObjIdScriptVar(self, "ai.listeningTo");
-        if (!isIdValid(player))
-        {
+        if (!isIdValid(player)) {
+            stopListening = true;
+        } else if (
+            !exists(player) ||
+            !isInWorld(player) ||
+            !ai_lib.isInSameBuilding(self, player) ||
+            getPerformanceType(player) == 0
+        ) {
             stopListening = true;
         }
-        else if (!exists(player) || !isInWorld(player) || !ai_lib.isInSameBuilding(self, player) || getPerformanceType(player) == 0)
-        {
-            stopListening = true;
-        }
-        if (stopListening)
-        {
+        if (stopListening) {
             utils.removeScriptVar(self, "ai.oldEntertainerSkillMod");
             utils.removeScriptVar(self, "ai.listeningTo");
             stop(self);
             messageTo(self, "resumeDefaultCalmBehavior", null, 0, false);
-        }
-        else
-        {
+        } else {
             messageTo(self, "handleNoEntertainment", null, 30, false);
         }
         return SCRIPT_CONTINUE;
     }
 
-    public int handlePerformerStopPerforming(obj_id self, dictionary params) throws InterruptedException
-    {
+    public int handlePerformerStopPerforming(obj_id self, dictionary params)
+        throws InterruptedException {
         utils.notifyObject(self, "handleEntertainmentStop", params);
         return SCRIPT_CONTINUE;
     }
 
-    public int handleEntertainmentStop(obj_id self, dictionary params) throws InterruptedException
-    {
+    public int handleEntertainmentStop(obj_id self, dictionary params)
+        throws InterruptedException {
         obj_id player = obj_id.NULL_ID;
-        if (params.containsKey("entertainer"))
-        {
+        if (params.containsKey("entertainer")) {
             player = params.getObjId("entertainer");
-        }
-        else if (params.containsKey("performer"))
-        {
+        } else if (params.containsKey("performer")) {
             player = params.getObjId("performer");
         }
-        if (!isIdValid(player))
-        {
+        if (!isIdValid(player)) {
             return SCRIPT_CONTINUE;
         }
-        if (utils.getObjIdScriptVar(self, "ai.listeningTo") != player)
-        {
+        if (utils.getObjIdScriptVar(self, "ai.listeningTo") != player) {
             return SCRIPT_CONTINUE;
         }
-        if (ai_lib.aiIsDead(self) || ai_lib.isInCombat(self))
-        {
+        if (ai_lib.aiIsDead(self) || ai_lib.isInCombat(self)) {
             return SCRIPT_CONTINUE;
         }
         setAnimationMood(self, "calm");
         int skillMod = utils.getIntScriptVar(self, "ai.oldEntertainerSkillMod");
-        if (skillMod == 0)
-        {
+        if (skillMod == 0) {
             skillMod = rand(1, 100);
         }
-        if (skillMod < 20)
-        {
-            switch (rand(1, 4))
-            {
+        if (skillMod < 20) {
+            switch (rand(1, 4)) {
                 case 1:
                     doAnimationAction(self, "hold_nose");
                     break;
@@ -2196,11 +2703,8 @@ public class ai extends script.base_script
                     doAnimationAction(self, "shake_head_no");
                     break;
             }
-        }
-        else if (skillMod < 40)
-        {
-            switch (rand(1, 4))
-            {
+        } else if (skillMod < 40) {
+            switch (rand(1, 4)) {
                 case 1:
                     doAnimationAction(self, "shake_head_no");
                     break;
@@ -2214,11 +2718,8 @@ public class ai extends script.base_script
                     doAnimationAction(self, "snap_finger1");
                     break;
             }
-        }
-        else if (skillMod < 60)
-        {
-            switch (rand(1, 4))
-            {
+        } else if (skillMod < 60) {
+            switch (rand(1, 4)) {
                 case 1:
                     doAnimationAction(self, "snap_finger1");
                     break;
@@ -2232,11 +2733,8 @@ public class ai extends script.base_script
                     doAnimationAction(self, "applause_excited");
                     break;
             }
-        }
-        else
-        {
-            switch (rand(1, 4))
-            {
+        } else {
+            switch (rand(1, 4)) {
                 case 1:
                     doAnimationAction(self, "applause_excited");
                     break;
@@ -2255,476 +2753,621 @@ public class ai extends script.base_script
         utils.removeScriptVar(self, "ai.listeningTo");
         stop(self);
         messageTo(self, "resumeDefaultCalmBehavior", null, 5, false);
-        if (hasObjVar(self, gcw.GCW_ENTERTAINMENT_FLAG) && utils.hasScriptVar(self, gcw.GCW_SCRIPTVAR_PARENT + ".isGcwEntertained"))
-        {
-            LOG("gcw_entertainer", "NPC is saving time player stopped entertaining");
-            utils.setScriptVar(self, gcw.GCW_STOPPED_ENTERTAINING, getGameTime());
-            if (hasObjVar(self, gcw.GCW_PATROL_OBJ))
-            {
+        if (
+            hasObjVar(self, gcw.GCW_ENTERTAINMENT_FLAG) &&
+            utils.hasScriptVar(
+                self,
+                gcw.GCW_SCRIPTVAR_PARENT + ".isGcwEntertained"
+            )
+        ) {
+            LOG(
+                "gcw_entertainer",
+                "NPC is saving time player stopped entertaining"
+            );
+            utils.setScriptVar(
+                self,
+                gcw.GCW_STOPPED_ENTERTAINING,
+                getGameTime()
+            );
+            if (hasObjVar(self, gcw.GCW_PATROL_OBJ)) {
                 obj_id patrolObject = getObjIdObjVar(self, gcw.GCW_PATROL_OBJ);
-                if (isValidId(patrolObject))
-                {
+                if (isValidId(patrolObject)) {
                     dictionary webster = new dictionary();
                     webster.put("npc", self);
                     webster.put("player", player);
-                    messageTo(patrolObject, "handleOffensiveEntertainedNpcCleanUp", webster, 1, false);
+                    messageTo(
+                        patrolObject,
+                        "handleOffensiveEntertainedNpcCleanUp",
+                        webster,
+                        1,
+                        false
+                    );
                 }
             }
         }
         return SCRIPT_CONTINUE;
     }
 
-    public int OnEnteredCombat(obj_id self) throws InterruptedException
-    {
+    public int OnEnteredCombat(obj_id self) throws InterruptedException {
         return SCRIPT_CONTINUE;
     }
 
-    public int OnChangedPosture(obj_id self, int before, int after) throws InterruptedException
-    {
+    public int OnChangedPosture(obj_id self, int before, int after)
+        throws InterruptedException {
         return SCRIPT_CONTINUE;
     }
 
-    public int OnCreatureDamaged(obj_id self, obj_id attacker, int damage) throws InterruptedException
-    {
-        if (damage > 0 && isIdValid(attacker) && space_utils.isPlayerControlledShip(attacker))
-        {
-            boolean bombardmentMode = hasObjVar(attacker, combat_ship.OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE) && getBooleanObjVar(attacker, combat_ship.OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE);
-            int lastTurretShot = utils.getIntScriptVar(attacker, xp.VAR_SHIP_GROUND_ATTACK_CREDIT_TIME);
-            if (bombardmentMode && lastTurretShot > 0 && (getGameTime() - lastTurretShot) <= xp.SHIP_GROUND_ATTACK_CREDIT_WINDOW)
-            {
+    public int OnCreatureDamaged(obj_id self, obj_id attacker, int damage)
+        throws InterruptedException {
+        if (
+            damage > 0 &&
+            isIdValid(attacker) &&
+            space_utils.isPlayerControlledShip(attacker)
+        ) {
+            boolean bombardmentMode =
+                hasObjVar(
+                    attacker,
+                    combat_ship.OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE
+                ) &&
+                getBooleanObjVar(
+                    attacker,
+                    combat_ship.OV_SUMMON_BOMBARDMENT_ORBIT_ACTIVE
+                );
+            int lastTurretShot = utils.getIntScriptVar(
+                attacker,
+                xp.VAR_SHIP_GROUND_ATTACK_CREDIT_TIME
+            );
+            if (
+                bombardmentMode &&
+                lastTurretShot > 0 &&
+                (getGameTime() - lastTurretShot) <=
+                xp.SHIP_GROUND_ATTACK_CREDIT_WINDOW
+            ) {
                 applyBombardmentTurretDamageScale(self, damage);
             }
         }
-        if (!utils.hasScriptVar(self,"alliesCalled"))
-        {
+        if (!utils.hasScriptVar(self, "alliesCalled")) {
             obj_id[] allies = getCreaturesInRange(getLocation(self), 64.0f);
-            for (obj_id ally : allies)
-            {
-                if (ally != self && isIdValid(ally) && exists(ally) && ai_lib.isMonster(ally) && !ai_lib.isInCombat(ally))
-                {
+            for (obj_id ally : allies) {
+                if (
+                    ally != self &&
+                    isIdValid(ally) &&
+                    exists(ally) &&
+                    ai_lib.isMonster(ally) &&
+                    !ai_lib.isInCombat(ally)
+                ) {
                     startCombat(ally, attacker);
                 }
             }
             dictionary p = new dictionary();
             p.put("mob", self);
             scanForEnemies(self, p);
-            utils.setScriptVar(self,"alliesCalled",1);
+            utils.setScriptVar(self, "alliesCalled", 1);
         }
         return SCRIPT_CONTINUE;
     }
-    public void applyBombardmentTurretDamageScale(obj_id self, int baseDamage) throws InterruptedException
-    {
-        if (!isIdValid(self) || baseDamage <= 0)
-        {
+
+    public void applyBombardmentTurretDamageScale(obj_id self, int baseDamage)
+        throws InterruptedException {
+        if (!isIdValid(self) || baseDamage <= 0) {
             return;
         }
         int level = getLevel(self);
-        if (level < 1)
-        {
+        if (level < 1) {
             level = 1;
         }
         int difficultyClass = 0;
-        if (hasObjVar(self, "difficultyClass"))
-        {
+        if (hasObjVar(self, "difficultyClass")) {
             difficultyClass = getIntObjVar(self, "difficultyClass");
         }
         float levelScale = 60.0f / (level + 10.0f);
-        if (levelScale < 0.35f)
-        {
+        if (levelScale < 0.35f) {
             levelScale = 0.35f;
-        }
-        else if (levelScale > 2.0f)
-        {
+        } else if (levelScale > 2.0f) {
             levelScale = 2.0f;
         }
         float difficultyScale = 1.0f;
-        if (difficultyClass == 1)
-        {
+        if (difficultyClass == 1) {
             difficultyScale = 0.75f;
-        }
-        else if (difficultyClass >= 2)
-        {
+        } else if (difficultyClass >= 2) {
             difficultyScale = 0.50f;
         }
         float totalScale = levelScale * difficultyScale;
-        if (totalScale < 0.20f)
-        {
+        if (totalScale < 0.20f) {
             totalScale = 0.20f;
-        }
-        else if (totalScale > 2.0f)
-        {
+        } else if (totalScale > 2.0f) {
             totalScale = 2.0f;
         }
         int scaledDamage = Math.round(baseDamage * totalScale);
-        if (scaledDamage < 1)
-        {
+        if (scaledDamage < 1) {
             scaledDamage = 1;
         }
         int damageDelta = scaledDamage - baseDamage;
-        if (damageDelta == 0)
-        {
+        if (damageDelta == 0) {
             return;
         }
         int currentHealth = getAttrib(self, HEALTH);
-        if (currentHealth <= 0)
-        {
+        if (currentHealth <= 0) {
             return;
         }
         int newHealth = currentHealth - damageDelta;
         int maxHealth = getMaxHitpoints(self);
-        if (newHealth > maxHealth)
-        {
+        if (newHealth > maxHealth) {
             newHealth = maxHealth;
         }
-        if (newHealth < 0)
-        {
+        if (newHealth < 0) {
             newHealth = 0;
         }
         setAttrib(self, HEALTH, newHealth);
     }
 
-    public int dizzyCheckFailed(obj_id self, dictionary params) throws InterruptedException
-    {
+    public int dizzyCheckFailed(obj_id self, dictionary params)
+        throws InterruptedException {
         ai_lib.aiSetPosture(self, POSTURE_KNOCKED_DOWN);
         return SCRIPT_CONTINUE;
     }
 
-    public int applyModTrap(obj_id self, dictionary params) throws InterruptedException
-    {
-        if (params == null)
-        {
+    public int applyModTrap(obj_id self, dictionary params)
+        throws InterruptedException {
+        if (params == null) {
             return SCRIPT_CONTINUE;
         }
-        if (utils.hasScriptVar(self, "trapmod.enable"))
-        {
+        if (utils.hasScriptVar(self, "trapmod.enable")) {
             return SCRIPT_CONTINUE;
         }
         java.util.Enumeration keys = params.keys();
-        while (keys.hasMoreElements())
-        {
+        while (keys.hasMoreElements()) {
             String key = (String) keys.nextElement();
-            if (!key.equals("prefix"))
-            {
+            if (!key.equals("prefix")) {
                 utils.setScriptVar(self, "trapmod." + key, params.getInt(key));
             }
         }
         utils.setScriptVar(self, "trapmod.enable", 1);
         messageTo(self, "removeModTrap", params, 60.0f, false);
         String prefix = params.getString("prefix");
-        showFlyText(self, new string_id("trap/trap", prefix + "_on"), 1.2f, colors.ORANGERED);
+        showFlyText(
+            self,
+            new string_id("trap/trap", prefix + "_on"),
+            1.2f,
+            colors.ORANGERED
+        );
         obj_id[] players = getPlayerCreaturesInRange(self, 50.0f);
-        for (obj_id player : players)
-        {
-            playClientEffectLoc(player, "clienteffect/combat_trap_" + prefix + ".cef", getLocation(self), 0.0f);
+        for (obj_id player : players) {
+            playClientEffectLoc(
+                player,
+                "clienteffect/combat_trap_" + prefix + ".cef",
+                getLocation(self),
+                0.0f
+            );
         }
         return SCRIPT_CONTINUE;
     }
 
-    public int removeModTrap(obj_id self, dictionary params) throws InterruptedException
-    {
+    public int removeModTrap(obj_id self, dictionary params)
+        throws InterruptedException {
         utils.removeScriptVar(self, "trapmod");
-        showFlyText(self, new string_id("trap/trap", params.getString("prefix") + "_off"), 1.2f, colors.ORANGERED);
+        showFlyText(
+            self,
+            new string_id("trap/trap", params.getString("prefix") + "_off"),
+            1.2f,
+            colors.ORANGERED
+        );
         return SCRIPT_CONTINUE;
     }
 
-    public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi) throws InterruptedException
-    {
-        if (isGod(player) &&
-                !isInvulnerable(self) &&
-                !isPlayer(self) &&
-                !hasScript(self, "systems.city.city_actor") &&
-                (!pet_lib.isPet(self) || !beast_lib.isBeast(self)) &&
-                !hasScript(self, "ai.pet") &&
-                !isIncapacitated(self) &&
-                !combat.isInCombat(self) &&
-                !isDead(self))
-        {
-            int gmRoot = mi.addRootMenu(menu_info_types.SERVER_MENU28, gm.SID_RADIAL_GM_ROOT);
-            mi.addSubMenu(gmRoot, menu_info_types.SERVER_MENU21, new string_id("Loot: Increase Drop Count"));
-            mi.addSubMenu(gmRoot, menu_info_types.SERVER_MENU22, new string_id("Loot: Decrease Drop Count"));
-            mi.addSubMenu(gmRoot, menu_info_types.SERVER_MENU24, new string_id("Loot: Set Loot Table"));
-            mi.addSubMenu(gmRoot, menu_info_types.SERVER_MENU23, new string_id("Terminate Combat"));
-            mi.addSubMenu(gmRoot, menu_info_types.SERVER_MENU26, new string_id("Spawn: Circle"));
-            mi.addSubMenu(gmRoot, menu_info_types.SERVER_MENU27, new string_id("Spawn: Grid"));
+    public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi)
+        throws InterruptedException {
+        if (
+            isGod(player) &&
+            !isInvulnerable(self) &&
+            !isPlayer(self) &&
+            !hasScript(self, "systems.city.city_actor") &&
+            (!pet_lib.isPet(self) || !beast_lib.isBeast(self)) &&
+            !hasScript(self, "ai.pet") &&
+            !isIncapacitated(self) &&
+            !combat.isInCombat(self) &&
+            !isDead(self)
+        ) {
+            int gmRoot = mi.addRootMenu(
+                menu_info_types.SERVER_MENU28,
+                gm.SID_RADIAL_GM_ROOT
+            );
+            mi.addSubMenu(
+                gmRoot,
+                menu_info_types.SERVER_MENU21,
+                new string_id("Loot: Increase Drop Count")
+            );
+            mi.addSubMenu(
+                gmRoot,
+                menu_info_types.SERVER_MENU22,
+                new string_id("Loot: Decrease Drop Count")
+            );
+            mi.addSubMenu(
+                gmRoot,
+                menu_info_types.SERVER_MENU24,
+                new string_id("Loot: Set Loot Table")
+            );
+            mi.addSubMenu(
+                gmRoot,
+                menu_info_types.SERVER_MENU23,
+                new string_id("Terminate Combat")
+            );
+            mi.addSubMenu(
+                gmRoot,
+                menu_info_types.SERVER_MENU26,
+                new string_id("Spawn: Circle")
+            );
+            mi.addSubMenu(
+                gmRoot,
+                menu_info_types.SERVER_MENU27,
+                new string_id("Spawn: Grid")
+            );
             return SCRIPT_CONTINUE;
         }
-        if (pet_lib.isPet(self) || beast_lib.isBeast(self))
-        {
+        if (pet_lib.isPet(self) || beast_lib.isBeast(self)) {
             return SCRIPT_CONTINUE;
         }
         location here = getLocation(self);
-        if (here == null)
-        {
-            LOG("designer_fatal", "ai.ai::OnObjectMenuRequest() -> getLocation(self) == null. WTF?!");
+        if (here == null) {
+            LOG(
+                "designer_fatal",
+                "ai.ai::OnObjectMenuRequest() -> getLocation(self) == null. WTF?!"
+            );
             return SCRIPT_CONTINUE;
         }
-        if (isIdValid(here.cell))
-        {
+        if (isIdValid(here.cell)) {
             return SCRIPT_CONTINUE;
         }
         obj_id myContainer = getContainedBy(self);
-        if (!isIdValid(myContainer))
-        {
+        if (!isIdValid(myContainer)) {
             return SCRIPT_CONTINUE;
         }
         destroyObject(self);
         return SCRIPT_CONTINUE;
     }
 
-    public int OnObjectMenuSelect(obj_id self, obj_id player, int item) throws InterruptedException
-    {
-        if (isGod(player))
-        {
-            if (item == menu_info_types.SERVER_MENU21)
-            {
+    public int OnObjectMenuSelect(obj_id self, obj_id player, int item)
+        throws InterruptedException {
+        if (isGod(player)) {
+            if (item == menu_info_types.SERVER_MENU21) {
                 int loot = getIntObjVar(self, "loot.numItems");
-                if (loot == 0)
-                {
+                if (loot == 0) {
                     setObjVar(self, "loot.numItems", 1);
-                }
-                else
-                {
+                } else {
                     setObjVar(self, "loot.numItems", loot + 1);
                 }
                 return SCRIPT_CONTINUE;
             }
-            if (item == menu_info_types.SERVER_MENU22)
-            {
+            if (item == menu_info_types.SERVER_MENU22) {
                 int loot = getIntObjVar(self, "loot.numItems");
-                if (loot == 0)
-                {
+                if (loot == 0) {
                     setObjVar(self, "loot.numItems", 0);
-                }
-                else
-                {
+                } else {
                     setObjVar(self, "loot.numItems", loot - 1);
                 }
                 return SCRIPT_CONTINUE;
             }
-            if (item == menu_info_types.SERVER_MENU23)
-            {
+            if (item == menu_info_types.SERVER_MENU23) {
                 stopCombat(player);
                 return SCRIPT_CONTINUE;
             }
-            if (item == menu_info_types.SERVER_MENU24)
-            {
-                String prompt = "Enter a partial term to search for that table.";
-                sui.inputbox(self, player, prompt, sui.OK_CANCEL, "Loot Table Lookup", sui.INPUT_NORMAL, null, "handleLootTableSearch", null);
+            if (item == menu_info_types.SERVER_MENU24) {
+                String prompt =
+                    "Enter a partial term to search for that table.";
+                sui.inputbox(
+                    self,
+                    player,
+                    prompt,
+                    sui.OK_CANCEL,
+                    "Loot Table Lookup",
+                    sui.INPUT_NORMAL,
+                    null,
+                    "handleLootTableSearch",
+                    null
+                );
                 return SCRIPT_CONTINUE;
             }
-            if (item == menu_info_types.SERVER_MENU26)
-            {
-                if (!hasScript(self, "systems.city.city_actor"))
-                {
-                    String prompt = "Enter creature name to make a ring spawn.\n For a complete list of creature names, seek out creatures.iff!";
-                    int pid = sui.inputbox(self, player, prompt, "prepareRingSpawn");
-                    sui.setSUIProperty(pid, sui.INPUTBOX_PROMPT, "Font", "bold_22");
+            if (item == menu_info_types.SERVER_MENU26) {
+                if (!hasScript(self, "systems.city.city_actor")) {
+                    String prompt =
+                        "Enter creature name to make a ring spawn.\n For a complete list of creature names, seek out creatures.iff!";
+                    int pid = sui.inputbox(
+                        self,
+                        player,
+                        prompt,
+                        "prepareRingSpawn"
+                    );
+                    sui.setSUIProperty(
+                        pid,
+                        sui.INPUTBOX_PROMPT,
+                        "Font",
+                        "bold_22"
+                    );
                     flushSUIPage(pid);
                 }
             }
 
-            if (item == menu_info_types.SERVER_MENU27)
-            {
-                if (!hasScript(self, "systems.city.city_actor"))
-                {
-                    String prompt = "Enter creature name to make a grid. (10x10).\n For a complete list of creature names, seek out creatures.iff!";
-                    int pid = sui.inputbox(self, player, prompt, "prepareGridSpawn");
-                    sui.setSUIProperty(pid, sui.INPUTBOX_PROMPT, "Font", "bold_22");
+            if (item == menu_info_types.SERVER_MENU27) {
+                if (!hasScript(self, "systems.city.city_actor")) {
+                    String prompt =
+                        "Enter creature name to make a grid. (10x10).\n For a complete list of creature names, seek out creatures.iff!";
+                    int pid = sui.inputbox(
+                        self,
+                        player,
+                        prompt,
+                        "prepareGridSpawn"
+                    );
+                    sui.setSUIProperty(
+                        pid,
+                        sui.INPUTBOX_PROMPT,
+                        "Font",
+                        "bold_22"
+                    );
                 }
             }
         }
         return SCRIPT_CONTINUE;
     }
 
-    public int handleLootTableInput(obj_id self, dictionary params) throws InterruptedException
-    {
+    public int handleLootTableInput(obj_id self, dictionary params)
+        throws InterruptedException {
         String lootTable = sui.getInputBoxText(params);
         setObjVar(self, "loot.lootTable", lootTable);
         return SCRIPT_CONTINUE;
     }
 
-    public int OnHearSpeech(obj_id self, obj_id speaker, String text) throws Exception
-    {
-        if (isGod(speaker) && getDistance(self, speaker) < 2.5f && hasObjVar(speaker, "player_ai"))
-        {
-            if (!isMob(self
-            {
-                broadcast(speaker, "hey that thing shouldn't talk, are u on crack");
+    public int OnHearSpeech(obj_id self, obj_id speaker, String text)
+        throws Exception {
+        if (
+            isGod(speaker) &&
+            getDistance(self, speaker) < 2.5f &&
+            hasObjVar(speaker, "player_ai")
+        ) {
+            if (!isMob(self)) {
+                broadcast(
+                    speaker,
+                    "hey that thing shouldn't talk, are u on crack"
+                );
                 return SCRIPT_CONTINUE;
             }
-            String response = openwebui.getChatCompletion(openwebui.API_KEY, self, text, speaker);
-            if (response != null && !response.isEmpty())
-            {
+            String response = openwebui.getChatCompletion(
+                openwebui.API_KEY,
+                self,
+                text,
+                speaker
+            );
+            if (response != null && !response.isEmpty()) {
                 chat.chat(self, response);
-                showFlyText(self, string_id.unlocalized("!"), 3.0f, colors.YELLOW);
+                showFlyText(
+                    self,
+                    string_id.unlocalized("!"),
+                    3.0f,
+                    colors.YELLOW
+                );
             }
             return SCRIPT_CONTINUE;
         }
         return SCRIPT_CONTINUE;
     }
 
-    public int prepareGridSpawn(obj_id self, dictionary params) throws InterruptedException
-    {
+    public int prepareGridSpawn(obj_id self, dictionary params)
+        throws InterruptedException {
         String creatureToSpawn = sui.getInputBoxText(params);
         obj_id player = sui.getPlayerId(params);
-        if (creatureToSpawn == null)
-        {
+        if (creatureToSpawn == null) {
             broadcast(player, "Creature name is null.");
             return SCRIPT_CONTINUE;
         }
-        titan_player.createCreatureGrid(player, self, creatureToSpawn, 10, 10, 5f);
+        titan_player.createCreatureGrid(
+            player,
+            self,
+            creatureToSpawn,
+            10,
+            10,
+            5f
+        );
         broadcast(player, "Spawned 10x10 grid of " + creatureToSpawn);
         return SCRIPT_CONTINUE;
     }
 
-    public int prepareRingSpawn(obj_id self, dictionary params) throws InterruptedException
-    {
+    public int prepareRingSpawn(obj_id self, dictionary params)
+        throws InterruptedException {
         String creatureToSpawn = sui.getInputBoxText(params);
         obj_id player = sui.getPlayerId(params);
-        if (creatureToSpawn == null)
-        {
+        if (creatureToSpawn == null) {
             broadcast(player, "Creature name is null.");
             return SCRIPT_CONTINUE;
         }
-        spawnRing(self, 12, rand(6f,12.5f), getLocation(self), creatureToSpawn);
+        spawnRing(
+            self,
+            12,
+            rand(6f, 12.5f),
+            getLocation(self),
+            creatureToSpawn
+        );
         broadcast(player, "Spawned a ring of " + creatureToSpawn);
         return SCRIPT_CONTINUE;
     }
 
-    public int spawnRing(obj_id self, int numMobs, float radius, location loc, String creatureName) throws InterruptedException
-    {
-        if (!isIdValid(self) || !exists(self))
-        {
+    public int spawnRing(
+        obj_id self,
+        int numMobs,
+        float radius,
+        location loc,
+        String creatureName
+    ) throws InterruptedException {
+        if (!isIdValid(self) || !exists(self)) {
             return SCRIPT_CONTINUE;
         }
         float x = loc.x;
         float z = loc.z;
-        for (int i = 0; i < numMobs; i++)
-        {
+        for (int i = 0; i < numMobs; i++) {
             float angle = (float) (i * (360 / numMobs));
             x = loc.x + (float) Math.cos(angle) * radius;
             z = loc.z + (float) Math.sin(angle) * radius;
-            obj_id creatureObj = create.object(creatureName, new location(x, getHeightAtLocation(x, z), z, loc.area));
+            obj_id creatureObj = create.object(
+                creatureName,
+                new location(x, getHeightAtLocation(x, z), z, loc.area)
+            );
             faceTo(creatureObj, self);
         }
         return SCRIPT_CONTINUE;
     }
 
-    public int OnDestroy(obj_id self) throws InterruptedException
-    {
+    public int OnDestroy(obj_id self) throws InterruptedException {
         obj_id group = getGroupObject(self);
-        if (isIdValid(group))
-        {
-            queueCommand(self, (1188179258), group, "", COMMAND_PRIORITY_DEFAULT);
+        if (isIdValid(group)) {
+            queueCommand(
+                self,
+                (1188179258),
+                group,
+                "",
+                COMMAND_PRIORITY_DEFAULT
+            );
         }
         return SCRIPT_CONTINUE;
     }
 
-    public int forceAnimalAttack(obj_id self, dictionary params) throws InterruptedException
-    {
-        LOGC(aiLoggingEnabled(self), "debug_ai", "ai::forceAnimalAttack() self(" + self + ")");
-        if (ai_lib.aiIsDead(self))
-        {
+    public int forceAnimalAttack(obj_id self, dictionary params)
+        throws InterruptedException {
+        LOGC(
+            aiLoggingEnabled(self),
+            "debug_ai",
+            "ai::forceAnimalAttack() self(" + self + ")"
+        );
+        if (ai_lib.aiIsDead(self)) {
             return SCRIPT_CONTINUE;
         }
         obj_id target = params.getObjId("target");
-        if (!isIdValid(target))
-        {
+        if (!isIdValid(target)) {
             return SCRIPT_CONTINUE;
         }
-        if (!pvpCanAttack(self, target))
-        {
+        if (!pvpCanAttack(self, target)) {
             return SCRIPT_CONTINUE;
         }
         utils.setScriptVar(self, "ai.combat.isTaunted", (getGameTime() + 20));
-        if (ai_lib.isInCombat(self))
-        {
+        if (ai_lib.isInCombat(self)) {
             removeObjVar(self, "ai.combat.moveMode");
             stop(self);
             setLookAtTarget(self, target);
-        }
-        else
-        {
+        } else {
             startCombat(self, target);
         }
         return SCRIPT_CONTINUE;
     }
 
-    public int attemptMilkHandler(obj_id self, dictionary params) throws InterruptedException
-    {
-        if (params == null)
-        {
+    public int attemptMilkHandler(obj_id self, dictionary params)
+        throws InterruptedException {
+        if (params == null) {
             return SCRIPT_CONTINUE;
         }
         attemptMilk(params.getObjId("player"), self);
         return SCRIPT_CONTINUE;
     }
 
-    public void attemptMilk(obj_id player, obj_id self) throws InterruptedException
-    {
+    public void attemptMilk(obj_id player, obj_id self)
+        throws InterruptedException {
         obj_id pInv = utils.getInventoryContainer(player);
-        if (!isValidId(pInv) || !exists(pInv))
-        {
+        if (!isValidId(pInv) || !exists(pInv)) {
             return;
         }
-        if (getVolumeFree(pInv) <= 0)
-        {
+        if (getVolumeFree(pInv) <= 0) {
             sendSystemMessage(self, SID_CANT_MILK_INV_FULL);
             return;
         }
-        if (isIdValid(getMountId(player)))
-        {
+        if (isIdValid(getMountId(player))) {
             sendSystemMessage(player, SID_CANT_MILK_MOUNTED);
             return;
         }
-        if (utils.hasScriptVar(self, "milk.attempts"))
-        {
+        if (utils.hasScriptVar(self, "milk.attempts")) {
             sendSystemMessage(player, SID_BEING_MILKED);
             return;
         }
-        if (pet_lib.isPet(self) || beast_lib.isBeast(self))
-        {
-            showFlyText(self, new string_id("npc_reaction/flytext", "threaten"), 2.0f, colors.ORANGERED);
+        if (pet_lib.isPet(self) || beast_lib.isBeast(self)) {
+            showFlyText(
+                self,
+                new string_id("npc_reaction/flytext", "threaten"),
+                2.0f,
+                colors.ORANGERED
+            );
             sendSystemMessage(player, SID_CANT_MILK);
             return;
         }
-        if (stealth.hasInvisibleBuff(player))
-        {
-            showFlyText(self, new string_id("npc_reaction/flytext", "threaten"), 2.0f, colors.ORANGERED);
+        if (stealth.hasInvisibleBuff(player)) {
+            showFlyText(
+                self,
+                new string_id("npc_reaction/flytext", "threaten"),
+                2.0f,
+                colors.ORANGERED
+            );
             sendSystemMessage(player, SID_MILK_NOT_HIDDEN);
             return;
         }
-        if (utils.hasScriptVar(self, "milk.lasttime"))
-        {
+        if (utils.hasScriptVar(self, "milk.lasttime")) {
             int milktime = utils.getIntScriptVar(self, "milk.lasttime");
-            if (getGameTime() - milktime < 3600)
-            {
-                showFlyText(self, new string_id("npc_reaction/flytext", "threaten"), 2.0f, colors.ORANGERED);
+            if (getGameTime() - milktime < 3600) {
+                showFlyText(
+                    self,
+                    new string_id("npc_reaction/flytext", "threaten"),
+                    2.0f,
+                    colors.ORANGERED
+                );
                 sendSystemMessage(player, SID_CANT_MILK);
                 return;
             }
         }
         float milkStunModified = 0.0f;
-        if (buff.hasBuff(player, "creature_milking_buff") || buff.hasBuff(player, "drink_starshine_surprise"))
-        {
-            milkStunModified += getEnhancedSkillStatisticModifierUncapped(player, "milk_stun_modified");
-            CustomerServiceLog("milking_and_lair_search", "handleMilking: Player: " + getName(player) + " OID: " + player + " has a buff that gives a stun chance of: " + milkStunModified + ".");
+        if (
+            buff.hasBuff(player, "creature_milking_buff") ||
+            buff.hasBuff(player, "drink_starshine_surprise")
+        ) {
+            milkStunModified += getEnhancedSkillStatisticModifierUncapped(
+                player,
+                "milk_stun_modified"
+            );
+            CustomerServiceLog(
+                "milking_and_lair_search",
+                "handleMilking: Player: " +
+                    getName(player) +
+                    " OID: " +
+                    player +
+                    " has a buff that gives a stun chance of: " +
+                    milkStunModified +
+                    "."
+            );
         }
-        if (milkStunModified > 0)
-        {
-            if (rand(1, 100) < milkStunModified)
-            {
-                CustomerServiceLog("milking_and_lair_search", "handleMilking: Player: " + getName(player) + " OID: " + player + " has successfully stunned creature " + self + ".  The creature will stand still for a few seconds.");
+        if (milkStunModified > 0) {
+            if (rand(1, 100) < milkStunModified) {
+                CustomerServiceLog(
+                    "milking_and_lair_search",
+                    "handleMilking: Player: " +
+                        getName(player) +
+                        " OID: " +
+                        player +
+                        " has successfully stunned creature " +
+                        self +
+                        ".  The creature will stand still for a few seconds."
+                );
                 messageTo(self, "milkingCreatureStunned", null, 0, false);
                 messageTo(self, "milkingCreatureStunRemoval", null, 4, false);
-            }
-            else
-            {
+            } else {
                 messageTo(self, "milkingCreatureStunFail", null, 0, false);
-                CustomerServiceLog("milking_and_lair_search", "handleMilking: Player: " + getName(player) + " OID: " + player + " failed to stun the creature.");
+                CustomerServiceLog(
+                    "milking_and_lair_search",
+                    "handleMilking: Player: " +
+                        getName(player) +
+                        " OID: " +
+                        player +
+                        " failed to stun the creature."
+                );
             }
         }
-        showFlyText(self, new string_id("npc_reaction/flytext", "alert"), 2.0f, colors.MEDIUMSLATEBLUE);
+        showFlyText(
+            self,
+            new string_id("npc_reaction/flytext", "alert"),
+            2.0f,
+            colors.MEDIUMSLATEBLUE
+        );
         sendSystemMessage(player, SID_MILK_BEGIN);
         utils.setScriptVar(self, "milk.attempts", 0);
         dictionary params = new dictionary();
@@ -2732,30 +3375,40 @@ public class ai extends script.base_script
         messageTo(self, "handleMilking", params, 7, false);
     }
 
-    public int handleMilking(obj_id self, dictionary params) throws InterruptedException
-    {
+    public int handleMilking(obj_id self, dictionary params)
+        throws InterruptedException {
         obj_id player = params.getObjId("player");
-        if (isDead(self))
-        {
+        if (isDead(self)) {
             sendSystemMessage(player, SID_CANT_MILK_THE_DEAD);
             return SCRIPT_CONTINUE;
         }
-        if (isIdValid(getMountId(player)))
-        {
+        if (isIdValid(getMountId(player))) {
             sendSystemMessage(player, SID_CANT_MILK_MOUNTED);
             return SCRIPT_CONTINUE;
         }
         float dist = getDistance(self, player);
-        if ((dist < -3) || (dist > 3))
-        {
-            showFlyText(self, new string_id("npc_reaction/flytext", "threaten"), 2.0f, colors.ORANGERED);
+        if ((dist < -3) || (dist > 3)) {
+            showFlyText(
+                self,
+                new string_id("npc_reaction/flytext", "threaten"),
+                2.0f,
+                colors.ORANGERED
+            );
             sendSystemMessage(player, SID_MILK_TOO_FAR);
             utils.removeScriptVar(self, "milk.attempts");
             return SCRIPT_CONTINUE;
         }
-        if (stealth.hasInvisibleBuff(player) || ai_lib.isInCombat(self) || ai_lib.isInCombat(player))
-        {
-            showFlyText(self, new string_id("npc_reaction/flytext", "threaten"), 2.0f, colors.ORANGERED);
+        if (
+            stealth.hasInvisibleBuff(player) ||
+            ai_lib.isInCombat(self) ||
+            ai_lib.isInCombat(player)
+        ) {
+            showFlyText(
+                self,
+                new string_id("npc_reaction/flytext", "threaten"),
+                2.0f,
+                colors.ORANGERED
+            );
             sendSystemMessage(player, SID_MILK_NOT_HIDDEN);
             utils.removeScriptVar(self, "milk.attempts");
             return SCRIPT_CONTINUE;
@@ -2766,105 +3419,216 @@ public class ai extends script.base_script
         boolean shortenAttempts = false;
         float milkQuantityModified = 0.0f;
         float milkExceptionalModified = 0.0f;
-        if (buff.hasBuff(player, "creature_milking_buff") || buff.hasBuff(player, "drink_starshine_surprise"))
-        {
-            if (buff.hasBuff(player, "creature_milking_buff"))
-            {
-                CustomerServiceLog("buff", "creature_milking_buff Buff used by player: " + player + " Name: " + getName(player) + " has creature_milking_buff ");
+        if (
+            buff.hasBuff(player, "creature_milking_buff") ||
+            buff.hasBuff(player, "drink_starshine_surprise")
+        ) {
+            if (buff.hasBuff(player, "creature_milking_buff")) {
+                CustomerServiceLog(
+                    "buff",
+                    "creature_milking_buff Buff used by player: " +
+                        player +
+                        " Name: " +
+                        getName(player) +
+                        " has creature_milking_buff "
+                );
+            } else if (buff.hasBuff(player, "drink_starshine_surprise")) {
+                CustomerServiceLog(
+                    "buff",
+                    "creature_milking_buff Buff used by player: " +
+                        player +
+                        " Name: " +
+                        getName(player) +
+                        " has drink_starshine_surprise buff "
+                );
             }
-            else if (buff.hasBuff(player, "drink_starshine_surprise"))
-            {
-                CustomerServiceLog("buff", "creature_milking_buff Buff used by player: " + player + " Name: " + getName(player) + " has drink_starshine_surprise buff ");
-            }
-            milkExceptionalModified += getEnhancedSkillStatisticModifierUncapped(player, "milk_exceptional_modified");
-            CustomerServiceLog("buff", "creature_milking_buff Buff used by player: " + player + " Name: " + getName(player) + " has a exceptional milk modifier of: " + milkExceptionalModified);
-            milkQuantityModified += getEnhancedSkillStatisticModifierUncapped(player, "milk_quantity_modified");
-            CustomerServiceLog("buff", "creature_milking_buff Buff used by player: " + player + " Name: " + getName(player) + " has a milk quantity modifier of: " + milkQuantityModified);
+            milkExceptionalModified +=
+                getEnhancedSkillStatisticModifierUncapped(
+                    player,
+                    "milk_exceptional_modified"
+                );
+            CustomerServiceLog(
+                "buff",
+                "creature_milking_buff Buff used by player: " +
+                    player +
+                    " Name: " +
+                    getName(player) +
+                    " has a exceptional milk modifier of: " +
+                    milkExceptionalModified
+            );
+            milkQuantityModified += getEnhancedSkillStatisticModifierUncapped(
+                player,
+                "milk_quantity_modified"
+            );
+            CustomerServiceLog(
+                "buff",
+                "creature_milking_buff Buff used by player: " +
+                    player +
+                    " Name: " +
+                    getName(player) +
+                    " has a milk quantity modifier of: " +
+                    milkQuantityModified
+            );
             shortenAttempts = true;
         }
-        if (attempts == 3 || shortenAttempts)
-        {
+        if (attempts == 3 || shortenAttempts) {
             obj_id pInv = utils.getInventoryContainer(player);
-            if (!isValidId(pInv) || !exists(pInv))
-            {
+            if (!isValidId(pInv) || !exists(pInv)) {
                 return SCRIPT_CONTINUE;
-            }
-            else if (getVolumeFree(pInv) <= 0)
-            {
+            } else if (getVolumeFree(pInv) <= 0) {
                 sendSystemMessage(self, SID_CANT_MILK_INV_FULL);
                 return SCRIPT_CONTINUE;
             }
             int lev = ai_lib.getLevel(self);
-            if (lev > 50)
-            {
+            if (lev > 50) {
                 lev = 50;
             }
             int mlev = lev / 2;
-            if (mlev < 1)
-            {
+            if (mlev < 1) {
                 mlev = 1;
             }
             int amt = rand(mlev * 10, lev * 10);
-            if (shortenAttempts && milkQuantityModified > 0)
-            {
+            if (shortenAttempts && milkQuantityModified > 0) {
                 amt = amt + (int) (amt * milkQuantityModified);
             }
             String resourceType = ai_lib.getMilkType(self);
-            if (resourceType == null || resourceType.isEmpty())
-            {
-                CustomerServiceLog("milking_and_lair_search", "handleMilking: Player: " + getName(player) + " OID: " + player + " attempted to milk but could not retrieve a valid milk type on " + self + " " + getName(self));
-                blog("ai.handleMilking: cannot get resource type from ai_lib.getMilkType");
+            if (resourceType == null || resourceType.isEmpty()) {
+                CustomerServiceLog(
+                    "milking_and_lair_search",
+                    "handleMilking: Player: " +
+                        getName(player) +
+                        " OID: " +
+                        player +
+                        " attempted to milk but could not retrieve a valid milk type on " +
+                        self +
+                        " " +
+                        getName(self)
+                );
+                blog(
+                    "ai.handleMilking: cannot get resource type from ai_lib.getMilkType"
+                );
                 return SCRIPT_CONTINUE;
             }
             String sceneName = getCurrentSceneName();
-            if (sceneName == null || sceneName.isEmpty())
-            {
-                CustomerServiceLog("milking_and_lair_search", "handleMilking: Player: " + getName(player) + " OID: " + player + " attempted to milk but could not retrieve a valid scene name (planet name) while milking " + self + " " + getName(self));
+            if (sceneName == null || sceneName.isEmpty()) {
+                CustomerServiceLog(
+                    "milking_and_lair_search",
+                    "handleMilking: Player: " +
+                        getName(player) +
+                        " OID: " +
+                        player +
+                        " attempted to milk but could not retrieve a valid scene name (planet name) while milking " +
+                        self +
+                        " " +
+                        getName(self)
+                );
                 blog("ai.handleMilking: cannot get scene name");
                 return SCRIPT_CONTINUE;
             }
-            String rsrcMapTable = "datatables/creature_resource/resource_scene_map.iff";
-            String correctedPlanetName = dataTableGetString(rsrcMapTable, sceneName, 1);
-            if (correctedPlanetName == null || correctedPlanetName.isEmpty())
-            {
+            String rsrcMapTable =
+                "datatables/creature_resource/resource_scene_map.iff";
+            String correctedPlanetName = dataTableGetString(
+                rsrcMapTable,
+                sceneName,
+                1
+            );
+            if (correctedPlanetName == null || correctedPlanetName.isEmpty()) {
                 correctedPlanetName = "tatooine";
-                CustomerServiceLog("milking_and_lair_search", "handleMilking: Player: " + getName(player) + " OID: " + player + " attempted to milk but received an invlaid Planet Name. As a result the milk resource planet attrib has been defaulted to TATOOINE.");
+                CustomerServiceLog(
+                    "milking_and_lair_search",
+                    "handleMilking: Player: " +
+                        getName(player) +
+                        " OID: " +
+                        player +
+                        " attempted to milk but received an invlaid Planet Name. As a result the milk resource planet attrib has been defaulted to TATOOINE."
+                );
             }
             resourceType = resourceType + "_" + correctedPlanetName;
-            int useDistMap = dataTableGetInt(rsrcMapTable, sceneName, "useDistributionMap");
-            if (useDistMap < 0)
-            {
-                blog("ai.handleMilking: cannot get int data from distribution data table");
-                CustomerServiceLog("milking_and_lair_search", "handleMilking: Player: " + getName(player) + " OID: " + player + " attempted to milk but could not retrieve resource distribution data while milking " + self + " " + getName(self));
+            int useDistMap = dataTableGetInt(
+                rsrcMapTable,
+                sceneName,
+                "useDistributionMap"
+            );
+            if (useDistMap < 0) {
+                blog(
+                    "ai.handleMilking: cannot get int data from distribution data table"
+                );
+                CustomerServiceLog(
+                    "milking_and_lair_search",
+                    "handleMilking: Player: " +
+                        getName(player) +
+                        " OID: " +
+                        player +
+                        " attempted to milk but could not retrieve resource distribution data while milking " +
+                        self +
+                        " " +
+                        getName(self)
+                );
                 return SCRIPT_CONTINUE;
             }
             location worldLoc = getWorldLocation(self);
-            if (worldLoc == null)
-            {
+            if (worldLoc == null) {
                 blog("ai.handleMilking: cannot get world location from cpp");
-                CustomerServiceLog("milking_and_lair_search", "handleMilking: Player: " + getName(player) + " OID: " + player + " attempted to milk but could not retrieve world location while milking " + self + " " + getName(self));
+                CustomerServiceLog(
+                    "milking_and_lair_search",
+                    "handleMilking: Player: " +
+                        getName(player) +
+                        " OID: " +
+                        player +
+                        " attempted to milk but could not retrieve world location while milking " +
+                        self +
+                        " " +
+                        getName(self)
+                );
                 return SCRIPT_CONTINUE;
             }
-            if (useDistMap == 0)
-            {
+            if (useDistMap == 0) {
                 worldLoc.area = correctedPlanetName;
             }
-            obj_id[] resourceList = resource.createRandom(resourceType, amt, worldLoc, pInv, player, 2);
-            if (resourceList == null)
-            {
-                blog("ai.handleMilking: cannot get resource data from resource.createRandom function");
-                CustomerServiceLog("milking_and_lair_search", "handleMilking: Player: " + getName(player) + " OID: " + player + " attempted to milk but could not resource data from resource.createRandom function while milking " + self + " " + getName(self));
+            obj_id[] resourceList = resource.createRandom(
+                resourceType,
+                amt,
+                worldLoc,
+                pInv,
+                player,
+                2
+            );
+            if (resourceList == null) {
+                blog(
+                    "ai.handleMilking: cannot get resource data from resource.createRandom function"
+                );
+                CustomerServiceLog(
+                    "milking_and_lair_search",
+                    "handleMilking: Player: " +
+                        getName(player) +
+                        " OID: " +
+                        player +
+                        " attempted to milk but could not resource data from resource.createRandom function while milking " +
+                        self +
+                        " " +
+                        getName(self)
+                );
                 return SCRIPT_CONTINUE;
             }
             location curloc = getLocation(player);
-            if (curloc == null)
-            {
-                blog("ai.handleMilking: cannot get resource data from getLocation cpp");
-                CustomerServiceLog("milking_and_lair_search", "handleMilking: Player: " + getName(player) + " OID: " + player + " attempted to milk but could not retrieve location data while milking " + self + " " + getName(self));
+            if (curloc == null) {
+                blog(
+                    "ai.handleMilking: cannot get resource data from getLocation cpp"
+                );
+                CustomerServiceLog(
+                    "milking_and_lair_search",
+                    "handleMilking: Player: " +
+                        getName(player) +
+                        " OID: " +
+                        player +
+                        " attempted to milk but could not retrieve location data while milking " +
+                        self +
+                        " " +
+                        getName(self)
+                );
                 return SCRIPT_CONTINUE;
             }
-            for (obj_id obj_id : resourceList)
-            {
+            for (obj_id obj_id : resourceList) {
                 blog(String.valueOf(obj_id));
                 setLocation(obj_id, curloc);
                 putIn(obj_id, pInv, player);
@@ -2872,47 +3636,65 @@ public class ai extends script.base_script
             sendSystemMessage(player, SID_MILK_SUCCESS);
             utils.setScriptVar(self, "milk.lasttime", getGameTime());
             utils.removeScriptVar(self, "milk.attempts");
-            if (!collection.collectionResource(player, "milk", (int) milkExceptionalModified))
-            {
-                blog("ai.handleMilking: cannot get resource data from getLocation cpp");
-                CustomerServiceLog("milking_and_lair_search", "handleMilking: Player: " + getName(player) + " OID: " + player + " did not receive an exceptional milk from creature " + self + " " + getName(self) + ". Check the collection logs for additional details.");
+            if (
+                !collection.collectionResource(
+                    player,
+                    "milk",
+                    (int) milkExceptionalModified
+                )
+            ) {
+                blog(
+                    "ai.handleMilking: cannot get resource data from getLocation cpp"
+                );
+                CustomerServiceLog(
+                    "milking_and_lair_search",
+                    "handleMilking: Player: " +
+                        getName(player) +
+                        " OID: " +
+                        player +
+                        " did not receive an exceptional milk from creature " +
+                        self +
+                        " " +
+                        getName(self) +
+                        ". Check the collection logs for additional details."
+                );
                 return SCRIPT_CONTINUE;
             }
             return SCRIPT_CONTINUE;
-        }
-        else
-        {
+        } else {
             sendSystemMessage(player, SID_MILK_CONTINUE);
         }
         messageTo(self, "handleMilking", params, 7, false);
         return SCRIPT_CONTINUE;
     }
 
-    public int handleSpawnParameters(obj_id self, dictionary params) throws InterruptedException
-    {
-        LOGC(aiLoggingEnabled(self), "debug_ai", "ai::handleSpawnParameters() self(" + self + ")");
-        if (params == null || params.isEmpty())
-        {
+    public int handleSpawnParameters(obj_id self, dictionary params)
+        throws InterruptedException {
+        LOGC(
+            aiLoggingEnabled(self),
+            "debug_ai",
+            "ai::handleSpawnParameters() self(" + self + ")"
+        );
+        if (params == null || params.isEmpty()) {
             return SCRIPT_CONTINUE;
         }
         obj_id target = params.getObjId("actionTarget");
-        switch (params.getInt("actionCode"))
-        {
+        switch (params.getInt("actionCode")) {
             case gcw.AC_ATTACK:
-                if (isIdValid(target))
-                {
+                if (isIdValid(target)) {
                     startCombat(self, target);
                 }
                 break;
             case gcw.AC_SCAN:
                 int scanInterests = params.getInt("scanInterests");
-                if (scanInterests == 0)
-                {
+                if (scanInterests == 0) {
                     gcw.assignScanInterests(self);
-                }
-                else
-                {
-                    utils.setScriptVar(self, gcw.SCRIPTVAR_SCAN_INTEREST, scanInterests);
+                } else {
+                    utils.setScriptVar(
+                        self,
+                        gcw.SCRIPTVAR_SCAN_INTEREST,
+                        scanInterests
+                    );
                 }
                 gcw.harass(self, target);
                 break;
@@ -2922,44 +3704,45 @@ public class ai extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int playDelayedClientEffect(obj_id self, dictionary params) throws InterruptedException
-    {
+    public int playDelayedClientEffect(obj_id self, dictionary params)
+        throws InterruptedException {
         obj_id target = params.getObjId("target");
         playClientEffectObj(target, params.getString("effect"), target, "");
         return SCRIPT_CONTINUE;
     }
 
-    public int clearScriptVar(obj_id self, dictionary params) throws InterruptedException
-    {
+    public int clearScriptVar(obj_id self, dictionary params)
+        throws InterruptedException {
         utils.removeScriptVar(self, params.getString("name"));
         return SCRIPT_CONTINUE;
     }
 
-    public int OnInvulnerableChanged(obj_id self, boolean invulnerable) throws InterruptedException
-    {
-        LOGC(aiLoggingEnabled(self), "debug_ai", "ai::OnInvulnerableChanged() self(" + self + ") invulerable(" + invulnerable + ")");
-        if (invulnerable)
-        {
+    public int OnInvulnerableChanged(obj_id self, boolean invulnerable)
+        throws InterruptedException {
+        LOGC(
+            aiLoggingEnabled(self),
+            "debug_ai",
+            "ai::OnInvulnerableChanged() self(" +
+                self +
+                ") invulerable(" +
+                invulnerable +
+                ")"
+        );
+        if (invulnerable) {
             removeTriggerVolume(ai_lib.ALERT_VOLUME_NAME);
             removeTriggerVolume(ai_lib.AGGRO_VOLUME_NAME);
-        }
-        else
-        {
+        } else {
             ai_lib.resetCombatTriggerVolumes();
         }
         return SCRIPT_CONTINUE;
     }
 
-    public int OnIncapacitateTarget(obj_id self, obj_id victim) throws InterruptedException
-    {
-        if (!utils.hasScriptVar(self, "experienced"))
-        {
-            if (isIdValid(victim))
-            {
-                if (isPlayer(victim))
-                {
-                    if (rand(1, 1000) == 999)
-                    {
+    public int OnIncapacitateTarget(obj_id self, obj_id victim)
+        throws InterruptedException {
+        if (!utils.hasScriptVar(self, "experienced")) {
+            if (isIdValid(victim)) {
+                if (isPlayer(victim)) {
+                    if (rand(1, 1000) == 999) {
                         ai_lib.creatureLevelUp(self, victim);
                         utils.setScriptVar(self, "experienced", 1);
                     }
@@ -2969,330 +3752,406 @@ public class ai extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int clearCollectionCameraParticle(obj_id self, dictionary params) throws InterruptedException
-    {
+    public int clearCollectionCameraParticle(obj_id self, dictionary params)
+        throws InterruptedException {
         obj_id target = params.getObjId("target");
         stopClientEffectObjByLabel(target, "root_buff");
         utils.removeScriptVar(target, "picture_taken_debuff");
         return SCRIPT_CONTINUE;
     }
 
-    public int OnGiveItem(obj_id self, obj_id item, obj_id giver) throws InterruptedException
-    {
-        if (hasScript(item, "item.content.rewards.loot_roll_item"))//loot roll item
-        {
-            if (isHeroicMob(self))
-            {
-                if (hasObjVar(item, "loot_roll.charges"))
-                {
+    public int OnGiveItem(obj_id self, obj_id item, obj_id giver)
+        throws InterruptedException {
+        if (
+            hasScript(item, "item.content.rewards.loot_roll_item") //loot roll item
+        ) {
+            if (isHeroicMob(self)) {
+                if (hasObjVar(item, "loot_roll.charges")) {
                     int currentCharges = getIntObjVar(self, "loot.numItems");
-                    int totalCharges = currentCharges + getIntObjVar(item, "loot_roll.charges");
-                    if (getIntObjVar(self, "loot.numItems") > 6)
-                    {
-                        broadcast(giver, "This creature already has the maximum number of allowed loot rolls.");
+                    int totalCharges =
+                        currentCharges +
+                        getIntObjVar(item, "loot_roll.charges");
+                    if (getIntObjVar(self, "loot.numItems") > 6) {
+                        broadcast(
+                            giver,
+                            "This creature already has the maximum number of allowed loot rolls."
+                        );
                         return SCRIPT_CONTINUE;
-                    }
-                    else
-                    {
+                    } else {
                         setObjVar(self, "loot.numItems", totalCharges);
-                        broadcast(giver, "You have added " + getIntObjVar(item, "loot_roll.charges") + " to the loot roll.");
-                        LOG("ethereal", "[Loot Roll Bonus]: Loot roll item added to " + self + " by " + giver + " for a total of " + totalCharges + " charges.");
+                        broadcast(
+                            giver,
+                            "You have added " +
+                                getIntObjVar(item, "loot_roll.charges") +
+                                " to the loot roll."
+                        );
+                        LOG(
+                            "ethereal",
+                            "[Loot Roll Bonus]: Loot roll item added to " +
+                                self +
+                                " by " +
+                                giver +
+                                " for a total of " +
+                                totalCharges +
+                                " charges."
+                        );
                         destroyObject(item);
                     }
-                }
-                else
-                {
-                    broadcast(giver, "This item is not properly configured. Please configure before use.");
+                } else {
+                    broadcast(
+                        giver,
+                        "This item is not properly configured. Please configure before use."
+                    );
                     putIn(item, utils.getInventoryContainer(giver), giver);
                     return SCRIPT_CONTINUE;
                 }
-            }
-            else
-            {
-                broadcast(giver, "This creature does not qualify for additional loot rolls.");
+            } else {
+                broadcast(
+                    giver,
+                    "This creature does not qualify for additional loot rolls."
+                );
                 putIn(item, utils.getInventoryContainer(giver), giver);
                 return SCRIPT_CONTINUE;
             }
-
         }
-        if (hasScript(item, "developer.bubbajoe.looter") && isGod(giver))
-        {
+        if (hasScript(item, "developer.bubbajoe.looter") && isGod(giver)) {
             obj_id pInv = utils.getInventoryContainer(giver);
-            if (isIdValid(giver))
-            {
-                if (hasObjVar(self, "loot.lootTable"))
-                {
-                    if (hasObjVar(self, "loot.numItems"))
-                    {
-                        if (getIntObjVar(self, "loot.numItems") <= 1)
-                        {
-                            loot.makeLootInContainer(pInv, getStringObjVar(self, "loot.lootTable"), getIntObjVar(self, "loot.numItems"), 300);
-                            broadcast(giver, "Made loot inside your inventory from mob: " + getEncodedName(self));
+            if (isIdValid(giver)) {
+                if (hasObjVar(self, "loot.lootTable")) {
+                    if (hasObjVar(self, "loot.numItems")) {
+                        if (getIntObjVar(self, "loot.numItems") <= 1) {
+                            loot.makeLootInContainer(
+                                pInv,
+                                getStringObjVar(self, "loot.lootTable"),
+                                getIntObjVar(self, "loot.numItems"),
+                                300
+                            );
+                            broadcast(
+                                giver,
+                                "Made loot inside your inventory from mob: " +
+                                    getEncodedName(self)
+                            );
                         }
+                    } else {
+                        broadcast(
+                            giver,
+                            "Mob does not have the numItems value."
+                        );
                     }
-                    else
-                    {
-                        broadcast(giver, "Mob does not have the numItems value.");
-                    }
-                }
-                else
-                {
+                } else {
                     broadcast(giver, "Mob does not have a loot table.");
                     putIn(item, pInv);
                     return SCRIPT_CONTINUE;
                 }
             }
         }
-        if (getTemplateName(item).equals(CITY_ACTOR_TOOL)) // city actors
-        {
-            if (!hasObjVar(item, "actorMade"))
-            {
+        if (
+            getTemplateName(item).equals(CITY_ACTOR_TOOL) // city actors
+        ) {
+            if (!hasObjVar(item, "actorMade")) {
                 String string_template = getTemplateName(self);
-                obj_id token = create.createObject(CITY_ACTOR_TOOL, utils.getInventoryContainer(giver), "");
+                obj_id token = create.createObject(
+                    CITY_ACTOR_TOOL,
+                    utils.getInventoryContainer(giver),
+                    ""
+                );
                 setObjVar(token, "city_hire.mobile", string_template);
                 setObjVar(token, "tokenUsed", 1);
                 setObjVar(token, "actorMade", 1);
                 attachScript(token, "systems.city.city_hire");
-                setName(token, "Bio-logical Sequence: " + utils.getStringName(self));
+                setName(
+                    token,
+                    "Bio-logical Sequence: " + utils.getStringName(self)
+                );
                 setDescriptionStringId(token, DESC);
-            }
-            else
-            {
-                broadcast(giver, "The data buffer on this extraction unit is at max capacity.");
+            } else {
+                broadcast(
+                    giver,
+                    "The data buffer on this extraction unit is at max capacity."
+                );
                 putIn(item, utils.getInventoryContainer(giver), giver);
                 return SCRIPT_CONTINUE;
             }
             return SCRIPT_OVERRIDE;
         }
-        if (!hasCompletedCollectionSlot(giver, "meatlump_recruiter_starter"))
-        {
+        if (!hasCompletedCollectionSlot(giver, "meatlump_recruiter_starter")) {
             return SCRIPT_CONTINUE;
         }
-        if (!isIdValid(giver) || !exists(giver))
-        {
+        if (!isIdValid(giver) || !exists(giver)) {
             return SCRIPT_CONTINUE;
         }
-        if (!isIdValid(item) || !exists(item))
-        {
+        if (!isIdValid(item) || !exists(item)) {
             return SCRIPT_CONTINUE;
         }
-        if (!getStaticItemName(item).equals("col_meatlump_recruit_manual_02_01"))
-        {
+        if (
+            !getStaticItemName(item).equals("col_meatlump_recruit_manual_02_01")
+        ) {
             return SCRIPT_CONTINUE;
         }
         String mobName = getCreatureName(self);
-        String socialMeatlump = dataTableGetString(CREATURE_TABLE, mobName, "socialGroup");
-        if (socialMeatlump != null && (socialMeatlump.startsWith("meatlump") || socialMeatlump.endsWith("meatlump")))
-        {
-            if (ai_lib.isNpc(self))
-            {
+        String socialMeatlump = dataTableGetString(
+            CREATURE_TABLE,
+            mobName,
+            "socialGroup"
+        );
+        if (
+            socialMeatlump != null &&
+            (socialMeatlump.startsWith("meatlump") ||
+                socialMeatlump.endsWith("meatlump"))
+        ) {
+            if (ai_lib.isNpc(self)) {
                 sendSystemMessage(giver, SID_ALREADY_RECRUITED);
             }
             return SCRIPT_CONTINUE;
         }
-        if (socialMeatlump != null && ((toLower(socialMeatlump)).equals("rebel")))
-        {
-            if (ai_lib.isNpc(self))
-            {
+        if (
+            socialMeatlump != null &&
+            ((toLower(socialMeatlump)).equals("rebel"))
+        ) {
+            if (ai_lib.isNpc(self)) {
                 sendSystemMessage(giver, SID_NO_RECRUIT_REB_IMP);
             }
             return SCRIPT_CONTINUE;
         }
-        if (hasCompletedCollection(giver, "col_meatlump_recruiter_01"))
-        {
+        if (hasCompletedCollection(giver, "col_meatlump_recruiter_01")) {
             return SCRIPT_CONTINUE;
         }
-        if (utils.hasScriptVar(self, "collection.recruited"))
-        {
+        if (utils.hasScriptVar(self, "collection.recruited")) {
             sendSystemMessage(giver, SID_ALREADY_RECRUITED);
             return SCRIPT_CONTINUE;
         }
-        if (utils.hasScriptVar(self, "collection.investigator"))
-        {
+        if (utils.hasScriptVar(self, "collection.investigator")) {
             sendSystemMessage(giver, SID_ENEMY_RECRUIT);
             return SCRIPT_CONTINUE;
         }
-        if (!ai_lib.isNpc(self))
-        {
+        if (!ai_lib.isNpc(self)) {
             return SCRIPT_CONTINUE;
         }
-        if (!isInvulnerable(self))
-        {
+        if (!isInvulnerable(self)) {
             return SCRIPT_CONTINUE;
         }
-        if (rand(1, 100) <= 10)
-        {
+        if (rand(1, 100) <= 10) {
             chat.chat(self, SID_NPC_MEATLUMP_SPEAK);
             float searchSize = 12.0f;
             obj_id mob = null;
             int mobLevel = getLevel(giver) - 2;
             location currentLoc = getLocation(giver);
-            location locGoodLocation = locations.getGoodLocationAroundLocationAvoidCollidables(currentLoc, searchSize, searchSize, searchSize, searchSize, false, false, 6.0f);
-            if (locGoodLocation == null)
-            {
+            location locGoodLocation =
+                locations.getGoodLocationAroundLocationAvoidCollidables(
+                    currentLoc,
+                    searchSize,
+                    searchSize,
+                    searchSize,
+                    searchSize,
+                    false,
+                    false,
+                    6.0f
+                );
+            if (locGoodLocation == null) {
                 locGoodLocation = (location) currentLoc.clone();
             }
             int mobCount = rand(1, 3);
-            if (utils.isProfession(giver, utils.TRADER))
-            {
+            if (utils.isProfession(giver, utils.TRADER)) {
                 mobCount = 2;
             }
-            if (mobCount == 1)
-            {
-                mob = create.object("mtp_recruiter_corsec_detective", locGoodLocation, mobLevel);
+            if (mobCount == 1) {
+                mob = create.object(
+                    "mtp_recruiter_corsec_detective",
+                    locGoodLocation,
+                    mobLevel
+                );
             }
-            if (mobCount == 2)
-            {
-                mob = create.object("mtp_recruiter_corsec_investigator", locGoodLocation, mobLevel);
+            if (mobCount == 2) {
+                mob = create.object(
+                    "mtp_recruiter_corsec_investigator",
+                    locGoodLocation,
+                    mobLevel
+                );
             }
-            if (mobCount == 3)
-            {
-                mob = create.object("mtp_recruiter_corsec_agent", locGoodLocation, mobLevel);
+            if (mobCount == 3) {
+                mob = create.object(
+                    "mtp_recruiter_corsec_agent",
+                    locGoodLocation,
+                    mobLevel
+                );
             }
             addHate(mob, giver, 1000.0f);
             utils.setScriptVar(self, "collection.investigator", 1);
-            messageTo(self, "removeMeatlumpInvestigatorScriptVar", null, 82800, false);
-        }
-        else
-        {
+            messageTo(
+                self,
+                "removeMeatlumpInvestigatorScriptVar",
+                null,
+                82800,
+                false
+            );
+        } else {
             sendSystemMessage(giver, SID_GAVE_RECRUIT_ITEM);
             int count = getCount(item);
             count--;
-            if (count <= 0)
-            {
+            if (count <= 0) {
                 detachScript(item, "item.special.nodestroy");
                 destroyObject(item);
-            }
-            else
-            {
+            } else {
                 setCount(item, count);
             }
             modifyCollectionSlotValue(giver, "meatlump_recruiter_01", 1);
             utils.setScriptVar(self, "collection.recruited", 1);
-            messageTo(self, "removeMeatlumpRecruitmentScriptVar", null, 82800, false);
+            messageTo(
+                self,
+                "removeMeatlumpRecruitmentScriptVar",
+                null,
+                82800,
+                false
+            );
         }
         return SCRIPT_CONTINUE;
     }
 
-    private boolean isHeroicMob(obj_id self) throws InterruptedException
-    {
-        if (isInvulnerable(self))
-        {
+    private boolean isHeroicMob(obj_id self) throws InterruptedException {
+        if (isInvulnerable(self)) {
             return false;
         }
-        if (getCreatureName(self).startsWith("heroic_"))
-        {
+        if (getCreatureName(self).startsWith("heroic_")) {
             return true;
-        }
-        else if (getCreatureName(self).contains("world_boss_"))
-        {
+        } else if (getCreatureName(self).contains("world_boss_")) {
             return true;
-        }
-        else return ai_lib.getDifficultyClass(self) == ai_lib.DIFFICULTY_BOSS;
+        } else return ai_lib.getDifficultyClass(self) == ai_lib.DIFFICULTY_BOSS;
     }
 
-    public int removeMeatlumpRecruitmentScriptVar(obj_id self, dictionary params) throws InterruptedException
-    {
+    public int removeMeatlumpRecruitmentScriptVar(
+        obj_id self,
+        dictionary params
+    ) throws InterruptedException {
         utils.removeScriptVar(self, "collection.recruited");
         return SCRIPT_CONTINUE;
     }
 
-    public int removeMeatlumpInvestigatorScriptVar(obj_id self, dictionary params) throws InterruptedException
-    {
+    public int removeMeatlumpInvestigatorScriptVar(
+        obj_id self,
+        dictionary params
+    ) throws InterruptedException {
         utils.removeScriptVar(self, "collection.investigator");
         return SCRIPT_CONTINUE;
     }
 
-    public int milkingCreatureStunned(obj_id self, dictionary params) throws InterruptedException
-    {
-        showFlyText(self, new string_id("npc_reaction/flytext", "stun"), 2.0f, colors.ORANGERED);
+    public int milkingCreatureStunned(obj_id self, dictionary params)
+        throws InterruptedException {
+        showFlyText(
+            self,
+            new string_id("npc_reaction/flytext", "stun"),
+            2.0f,
+            colors.ORANGERED
+        );
         ai_lib.setDefaultCalmBehavior(self, ai_lib.BEHAVIOR_SENTINEL);
         return SCRIPT_CONTINUE;
     }
 
-    public int milkingCreatureStunFail(obj_id self, dictionary params) throws InterruptedException
-    {
-        showFlyText(self, new string_id("npc_reaction/flytext", "stun_fail"), 2.0f, colors.ORANGERED);
+    public int milkingCreatureStunFail(obj_id self, dictionary params)
+        throws InterruptedException {
+        showFlyText(
+            self,
+            new string_id("npc_reaction/flytext", "stun_fail"),
+            2.0f,
+            colors.ORANGERED
+        );
         return SCRIPT_CONTINUE;
     }
 
-    public int milkingCreatureStunRemoval(obj_id self, dictionary params) throws InterruptedException
-    {
-        showFlyText(self, new string_id("npc_reaction/flytext", "stun_expired"), 2.0f, colors.ORANGERED);
+    public int milkingCreatureStunRemoval(obj_id self, dictionary params)
+        throws InterruptedException {
+        showFlyText(
+            self,
+            new string_id("npc_reaction/flytext", "stun_expired"),
+            2.0f,
+            colors.ORANGERED
+        );
         ai_lib.setDefaultCalmBehavior(self, ai_lib.BEHAVIOR_LOITER);
         return SCRIPT_CONTINUE;
     }
 
-    public int redoYaw(obj_id self, dictionary params) throws InterruptedException
-    {
+    public int redoYaw(obj_id self, dictionary params)
+        throws InterruptedException {
         obj_id target = params.getObjId("target");
-        if (hasObjVar(target, "ai.yaw"))
-        {
+        if (hasObjVar(target, "ai.yaw")) {
             float yaw_ai = getFloatObjVar(target, "ai.yaw");
             setYaw(target, yaw_ai);
         }
         return SCRIPT_CONTINUE;
     }
 
-    public boolean blog(String msg) throws InterruptedException
-    {
+    public boolean blog(String msg) throws InterruptedException {
         LOG(LOGGING_CATEGORY, msg);
         return true;
     }
 
-    public String getRandomArray(String[] array) throws InterruptedException
-    {
+    public String getRandomArray(String[] array) throws InterruptedException {
         int random = rand(0, array.length - 1);
         return array[random];
     }
 
-    public int handleLootTableSearch(obj_id self, dictionary params) throws InterruptedException
-    {
+    public int handleLootTableSearch(obj_id self, dictionary params)
+        throws InterruptedException {
         obj_id player = sui.getPlayerId(params);
         String searchTerm = sui.getInputBoxText(params);
-        if (searchTerm == null || searchTerm.isEmpty())
-        {
+        if (searchTerm == null || searchTerm.isEmpty()) {
             return SCRIPT_CONTINUE;
         }
 
-        String[] lootTables = dataTableGetStringColumn("datatables/adhoc/loot_tables.iff", "LOOT_TABLE");
-        String[] names = dataTableGetStringColumn("datatables/adhoc/loot_tables.iff", "NAME");
+        String[] lootTables = dataTableGetStringColumn(
+            "datatables/adhoc/loot_tables.iff",
+            "LOOT_TABLE"
+        );
+        String[] names = dataTableGetStringColumn(
+            "datatables/adhoc/loot_tables.iff",
+            "NAME"
+        );
 
         List<String> matchingLootTables = new ArrayList<>();
         List<String> matchingNames = new ArrayList<>();
 
-        for (int i = 0; i < lootTables.length; i++)
-        {
-            if (lootTables[i].contains(searchTerm))
-            {
+        for (int i = 0; i < lootTables.length; i++) {
+            if (lootTables[i].contains(searchTerm)) {
                 matchingLootTables.add(lootTables[i]);
                 matchingNames.add(names[i]);
             }
         }
 
-        if (matchingLootTables.isEmpty())
-        {
+        if (matchingLootTables.isEmpty()) {
             return SCRIPT_CONTINUE;
         }
 
-        String[] matchingLootTablesArray = matchingLootTables.toArray(new String[0]);
+        String[] matchingLootTablesArray = matchingLootTables.toArray(
+            new String[0]
+        );
         String[] matchingNamesArray = matchingNames.toArray(new String[0]);
-        sui.listbox(self, self, "Select a Loot Table:", sui.OK_CANCEL, "Loot Table Selection", matchingNamesArray, "handleLootTableSelection", true, false);
+        sui.listbox(
+            self,
+            self,
+            "Select a Loot Table:",
+            sui.OK_CANCEL,
+            "Loot Table Selection",
+            matchingNamesArray,
+            "handleLootTableSelection",
+            true,
+            false
+        );
         utils.setScriptVar(player, "loottableLookup", matchingLootTablesArray);
 
         return SCRIPT_CONTINUE;
     }
 
-    public int handleLootTableSelection(obj_id self, dictionary params) throws InterruptedException
-    {
+    public int handleLootTableSelection(obj_id self, dictionary params)
+        throws InterruptedException {
         obj_id player = sui.getPlayerId(params);
         int idx = sui.getListboxSelectedRow(params);
-        if (idx == -1)
-        {
+        if (idx == -1) {
             return SCRIPT_CONTINUE;
         }
 
-        String[] lootTables = utils.getStringArrayScriptVar(player, "loottableLookup");
+        String[] lootTables = utils.getStringArrayScriptVar(
+            player,
+            "loottableLookup"
+        );
         String selectedLootTable = lootTables[idx];
         setObjVar(self, "loot.lootTable", selectedLootTable);
         utils.removeScriptVar(player, "loottableLookup");
@@ -3300,35 +4159,32 @@ public class ai extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int scanForEnemies(obj_id self, dictionary params) throws InterruptedException
-    {
+    public int scanForEnemies(obj_id self, dictionary params)
+        throws InterruptedException {
         obj_id mob = params.getObjId("mob");
-        if (isIdValid(mob))
-        {
-            if (ai_lib.isInCombat(mob))
-            {
+        if (isIdValid(mob)) {
+            if (ai_lib.isInCombat(mob)) {
                 return SCRIPT_CONTINUE;
             }
             obj_id[] enemies = getCreaturesInRange(mob, 140f);
-            for (obj_id enemy : enemies)
-            {
-                if (enemy == mob)
-                {
+            for (obj_id enemy : enemies) {
+                if (enemy == mob) {
                     continue;
                 }
 
-                if (!Objects.equals(factions.getFaction(enemy), factions.getFaction(mob)))
-                {
-                    if (isInvulnerable(enemy))
-                    {
+                if (
+                    !Objects.equals(
+                        factions.getFaction(enemy),
+                        factions.getFaction(mob)
+                    )
+                ) {
+                    if (isInvulnerable(enemy)) {
                         continue;
                     }
-                    if (!pvpCanAttack(mob, enemy))
-                    {
+                    if (!pvpCanAttack(mob, enemy)) {
                         continue;
                     }
-                    if (isInNpcConversation(enemy))
-                    {
+                    if (isInNpcConversation(enemy)) {
                         continue;
                     }
                     startCombat(mob, enemy);
