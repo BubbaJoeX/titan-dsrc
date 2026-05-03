@@ -252,7 +252,7 @@ public class openwebui extends script.base_script {
             "My Description: " +
             c[8] +
             "\n\n" +
-            "You are an NPC in Star Wars Galaxies. Stay in character. Keep responses concise and natural. Prompt: "
+            "You are an NPC in Star Wars Galaxies. Stay in character. Keep responses concise and natural. Do Not Use RP text in the response. Prompt: "
         );
     }
 }
