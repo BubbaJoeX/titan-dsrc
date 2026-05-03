@@ -3130,14 +3130,20 @@ public class ai extends script.base_script {
                 );
                 return SCRIPT_CONTINUE;
             }
+
+            if (text == null || text.isEmpty()) return SCRIPT_CONTINUE;
+
             String response = openwebui.getChatCompletion(
                 apiKey,
                 self,
-                prompt,
-                speaker
+                speaker,
+                text,
+                null // or pass contextKey if you want
             );
+
             if (response != null && !response.isEmpty()) {
                 chat.chat(self, response);
+
                 showFlyText(
                     self,
                     string_id.unlocalized("!"),
@@ -3145,8 +3151,10 @@ public class ai extends script.base_script {
                     colors.YELLOW
                 );
             }
+
             return SCRIPT_CONTINUE;
         }
+
         return SCRIPT_CONTINUE;
     }
 
