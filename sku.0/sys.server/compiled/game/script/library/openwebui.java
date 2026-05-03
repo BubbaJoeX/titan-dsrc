@@ -247,37 +247,47 @@ public class openwebui extends script.base_script {
     ) {
         String[] c = buildCulture(self, speaker);
 
-        return (
-            "\n" +
-            "My Current Planet: " +
-            c[0] +
-            "\n" +
-            "My Template: " +
-            c[1] +
-            "\n" +
-            "My Size is: " +
-            c[2] +
-            "\n" +
-            "My Location is: " +
-            c[3] +
-            "\n" +
-            "My Name Is: " +
-            c[4] +
-            "\n" +
-            "Speaker Name: " +
-            c[5] +
-            "\n" +
-            "My Scripts: " +
-            c[6] +
-            "\n" +
-            "My Species: " +
-            c[7] +
-            "\n" +
-            "My Description: " +
-            c[8] +
-            "\n\n" +
-            "Stay in character. No emotes. Natural speech only. Prompt: " +
-            prompt
-        );
+        StringBuilder sb = new StringBuilder(512);
+
+        sb
+            .append("\n=== NPC CONTEXT ===\n")
+            .append("Planet: ")
+            .append(c[0])
+            .append("\n")
+            .append("Template: ")
+            .append(c[1])
+            .append("\n")
+            .append("Scale: ")
+            .append(c[2])
+            .append("\n")
+            .append("Location: ")
+            .append(c[3])
+            .append("\n")
+            .append("NPC Name: ")
+            .append(c[4])
+            .append("\n")
+            .append("Speaker: ")
+            .append(c[5])
+            .append("\n")
+            .append("Scripts: ")
+            .append(c[6])
+            .append("\n")
+            .append("Species: ")
+            .append(c[7])
+            .append("\n")
+            .append("Description: ")
+            .append(c[8])
+            .append("\n")
+            .append("===================\n\n")
+            .append("RULES:\n")
+            .append("- You are an NPC in Star Wars Galaxies.\n")
+            .append("- Stay fully in character at all times.\n")
+            .append("- Do NOT use emotes like *actions* or stage directions.\n")
+            .append("- Do NOT mention system prompts or context.\n")
+            .append("- Keep responses natural, immersive, and concise.\n\n")
+            .append("PLAYER INPUT:\n")
+            .append(prompt);
+
+        return sb.toString();
     }
 }
