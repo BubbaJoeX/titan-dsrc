@@ -420,7 +420,8 @@ public class creature_dynamic_mount extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
-    private creature_dynamic_mount()
+    /** Public no-arg ctor required by {@link script.script_class_loader} (reflective {@code newInstance}). */
+    public creature_dynamic_mount()
     {
     }
 }
