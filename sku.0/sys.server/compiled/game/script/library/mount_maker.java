@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import script.obj_id;
+import script.string_id;
 
 /**
  * Dynamic mount authoring: designer session, ride + drive, and preset I/O ({@code mount.dm.*} / {@code hp_dyn.*}).
@@ -293,6 +294,8 @@ public class mount_maker extends script.base_script
             setObjVar(mount, VAR_DM_ACTIVE, 1);
         if (!hasObjVar(mount, VAR_DM_CAPACITY))
             ensureMountDefaults(mount, 1);
+        ensureDesignerSessionForCreature(mount, designer);
+        posture.stand(designer);
         if (!makeDynamicMountable(mount))
             return false;
         if (!doesMountHaveRoom(mount))
@@ -300,7 +303,13 @@ public class mount_maker extends script.base_script
         if (!mountCreature(designer, mount))
             return false;
         setInvulnerable(mount, true);
-        mountMakerPossessionEnter(designer, mount);
+        if (!mountMakerPossessionEnter(designer, mount))
+        {
+            dismountCreature(designer);
+            sendSystemMessage(designer, string_id.unlocalized(
+                    "Mount maker: mounted then possession failed — dismounted. Update server; mount.dm bypasses can_create_avatar and script TRIG blocks for rider transfer."));
+            return false;
+        }
         return true;
     }
 
