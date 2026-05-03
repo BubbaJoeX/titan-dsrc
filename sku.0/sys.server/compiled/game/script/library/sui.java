@@ -35,6 +35,8 @@ public class sui extends script.base_script
     public static final String PROP_TARGETRANGEMIN = "TargetRangeMin";
     public static final String PROP_TARGETRANGEMAX = "TargetRangeMax";
     public static final String PROP_BUTTONPRESSED = "buttonPressed";
+    /** Present when the server closed via subscribe callback; pairs with {@link #PROP_BUTTONPRESSED} when buttonPressed is ambiguous (see ServerUIManager). */
+    public static final String PROP_EVENTTYPE = "eventType";
     public static final String PROP_VISIBLE = "visible";
     public static final String PROP_AUTOSAVE = "autosave";
     public static final String PROP_LOCATION = "Location";
@@ -1662,6 +1664,25 @@ public class sui extends script.base_script
 			{
 				return BP_REVERT;
 			}
+        }
+        if (params.containsKey(PROP_EVENTTYPE))
+        {
+            String eventType = params.getString(PROP_EVENTTYPE);
+            if (eventType != null)
+            {
+                if ("onClosedOk".equals(eventType))
+                {
+                    if (params.containsKey("this.otherPressed") && "true".equals(params.getString("this.otherPressed")))
+                    {
+                        return BP_REVERT;
+                    }
+                    return BP_OK;
+                }
+                if ("onClosedCancel".equals(eventType))
+                {
+                    return BP_CANCEL;
+                }
+            }
         }
         return BP_CANCEL;
     }
