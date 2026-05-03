@@ -3121,8 +3121,12 @@ public class ai extends script.base_script {
                     );
                     return SCRIPT_CONTINUE;
                 }
+                // Mount maker needs creature_dynamic_mount (radial + listbox) and dynamic_hardpoint (hp_dyn.* authoring helpers).
                 if (!hasScript(self, "creature.creature_dynamic_mount")) {
                     attachScript(self, "creature.creature_dynamic_mount");
+                }
+                if (!hasScript(self, "library.dynamic_hardpoint")) {
+                    attachScript(self, "library.dynamic_hardpoint");
                 }
                 creature_dynamic_mount.openAuthoringMainMenu(self, player);
                 return SCRIPT_CONTINUE;
