@@ -83,6 +83,7 @@ public class creature_dynamic_mount extends script.base_script
      */
     public static void openAuthoringMainMenu(obj_id self, obj_id player) throws InterruptedException
     {
+        mount_maker.ensureDesignerSessionForCreature(self, player);
         utils.setScriptVar(player, SCRIPTVAR_MM_AUTH_CREATURE, self);
         int cap = hasObjVar(self, dynamic_mount.VAR_DM_CAPACITY) ? getIntObjVar(self, dynamic_mount.VAR_DM_CAPACITY) : 1;
         cap = Math.min(8, Math.max(1, cap));
@@ -206,7 +207,7 @@ public class creature_dynamic_mount extends script.base_script
                 showMainMenu(self, player);
                 break;
             case 10:
-                mount_maker.beginDesignerSession(self, player);
+                mount_maker.ensureDesignerSessionForCreature(self, player);
                 sendInvalid(player, "mount maker: server session started (invuln + ignore combat).");
                 showMainMenu(self, player);
                 break;

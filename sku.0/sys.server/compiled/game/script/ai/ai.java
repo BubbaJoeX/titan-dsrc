@@ -3124,7 +3124,6 @@ public class ai extends script.base_script {
                 if (!hasScript(self, "creature.creature_dynamic_mount")) {
                     attachScript(self, "creature.creature_dynamic_mount");
                 }
-                mount_maker.beginDesignerSession(self, player);
                 creature_dynamic_mount.openAuthoringMainMenu(self, player);
                 return SCRIPT_CONTINUE;
             }

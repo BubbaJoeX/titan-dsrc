@@ -21,6 +21,22 @@ public class mount_maker extends script.base_script
         return isIdValid(player) && (isGod(player) || hasObjVar(player, "test_center"));
     }
 
+    /**
+     * Start a designer session on {@code creature} only if one is not already active for this creature/designer pair.
+     * Avoids calling {@link #beginDesignerSession} when already in sync — {@link #beginDesignerSession} always runs
+     * {@link #endDesignerSession} first, which releases mount-maker possession and would break control if the menu is
+     * reopened while possessing the same mount.
+     */
+    public static void ensureDesignerSessionForCreature(obj_id creature, obj_id designer) throws InterruptedException
+    {
+        if (!isIdValid(creature) || !isIdValid(designer) || !isMob(creature) || !isDesignerAuthorized(designer))
+            return;
+        if (hasObjVar(creature, OV_CREATURE_DESIGNER) && getObjIdObjVar(creature, OV_CREATURE_DESIGNER) == designer
+                && hasObjVar(designer, OV_PLAYER_MOUNT) && getObjIdObjVar(designer, OV_PLAYER_MOUNT) == creature)
+            return;
+        beginDesignerSession(creature, designer);
+    }
+
     public static void beginDesignerSession(obj_id creature, obj_id designer) throws InterruptedException
     {
         if (!isIdValid(creature) || !isIdValid(designer) || !isMob(creature) || !isDesignerAuthorized(designer))

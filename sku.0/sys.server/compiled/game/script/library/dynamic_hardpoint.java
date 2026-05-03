@@ -379,6 +379,7 @@ public class dynamic_hardpoint extends script.base_script
     /** Mount maker: hp_dyn submenu listbox (player-owned SUI). */
     public static void openHpDynAuthoringListbox(obj_id creature, obj_id player) throws InterruptedException
     {
+        mount_maker.ensureDesignerSessionForCreature(creature, player);
         utils.setScriptVar(player, creature_dynamic_mount.SCRIPTVAR_MM_AUTH_CREATURE, creature);
         int slot = getSlot(player);
         String[] rows = new String[]
