@@ -13,13 +13,18 @@ import java.util.Arrays;
 
 public class openwebui extends script.base_script
 {
+    public static final boolean OLLAMA_ENABLED = true;
 
-    /** Set true to call the remote Ollama endpoint; false skips HTTP and avoids 401/NPE in AI triggers. */
-    public static final boolean OLLAMA_ENABLED = false;
+    public static final String API_KEY = "help";
 
-    public static final String API_KEY = "sk-15a20859ffd140d1b0c8025f08b7b0e4";
-    public static final String MODEL = "llama3:latest";
-    public static final String PROMPT_LIMITER = "Respond to the prompt in character, with no more than 200 characters, unless you need to finish the sentence but you MUST keep it short. Context: ";
+    // Updated for large context models (65536)
+    public static final int MAX_CONTEXT_TOKENS = 65536;
+
+    // Soft instruction only (no hard truncation conflict)
+    public static final String PROMPT_LIMITER =
+            "Respond in-character as a Star Wars Galaxies NPC. Keep responses concise unless necessary for clarity. Context: ";
+
+    public static final String MODEL = "mistral-small3.2:latest";
 
     public static String getChatCompletion(String apiKey, obj_id target, String prompt, obj_id speaker) throws Exception
     {
@@ -27,7 +32,8 @@ public class openwebui extends script.base_script
         {
             return "";
         }
-        String url = "http://swgor.com:8888/ollama/api/generate";
+
+        String url = "http://swgor.com:11434/api/generate";
         HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
         connection.setRequestMethod("POST");
         connection.setDoOutput(true);
@@ -35,40 +41,43 @@ public class openwebui extends script.base_script
         connection.setRequestProperty("Authorization", "Bearer " + apiKey);
         connection.setRequestProperty("Content-Type", "application/json");
 
-        String jsonBody = "{"
-                + "\"model\": \"" + MODEL + "\","
-                + "\"prompt\": \"" + PROMPT_LIMITER + Arrays.toString(buildCulture(target, speaker)) + prompt + "\","
-                + "\"stream\": false"
-                + "}";
+        String context = Arrays.toString(buildCulture(target, speaker));
+
+        String jsonBody =
+                "{"
+                        + "\"model\": \"" + MODEL + "\","
+                        + "\"prompt\": \"" + escapeJson(PROMPT_LIMITER + context + prompt) + "\","
+                        + "\"stream\": false"
+                        + "}";
 
         OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
         writer.write(jsonBody);
         writer.close();
 
-        // Read response
         connection.connect();
+
         BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         String line;
         StringBuilder responseText = new StringBuilder();
+
         while ((line = reader.readLine()) != null)
         {
             responseText.append(line);
         }
 
-        String responseString = responseText.toString();
-        responseString = decodeHtmlEntities(responseString);
-
+        String responseString = decodeHtmlEntities(responseText.toString());
         responseString = responseString.replace("\uFEFF", "").trim();
 
         String responseTag = "\"response\":\"";
         int startIndex = responseString.indexOf(responseTag);
+
         if (startIndex != -1)
         {
             startIndex += responseTag.length();
             int endIndex = responseString.indexOf("\"", startIndex);
+
             if (endIndex != -1)
             {
-                // Return decoded response content
                 return responseString.substring(startIndex, endIndex).trim();
             }
         }
@@ -82,7 +91,8 @@ public class openwebui extends script.base_script
         {
             return "[Ollama disabled]";
         }
-        String url = "http://swgor.com:8888/ollama/api/generate";
+
+        String url = "http://swgor.com:11434/api/generate";
         HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
         connection.setRequestMethod("POST");
         connection.setDoOutput(true);
@@ -90,37 +100,39 @@ public class openwebui extends script.base_script
         connection.setRequestProperty("Authorization", "Bearer " + apiKey);
         connection.setRequestProperty("Content-Type", "application/json");
 
-        // Manually create JSON body as String
-        String jsonBody = "{"
-                + "\"model\": \"" + MODEL + "\","
-                + "\"prompt\": \"" + prompt + "\","
-                + "\"stream\": false"
-                + "}";
+        String jsonBody =
+                "{"
+                        + "\"model\": \"" + MODEL + "\","
+                        + "\"prompt\": \"" + escapeJson(prompt) + "\","
+                        + "\"stream\": false"
+                        + "}";
 
         OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
         writer.write(jsonBody);
         writer.close();
 
         connection.connect();
+
         BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         String line;
         StringBuilder responseText = new StringBuilder();
+
         while ((line = reader.readLine()) != null)
         {
             responseText.append(line);
         }
 
-        String responseString = responseText.toString();
-
-        responseString = decodeHtmlEntities(responseString);
-
+        String responseString = decodeHtmlEntities(responseText.toString());
         responseString = responseString.replace("\uFEFF", "").trim();
+
         String responseTag = "\"response\":\"";
         int startIndex = responseString.indexOf(responseTag);
+
         if (startIndex != -1)
         {
             startIndex += responseTag.length();
             int endIndex = responseString.indexOf("\"", startIndex);
+
             if (endIndex != -1)
             {
                 return responseString.substring(startIndex, endIndex).trim();
@@ -128,6 +140,17 @@ public class openwebui extends script.base_script
         }
 
         return "?";
+    }
+
+    private static String escapeJson(String input)
+    {
+        if (input == null) return "";
+        return input
+                .replace("\\", "\\\\")
+                .replace("\"", "\\\"")
+                .replace("\n", "\\n")
+                .replace("\r", "\\r")
+                .replace("\t", "\\t");
     }
 
     private static String decodeHtmlEntities(String input)
@@ -139,7 +162,6 @@ public class openwebui extends script.base_script
         input = input.replaceAll("\\\\r", "\r");
         input = input.replaceAll("\\\\t", "\t");
         input = input.replaceAll("\\\\", "");
-
         return input;
     }
 
@@ -150,6 +172,7 @@ public class openwebui extends script.base_script
             String sn = (speaker != null && isIdValid(speaker)) ? getPlayerFullName(speaker) : "?";
             return new String[]{"?", "?", "?", "?", "?", sn, "?", "?", "?"};
         }
+
         location loc = getLocation(target);
         String speakerName = (speaker != null && isIdValid(speaker)) ? getPlayerFullName(speaker) : "?";
         String currentPlanet = (loc != null && loc.area != null) ? loc.area : "?";
@@ -163,25 +186,33 @@ public class openwebui extends script.base_script
         string_id descriptionId = getDescriptionStringId(target);
         String description = localize(descriptionId);
 
-        return new String[]{currentPlanet, template, String.valueOf(size), location, name, speakerName, String.join(", ", scripts), String.valueOf(species), description};
+        return new String[]{
+                currentPlanet,
+                template,
+                String.valueOf(size),
+                location,
+                name,
+                speakerName,
+                String.join(", ", scripts),
+                String.valueOf(species),
+                description
+        };
     }
 
     public static String makePromptWIthContext(obj_id self, obj_id speaker, String prompt)
     {
-        String[] cultureData = buildCulture(self, speaker);
-        String main = "\n";
-        main += "\nMy Current Planet: " + cultureData[0];
-        main += "\nMy Template: " + cultureData[1];
-        main += "\nMy Size is: " + cultureData[2];
-        main += "\nMy Location is: " + cultureData[3];
-        main += "\nMy Name Is: " + cultureData[4];
-        main += "\nSpeaker Name: " + cultureData[5];
-        main += "\nMy Scripts: " + cultureData[6];
-        main += "\nMy Species: " + cultureData[7];
-        main += "\nMy Description: " + cultureData[8];
-        main += "\n";
-        main += "You are an NPC in Star Wars Galaxies. Use the previous context to respond to the following prompt. The Speaker Name is the person writing the prompt. Never repeat any contextual elements unless specifically asked for. Never repeat them their name. Never state that you are an AI. Also, keep the text length short and sweet. Prompt: ";
-        return main;
-    }
+        String[] c = buildCulture(self, speaker);
 
+        return "\n" +
+                "My Current Planet: " + c[0] + "\n" +
+                "My Template: " + c[1] + "\n" +
+                "My Size is: " + c[2] + "\n" +
+                "My Location is: " + c[3] + "\n" +
+                "My Name Is: " + c[4] + "\n" +
+                "Speaker Name: " + c[5] + "\n" +
+                "My Scripts: " + c[6] + "\n" +
+                "My Species: " + c[7] + "\n" +
+                "My Description: " + c[8] + "\n\n" +
+                "You are an NPC in Star Wars Galaxies. Stay in character. Keep responses concise and natural. Prompt: ";
+    }
 }
