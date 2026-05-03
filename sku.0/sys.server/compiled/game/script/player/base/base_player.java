@@ -1,6 +1,7 @@
 package script.player.base;
 
 import script.*;
+import script.creature.creature_dynamic_mount;
 import script.library.*;
 
 import java.io.BufferedReader;
@@ -3573,6 +3574,89 @@ public class base_player extends script.base_script
         messageTo(self, pclib.HANDLER_PLAYER_DEATH, null, 0, false);
         return SCRIPT_CONTINUE;
     }
+
+    private obj_id getMountMakerAuthoringCreature(obj_id player) throws InterruptedException
+    {
+        if (!utils.hasScriptVar(player, creature_dynamic_mount.SCRIPTVAR_MM_AUTH_CREATURE))
+            return null;
+        obj_id creature = utils.getObjIdScriptVar(player, creature_dynamic_mount.SCRIPTVAR_MM_AUTH_CREATURE);
+        if (!isIdValid(creature) || !exists(creature))
+            return null;
+        return creature;
+    }
+
+    public int handleMmDmMainList(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id creature = getMountMakerAuthoringCreature(self);
+        if (creature == null)
+            return SCRIPT_CONTINUE;
+        return creature_dynamic_mount.mountMakerMainList(creature, params);
+    }
+
+    public int handleMmDmCapacityInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id creature = getMountMakerAuthoringCreature(self);
+        if (creature == null)
+            return SCRIPT_CONTINUE;
+        return creature_dynamic_mount.mountMakerCapacityInput(creature, params);
+    }
+
+    public int handleMmDmSeatIndexInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id creature = getMountMakerAuthoringCreature(self);
+        if (creature == null)
+            return SCRIPT_CONTINUE;
+        return creature_dynamic_mount.mountMakerSeatIndexInput(creature, params);
+    }
+
+    public int handleMmDmPoseInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id creature = getMountMakerAuthoringCreature(self);
+        if (creature == null)
+            return SCRIPT_CONTINUE;
+        return creature_dynamic_mount.mountMakerPoseInput(creature, params);
+    }
+
+    public int handleMmDmOxInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id creature = getMountMakerAuthoringCreature(self);
+        if (creature == null)
+            return SCRIPT_CONTINUE;
+        return creature_dynamic_mount.mountMakerOxInput(creature, params);
+    }
+
+    public int handleMmDmOyInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id creature = getMountMakerAuthoringCreature(self);
+        if (creature == null)
+            return SCRIPT_CONTINUE;
+        return creature_dynamic_mount.mountMakerOyInput(creature, params);
+    }
+
+    public int handleMmDmOzInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id creature = getMountMakerAuthoringCreature(self);
+        if (creature == null)
+            return SCRIPT_CONTINUE;
+        return creature_dynamic_mount.mountMakerOzInput(creature, params);
+    }
+
+    public int handleMmDmExportNameInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id creature = getMountMakerAuthoringCreature(self);
+        if (creature == null)
+            return SCRIPT_CONTINUE;
+        return creature_dynamic_mount.mountMakerExportNameInput(creature, params);
+    }
+
+    public int handleMmDmImportNameInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id creature = getMountMakerAuthoringCreature(self);
+        if (creature == null)
+            return SCRIPT_CONTINUE;
+        return creature_dynamic_mount.mountMakerImportNameInput(creature, params);
+    }
+
     public int handleDelayedClone(obj_id self, dictionary params) throws InterruptedException
     {
         if (!utils.hasScriptVar(self, "waiting_to_clone"))

@@ -6,6 +6,7 @@ import script.*;
 import script.library.dynamic_mount;
 import script.library.mount_maker;
 import script.library.sui;
+import script.library.utils;
 import script.menu_info_types;
 
 /**
@@ -20,12 +21,30 @@ import script.menu_info_types;
  * or listbox {@code SERVER: Possess} for real network primary on the creature; optionally {@code /mountMakerLockNorth 1};
  * click-to-select accessories and use decorator gizmos ({@code TAB}/{@code R}); use listbox Session rows for
  * {@link script.library.mount_maker} safety on the creature.
+ * <p>
+ * Listbox and inputbox SUIs use the <b>player</b> as {@code sui} owner so callbacks run on {@code player.base.base_player}
+ * (same pattern as cloning / revive listboxes). The creature oid is stored on the player via
+ * {@link #SCRIPTVAR_MM_AUTH_CREATURE}.
  */
 public class creature_dynamic_mount extends script.base_script
 {
     private static final int MENU_ROOT = menu_info_types.SERVER_MENU53;
 
     private static final String OV_SEAT = "creature_dynamic_mount.edit_seat";
+
+    /** Set on the designer player while the Dynamic mount authoring menu is in use (player-owned SUI). */
+    public static final String SCRIPTVAR_MM_AUTH_CREATURE = "creature_dynamic_mount.mm_auth_creature";
+
+    /** Callback names — must match {@code player.base.base_player} handler methods. */
+    public static final String HANDLER_MM_MAIN = "handleMmDmMainList";
+    private static final String HANDLER_MM_CAP = "handleMmDmCapacityInput";
+    private static final String HANDLER_MM_SEAT = "handleMmDmSeatIndexInput";
+    private static final String HANDLER_MM_POSE = "handleMmDmPoseInput";
+    private static final String HANDLER_MM_OX = "handleMmDmOxInput";
+    private static final String HANDLER_MM_OY = "handleMmDmOyInput";
+    private static final String HANDLER_MM_OZ = "handleMmDmOzInput";
+    private static final String HANDLER_MM_EXPORT = "handleMmDmExportNameInput";
+    private static final String HANDLER_MM_IMPORT = "handleMmDmImportNameInput";
 
     private static boolean canEdit(obj_id player) throws InterruptedException
     {
@@ -58,13 +77,12 @@ public class creature_dynamic_mount extends script.base_script
      * Opens the Dynamic mount authoring listbox. Static so {@link script.ai.ai} can invoke it immediately after
      * {@code attachScript} — avoids {@code messageTo} while {@code m_attachingScript} is active (drops handlers).
      * <p>
-     * {@code sui.listbox(suiOwner, suiViewer, ...)}: {@code suiOwner} = this creature (scripts / callbacks);
-     * {@code suiViewer} = the player client receiving the page (must match {@link script.library.sui#getPlayerId}).
+     * Registers {@link #SCRIPTVAR_MM_AUTH_CREATURE} on the player and opens {@code sui.listbox(player, player, ...)}
+     * so Ok/inputbox callbacks resolve on the player ({@code base_player}), not the creature.
      */
     public static void openAuthoringMainMenu(obj_id self, obj_id player) throws InterruptedException
     {
-        final obj_id suiOwner = self;
-        final obj_id suiViewer = player;
+        utils.setScriptVar(player, SCRIPTVAR_MM_AUTH_CREATURE, self);
         int cap = hasObjVar(self, dynamic_mount.VAR_DM_CAPACITY) ? getIntObjVar(self, dynamic_mount.VAR_DM_CAPACITY) : 1;
         cap = Math.min(8, Math.max(1, cap));
         int seat = getEditSeat(player);
@@ -93,7 +111,7 @@ public class creature_dynamic_mount extends script.base_script
             "SERVER: Possess (network primary -> this creature)",
             "SERVER: Release possession (restore avatar primary)",
         };
-        sui.listbox(suiOwner, suiViewer, "Dynamic mount: /decoratorCamera + gizmo; optional /mountMakerDrive (fallback) or listbox Possess (authoritative). Saddle via gm_dynamic_hardpoint or preset hp_dyn.", sui.OK_CANCEL, "Dynamic mount", rows, "handleDmMainList", true);
+        sui.listbox(player, player, "Dynamic mount: /decoratorCamera + gizmo; optional /mountMakerDrive (fallback) or listbox Possess (authoritative). Saddle via gm_dynamic_hardpoint or preset hp_dyn.", sui.OK_CANCEL, "Dynamic mount", rows, HANDLER_MM_MAIN, true);
     }
 
     /** Legacy messageTo target; forwards to {@link #openAuthoringMainMenu}. */
@@ -107,7 +125,7 @@ public class creature_dynamic_mount extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
-    private void showMainMenu(obj_id self, obj_id player) throws InterruptedException
+    private static void showMainMenu(obj_id self, obj_id player) throws InterruptedException
     {
         openAuthoringMainMenu(self, player);
     }
@@ -130,54 +148,53 @@ public class creature_dynamic_mount extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int handleDmMainList(obj_id self, dictionary params) throws InterruptedException
+    /** Invoked from {@code base_player} — {@code self} is the mount creature being authored. */
+    public static int mountMakerMainList(obj_id self, dictionary params) throws InterruptedException
     {
         obj_id player = sui.getPlayerId(params);
         if (!canEdit(player))
             return SCRIPT_CONTINUE;
         if (sui.getIntButtonPressed(params) != sui.BP_OK)
             return SCRIPT_CONTINUE;
-        final obj_id suiOwner = self;
-        final obj_id suiViewer = player;
         int row = sui.getListboxSelectedRow(params);
         switch (row)
         {
             case 0:
-                sui.inputbox(suiOwner, suiViewer, "Capacity 1-8:", "Dynamic mount",
-                        "handleDmCapacityInput", sui.MAX_INPUT_LENGTH, false,
+                sui.inputbox(player, player, "Capacity 1-8:", "Dynamic mount",
+                        HANDLER_MM_CAP, sui.MAX_INPUT_LENGTH, false,
                         Integer.toString(hasObjVar(self, dynamic_mount.VAR_DM_CAPACITY) ? getIntObjVar(self, dynamic_mount.VAR_DM_CAPACITY) : 1));
                 break;
             case 1:
-                sui.inputbox(suiOwner, suiViewer, "Seat index 0-7 (must be < capacity):", "Dynamic mount",
-                        "handleDmSeatIndexInput", sui.MAX_INPUT_LENGTH, false, Integer.toString(getEditSeat(player)));
+                sui.inputbox(player, player, "Seat index 0-7 (must be < capacity):", "Dynamic mount",
+                        HANDLER_MM_SEAT, sui.MAX_INPUT_LENGTH, false, Integer.toString(getEditSeat(player)));
                 break;
             case 2:
-                sui.inputbox(suiOwner, suiViewer, "Animation pose name (e.g. rider, normal):", "Dynamic mount",
-                        "handleDmPoseInput", sui.MAX_INPUT_LENGTH, false,
+                sui.inputbox(player, player, "Animation pose name (e.g. rider, normal):", "Dynamic mount",
+                        HANDLER_MM_POSE, sui.MAX_INPUT_LENGTH, false,
                         hasObjVar(self, seatBase(player) + "pose") ? getStringObjVar(self, seatBase(player) + "pose") : "normal");
                 break;
             case 3:
-                sui.inputbox(suiOwner, suiViewer, "Rider offset X:", "Dynamic mount",
-                        "handleDmOxInput", sui.MAX_INPUT_LENGTH, false,
+                sui.inputbox(player, player, "Rider offset X:", "Dynamic mount",
+                        HANDLER_MM_OX, sui.MAX_INPUT_LENGTH, false,
                         Float.toString(hasObjVar(self, seatBase(player) + "ox") ? getFloatObjVar(self, seatBase(player) + "ox") : 0.f));
                 break;
             case 4:
-                sui.inputbox(suiOwner, suiViewer, "Rider offset Y:", "Dynamic mount",
-                        "handleDmOyInput", sui.MAX_INPUT_LENGTH, false,
+                sui.inputbox(player, player, "Rider offset Y:", "Dynamic mount",
+                        HANDLER_MM_OY, sui.MAX_INPUT_LENGTH, false,
                         Float.toString(hasObjVar(self, seatBase(player) + "oy") ? getFloatObjVar(self, seatBase(player) + "oy") : 0.f));
                 break;
             case 5:
-                sui.inputbox(suiOwner, suiViewer, "Rider offset Z:", "Dynamic mount",
-                        "handleDmOzInput", sui.MAX_INPUT_LENGTH, false,
+                sui.inputbox(player, player, "Rider offset Z:", "Dynamic mount",
+                        HANDLER_MM_OZ, sui.MAX_INPUT_LENGTH, false,
                         Float.toString(hasObjVar(self, seatBase(player) + "oz") ? getFloatObjVar(self, seatBase(player) + "oz") : 0.f));
                 break;
             case 6:
-                sui.inputbox(suiOwner, suiViewer, "Preset base name (no path, saved as name.mountpreset):", "Export",
-                        "handleDmExportNameInput", sui.MAX_INPUT_LENGTH, false, "my_mount");
+                sui.inputbox(player, player, "Preset base name (no path, saved as name.mountpreset):", "Export",
+                        HANDLER_MM_EXPORT, sui.MAX_INPUT_LENGTH, false, "my_mount");
                 break;
             case 7:
-                sui.inputbox(suiOwner, suiViewer, "Preset base name to load:", "Import",
-                        "handleDmImportNameInput", sui.MAX_INPUT_LENGTH, false, "my_mount");
+                sui.inputbox(player, player, "Preset base name to load:", "Import",
+                        HANDLER_MM_IMPORT, sui.MAX_INPUT_LENGTH, false, "my_mount");
                 break;
             case 8:
                 finalizeDynamicMount(self, player);
@@ -217,7 +234,7 @@ public class creature_dynamic_mount extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
-    private void finalizeDynamicMount(obj_id self, obj_id player) throws InterruptedException
+    private static void finalizeDynamicMount(obj_id self, obj_id player) throws InterruptedException
     {
         if (!hasObjVar(self, dynamic_mount.VAR_DM_ACTIVE))
             setObjVar(self, dynamic_mount.VAR_DM_ACTIVE, 1);
@@ -229,7 +246,7 @@ public class creature_dynamic_mount extends script.base_script
             sendInvalid(player, "finalize: makeDynamicMountable failed.");
     }
 
-    public int handleDmCapacityInput(obj_id self, dictionary params) throws InterruptedException
+    public static int mountMakerCapacityInput(obj_id self, dictionary params) throws InterruptedException
     {
         obj_id player = sui.getPlayerId(params);
         if (!canEdit(player))
@@ -255,7 +272,7 @@ public class creature_dynamic_mount extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int handleDmSeatIndexInput(obj_id self, dictionary params) throws InterruptedException
+    public static int mountMakerSeatIndexInput(obj_id self, dictionary params) throws InterruptedException
     {
         obj_id player = sui.getPlayerId(params);
         if (!canEdit(player))
@@ -288,7 +305,7 @@ public class creature_dynamic_mount extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int handleDmPoseInput(obj_id self, dictionary params) throws InterruptedException
+    public static int mountMakerPoseInput(obj_id self, dictionary params) throws InterruptedException
     {
         obj_id player = sui.getPlayerId(params);
         if (!canEdit(player))
@@ -307,22 +324,22 @@ public class creature_dynamic_mount extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int handleDmOxInput(obj_id self, dictionary params) throws InterruptedException
+    public static int mountMakerOxInput(obj_id self, dictionary params) throws InterruptedException
     {
-        return handleDmFloat(self, params, "ox");
+        return mountMakerFloat(self, params, "ox");
     }
 
-    public int handleDmOyInput(obj_id self, dictionary params) throws InterruptedException
+    public static int mountMakerOyInput(obj_id self, dictionary params) throws InterruptedException
     {
-        return handleDmFloat(self, params, "oy");
+        return mountMakerFloat(self, params, "oy");
     }
 
-    public int handleDmOzInput(obj_id self, dictionary params) throws InterruptedException
+    public static int mountMakerOzInput(obj_id self, dictionary params) throws InterruptedException
     {
-        return handleDmFloat(self, params, "oz");
+        return mountMakerFloat(self, params, "oz");
     }
 
-    private int handleDmFloat(obj_id self, dictionary params, String keySuffix) throws InterruptedException
+    private static int mountMakerFloat(obj_id self, dictionary params, String keySuffix) throws InterruptedException
     {
         obj_id player = sui.getPlayerId(params);
         if (!canEdit(player))
@@ -348,7 +365,7 @@ public class creature_dynamic_mount extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int handleDmExportNameInput(obj_id self, dictionary params) throws InterruptedException
+    public static int mountMakerExportNameInput(obj_id self, dictionary params) throws InterruptedException
     {
         obj_id player = sui.getPlayerId(params);
         if (!canEdit(player))
@@ -374,7 +391,7 @@ public class creature_dynamic_mount extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
-    public int handleDmImportNameInput(obj_id self, dictionary params) throws InterruptedException
+    public static int mountMakerImportNameInput(obj_id self, dictionary params) throws InterruptedException
     {
         obj_id player = sui.getPlayerId(params);
         if (!canEdit(player))
