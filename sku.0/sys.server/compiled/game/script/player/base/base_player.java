@@ -2209,6 +2209,7 @@ public class base_player extends script.base_script
     }
     public int OnLogout(obj_id self) throws InterruptedException
     {
+        mount_maker.onPlayerLogoutCleanup(self);
         turret_gunner_lib.onPlayerLogout(self);
         if (hasObjVar(self, pclib.VAR_CONSENT_FROM_ID))
         {
@@ -2268,6 +2269,7 @@ public class base_player extends script.base_script
     }
     public int OnImmediateLogout(obj_id self) throws InterruptedException
     {
+        mount_maker.onPlayerLogoutCleanup(self);
         (self.getScriptVars()).remove(veteran_deprecated.SCRIPTVAR_VETERAN_LOGGED_IN);
         if (utils.hasScriptVar(self, "profit"))
         {
@@ -2571,6 +2573,16 @@ public class base_player extends script.base_script
             return SCRIPT_CONTINUE;
         }
         turret_gunner_lib.tryUnmount(turret, self);
+        return SCRIPT_CONTINUE;
+    }
+
+    /** Escape hatch if mount maker listbox is gone: dismount, end possession, end designer session. */
+    public int cmdMountMakerExit(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException
+    {
+        if (!mount_maker.isDesignerAuthorized(self))
+            return SCRIPT_CONTINUE;
+        mount_maker.emergencyUnmountAll(self);
+        sendSystemMessage(self, string_id.unlocalized("Mount maker: cleared ride / drive / designer session if any."));
         return SCRIPT_CONTINUE;
     }
     public int handleDelayedEjection(obj_id self, dictionary params) throws InterruptedException

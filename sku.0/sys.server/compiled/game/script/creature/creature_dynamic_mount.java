@@ -224,14 +224,14 @@ public class creature_dynamic_mount extends script.base_script
                 break;
             case 13:
                 if (mount_maker.possessionEnter(player, self))
-                    sendInvalid(player, "Riding this mount (seat 0). Use Dismount or end designer session when done.");
+                    sendInvalid(player, "Mounted on seat 0 + drive mode (move as one). Dismount row, /mountMakerExit, logout, or end designer session to release.");
                 else
                     sendInvalid(player, "Ride failed: mounts enabled, mountable template with free seat, and not already on another mount.");
                 showMainMenu(self, player);
                 break;
             case 14:
                 mount_maker.possessionLeave(player, self);
-                sendInvalid(player, "Dismount / legacy possession clear attempted.");
+                sendInvalid(player, "Dismount / drive release attempted. If stuck, /mountMakerExit.");
                 showMainMenu(self, player);
                 break;
             default:
