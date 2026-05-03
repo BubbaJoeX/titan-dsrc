@@ -22973,6 +22973,20 @@ public class base_class
         return _makeDynamicMountable(getLongWithNull(creatureId));
     }
 
+    /** Swap connection primary to {@code mount} (NPC creature); requires god + valid client. */
+    private static native boolean _mountMakerPossessionEnter(long avatarId, long mountId);
+    public static boolean mountMakerPossessionEnter(obj_id avatarId, obj_id mountId)
+    {
+        return _mountMakerPossessionEnter(getLongWithNull(avatarId), getLongWithNull(mountId));
+    }
+
+    /** Undo {@link #mountMakerPossessionEnter}. */
+    private static native boolean _mountMakerPossessionLeave(long avatarId, long mountId);
+    public static boolean mountMakerPossessionLeave(obj_id avatarId, obj_id mountId)
+    {
+        return _mountMakerPossessionLeave(getLongWithNull(avatarId), getLongWithNull(mountId));
+    }
+
     /**
      * Return the name of the buildout area for the given
      * (x,z) position.

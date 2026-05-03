@@ -15,9 +15,10 @@ import script.menu_info_types;
  * Designers may also use {@code terminal.gm_dynamic_hardpoint} on the same creature for hp_dyn appearance
  * editing (do not attach other scripts that use SERVER_MENU53 on the same object).
  * <p>
- * Full in-game authoring: toggle {@code /decoratorCamera}, {@code /mountMakerDrive} (look-at creature), optionally
- * {@code /mountMakerLockNorth 1}; click-to-select accessories and use decorator gizmos ({@code TAB}/{@code R}); then
- * use listbox Session rows for {@link script.library.mount_maker} safety on the creature.
+ * Full in-game authoring: toggle {@code /decoratorCamera}, optional {@code /mountMakerDrive} (teleport-style fallback),
+ * or listbox {@code SERVER: Possess} for real network primary on the creature; optionally {@code /mountMakerLockNorth 1};
+ * click-to-select accessories and use decorator gizmos ({@code TAB}/{@code R}); use listbox Session rows for
+ * {@link script.library.mount_maker} safety on the creature.
  */
 public class creature_dynamic_mount extends script.base_script
 {
@@ -79,8 +80,10 @@ public class creature_dynamic_mount extends script.base_script
             "SERVER: Begin designer session (invuln + ignore combat)",
             "SERVER: End designer session",
             "Clear mount.dm and hp_dyn on this creature",
+            "SERVER: Possess (network primary → this creature)",
+            "SERVER: Release possession (restore avatar primary)",
         };
-        sui.listbox(self, player, "Dynamic mount: use /decoratorCamera + /mountMakerDrive (look-at) + gizmo. Saddle via gm_dynamic_hardpoint or preset hp_dyn.", sui.OK_CANCEL, "Dynamic mount", rows, "handleDmMainList", true);
+        sui.listbox(self, player, "Dynamic mount: /decoratorCamera + gizmo; optional /mountMakerDrive (fallback) or listbox Possess (authoritative). Saddle via gm_dynamic_hardpoint or preset hp_dyn.", sui.OK_CANCEL, "Dynamic mount", rows, "handleDmMainList", true);
     }
 
     public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi) throws InterruptedException
@@ -166,6 +169,18 @@ public class creature_dynamic_mount extends script.base_script
                 removeObjVar(self, "mount.dm");
                 removeObjVar(self, "hp_dyn");
                 sendInvalid(player, "Cleared mount.dm and hp_dyn.");
+                showMainMenu(self, player);
+                break;
+            case 12:
+                if (mount_maker.possessionEnter(player, self))
+                    sendInvalid(player, "Possession: server swapped primary to this creature. Use Release or end session.");
+                else
+                    sendInvalid(player, "Possession failed (need god, active designer session, NPC creature template).");
+                showMainMenu(self, player);
+                break;
+            case 13:
+                mount_maker.possessionLeave(player, self);
+                sendInvalid(player, "Possession release attempted (no-op if not possessing).");
                 showMainMenu(self, player);
                 break;
             default:

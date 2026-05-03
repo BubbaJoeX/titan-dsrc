@@ -4,7 +4,8 @@ import script.obj_id;
 
 /**
  * Server-side coupling for dynamic mount authoring: designer attunement objvars plus safety flags.
- * Client drive mode uses decorator WASD ({@code /mountMakerDrive}); see {@link script.creature.creature_dynamic_mount}.
+ * Optional {@link #possessionEnter}: swap the client's authoritative primary to the creature (real ObjController
+ * movement, not decorator {@code moveFurniture}). Client must receive {@code ControlAssumed} for the mount id.
  */
 public class mount_maker extends script.base_script
 {
@@ -35,6 +36,8 @@ public class mount_maker extends script.base_script
         if (!isIdValid(designer) || !hasObjVar(designer, OV_PLAYER_MOUNT))
             return;
         obj_id creature = getObjIdObjVar(designer, OV_PLAYER_MOUNT);
+        if (isIdValid(creature) && exists(creature))
+            mountMakerPossessionLeave(designer, creature);
         removeObjVar(designer, OV_PLAYER_MOUNT);
         if (isIdValid(creature) && exists(creature))
         {
@@ -42,6 +45,27 @@ public class mount_maker extends script.base_script
                 removeObjVar(creature, OV_CREATURE_DESIGNER);
             setInvulnerable(creature, false);
         }
+    }
+
+    /**
+     * Network-level possess: server sets client primary to {@code mount}. Requires god, active designer session
+     * on this creature, and an NPC (non-avatar) creature template.
+     */
+    public static boolean possessionEnter(obj_id designer, obj_id mount) throws InterruptedException
+    {
+        if (!isDesignerAuthorized(designer) || !isGod(designer) || !isIdValid(mount) || !exists(mount))
+            return false;
+        if (!hasObjVar(mount, OV_CREATURE_DESIGNER) || getObjIdObjVar(mount, OV_CREATURE_DESIGNER) != designer)
+            return false;
+        return mountMakerPossessionEnter(designer, mount);
+    }
+
+    /** Release {@link #possessionEnter}; safe if not possessing. */
+    public static boolean possessionLeave(obj_id designer, obj_id mount) throws InterruptedException
+    {
+        if (!isIdValid(designer) || !isIdValid(mount))
+            return false;
+        return mountMakerPossessionLeave(designer, mount);
     }
 
     private mount_maker()
