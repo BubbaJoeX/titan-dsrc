@@ -19,7 +19,7 @@ import script.menu_info_types;
  * script when using the GM radial -> Mount maker on an NPC.
  * <p>
  * Full in-game authoring: toggle {@code /decoratorCamera}, optional {@code /mountMakerDrive} (teleport-style fallback),
- * or listbox {@code SERVER: Possess} for real network primary on the creature; optionally {@code /mountMakerLockNorth 1};
+ * or listbox <b>Ride mount (seat 0)</b> for normal {@code mountCreature} behavior like production mounts; optionally {@code /mountMakerLockNorth 1};
  * click-to-select accessories and use decorator gizmos ({@code TAB}/{@code R}); use listbox Session rows for
  * {@link script.library.mount_maker} safety on the creature.
  * <p>
@@ -111,10 +111,10 @@ public class creature_dynamic_mount extends script.base_script
             "SERVER: Begin designer session (invuln + ignore combat)",
             "SERVER: End designer session",
             "Clear mount.dm and hp_dyn on this creature",
-            "SERVER: Possess (network primary -> this creature)",
-            "SERVER: Release possession (restore avatar primary)",
+            "SERVER: Ride mount (seat 0 — same as mountCreature)",
+            "SERVER: Dismount",
         };
-        sui.listbox(player, player, "Mount maker: rider geometry (mount.dm), then attachments (hp_dyn), export, finalize. /decoratorCamera + Possess for authoring.", sui.OK_CANCEL, "Mount maker", rows, HANDLER_MM_MAIN, true);
+        sui.listbox(player, player, "Mount maker: rider geometry (mount.dm), then attachments (hp_dyn), export, finalize. Ride mount to snap to seat 0 and drive like a normal rider.", sui.OK_CANCEL, "Mount maker", rows, HANDLER_MM_MAIN, true);
     }
 
     /** Legacy messageTo target; forwards to {@link #openAuthoringMainMenu}. */
@@ -224,14 +224,14 @@ public class creature_dynamic_mount extends script.base_script
                 break;
             case 13:
                 if (mount_maker.possessionEnter(player, self))
-                    sendInvalid(player, "Possession: server swapped primary to this creature. Use Release or end session.");
+                    sendInvalid(player, "Riding this mount (seat 0). Use Dismount or end designer session when done.");
                 else
-                    sendInvalid(player, "Possession failed (need god, active designer session, NPC creature template).");
+                    sendInvalid(player, "Ride failed: mounts enabled, mountable template with free seat, and not already on another mount.");
                 showMainMenu(self, player);
                 break;
             case 14:
                 mount_maker.possessionLeave(player, self);
-                sendInvalid(player, "Possession release attempted (no-op if not possessing).");
+                sendInvalid(player, "Dismount / legacy possession clear attempted.");
                 showMainMenu(self, player);
                 break;
             default:
