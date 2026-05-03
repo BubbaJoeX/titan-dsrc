@@ -1199,7 +1199,48 @@ public class sui extends script.base_script
     }
     public static int getListboxSelectedRow(dictionary params) throws InterruptedException
     {
-        return utils.stringToInt(params.getString(LISTBOX_LIST + "." + PROP_SELECTEDROW));
+        if (params == null || params.isEmpty())
+        {
+            return -1;
+        }
+        final String keySelected = LISTBOX_LIST + "." + PROP_SELECTEDROW;
+        Object raw = params.get(keySelected);
+        if (raw instanceof Integer)
+        {
+            return (Integer) raw;
+        }
+        if (raw instanceof Long)
+        {
+            long lv = (Long) raw;
+            if (lv >= 0L && lv <= (long) Integer.MAX_VALUE)
+            {
+                return (int) lv;
+            }
+            return -1;
+        }
+        int row = utils.stringToInt(params.getString(keySelected));
+        if (row >= 0)
+        {
+            return row;
+        }
+        // Some clients populate LogicalRowIndex instead of SelectedRow
+        final String keyLogical = LISTBOX_LIST + "." + PROP_LOGICALINDEX;
+        raw = params.get(keyLogical);
+        if (raw instanceof Integer)
+        {
+            return (Integer) raw;
+        }
+        if (raw instanceof Long)
+        {
+            long lv = (Long) raw;
+            if (lv >= 0L && lv <= (long) Integer.MAX_VALUE)
+            {
+                return (int) lv;
+            }
+            return -1;
+        }
+        row = utils.stringToInt(params.getString(keyLogical));
+        return row;
     }
     public static String getListboxTitle(dictionary params) throws InterruptedException
     {
@@ -1599,9 +1640,14 @@ public class sui extends script.base_script
     }
     public static int getIntButtonPressed(dictionary params) throws InterruptedException
     {
+        if (params == null || params.isEmpty())
+        {
+            return BP_CANCEL;
+        }
         String bp = params.getString(PROP_BUTTONPRESSED);
         if ((bp != null) && (!bp.equals(""))) {
-            if (bp.equals(OK))
+            // Match OK/revert case-insensitively — some UI builds vary capitalization
+            if (bp.equalsIgnoreCase(OK))
 			{
 				if (params.containsKey("this.otherPressed"))
 				{
@@ -1612,7 +1658,7 @@ public class sui extends script.base_script
 				}
 				return BP_OK;
 			}
-			else if (bp.equals(REVERT))
+			else if (bp.equalsIgnoreCase(REVERT))
 			{
 				return BP_REVERT;
 			}
