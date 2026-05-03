@@ -15,7 +15,7 @@ import script.menu_info_types;
  * Attach only to a <b>dedicated</b> test creature — this script reserves {@link menu_info_types#SERVER_MENU53}.
  * Attachments / saddles / lights / FX use {@code hp_dyn.*} via the same listbox ({@link script.library.dynamic_hardpoint}).
  * Optional {@code terminal.gm_dynamic_hardpoint} remains for radial editing on a terminal prop. {@code ai.ai} may attach this
- * script when using the GM radial -> Mount maker on an NPC.
+ * script when using the GM radial -> Attach Mount Scripts on an NPC.
  * <p>
  * Full in-game authoring: mount maker SUI (server); optional {@code /decoratorCamera} for placement camera only,
  * or listbox <b>Ride mount (seat 0)</b> for normal {@code mountCreature} behavior like production mounts;
@@ -113,7 +113,7 @@ public class creature_dynamic_mount extends script.base_script
             "SERVER: Ride mount (seat 0 — same as mountCreature)",
             "SERVER: Dismount",
         };
-        sui.listbox(player, player, "Mount maker: rider geometry (mount.dm), then attachments (hp_dyn), export, finalize. Ride mount to snap to seat 0 and drive like a normal rider.", sui.OK_CANCEL, "Mount maker", rows, HANDLER_MM_MAIN, true);
+        sui.listbox(player, player, "Attach Mount Scripts: rider geometry (mount.dm), then attachments (hp_dyn), export, finalize. Ride mount to snap to seat 0 and drive like a normal rider.", sui.OK_CANCEL, "Attach Mount Scripts", rows, HANDLER_MM_MAIN, true);
     }
 
     /** Legacy messageTo target; forwards to {@link #openAuthoringMainMenu}. */
@@ -136,7 +136,7 @@ public class creature_dynamic_mount extends script.base_script
     {
         if (!canEdit(player))
             return SCRIPT_CONTINUE;
-        mi.addRootMenu(MENU_ROOT, string_id.unlocalized("GM: Dynamic mount"));
+        mi.addRootMenu(MENU_ROOT, string_id.unlocalized("Attach Mount Scripts"));
         return SCRIPT_CONTINUE;
     }
 

@@ -384,7 +384,7 @@ public class dynamic_hardpoint extends script.base_script
         int slot = getSlot(player);
         String[] rows = new String[]
         {
-            "« Back to Mount maker main menu",
+            "« Back to Attach Mount Scripts main menu",
             "Set hp_dyn edit slot (0-32) [now " + slot + "]",
             "Clear ALL hp_dyn on this creature",
             "--- APP (saddle / attached appearance) ---",

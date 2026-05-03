@@ -3006,7 +3006,7 @@ public class ai extends script.base_script {
             mi.addSubMenu(
                 gmRoot,
                 menu_info_types.SERVER_MENU25,
-                new string_id("Mount maker")
+                new string_id("Attach Mount Scripts")
             );
             return SCRIPT_CONTINUE;
         }
@@ -3116,19 +3116,23 @@ public class ai extends script.base_script {
                     sendSystemMessage(
                         player,
                         string_id.unlocalized(
-                            "Mount maker requires god mode or test_center."
+                            "Attach Mount Scripts requires god mode or test_center."
                         )
                     );
                     return SCRIPT_CONTINUE;
                 }
-                // Mount maker needs creature_dynamic_mount (radial + listbox) and dynamic_hardpoint (hp_dyn.* authoring helpers).
+                // Needs creature_dynamic_mount (radial + listbox) and dynamic_hardpoint (hp_dyn.* helpers).
+                // Defer opening the SUI until after attach completes — immediate openAuthoringMainMenu can run while
+                // m_attachingScript is active and drop handlers / skip priming callbacks on the creature.
                 if (!hasScript(self, "creature.creature_dynamic_mount")) {
                     attachScript(self, "creature.creature_dynamic_mount");
                 }
                 if (!hasScript(self, "library.dynamic_hardpoint")) {
                     attachScript(self, "library.dynamic_hardpoint");
                 }
-                creature_dynamic_mount.openAuthoringMainMenu(self, player);
+                dictionary pending = new dictionary();
+                pending.put("player", player);
+                messageTo(self, "handleGmMountMakerOpen", pending, 0.5f, false);
                 return SCRIPT_CONTINUE;
             }
         }

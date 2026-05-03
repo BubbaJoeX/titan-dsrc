@@ -2582,7 +2582,7 @@ public class base_player extends script.base_script
         if (!mount_maker.isDesignerAuthorized(self))
             return SCRIPT_CONTINUE;
         mount_maker.emergencyUnmountAll(self);
-        sendSystemMessage(self, string_id.unlocalized("Mount maker: cleared ride / drive / designer session if any."));
+        sendSystemMessage(self, string_id.unlocalized("Attach Mount Scripts: cleared ride / drive / designer session if any."));
         return SCRIPT_CONTINUE;
     }
     public int handleDelayedEjection(obj_id self, dictionary params) throws InterruptedException
