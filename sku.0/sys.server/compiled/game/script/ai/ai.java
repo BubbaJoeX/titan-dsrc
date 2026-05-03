@@ -3123,10 +3123,10 @@ public class ai extends script.base_script {
             getDistance(self, speaker) < 2.5f &&
             hasObjVar(speaker, "player_ai")
         ) {
-            if (!isMob(self)) {
+            if (ai_lib.isHumanoid(self)) {
                 broadcast(
                     speaker,
-                    "hey that thing shouldn't talk, are u on crack"
+                    "hey that thing shouldn't talk, are u on crack!"
                 );
                 return SCRIPT_CONTINUE;
             }
