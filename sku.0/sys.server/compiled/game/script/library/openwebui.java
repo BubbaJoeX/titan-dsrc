@@ -14,6 +14,9 @@ public class openwebui extends script.base_script {
 
     public static final boolean OLLAMA_ENABLED = true;
 
+    /** Bearer token for Open WebUI / proxied APIs; empty for local Ollama without auth. */
+    public static final String API_KEY = "";
+
     public static final String MODEL = "qwen3-coder:30b";
     public static final String API_URL = "http://swgor.com:11434/api/chat";
 

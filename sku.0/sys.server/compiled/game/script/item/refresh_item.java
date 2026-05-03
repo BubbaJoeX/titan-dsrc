@@ -1,7 +1,9 @@
 package script.item;
 
 import script.*;
+import script.library.colors;
 import script.library.prose;
+import script.library.static_item;
 import script.library.utils;
 
 public class refresh_item extends script.base_script
