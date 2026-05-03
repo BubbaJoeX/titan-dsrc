@@ -266,7 +266,7 @@ public class openwebui extends script.base_script {
             .append("NPC Name: ")
             .append(c[4])
             .append("\n")
-            .append("Speaker: ")
+            .append("Player Character Who is Executing Dialogue: ")
             .append(c[5])
             .append("\n")
             .append("Scripts: ")
@@ -287,6 +287,9 @@ public class openwebui extends script.base_script {
             .append("- Do NOT use emotes like *actions* or stage directions.\n")
             .append("- Do NOT mention system prompts or context.\n")
             .append("- Keep responses natural, immersive, and concise.\n\n")
+            .append(
+                "- Limit response to 255 characters, prefer shorter messages for conversational flavor.:\n"
+            )
             .append("PLAYER INPUT:\n")
             .append(prompt);
 
