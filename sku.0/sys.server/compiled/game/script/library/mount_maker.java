@@ -4,6 +4,8 @@ import script.obj_id;
 
 /**
  * Server-side coupling for dynamic mount authoring: designer attunement objvars plus safety flags.
+ * Hardpoint overlay ({@code hp_dyn}) slot selection uses {@link script.library.dynamic_hardpoint#OV_HP_SLOT} on the
+ * designer player (shared with {@link script.terminal.gm_dynamic_hardpoint} radials).
  * Optional {@link #possessionEnter}: swap the client's authoritative primary to the creature (real ObjController
  * movement, not decorator {@code moveFurniture}). Client must receive {@code ControlAssumed} for the mount id.
  */

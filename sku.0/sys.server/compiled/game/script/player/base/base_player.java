@@ -2,6 +2,7 @@ package script.player.base;
 
 import script.*;
 import script.creature.creature_dynamic_mount;
+import script.library.dynamic_hardpoint;
 import script.library.*;
 
 import java.io.BufferedReader;
@@ -3655,6 +3656,158 @@ public class base_player extends script.base_script
         if (creature == null)
             return SCRIPT_CONTINUE;
         return creature_dynamic_mount.mountMakerImportNameInput(creature, params);
+    }
+
+    public int handleMmHpDynMainList(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id creature = getMountMakerAuthoringCreature(self);
+        if (creature == null)
+            return SCRIPT_CONTINUE;
+        return dynamic_hardpoint.mountMakerHpDynMainList(creature, params);
+    }
+
+    public int handleMmHpDynSlotInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id creature = getMountMakerAuthoringCreature(self);
+        if (creature == null)
+            return SCRIPT_CONTINUE;
+        return dynamic_hardpoint.mountMmHpDynSlotInput(creature, params);
+    }
+
+    public int handleMmHpDynAppHpInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id creature = getMountMakerAuthoringCreature(self);
+        if (creature == null)
+            return SCRIPT_CONTINUE;
+        return dynamic_hardpoint.mountMmHpDynAppHpInput(creature, params);
+    }
+
+    public int handleMmHpDynAppPathInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id creature = getMountMakerAuthoringCreature(self);
+        if (creature == null)
+            return SCRIPT_CONTINUE;
+        return dynamic_hardpoint.mountMmHpDynAppPathInput(creature, params);
+    }
+
+    public int handleMmHpDynAppOxInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id creature = getMountMakerAuthoringCreature(self);
+        if (creature == null)
+            return SCRIPT_CONTINUE;
+        return dynamic_hardpoint.mountMmHpDynAppOxInput(creature, params);
+    }
+
+    public int handleMmHpDynAppOyInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id creature = getMountMakerAuthoringCreature(self);
+        if (creature == null)
+            return SCRIPT_CONTINUE;
+        return dynamic_hardpoint.mountMmHpDynAppOyInput(creature, params);
+    }
+
+    public int handleMmHpDynAppOzInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id creature = getMountMakerAuthoringCreature(self);
+        if (creature == null)
+            return SCRIPT_CONTINUE;
+        return dynamic_hardpoint.mountMmHpDynAppOzInput(creature, params);
+    }
+
+    public int handleMmHpDynLightHpInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id creature = getMountMakerAuthoringCreature(self);
+        if (creature == null)
+            return SCRIPT_CONTINUE;
+        return dynamic_hardpoint.mountMmHpDynLightHpInput(creature, params);
+    }
+
+    public int handleMmHpDynLightRInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id creature = getMountMakerAuthoringCreature(self);
+        if (creature == null)
+            return SCRIPT_CONTINUE;
+        return dynamic_hardpoint.mountMmHpDynLightRInput(creature, params);
+    }
+
+    public int handleMmHpDynLightGInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id creature = getMountMakerAuthoringCreature(self);
+        if (creature == null)
+            return SCRIPT_CONTINUE;
+        return dynamic_hardpoint.mountMmHpDynLightGInput(creature, params);
+    }
+
+    public int handleMmHpDynLightBInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id creature = getMountMakerAuthoringCreature(self);
+        if (creature == null)
+            return SCRIPT_CONTINUE;
+        return dynamic_hardpoint.mountMmHpDynLightBInput(creature, params);
+    }
+
+    public int handleMmHpDynLightRangeInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id creature = getMountMakerAuthoringCreature(self);
+        if (creature == null)
+            return SCRIPT_CONTINUE;
+        return dynamic_hardpoint.mountMmHpDynLightRangeInput(creature, params);
+    }
+
+    public int handleMmHpDynLightIntInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id creature = getMountMakerAuthoringCreature(self);
+        if (creature == null)
+            return SCRIPT_CONTINUE;
+        return dynamic_hardpoint.mountMmHpDynLightIntInput(creature, params);
+    }
+
+    public int handleMmHpDynFxHpInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id creature = getMountMakerAuthoringCreature(self);
+        if (creature == null)
+            return SCRIPT_CONTINUE;
+        return dynamic_hardpoint.mountMmHpDynFxHpInput(creature, params);
+    }
+
+    public int handleMmHpDynFxPathInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id creature = getMountMakerAuthoringCreature(self);
+        if (creature == null)
+            return SCRIPT_CONTINUE;
+        return dynamic_hardpoint.mountMmHpDynFxPathInput(creature, params);
+    }
+
+    public int handleMmHpDynFxOxInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id creature = getMountMakerAuthoringCreature(self);
+        if (creature == null)
+            return SCRIPT_CONTINUE;
+        return dynamic_hardpoint.mountMmHpDynFxOxInput(creature, params);
+    }
+
+    public int handleMmHpDynFxOyInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id creature = getMountMakerAuthoringCreature(self);
+        if (creature == null)
+            return SCRIPT_CONTINUE;
+        return dynamic_hardpoint.mountMmHpDynFxOyInput(creature, params);
+    }
+
+    public int handleMmHpDynFxOzInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id creature = getMountMakerAuthoringCreature(self);
+        if (creature == null)
+            return SCRIPT_CONTINUE;
+        return dynamic_hardpoint.mountMmHpDynFxOzInput(creature, params);
+    }
+
+    public int handleMmHpDynFxScaleInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id creature = getMountMakerAuthoringCreature(self);
+        if (creature == null)
+            return SCRIPT_CONTINUE;
+        return dynamic_hardpoint.mountMmHpDynFxScaleInput(creature, params);
     }
 
     public int handleDelayedClone(obj_id self, dictionary params) throws InterruptedException

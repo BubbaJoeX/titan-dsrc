@@ -3,6 +3,7 @@ package script.creature;
 import java.io.IOException;
 
 import script.*;
+import script.library.dynamic_hardpoint;
 import script.library.dynamic_mount;
 import script.library.mount_maker;
 import script.library.sui;
@@ -13,8 +14,8 @@ import script.menu_info_types;
  * Authoring UI for dynamic mounts ({@code mount.dm.*} plus optional {@code hp_dyn.*} saddle overlay).
  * <p>
  * Attach only to a <b>dedicated</b> test creature — this script reserves {@link menu_info_types#SERVER_MENU53}.
- * Designers may also use {@code terminal.gm_dynamic_hardpoint} on the same creature for hp_dyn appearance
- * editing (do not attach other scripts that use SERVER_MENU53 on the same object). {@code ai.ai} may attach this
+ * Attachments / saddles / lights / FX use {@code hp_dyn.*} via the same listbox ({@link script.library.dynamic_hardpoint}).
+ * Optional {@code terminal.gm_dynamic_hardpoint} remains for radial editing on a terminal prop. {@code ai.ai} may attach this
  * script when using the GM radial -> Mount maker on an NPC.
  * <p>
  * Full in-game authoring: toggle {@code /decoratorCamera}, optional {@code /mountMakerDrive} (teleport-style fallback),
@@ -102,7 +103,8 @@ public class creature_dynamic_mount extends script.base_script
             "Set offset X for seat " + seat + " [now " + ox + "]",
             "Set offset Y for seat " + seat + " [now " + oy + "]",
             "Set offset Z for seat " + seat + " [now " + oz + "]",
-            "Export preset to var/mounting_presets/...",
+            "Attachments / saddle / lights / FX (hp_dyn)...",
+            "Export preset (.mountpreset: mount.dm + hp_dyn)",
             "Load preset from var/mounting_presets/...",
             "Finalize (makeDynamicMountable + active)",
             "SERVER: Begin designer session (invuln + ignore combat)",
@@ -111,7 +113,7 @@ public class creature_dynamic_mount extends script.base_script
             "SERVER: Possess (network primary -> this creature)",
             "SERVER: Release possession (restore avatar primary)",
         };
-        sui.listbox(player, player, "Dynamic mount: /decoratorCamera + gizmo; optional /mountMakerDrive (fallback) or listbox Possess (authoritative). Saddle via gm_dynamic_hardpoint or preset hp_dyn.", sui.OK_CANCEL, "Dynamic mount", rows, HANDLER_MM_MAIN, true);
+        sui.listbox(player, player, "Mount maker: rider geometry (mount.dm), then attachments (hp_dyn), export, finalize. /decoratorCamera + Possess for authoring.", sui.OK_CANCEL, "Mount maker", rows, HANDLER_MM_MAIN, true);
     }
 
     /** Legacy messageTo target; forwards to {@link #openAuthoringMainMenu}. */
@@ -189,41 +191,44 @@ public class creature_dynamic_mount extends script.base_script
                         Float.toString(hasObjVar(self, seatBase(player) + "oz") ? getFloatObjVar(self, seatBase(player) + "oz") : 0.f));
                 break;
             case 6:
+                dynamic_hardpoint.openHpDynAuthoringListbox(self, player);
+                break;
+            case 7:
                 sui.inputbox(player, player, "Preset base name (no path, saved as name.mountpreset):", "Export",
                         HANDLER_MM_EXPORT, sui.MAX_INPUT_LENGTH, false, "my_mount");
                 break;
-            case 7:
+            case 8:
                 sui.inputbox(player, player, "Preset base name to load:", "Import",
                         HANDLER_MM_IMPORT, sui.MAX_INPUT_LENGTH, false, "my_mount");
                 break;
-            case 8:
+            case 9:
                 finalizeDynamicMount(self, player);
                 showMainMenu(self, player);
                 break;
-            case 9:
+            case 10:
                 mount_maker.beginDesignerSession(self, player);
                 sendInvalid(player, "mount maker: server session started (invuln + ignore combat).");
                 showMainMenu(self, player);
                 break;
-            case 10:
+            case 11:
                 mount_maker.endDesignerSession(player);
                 sendInvalid(player, "mount maker: server session ended.");
                 showMainMenu(self, player);
                 break;
-            case 11:
+            case 12:
                 removeObjVar(self, "mount.dm");
                 removeObjVar(self, "hp_dyn");
                 sendInvalid(player, "Cleared mount.dm and hp_dyn.");
                 showMainMenu(self, player);
                 break;
-            case 12:
+            case 13:
                 if (mount_maker.possessionEnter(player, self))
                     sendInvalid(player, "Possession: server swapped primary to this creature. Use Release or end session.");
                 else
                     sendInvalid(player, "Possession failed (need god, active designer session, NPC creature template).");
                 showMainMenu(self, player);
                 break;
-            case 13:
+            case 14:
                 mount_maker.possessionLeave(player, self);
                 sendInvalid(player, "Possession release attempted (no-op if not possessing).");
                 showMainMenu(self, player);

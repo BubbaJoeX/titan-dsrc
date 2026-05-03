@@ -11,10 +11,16 @@ import script.obj_id;
 
 /**
  * Dynamic mount preset I/O and default objvar layout (pairs with engine mount.dm + hp_dyn replication).
+ * <p>
+ * <b>Designer flow:</b> edit on a creature via {@link script.creature.creature_dynamic_mount} (seats + {@code hp_dyn}
+ * attachments/lights/FX), export preset — done. <b>Live spawn:</b> GM or script spawns the creature template, then calls
+ * {@link #applyPresetToSpawn} (alias of {@link #applyPresetFromFile}) to apply {@code mount.dm.*} and {@code hp_dyn.*}
+ * from the exported file before mounting logic runs.
+ * <p>
  * Authoring listbox/inputbox SUIs use {@code sui.listbox(player, player, ...)} / {@code sui.inputbox(player, player, ...)}
  * so callbacks resolve on {@code player.base.base_player}; the creature oid is stored in
- * {@link script.creature.creature_dynamic_mount#SCRIPTVAR_MM_AUTH_CREATURE}. {@code terminal.gm_dynamic_hardpoint} keeps
- * owner = terminal for its prompts.
+ * {@link script.creature.creature_dynamic_mount#SCRIPTVAR_MM_AUTH_CREATURE}. Terminal radials use object-owned SUIs
+ * ({@code terminal.gm_dynamic_hardpoint}).
  */
 public class dynamic_mount extends script.base_script
 {
@@ -187,6 +193,15 @@ public class dynamic_mount extends script.base_script
             setObjVar(creature, VAR_DM_ACTIVE, 1);
         if (!hasObjVar(creature, VAR_DM_CAPACITY))
             setObjVar(creature, VAR_DM_CAPACITY, 1);
+    }
+
+    /**
+     * Apply an exported preset to a spawned creature (same as {@link #applyPresetFromFile}). Use after spawning the mount
+     * instance so seat layout and {@code hp_dyn} overlays match the designer export.
+     */
+    public static void applyPresetToSpawn(obj_id creature, String baseName) throws IOException, InterruptedException
+    {
+        applyPresetFromFile(creature, baseName);
     }
 
     private dynamic_mount()
