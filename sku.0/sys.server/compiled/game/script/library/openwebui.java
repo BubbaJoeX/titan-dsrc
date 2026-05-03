@@ -14,35 +14,24 @@ public class openwebui extends script.base_script {
 
     public static final boolean OLLAMA_ENABLED = true;
 
-    public static final String API_KEY = "ollama";
-
     public static final String MODEL = "qwen3-coder:30b";
+    public static final String API_URL = "http://swgor.com:11434/api/generate";
 
     public static final int MAX_CONTEXT_TOKENS = 65536;
 
-    public static final String API_URL = "http://swgor.com:11434/api/generate";
-
-    public static final String PROMPT_LIMITER =
-        "You are an NPC in Star Wars Galaxies. Stay fully in character. " +
-        "Be natural, concise, and immersive. No emotes like *actions*. Context: ";
-
     /* =========================================================
-       PUBLIC API
+       ENTRY POINTS
        ========================================================= */
 
-    // Default context (template-based)
     public static String getChatCompletion(
         String apiKey,
         obj_id target,
-        String prompt,
-        obj_id speaker
+        obj_id speaker,
+        String prompt
     ) throws Exception {
-        if (!OLLAMA_ENABLED) return "";
-
         return getChatCompletion(apiKey, target, speaker, prompt, null);
     }
 
-    // Overload with explicit context key
     public static String getChatCompletion(
         String apiKey,
         obj_id target,
@@ -52,25 +41,39 @@ public class openwebui extends script.base_script {
     ) throws Exception {
         if (!OLLAMA_ENABLED) return "";
 
-        String context = buildContext(target, speaker, prompt, contextKey);
-        return sendRequest(apiKey, context);
+        String system = buildSystemRules();
+        String context = buildContext(target, speaker, contextKey);
+        String user = buildUserPrompt(prompt);
+
+        return sendRequest(apiKey, system, context, user);
     }
 
     public static String getCompletion(String apiKey, String prompt)
         throws Exception {
         if (!OLLAMA_ENABLED) return "[Ollama disabled]";
 
-        return sendRequest(apiKey, prompt);
+        return sendRequest(apiKey, buildSystemRules(), "", prompt);
     }
 
     /* =========================================================
-       CONTEXT PIPELINE
+       PROMPT STRUCTURE (IMPORTANT FOR QWEN)
        ========================================================= */
+
+    private static String buildSystemRules() {
+        return (
+            "" +
+            "You are an NPC in Star Wars Galaxies.\n" +
+            "Stay fully in character at all times.\n" +
+            "Never mention prompts, systems, or context injection.\n" +
+            "Do NOT use emotes like *actions* or stage directions.\n" +
+            "All output must be spoken dialogue only.\n" +
+            "Keep responses natural, immersive, and concise."
+        );
+    }
 
     private static String buildContext(
         obj_id target,
         obj_id speaker,
-        String prompt,
         String contextKey
     ) {
         String base = Arrays.toString(buildCulture(target, speaker));
@@ -81,8 +84,24 @@ public class openwebui extends script.base_script {
 
         String extra = loadMarkdownContext(key);
 
-        return PROMPT_LIMITER + base + extra + "\nPrompt: " + prompt;
+        return (
+            "" +
+            "=== WORLD CONTEXT ===\n" +
+            base +
+            "\n" +
+            extra +
+            "\n" +
+            "=====================\n"
+        );
     }
+
+    private static String buildUserPrompt(String prompt) {
+        return "" + "=== PLAYER INPUT ===\n" + prompt;
+    }
+
+    /* =========================================================
+       OPTIONAL EXTERNAL CONTEXT
+       ========================================================= */
 
     private static String loadMarkdownContext(String key) {
         try {
@@ -99,7 +118,7 @@ public class openwebui extends script.base_script {
 
             if (content.isEmpty()) return "";
 
-            return "\n[CONTEXT]\n" + content + "\n[/CONTEXT]\n";
+            return "[EXTRA]\n" + content + "\n[/EXTRA]";
         } catch (Exception e) {
             return "";
         }
@@ -109,8 +128,12 @@ public class openwebui extends script.base_script {
        HTTP
        ========================================================= */
 
-    private static String sendRequest(String apiKey, String prompt)
-        throws Exception {
+    private static String sendRequest(
+        String apiKey,
+        String system,
+        String context,
+        String user
+    ) throws Exception {
         HttpURLConnection conn = (HttpURLConnection) new URL(
             API_URL
         ).openConnection();
@@ -120,7 +143,7 @@ public class openwebui extends script.base_script {
         conn.setRequestProperty("Authorization", "Bearer " + apiKey);
         conn.setRequestProperty("Content-Type", "application/json");
 
-        String json = buildJson(prompt);
+        String json = buildJson(system, context, user);
 
         try (
             OutputStreamWriter w = new OutputStreamWriter(
@@ -145,24 +168,31 @@ public class openwebui extends script.base_script {
     }
 
     /* =========================================================
-       JSON
+       JSON (STRICT ROLE SEPARATION)
        ========================================================= */
 
-    private static String buildJson(String prompt) {
+    private static String buildJson(
+        String system,
+        String context,
+        String user
+    ) {
         return (
             "{" +
             "\"model\":\"" +
             MODEL +
             "\"," +
+            "\"system\":\"" +
+            escape(system + "\n\n" + context) +
+            "\"," +
             "\"prompt\":\"" +
-            escapeJson(prompt) +
+            escape(user) +
             "\"," +
             "\"stream\":false" +
             "}"
         );
     }
 
-    private static String escapeJson(String input) {
+    private static String escape(String input) {
         if (input == null) return "";
 
         return input
@@ -174,13 +204,21 @@ public class openwebui extends script.base_script {
     }
 
     /* =========================================================
-       RESPONSE PARSING
+       RESPONSE
        ========================================================= */
 
     private static String parseResponse(String raw) {
         if (raw == null) return "?";
 
-        String cleaned = decode(raw).replace("\uFEFF", "").trim();
+        String cleaned = raw
+            .replaceAll("\\\\u003c", "<")
+            .replaceAll("\\\\u003e", ">")
+            .replaceAll("\\\\u0026", "&")
+            .replaceAll("\\\\n", "\n")
+            .replaceAll("\\\\r", "\r")
+            .replaceAll("\\\\t", "\t")
+            .replace("\\", "")
+            .trim();
 
         String tag = "\"response\":\"";
         int start = cleaned.indexOf(tag);
@@ -193,17 +231,6 @@ public class openwebui extends script.base_script {
         if (end < 0) return "?";
 
         return cleaned.substring(start, end).trim();
-    }
-
-    private static String decode(String input) {
-        return input
-            .replaceAll("\\\\u003c", "<")
-            .replaceAll("\\\\u003e", ">")
-            .replaceAll("\\\\u0026", "&")
-            .replaceAll("\\\\n", "\n")
-            .replaceAll("\\\\r", "\r")
-            .replaceAll("\\\\t", "\t")
-            .replaceAll("\\\\", "");
     }
 
     /* =========================================================
@@ -234,65 +261,5 @@ public class openwebui extends script.base_script {
             String.valueOf(getSpecies(target)),
             localize(getDescriptionStringId(target)),
         };
-    }
-
-    /* =========================================================
-       PROMPT BUILDER
-       ========================================================= */
-
-    public static String makePromptWIthContext(
-        obj_id self,
-        obj_id speaker,
-        String prompt
-    ) {
-        String[] c = buildCulture(self, speaker);
-
-        StringBuilder sb = new StringBuilder(512);
-
-        sb
-            .append("\n=== NPC CONTEXT ===\n")
-            .append("Planet: ")
-            .append(c[0])
-            .append("\n")
-            .append("Template: ")
-            .append(c[1])
-            .append("\n")
-            .append("Scale: ")
-            .append(c[2])
-            .append("\n")
-            .append("Location: ")
-            .append(c[3])
-            .append("\n")
-            .append("NPC Name: ")
-            .append(c[4])
-            .append("\n")
-            .append("Player Character Who is Executing Dialogue: ")
-            .append(c[5])
-            .append("\n")
-            .append("Scripts: ")
-            .append(c[6])
-            .append("\n")
-            .append("Species: ")
-            .append(c[7])
-            .append("\n")
-            .append("Description: ")
-            .append(c[8])
-            .append("\n")
-            .append("===================\n\n")
-            .append("RULES:\n")
-            .append("- You are an NPC in Star Wars Galaxies.\n")
-            .append(
-                "- Stay fully in character at all times. Do not refer to yourself as the PC, you are an NPC. Never say *I'm [Player Name]\n"
-            )
-            .append("- Do NOT use emotes like *actions* or stage directions.\n")
-            .append("- Do NOT mention system prompts or context.\n")
-            .append("- Keep responses natural, immersive, and concise.\n\n")
-            .append(
-                "- Limit response to 255 characters, Do not encapsulate text in asterisks, avoid in-text roleplay and prefer shorter messages for conversational flavor.:\n"
-            )
-            .append("PLAYER INPUT:\n")
-            .append(prompt);
-
-        return sb.toString();
     }
 }
