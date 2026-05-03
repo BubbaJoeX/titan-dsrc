@@ -1,19 +1,31 @@
 package script.library;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import script.obj_id;
 
 /**
- * Server-side coupling for dynamic mount authoring: designer attunement objvars plus safety flags.
+ * Dynamic mount authoring: designer session, ride + drive, and preset I/O ({@code mount.dm.*} / {@code hp_dyn.*}).
+ * Preset helpers live here (formerly {@code dynamic_mount}) so one compiled unit loads with mount maker workflows.
+ * <p>
  * Hardpoint overlay ({@code hp_dyn}) slot selection uses {@link script.library.dynamic_hardpoint#OV_HP_SLOT} on the
  * designer player (shared with {@link script.terminal.gm_dynamic_hardpoint} radials).
  * <p>
- * {@link #possessionEnter}: {@code mountCreature} (rider slotted / seat metadata) then {@code mountMakerPossessionEnter}
- * so client primary follows the mount — movement and rider stay one unit. {@link #possessionLeave} ends possession
- * first, then dismounts. Use {@link #emergencyUnmountAll}, {@link #onPlayerLogoutCleanup}, or {@code /mountMakerExit}
- * if the listbox is unavailable. Riding does not require {@link #beginDesignerSession}; mount is invulnerable while ridden.
+ * {@link #possessionEnter}: {@code mountCreature} then {@code mountMakerPossessionEnter}. Use {@link #emergencyUnmountAll},
+ * {@link #onPlayerLogoutCleanup}, or {@code /mountMakerExit} if the listbox is unavailable.
  */
 public class mount_maker extends script.base_script
 {
+    public static final String VAR_DM_ACTIVE = "mount.dm.active";
+    public static final String VAR_DM_CAPACITY = "mount.dm.capacity";
+
+    private static final String PRESET_DIR = "/home/swg/swg-main/exe/linux/var/mounting_presets/";
+
     /** Creature being edited references the CSR/designer authoritative id. */
     public static final String OV_CREATURE_DESIGNER = "mount_maker.designer";
     /** Designer references the creature they are editing (cleared on logout by menu). */
@@ -27,10 +39,179 @@ public class mount_maker extends script.base_script
         return isIdValid(player) && (isGod(player) || hasObjVar(player, "test_center"));
     }
 
+    public static void ensureMountDefaults(obj_id creature, int capacity) throws InterruptedException
+    {
+        capacity = Math.min(8, Math.max(1, capacity));
+        setObjVar(creature, VAR_DM_ACTIVE, 1);
+        setObjVar(creature, VAR_DM_CAPACITY, capacity);
+
+        for (int i = 0; i < capacity; ++i)
+        {
+            String base = "mount.dm.seat." + i + ".";
+            if (!hasObjVar(creature, base + "pose"))
+                setObjVar(creature, base + "pose", "normal");
+            if (!hasObjVar(creature, base + "ox"))
+                setObjVar(creature, base + "ox", 0.f);
+            if (!hasObjVar(creature, base + "oy"))
+                setObjVar(creature, base + "oy", 0.f);
+            if (!hasObjVar(creature, base + "oz"))
+                setObjVar(creature, base + "oz", 0.f);
+        }
+    }
+
+    public static File presetFileForName(String baseName)
+    {
+        if (baseName == null || baseName.isEmpty())
+            baseName = "unnamed";
+        if (baseName.endsWith(".mountpreset"))
+            return new File(PRESET_DIR + baseName);
+        return new File(PRESET_DIR + baseName + ".mountpreset");
+    }
+
+    public static void exportObjVarsToFile(obj_id creature, String baseName) throws IOException, InterruptedException
+    {
+        File out = presetFileForName(baseName);
+        File parent = out.getParentFile();
+        if (parent != null)
+            parent.mkdirs();
+
+        BufferedWriter w = new BufferedWriter(new FileWriter(out));
+        try
+        {
+            w.write("# Dynamic mount preset (key=value per line). Keys are objvar paths.\n");
+            w.write("mount.dm.active=" + (hasObjVar(creature, VAR_DM_ACTIVE) ? Integer.toString(getIntObjVar(creature, VAR_DM_ACTIVE)) : "1"));
+            w.write("\n");
+            if (hasObjVar(creature, VAR_DM_CAPACITY))
+            {
+                w.write("mount.dm.capacity=" + Integer.toString(getIntObjVar(creature, VAR_DM_CAPACITY)));
+                w.write("\n");
+            }
+
+            int cap = hasObjVar(creature, VAR_DM_CAPACITY) ? getIntObjVar(creature, VAR_DM_CAPACITY) : 1;
+            cap = Math.min(8, Math.max(1, cap));
+            for (int i = 0; i < cap; ++i)
+            {
+                String pPose = "mount.dm.seat." + i + ".pose";
+                String pox = "mount.dm.seat." + i + ".ox";
+                String poy = "mount.dm.seat." + i + ".oy";
+                String poz = "mount.dm.seat." + i + ".oz";
+                if (hasObjVar(creature, pPose))
+                {
+                    w.write(pPose + "=" + getStringObjVar(creature, pPose));
+                    w.write("\n");
+                }
+                if (hasObjVar(creature, pox))
+                {
+                    w.write(pox + "=" + Float.toString(getFloatObjVar(creature, pox)));
+                    w.write("\n");
+                }
+                if (hasObjVar(creature, poy))
+                {
+                    w.write(poy + "=" + Float.toString(getFloatObjVar(creature, poy)));
+                    w.write("\n");
+                }
+                if (hasObjVar(creature, poz))
+                {
+                    w.write(poz + "=" + Float.toString(getFloatObjVar(creature, poz)));
+                    w.write("\n");
+                }
+            }
+
+            for (int s = 0; s < 32; ++s)
+            {
+                String root = "hp_dyn." + s;
+                if (!hasObjVar(creature, root))
+                    continue;
+                String[] keys =
+                { "kind", "hp", "path", "ox", "oy", "oz", "r", "g", "b", "range", "intensity", "scale" };
+                for (int k = 0; k < keys.length; ++k)
+                {
+                    String full = root + "." + keys[k];
+                    if (!hasObjVar(creature, full))
+                        continue;
+                    if (keys[k].equals("kind") || keys[k].equals("hp") || keys[k].equals("path"))
+                    {
+                        w.write(full + "=" + getStringObjVar(creature, full));
+                    }
+                    else
+                    {
+                        w.write(full + "=" + Float.toString(getFloatObjVar(creature, full)));
+                    }
+                    w.write("\n");
+                }
+            }
+        }
+        finally
+        {
+            w.close();
+        }
+    }
+
+    public static void applyPresetFromFile(obj_id creature, String baseName) throws IOException, InterruptedException
+    {
+        File in = presetFileForName(baseName);
+        if (!in.exists())
+            throw new IOException("Preset not found: " + in.getAbsolutePath());
+
+        removeObjVar(creature, "mount.dm");
+        removeObjVar(creature, "hp_dyn");
+
+        BufferedReader r = new BufferedReader(new FileReader(in));
+        try
+        {
+            String line;
+            while ((line = r.readLine()) != null)
+            {
+                line = line.trim();
+                if (line.length() == 0 || line.startsWith("#"))
+                    continue;
+                int eq = line.indexOf('=');
+                if (eq <= 0)
+                    continue;
+                String key = line.substring(0, eq).trim();
+                String val = line.substring(eq + 1).trim();
+                if (key.length() == 0)
+                    continue;
+
+                if (key.endsWith(".kind") || key.endsWith(".hp") || key.endsWith(".path") || key.endsWith(".pose"))
+                {
+                    setObjVar(creature, key, val);
+                }
+                else
+                {
+                    try
+                    {
+                        if (val.indexOf('.') >= 0 || val.indexOf('e') >= 0 || val.indexOf('E') >= 0)
+                            setObjVar(creature, key, Float.parseFloat(val));
+                        else
+                            setObjVar(creature, key, Integer.parseInt(val));
+                    }
+                    catch (NumberFormatException ex)
+                    {
+                        setObjVar(creature, key, val);
+                    }
+                }
+            }
+        }
+        finally
+        {
+            r.close();
+        }
+
+        if (!hasObjVar(creature, VAR_DM_ACTIVE))
+            setObjVar(creature, VAR_DM_ACTIVE, 1);
+        if (!hasObjVar(creature, VAR_DM_CAPACITY))
+            setObjVar(creature, VAR_DM_CAPACITY, 1);
+    }
+
+    /** Alias for GM/script spawn: apply exported {@code mount.dm} + {@code hp_dyn} preset to a creature instance. */
+    public static void applyPresetToSpawn(obj_id creature, String baseName) throws IOException, InterruptedException
+    {
+        applyPresetFromFile(creature, baseName);
+    }
+
     /**
      * Start a designer session on {@code creature} only if one is not already active for this creature/designer pair.
-     * Avoids calling {@link #beginDesignerSession} when already in sync — {@link #beginDesignerSession} always runs
-     * {@link #endDesignerSession} first, which would dismount / clear session if the menu is reopened carelessly.
      */
     public static void ensureDesignerSessionForCreature(obj_id creature, obj_id designer) throws InterruptedException
     {
@@ -80,9 +261,6 @@ public class mount_maker extends script.base_script
                 && hasObjVar(designer, OV_PLAYER_MOUNT) && getObjIdObjVar(designer, OV_PLAYER_MOUNT) == mount;
     }
 
-    /**
-     * Dismount, end mount-maker possession, end designer session, and clear mount SUI scriptvar — safe if nothing active.
-     */
     public static void emergencyUnmountAll(obj_id designer) throws InterruptedException
     {
         if (!isIdValid(designer))
@@ -98,16 +276,11 @@ public class mount_maker extends script.base_script
         utils.removeScriptVar(designer, SCRIPTVAR_MM_AUTH_CREATURE);
     }
 
-    /** Called from player logout handlers so control / session cannot outlive the client. */
     public static void onPlayerLogoutCleanup(obj_id designer) throws InterruptedException
     {
         emergencyUnmountAll(designer);
     }
 
-    /**
-     * Mount then assume client primary on the mount (same pipeline as production mount + authoring drive).
-     * Does not require a designer session. Mount is invulnerable while ridden.
-     */
     public static boolean possessionEnter(obj_id designer, obj_id mount) throws InterruptedException
     {
         if (!isDesignerAuthorized(designer) || !isIdValid(mount) || !exists(mount))
@@ -116,10 +289,10 @@ public class mount_maker extends script.base_script
             return false;
         if (getState(designer, STATE_RIDING_MOUNT) > 0)
             return getMountId(designer) == mount;
-        if (!hasObjVar(mount, dynamic_mount.VAR_DM_ACTIVE))
-            setObjVar(mount, dynamic_mount.VAR_DM_ACTIVE, 1);
-        if (!hasObjVar(mount, dynamic_mount.VAR_DM_CAPACITY))
-            dynamic_mount.ensureMountDefaults(mount, 1);
+        if (!hasObjVar(mount, VAR_DM_ACTIVE))
+            setObjVar(mount, VAR_DM_ACTIVE, 1);
+        if (!hasObjVar(mount, VAR_DM_CAPACITY))
+            ensureMountDefaults(mount, 1);
         if (!makeDynamicMountable(mount))
             return false;
         if (!doesMountHaveRoom(mount))
@@ -131,7 +304,6 @@ public class mount_maker extends script.base_script
         return true;
     }
 
-    /** End possession first, then dismount; restores avatar primary before container detach. */
     public static boolean possessionLeave(obj_id designer, obj_id mount) throws InterruptedException
     {
         if (!isIdValid(designer) || !isIdValid(mount))

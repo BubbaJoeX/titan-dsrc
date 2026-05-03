@@ -505,15 +505,15 @@ public class player_developer extends base_script
             {
                 if (presetName != null && presetName.length() > 0)
                 {
-                    dynamic_mount.applyPresetFromFile(mount, presetName);
+                    mount_maker.applyPresetFromFile(mount, presetName);
                 }
-                else if (!hasObjVar(mount, dynamic_mount.VAR_DM_CAPACITY))
+                else if (!hasObjVar(mount, mount_maker.VAR_DM_CAPACITY))
                 {
-                    dynamic_mount.ensureMountDefaults(mount, 1);
+                    mount_maker.ensureMountDefaults(mount, 1);
                 }
-                if (!hasObjVar(mount, dynamic_mount.VAR_DM_ACTIVE))
+                if (!hasObjVar(mount, mount_maker.VAR_DM_ACTIVE))
                 {
-                    setObjVar(mount, dynamic_mount.VAR_DM_ACTIVE, 1);
+                    setObjVar(mount, mount_maker.VAR_DM_ACTIVE, 1);
                 }
                 if (makeDynamicMountable(mount))
                 {

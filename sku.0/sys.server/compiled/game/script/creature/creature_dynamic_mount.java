@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import script.*;
 import script.library.dynamic_hardpoint;
-import script.library.dynamic_mount;
 import script.library.mount_maker;
 import script.library.sui;
 import script.library.utils;
@@ -85,7 +84,7 @@ public class creature_dynamic_mount extends script.base_script
     {
         mount_maker.ensureDesignerSessionForCreature(self, player);
         utils.setScriptVar(player, SCRIPTVAR_MM_AUTH_CREATURE, self);
-        int cap = hasObjVar(self, dynamic_mount.VAR_DM_CAPACITY) ? getIntObjVar(self, dynamic_mount.VAR_DM_CAPACITY) : 1;
+        int cap = hasObjVar(self, mount_maker.VAR_DM_CAPACITY) ? getIntObjVar(self, mount_maker.VAR_DM_CAPACITY) : 1;
         cap = Math.min(8, Math.max(1, cap));
         int seat = getEditSeat(player);
         String pose = "normal";
@@ -165,7 +164,7 @@ public class creature_dynamic_mount extends script.base_script
             case 0:
                 sui.inputbox(player, player, "Capacity 1-8:", "Dynamic mount",
                         HANDLER_MM_CAP, sui.MAX_INPUT_LENGTH, false,
-                        Integer.toString(hasObjVar(self, dynamic_mount.VAR_DM_CAPACITY) ? getIntObjVar(self, dynamic_mount.VAR_DM_CAPACITY) : 1));
+                        Integer.toString(hasObjVar(self, mount_maker.VAR_DM_CAPACITY) ? getIntObjVar(self, mount_maker.VAR_DM_CAPACITY) : 1));
                 break;
             case 1:
                 sui.inputbox(player, player, "Seat index 0-7 (must be < capacity):", "Dynamic mount",
@@ -242,10 +241,10 @@ public class creature_dynamic_mount extends script.base_script
 
     private static void finalizeDynamicMount(obj_id self, obj_id player) throws InterruptedException
     {
-        if (!hasObjVar(self, dynamic_mount.VAR_DM_ACTIVE))
-            setObjVar(self, dynamic_mount.VAR_DM_ACTIVE, 1);
-        if (!hasObjVar(self, dynamic_mount.VAR_DM_CAPACITY))
-            dynamic_mount.ensureMountDefaults(self, 1);
+        if (!hasObjVar(self, mount_maker.VAR_DM_ACTIVE))
+            setObjVar(self, mount_maker.VAR_DM_ACTIVE, 1);
+        if (!hasObjVar(self, mount_maker.VAR_DM_CAPACITY))
+            mount_maker.ensureMountDefaults(self, 1);
         if (makeDynamicMountable(self))
             sendInvalid(player, "finalize: makeDynamicMountable succeeded.");
         else
@@ -272,7 +271,7 @@ public class creature_dynamic_mount extends script.base_script
             sendInvalid(player, "Invalid integer.");
             return SCRIPT_CONTINUE;
         }
-        dynamic_mount.ensureMountDefaults(self, v);
+        mount_maker.ensureMountDefaults(self, v);
         sendInvalid(player, "capacity set.");
         showMainMenu(self, player);
         return SCRIPT_CONTINUE;
@@ -298,7 +297,7 @@ public class creature_dynamic_mount extends script.base_script
             sendInvalid(player, "Invalid integer.");
             return SCRIPT_CONTINUE;
         }
-        int cap = hasObjVar(self, dynamic_mount.VAR_DM_CAPACITY) ? getIntObjVar(self, dynamic_mount.VAR_DM_CAPACITY) : 1;
+        int cap = hasObjVar(self, mount_maker.VAR_DM_CAPACITY) ? getIntObjVar(self, mount_maker.VAR_DM_CAPACITY) : 1;
         cap = Math.min(8, Math.max(1, cap));
         if (v < 0 || v >= cap)
         {
@@ -386,8 +385,8 @@ public class creature_dynamic_mount extends script.base_script
             raw = "unnamed_export";
         try
         {
-            dynamic_mount.exportObjVarsToFile(self, raw);
-            sendInvalid(player, "Exported " + dynamic_mount.presetFileForName(raw).getAbsolutePath());
+            mount_maker.exportObjVarsToFile(self, raw);
+            sendInvalid(player, "Exported " + mount_maker.presetFileForName(raw).getAbsolutePath());
         }
         catch (IOException ex)
         {
@@ -415,7 +414,7 @@ public class creature_dynamic_mount extends script.base_script
         }
         try
         {
-            dynamic_mount.applyPresetFromFile(self, raw);
+            mount_maker.applyPresetFromFile(self, raw);
             sendInvalid(player, "Loaded preset " + raw + ". Finalize via menu when ready.");
         }
         catch (IOException ex)
