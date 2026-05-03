@@ -3134,7 +3134,7 @@ public class ai extends script.base_script {
             if (text == null || text.isEmpty()) return SCRIPT_CONTINUE;
 
             String response = openwebui.getChatCompletion(
-                apiKey,
+                getStringObjVar(speaker, "player_ai_key"),
                 self,
                 speaker,
                 text,
