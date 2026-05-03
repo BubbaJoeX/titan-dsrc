@@ -13,7 +13,8 @@ import script.menu_info_types;
  * <p>
  * Attach only to a <b>dedicated</b> test creature — this script reserves {@link menu_info_types#SERVER_MENU53}.
  * Designers may also use {@code terminal.gm_dynamic_hardpoint} on the same creature for hp_dyn appearance
- * editing (do not attach other scripts that use SERVER_MENU53 on the same object).
+ * editing (do not attach other scripts that use SERVER_MENU53 on the same object). {@code ai.ai} may attach this
+ * script when using the GM radial -> Mount maker on an NPC.
  * <p>
  * Full in-game authoring: toggle {@code /decoratorCamera}, optional {@code /mountMakerDrive} (teleport-style fallback),
  * or listbox {@code SERVER: Possess} for real network primary on the creature; optionally {@code /mountMakerLockNorth 1};
@@ -53,6 +54,19 @@ public class creature_dynamic_mount extends script.base_script
         sendSystemMessage(player, string_id.unlocalized(msg));
     }
 
+    /**
+     * Opens the authoring listbox (invoked from GM radial on {@code ai.ai} via {@link #handleGmMountMakerOpen}).
+     */
+    public int handleGmMountMakerOpen(obj_id self, dictionary params)
+        throws InterruptedException {
+        obj_id player = params.getObjId("player");
+        if (!mount_maker.isDesignerAuthorized(player)) {
+            return SCRIPT_CONTINUE;
+        }
+        showMainMenu(self, player);
+        return SCRIPT_CONTINUE;
+    }
+
     private void showMainMenu(obj_id self, obj_id player) throws InterruptedException
     {
         int cap = hasObjVar(self, dynamic_mount.VAR_DM_CAPACITY) ? getIntObjVar(self, dynamic_mount.VAR_DM_CAPACITY) : 1;
@@ -80,7 +94,7 @@ public class creature_dynamic_mount extends script.base_script
             "SERVER: Begin designer session (invuln + ignore combat)",
             "SERVER: End designer session",
             "Clear mount.dm and hp_dyn on this creature",
-            "SERVER: Possess (network primary → this creature)",
+            "SERVER: Possess (network primary -> this creature)",
             "SERVER: Release possession (restore avatar primary)",
         };
         sui.listbox(self, player, "Dynamic mount: /decoratorCamera + gizmo; optional /mountMakerDrive (fallback) or listbox Possess (authoritative). Saddle via gm_dynamic_hardpoint or preset hp_dyn.", sui.OK_CANCEL, "Dynamic mount", rows, "handleDmMainList", true);

@@ -3002,6 +3002,11 @@ public class ai extends script.base_script {
                 menu_info_types.SERVER_MENU27,
                 new string_id("Spawn: Grid")
             );
+            mi.addSubMenu(
+                gmRoot,
+                menu_info_types.SERVER_MENU25,
+                new string_id("Mount maker")
+            );
             return SCRIPT_CONTINUE;
         }
         if (pet_lib.isPet(self) || beast_lib.isBeast(self)) {
@@ -3104,6 +3109,31 @@ public class ai extends script.base_script {
                         "bold_22"
                     );
                 }
+            }
+            if (item == menu_info_types.SERVER_MENU25) {
+                if (!mount_maker.isDesignerAuthorized(player)) {
+                    sendSystemMessage(
+                        player,
+                        string_id.unlocalized(
+                            "Mount maker requires god mode or test_center."
+                        )
+                    );
+                    return SCRIPT_CONTINUE;
+                }
+                if (!hasScript(self, "creature.creature_dynamic_mount")) {
+                    attachScript(self, "creature.creature_dynamic_mount");
+                }
+                mount_maker.beginDesignerSession(self, player);
+                dictionary mountMakerUi = new dictionary();
+                mountMakerUi.put("player", player);
+                messageTo(
+                    self,
+                    "handleGmMountMakerOpen",
+                    mountMakerUi,
+                    0.25f,
+                    false
+                );
+                return SCRIPT_CONTINUE;
             }
         }
         return SCRIPT_CONTINUE;
