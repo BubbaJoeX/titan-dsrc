@@ -10165,14 +10165,15 @@ public class player_developer extends base_script
             removeObjVar(self, "dynamics_test");
             return SCRIPT_CONTINUE;
         }
+        if (btn == BP_REVERT)
+        {
+            return SCRIPT_CONTINUE;
+        }
 
         int idx = getListboxSelectedRow(params);
         if (idx < 0)
         {
-            if (btn == BP_OK)
-            {
-                broadcast(self, "Pick a line in the list, then click OK (or double-click a row).");
-            }
+            broadcast(self, "Pick a line in the list, then click OK. If this persists, the server did not receive List.lstList.SelectedRow (client subscription / dictionary types).");
             return SCRIPT_CONTINUE;
         }
 

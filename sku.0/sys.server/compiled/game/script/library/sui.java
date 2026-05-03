@@ -1220,6 +1220,19 @@ public class sui extends script.base_script
             }
             return -1;
         }
+        if (raw instanceof Number)
+        {
+            return ((Number) raw).intValue();
+        }
+        if (raw instanceof String)
+        {
+            int row = utils.stringToInt((String) raw);
+            if (row >= 0)
+            {
+                return row;
+            }
+        }
+        // getString only returns java.lang.String values; JNI may store row as other types
         int row = utils.stringToInt(params.getString(keySelected));
         if (row >= 0)
         {
@@ -1240,6 +1253,18 @@ public class sui extends script.base_script
                 return (int) lv;
             }
             return -1;
+        }
+        if (raw instanceof Number)
+        {
+            return ((Number) raw).intValue();
+        }
+        if (raw instanceof String)
+        {
+            row = utils.stringToInt((String) raw);
+            if (row >= 0)
+            {
+                return row;
+            }
         }
         row = utils.stringToInt(params.getString(keyLogical));
         return row;
