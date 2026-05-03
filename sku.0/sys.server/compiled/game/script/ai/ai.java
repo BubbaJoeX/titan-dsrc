@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Vector;
 import script.*;
+import script.creature.creature_dynamic_mount;
 import script.library.*;
 import script.space.combat.combat_ship;
 
@@ -3124,15 +3125,7 @@ public class ai extends script.base_script {
                     attachScript(self, "creature.creature_dynamic_mount");
                 }
                 mount_maker.beginDesignerSession(self, player);
-                dictionary mountMakerUi = new dictionary();
-                mountMakerUi.put("player", player);
-                messageTo(
-                    self,
-                    "handleGmMountMakerOpen",
-                    mountMakerUi,
-                    0.25f,
-                    false
-                );
+                creature_dynamic_mount.openAuthoringMainMenu(self, player);
                 return SCRIPT_CONTINUE;
             }
         }

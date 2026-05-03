@@ -55,19 +55,10 @@ public class creature_dynamic_mount extends script.base_script
     }
 
     /**
-     * Opens the authoring listbox (invoked from GM radial on {@code ai.ai} via {@link #handleGmMountMakerOpen}).
+     * Opens the Dynamic mount authoring listbox. Static so {@link script.ai.ai} can invoke it immediately after
+     * {@code attachScript} — avoids {@code messageTo} while {@code m_attachingScript} is active (drops handlers).
      */
-    public int handleGmMountMakerOpen(obj_id self, dictionary params)
-        throws InterruptedException {
-        obj_id player = params.getObjId("player");
-        if (!mount_maker.isDesignerAuthorized(player)) {
-            return SCRIPT_CONTINUE;
-        }
-        showMainMenu(self, player);
-        return SCRIPT_CONTINUE;
-    }
-
-    private void showMainMenu(obj_id self, obj_id player) throws InterruptedException
+    public static void openAuthoringMainMenu(obj_id self, obj_id player) throws InterruptedException
     {
         int cap = hasObjVar(self, dynamic_mount.VAR_DM_CAPACITY) ? getIntObjVar(self, dynamic_mount.VAR_DM_CAPACITY) : 1;
         cap = Math.min(8, Math.max(1, cap));
@@ -98,6 +89,22 @@ public class creature_dynamic_mount extends script.base_script
             "SERVER: Release possession (restore avatar primary)",
         };
         sui.listbox(self, player, "Dynamic mount: /decoratorCamera + gizmo; optional /mountMakerDrive (fallback) or listbox Possess (authoritative). Saddle via gm_dynamic_hardpoint or preset hp_dyn.", sui.OK_CANCEL, "Dynamic mount", rows, "handleDmMainList", true);
+    }
+
+    /** Legacy messageTo target; forwards to {@link #openAuthoringMainMenu}. */
+    public int handleGmMountMakerOpen(obj_id self, dictionary params)
+        throws InterruptedException {
+        obj_id player = params.getObjId("player");
+        if (!mount_maker.isDesignerAuthorized(player)) {
+            return SCRIPT_CONTINUE;
+        }
+        openAuthoringMainMenu(self, player);
+        return SCRIPT_CONTINUE;
+    }
+
+    private void showMainMenu(obj_id self, obj_id player) throws InterruptedException
+    {
+        openAuthoringMainMenu(self, player);
     }
 
     public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi) throws InterruptedException
