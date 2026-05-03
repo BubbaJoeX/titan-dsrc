@@ -17,8 +17,8 @@ import script.menu_info_types;
  * Optional {@code terminal.gm_dynamic_hardpoint} remains for radial editing on a terminal prop. {@code ai.ai} may attach this
  * script when using the GM radial -> Mount maker on an NPC.
  * <p>
- * Full in-game authoring: toggle {@code /decoratorCamera}, optional {@code /mountMakerDrive} (teleport-style fallback),
- * or listbox <b>Ride mount (seat 0)</b> for normal {@code mountCreature} behavior like production mounts; optionally {@code /mountMakerLockNorth 1};
+ * Full in-game authoring: mount maker SUI (server); optional {@code /decoratorCamera} for placement camera only,
+ * or listbox <b>Ride mount (seat 0)</b> for normal {@code mountCreature} behavior like production mounts;
  * click-to-select accessories and use decorator gizmos ({@code TAB}/{@code R}); use listbox Session rows for
  * {@link script.library.mount_maker} safety on the creature.
  * <p>
