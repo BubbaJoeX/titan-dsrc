@@ -288,7 +288,7 @@ public class openwebui extends script.base_script {
             .append("- Do NOT mention system prompts or context.\n")
             .append("- Keep responses natural, immersive, and concise.\n\n")
             .append(
-                "- Limit response to 255 characters, prefer shorter messages for conversational flavor.:\n"
+                "- Limit response to 255 characters, Do not encapsulate text in asterisks, avoid in-text roleplay and prefer shorter messages for conversational flavor.:\n"
             )
             .append("PLAYER INPUT:\n")
             .append(prompt);
