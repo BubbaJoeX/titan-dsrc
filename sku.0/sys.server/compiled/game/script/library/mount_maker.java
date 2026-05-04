@@ -17,7 +17,8 @@ import script.string_id;
  * Hardpoint overlay ({@code hp_dyn}) slot selection uses {@link script.library.dynamic_hardpoint#OV_HP_SLOT} on the
  * designer player (shared with {@link script.terminal.gm_dynamic_hardpoint} radials).
  * <p>
- * {@link #possessionEnter}: {@code mountCreature} then {@code mountMakerPossessionEnter}. Use {@link #emergencyUnmountAll},
+ * {@link #possessionEnter}: {@code mountCreature} then movement sync ({@code pet_lib.setMountedMovementRate}); rider stays
+ * primary client-side (same as pet/vehicle mounts). Use {@link #emergencyUnmountAll},
  * {@link #onPlayerLogoutCleanup}, or {@code /mountMakerExit} if the listbox is unavailable.
  */
 public class mount_maker extends script.base_script
@@ -300,16 +301,14 @@ public class mount_maker extends script.base_script
             return false;
         if (!doesMountHaveRoom(mount))
             return false;
+        queueClear(designer);
         if (!mountCreature(designer, mount))
             return false;
         setInvulnerable(mount, true);
-        if (!mountMakerPossessionEnter(designer, mount))
-        {
-            dismountCreature(designer);
-            sendSystemMessage(designer, string_id.unlocalized(
-                    "Mount maker: mounted then possession failed — dismounted. Update server; mount.dm bypasses can_create_avatar and script TRIG blocks for rider transfer."));
-            return false;
-        }
+        // Do not call mountMakerPossessionEnter: swapping the client's primary controlled object to the mount breaks
+        // the normal mount pipeline (server transferRiderPositionToMount + client PlayerCreatureController forwarding
+        // movement to getMountedCreature). Rider must stay primary so input follows the containment ride like vehicles/pets.
+        pet_lib.setMountedMovementRate(designer, mount);
         return true;
     }
 
