@@ -14,6 +14,7 @@ package script.developer.bubbajoe;/*
 
 import script.*;
 import script.ai.ai;
+import script.creature.creature_dynamic_mount;
 import script.library.*;
 import script.space.atmo.atmo_landing_manager;
 import script.space.atmo.atmo_landing_registry;
@@ -530,6 +531,37 @@ public class player_developer extends base_script
             }
             LOG("ethereal", "[Developer]: " + getPlayerFullName(self) + " used /developer makeDynamicMount "
                     + (presetName != null ? presetName : "") + " creature=" + mount);
+            return SCRIPT_CONTINUE;
+        }
+        else if (cmd.equalsIgnoreCase("primeMount"))
+        {
+            if (!(isGod(self) || hasObjVar(self, "test_center")))
+            {
+                broadcast(self, "primeMount requires god or test_center.");
+                return SCRIPT_CONTINUE;
+            }
+            obj_id mount = getLookAtTarget(self);
+            if (!isIdValid(mount) || mount == self || !exists(mount) || !isMob(mount))
+            {
+                broadcast(self, "Look at a creature (not yourself), then run: /developer primeMount");
+                return SCRIPT_CONTINUE;
+            }
+            final String scriptName = "creature.creature_dynamic_mount";
+            if (!hasScript(mount, scriptName))
+            {
+                attachScript(mount, scriptName);
+                if (!hasScript(mount, scriptName))
+                {
+                    broadcast(self, "Failed to attach " + scriptName + " — check server log / OnAttach.");
+                    return SCRIPT_CONTINUE;
+                }
+                broadcast(self, "Attached " + scriptName + " to " + getName(mount) + ". Opened authoring menu.");
+            }
+            else
+                broadcast(self, getName(mount) + " already has " + scriptName + ". Opening authoring menu.");
+
+            creature_dynamic_mount.openAuthoringMainMenu(mount, self);
+            LOG("ethereal", "[Developer]: " + getPlayerFullName(self) + " used /developer primeMount creature=" + mount);
             return SCRIPT_CONTINUE;
         }
         else if (cmd.equalsIgnoreCase("scriptLogs"))

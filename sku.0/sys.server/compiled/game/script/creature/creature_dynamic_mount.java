@@ -89,7 +89,7 @@ public class creature_dynamic_mount extends script.base_script
         int cap = hasObjVar(self, mount_maker.VAR_DM_CAPACITY) ? getIntObjVar(self, mount_maker.VAR_DM_CAPACITY) : 1;
         cap = Math.min(8, Math.max(1, cap));
         int seat = getEditSeat(player);
-        String pose = "normal";
+        String pose = "";
         String pPose = "mount.dm.seat." + seat + ".pose";
         if (hasObjVar(self, pPose))
             pose = getStringObjVar(self, pPose);
@@ -101,7 +101,7 @@ public class creature_dynamic_mount extends script.base_script
         {
             "Set capacity (1-8) [now " + cap + "]",
             "Set seat index to edit (0-" + (cap - 1) + ") [now " + seat + "]",
-            "Set pose for seat " + seat + " [now " + pose + "]",
+            "Set rider pose (.ans path or LAT token; optional #frame; empty = none) [now \"" + pose + "\"]",
             "Set offset X for seat " + seat + " [now " + ox + "]",
             "Set offset Y for seat " + seat + " [now " + oy + "]",
             "Set offset Z for seat " + seat + " [now " + oz + "]",
@@ -193,9 +193,9 @@ public class creature_dynamic_mount extends script.base_script
                         HANDLER_MM_SEAT, sui.MAX_INPUT_LENGTH, false, Integer.toString(getEditSeat(player)));
                 break;
             case 2:
-                sui.inputbox(player, player, "Animation pose name (e.g. rider, normal):", "Dynamic mount",
+                sui.inputbox(player, player, "Rider pose: .ans filename (e.g. all_b_mnt_ride_swoop_bike.ans), LAT token, or name.ani#32 for keyframe. Leave empty for no rider_pose override.", "Dynamic mount",
                         HANDLER_MM_POSE, sui.MAX_INPUT_LENGTH, false,
-                        hasObjVar(self, seatBase(player) + "pose") ? getStringObjVar(self, seatBase(player) + "pose") : "normal");
+                        hasObjVar(self, seatBase(player) + "pose") ? getStringObjVar(self, seatBase(player) + "pose") : "");
                 break;
             case 3:
                 sui.inputbox(player, player, "Rider offset X:", "Dynamic mount",
@@ -344,9 +344,16 @@ public class creature_dynamic_mount extends script.base_script
             raw = "";
         raw = raw.trim();
         if (raw.length() == 0)
-            raw = "normal";
-        setObjVar(self, seatBase(player) + "pose", raw);
-        sendInvalid(player, "pose updated.");
+        {
+            if (hasObjVar(self, seatBase(player) + "pose"))
+                removeObjVar(self, seatBase(player) + "pose");
+            sendInvalid(player, "pose cleared (no rider_pose override; use hp_dyn for saddle mesh).");
+        }
+        else
+        {
+            setObjVar(self, seatBase(player) + "pose", raw);
+            sendInvalid(player, "pose updated.");
+        }
         showMainMenu(self, player);
         return SCRIPT_CONTINUE;
     }

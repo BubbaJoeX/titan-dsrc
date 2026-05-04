@@ -50,8 +50,6 @@ public class mount_maker extends script.base_script
         for (int i = 0; i < capacity; ++i)
         {
             String base = "mount.dm.seat." + i + ".";
-            if (!hasObjVar(creature, base + "pose"))
-                setObjVar(creature, base + "pose", "normal");
             if (!hasObjVar(creature, base + "ox"))
                 setObjVar(creature, base + "ox", 0.f);
             if (!hasObjVar(creature, base + "oy"))
