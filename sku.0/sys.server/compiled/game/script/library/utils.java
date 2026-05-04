@@ -5765,7 +5765,14 @@ public class utils extends script.base_script
         }
         if (isIdValid(mount))
         {
-            pet_lib.doDismountNow(rider, false);
+            if (hasObjVar(mount, mount_maker.VAR_DM_ACTIVE))
+            {
+                mount_maker.possessionLeave(rider, mount);
+            }
+            else
+            {
+                pet_lib.doDismountNow(rider, false);
+            }
             if (vehicle.isJetPackVehicle(mount))
             {
                 sendSystemMessage(rider, new string_id("pet/pet_menu", "jetpack_dismount"));

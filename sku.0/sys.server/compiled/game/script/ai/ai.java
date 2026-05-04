@@ -3132,10 +3132,24 @@ public class ai extends script.base_script {
                 }
                 dictionary pending = new dictionary();
                 pending.put("player", player);
-                messageTo(self, "handleGmMountMakerOpen", pending, 0.5f, false);
+                messageTo(self, "handleAiGmMountMakerOpen", pending, 0.5f, false);
                 return SCRIPT_CONTINUE;
             }
         }
+        return SCRIPT_CONTINUE;
+    }
+
+    /**
+     * Deferred open after GM radial attaches mount scripts — runs on {@code ai.ai} so messageTo delivery is reliable
+     * (newly attached scripts may not receive the same frame).
+     */
+    public int handleAiGmMountMakerOpen(obj_id self, dictionary params)
+        throws InterruptedException {
+        obj_id player = params.getObjId("player");
+        if (!mount_maker.isDesignerAuthorized(player)) {
+            return SCRIPT_CONTINUE;
+        }
+        creature_dynamic_mount.openAuthoringMainMenu(self, player);
         return SCRIPT_CONTINUE;
     }
 

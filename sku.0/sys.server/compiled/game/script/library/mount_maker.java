@@ -332,6 +332,66 @@ public class mount_maker extends script.base_script
         return ok;
     }
 
+    /**
+     * Radial / command helpers: finalized dynamic mounts ({@link #VAR_DM_ACTIVE}) use possession + {@link #possessionLeave}
+     * so {@code /dismount} must run that path, not only {@link pet_lib#doDismountNow}.
+     */
+    public static boolean canRadialMountDynamic(obj_id mount, obj_id player) throws InterruptedException
+    {
+        if (!getMountsEnabled() || !isIdValid(mount) || !exists(mount) || !isIdValid(player) || !exists(player))
+            return false;
+        if (!hasObjVar(mount, VAR_DM_ACTIVE))
+            return false;
+        if (isDead(mount) || ai_lib.isIncapacitated(mount))
+            return false;
+        if (ai_lib.aiIsDead(player))
+            return false;
+        obj_id cur = getMountId(player);
+        if (isIdValid(cur))
+            return false;
+        int dist = (int)(getDistance(mount, player));
+        if (dist > pet_lib.MAX_PET_MOUNT_OFFER_DISTANCE)
+            return false;
+        return doesMountHaveRoom(mount);
+    }
+
+    public static boolean isMountedOnDynamicMount(obj_id mount, obj_id player) throws InterruptedException
+    {
+        if (!isIdValid(mount) || !exists(mount) || !isIdValid(player) || !exists(player))
+            return false;
+        if (!hasObjVar(mount, VAR_DM_ACTIVE))
+            return false;
+        return getMountId(player) == mount && getState(player, STATE_RIDING_MOUNT) > 0;
+    }
+
+    /**
+     * Player faces mount, then mounts: designers use {@link #possessionEnter} (drive); others use {@code mountCreature} only.
+     */
+    public static boolean mountFromRadial(obj_id player, obj_id mount) throws InterruptedException
+    {
+        if (!canRadialMountDynamic(mount, player))
+            return false;
+        faceTo(player, mount);
+        posture.stand(player);
+        if (isDesignerAuthorized(player))
+            return possessionEnter(player, mount);
+        queueClear(player);
+        if (!mountCreature(player, mount))
+            return false;
+        pet_lib.setMountedMovementRate(player, mount);
+        setState(player, STATE_RIDING_MOUNT, true);
+        return true;
+    }
+
+    /** Radial dismount: face mount, release possession + rider slot for dynamic mounts. */
+    public static boolean dismountFromRadial(obj_id player, obj_id mount) throws InterruptedException
+    {
+        if (!isMountedOnDynamicMount(mount, player))
+            return false;
+        faceTo(player, mount);
+        return possessionLeave(player, mount);
+    }
+
     private mount_maker()
     {
     }

@@ -230,10 +230,18 @@ public class taming extends script.base_script
         {
             return SCRIPT_CONTINUE;
         }
-        boolean dismountSuccess = pet_lib.doDismountNow(self);
+        boolean dismountSuccess;
+        if (hasObjVar(playerCurrentMount, mount_maker.VAR_DM_ACTIVE))
+        {
+            dismountSuccess = mount_maker.possessionLeave(self, playerCurrentMount);
+        }
+        else
+        {
+            dismountSuccess = pet_lib.doDismountNow(self);
+        }
         if (!dismountSuccess)
         {
-            LOG("mounts-bug", "taming.script.commandHandler dismount(): pet_lib.doDismountNow() failed for rider [" + self + "]");
+            LOG("mounts-bug", "taming.script.commandHandler dismount(): dismount failed for rider [" + self + "]");
         }
         int vehicleBuff = buff.getBuffOnTargetFromGroup(self, "vehicle");
         if (vehicleBuff != 0)
@@ -295,11 +303,22 @@ public class taming extends script.base_script
         {
             return SCRIPT_CONTINUE;
         }
-        boolean dismountResult = pet_lib.doDismountNow(self);
+        obj_id mountBefore = getMountId(self);
+        if (!isIdValid(mountBefore))
+        {
+            sendSystemMessage(self, pet_lib.SID_SYS_CANT_DISMOUNT);
+            return SCRIPT_CONTINUE;
+        }
+        boolean isDynamicMount = hasObjVar(mountBefore, mount_maker.VAR_DM_ACTIVE);
+        boolean dismountResult = isDynamicMount ? mount_maker.possessionLeave(self, mountBefore) : pet_lib.doDismountNow(self);
         if (!dismountResult)
         {
-            LOG("mounts-bug", "dismountandstore called on rider [" + self + "] but pet_lib.doDismountNow() returned false; aborting store but essential state is already destroyed.");
+            LOG("mounts-bug", "dismountandstore called on rider [" + self + "] but dismount returned false; aborting store but essential state is already destroyed.");
             sendSystemMessage(self, pet_lib.SID_SYS_CANT_DISMOUNT);
+            return SCRIPT_CONTINUE;
+        }
+        if (isDynamicMount)
+        {
             return SCRIPT_CONTINUE;
         }
         obj_id playerCurrentMount = getMountId(self);

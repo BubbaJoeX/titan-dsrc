@@ -3,8 +3,10 @@ package script.creature;
 import java.io.IOException;
 
 import script.*;
+import script.library.ai_lib;
 import script.library.dynamic_hardpoint;
 import script.library.mount_maker;
+import script.library.pet_lib;
 import script.library.sui;
 import script.library.utils;
 import script.menu_info_types;
@@ -134,6 +136,14 @@ public class creature_dynamic_mount extends script.base_script
 
     public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi) throws InterruptedException
     {
+        if (getMountsEnabled() && hasObjVar(self, mount_maker.VAR_DM_ACTIVE) && isMob(self) && !isDead(self)
+                && !ai_lib.aiIsDead(player))
+        {
+            if (mount_maker.canRadialMountDynamic(self, player))
+                mi.addRootMenu(menu_info_types.SERVER_PET_MOUNT, new string_id("pet/pet_menu", "menu_mount"));
+            if (mount_maker.isMountedOnDynamicMount(self, player))
+                mi.addRootMenu(menu_info_types.SERVER_PET_DISMOUNT, new string_id("pet/pet_menu", "menu_dismount"));
+        }
         if (!canEdit(player))
             return SCRIPT_CONTINUE;
         mi.addRootMenu(MENU_ROOT, string_id.unlocalized("Attach Mount Scripts"));
@@ -142,6 +152,18 @@ public class creature_dynamic_mount extends script.base_script
 
     public int OnObjectMenuSelect(obj_id self, obj_id player, int item) throws InterruptedException
     {
+        if (item == menu_info_types.SERVER_PET_MOUNT)
+        {
+            if (!mount_maker.mountFromRadial(player, self))
+                sendSystemMessage(player, pet_lib.SID_SYS_CANT_MOUNT);
+            return SCRIPT_CONTINUE;
+        }
+        if (item == menu_info_types.SERVER_PET_DISMOUNT)
+        {
+            if (!mount_maker.dismountFromRadial(player, self))
+                sendSystemMessage(player, pet_lib.SID_SYS_CANT_DISMOUNT);
+            return SCRIPT_CONTINUE;
+        }
         if (!canEdit(player))
             return SCRIPT_CONTINUE;
         if (item != MENU_ROOT)
