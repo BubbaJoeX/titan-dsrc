@@ -1267,6 +1267,15 @@ public class base_player extends script.base_script
                 }
             }
         }
+        // Vehicle-style: radial on the rider can offer Dismount (mount oid is often hard to pick while authoring).
+        if (self == player && getMountsEnabled())
+        {
+            obj_id dynMount = getMountId(self);
+            if (mount_maker.isMountedOnDynamicMount(dynMount, self))
+            {
+                mi.addRootMenu(menu_info_types.SERVER_PET_DISMOUNT, new string_id("pet/pet_menu", "menu_dismount"));
+            }
+        }
         return SCRIPT_CONTINUE;
     }
     public int OnObjectMenuSelect(obj_id self, obj_id player, int item) throws InterruptedException
@@ -1306,6 +1315,15 @@ public class base_player extends script.base_script
         {
             dictionary params = new dictionary();
             messageTo(player, "handleWatchRadialCmd", params, 0, false);
+            sendDirtyObjectMenuNotification(self);
+        }
+        else if (item == menu_info_types.SERVER_PET_DISMOUNT && self == player)
+        {
+            obj_id dynMount = getMountId(self);
+            if (!mount_maker.dismountFromRadial(self, dynMount))
+            {
+                sendSystemMessage(self, pet_lib.SID_SYS_CANT_DISMOUNT);
+            }
             sendDirtyObjectMenuNotification(self);
         }
         return SCRIPT_CONTINUE;
