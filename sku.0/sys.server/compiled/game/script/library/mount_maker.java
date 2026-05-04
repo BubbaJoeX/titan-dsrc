@@ -304,6 +304,7 @@ public class mount_maker extends script.base_script
         queueClear(designer);
         if (!mountCreature(designer, mount))
             return false;
+        suspendAiForPlayerDrivenMount(mount);
         setInvulnerable(mount, true);
         // Do not call mountMakerPossessionEnter: swapping the client's primary controlled object to the mount breaks
         // the normal mount pipeline (server transferRiderPositionToMount + client PlayerCreatureController forwarding
@@ -377,6 +378,7 @@ public class mount_maker extends script.base_script
         queueClear(player);
         if (!mountCreature(player, mount))
             return false;
+        suspendAiForPlayerDrivenMount(mount);
         pet_lib.setMountedMovementRate(player, mount);
         setState(player, STATE_RIDING_MOUNT, true);
         return true;
@@ -389,6 +391,32 @@ public class mount_maker extends script.base_script
             return false;
         faceTo(player, mount);
         return possessionLeave(player, mount);
+    }
+
+    /**
+     * Halt script-driven AI intent on the mount so it does not fight player steering. Engine-side AI locomotion is
+     * suppressed for mounts with a player primary rider in {@code AICreatureController::realAlter}.
+     * <p>
+     * Do not use {@link ai_lib#aiStopFollowing} here — it schedules {@code resumeDefaultCalmBehavior} and would
+     * restart patrol/wander while the player is still riding.
+     */
+    private static void suspendAiForPlayerDrivenMount(obj_id mount) throws InterruptedException
+    {
+        if (!isIdValid(mount) || !exists(mount))
+            return;
+        stop(mount);
+        if (hasObjVar(mount, "ai.persistantFollowing"))
+            removeObjVar(mount, "ai.persistantFollowing");
+        if (hasObjVar(mount, "ai.persistentPathing"))
+            removeObjVar(mount, "ai.persistentPathing");
+        if (hasObjVar(mount, "ai.persistentPathingWaypoint"))
+            removeObjVar(mount, "ai.persistentPathingWaypoint");
+        if (hasObjVar(mount, "ai.pathingAwayFrom"))
+            removeObjVar(mount, "ai.pathingAwayFrom");
+        if (hasObjVar(mount, "ai.pathingToKill"))
+            removeObjVar(mount, "ai.pathingToKill");
+        setCombatTarget(mount, null);
+        stopCombat(mount);
     }
 
     private mount_maker()
