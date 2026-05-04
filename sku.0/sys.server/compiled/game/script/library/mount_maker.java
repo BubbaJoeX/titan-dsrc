@@ -244,7 +244,10 @@ public class mount_maker extends script.base_script
         {
             mountMakerPossessionLeave(designer, creature);
             if (getState(designer, STATE_RIDING_MOUNT) > 0 && getMountId(designer) == creature)
+            {
                 dismountCreature(designer);
+                pet_lib.setUnmountedMovementRate(designer, creature);
+            }
         }
         removeObjVar(designer, OV_PLAYER_MOUNT);
         if (isIdValid(creature) && exists(creature))
@@ -270,6 +273,10 @@ public class mount_maker extends script.base_script
             mountMakerPossessionLeave(designer, ridMount);
         if (getState(designer, STATE_RIDING_MOUNT) > 0)
             dismountCreature(designer);
+        if (isIdValid(ridMount) && exists(ridMount))
+            pet_lib.setUnmountedMovementRate(designer, ridMount);
+        else
+            pet_lib.restoreRiderBaseSpeedsAfterMount(designer);
         endDesignerSession(designer);
         if (isIdValid(ridMount) && exists(ridMount) && !hasObjVar(ridMount, OV_CREATURE_DESIGNER))
             setInvulnerable(ridMount, false);
@@ -321,6 +328,7 @@ public class mount_maker extends script.base_script
         if (getState(designer, STATE_RIDING_MOUNT) > 0 && getMountId(designer) == mount)
         {
             dismountCreature(designer);
+            pet_lib.setUnmountedMovementRate(designer, mount);
             ok = true;
             if (isActiveDesignerSession(designer, mount))
                 setInvulnerable(mount, true);
@@ -415,6 +423,7 @@ public class mount_maker extends script.base_script
             removeObjVar(mount, "ai.pathingToKill");
         setCombatTarget(mount, null);
         stopCombat(mount);
+        clearHateList(mount);
     }
 
     private mount_maker()

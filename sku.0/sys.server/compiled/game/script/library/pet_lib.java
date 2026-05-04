@@ -4622,17 +4622,64 @@ public class pet_lib extends script.base_script
         }
         return null;
     }
+    /**
+     * Apply mount_movement_speeds.iff (skeleton) to mount and rider. The client simulates riding using the rider's
+     * baseline run/walk ({@code CreatureObject::_getMountedRunSpeed} reads the player) while the server caps movement
+     * from the same baselines; without mirroring mount table speeds onto the rider, mount template rates are ignored
+     * and position sync rubberbands.
+     */
     public static void setMountedMovementRate(obj_id objPlayer, obj_id objTarget) throws InterruptedException
     {
         dictionary dctMountInfo = getMountMovementInfo(objTarget);
-        if (dctMountInfo != null)
+        if (dctMountInfo == null)
+            return;
+
+        float fltBaseRunSpeed = dctMountInfo.getFloat("fltBaseRunSpeed");
+        float fltBaseWalkSpeed = dctMountInfo.getFloat("fltBaseWalkSpeed");
+
+        if (fltBaseRunSpeed > 0.001f)
         {
-            float fltBaseRunSpeed = dctMountInfo.getFloat("fltBaseRunSpeed");
+            setBaseRunSpeed(objTarget, fltBaseRunSpeed);
+            if (fltBaseWalkSpeed > 0.001f)
+                setBaseWalkSpeed(objTarget, fltBaseWalkSpeed);
+
+            if (!utils.hasScriptVar(objPlayer, "mount.saved_base_run"))
+            {
+                utils.setScriptVar(objPlayer, "mount.saved_base_run", getBaseRunSpeed(objPlayer));
+                utils.setScriptVar(objPlayer, "mount.saved_base_walk", getBaseWalkSpeed(objPlayer));
+            }
+            setBaseRunSpeed(objPlayer, fltBaseRunSpeed);
+            if (fltBaseWalkSpeed > 0.001f)
+                setBaseWalkSpeed(objPlayer, fltBaseWalkSpeed);
+        }
+        else
+        {
             setBaseRunSpeed(objTarget, fltBaseRunSpeed);
         }
     }
+
+    /** Restore rider baselines after {@link #setMountedMovementRate} (safe if nothing was saved). */
+    public static void restoreRiderBaseSpeedsAfterMount(obj_id objPlayer) throws InterruptedException
+    {
+        if (utils.hasScriptVar(objPlayer, "mount.saved_base_run"))
+        {
+            setBaseRunSpeed(objPlayer, utils.getFloatScriptVar(objPlayer, "mount.saved_base_run"));
+            utils.removeScriptVar(objPlayer, "mount.saved_base_run");
+        }
+        if (utils.hasScriptVar(objPlayer, "mount.saved_base_walk"))
+        {
+            setBaseWalkSpeed(objPlayer, utils.getFloatScriptVar(objPlayer, "mount.saved_base_walk"));
+            utils.removeScriptVar(objPlayer, "mount.saved_base_walk");
+        }
+    }
+
     public static void setUnmountedMovementRate(obj_id self, obj_id objTarget) throws InterruptedException
     {
+        restoreRiderBaseSpeedsAfterMount(self);
+
+        if (!isIdValid(objTarget) || !exists(objTarget))
+            return;
+
         dictionary dctMountInfo = getMountMovementInfo(objTarget);
         if (dctMountInfo != null)
         {
