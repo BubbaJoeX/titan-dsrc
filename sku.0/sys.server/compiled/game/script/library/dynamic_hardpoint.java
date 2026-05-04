@@ -1,6 +1,5 @@
 package script.library;
 
-import script.creature.creature_dynamic_mount;
 import script.dictionary;
 import script.menu_info_types;
 import script.obj_id;
@@ -16,6 +15,12 @@ import script.library.utils;
  */
 public class dynamic_hardpoint extends script.base_script
 {
+    /**
+     * Must match {@code creature_dynamic_mount.SCRIPTVAR_MM_AUTH_CREATURE}. Not imported here — circular load with
+     * {@code creature_dynamic_mount} would cause {@code NoClassDefFoundError} at runtime.
+     */
+    private static final String MM_AUTH_CREATURE_SCRIPTVAR = "creature_dynamic_mount.mm_auth_creature";
+
     public static final String OV_HP_SLOT = "mount_maker.hp_dyn_slot";
     /** Legacy terminal sessions may still have this objvar on the player. */
     private static final String OV_HP_SLOT_LEGACY = "gm.hp_dyn.slot";
@@ -380,7 +385,7 @@ public class dynamic_hardpoint extends script.base_script
     public static void openHpDynAuthoringListbox(obj_id creature, obj_id player) throws InterruptedException
     {
         mount_maker.ensureDesignerSessionForCreature(creature, player);
-        utils.setScriptVar(player, creature_dynamic_mount.SCRIPTVAR_MM_AUTH_CREATURE, creature);
+        utils.setScriptVar(player, MM_AUTH_CREATURE_SCRIPTVAR, creature);
         int slot = getSlot(player);
         String[] rows = new String[]
         {
@@ -456,7 +461,9 @@ public class dynamic_hardpoint extends script.base_script
         int row = sui.getListboxSelectedRow(params);
         if (row == HP_ROW_BACK)
         {
-            creature_dynamic_mount.openAuthoringMainMenu(creature, player);
+            dictionary d = new dictionary();
+            d.put("player", player);
+            messageTo(creature, "handleGmMountMakerOpen", d, 0, false);
             return SCRIPT_CONTINUE;
         }
         if (row == HP_ROW_SLOT)
