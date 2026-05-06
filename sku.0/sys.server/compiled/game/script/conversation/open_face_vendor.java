@@ -52,8 +52,20 @@ public class open_face_vendor extends script.conversation.base.conversation_base
         return "Hello! How are you?";
     }
 
+    private void clearStockFocus(obj_id player) throws InterruptedException
+    {
+        String key = conversation + ".focusStock";
+        if (utils.hasScriptVar(player, key))
+        {
+            obj_id sid = utils.getObjIdScriptVar(player, key);
+            open_face_vendor_lib.stopStockFocusFx(player, sid);
+            utils.removeScriptVar(player, key);
+        }
+    }
+
     private void clearPlayerVars(obj_id player) throws InterruptedException
     {
+        clearStockFocus(player);
         utils.removeScriptVar(player, conversation + ".branchId");
         open_face_vendor_lib.clearPendingPurchase(player);
     }
@@ -124,7 +136,10 @@ public class open_face_vendor extends script.conversation.base.conversation_base
         {
             return showBrowseMenu(player, self);
         }
+        clearStockFocus(player);
         script.library.conversation.npcConversationCameraLookAtTarget(player, stockObj, 6.0f, 1.2f);
+        open_face_vendor_lib.playStockFocusFx(player, stockObj);
+        utils.setScriptVar(player, conversation + ".focusStock", stockObj);
         String msg = open_face_vendor_lib.formatDetailMessage(stockObj);
         return serverSide_respond(
             player,
@@ -193,6 +208,7 @@ public class open_face_vendor extends script.conversation.base.conversation_base
         {
             if (responseIdIs(response, "cancel"))
             {
+                clearStockFocus(player);
                 script.library.conversation.npcConversationCameraReturnToSpeaker(player);
                 return showBrowseMenu(player, self);
             }
@@ -222,6 +238,7 @@ public class open_face_vendor extends script.conversation.base.conversation_base
                             convo("cancel", "Cancel")
                         });
                 }
+                clearStockFocus(player);
                 utils.setScriptVar(player, open_face_vendor_lib.SV_PENDING_STOCK, stockObj);
                 dictionary payParams = new dictionary();
                 payParams.put("npc", self);
@@ -269,6 +286,7 @@ public class open_face_vendor extends script.conversation.base.conversation_base
         }
 
         sendSystemMessage(player, string_id.unlocalized("Sold - check your inventory."));
+        clearStockFocus(player);
         script.library.conversation.npcConversationCameraReturnToSpeaker(player);
 
         utils.setScriptVar(player, conversation + ".branchId", BRANCH_BROWSE);

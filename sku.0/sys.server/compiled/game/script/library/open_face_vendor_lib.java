@@ -46,6 +46,14 @@ public class open_face_vendor_lib extends script.base_script
     /** Scriptvar on player during payment: pending display object for fulfillment. */
     public static final String SV_PENDING_STOCK = "open_face_vendor.pending_stock";
 
+    /**
+     * Particle attached to stock object while the buyer views item detail (outline-style glow). Stopped when leaving
+     * detail or completing purchase. Uses the same label for {@link #stopStockFocusFx}.
+     */
+    public static final String CEF_STOCK_FOCUS = "appearance/pt_find_path_glow.prt";
+
+    public static final String CEF_STOCK_FOCUS_LABEL = "open_face_vendor_focus";
+
     public static final float DEFAULT_SCAN_RANGE_M = 64.0f;
 
     public static final int MAX_LISTED_ITEMS = 5;
@@ -222,12 +230,40 @@ public class open_face_vendor_lib extends script.base_script
         return nm + " - " + price + " cr";
     }
 
-    public static String formatDetailMessage(obj_id obj) throws InterruptedException
+    public static String formatDetailMessage(obj_id obj)
     {
         String nm = getDisplayNameSafe(obj);
         String desc = getDescriptionSafe(obj);
         int price = getPrice(obj);
-        return nm + "\\n\\n" + desc + "\\n\\nPrice: " + price + " credits.";
+
+        if (nm == null) nm = "";
+        if (desc == null) desc = "";
+        if (price < 1) price = 0;
+
+    return nm + "\n"
+         + desc + "\n"
+         + price + " cr";
+}
+
+    /** Persistent glow on the shelf prop for the browsing player; safe to call repeatedly on the same object. */
+    public static void playStockFocusFx(obj_id viewer, obj_id stockObj) throws InterruptedException
+    {
+        if (!isIdValid(viewer) || !isIdValid(stockObj))
+        {
+            return;
+        }
+        stopStockFocusFx(viewer, stockObj);
+        playClientEffectObj(viewer, CEF_STOCK_FOCUS, stockObj, "", null, CEF_STOCK_FOCUS_LABEL);
+    }
+
+    /** Removes {@link #CEF_STOCK_FOCUS} from the stock object for this viewer. */
+    public static void stopStockFocusFx(obj_id viewer, obj_id stockObj) throws InterruptedException
+    {
+        if (!isIdValid(stockObj))
+        {
+            return;
+        }
+        stopClientEffectObjByLabel(viewer, stockObj, CEF_STOCK_FOCUS_LABEL, true);
     }
 
     public static obj_id findStockObjectByIndex(obj_id npc, int index) throws InterruptedException
