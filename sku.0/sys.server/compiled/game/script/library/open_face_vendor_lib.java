@@ -3,9 +3,6 @@ package script.library;
 import script.obj_id;
 import script.string_id;
 
-import java.util.Arrays;
-import java.util.Comparator;
-
 /**
  * Helpers for {@link script.conversation.open_face_vendor}: vendors whose stock are tangible props placed in
  * the world near the NPC. Stock is discovered at conversation time by scanning (default 64 m;
@@ -160,22 +157,7 @@ public class open_face_vendor_lib extends script.base_script
         }
         obj_id[] result = new obj_id[n];
         System.arraycopy(filtered, 0, result, 0, n);
-        Arrays.sort(result, new Comparator<obj_id>()
-        {
-            public int compare(obj_id a, obj_id b)
-            {
-                try
-                {
-                    String na = getDisplayNameSafe(a);
-                    String nb = getDisplayNameSafe(b);
-                    return na.compareToIgnoreCase(nb);
-                }
-                catch (InterruptedException e)
-                {
-                    return 0;
-                }
-            }
-        });
+        sortStockByDisplayName(result, n);
         if (result.length > MAX_LISTED_ITEMS)
         {
             obj_id[] cap = new obj_id[MAX_LISTED_ITEMS];
@@ -183,6 +165,25 @@ public class open_face_vendor_lib extends script.base_script
             return cap;
         }
         return result;
+    }
+
+    /** Case-insensitive sort by display name; no anonymous classes (avoids missing {@code open_face_vendor_lib$1} at runtime). */
+    private static void sortStockByDisplayName(obj_id[] arr, int len) throws InterruptedException
+    {
+        for (int i = 0; i < len - 1; ++i)
+        {
+            for (int j = i + 1; j < len; ++j)
+            {
+                String na = getDisplayNameSafe(arr[i]);
+                String nb = getDisplayNameSafe(arr[j]);
+                if (na.compareToIgnoreCase(nb) > 0)
+                {
+                    obj_id t = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = t;
+                }
+            }
+        }
     }
 
     public static String getDisplayNameSafe(obj_id obj) throws InterruptedException
@@ -211,7 +212,7 @@ public class open_face_vendor_lib extends script.base_script
         {
             return getString(new string_id("static_item_d", staticName));
         }
-        return "A closer look might tell you more once you buy it.";
+        return "This item is used solely for decoration.";
     }
 
     public static String formatBrowseLine(obj_id obj) throws InterruptedException
