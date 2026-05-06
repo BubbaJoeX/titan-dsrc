@@ -81,21 +81,17 @@ Everything else in range that passes **key + price** can appear (including other
 
 ## Staging crate (bulk tagging)
 
-Use **`item.container.open_face_vendor_staging`** when you want to **mass-stamp** `vendor_key` (and optional price / custom description) onto many tangibles without editing each object by hand. Move the crate with **god client** like any container.
+Use **`item.container.open_face_vendor_staging`** when you want to **apply vendor key, price, and custom description** to every item inside a crate via **radial → [OFV] Staging** and **SUI input boxes** (no per-object objvar editing). Move the crate with **god client** like any container.
 
 ### Steps
 
 1. Spawn or place any normal **tangible container** (for example `object/tangible/container/loot/large_container.iff`).
 2. Attach script **`item.container.open_face_vendor_staging`**.
-3. Set objvars on the **crate**:
-   | Objvar | Purpose |
-   |--------|---------|
-   | `open_face_vendor.vendor_key` | **Required** for stamping — same string you use on the NPC. |
-   | `open_face_vendor.stamp_price` | Optional; if set and **≥ 1**, written to each item as `open_face_vendor.price`. |
-   | `open_face_vendor.stamp_custom_description` | Optional; non-empty → sets `open_face_vendor.custom_description` on each item. |
-   | `open_face_vendor.public_stamp_menu` | Optional; if set, **non-gods** may use the Stamp radial (default: **gods only**). |
+3. Optional: set **`open_face_vendor.public_stamp_menu`** on the crate so **non-gods** may use the staging radial (default: **gods only**).
 4. Put sellable props **inside** the crate (drop / transfer).
-5. Radial menu → **[OFV] Stamp key / price onto contents**.
+5. Radial → **[OFV] Staging** → choose **Set vendor key**, **Set price**, or **Set custom description**. Each dialog applies to **all contents** and mirrors values onto the crate (`open_face_vendor.vendor_key`, `open_face_vendor.stamp_price`, `open_face_vendor.stamp_custom_description`).
+   - **Price:** empty or **0** removes `open_face_vendor.price` from contents.
+   - **Description:** empty clears `open_face_vendor.custom_description` on contents.
 6. Pull props out and place them **in-world** within scan range of your vendor NPC.
 
 Implementation: `script/item/container/open_face_vendor_staging.java`.
@@ -159,4 +155,4 @@ Enable **cinematic conversation** for scripted camera (`npcConversationCameraLoo
 - [ ] Each prop: **same** **`open_face_vendor.vendor_key`** + **`open_face_vendor.price`**
 - [ ] Props within **64 m** (or your **`scan_range_m`**)
 - [ ] Cinematic conversation enabled on the client for camera behaviour
-- [ ] *(Optional)* Bulk-tag props with **`item.container.open_face_vendor_staging`** before placing them in-world
+- [ ] *(Optional)* Bulk-tag props with **`item.container.open_face_vendor_staging`** radial **[OFV] Staging** before placing them in-world
