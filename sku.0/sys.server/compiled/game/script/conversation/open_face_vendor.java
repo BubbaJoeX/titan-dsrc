@@ -3,7 +3,6 @@ package script.conversation;
 import script.conversation.base.ConvoResponse;
 import script.dictionary;
 import script.library.ai_lib;
-import script.library.conversation;
 import script.library.money;
 import script.library.open_face_vendor_lib;
 import script.library.utils;
@@ -32,14 +31,14 @@ public class open_face_vendor extends script.conversation.base.conversation_base
 
     public int OnAttach(obj_id self) throws InterruptedException
     {
-        setCondition(self, CND_CONVERSABLE);
+        setCondition(self, CONDITION_CONVERSABLE);
         setInvulnerable(self, true);
         return SCRIPT_CONTINUE;
     }
 
     public int OnInitialize(obj_id self) throws InterruptedException
     {
-        setCondition(self, CND_CONVERSABLE);
+        setCondition(self, CONDITION_CONVERSABLE);
         setInvulnerable(self, true);
         return SCRIPT_CONTINUE;
     }
@@ -125,7 +124,7 @@ public class open_face_vendor extends script.conversation.base.conversation_base
         {
             return showBrowseMenu(player, self);
         }
-        conversation.npcConversationCameraLookAtTarget(player, stockObj, 6.0f, 1.2f);
+        script.library.conversation.npcConversationCameraLookAtTarget(player, stockObj, 6.0f, 1.2f);
         String msg = open_face_vendor_lib.formatDetailMessage(stockObj);
         return serverSide_respond(
             player,
@@ -165,7 +164,7 @@ public class open_face_vendor extends script.conversation.base.conversation_base
         {
             if (responseIdIs(response, "browse_back"))
             {
-                conversation.npcConversationCameraReturnToSpeaker(player);
+                script.library.conversation.npcConversationCameraReturnToSpeaker(player);
                 clearPlayerVars(player);
                 return serverSide_endConversation(player, "Come back anytime.");
             }
@@ -180,7 +179,7 @@ public class open_face_vendor extends script.conversation.base.conversation_base
                     {
                         return showBrowseMenu(player, self);
                     }
-                    utils.setIntScriptVar(player, conversation + ".selIdx", idx);
+                    utils.setScriptVar(player, conversation + ".selIdx", idx);
                     return showItemDetail(player, self, stockObj);
                 }
                 catch (NumberFormatException ignored)
@@ -194,7 +193,7 @@ public class open_face_vendor extends script.conversation.base.conversation_base
         {
             if (responseIdIs(response, "cancel"))
             {
-                conversation.npcConversationCameraReturnToSpeaker(player);
+                script.library.conversation.npcConversationCameraReturnToSpeaker(player);
                 return showBrowseMenu(player, self);
             }
             if (responseIdIs(response, "buy"))
@@ -203,7 +202,7 @@ public class open_face_vendor extends script.conversation.base.conversation_base
                 obj_id stockObj = open_face_vendor_lib.findStockObjectByIndex(self, idx);
                 if (!isIdValid(stockObj) || !exists(stockObj))
                 {
-                    conversation.npcConversationCameraReturnToSpeaker(player);
+                    script.library.conversation.npcConversationCameraReturnToSpeaker(player);
                     return showBrowseMenu(player, self);
                 }
                 int price = open_face_vendor_lib.getPrice(stockObj);
@@ -270,7 +269,7 @@ public class open_face_vendor extends script.conversation.base.conversation_base
         }
 
         sendSystemMessage(player, string_id.unlocalized("Sold — check your inventory."));
-        conversation.npcConversationCameraReturnToSpeaker(player);
+        script.library.conversation.npcConversationCameraReturnToSpeaker(player);
 
         utils.setScriptVar(player, conversation + ".branchId", BRANCH_BROWSE);
         return serverSide_respond(
