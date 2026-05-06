@@ -230,20 +230,27 @@ public class open_face_vendor_lib extends script.base_script
         return nm + " - " + price + " cr";
     }
 
-    public static String formatDetailMessage(obj_id obj)
+    public static String formatDetailMessage(obj_id obj) throws InterruptedException
     {
         String nm = getDisplayNameSafe(obj);
         String desc = getDescriptionSafe(obj);
         int price = getPrice(obj);
 
-        if (nm == null) nm = "";
-        if (desc == null) desc = "";
-        if (price < 1) price = 0;
+        if (nm == null)
+        {
+            nm = "";
+        }
+        if (desc == null)
+        {
+            desc = "";
+        }
+        if (price < 1)
+        {
+            price = 0;
+        }
 
-    return nm + "\n"
-         + desc + "\n"
-         + price + " cr";
-}
+        return nm + "\n\n" + desc + "\n\nPrice: " + price + " credits.";
+    }
 
     /** Persistent glow on the shelf prop for the browsing player; safe to call repeatedly on the same object. */
     public static void playStockFocusFx(obj_id viewer, obj_id stockObj) throws InterruptedException
