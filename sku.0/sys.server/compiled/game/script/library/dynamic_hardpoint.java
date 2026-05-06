@@ -4,6 +4,9 @@ import script.dictionary;
 import script.menu_info_types;
 import script.obj_id;
 import script.string_id;
+import script.library.ai_lib;
+import script.library.pet_lib;
+import script.library.posture;
 import script.library.sui;
 import script.library.utils;
 
@@ -20,6 +23,10 @@ public class dynamic_hardpoint extends script.base_script
      * {@code creature_dynamic_mount} would cause {@code NoClassDefFoundError} at runtime.
      */
     private static final String MM_AUTH_CREATURE_SCRIPTVAR = "creature_dynamic_mount.mm_auth_creature";
+
+    /** Same paths as {@link script.library.mount_maker}; duplicated here so this class does not reference {@code mount_maker} (class-load order with {@link script.creature.creature_dynamic_mount}). */
+    private static final String OV_MM_CREATURE_DESIGNER = "mount_maker.designer";
+    private static final String OV_MM_PLAYER_MOUNT = "mount_maker.editing_creature";
 
     public static final String OV_HP_SLOT = "mount_maker.hp_dyn_slot";
     /** Legacy terminal sessions may still have this objvar on the player. */
@@ -80,9 +87,62 @@ public class dynamic_hardpoint extends script.base_script
     public static final String HANDLER_HP_FX_OZ = "handleMmHpDynFxOzInput";
     public static final String HANDLER_HP_FX_SCALE = "handleMmHpDynFxScaleInput";
 
+    private static boolean isDesignerAuthorized(obj_id player) throws InterruptedException
+    {
+        return isIdValid(player) && (isGod(player) || hasObjVar(player, "test_center"));
+    }
+
     private static boolean canEdit(obj_id player) throws InterruptedException
     {
-        return mount_maker.isDesignerAuthorized(player);
+        return isDesignerAuthorized(player);
+    }
+
+    /** Mirrors {@link script.library.mount_maker#endDesignerSession} — keep behavior aligned when editing session helpers. */
+    private static void endDesignerSessionForHpDyn(obj_id designer) throws InterruptedException
+    {
+        if (!isIdValid(designer) || !hasObjVar(designer, OV_MM_PLAYER_MOUNT))
+            return;
+        obj_id creature = getObjIdObjVar(designer, OV_MM_PLAYER_MOUNT);
+        if (isIdValid(creature) && exists(creature))
+        {
+            mountMakerPossessionLeave(designer, creature);
+            if (getState(designer, STATE_RIDING_MOUNT) > 0 && getMountId(designer) == creature)
+            {
+                dismountCreature(designer);
+                pet_lib.setUnmountedMovementRate(designer, creature);
+            }
+        }
+        removeObjVar(designer, OV_MM_PLAYER_MOUNT);
+        if (isIdValid(creature) && exists(creature))
+        {
+            if (hasObjVar(creature, OV_MM_CREATURE_DESIGNER) && getObjIdObjVar(creature, OV_MM_CREATURE_DESIGNER) == designer)
+                removeObjVar(creature, OV_MM_CREATURE_DESIGNER);
+            setInvulnerable(creature, false);
+        }
+    }
+
+    /** Mirrors {@link script.library.mount_maker#beginDesignerSession}. */
+    private static void beginDesignerSessionForHpDyn(obj_id creature, obj_id designer) throws InterruptedException
+    {
+        if (!isIdValid(creature) || !isIdValid(designer) || !isMob(creature) || !isDesignerAuthorized(designer))
+            return;
+        endDesignerSessionForHpDyn(designer);
+        setObjVar(creature, OV_MM_CREATURE_DESIGNER, designer);
+        setObjVar(designer, OV_MM_PLAYER_MOUNT, creature);
+        setInvulnerable(creature, true);
+        ai_lib.setIgnoreCombat(creature);
+        posture.stand(creature);
+    }
+
+    /** Mirrors {@link script.library.mount_maker#ensureDesignerSessionForCreature}. */
+    private static void ensureDesignerSessionForCreatureHpDyn(obj_id creature, obj_id designer) throws InterruptedException
+    {
+        if (!isIdValid(creature) || !isIdValid(designer) || !isMob(creature) || !isDesignerAuthorized(designer))
+            return;
+        if (hasObjVar(creature, OV_MM_CREATURE_DESIGNER) && getObjIdObjVar(creature, OV_MM_CREATURE_DESIGNER) == designer
+                && hasObjVar(designer, OV_MM_PLAYER_MOUNT) && getObjIdObjVar(designer, OV_MM_PLAYER_MOUNT) == creature)
+            return;
+        beginDesignerSessionForHpDyn(creature, designer);
     }
 
     public static int getSlot(obj_id player) throws InterruptedException
@@ -384,7 +444,7 @@ public class dynamic_hardpoint extends script.base_script
     /** Mount maker: hp_dyn submenu listbox (player-owned SUI). */
     public static void openHpDynAuthoringListbox(obj_id creature, obj_id player) throws InterruptedException
     {
-        mount_maker.ensureDesignerSessionForCreature(creature, player);
+        ensureDesignerSessionForCreatureHpDyn(creature, player);
         utils.setScriptVar(player, MM_AUTH_CREATURE_SCRIPTVAR, creature);
         int slot = getSlot(player);
         String[] rows = new String[]
