@@ -264,11 +264,11 @@ public class open_face_vendor extends script.conversation.base.conversation_base
 
         if (!open_face_vendor_lib.grantPurchasedCopy(player, pending))
         {
-            sendSystemMessage(player, string_id.unlocalized("Purchase failed — inventory or item issue."));
+            sendSystemMessage(player, string_id.unlocalized("Purchase failed - inventory or item issue."));
             return SCRIPT_CONTINUE;
         }
 
-        sendSystemMessage(player, string_id.unlocalized("Sold — check your inventory."));
+        sendSystemMessage(player, string_id.unlocalized("Sold - check your inventory."));
         script.library.conversation.npcConversationCameraReturnToSpeaker(player);
 
         utils.setScriptVar(player, conversation + ".branchId", BRANCH_BROWSE);

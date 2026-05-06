@@ -85,7 +85,7 @@ public class open_face_vendor_staging extends script.base_script
             {
                 def = Integer.toString(getIntObjVar(self, OV_STAMP_PRICE));
             }
-            sui.inputbox(self, player, "Credit price for vendor listing (≥ 1). Leave empty or 0 to remove price from contents.", sui.OK_CANCEL, "[OFV] Price", sui.INPUT_NORMAL, new String[]{def}, HANDLER_SET_PRICE, null);
+            sui.inputbox(self, player, "Credit price for vendor listing (>= 1). Leave empty or 0 to remove price from contents.", sui.OK_CANCEL, "[OFV] Price", sui.INPUT_NORMAL, new String[]{def}, HANDLER_SET_PRICE, null);
             return SCRIPT_CONTINUE;
         }
 
@@ -193,7 +193,7 @@ public class open_face_vendor_staging extends script.base_script
         }
         catch (NumberFormatException e)
         {
-            sendSystemMessage(player, "[OFV] Invalid price — enter a whole number (credits).", null);
+            sendSystemMessage(player, "[OFV] Invalid price - enter a whole number (credits).", null);
             return SCRIPT_CONTINUE;
         }
         if (price < 1)

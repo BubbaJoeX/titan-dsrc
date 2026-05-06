@@ -12,7 +12,7 @@ import script.string_id;
  * <h2>Designer setup</h2>
  * <ol>
  *   <li>Spawn the vendor NPC and attach script {@code conversation.open_face_vendor}.</li>
- *   <li>Set on the <b>NPC</b> {@link #OV_VENDOR_KEY} (string) — a unique id for this stall (e.g. {@code mos_eisley_curio_a}).</li>
+ *   <li>Set on the <b>NPC</b> {@link #OV_VENDOR_KEY} (string) - a unique id for this stall (e.g. {@code mos_eisley_curio_a}).</li>
  *   <li>Place sellable tangibles within range (default 64 m, or {@link #OV_SCAN_RANGE_M} on the NPC).</li>
  *   <li>On each prop set {@link #OV_VENDOR_KEY} to the <b>same</b> string as the NPC, and {@link #OV_PRICE} (credits).</li>
  *   <li>Optional: {@link #OV_CUSTOM_DESCRIPTION} on props; {@link #OV_GREETING} on NPC; {@link #OV_SCAN_RANGE_M} on NPC.</li>
@@ -219,7 +219,7 @@ public class open_face_vendor_lib extends script.base_script
     {
         String nm = getDisplayNameSafe(obj);
         int price = getPrice(obj);
-        return nm + " — " + price + " cr";
+        return nm + " - " + price + " cr";
     }
 
     public static String formatDetailMessage(obj_id obj) throws InterruptedException
