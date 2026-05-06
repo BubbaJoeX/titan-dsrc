@@ -263,14 +263,21 @@ public class open_face_vendor_lib extends script.base_script
         playClientEffectObj(viewer, CEF_STOCK_FOCUS, stockObj, "", null, CEF_STOCK_FOCUS_LABEL);
     }
 
-    /** Removes {@link #CEF_STOCK_FOCUS} from the stock object for this viewer. */
+    /**
+     * Removes {@link #CEF_STOCK_FOCUS} for this viewing player. Uses hard terminate (not soft) so particles cull
+     * immediately on Cancel; also stops the object-local label pass some clients need.
+     */
     public static void stopStockFocusFx(obj_id viewer, obj_id stockObj) throws InterruptedException
     {
         if (!isIdValid(stockObj))
         {
             return;
         }
-        stopClientEffectObjByLabel(viewer, stockObj, CEF_STOCK_FOCUS_LABEL, true);
+        if (isIdValid(viewer))
+        {
+            stopClientEffectObjByLabel(viewer, stockObj, CEF_STOCK_FOCUS_LABEL, false);
+        }
+        stopClientEffectObjByLabel(stockObj, CEF_STOCK_FOCUS_LABEL);
     }
 
     public static obj_id findStockObjectByIndex(obj_id npc, int index) throws InterruptedException

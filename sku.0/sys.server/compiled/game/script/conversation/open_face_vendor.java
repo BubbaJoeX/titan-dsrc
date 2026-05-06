@@ -73,6 +73,7 @@ public class open_face_vendor extends script.conversation.base.conversation_base
     @Override
     public int OnStartNpcConversation(obj_id self, obj_id player) throws InterruptedException
     {
+        faceTo(self, player);
         if (ai_lib.isInCombat(self) || ai_lib.isInCombat(player))
         {
             return SCRIPT_OVERRIDE;
@@ -208,7 +209,13 @@ public class open_face_vendor extends script.conversation.base.conversation_base
         {
             if (responseIdIs(response, "cancel"))
             {
+                int cancelIdx = utils.getIntScriptVar(player, conversation + ".selIdx");
+                obj_id cancelStock = open_face_vendor_lib.findStockObjectByIndex(self, cancelIdx);
                 clearStockFocus(player);
+                if (isIdValid(cancelStock))
+                {
+                    open_face_vendor_lib.stopStockFocusFx(player, cancelStock);
+                }
                 script.library.conversation.npcConversationCameraReturnToSpeaker(player);
                 return showBrowseMenu(player, self);
             }
@@ -234,8 +241,8 @@ public class open_face_vendor extends script.conversation.base.conversation_base
                         BRANCH_ITEM,
                         new ConvoResponse[]
                         {
-                            convo("buy", "Buy"),
-                            convo("cancel", "Cancel")
+                            convo("buy", "Purchase"),
+                            convo("cancel", "Go Back")
                         });
                 }
                 clearStockFocus(player);
