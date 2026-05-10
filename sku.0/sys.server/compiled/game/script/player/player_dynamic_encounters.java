@@ -110,6 +110,20 @@ public class player_dynamic_encounters extends script.base_script
      */
     public int OnZoneScriptAbility(obj_id self, dictionary params) throws InterruptedException
     {
+        if (params == null || !params.containsKey("abilityName"))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        String abilityName = params.getString("abilityName");
+        if (abilityName == null || abilityName.length() == 0)
+        {
+            return SCRIPT_CONTINUE;
+        }
+        // Scripted rows in zone_abilities.tab — keep names in sync with datatable.
+        if (abilityName.equals("zone_start_dance_basic"))
+        {
+            queueCommand(self, getStringCrc("startDance"), self, "basic", COMMAND_PRIORITY_DEFAULT);
+        }
         return SCRIPT_CONTINUE;
     }
 }

@@ -124,6 +124,7 @@ public class open_face_vendor extends script.conversation.base.conversation_base
 
     private int showBrowseMenu(obj_id player, obj_id self) throws InterruptedException
     {
+        utils.removeScriptVar(player, conversation + ".selIdx");
         return serverSide_respond(
             player,
             "This is what I have to choose from:",

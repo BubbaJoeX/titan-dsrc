@@ -121,6 +121,22 @@ Implementation: `script/item/container/open_face_vendor_staging.java`.
 
 Enable **cinematic conversation** for scripted camera (`npcConversationCameraLookAtTarget` / `npcConversationCameraReturnToSpeaker`).
 
+Open-face browsing uses the **scripted conversation** page (`datasources/ui/ui_scripted.inc`), which includes a **`CuiWidget3dObjectListViewer`** for the focused item. That viewer is set up for **auto-zoom**, **look-at center**, **transform camera to object**, and **`CameraZoomMatchOrientation`** so props on **tilted shelves or angled display pads** get a roll-aware fit instead of a level “horizon” camera that clips or frames poorly.
+
+### Viewer properties (client UI)
+
+| Property | Purpose |
+|----------|---------|
+| **`CameraZoomMatchOrientation`** | When **true** (with auto-zoom and `CameraTransformToObj`), the client **searches roll** around the view axis and picks the angle that **minimizes required backing distance** for the current bounding box—better framing when the physical prop is banked (e.g. rifle on a sloped tray). |
+| **`CameraOrientationZoomOffset`** | Optional **`Vector`** (same format as `CameraLookAt`): **x = yaw**, **y = pitch**, **z = roll** additive offsets in **radians**. Applied when zoom-match is on **or** when any component is non-zero, so you can nudge the shot without changing code. Example: **~0.785** on **z** is about **45°** extra roll for fine-tuning toward the sun or away from a blocking mesh. |
+
+Implementation: `client/.../CuiWidget3dObjectListViewer.{h,cpp}`.
+
+**Designer tips**
+
+- Place sellables so their **client transform** matches how you want them read on the pad; the viewer attaches in **object space**—extreme tilts may still need a small **`CameraOrientationZoomOffset`** on the page if art direction wants a specific bias.
+- If a prop shares the scripted template but should **not** use orientation sweep (rare), duplicate the widget in a forked `.inc` and set **`CameraZoomMatchOrientation='false'`** for that layout only.
+
 ---
 
 ## Troubleshooting
@@ -155,4 +171,5 @@ Enable **cinematic conversation** for scripted camera (`npcConversationCameraLoo
 - [ ] Each prop: **same** **`open_face_vendor.vendor_key`** + **`open_face_vendor.price`**
 - [ ] Props within **64 m** (or your **`scan_range_m`**)
 - [ ] Cinematic conversation enabled on the client for camera behaviour
+- [ ] *(Optional)* Tilted displays: rely on default **`CameraZoomMatchOrientation`** on the scripted viewer, or tune **`CameraOrientationZoomOffset`** (radians) in `ui_scripted.inc` if framing still clips
 - [ ] *(Optional)* Bulk-tag props with **`item.container.open_face_vendor_staging`** radial **[OFV] Staging** before placing them in-world
