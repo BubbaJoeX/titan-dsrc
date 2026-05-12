@@ -1441,7 +1441,22 @@ public class player_structure extends script.base_script
     }
     public static boolean hasCustomLighting(obj_id structure) throws InterruptedException
     {
-        return hasObjVar(structure, "cellLights");
+        if (hasObjVar(structure, "cellLights"))
+        {
+            return true;
+        }
+        obj_id[] cells = getCellIds(structure);
+        if (cells != null)
+        {
+            for (obj_id cellId : cells)
+            {
+                if (isIdValid(cellId) && hasObjVar(cellId, "lights.cell.r"))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     public static int getElectricityCost(obj_id structure) throws InterruptedException
     {

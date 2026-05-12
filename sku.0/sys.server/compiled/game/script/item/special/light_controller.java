@@ -7,6 +7,12 @@ public class light_controller extends script.base_script
 {
     public static final int LIFESPAN = 120;
 
+    /** Persisted on the cell object by server {@code CellObject::setCellLightColor}. */
+    public static final String OV_CELL_LIGHT_R = "lights.cell.r";
+    public static final String OV_CELL_LIGHT_G = "lights.cell.g";
+    public static final String OV_CELL_LIGHT_B = "lights.cell.b";
+    public static final String OV_CELL_LIGHT_BRIGHTNESS = "lights.cell.brightness";
+
     public static final String[][] COLOR_PRESETS = {
         {"Bright White",        "1.0",  "1.0",  "1.0"},
         {"Warm White",          "1.0",  "0.9",  "0.8"},
@@ -408,6 +414,18 @@ public class light_controller extends script.base_script
 
     // ---- Copy / Paste ----
 
+    public static void removeCellLightingObjVars(obj_id cellObj) throws InterruptedException
+    {
+        if (!isIdValid(cellObj))
+        {
+            return;
+        }
+        removeObjVar(cellObj, OV_CELL_LIGHT_R);
+        removeObjVar(cellObj, OV_CELL_LIGHT_G);
+        removeObjVar(cellObj, OV_CELL_LIGHT_B);
+        removeObjVar(cellObj, OV_CELL_LIGHT_BRIGHTNESS);
+    }
+
     public void copyRoomLighting(obj_id self, obj_id player, obj_id structure) throws InterruptedException
     {
         obj_id cellObj = getCurrentCell(player, structure);
@@ -421,18 +439,30 @@ public class light_controller extends script.base_script
             return;
         }
 
-        String base = "cellLights." + cellNum;
-
-        if (!hasObjVar(structure, base + ".r"))
+        float r;
+        float g;
+        float b;
+        float brightness;
+        if (hasObjVar(cellObj, OV_CELL_LIGHT_R))
         {
-            sendSystemMessage(player, "This room is using default lighting. Set a custom color first.", null);
-            return;
+            r = getFloatObjVar(cellObj, OV_CELL_LIGHT_R);
+            g = getFloatObjVar(cellObj, OV_CELL_LIGHT_G);
+            b = getFloatObjVar(cellObj, OV_CELL_LIGHT_B);
+            brightness = getFloatObjVar(cellObj, OV_CELL_LIGHT_BRIGHTNESS);
         }
-
-        float r = getFloatObjVar(structure, base + ".r");
-        float g = getFloatObjVar(structure, base + ".g");
-        float b = getFloatObjVar(structure, base + ".b");
-        float brightness = getFloatObjVar(structure, base + ".brightness");
+        else
+        {
+            String legacyBase = "cellLights." + cellNum;
+            if (!hasObjVar(structure, legacyBase + ".r"))
+            {
+                sendSystemMessage(player, "This room is using default lighting. Set a custom color first.", null);
+                return;
+            }
+            r = getFloatObjVar(structure, legacyBase + ".r");
+            g = getFloatObjVar(structure, legacyBase + ".g");
+            b = getFloatObjVar(structure, legacyBase + ".b");
+            brightness = getFloatObjVar(structure, legacyBase + ".brightness");
+        }
 
         utils.setScriptVar(player, "lightswitch.clipboard.r", r);
         utils.setScriptVar(player, "lightswitch.clipboard.g", g);
@@ -541,11 +571,13 @@ public class light_controller extends script.base_script
         if (!isIdValid(cellObj))
             return;
 
-        setCellLight(cellObj, 1.0f, 1.0f, 1.0f, 1.0f);
-
         int cellNum = getCellNumber(cellObj, structure);
+        removeCellLightingObjVars(cellObj);
         if (cellNum >= 0)
+        {
             removeObjVar(structure, "cellLights." + cellNum);
+        }
+        setCellLight(cellObj, 1.0f, 1.0f, 1.0f, 1.0f);
 
         sendSystemMessage(player, "This room's lights have been reset to default.", null);
     }
@@ -559,7 +591,10 @@ public class light_controller extends script.base_script
         for (int i = 0; i < cellIds.length; i++)
         {
             if (isIdValid(cellIds[i]))
+            {
+                removeCellLightingObjVars(cellIds[i]);
                 setCellLight(cellIds[i], 1.0f, 1.0f, 1.0f, 1.0f);
+            }
         }
 
         removeObjVar(structure, "cellLights");
