@@ -311,11 +311,7 @@ public class terminal_structure extends script.base_script
         }
         if (!player_structure.isAdmin(structure, player) && !charactersAreSamePlayer(player, getOwner(structure)) && !player_structure.isAbandoned(structure))
         {
-            final boolean pobShipSelect = !player_structure.isBuilding(structure) && isGameObjectTypeOf(getGameObjectType(structure), GOT_ship);
-            if (!(pobShipSelect && space_utils.playerCanControlShipSlot(structure, player, false)))
-            {
-                return SCRIPT_CONTINUE;
-            }
+            return SCRIPT_CONTINUE;
         }
         if (player_structure.isStructureCondemned(self) && player_structure.isOwner(player, structure))
         {

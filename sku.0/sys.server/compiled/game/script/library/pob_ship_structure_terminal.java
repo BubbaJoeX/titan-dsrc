@@ -43,33 +43,41 @@ public class pob_ship_structure_terminal extends script.base_script
             return;
         }
 
-        obj_id structure = player_structure.getStructure(player);
-        if (!isIdValid(structure))
-        {
-            structure = space_transition.getContainingShip(player);
-        }
-        if (!isIdValid(structure))
+        obj_id shipFromPlayer = space_transition.getContainingShip(player);
+        if (!isIdValid(shipFromPlayer))
         {
             return;
         }
 
-        final boolean pobShip = !player_structure.isBuilding(structure)
-                && isGameObjectTypeOf(getGameObjectType(structure), GOT_ship)
-                && (space_utils.isShipWithInterior(structure) || space_utils.isPobType(structure));
-        if (!pobShip)
+        obj_id shipFromTerminal = space_transition.getContainingShip(terminal);
+        obj_id shipFromTerminalTop = obj_id.NULL_ID;
+        obj_id topMost = getTopMostContainer(terminal);
+        if (isIdValid(topMost) && isGameObjectTypeOf(getGameObjectType(topMost), GOT_ship))
+        {
+            shipFromTerminalTop = topMost;
+        }
+
+        final boolean terminalOnSameShip =
+                (isIdValid(shipFromTerminal) && shipFromTerminal == shipFromPlayer)
+                        || (isIdValid(shipFromTerminalTop) && shipFromTerminalTop == shipFromPlayer);
+        if (!terminalOnSameShip)
         {
             return;
         }
 
-        boolean canUse = player_structure.isAdmin(structure, player)
-                || charactersAreSamePlayer(player, getOwner(structure))
-                || space_utils.playerCanControlShipSlot(structure, player, false);
-        if (!canUse)
+        obj_id structure = shipFromPlayer;
+        if (!isGameObjectTypeOf(getGameObjectType(structure), GOT_ship) || player_structure.isBuilding(structure))
         {
             return;
         }
 
-        final boolean isStructureOwner = player_structure.isOwner(structure, player);
+        obj_id shipOwner = getOwner(structure);
+        if (!isIdValid(shipOwner) || !charactersAreSamePlayer(player, shipOwner))
+        {
+            return;
+        }
+
+        final boolean isStructureOwner = charactersAreSamePlayer(player, shipOwner);
 
         final int management_root = mi.addRootMenu(menu_info_types.SERVER_TERMINAL_MANAGEMENT, SID_TERMINAL_MANAGEMENT);
         mi.addSubMenu(management_root, menu_info_types.SERVER_TERMINAL_MANAGEMENT_STATUS, SID_TERMINAL_MANAGEMENT_STATUS);
