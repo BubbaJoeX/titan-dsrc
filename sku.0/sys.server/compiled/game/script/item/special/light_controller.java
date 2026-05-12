@@ -187,7 +187,11 @@ public class light_controller extends script.base_script
             return SCRIPT_CONTINUE;
         }
 
-        if (!player_structure.isAdmin(structure, player) && !player_structure.isOwner(structure, player))
+        obj_id structureOwner = getOwner(structure);
+        boolean permitted = player_structure.isAdmin(structure, player)
+                || player_structure.isOwner(structure, player)
+                || (isIdValid(structureOwner) && charactersAreSamePlayer(player, structureOwner));
+        if (!permitted)
         {
             sendSystemMessage(player, "You no longer have permission to modify this structure's lights.", null);
             return SCRIPT_CONTINUE;
@@ -565,21 +569,29 @@ public class light_controller extends script.base_script
 
     public obj_id getCurrentCell(obj_id player, obj_id structure) throws InterruptedException
     {
-        obj_id containedBy = getContainedBy(player);
-        if (!isIdValid(containedBy))
+        if (!isIdValid(player) || !isIdValid(structure))
         {
-            sendSystemMessage(player, "You must be inside the building to change this room's lights.", null);
             return obj_id.NULL_ID;
         }
 
-        obj_id cellBuilding = getContainedBy(containedBy);
-        if (!isIdValid(cellBuilding) || cellBuilding != structure)
+        obj_id walk = getContainedBy(player);
+        int guard = 0;
+        while (isIdValid(walk) && guard++ < 64)
         {
-            sendSystemMessage(player, "You must be inside the building to change this room's lights.", null);
-            return obj_id.NULL_ID;
+            obj_id parent = getContainedBy(walk);
+            if (!isIdValid(parent))
+            {
+                break;
+            }
+            if (parent == structure)
+            {
+                return walk;
+            }
+            walk = parent;
         }
 
-        return containedBy;
+        sendSystemMessage(player, "You must be inside the structure to change this room's lights.", null);
+        return obj_id.NULL_ID;
     }
 
     public int getCellNumber(obj_id cellObj, obj_id structure) throws InterruptedException

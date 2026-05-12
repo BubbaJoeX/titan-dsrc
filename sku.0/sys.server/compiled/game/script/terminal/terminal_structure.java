@@ -586,7 +586,9 @@ public class terminal_structure extends script.base_script
         }
         else if (item == menu_info_types.SERVER_MENU17)
         {
-            if (!player_structure.isBuilding(structure))
+            boolean okBuilding = player_structure.isBuilding(structure);
+            boolean okShip = !player_structure.isBuilding(structure) && isGameObjectTypeOf(getGameObjectType(structure), GOT_ship);
+            if (!okBuilding && !okShip)
             {
                 return SCRIPT_CONTINUE;
             }

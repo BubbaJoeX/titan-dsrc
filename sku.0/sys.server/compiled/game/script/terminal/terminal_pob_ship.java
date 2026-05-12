@@ -27,6 +27,8 @@ public class terminal_pob_ship extends script.base_script
     private static final int MENU_FIND_ALL_ITEMS = menu_info_types.SERVER_MENU11;
     private static final int MENU_SEARCH_ITEMS = menu_info_types.SERVER_MENU12;
     private static final int MENU_UNDOCK = menu_info_types.SERVER_MENU13;
+    /** Matches housing terminal; grants remote light controller for ship interiors. */
+    private static final int MENU_LIGHTSWITCH = menu_info_types.SERVER_MENU17;
 
     public static final string_id SID_TERMINAL_PERMISSIONS = new string_id("player_structure", "permissions");
     public static final string_id SID_MOVE_FIRST_ITEM = new string_id("player_structure", "move_first_item");
@@ -46,6 +48,7 @@ public class terminal_pob_ship extends script.base_script
     public static final string_id SID_EXTEND_DOCKING = string_id.unlocalized("Extend Docking Time");
     public static final string_id SID_UNDOCK = string_id.unlocalized("Undock Ship");
     public static final string_id SID_MANAGE_ACCESS = string_id.unlocalized("Manage Access");
+    public static final string_id SID_TERMINAL_LIGHTSWITCH = new string_id("player_structure", "lightswitch");
     private static final String BOARDING_PERMISSIONS_PID = "boardingPermissions.pid";
 
     public static final int EXTEND_COST = 20000;
@@ -122,6 +125,8 @@ public class terminal_pob_ship extends script.base_script
                 mi.addRootMenu(MENU_STORAGE_REDEED, SID_TERMINAL_REDEED_STORAGE);
             }
 
+            mi.addRootMenu(MENU_LIGHTSWITCH, SID_TERMINAL_LIGHTSWITCH);
+
         }
 
         // Docking - -  all passengers; timed-mooring actions when docked, status when not
@@ -185,6 +190,11 @@ public class terminal_pob_ship extends script.base_script
             if (item == MENU_STRUCTURE_PERMISSIONS)
             {
                 queueCommand(player, (1768087594), self, "admin", COMMAND_PRIORITY_DEFAULT);
+            }
+            else if (item == MENU_LIGHTSWITCH)
+            {
+                lightswitch.grantLightController(self, player, ship);
+                return SCRIPT_CONTINUE;
             }
             else if (item == MENU_MOVE_FIRST_ITEM)
             {
