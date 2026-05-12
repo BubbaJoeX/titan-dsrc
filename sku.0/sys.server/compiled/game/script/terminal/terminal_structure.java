@@ -67,6 +67,10 @@ public class terminal_structure extends script.base_script
             sendSystemMessage(player, SID_WHILE_DEAD);
             return SCRIPT_CONTINUE;
         }
+        if (hasScript(self, "space.terminal.terminal_space"))
+        {
+            return SCRIPT_CONTINUE;
+        }
         obj_id structure = self;
         blog("terminal_structure::OnObjectMenuRequest");
         player_structure.doOldToNewLotConversion(player, structure);
@@ -75,17 +79,9 @@ public class terminal_structure extends script.base_script
             structure = player_structure.getStructure(player);
             if (!isIdValid(structure))
             {
-                structure = space_transition.getContainingShip(player);
-            }
-            if (!isIdValid(structure))
-            {
                 return SCRIPT_CONTINUE;
             }
         }
-        final boolean pobShipInteriorTerminal = isIdValid(structure)
-                && !player_structure.isBuilding(structure)
-                && isGameObjectTypeOf(getGameObjectType(structure), GOT_ship)
-                && (space_utils.isShipWithInterior(structure) || space_utils.isPobType(structure));
         if (player_structure.isStructureCondemned(self) && player_structure.isOwner(player, structure))
         {
             player_structure.doCondemnedSui(self, player);
@@ -100,12 +96,7 @@ public class terminal_structure extends script.base_script
                 int owner_root = mi.addRootMenu(menu_info_types.SERVER_MENU16, SID_SHOW_MAYOR_OWNER);
             }
         }
-        boolean canUseStructureTerminal = player_structure.isAdmin(structure, player) || charactersAreSamePlayer(player, getOwner(structure));
-        if (!canUseStructureTerminal && pobShipInteriorTerminal)
-        {
-            canUseStructureTerminal = space_utils.playerCanControlShipSlot(structure, player, false);
-        }
-        if (canUseStructureTerminal)
+        if (player_structure.isAdmin(structure, player) || charactersAreSamePlayer(player, getOwner(structure)))
         {
             blog("terminal_structure::OnObjectMenuRequest - you are admin");
             if (player_structure.isHarvester(structure) || player_structure.isGenerator(structure))
@@ -116,10 +107,7 @@ public class terminal_structure extends script.base_script
                 }
             }
             int management_root = mi.addRootMenu(menu_info_types.SERVER_TERMINAL_MANAGEMENT, SID_TERMINAL_MANAGEMENT);
-            if (!pobShipInteriorTerminal)
-            {
-                mi.addSubMenu(management_root, menu_info_types.SERVER_TERMINAL_MANAGEMENT_DESTROY, SID_TERMINAL_MANAGEMENT_DESTROY);
-            }
+            mi.addSubMenu(management_root, menu_info_types.SERVER_TERMINAL_MANAGEMENT_DESTROY, SID_TERMINAL_MANAGEMENT_DESTROY);
             if (got == GOT_installation_minefield)
             {
                 return SCRIPT_CONTINUE;
@@ -153,16 +141,13 @@ public class terminal_structure extends script.base_script
             {
                 return SCRIPT_CONTINUE;
             }
-            if (!pobShipInteriorTerminal)
-            {
-                mi.addSubMenu(management_root, menu_info_types.SERVER_TERMINAL_MANAGEMENT_PAY, SID_TERMINAL_MANAGEMENT_PAY);
-            }
-            mi.addSubMenu(management_root, menu_info_types.SET_NAME, new string_id());
-            if (!pobShipInteriorTerminal && player_structure.hasMaintenanceDroid(player))
+            mi.addSubMenu(management_root, menu_info_types.SERVER_TERMINAL_MANAGEMENT_PAY, SID_TERMINAL_MANAGEMENT_PAY);
+            mi.addSubMenu(management_root, menu_info_types.SET_NAME, SID_TERMINAL_NAME_STRUCTURE);
+            if (player_structure.hasMaintenanceDroid(player))
             {
                 mi.addSubMenu(management_root, menu_info_types.SERVER_MENU5, SID_TERMINAL_ASSIGN_DROID);
             }
-            if (!pobShipInteriorTerminal && player_structure.canPackBuilding(player, structure))
+            if (player_structure.canPackBuilding(player, structure))
             {
                 mi.addSubMenu(management_root, menu_info_types.SERVER_MENU10, SID_TERMINAL_PACK_HOUSE);
             }
@@ -244,52 +229,6 @@ public class terminal_structure extends script.base_script
                     mi.addSubMenu(decor_root, menu_info_types.SERVER_MENU34, new string_id("Fix Structure Sign"));
                 }
             }
-            else if (pobShipInteriorTerminal)
-            {
-                blog("terminal_structure::OnObjectMenuRequest - POB ship interior");
-                boolean isStructureOwner = player_structure.isOwner(structure, player);
-                if (permissions_root == 0)
-                {
-                    permissions_root = mi.addRootMenu(menu_info_types.SERVER_TERMINAL_PERMISSIONS, SID_TERMINAL_PERMISSIONS);
-                    mi.addSubMenu(permissions_root, menu_info_types.SERVER_TERMINAL_PERMISSIONS_ADMIN, SID_TERMINAL_PERMISSIONS_ADMIN);
-                }
-                mi.addSubMenu(permissions_root, menu_info_types.SERVER_TERMINAL_PERMISSIONS_ENTER, SID_TERMINAL_PERMISSIONS_ENTER);
-                mi.addSubMenu(permissions_root, menu_info_types.SERVER_TERMINAL_PERMISSIONS_BANNED, SID_TERMINAL_PERMISSIONS_BANNED);
-                string_id privacyMenu_sid = SID_TERMINAL_MANAGEMENT_PRIVACY;
-                if (permissionsIsPublic(structure))
-                {
-                    privacyMenu_sid = SID_TERMINAL_MANAGEMENT_PRIVACY_PUBLIC;
-                }
-                else 
-                {
-                    privacyMenu_sid = SID_TERMINAL_MANAGEMENT_PRIVACY_PRIVATE;
-                }
-                mi.addSubMenu(management_root, menu_info_types.SERVER_TERMINAL_MANAGEMENT_PRIVACY, privacyMenu_sid);
-                if (getSkillStatMod(player, "manage_vendor") > 0)
-                {
-                    mi.addSubMenu(management_root, menu_info_types.SERVER_TERMINAL_CREATE_VENDOR, SID_TERMINAL_CREATE_VENDOR);
-                }
-                mi.addSubMenu(management_root, menu_info_types.SERVER_MENU12, SID_FIND_ALL_HOUSE_ITEMS);
-                mi.addSubMenu(management_root, menu_info_types.SERVER_MENU13, SID_SEARCH_FOR_HOUSE_ITEMS);
-                mi.addSubMenu(management_root, menu_info_types.SERVER_MENU9, SID_MOVE_FIRST_ITEM);
-                mi.addSubMenu(management_root, menu_info_types.SERVER_MENU2, SID_DELETE_ALL_ITEMS);
-                mi.addSubMenu(management_root, menu_info_types.SERVER_MENU17, SID_TERMINAL_LIGHTSWITCH);
-                if (player_structure.isOwner(structure, player))
-                {
-                    if (hasObjVar(structure, player_structure.OBJVAR_STRUCTURE_STORAGE_INCREASE))
-                    {
-                        mi.addSubMenu(management_root, menu_info_types.DICE_ROLL, SID_TERMINAL_REDEED_STORAGE);
-                    }
-                }
-                if (hasObjVar(structure, player_structure.MODIFIED_HOUSE_SIGN) && isStructureOwner)
-                {
-                    mi.addSubMenu(management_root, menu_info_types.SERVER_MENU11, SID_REVERT_CUSTOM_SIGN);
-                }
-                if ((hasObjVar(structure, player_structure.SPECIAL_SIGN) || player_structure.hasSpecialSignSkillMod(player, structure)))
-                {
-                    mi.addSubMenu(management_root, menu_info_types.SERVER_MENU14, SID_TERMINAL_MANAGEMENT_SPECIAL_SIGNS);
-                }
-            }
             else if (player_structure.isInstallation(structure))
             {
                 if (got != GOT_installation_turret)
@@ -359,6 +298,10 @@ public class terminal_structure extends script.base_script
             structure = player_structure.getStructure(player);
             if (!isIdValid(structure))
             {
+                structure = space_transition.getContainingShip(player);
+            }
+            if (!isIdValid(structure))
+            {
                 return SCRIPT_CONTINUE;
             }
             if (player_structure.isHarvester(structure) || player_structure.isGenerator(structure))
@@ -368,7 +311,11 @@ public class terminal_structure extends script.base_script
         }
         if (!player_structure.isAdmin(structure, player) && !charactersAreSamePlayer(player, getOwner(structure)) && !player_structure.isAbandoned(structure))
         {
-            return SCRIPT_CONTINUE;
+            final boolean pobShipSelect = !player_structure.isBuilding(structure) && isGameObjectTypeOf(getGameObjectType(structure), GOT_ship);
+            if (!(pobShipSelect && space_utils.playerCanControlShipSlot(structure, player, false)))
+            {
+                return SCRIPT_CONTINUE;
+            }
         }
         if (player_structure.isStructureCondemned(self) && player_structure.isOwner(player, structure))
         {

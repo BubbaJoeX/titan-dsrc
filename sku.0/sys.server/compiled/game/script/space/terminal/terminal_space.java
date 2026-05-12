@@ -29,11 +29,8 @@ public class terminal_space extends script.terminal.base.base_terminal
     }
     public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi) throws InterruptedException
     {
-        if (!hasScript(self, SCRIPT_TERMINAL_STRUCTURE))
-        {
-            attachScript(self, SCRIPT_TERMINAL_STRUCTURE);
-        }
         int result = super.OnObjectMenuRequest(self, player, mi);
+        pob_ship_structure_terminal.appendRadialMenus(self, player, mi);
         if (result == SCRIPT_CONTINUE && space_transition.isAtmosphericFlightScene())
         {
             obj_id[] shipControlDevices = space_transition.findShipControlDevicesForPlayer(player);
