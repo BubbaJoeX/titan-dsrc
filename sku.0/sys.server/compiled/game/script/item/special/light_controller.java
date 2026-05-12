@@ -288,7 +288,7 @@ public class light_controller extends script.base_script
             colorNames[i] = COLOR_PRESETS[i][0];
         }
 
-        sui.listbox(self, player, "Select a light color:", sui.OK_CANCEL, "\\#pcontrast2 Light Color", colorNames, "handleColorSelect", true);
+        sui.listbox(self, player, "Select a light color:", sui.OK_CANCEL, "\\#pcontrast2 Light Color", colorNames, "handleColorSelect", true, false);
     }
 
     /** Prompt for HTML/CSS style color string and convert to RGB (0..1) chrominance. */
@@ -532,7 +532,7 @@ public class light_controller extends script.base_script
             brightnessNames[i] = BRIGHTNESS_PRESETS[i][0];
         }
 
-        sui.listbox(self, player, "Select a brightness level:", sui.OK_CANCEL, "\\#pcontrast2 Brightness", brightnessNames, "handleBrightnessSelect", true);
+        sui.listbox(self, player, "Select a brightness level:", sui.OK_CANCEL, "\\#pcontrast2 Brightness", brightnessNames, "handleBrightnessSelect", true, false);
     }
 
     public int handleBrightnessSelect(obj_id self, dictionary params) throws InterruptedException
