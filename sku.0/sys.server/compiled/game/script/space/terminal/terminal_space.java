@@ -16,9 +16,15 @@ public class terminal_space extends script.terminal.base.base_terminal
     public static final string_id SID_MUSTAFAR = new string_id("space/space_terminal", "mustafar_exception");
     public static final string_id SID_NOT_IN_COMBAT = new string_id("travel", "not_in_combat");
     public static final String SUI_LAUNCH_ATMOSPHERE_CALLBACK = "launchAtmosphereCallback";
+    /** Player-structure radial (housing-style management); attached here so templates stay space-only. */
+    public static final String SCRIPT_TERMINAL_STRUCTURE = "terminal.terminal_structure";
     public int OnInitialize(obj_id self) throws InterruptedException
     {
         requestPreloadCompleteTrigger(self);
+        if (!hasScript(self, SCRIPT_TERMINAL_STRUCTURE))
+        {
+            attachScript(self, SCRIPT_TERMINAL_STRUCTURE);
+        }
         return SCRIPT_CONTINUE;
     }
     public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi) throws InterruptedException
@@ -29,14 +35,15 @@ public class terminal_space extends script.terminal.base.base_terminal
             obj_id[] shipControlDevices = space_transition.findShipControlDevicesForPlayer(player);
             if (shipControlDevices != null && shipControlDevices.length > 0)
             {
-                mi.addRootMenu(menu_info_types.SERVER_MENU5, SID_LAUNCH_TO_ATMOSPHERE);
+                // SERVER_MENU5 is used by terminal_structure (assign maintenance droid); use an unused slot here.
+                mi.addRootMenu(menu_info_types.SERVER_MENU35, SID_LAUNCH_TO_ATMOSPHERE);
             }
         }
         return result;
     }
     public int OnObjectMenuSelect(obj_id self, obj_id player, int item) throws InterruptedException
     {
-        if (item == menu_info_types.SERVER_MENU5)
+        if (item == menu_info_types.SERVER_MENU35)
         {
             handleLaunchToAtmosphere(self, player);
             return SCRIPT_CONTINUE;
