@@ -27,7 +27,7 @@ public class pob_ship_structure_terminal extends script.base_script
     public static final string_id SID_SEARCH_FOR_HOUSE_ITEMS = new string_id("player_structure", "find_items_search_for_house_items");
     public static final string_id SID_MOVE_FIRST_ITEM = new string_id("player_structure", "move_first_item");
     public static final string_id SID_DELETE_ALL_ITEMS = new string_id("player_structure", "delete_all_items");
-    public static final string_id SID_TERMINAL_LIGHTSWITCH = new string_id("player_structure", "lightswitch");
+    public static final string_id SID_TERMINAL_LIGHTSWITCH = new string_id("Ship Lighting");
     public static final string_id SID_TERMINAL_REDEED_STORAGE = new string_id("player_structure", "redeed_storage");
     public static final string_id SID_REVERT_CUSTOM_SIGN = new string_id("player_structure", "revert_sign");
     public static final string_id SID_TERMINAL_MANAGEMENT_SPECIAL_SIGNS = new string_id("player_structure", "special_sign_management");
