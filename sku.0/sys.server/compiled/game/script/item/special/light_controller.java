@@ -62,10 +62,14 @@ public class light_controller extends script.base_script
         {"Sepia",               "0.7",  "0.5",  "0.3"},
         {"Dim (25%)",           "0.25", "0.25", "0.25"},
         {"Near Dark (10%)",     "0.1",  "0.1",  "0.1"},
+        {"Absolute Black",      "0.0",  "0.0",  "0.0"},
         {"Lights Off",          "0.02", "0.02", "0.02"},
     };
 
     public static final String[][] BRIGHTNESS_PRESETS = {
+        {"0%   - Blackout",       "0.0"},
+        {"1%   - Trace",          "0.01"},
+        {"2%   - Deep Dim",       "0.02"},
         {"5%   - Near Dark",      "0.05"},
         {"10%  - Very Dim",       "0.1"},
         {"25%  - Dim",            "0.25"},
@@ -426,6 +430,55 @@ public class light_controller extends script.base_script
         removeObjVar(cellObj, OV_CELL_LIGHT_BRIGHTNESS);
     }
 
+    /**
+     * Reads {@code lights.cell.*} chrominance (r,g,b template factors). Falls back to legacy {@code cellLights.<n>.*}
+     * on the structure, else white — matching {@link #copyRoomLighting}.
+     */
+    private void readStoredChrominance(obj_id cellObj, obj_id structure, float[] rgb) throws InterruptedException
+    {
+        rgb[0] = 1.0f;
+        rgb[1] = 1.0f;
+        rgb[2] = 1.0f;
+        if (!isIdValid(cellObj))
+            return;
+        if (hasObjVar(cellObj, OV_CELL_LIGHT_R))
+        {
+            rgb[0] = getFloatObjVar(cellObj, OV_CELL_LIGHT_R);
+            rgb[1] = getFloatObjVar(cellObj, OV_CELL_LIGHT_G);
+            rgb[2] = getFloatObjVar(cellObj, OV_CELL_LIGHT_B);
+            return;
+        }
+        if (!isIdValid(structure))
+            return;
+        int cellNum = getCellNumber(cellObj, structure);
+        if (cellNum < 0)
+            return;
+        String legacyBase = "cellLights." + cellNum;
+        if (!hasObjVar(structure, legacyBase + ".r"))
+            return;
+        rgb[0] = getFloatObjVar(structure, legacyBase + ".r");
+        rgb[1] = getFloatObjVar(structure, legacyBase + ".g");
+        rgb[2] = getFloatObjVar(structure, legacyBase + ".b");
+    }
+
+    /** Stored brightness multiplier; defaults to 1 when unset (matches legacy neutral lighting). */
+    private float readStoredBrightness(obj_id cellObj, obj_id structure) throws InterruptedException
+    {
+        if (!isIdValid(cellObj))
+            return 1.0f;
+        if (hasObjVar(cellObj, OV_CELL_LIGHT_BRIGHTNESS))
+            return getFloatObjVar(cellObj, OV_CELL_LIGHT_BRIGHTNESS);
+        if (!isIdValid(structure))
+            return 1.0f;
+        int cellNum = getCellNumber(cellObj, structure);
+        if (cellNum < 0)
+            return 1.0f;
+        String legacyBase = "cellLights." + cellNum;
+        if (!hasObjVar(structure, legacyBase + ".brightness"))
+            return 1.0f;
+        return getFloatObjVar(structure, legacyBase + ".brightness");
+    }
+
     public void copyRoomLighting(obj_id self, obj_id player, obj_id structure) throws InterruptedException
     {
         obj_id cellObj = getCurrentCell(player, structure);
@@ -507,8 +560,10 @@ public class light_controller extends script.base_script
 
         for (int i = 0; i < cellIds.length; i++)
         {
-            if (isIdValid(cellIds[i]))
-                setCellLight(cellIds[i], r, g, b, 1.0f);
+            if (!isIdValid(cellIds[i]))
+                continue;
+            float brightness = readStoredBrightness(cellIds[i], structure);
+            setCellLight(cellIds[i], r, g, b, brightness);
         }
     }
 
@@ -518,7 +573,8 @@ public class light_controller extends script.base_script
         if (!isIdValid(cellObj))
             return;
 
-        setCellLight(cellObj, r, g, b, 1.0f);
+        float brightness = readStoredBrightness(cellObj, structure);
+        setCellLight(cellObj, r, g, b, brightness);
     }
 
     public void applyBrightnessToAllCells(obj_id structure, float brightness) throws InterruptedException
@@ -527,10 +583,13 @@ public class light_controller extends script.base_script
         if (cellIds == null)
             return;
 
+        float[] rgb = new float[3];
         for (int i = 0; i < cellIds.length; i++)
         {
-            if (isIdValid(cellIds[i]))
-                setCellLight(cellIds[i], 1.0f, 1.0f, 1.0f, brightness);
+            if (!isIdValid(cellIds[i]))
+                continue;
+            readStoredChrominance(cellIds[i], structure, rgb);
+            setCellLight(cellIds[i], rgb[0], rgb[1], rgb[2], brightness);
         }
     }
 
@@ -540,7 +599,9 @@ public class light_controller extends script.base_script
         if (!isIdValid(cellObj))
             return;
 
-        setCellLight(cellObj, 1.0f, 1.0f, 1.0f, brightness);
+        float[] rgb = new float[3];
+        readStoredChrominance(cellObj, structure, rgb);
+        setCellLight(cellObj, rgb[0], rgb[1], rgb[2], brightness);
     }
 
     public void applyFullToAllCells(obj_id structure, float r, float g, float b, float brightness) throws InterruptedException
