@@ -48,7 +48,7 @@ public class terminal_pob_ship extends script.base_script
     public static final string_id SID_EXTEND_DOCKING = string_id.unlocalized("Extend Docking Time");
     public static final string_id SID_UNDOCK = string_id.unlocalized("Undock Ship");
     public static final string_id SID_MANAGE_ACCESS = string_id.unlocalized("Manage Access");
-    public static final string_id SID_TERMINAL_LIGHTSWITCH = new string_id("player_structure", "lightswitch");
+    public static final string_id SID_TERMINAL_LIGHTSWITCH = new string_id("Modify Structure Lighting");
     private static final String BOARDING_PERMISSIONS_PID = "boardingPermissions.pid";
 
     public static final int EXTEND_COST = 20000;
