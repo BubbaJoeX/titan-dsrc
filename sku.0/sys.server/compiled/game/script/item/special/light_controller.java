@@ -13,6 +13,9 @@ public class light_controller extends script.base_script
     public static final String OV_CELL_LIGHT_B = "lights.cell.b";
     public static final String OV_CELL_LIGHT_BRIGHTNESS = "lights.cell.brightness";
 
+    /** Listbox row label — opens custom HTML-style color entry instead of preset floats. */
+    public static final String COLOR_HTML_OPTION_LABEL = "HTML Color (hex / rgb)";
+
     public static final String[][] COLOR_PRESETS = {
         {"Bright White",        "1.0",  "1.0",  "1.0"},
         {"Warm White",          "1.0",  "0.9",  "0.8"},
@@ -64,6 +67,7 @@ public class light_controller extends script.base_script
         {"Near Dark (10%)",     "0.1",  "0.1",  "0.1"},
         {"Absolute Black",      "0.0",  "0.0",  "0.0"},
         {"Lights Off",          "0.02", "0.02", "0.02"},
+        {COLOR_HTML_OPTION_LABEL, "0", "0", "0"},
     };
 
     public static final String[][] BRIGHTNESS_PRESETS = {
@@ -287,6 +291,177 @@ public class light_controller extends script.base_script
         sui.listbox(self, player, "Select a light color:", sui.OK_CANCEL, "\\#pcontrast2 Light Color", colorNames, "handleColorSelect", true);
     }
 
+    /** Prompt for HTML/CSS style color string and convert to RGB (0..1) chrominance. */
+    public void showHtmlColorInput(obj_id self, obj_id player) throws InterruptedException
+    {
+        String prompt =
+            "Enter HTML/CSS style color:\\n" +
+            "- Hex: #RGB, #RRGGBB, or #RRGGBBAA (alpha ignored)\\n" +
+            "- rgb(r,g,b) or rgba(...) -- values 0-255 or 0-1 per channel\\n" +
+            "- Three numbers separated by commas, same scales";
+
+        sui.inputbox(self, player, prompt, "\\#pcontrast2 HTML Color", "handleHtmlColorInput", sui.MAX_INPUT_LENGTH, false, "#FFFFFF");
+    }
+
+    public int handleHtmlColorInput(obj_id self, dictionary params) throws InterruptedException
+    {
+        obj_id player = sui.getPlayerId(params);
+        int btn = sui.getIntButtonPressed(params);
+        if (btn == sui.BP_CANCEL)
+        {
+            cleanupScriptVars(player);
+            return SCRIPT_CONTINUE;
+        }
+
+        obj_id structure = utils.getObjIdScriptVar(player, "lightswitch.structure");
+        if (!isIdValid(structure))
+        {
+            cleanupScriptVars(player);
+            return SCRIPT_CONTINUE;
+        }
+
+        String text = sui.getInputBoxText(params);
+        float[] rgb = new float[3];
+        if (!parseHtmlStyleColorToRgb(text, rgb))
+        {
+            sendSystemMessage(player, "Invalid color. Examples: #FF8040  rgb(255,128,64)  0.2,0.8,1", null);
+            showHtmlColorInput(self, player);
+            return SCRIPT_CONTINUE;
+        }
+
+        float r = rgb[0];
+        float g = rgb[1];
+        float b = rgb[2];
+
+        String mode = utils.getStringScriptVar(player, "lightswitch.mode");
+        if (mode != null && mode.equals("combo"))
+        {
+            utils.setScriptVar(player, "lightswitch.pendingR", r);
+            utils.setScriptVar(player, "lightswitch.pendingG", g);
+            utils.setScriptVar(player, "lightswitch.pendingB", b);
+            showBrightnessPicker(self, player);
+            return SCRIPT_CONTINUE;
+        }
+
+        boolean allRooms = utils.getBooleanScriptVar(player, "lightswitch.allRooms");
+
+        if (allRooms)
+        {
+            applyColorToAllCells(structure, r, g, b);
+        }
+        else
+        {
+            applyColorToCurrentCell(player, structure, r, g, b);
+        }
+
+        sendSystemMessage(player, "Light color set from HTML-style input.", null);
+        cleanupScriptVars(player);
+        return SCRIPT_CONTINUE;
+    }
+
+    /** Parses #RGB/#RRGGBB, rgb()/rgba(), or three comma-separated numbers into linear 0..1 floats. */
+    private boolean parseHtmlStyleColorToRgb(String raw, float[] rgbOut)
+    {
+        if (raw == null || rgbOut == null || rgbOut.length < 3)
+            return false;
+
+        String s = raw.trim();
+        if (s.length() == 0)
+            return false;
+
+        try
+        {
+            if (s.charAt(0) == '#')
+                return parseHexColorDigits(s.substring(1).trim(), rgbOut);
+
+            String lower = s.toLowerCase();
+            if (lower.startsWith("rgb"))
+            {
+                int lp = s.indexOf('(');
+                int rp = s.lastIndexOf(')');
+                if (lp < 0 || rp <= lp)
+                    return false;
+                String inner = s.substring(lp + 1, rp).trim();
+                java.util.StringTokenizer tok = new java.util.StringTokenizer(inner, ",");
+                if (tok.countTokens() < 3)
+                    return false;
+                float x = Float.parseFloat(tok.nextToken().trim());
+                float y = Float.parseFloat(tok.nextToken().trim());
+                float z = Float.parseFloat(tok.nextToken().trim());
+                scaleRgbTripletToUnitFloat(x, y, z, rgbOut);
+                return true;
+            }
+
+            java.util.StringTokenizer ctok = new java.util.StringTokenizer(s, ",");
+            if (ctok.countTokens() >= 3)
+            {
+                float x = Float.parseFloat(ctok.nextToken().trim());
+                float y = Float.parseFloat(ctok.nextToken().trim());
+                float z = Float.parseFloat(ctok.nextToken().trim());
+                scaleRgbTripletToUnitFloat(x, y, z, rgbOut);
+                return true;
+            }
+        }
+        catch (NumberFormatException e)
+        {
+            return false;
+        }
+        catch (StringIndexOutOfBoundsException e)
+        {
+            return false;
+        }
+
+        return false;
+    }
+
+    private boolean parseHexColorDigits(String hex, float[] rgbOut)
+    {
+        if (hex.regionMatches(true, 0, "0x", 0, 2))
+            hex = hex.substring(2);
+
+        hex = hex.trim();
+        if (hex.length() == 3)
+        {
+            int rv = Integer.parseInt(hex.substring(0, 1), 16);
+            int gv = Integer.parseInt(hex.substring(1, 2), 16);
+            int bv = Integer.parseInt(hex.substring(2, 3), 16);
+            rgbOut[0] = clamp01(((rv << 4) | rv) / 255.0f);
+            rgbOut[1] = clamp01(((gv << 4) | gv) / 255.0f);
+            rgbOut[2] = clamp01(((bv << 4) | bv) / 255.0f);
+            return true;
+        }
+
+        if (hex.length() == 6 || hex.length() == 8)
+        {
+            int rgbPacked = Integer.parseInt(hex.substring(0, 6), 16);
+            rgbOut[0] = clamp01(((rgbPacked >> 16) & 0xFF) / 255.0f);
+            rgbOut[1] = clamp01(((rgbPacked >> 8) & 0xFF) / 255.0f);
+            rgbOut[2] = clamp01((rgbPacked & 0xFF) / 255.0f);
+            return true;
+        }
+
+        return false;
+    }
+
+    /** If any component is clearly above 1, treat triplet as 0–255 byte values. */
+    private void scaleRgbTripletToUnitFloat(float x, float y, float z, float[] rgbOut)
+    {
+        float max = x > y ? (x > z ? x : z) : (y > z ? y : z);
+        float scale = (max > 1.001f) ? (1.0f / 255.0f) : 1.0f;
+        rgbOut[0] = clamp01(x * scale);
+        rgbOut[1] = clamp01(y * scale);
+        rgbOut[2] = clamp01(z * scale);
+    }
+
+    private float clamp01(float v)
+    {
+        if (v < 0.0f)
+            return 0.0f;
+        if (v > 1.0f)
+            return 1.0f;
+        return v;
+    }
+
     public int handleColorSelect(obj_id self, dictionary params) throws InterruptedException
     {
         obj_id player = sui.getPlayerId(params);
@@ -301,6 +476,12 @@ public class light_controller extends script.base_script
         if (row < 0 || row >= COLOR_PRESETS.length)
         {
             cleanupScriptVars(player);
+            return SCRIPT_CONTINUE;
+        }
+
+        if (COLOR_PRESETS[row][0].equals(COLOR_HTML_OPTION_LABEL))
+        {
+            showHtmlColorInput(self, player);
             return SCRIPT_CONTINUE;
         }
 
