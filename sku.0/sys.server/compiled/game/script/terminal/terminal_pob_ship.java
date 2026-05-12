@@ -54,6 +54,39 @@ public class terminal_pob_ship extends script.base_script
     /** Same root as {@code combat_ship.OV_AUTOPILOT_ACTIVE} server atmospheric autopilot. */
     private static final String OV_SHIP_AUTOPILOT_ACTIVE = "space.autopilot.active";
 
+    /**
+     * Interior terminals sometimes lack a {@code getContainedBy} chain that reaches the ship hull.
+     * Prefer containment walk, then top-most container if it is the ship, then the interacting player's ship.
+     */
+    private obj_id resolveShipForTerminalUse(obj_id terminal, obj_id player) throws InterruptedException
+    {
+        obj_id ship = space_transition.getContainingShip(terminal);
+        if (isIdValid(ship))
+        {
+            return ship;
+        }
+        obj_id topMost = getTopMostContainer(terminal);
+        if (isIdValid(topMost) && isGameObjectTypeOf(getGameObjectType(topMost), GOT_ship))
+        {
+            return topMost;
+        }
+        if (isIdValid(player))
+        {
+            obj_id playerShip = space_transition.getContainingShip(player);
+            if (isIdValid(playerShip))
+            {
+                return playerShip;
+            }
+        }
+        return ship;
+    }
+
+    private boolean playerOwnsShip(obj_id ship, obj_id player) throws InterruptedException
+    {
+        obj_id owner = getOwner(ship);
+        return isIdValid(owner) && isIdValid(player) && charactersAreSamePlayer(player, owner);
+    }
+
     public int OnAttach(obj_id self) throws InterruptedException
     {
         setName(self, "Starship Management Terminal");
@@ -68,8 +101,8 @@ public class terminal_pob_ship extends script.base_script
 
     public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi) throws InterruptedException
     {
-        obj_id ship = space_transition.getContainingShip(self);
-        if (isIdValid(ship) && getOwner(ship) == player)
+        obj_id ship = resolveShipForTerminalUse(self, player);
+        if (isIdValid(ship) && playerOwnsShip(ship, player))
         {
             // Item management submenu
             int rootItemMenu = mi.addRootMenu(MENU_ITEM_MANAGEMENT, SID_ROOT_ITEM_MENU);
@@ -114,7 +147,7 @@ public class terminal_pob_ship extends script.base_script
     }
     public int OnObjectMenuSelect(obj_id self, obj_id player, int item) throws InterruptedException
     {
-        obj_id ship = space_transition.getContainingShip(self);
+        obj_id ship = resolveShipForTerminalUse(self, player);
 
         if (isIdValid(ship) && item == MENU_MOORAGE_INFO)
         {
@@ -142,7 +175,7 @@ public class terminal_pob_ship extends script.base_script
             }
         }
 
-        if (isIdValid(ship) && getOwner(ship) == player)
+        if (isIdValid(ship) && playerOwnsShip(ship, player))
         {
             if (item == MENU_BOARDING_PERMISSIONS)
             {
@@ -223,8 +256,8 @@ public class terminal_pob_ship extends script.base_script
         {
             return SCRIPT_CONTINUE;
         }
-        obj_id objShip = space_transition.getContainingShip(self);
-        if (!isIdValid(objShip) || getOwner(objShip) != player)
+        obj_id objShip = resolveShipForTerminalUse(self, player);
+        if (!isIdValid(objShip) || !playerOwnsShip(objShip, player))
         {
             return SCRIPT_CONTINUE;
         }
@@ -251,8 +284,8 @@ public class terminal_pob_ship extends script.base_script
         obj_id player = sui.getPlayerId(params);
         if (sui.getIntButtonPressed(params) != sui.BP_CANCEL)
         {
-            obj_id ship = space_transition.getContainingShip(self);
-            if (isIdValid(ship) && getOwner(ship) == player)
+            obj_id ship = resolveShipForTerminalUse(self, player);
+            if (isIdValid(ship) && playerOwnsShip(ship, player))
             {
                 moveHouseItemToPlayer(ship, player, 0);
                 sendSystemMessage(player, SID_MOVED_FIRST_ITEM);
@@ -274,8 +307,8 @@ public class terminal_pob_ship extends script.base_script
         obj_id player = sui.getPlayerId(params);
         if (sui.getIntButtonPressed(params) != sui.BP_CANCEL)
         {
-            obj_id ship = space_transition.getContainingShip(self);
-            if (isIdValid(ship) && getOwner(ship) == player)
+            obj_id ship = resolveShipForTerminalUse(self, player);
+            if (isIdValid(ship) && playerOwnsShip(ship, player))
             {
                 deleteAllHouseItems(ship, player);
                 fixHouseItemLimit(ship);
@@ -357,7 +390,7 @@ public class terminal_pob_ship extends script.base_script
 
         obj_id player = sui.getPlayerId(params);
         obj_id ship = utils.getObjIdScriptVar(self, "boardingPermissions.ship");
-        if (!isIdValid(ship) || getOwner(ship) != player)
+        if (!isIdValid(ship) || !playerOwnsShip(ship, player))
             return SCRIPT_CONTINUE;
 
         int selectedRow = sui.getListboxSelectedRow(params);
@@ -428,7 +461,7 @@ public class terminal_pob_ship extends script.base_script
 
         obj_id player = sui.getPlayerId(params);
         obj_id ship = utils.getObjIdScriptVar(self, "boardingPermissions.ship");
-        if (!isIdValid(ship) || getOwner(ship) != player)
+        if (!isIdValid(ship) || !playerOwnsShip(ship, player))
             return SCRIPT_CONTINUE;
 
         String name = sui.getInputBoxText(params);
@@ -448,7 +481,7 @@ public class terminal_pob_ship extends script.base_script
 
         obj_id player = sui.getPlayerId(params);
         obj_id ship = utils.getObjIdScriptVar(self, "boardingPermissions.ship");
-        if (!isIdValid(ship) || getOwner(ship) != player)
+        if (!isIdValid(ship) || !playerOwnsShip(ship, player))
             return SCRIPT_CONTINUE;
 
         String name = sui.getInputBoxText(params);
