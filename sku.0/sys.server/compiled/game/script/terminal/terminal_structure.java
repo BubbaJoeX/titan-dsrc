@@ -75,10 +75,17 @@ public class terminal_structure extends script.base_script
             structure = player_structure.getStructure(player);
             if (!isIdValid(structure))
             {
+                structure = space_transition.getContainingShip(player);
+            }
+            if (!isIdValid(structure))
+            {
                 return SCRIPT_CONTINUE;
             }
         }
-        final boolean pobShipInteriorTerminal = isIdValid(structure) && space_utils.isShipWithInterior(structure) && !player_structure.isBuilding(structure);
+        final boolean pobShipInteriorTerminal = isIdValid(structure)
+                && !player_structure.isBuilding(structure)
+                && isGameObjectTypeOf(getGameObjectType(structure), GOT_ship)
+                && (space_utils.isShipWithInterior(structure) || space_utils.isPobType(structure));
         if (player_structure.isStructureCondemned(self) && player_structure.isOwner(player, structure))
         {
             player_structure.doCondemnedSui(self, player);
@@ -93,7 +100,12 @@ public class terminal_structure extends script.base_script
                 int owner_root = mi.addRootMenu(menu_info_types.SERVER_MENU16, SID_SHOW_MAYOR_OWNER);
             }
         }
-        if (player_structure.isAdmin(structure, player) || charactersAreSamePlayer(player, getOwner(structure)))
+        boolean canUseStructureTerminal = player_structure.isAdmin(structure, player) || charactersAreSamePlayer(player, getOwner(structure));
+        if (!canUseStructureTerminal && pobShipInteriorTerminal)
+        {
+            canUseStructureTerminal = space_utils.playerCanControlShipSlot(structure, player, false);
+        }
+        if (canUseStructureTerminal)
         {
             blog("terminal_structure::OnObjectMenuRequest - you are admin");
             if (player_structure.isHarvester(structure) || player_structure.isGenerator(structure))
@@ -243,38 +255,31 @@ public class terminal_structure extends script.base_script
                 }
                 mi.addSubMenu(permissions_root, menu_info_types.SERVER_TERMINAL_PERMISSIONS_ENTER, SID_TERMINAL_PERMISSIONS_ENTER);
                 mi.addSubMenu(permissions_root, menu_info_types.SERVER_TERMINAL_PERMISSIONS_BANNED, SID_TERMINAL_PERMISSIONS_BANNED);
-                if (areAllContentsLoaded(structure))
+                string_id privacyMenu_sid = SID_TERMINAL_MANAGEMENT_PRIVACY;
+                if (permissionsIsPublic(structure))
                 {
-                    string_id privacyMenu_sid = SID_TERMINAL_MANAGEMENT_PRIVACY;
-                    if (permissionsIsPublic(structure))
-                    {
-                        privacyMenu_sid = SID_TERMINAL_MANAGEMENT_PRIVACY_PUBLIC;
-                    }
-                    else 
-                    {
-                        privacyMenu_sid = SID_TERMINAL_MANAGEMENT_PRIVACY_PRIVATE;
-                    }
-                    mi.addSubMenu(management_root, menu_info_types.SERVER_TERMINAL_MANAGEMENT_PRIVACY, privacyMenu_sid);
-                    if (getSkillStatMod(player, "manage_vendor") > 0)
-                    {
-                        mi.addSubMenu(management_root, menu_info_types.SERVER_TERMINAL_CREATE_VENDOR, SID_TERMINAL_CREATE_VENDOR);
-                    }
-                    mi.addSubMenu(management_root, menu_info_types.SERVER_MENU12, SID_FIND_ALL_HOUSE_ITEMS);
-                    mi.addSubMenu(management_root, menu_info_types.SERVER_MENU13, SID_SEARCH_FOR_HOUSE_ITEMS);
-                    mi.addSubMenu(management_root, menu_info_types.SERVER_MENU9, SID_MOVE_FIRST_ITEM);
-                    mi.addSubMenu(management_root, menu_info_types.SERVER_MENU2, SID_DELETE_ALL_ITEMS);
-                    mi.addSubMenu(management_root, menu_info_types.SERVER_MENU17, SID_TERMINAL_LIGHTSWITCH);
-                    if (player_structure.isOwner(structure, player))
-                    {
-                        if (hasObjVar(structure, player_structure.OBJVAR_STRUCTURE_STORAGE_INCREASE))
-                        {
-                            mi.addSubMenu(management_root, menu_info_types.DICE_ROLL, SID_TERMINAL_REDEED_STORAGE);
-                        }
-                    }
+                    privacyMenu_sid = SID_TERMINAL_MANAGEMENT_PRIVACY_PUBLIC;
                 }
                 else 
                 {
-                    blog("terminal_structure::OnObjectMenuRequest - NOT ALL ITEMS LOADED (ship)");
+                    privacyMenu_sid = SID_TERMINAL_MANAGEMENT_PRIVACY_PRIVATE;
+                }
+                mi.addSubMenu(management_root, menu_info_types.SERVER_TERMINAL_MANAGEMENT_PRIVACY, privacyMenu_sid);
+                if (getSkillStatMod(player, "manage_vendor") > 0)
+                {
+                    mi.addSubMenu(management_root, menu_info_types.SERVER_TERMINAL_CREATE_VENDOR, SID_TERMINAL_CREATE_VENDOR);
+                }
+                mi.addSubMenu(management_root, menu_info_types.SERVER_MENU12, SID_FIND_ALL_HOUSE_ITEMS);
+                mi.addSubMenu(management_root, menu_info_types.SERVER_MENU13, SID_SEARCH_FOR_HOUSE_ITEMS);
+                mi.addSubMenu(management_root, menu_info_types.SERVER_MENU9, SID_MOVE_FIRST_ITEM);
+                mi.addSubMenu(management_root, menu_info_types.SERVER_MENU2, SID_DELETE_ALL_ITEMS);
+                mi.addSubMenu(management_root, menu_info_types.SERVER_MENU17, SID_TERMINAL_LIGHTSWITCH);
+                if (player_structure.isOwner(structure, player))
+                {
+                    if (hasObjVar(structure, player_structure.OBJVAR_STRUCTURE_STORAGE_INCREASE))
+                    {
+                        mi.addSubMenu(management_root, menu_info_types.DICE_ROLL, SID_TERMINAL_REDEED_STORAGE);
+                    }
                 }
                 if (hasObjVar(structure, player_structure.MODIFIED_HOUSE_SIGN) && isStructureOwner)
                 {
