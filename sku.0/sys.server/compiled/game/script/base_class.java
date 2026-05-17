@@ -19108,10 +19108,14 @@ public class base_class
      * @param deed object id of the deed
      * @param serverObjectTemplateName object template name of the building to place
      */
-    private static native boolean _enterClientStructurePlacementMode(long player, long deed, String serverObjectTemplateName);
+    private static native boolean _enterClientStructurePlacementMode(long player, long deed, String serverObjectTemplateName, float claimFootprintRadiusMeters);
     public static boolean enterClientStructurePlacementMode(obj_id player, obj_id deed, String serverObjectTemplateName)
     {
-        return _enterClientStructurePlacementMode(getLongWithNull(player), getLongWithNull(deed), serverObjectTemplateName);
+        return _enterClientStructurePlacementMode(getLongWithNull(player), getLongWithNull(deed), serverObjectTemplateName, -1f);
+    }
+    public static boolean enterClientStructurePlacementMode(obj_id player, obj_id deed, String serverObjectTemplateName, float claimFootprintRadiusMeters)
+    {
+        return _enterClientStructurePlacementMode(getLongWithNull(player), getLongWithNull(deed), serverObjectTemplateName, claimFootprintRadiusMeters);
     }
 
     private static native int _claimFinalizePlacement(long player, long marker, float x, float y, float z, float radius, long terminal);

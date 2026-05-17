@@ -1976,7 +1976,12 @@ public class player_structure extends script.base_script
         {
             return false;
         }
-        enterClientStructurePlacementMode(player, deed, fp_template);
+        float footprintRadius = -1f;
+        if (hasObjVar(deed, "claim.footprint_radius_m"))
+        {
+            footprintRadius = getFloatObjVar(deed, "claim.footprint_radius_m");
+        }
+        enterClientStructurePlacementMode(player, deed, fp_template, footprintRadius);
         return true;
     }
     public static boolean canPackBuilding(obj_id player, obj_id structure) throws InterruptedException
