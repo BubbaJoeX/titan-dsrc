@@ -679,7 +679,7 @@ public class player_developer extends base_script
                 broadcast(self, "purgeClaims requires god or test_center.");
                 return SCRIPT_CONTINUE;
             }
-            obj_id target = self;
+            target = self;
             if (tok.hasMoreTokens())
             {
                 String name = tok.nextToken();
