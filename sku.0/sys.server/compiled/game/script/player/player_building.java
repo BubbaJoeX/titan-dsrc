@@ -260,10 +260,16 @@ public class player_building extends script.base_script
         {
             attachScript(marker, player_structure.SCRIPT_CLAIM_OPEN_MARKER);
         }
+        if (!hasScript(marker, claim_management.SCRIPT_NAME))
+        {
+            attachScript(marker, claim_management.SCRIPT_NAME);
+        }
         if (!hasScript(marker, player_structure.SCRIPT_CITY_FLAG))
         {
             attachScript(marker, player_structure.SCRIPT_CITY_FLAG);
         }
+
+        setObjVar(marker, "claim.maintenance_fee_credits", claim_management.MAINTENANCE_FEE_CREDITS);
 
         persistObject(marker);
         setYaw(marker, rotation * 90);

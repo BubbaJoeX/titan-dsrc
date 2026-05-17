@@ -19214,6 +19214,30 @@ public class base_class
         return _claimFindClaimIdByMarker(getLongWithNull(marker));
     }
 
+    private static native boolean _claimCanManageTerminal(long player, long terminal);
+    public static boolean claimCanManageTerminal(obj_id player, obj_id terminal)
+    {
+        return _claimCanManageTerminal(getLongWithNull(player), getLongWithNull(terminal));
+    }
+
+    private static native int _claimGetMaintenancePrepay(long player, long terminal);
+    public static int claimGetMaintenancePrepay(obj_id player, obj_id terminal)
+    {
+        return _claimGetMaintenancePrepay(getLongWithNull(player), getLongWithNull(terminal));
+    }
+
+    private static native int _claimGetMaintenanceDueTime(long player, long terminal);
+    public static int claimGetMaintenanceDueTime(obj_id player, obj_id terminal)
+    {
+        return _claimGetMaintenanceDueTime(getLongWithNull(player), getLongWithNull(terminal));
+    }
+
+    private static native int _claimGetClaimStatus(long player, long terminal);
+    public static int claimGetClaimStatus(obj_id player, obj_id terminal)
+    {
+        return _claimGetClaimStatus(getLongWithNull(player), getLongWithNull(terminal));
+    }
+
     /**
      *  Show or hide the airspeeder/skyway panel on the client.
      *
