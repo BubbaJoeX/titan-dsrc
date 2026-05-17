@@ -602,6 +602,7 @@ public class player_developer extends base_script
             setObjVar(deed, "claim.is_claim_marker_deed", 1);
             setObjVar(deed, "claim.footprint_radius_m", footprintRadius);
             setObjVar(deed, "claim.placement_fp_template", player_structure.DEFAULT_CLAIM_PLACEMENT_FP_TEMPLATE);
+            setObjVar(deed, "claim.marker_server_template", player_structure.DEFAULT_CLAIM_PLACEMENT_FP_TEMPLATE);
             if (!hasScript(deed, scriptName))
             {
                 attachScript(deed, scriptName);

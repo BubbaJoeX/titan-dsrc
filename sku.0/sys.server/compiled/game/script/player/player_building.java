@@ -245,7 +245,7 @@ public class player_building extends script.base_script
         String markerTemplate = getStringObjVar(deed, "claim.marker_server_template");
         if (markerTemplate == null || markerTemplate.equals(""))
         {
-            markerTemplate = "object/tangible/terminal/terminal_quad_screen.iff";
+            markerTemplate = player_structure.DEFAULT_CLAIM_PLACEMENT_FP_TEMPLATE;
         }
 
         obj_id marker = createObject(markerTemplate, new location(position.x, position.y, position.z, position.area, obj_id.NULL_ID));
@@ -255,21 +255,17 @@ public class player_building extends script.base_script
             return SCRIPT_OVERRIDE;
         }
 
-        attachScript(marker, "item.claim.claim_open_marker");
-
-        String terminalTemplate = getStringObjVar(deed, "claim.terminal_server_template");
-        if (terminalTemplate == null || terminalTemplate.equals(""))
+        if (hasScript(marker, player_structure.SCRIPT_TEMPORARY_STRUCTURE))
         {
-            terminalTemplate = "object/tangible/terminal/terminal_quad_screen.iff";
+            detachScript(marker, player_structure.SCRIPT_TEMPORARY_STRUCTURE);
+        }
+        if (!hasScript(marker, "item.claim.claim_open_marker"))
+        {
+            attachScript(marker, "item.claim.claim_open_marker");
         }
 
-        location termLoc = new location(position.x + 2.0f, position.y, position.z, position.area, obj_id.NULL_ID);
-        termLoc.y = getHeightAtLocation(termLoc.x, termLoc.z);
-        obj_id terminal = createObject(terminalTemplate, termLoc);
-        if (isIdValid(terminal))
-        {
-            attachScript(terminal, "object.tangible.terminal.terminal_claim_management");
-        }
+        persistObject(marker);
+        setYaw(marker, rotation * 90);
 
         float footprintRadius = -1.0f;
         if (hasObjVar(deed, "claim.footprint_radius_m"))
@@ -277,14 +273,10 @@ public class player_building extends script.base_script
             footprintRadius = getFloatObjVar(deed, "claim.footprint_radius_m");
         }
 
-        int claimId = claimFinalizePlacement(player, marker, position, footprintRadius, terminal);
+        int claimId = claimFinalizePlacement(player, marker, position, footprintRadius, marker);
         if (claimId <= 0)
         {
             destroyObject(marker);
-            if (isIdValid(terminal))
-            {
-                destroyObject(terminal);
-            }
             sendSystemMessageTestingOnly(player, "Unable to establish claim here (overlap, account limit, or system disabled).");
             return SCRIPT_OVERRIDE;
         }
@@ -876,6 +868,11 @@ public class player_building extends script.base_script
                     x = Math.round(x * 10000.0f) / 10000.0f;
                     y = Math.round(y * 10000.0f) / 10000.0f;
                     z = Math.round(z * 10000.0f) / 10000.0f;
+                    if (!claimValidateWorldPosition(self, target, x, y, z))
+                    {
+                        sendSystemMessageTestingOnly(self, "That position is outside the claim boundary.");
+                        return SCRIPT_CONTINUE;
+                    }
                     location loc = getLocation(target);
                     loc.x = x;
                     loc.y = y;
@@ -1212,6 +1209,11 @@ public class player_building extends script.base_script
         }
         if (move_loc != null)
         {
+            if (!claimValidateWorldPosition(self, target, move_loc.x, move_loc.y, move_loc.z))
+            {
+                sendSystemMessageTestingOnly(self, "That position is outside the claim boundary.");
+                return SCRIPT_CONTINUE;
+            }
             setLocation(target, move_loc);
             location new_loc = getLocation(target);
             LOG("LOG_CHANNEL", "new_loc ->" + new_loc);
@@ -1249,6 +1251,11 @@ public class player_building extends script.base_script
         }
         session.logActivity(self, session.ACTIVITY_DECORATE);
         loc.cell = cell;
+        if (!claimValidateWorldPosition(self, item, loc.x, loc.y, loc.z))
+        {
+            sendSystemMessageTestingOnly(self, "That position is outside the claim boundary.");
+            return SCRIPT_OVERRIDE;
+        }
         setLocation(item, loc);
         if (restoreRotation)
         {
@@ -5520,6 +5527,20 @@ public class player_building extends script.base_script
     {
         if (isGod(player))
         {
+            return true;
+        }
+        if (claimCanManipulateFurniture(player, target))
+        {
+            if (hasObjVar(target, "noMoveItem"))
+            {
+                sendSystemMessage(player, NO_MOVE_ITEM);
+                return false;
+            }
+            if (isPlayer(target) || (isMob(target) && !hasCondition(target, CONDITION_VENDOR)))
+            {
+                sendSystemMessage(player, new string_id(STF, "cant_manipulate"));
+                return false;
+            }
             return true;
         }
         location loc = getLocation(player);

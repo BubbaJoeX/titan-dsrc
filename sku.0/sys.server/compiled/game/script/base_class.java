@@ -19178,6 +19178,24 @@ public class base_class
         return _claimCanManipulateFurniture(getLongWithNull(player), getLongWithNull(target));
     }
 
+    private static native boolean _claimValidateWorldPosition(long player, long target, float x, float y, float z);
+    public static boolean claimValidateWorldPosition(obj_id player, obj_id target, float x, float y, float z)
+    {
+        return _claimValidateWorldPosition(getLongWithNull(player), getLongWithNull(target), x, y, z);
+    }
+
+    private static native boolean _claimAddAllowed(long player, long terminal, long allowed);
+    public static boolean claimAddAllowed(obj_id player, obj_id terminal, obj_id allowed)
+    {
+        return _claimAddAllowed(getLongWithNull(player), getLongWithNull(terminal), getLongWithNull(allowed));
+    }
+
+    private static native boolean _claimRemoveAllowed(long player, long terminal, long allowed);
+    public static boolean claimRemoveAllowed(obj_id player, obj_id terminal, obj_id allowed)
+    {
+        return _claimRemoveAllowed(getLongWithNull(player), getLongWithNull(terminal), getLongWithNull(allowed));
+    }
+
     /**
      *  Show or hide the airspeeder/skyway panel on the client.
      *
