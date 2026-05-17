@@ -564,6 +564,61 @@ public class player_developer extends base_script
             LOG("ethereal", "[Developer]: " + getPlayerFullName(self) + " used /developer primeMount creature=" + mount);
             return SCRIPT_CONTINUE;
         }
+        else if (cmd.equalsIgnoreCase("primeClaimDeed"))
+        {
+            if (!(isGod(self) || hasObjVar(self, "test_center")))
+            {
+                broadcast(self, "primeClaimDeed requires god or test_center.");
+                return SCRIPT_CONTINUE;
+            }
+            obj_id deed = getLookAtTarget(self);
+            if (!isIdValid(deed) || !exists(deed))
+            {
+                deed = iTarget;
+            }
+            if (!isIdValid(deed) || deed == self || !exists(deed))
+            {
+                broadcast(self, "Target an object (look-at or selected target), then run: /developer primeClaimDeed [radiusM]");
+                return SCRIPT_CONTINUE;
+            }
+            float footprintRadius = 32.0f;
+            if (tok.hasMoreTokens())
+            {
+                try
+                {
+                    footprintRadius = Float.parseFloat(tok.nextToken());
+                }
+                catch (NumberFormatException ex)
+                {
+                    broadcast(self, "Invalid radius; using default 32m.");
+                }
+            }
+            if (footprintRadius <= 0f)
+            {
+                broadcast(self, "Radius must be positive; using 32m.");
+                footprintRadius = 32.0f;
+            }
+            final String scriptName = "item.claim.claim_marker_deed";
+            setObjVar(deed, "claim.is_claim_marker_deed", 1);
+            setObjVar(deed, "claim.footprint_radius_m", footprintRadius);
+            if (!hasObjVar(deed, "claim.placement_fp_template"))
+            {
+                setObjVar(deed, "claim.placement_fp_template", "object/installation/battlefield/battlefield_comm_tower.iff");
+            }
+            if (!hasScript(deed, scriptName))
+            {
+                attachScript(deed, scriptName);
+                if (!hasScript(deed, scriptName))
+                {
+                    broadcast(self, "Objvars set but failed to attach " + scriptName + " — check server log.");
+                    return SCRIPT_CONTINUE;
+                }
+            }
+            setName(deed, "Claim Marker Deed");
+            broadcast(self, "Primed " + getName(deed) + " as claim deed (radius " + footprintRadius + "m). Use item from inventory to place.");
+            LOG("ethereal", "[Developer]: " + getPlayerFullName(self) + " used /developer primeClaimDeed deed=" + deed + " radius=" + footprintRadius);
+            return SCRIPT_CONTINUE;
+        }
         else if (cmd.equalsIgnoreCase("scriptLogs"))
         {
             script.library.script_logs.show(self);
