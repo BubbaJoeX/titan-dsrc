@@ -242,16 +242,12 @@ public class player_building extends script.base_script
 
         position.y = getHeightAtLocation(position.x, position.z);
 
-        String markerTemplate = getStringObjVar(deed, "claim.marker_server_template");
-        if (markerTemplate == null || markerTemplate.equals(""))
-        {
-            markerTemplate = player_structure.DEFAULT_CLAIM_PLACEMENT_FP_TEMPLATE;
-        }
+        String markerTemplate = player_structure.getClaimMarkerTemplate(deed, position);
 
         obj_id marker = createObject(markerTemplate, new location(position.x, position.y, position.z, position.area, obj_id.NULL_ID));
         if (!isIdValid(marker))
         {
-            sendSystemMessageTestingOnly(player, "Claim marker createObject failed.");
+            sendSystemMessageTestingOnly(player, "Claim marker createObject failed (template: " + markerTemplate + ").");
             return SCRIPT_OVERRIDE;
         }
 
@@ -259,9 +255,14 @@ public class player_building extends script.base_script
         {
             detachScript(marker, player_structure.SCRIPT_TEMPORARY_STRUCTURE);
         }
-        if (!hasScript(marker, "item.claim.claim_open_marker"))
+        setObjVar(marker, "claim.is_marker", 1);
+        if (!hasScript(marker, player_structure.SCRIPT_CLAIM_OPEN_MARKER))
         {
-            attachScript(marker, "item.claim.claim_open_marker");
+            attachScript(marker, player_structure.SCRIPT_CLAIM_OPEN_MARKER);
+        }
+        if (!hasScript(marker, player_structure.SCRIPT_CITY_FLAG))
+        {
+            attachScript(marker, player_structure.SCRIPT_CITY_FLAG);
         }
 
         persistObject(marker);

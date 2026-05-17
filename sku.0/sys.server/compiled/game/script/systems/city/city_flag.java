@@ -55,6 +55,10 @@ public class city_flag extends script.base_script
     }
     public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi) throws InterruptedException
     {
+        if (hasObjVar(self, "claim.is_marker"))
+        {
+            return SCRIPT_CONTINUE;
+        }
         if (canManipulate(player, self, true, true, 15, true))
         {
             if (utils.isNestedWithinAPlayer(self))

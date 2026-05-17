@@ -1423,6 +1423,8 @@ planet		immediate			planetChat																							1	1		0	1																			
 planetsay		immediate			planetChat																							1	1		0	1																																										none					0				0
 planetTell		immediate	cmdTellPlanet																												0	1												1																														none									0
 planetwarp		immediate		failAdmin	admin_planetwarp			admin																				1	1		0	1																																										none	0				0		5	csr	0
+purgeClaim		immediate		failAdmin	admin_purgeClaim			admin																				1	1		0	1												1																														optional	0				0		40	csr	0
+purgeClaimsForPlayer		immediate		failAdmin	admin_purgeClaimsForPlayer			admin																				1	1		0	1												1																														optional	0				0		40	csr	0
 planetwarpTarget		immediate		failAdmin	admin_planetwarp			admin																				1	1		0	1												1																														required	0				0		5	csr	0
 powerBoost		normal	cmdPowerBoost	cmdPowerBoostFail			01. Mai	powerBoost	0	0	0	0	0	0	0	0	1	0	0	0	0	0	1	0	0	0	0			0	0	0	0		0		0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0		1	1	1	1	0	0		0	0	0	0								player.skill.teraskasi		none		2			0				1			power_boost	5	1	300
 proc_content_charged_proc_cold		immediate	proc_content_charged_proc_cold	failProc			0		1	0	1	1	1	0	1	1	1	0	0	0	0	0	0	0	0	0	0			0	0	1	1		1	0	0	1	1	1	1	0	1	0	1	1	1	1	0	0									0		0	0	0	0	0								enemy	optional		2						combat	0	ALL			0	0	0			1	1

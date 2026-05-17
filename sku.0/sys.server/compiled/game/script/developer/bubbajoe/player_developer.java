@@ -602,7 +602,7 @@ public class player_developer extends base_script
             setObjVar(deed, "claim.is_claim_marker_deed", 1);
             setObjVar(deed, "claim.footprint_radius_m", footprintRadius);
             setObjVar(deed, "claim.placement_fp_template", player_structure.DEFAULT_CLAIM_PLACEMENT_FP_TEMPLATE);
-            setObjVar(deed, "claim.marker_server_template", player_structure.DEFAULT_CLAIM_PLACEMENT_FP_TEMPLATE);
+            removeObjVar(deed, "claim.marker_server_template");
             if (!hasScript(deed, scriptName))
             {
                 attachScript(deed, scriptName);
@@ -615,6 +615,100 @@ public class player_developer extends base_script
             setName(deed, "Claim Marker Deed");
             broadcast(self, "Primed " + getName(deed) + " as claim deed (radius " + footprintRadius + "m). Use item from inventory to place.");
             LOG("ethereal", "[Developer]: " + getPlayerFullName(self) + " used /developer primeClaimDeed deed=" + deed + " radius=" + footprintRadius);
+            return SCRIPT_CONTINUE;
+        }
+        else if (cmd.equalsIgnoreCase("purgeClaim"))
+        {
+            if (!(isGod(self) || hasObjVar(self, "test_center")))
+            {
+                broadcast(self, "purgeClaim requires god or test_center.");
+                return SCRIPT_CONTINUE;
+            }
+            int claimId = 0;
+            if (tok.hasMoreTokens())
+            {
+                try
+                {
+                    claimId = Integer.parseInt(tok.nextToken());
+                }
+                catch (NumberFormatException ex)
+                {
+                    broadcast(self, "Invalid claim id.");
+                    return SCRIPT_CONTINUE;
+                }
+            }
+            if (claimId <= 0)
+            {
+                obj_id marker = getLookAtTarget(self);
+                if (!isIdValid(marker) || !exists(marker))
+                {
+                    marker = iTarget;
+                }
+                if (!isIdValid(marker) || !exists(marker))
+                {
+                    broadcast(self, "Usage: /developer purgeClaim <claimId>  OR look at / target the claim marker.");
+                    return SCRIPT_CONTINUE;
+                }
+                claimId = claimFindClaimIdByMarker(marker);
+                if (claimId <= 0)
+                {
+                    broadcast(self, "No active claim registered for marker " + marker + ".");
+                    return SCRIPT_CONTINUE;
+                }
+            }
+            boolean destroyContent = true;
+            if (tok.hasMoreTokens())
+            {
+                destroyContent = !tok.nextToken().equalsIgnoreCase("nodecor");
+            }
+            if (claimRemoveClaim(self, claimId, destroyContent))
+            {
+                broadcast(self, "Removed claim #" + claimId + (destroyContent ? " (decor destroyed)." : " (decor left in world, unbound)."));
+                LOG("ethereal", "[Developer]: " + getPlayerFullName(self) + " purgeClaim id=" + claimId + " destroy=" + destroyContent);
+            }
+            else
+            {
+                broadcast(self, "Failed to remove claim #" + claimId + " (not found or system disabled).");
+            }
+            return SCRIPT_CONTINUE;
+        }
+        else if (cmd.equalsIgnoreCase("purgeClaims"))
+        {
+            if (!(isGod(self) || hasObjVar(self, "test_center")))
+            {
+                broadcast(self, "purgeClaims requires god or test_center.");
+                return SCRIPT_CONTINUE;
+            }
+            obj_id target = self;
+            if (tok.hasMoreTokens())
+            {
+                String name = tok.nextToken();
+                target = getPlayerIdFromFirstName(name);
+                if (!isIdValid(target))
+                {
+                    broadcast(self, "No player found for name: " + name);
+                    return SCRIPT_CONTINUE;
+                }
+            }
+            boolean destroyContent = true;
+            boolean allAccount = false;
+            while (tok.hasMoreTokens())
+            {
+                String flag = tok.nextToken();
+                if (flag.equalsIgnoreCase("nodecor"))
+                {
+                    destroyContent = false;
+                }
+                else if (flag.equalsIgnoreCase("account"))
+                {
+                    allAccount = true;
+                }
+            }
+            int removed = claimPurgeClaimsForPlayer(self, target, destroyContent, allAccount);
+            String who = (target == self) ? "you" : getName(target);
+            broadcast(self, "Purged " + removed + " claim(s) for " + who + (allAccount ? " (entire account)" : "") + ".");
+            LOG("ethereal", "[Developer]: " + getPlayerFullName(self) + " purgeClaims target=" + target + " removed=" + removed
+                    + " destroy=" + destroyContent + " account=" + allAccount);
             return SCRIPT_CONTINUE;
         }
         else if (cmd.equalsIgnoreCase("scriptLogs"))

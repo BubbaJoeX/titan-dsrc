@@ -1,6 +1,7 @@
 package script.library;
 
 import script.*;
+import script.systems.city.city_flag;
 
 import java.util.StringTokenizer;
 import java.util.Vector;
@@ -17,6 +18,10 @@ public class player_structure extends script.base_script
     public static final String PLAYER_STRUCTURE_DATATABLE = "datatables/structure/player_structure.iff";
     /** Collision preview template for claim placement; must exist in {@link #PLAYER_STRUCTURE_DATATABLE}. */
     public static final String DEFAULT_CLAIM_PLACEMENT_FP_TEMPLATE = "object/installation/base/construction_installation_base.iff";
+    /** Fallback visible marker when planet cannot be resolved. */
+    public static final String DEFAULT_CLAIM_MARKER_TEMPLATE = city_flag.FLAG_NABOO;
+    public static final String SCRIPT_CLAIM_OPEN_MARKER = "item.claim.claim_open_marker";
+    public static final String SCRIPT_CITY_FLAG = "systems.city.city_flag";
     public static final String PLAYER_STRUCTURE_VALIDATION_DATATABLE = "datatables/structure/player_structure_validation.iff";
     public static final String TBL_SIGN = "datatables/structure/player_structure_sign.iff";
     public static final String TBL_SPECIAL_SIGNS = "datatables/structure/special_sign.iff";
@@ -2008,6 +2013,98 @@ public class player_structure extends script.base_script
             fp_template = DEFAULT_CLAIM_PLACEMENT_FP_TEMPLATE;
         }
         return fp_template;
+    }
+
+    /**
+     * City flag template for the current planet/scene (see {@link city_flag}).
+     */
+    public static String getClaimFlagTemplateForPlanet(String planetOrScene) throws InterruptedException
+    {
+        if (planetOrScene == null || planetOrScene.equals(""))
+        {
+            return DEFAULT_CLAIM_MARKER_TEMPLATE;
+        }
+        String p = planetOrScene.toLowerCase();
+        if (p.indexOf("corellia") >= 0)
+        {
+            return city_flag.FLAG_CORELLIA;
+        }
+        if (p.indexOf("dantooine") >= 0)
+        {
+            return city_flag.FLAG_DANTOOINE;
+        }
+        if (p.indexOf("dathomir") >= 0)
+        {
+            return city_flag.FLAG_DATHOMIR;
+        }
+        if (p.indexOf("endor") >= 0)
+        {
+            return city_flag.FLAG_ENDOR;
+        }
+        if (p.indexOf("lok") >= 0)
+        {
+            return city_flag.FLAG_LOK;
+        }
+        if (p.indexOf("naboo") >= 0)
+        {
+            return city_flag.FLAG_NABOO;
+        }
+        if (p.indexOf("rori") >= 0)
+        {
+            return city_flag.FLAG_RORI;
+        }
+        if (p.indexOf("talus") >= 0)
+        {
+            return city_flag.FLAG_TALUS;
+        }
+        if (p.indexOf("tatooine") >= 0)
+        {
+            return city_flag.FLAG_TATOOINE;
+        }
+        if (p.indexOf("yavin") >= 0)
+        {
+            return city_flag.FLAG_YAVIN;
+        }
+        if (p.indexOf("imperial") >= 0)
+        {
+            return city_flag.FLAG_IMPERIAL;
+        }
+        if (p.indexOf("rebel") >= 0)
+        {
+            return city_flag.FLAG_REBEL;
+        }
+        return DEFAULT_CLAIM_MARKER_TEMPLATE;
+    }
+
+    public static String getClaimFlagTemplateForLocation(location loc) throws InterruptedException
+    {
+        if (loc == null)
+        {
+            return DEFAULT_CLAIM_MARKER_TEMPLATE;
+        }
+        String area = loc.area;
+        if (area == null || area.equals(""))
+        {
+            area = getCurrentSceneName();
+        }
+        return getClaimFlagTemplateForPlanet(area);
+    }
+
+    /**
+     * Placed claim marker object template. Deed may override via claim.marker_server_template;
+     * otherwise uses the planet-appropriate city flag.
+     */
+    public static String getClaimMarkerTemplate(obj_id deed, location placeLoc) throws InterruptedException
+    {
+        if (isIdValid(deed) && hasObjVar(deed, "claim.marker_server_template"))
+        {
+            String override = getStringObjVar(deed, "claim.marker_server_template");
+            if (override != null && !override.equals(""))
+            {
+                return override;
+            }
+        }
+        return getClaimFlagTemplateForLocation(placeLoc);
     }
 
     public static boolean tryEnterClaimPlacementMode(obj_id deed, obj_id player) throws InterruptedException

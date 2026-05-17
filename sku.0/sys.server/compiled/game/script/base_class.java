@@ -19196,6 +19196,24 @@ public class base_class
         return _claimRemoveAllowed(getLongWithNull(player), getLongWithNull(terminal), getLongWithNull(allowed));
     }
 
+    private static native boolean _claimRemoveClaim(long admin, int claimId, boolean destroyWorldObjects);
+    public static boolean claimRemoveClaim(obj_id admin, int claimId, boolean destroyWorldObjects)
+    {
+        return _claimRemoveClaim(getLongWithNull(admin), claimId, destroyWorldObjects);
+    }
+
+    private static native int _claimPurgeClaimsForPlayer(long admin, long targetPlayer, boolean destroyWorldObjects, boolean allAccountClaims);
+    public static int claimPurgeClaimsForPlayer(obj_id admin, obj_id targetPlayer, boolean destroyWorldObjects, boolean allAccountClaims)
+    {
+        return _claimPurgeClaimsForPlayer(getLongWithNull(admin), getLongWithNull(targetPlayer), destroyWorldObjects, allAccountClaims);
+    }
+
+    private static native int _claimFindClaimIdByMarker(long marker);
+    public static int claimFindClaimIdByMarker(obj_id marker)
+    {
+        return _claimFindClaimIdByMarker(getLongWithNull(marker));
+    }
+
     /**
      *  Show or hide the airspeeder/skyway panel on the client.
      *
