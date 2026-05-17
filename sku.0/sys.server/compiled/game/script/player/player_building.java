@@ -288,6 +288,12 @@ public class player_building extends script.base_script
             return SCRIPT_OVERRIDE;
         }
 
+        String ownerName = getName(player);
+        if (ownerName != null && !ownerName.equals(""))
+        {
+            setName(marker, "Claim Flag: " + ownerName);
+        }
+
         destroyObject(deed);
         return SCRIPT_CONTINUE;
     }
