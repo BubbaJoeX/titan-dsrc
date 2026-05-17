@@ -588,7 +588,7 @@ public class claim_management extends script.base_script
             utils.setScriptVar(player, "claim.mgmt.banTarget", target);
             sui.msgbox(self, player,
                 "Ban " + getName(target) + " from this claim?\n\nThey will be ejected if inside and cannot re-enter.",
-                sui.YES_NO, "Confirm Ban", sui.MSG_WARNING, "handleClaimMgmtBanConfirm");
+                sui.YES_NO, "Confirm Ban", sui.MSG_EXCLAMATION, "handleClaimMgmtBanConfirm");
             return SCRIPT_CONTINUE;
         }
         else if (PENDING_UNBAN.equals(action))
@@ -707,7 +707,7 @@ public class claim_management extends script.base_script
         utils.setScriptVar(player, "claim.mgmt.banTarget", target);
         sui.msgbox(self, player,
             "Ban " + getName(target) + " from this claim?\n\nThey will be ejected if inside and cannot re-enter.",
-            sui.YES_NO, "Confirm Ban", sui.MSG_WARNING, "handleClaimMgmtBanConfirm");
+            sui.YES_NO, "Confirm Ban", sui.MSG_EXCLAMATION, "handleClaimMgmtBanConfirm");
     }
 
     private static void promptInput(obj_id self, obj_id player, String pendingAction, String title, String prompt, String handler) throws InterruptedException
