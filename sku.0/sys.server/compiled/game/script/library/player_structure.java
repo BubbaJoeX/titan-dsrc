@@ -15,6 +15,8 @@ public class player_structure extends script.base_script
     public static final String SCRIPT_TERMINAL_STRUCTURE = "terminal.terminal_structure";
     public static final String SCRIPT_PERMANENT_STRUCTURE = "structure.permanent_structure";
     public static final String PLAYER_STRUCTURE_DATATABLE = "datatables/structure/player_structure.iff";
+    /** Collision preview template for claim placement; must exist in {@link #PLAYER_STRUCTURE_DATATABLE}. */
+    public static final String DEFAULT_CLAIM_PLACEMENT_FP_TEMPLATE = "object/installation/base/construction_installation_base.iff";
     public static final String PLAYER_STRUCTURE_VALIDATION_DATATABLE = "datatables/structure/player_structure_validation.iff";
     public static final String TBL_SIGN = "datatables/structure/player_structure_sign.iff";
     public static final String TBL_SPECIAL_SIGNS = "datatables/structure/special_sign.iff";
@@ -1956,6 +1958,58 @@ public class player_structure extends script.base_script
         return true;
     }
 
+    public static boolean canPlaceClaimMarker(obj_id player, location loc) throws InterruptedException
+    {
+        if (!isIdValid(player) || loc == null)
+        {
+            return false;
+        }
+        if (isFreeTrialAccount(player))
+        {
+            sendSystemMessage(player, new string_id(STF_FILE, "no_trial_accounts"));
+            return false;
+        }
+        String strPlanet = loc.area;
+        if (strPlanet == null || strPlanet.equals(""))
+        {
+            return false;
+        }
+        if (loc.cell != null && loc.cell != obj_id.NULL_ID)
+        {
+            sendSystemMessage(player, new string_id(STF_FILE, "not_inside"));
+            return false;
+        }
+        if (getRegionsWithBuildableAtPoint(loc, regions.BUILD_FALSE) != null)
+        {
+            sendSystemMessage(player, new string_id(STF_FILE, "not_permitted"));
+            return false;
+        }
+        int city_id = getCityAtLocation(loc, 0);
+        if (cityExists(city_id) && city.isCityZoned(city_id) && isIdValid(player))
+        {
+            if (!city.hasZoningRights(player, city_id))
+            {
+                sendSystemMessage(player, SID_NO_RIGHTS);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static String getClaimPlacementFootprintTemplate(obj_id deed) throws InterruptedException
+    {
+        String fp_template = null;
+        if (isIdValid(deed))
+        {
+            fp_template = getStringObjVar(deed, "claim.placement_fp_template");
+        }
+        if (fp_template == null || fp_template.equals("") || getStructureTableIndex(fp_template) == -1)
+        {
+            fp_template = DEFAULT_CLAIM_PLACEMENT_FP_TEMPLATE;
+        }
+        return fp_template;
+    }
+
     public static boolean tryEnterClaimPlacementMode(obj_id deed, obj_id player) throws InterruptedException
     {
         if (!isIdValid(deed) || !isIdValid(player))
@@ -1964,15 +2018,12 @@ public class player_structure extends script.base_script
         }
         if (!hasObjVar(deed, "claim.is_claim_marker_deed"))
         {
+            sendSystemMessageTestingOnly(player, "This item is not a claim marker deed.");
             return false;
         }
-        String fp_template = getStringObjVar(deed, "claim.placement_fp_template");
-        if (fp_template == null || fp_template.equals(""))
-        {
-            fp_template = "object/installation/battlefield/battlefield_comm_tower.iff";
-        }
+        String fp_template = getClaimPlacementFootprintTemplate(deed);
         location here = getLocation(player);
-        if (!canPlaceStructure(player, fp_template, here, null))
+        if (!canPlaceClaimMarker(player, here))
         {
             return false;
         }
@@ -1981,7 +2032,11 @@ public class player_structure extends script.base_script
         {
             footprintRadius = getFloatObjVar(deed, "claim.footprint_radius_m");
         }
-        enterClientStructurePlacementMode(player, deed, fp_template, footprintRadius);
+        if (!enterClientStructurePlacementMode(player, deed, fp_template, footprintRadius))
+        {
+            sendSystemMessageTestingOnly(player, "Could not enter claim placement mode (footprint template: " + fp_template + ").");
+            return false;
+        }
         return true;
     }
     public static boolean canPackBuilding(obj_id player, obj_id structure) throws InterruptedException

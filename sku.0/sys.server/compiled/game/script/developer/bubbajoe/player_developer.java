@@ -601,10 +601,7 @@ public class player_developer extends base_script
             final String scriptName = "item.claim.claim_marker_deed";
             setObjVar(deed, "claim.is_claim_marker_deed", 1);
             setObjVar(deed, "claim.footprint_radius_m", footprintRadius);
-            if (!hasObjVar(deed, "claim.placement_fp_template"))
-            {
-                setObjVar(deed, "claim.placement_fp_template", "object/installation/battlefield/battlefield_comm_tower.iff");
-            }
+            setObjVar(deed, "claim.placement_fp_template", player_structure.DEFAULT_CLAIM_PLACEMENT_FP_TEMPLATE);
             if (!hasScript(deed, scriptName))
             {
                 attachScript(deed, scriptName);

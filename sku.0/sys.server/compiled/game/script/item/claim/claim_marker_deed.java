@@ -48,7 +48,6 @@ public class claim_marker_deed extends script.base_script
         }
         if (!player_structure.tryEnterClaimPlacementMode(self, player))
         {
-            sendSystemMessageTestingOnly(player, "You cannot place a claim marker here.");
             return SCRIPT_CONTINUE;
         }
         return SCRIPT_CONTINUE;

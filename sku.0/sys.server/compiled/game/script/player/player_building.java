@@ -231,11 +231,7 @@ public class player_building extends script.base_script
             return SCRIPT_CONTINUE;
         }
 
-        String fp_template = getStringObjVar(deed, "claim.placement_fp_template");
-        if (fp_template == null || fp_template.equals(""))
-        {
-            fp_template = "object/installation/battlefield/battlefield_comm_tower.iff";
-        }
+        String fp_template = player_structure.getClaimPlacementFootprintTemplate(deed);
 
         float placement_height = canPlaceStructure(fp_template, position, rotation);
         if (placement_height == -9997.0f || placement_height == -9998.0f || placement_height == -9999.0f)
