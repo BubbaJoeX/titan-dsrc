@@ -218,6 +218,84 @@ public class player_building extends script.base_script
         }
         return SCRIPT_CONTINUE;
     }
+    public int OnPlaceClaimMarker(obj_id self, obj_id player, obj_id deed, location position, int rotation) throws InterruptedException
+    {
+        if (!isIdValid(player) || !isIdValid(deed))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        obj_id owner = utils.getContainingPlayer(deed);
+        if (player != owner)
+        {
+            sendSystemMessage(player, new string_id(STF, "no_possession"));
+            return SCRIPT_CONTINUE;
+        }
+
+        String fp_template = getStringObjVar(deed, "claim.placement_fp_template");
+        if (fp_template == null || fp_template.equals(""))
+        {
+            fp_template = "object/installation/battlefield/battlefield_comm_tower.iff";
+        }
+
+        float placement_height = canPlaceStructure(fp_template, position, rotation);
+        if (placement_height == -9997.0f || placement_height == -9998.0f || placement_height == -9999.0f)
+        {
+            sendSystemMessage(player, new string_id(STF, "no_room"));
+            return SCRIPT_CONTINUE;
+        }
+
+        position.y = getHeightAtLocation(position.x, position.z);
+
+        String markerTemplate = getStringObjVar(deed, "claim.marker_server_template");
+        if (markerTemplate == null || markerTemplate.equals(""))
+        {
+            markerTemplate = "object/tangible/terminal/terminal_quad_screen.iff";
+        }
+
+        obj_id marker = createObject(markerTemplate, new location(position.x, position.y, position.z, position.area, obj_id.NULL_ID));
+        if (!isIdValid(marker))
+        {
+            sendSystemMessageTestingOnly(player, "Claim marker createObject failed.");
+            return SCRIPT_OVERRIDE;
+        }
+
+        attachScript(marker, "item.claim.claim_open_marker");
+
+        String terminalTemplate = getStringObjVar(deed, "claim.terminal_server_template");
+        if (terminalTemplate == null || terminalTemplate.equals(""))
+        {
+            terminalTemplate = "object/tangible/terminal/terminal_quad_screen.iff";
+        }
+
+        location termLoc = new location(position.x + 2.0f, position.y, position.z, position.area, obj_id.NULL_ID);
+        termLoc.y = getHeightAtLocation(termLoc.x, termLoc.z);
+        obj_id terminal = createObject(terminalTemplate, termLoc);
+        if (isIdValid(terminal))
+        {
+            attachScript(terminal, "object.tangible.terminal.terminal_claim_management");
+        }
+
+        float footprintRadius = -1.0f;
+        if (hasObjVar(deed, "claim.footprint_radius_m"))
+        {
+            footprintRadius = getFloatObjVar(deed, "claim.footprint_radius_m");
+        }
+
+        int claimId = claimFinalizePlacement(player, marker, position, footprintRadius, terminal);
+        if (claimId <= 0)
+        {
+            destroyObject(marker);
+            if (isIdValid(terminal))
+            {
+                destroyObject(terminal);
+            }
+            sendSystemMessageTestingOnly(player, "Unable to establish claim here (overlap, account limit, or system disabled).");
+            return SCRIPT_OVERRIDE;
+        }
+
+        destroyObject(deed);
+        return SCRIPT_CONTINUE;
+    }
     public int OnPermissionListModify(obj_id self, obj_id player, String name, String listName, String action) throws InterruptedException
     {
         if (utils.isFreeTrial(player))
@@ -394,6 +472,11 @@ public class player_building extends script.base_script
         {
             string_id message = new string_id("player_structure", "cant_move_while_entertaining");
             sendSystemMessage(self, message);
+            return SCRIPT_CONTINUE;
+        }
+        if (!claimCanManipulateFurniture(self, target))
+        {
+            sendSystemMessageTestingOnly(self, "You cannot manipulate furnishings in another player's claim.");
             return SCRIPT_CONTINUE;
         }
         java.util.StringTokenizer stBypass = new java.util.StringTokenizer(params);
@@ -766,6 +849,11 @@ public class player_building extends script.base_script
         {
             string_id message = new string_id("player_structure", "cant_move_while_entertaining");
             sendSystemMessage(self, message);
+            return SCRIPT_CONTINUE;
+        }
+        if (!claimCanManipulateFurniture(self, target))
+        {
+            sendSystemMessageTestingOnly(self, "You cannot manipulate furnishings in another player's claim.");
             return SCRIPT_CONTINUE;
         }
         java.util.StringTokenizer stBypass = new java.util.StringTokenizer(params);

@@ -492,6 +492,7 @@ public class base_class
     public static final int TRIG_ON_RATING_FINISHED = 301;
     public static final int TRIG_ON_ABANDON_PLAYER_QUEST = 302;
     public static final int TRIG_ON_GCW_SCORE_CATEGORY_PERCENTILE_CHANGE = 303;
+    public static final int TRIG_PLACE_CLAIM_MARKER = 308;
 
     /**
      * @}
@@ -19111,6 +19112,66 @@ public class base_class
     public static boolean enterClientStructurePlacementMode(obj_id player, obj_id deed, String serverObjectTemplateName)
     {
         return _enterClientStructurePlacementMode(getLongWithNull(player), getLongWithNull(deed), serverObjectTemplateName);
+    }
+
+    private static native int _claimFinalizePlacement(long player, long marker, float x, float y, float z, float radius, long terminal);
+    public static int claimFinalizePlacement(obj_id player, obj_id marker, location loc, float radius, obj_id terminal)
+    {
+        return _claimFinalizePlacement(getLongWithNull(player), getLongWithNull(marker), loc.x, loc.y, loc.z, radius, getLongWithNull(terminal));
+    }
+
+    private static native void _claimBindObject(long obj, int claimId);
+    public static void claimBindObject(obj_id obj, int claimId)
+    {
+        _claimBindObject(getLongWithNull(obj), claimId);
+    }
+
+    private static native void _claimUnbindObject(long obj);
+    public static void claimUnbindObject(obj_id obj)
+    {
+        _claimUnbindObject(getLongWithNull(obj));
+    }
+
+    private static native int _claimApplyVisitorResourceTax(long player, float x, float y, float z, String resourceKey, int amount);
+    public static int claimApplyVisitorResourceTax(obj_id player, location loc, String resourceKey, int amount)
+    {
+        return _claimApplyVisitorResourceTax(getLongWithNull(player), loc.x, loc.y, loc.z, resourceKey, amount);
+    }
+
+    private static native boolean _claimWithdrawTax(long player, long terminal, String resourceKey, int amount);
+    public static boolean claimWithdrawTax(obj_id player, obj_id terminal, String resourceKey, int amount)
+    {
+        return _claimWithdrawTax(getLongWithNull(player), getLongWithNull(terminal), resourceKey, amount);
+    }
+
+    private static native boolean _claimPayMaintenance(long player, long terminal, int credits);
+    public static boolean claimPayMaintenance(obj_id player, obj_id terminal, int credits)
+    {
+        return _claimPayMaintenance(getLongWithNull(player), getLongWithNull(terminal), credits);
+    }
+
+    private static native boolean _claimAddBan(long player, long terminal, long banned);
+    public static boolean claimAddBan(obj_id player, obj_id terminal, obj_id banned)
+    {
+        return _claimAddBan(getLongWithNull(player), getLongWithNull(terminal), getLongWithNull(banned));
+    }
+
+    private static native boolean _claimRemoveBan(long player, long terminal, long banned);
+    public static boolean claimRemoveBan(obj_id player, obj_id terminal, obj_id banned)
+    {
+        return _claimRemoveBan(getLongWithNull(player), getLongWithNull(terminal), getLongWithNull(banned));
+    }
+
+    private static native int _claimGetTaxBalance(int claimId, String resourceKey);
+    public static int claimGetTaxBalance(int claimId, String resourceKey)
+    {
+        return _claimGetTaxBalance(claimId, resourceKey);
+    }
+
+    private static native boolean _claimCanManipulateFurniture(long player, long target);
+    public static boolean claimCanManipulateFurniture(obj_id player, obj_id target)
+    {
+        return _claimCanManipulateFurniture(getLongWithNull(player), getLongWithNull(target));
     }
 
     /**

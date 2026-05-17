@@ -1955,6 +1955,30 @@ public class player_structure extends script.base_script
         enterClientStructurePlacementMode(player, deedOrScd, fp_template);
         return true;
     }
+
+    public static boolean tryEnterClaimPlacementMode(obj_id deed, obj_id player) throws InterruptedException
+    {
+        if (!isIdValid(deed) || !isIdValid(player))
+        {
+            return false;
+        }
+        if (!hasObjVar(deed, "claim.is_claim_marker_deed"))
+        {
+            return false;
+        }
+        String fp_template = getStringObjVar(deed, "claim.placement_fp_template");
+        if (fp_template == null || fp_template.equals(""))
+        {
+            fp_template = "object/installation/battlefield/battlefield_comm_tower.iff";
+        }
+        location here = getLocation(player);
+        if (!canPlaceStructure(player, fp_template, here, null))
+        {
+            return false;
+        }
+        enterClientStructurePlacementMode(player, deed, fp_template);
+        return true;
+    }
     public static boolean canPackBuilding(obj_id player, obj_id structure) throws InterruptedException
     {
         return !utils.isFreeTrial(player) && !isCivic(structure) && !isHarvester(structure) && !isGenerator(structure) && isOwner(structure, player);

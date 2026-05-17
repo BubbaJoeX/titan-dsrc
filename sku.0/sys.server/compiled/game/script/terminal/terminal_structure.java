@@ -55,7 +55,7 @@ public class terminal_structure extends script.base_script
     public static final string_id SID_STRUCTURE_DECOR = new string_id("player_structure", "structure_decor_menu");
     public static final string_id SID_STRUCTURE_ADD_DECOR = new string_id("player_structure", "structure_add_decor");
     public static final string_id SID_STRUCTURE_REMOVE_DECOR = new string_id("player_structure", "structure_remove_decor");
-    public static final string_id SID_TERMINAL_LIGHTSWITCH = new string_id("Structure Lighting");
+    public static final string_id SID_TERMINAL_LIGHTSWITCH = new string_id("Modify Structure Lighting");
     public static final String STRUCTURE_MARK = "turnstile.structureMark";
     public static final string_id SID_MAYOR_HOUSE_SIGN_DISPLAY = new string_id("city/city", "installation_owner");
     public static final string_id SID_SHOW_MAYOR_OWNER = new string_id("city/city", "installation_owner_option");

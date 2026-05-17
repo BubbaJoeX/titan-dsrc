@@ -591,6 +591,8 @@ public class resource extends script.base_script
                     amt = (int)(amt * 1.5f);
                     LOG("sissynoid", "Granting 50% Increase due to Falleen's Fist Buff");
                 }
+                location curloc = getLocation(user);
+                amt = claimApplyVisitorResourceTax(user, curloc, type, amt);
                 String crateTemplate = getResourceContainerTemplate(typeId);
                 if (!crateTemplate.equals(""))
                 {
@@ -600,7 +602,6 @@ public class resource extends script.base_script
                         obj_id crate = createObject(crateTemplate, pInv, "");
                         if (addResourceToContainer(crate, typeId, amt, user))
                         {
-                            location curloc = getLocation(user);
                             setLocation(crate, curloc);
                             putIn(crate, pInv, user);
                             if (hasScript(user, "theme_park.new_player.new_player"))
