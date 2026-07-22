@@ -23,8 +23,7 @@ rangedIntCustomizationVariables = [
   [variableName="/private/index_banking", minValueInclusive=-90, defaultValue=45, maxValueExclusive=91],
   [variableName="/private/index_hover_height", minValueInclusive=0, defaultValue=5, maxValueExclusive=10001],
   [variableName="/private/index_auto_level", minValueInclusive=0, defaultValue=25, maxValueExclusive=1001],
-  [variableName="/private/index_strafe", minValueInclusive=0, defaultValue=1, maxValueExclusive=2]
-]
+  [variableName="/private/index_strafe", minValueInclusive=0, defaultValue=1, maxValueExclusive=2]]
 
 @class object_template 8
 

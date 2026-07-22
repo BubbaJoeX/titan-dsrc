@@ -40,6 +40,8 @@ craft.draft	50
 craft.enableSchematicFilter	50
 craft.experiment	50
 craft.fillslot	50
+craft.generateFactoryCrate	50
+craft.makeIntoFactoryCrate	50
 craft.makeprototype	50
 craft.makeschematic	50
 craft.nextstage	50
@@ -358,6 +360,7 @@ server.setDebugFlag	50
 server.setExtraDelayPerFrameMs	50
 server.setFrameRateLimit	50
 server.setGodMode	5
+slash.craft	50
 slash.object	50
 server.setMessageToBacklogThreshold	50
 server.setMessageToTimeLimit	50

@@ -1527,12 +1527,12 @@ public class player_developer extends base_script
             setObjVar(screen, "rt_screen.name", screenName);
 
             // Auto-link camera and screen
-            setObjVar(camera, "rt_camera.linkedScreen", screen.toString());
+            setObjVar(camera, "rt_camera.linkedScreen", screen);
             setObjVar(camera, "rt_camera.owner", self.toString());
             setObjVar(camera, "rt_camera.isActive", 1);
             setObjVar(camera, "rt_camera.fov", 60.0f);
 
-            setObjVar(screen, "rt_screen.linkedCamera", camera.toString());
+            setObjVar(screen, "rt_screen.linkedCamera", camera);
             setObjVar(screen, "rt_screen.owner", self.toString());
             setObjVar(screen, "rt_screen.resolution", 512);
 
@@ -1623,12 +1623,12 @@ public class player_developer extends base_script
             setObjVar(screen, "rt_screen.name", screenName);
 
             // Auto-link camera and screen
-            setObjVar(camera, "rt_camera.linkedScreen", screen.toString());
+            setObjVar(camera, "rt_camera.linkedScreen", screen);
             setObjVar(camera, "rt_camera.owner", self.toString());
             setObjVar(camera, "rt_camera.isActive", 1);
             setObjVar(camera, "rt_camera.fov", 60.0f);
 
-            setObjVar(screen, "rt_screen.linkedCamera", camera.toString());
+            setObjVar(screen, "rt_screen.linkedCamera", camera);
             setObjVar(screen, "rt_screen.owner", self.toString());
             setObjVar(screen, "rt_screen.resolution", 512);
 
@@ -3057,6 +3057,11 @@ public class player_developer extends base_script
         {
             String url = "https://www.youtube.com/watch?v=Y069SX7CdiI"; //temp hard coded stream
             obj_id tv = getTarget(self);
+            if (!isIdValid(tv) || !exists(tv))
+            {
+                broadcast(self, "Target a tangible object first.");
+                return SCRIPT_CONTINUE;
+            }
             setObjVar(tv, "stream.url", url);
             setObjVar(tv, "timestamp", "0");
             setObjVar(tv, "stream.loop", "1");
@@ -3065,7 +3070,7 @@ public class player_developer extends base_script
             setName(tv, "Video Player");
             setScale(tv, 1.0f);
             attachScript(tv, "terminal.magic_video_player");
-            setCondition(self, CONDITION_MAGIC_VIDEO_PLAYER);
+            setCondition(tv, CONDITION_MAGIC_VIDEO_PLAYER);
             broadcast(self, "Made " + tv + " into a video player.");
             return SCRIPT_CONTINUE;
         }

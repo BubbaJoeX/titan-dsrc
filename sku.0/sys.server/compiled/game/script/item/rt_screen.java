@@ -66,8 +66,6 @@ public class rt_screen extends script.base_script
             }
         }
 
-        // Clear synced objvars to notify clients
-        setObjVar(self, "rt_screen.linkedCamera", "");
         removeObjVar(self, OBJVAR_LINKED_CAMERA);
 
         return SCRIPT_CONTINUE;
@@ -207,8 +205,6 @@ public class rt_screen extends script.base_script
         {
             sendSystemMessageTestingOnly(player, "\\#ff4444[RT Screen]: Camera no longer exists.");
             removeObjVar(screen, OBJVAR_LINKED_CAMERA);
-            // Clear the synced variable
-            setObjVar(screen, "rt_screen.linkedCamera", "");
             return;
         }
 
@@ -227,12 +223,9 @@ public class rt_screen extends script.base_script
             return;
         }
 
-        // Set the synced objvar with camera ID - this will sync to all clients
-        setObjVar(screen, "rt_screen.linkedCamera", camera.toString());
-
-        // Set resolution objvar for sync
-        int resolution = hasObjVar(screen, OBJVAR_RESOLUTION) ? getIntObjVar(screen, OBJVAR_RESOLUTION) : DEFAULT_RESOLUTION;
-        setObjVar(screen, "rt_camera.resolution", resolution);
+        // Keep the script-facing link typed as obj_id. Server C++ mirrors it to
+        // the client's string AutoDelta variable.
+        setObjVar(screen, OBJVAR_LINKED_CAMERA, camera);
 
         String cameraName = hasObjVar(camera, "rt_camera.name") ? getStringObjVar(camera, "rt_camera.name") : "RT Camera";
         sendSystemMessageTestingOnly(player, "\\#00ff88[RT Screen]: Viewing feed from '" + cameraName + "'.");
@@ -250,10 +243,6 @@ public class rt_screen extends script.base_script
 
         removeObjVar(screen, OBJVAR_LINKED_CAMERA);
         setObjVar(screen, OBJVAR_IS_DISPLAYING, false);
-
-        // Clear synced variables
-        setObjVar(screen, "rt_screen.linkedCamera", "");
-        removeObjVar(screen, "rt_camera.resolution");
 
         if (isIdValid(camera) && exists(camera))
         {

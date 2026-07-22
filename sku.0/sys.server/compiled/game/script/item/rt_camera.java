@@ -65,8 +65,6 @@ public class rt_camera extends script.base_script
             {
                 // Clear the screen's link to this camera
                 removeObjVar(screen, "rt_screen.linkedCamera");
-                setObjVar(screen, "rt_screen.linkedCamera", "");
-                removeObjVar(screen, "rt_camera.resolution");
             }
         }
 

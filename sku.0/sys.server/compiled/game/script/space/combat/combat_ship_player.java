@@ -145,9 +145,10 @@ public class combat_ship_player extends script.base_script
         }
         return SCRIPT_CONTINUE;
     }
-    public static final int TERRAIN_COLLISION_SEVERE_THRESHOLD = 5;
-    public static final int TERRAIN_COLLISION_DISABLE_THRESHOLD = 8;
-    public static final float TERRAIN_COLLISION_SEVERE_DAMAGE_PERCENT = 0.5f;
+    public static final int TERRAIN_COLLISION_DAMAGE_COOLDOWN = 2;
+    public static final float TERRAIN_COLLISION_DAMAGE_PERCENT_MINIMUM = 0.02f;
+    public static final float TERRAIN_COLLISION_DAMAGE_PERCENT_MAXIMUM = 0.12f;
+    public static final String TERRAIN_COLLISION_COOLDOWN_SCRIPTVAR = "space.terrainCollisionNextDamageTime";
     public int onShipTerrainCollision(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException
     {
         if (!space_transition.isAtmosphericFlightScene())
@@ -161,22 +162,40 @@ public class combat_ship_player extends script.base_script
         {
             return SCRIPT_CONTINUE;
         }
-        int count = getIntObjVar(ship, "space.terrainCollisionCount");
-        count++;
-        setObjVar(ship, "space.terrainCollisionCount", count);
-        if (count >= TERRAIN_COLLISION_DISABLE_THRESHOLD)
+
+        float severity = utils.stringToFloat(params);
+        if (severity == Float.NEGATIVE_INFINITY)
         {
-            float maxChassis = getShipMaximumChassisHitPoints(ship);
-            space_combat.doChassisDamage(obj_id.NULL_ID, ship, 0, maxChassis + 1);
-            space_combat.targetDestroyed(ship);
-            removeObjVar(ship, "space.terrainCollisionCount");
+            return SCRIPT_CONTINUE;
         }
-        else if (count >= TERRAIN_COLLISION_SEVERE_THRESHOLD)
+        severity = Math.max(0.0f, Math.min(1.0f, severity));
+
+        int now = getGameTime();
+        if (utils.hasScriptVar(ship, TERRAIN_COLLISION_COOLDOWN_SCRIPTVAR) &&
+            utils.getIntScriptVar(ship, TERRAIN_COLLISION_COOLDOWN_SCRIPTVAR) > now)
         {
-            float maxChassis = getShipMaximumChassisHitPoints(ship);
-            float damage = maxChassis * TERRAIN_COLLISION_SEVERE_DAMAGE_PERCENT;
+            return SCRIPT_CONTINUE;
+        }
+        utils.setScriptVar(ship, TERRAIN_COLLISION_COOLDOWN_SCRIPTVAR, now + TERRAIN_COLLISION_DAMAGE_COOLDOWN);
+
+        float maxChassis = getShipMaximumChassisHitPoints(ship);
+        float currentChassis = getShipCurrentChassisHitPoints(ship);
+        float damagePercent = TERRAIN_COLLISION_DAMAGE_PERCENT_MINIMUM +
+            severity * (TERRAIN_COLLISION_DAMAGE_PERCENT_MAXIMUM - TERRAIN_COLLISION_DAMAGE_PERCENT_MINIMUM);
+        float damage = maxChassis * damagePercent;
+
+        // Terrain can punish a bad impact but cannot hold a clamped ship in a
+        // death loop.  Leave one chassis point so the physical jolt can recover.
+        float safeDamage = Math.max(0.0f, currentChassis - 1.0f);
+        if (damage > safeDamage)
+        {
+            damage = safeDamage;
+        }
+        if (damage > 0.0f)
+        {
             space_combat.doChassisDamage(obj_id.NULL_ID, ship, 0, damage);
         }
+
         return SCRIPT_CONTINUE;
     }
     public int cmdLeaveStation(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException
