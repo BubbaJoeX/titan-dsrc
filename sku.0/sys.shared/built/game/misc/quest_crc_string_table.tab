@@ -1657,6 +1657,7 @@
 0xa0a922b4	spacequest/assassinate/corellia_rebel_tier4_4_a
 0xa0b957ce	quest/c_newbie_quest5
 0xa0c8a88b	spacequest/space_battle/corellia_rebel_tier3_1_d
+0xa0c8d394	quest/tatooine_flitz_salvage_03
 0xa0e5b4df	spacequest/recovery/stn_dantooine_owner_smuggler_recovery01_tier2_1
 0xa0e8dd87	spacequest/escort/stn_dantooine_owner_all_repairmission_tier2_2
 0xa0f119bc	quest/event_gcwcheerleader_cmimp3
@@ -1697,6 +1698,7 @@
 0xa3e3de80	spacequest/patrol/tatooine_privateer_tier3_4
 0xa3f187ed	quest/test_craft
 0xa3f8273e	spacequest/delivery_no_pickup/stn_yavin4_company_smuggler_tier2_5
+0xa409ce23	quest/tatooine_flitz_salvage_02
 0xa4116f40	quest/naboo_theed_terrorist_terrorize
 0xa42c2b8b	quest/nova_rank3_01
 0xa430040b	quest/event_gcwcheerleader_cmimp2
@@ -1761,6 +1763,7 @@
 0xa910fe79	spacequest/delivery/naboo_imperial_tier3_3
 0xa9196a1b	quest/typho_police_one
 0xa92ef3a0	quest/npe_rebel_1
+0xa94ae8fa	quest/tatooine_flitz_salvage_01
 0xa96f0d52	quest/nova_rank3_02
 0xa97322d2	quest/event_gcwcheerleader_cmimp1
 0xa97f1075	quest/npe_pilot_laetin
@@ -2313,6 +2316,7 @@
 0xe00c7fb5	spacequest/assassinate/corellia_imperial_17
 0xe0584af2	spacequest/destroy_surpriseattack/naboo_rebel_1
 0xe0619346	quest/star_destroyer_intro_neutral
+0xe06b439a	quest/tatooine_abubb_holocron_ambush
 0xe0886b3f	quest/newbie_mayor_hooligans_scavengers
 0xe08dc464	quest/chapter8_publish_gift_is_pilot
 0xe0c78d99	quest/test_perform
