@@ -58,10 +58,18 @@ public class ship_control_device extends script.base_script
             return;
         }
 
-        removeObjVar(ship, "space.packPending");
-
         if (getTopMostContainer(ship) != ship)
             return;
+
+        if (hasObjVar(ship, "space.packPending"))
+        {
+            LOG("space_transition", "recoverOrphanedShip: SCD " + scd + " resuming interrupted pack for ship " + ship + ".");
+            if (hasObjVar(ship, "space.packingInProgress"))
+                messageTo(ship, "delayedPackShipFinalizePhase2", null, 5.0f, false);
+            else
+                messageTo(ship, "delayedPackShipFinalize", null, 2.0f, false);
+            return;
+        }
 
         if (!isAtmosphericFlightScene())
         {

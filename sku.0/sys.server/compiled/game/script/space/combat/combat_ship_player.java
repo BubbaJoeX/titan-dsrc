@@ -155,7 +155,9 @@ public class combat_ship_player extends script.base_script
             return SCRIPT_CONTINUE;
         }
         obj_id ship = space_transition.getContainingShip(self);
-        if (!isIdValid(ship) || getOwner(ship) != self)
+        // The reporting client must be the active pilot.  Ownership is not a
+        // valid authority check because a permitted guest can pilot a POB ship.
+        if (!isIdValid(ship) || getPilotId(ship) != self)
         {
             return SCRIPT_CONTINUE;
         }
@@ -185,6 +187,8 @@ public class combat_ship_player extends script.base_script
             boolean isNonPob = !isIdValid(getContainedBy(container));
             if (isNonPob)
             {
+                if (space_transition.isAtmosphericFlightScene())
+                    unpilotShip(self);
                 return SCRIPT_CONTINUE;
             }
             if (utils.getBooleanScriptVar(self, "npe.falconEventStarted") && !utils.getBooleanScriptVar(self, "npe.finishedTurret"))
@@ -572,6 +576,11 @@ public class combat_ship_player extends script.base_script
     }
     public int abortHyperspace(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException
     {
+        if (space_transition.isAtmosphericFlightScene())
+        {
+            sendSystemMessageTestingOnly(self, "Hyperspace controls are unavailable during atmospheric flight.");
+            return SCRIPT_CONTINUE;
+        }
         obj_id objShip = space_transition.getContainingShip(self);
         if (!utils.hasScriptVar(objShip, "intHyperspacing"))
         {
@@ -590,6 +599,11 @@ public class combat_ship_player extends script.base_script
     }
     public int hyperspaceToHyperspacePoint(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException
     {
+        if (space_transition.isAtmosphericFlightScene())
+        {
+            sendSystemMessageTestingOnly(self, "Hyperspace controls are unavailable during atmospheric flight.");
+            return SCRIPT_CONTINUE;
+        }
         if (space_utils.isHyperspaceBlocked(self))
         {
             return SCRIPT_CONTINUE;

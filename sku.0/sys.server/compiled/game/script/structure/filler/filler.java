@@ -15,6 +15,7 @@ public class filler extends script.base_script
     public static final String HANDLER_CLEANUP_FILLER_SPAWN = "handleCleanupFillerSpawn";
     public int OnInitialize(obj_id self) throws InterruptedException
     {
+        messageTo(self, HANDLER_INIT_FILLER_SPAWN, null, DELAY_TIME, false);
         return SCRIPT_CONTINUE;
     }
     public int OnDetach(obj_id self) throws InterruptedException

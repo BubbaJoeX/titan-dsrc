@@ -800,9 +800,13 @@ public class tangible_dynamics extends script.base_script
     // HELPERS
     // =====================================================================
 
-    private static boolean isValidTarget(obj_id target)
+    private static boolean isValidTarget(obj_id target) throws InterruptedException
     {
-        return isIdValid(target);
+        if (!isIdValid(target))
+            return false;
+        if (!hasScript(target, "handler.tangible_dynamics_handler"))
+            attachScript(target, "handler.tangible_dynamics_handler");
+        return true;
     }
 
     // =====================================================================
@@ -834,7 +838,7 @@ public class tangible_dynamics extends script.base_script
      */
     public static boolean isDynamicsEnabled(obj_id target) throws InterruptedException
     {
-        if (!isValidTarget(target)) return false;
+        if (!isIdValid(target)) return false;
         return hasCondition(target, CONDITION_MAGIC_TANGIBLE_DYNAMIC);
     }
 

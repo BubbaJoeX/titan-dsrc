@@ -92,6 +92,15 @@ public class tangible_dynamics_handler extends script.base_script
         else if (command.equals("clear_lock_to_parent"))
             handleClearLockToParent(self);
 
+        // C++ consumes this monotonic revision to distinguish parameter updates and
+        // per-channel clears from an unchanged active-force bitmask.
+        if (!command.equals("clear_all"))
+        {
+            int revision = hasObjVar(self, "dynamicsRevision") ? getIntObjVar(self, "dynamicsRevision") : 0;
+            revision = (revision == 2147483647) ? 1 : revision + 1;
+            setObjVar(self, "dynamicsRevision", revision);
+        }
+
         return SCRIPT_CONTINUE;
     }
 

@@ -685,7 +685,8 @@ public class space_transition extends script.base_script
         obj_id containingShip = getContainingShip(player);
         if (isIdValid(containingShip) && hasObjVar(containingShip, "shipControlDevice"))
         {
-            if (getObjIdObjVar(containingShip, "shipControlDevice") == shipControlDevice)
+            if (!hasObjVar(containingShip, "space.packPending") && !hasObjVar(containingShip, "space.packingInProgress")
+                    && getObjIdObjVar(containingShip, "shipControlDevice") == shipControlDevice)
                 return containingShip;
         }
         obj_id[] objects = getObjectsInRange(player, 128.0f);
@@ -694,6 +695,8 @@ public class space_transition extends script.base_script
             for (obj_id obj : objects)
             {
                 if (!isIdValid(obj) || getTopMostContainer(obj) != obj)
+                    continue;
+                if (hasObjVar(obj, "space.packPending") || hasObjVar(obj, "space.packingInProgress"))
                     continue;
                 if (getOwner(obj) != player)
                     continue;
@@ -881,6 +884,22 @@ public class space_transition extends script.base_script
         if (getTopMostContainer(ship) != ship)
             return;
 
+        // A failed or delayed containment transfer must not leave a creature
+        // under a POB hierarchy while its cells and portals are being removed.
+        Vector players = getContainedPlayers(ship, null);
+        if (players != null)
+        {
+            for (Object playerObject : players)
+                disembarkShip((obj_id)playerObject, ship);
+        }
+        players = getContainedPlayers(ship, null);
+        if (players != null && !players.isEmpty())
+        {
+            LOG("space_transition", "prepareShipForPackDpvsSafe: ship " + ship + " still contains players; delaying pack.");
+            messageTo(ship, "delayedPackShipFinalize", null, 2.0f, false);
+            return;
+        }
+
         // Make ship invisible immediately to prevent rendering issues
         setObjVar(ship, "space.packingInProgress", true);
 
@@ -893,8 +912,8 @@ public class space_transition extends script.base_script
         location farLoc = new location(farX, farY, farZ, shipLoc.area, null);
         setLocation(ship, farLoc);
 
-        // Increase delay to ensure client DPVS has time to drop the object
-        messageTo(ship, "delayedPackShipFinalizePhase2", null, 3.0f, false);
+        // Allow the relocation update to age out before removing the POB cells.
+        messageTo(ship, "delayedPackShipFinalizePhase2", null, 5.0f, false);
     }
 
     public static void packShipFinalize(obj_id ship) throws InterruptedException
@@ -1834,6 +1853,8 @@ public class space_transition extends script.base_script
         if (!isIdValid(ship))
             return false;
         if (getTopMostContainer(ship) != ship)
+            return false;
+        if (hasObjVar(ship, "space.packPending") || hasObjVar(ship, "space.packingInProgress"))
             return false;
         obj_id pilot = getPilotId(ship);
         return !isIdValid(pilot);
