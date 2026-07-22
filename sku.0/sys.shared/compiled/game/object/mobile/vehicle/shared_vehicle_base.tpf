@@ -7,6 +7,25 @@ swimHeight=0
 
 @class tangible_object_template 7
 
+rangedIntCustomizationVariables = [
+  [variableName="/private/index_speed_min", minValueInclusive=0, defaultValue=0, maxValueExclusive=10001],
+  [variableName="/private/index_speed_max", minValueInclusive=0, defaultValue=150, maxValueExclusive=10001],
+  [variableName="/private/index_turn_rate_min", minValueInclusive=0, defaultValue=180, maxValueExclusive=1001],
+  [variableName="/private/index_turn_rate_max", minValueInclusive=0, defaultValue=90, maxValueExclusive=1001],
+  [variableName="/private/index_accel_min", minValueInclusive=0, defaultValue=90, maxValueExclusive=10001],
+  [variableName="/private/index_accel_max", minValueInclusive=0, defaultValue=30, maxValueExclusive=10001],
+  [variableName="/private/index_decel", minValueInclusive=0, defaultValue=70, maxValueExclusive=10001],
+  [variableName="/private/index_slope_mod", minValueInclusive=0, defaultValue=5, maxValueExclusive=1001],
+  [variableName="/private/index_damp_roll", minValueInclusive=0, defaultValue=20, maxValueExclusive=1001],
+  [variableName="/private/index_damp_pitch", minValueInclusive=0, defaultValue=30, maxValueExclusive=1001],
+  [variableName="/private/index_damp_height", minValueInclusive=0, defaultValue=40, maxValueExclusive=1001],
+  [variableName="/private/index_glide", minValueInclusive=0, defaultValue=25, maxValueExclusive=1001],
+  [variableName="/private/index_banking", minValueInclusive=-90, defaultValue=45, maxValueExclusive=91],
+  [variableName="/private/index_hover_height", minValueInclusive=0, defaultValue=5, maxValueExclusive=10001],
+  [variableName="/private/index_auto_level", minValueInclusive=0, defaultValue=25, maxValueExclusive=1001],
+  [variableName="/private/index_strafe", minValueInclusive=0, defaultValue=1, maxValueExclusive=2]
+]
+
 @class object_template 8
 
 containerType = CT_ridable
