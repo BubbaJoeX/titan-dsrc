@@ -1,9 +1,11 @@
 package script.gm;
 
+import script.custom_var;
 import script.dictionary;
 import script.library.*;
 import script.location;
 import script.obj_id;
+import script.ranged_int_custom_var;
 
 public class handler extends script.base_script
 {
