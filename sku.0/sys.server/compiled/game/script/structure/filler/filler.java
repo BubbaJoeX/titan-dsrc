@@ -33,7 +33,7 @@ public class filler extends script.base_script
     public int handleInitFillerSpawn(obj_id self, dictionary params) throws InterruptedException
     {
         LOG("FILLER_BUILDING", "**************** TIME = " + getGameTime() + " ******************");
-        structure.resetFillerSpawns(self);
+        structure.initializeFillerSpawns(self);
         return SCRIPT_CONTINUE;
     }
     public int handleCleanupFillerSpawn(obj_id self, dictionary params) throws InterruptedException

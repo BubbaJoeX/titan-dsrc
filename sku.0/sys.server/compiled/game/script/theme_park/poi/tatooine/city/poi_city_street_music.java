@@ -11,11 +11,17 @@ public class poi_city_street_music extends script.base_script
     }
     public int OnAttach(obj_id self) throws InterruptedException
     {
+        initializeStreetMusic(self);
+        return SCRIPT_CONTINUE;
+    }
+    public int OnInitialize(obj_id self) throws InterruptedException
+    {
+        initializeStreetMusic(self);
         return SCRIPT_CONTINUE;
     }
     public int handlePlaying(obj_id self, dictionary params) throws InterruptedException
     {
-        messageTo(self, "handlePlaying", null, 600, true);
+        messageTo(self, "handlePlaying", null, 600, false);
         obj_id musician = getObjIdObjVar(self, "musician");
         if (!exists(musician))
         {
@@ -24,14 +30,40 @@ public class poi_city_street_music extends script.base_script
         setAnimationMood(musician, "whatever");
         return SCRIPT_CONTINUE;
     }
+    public void initializeStreetMusic(obj_id self) throws InterruptedException
+    {
+        obj_id musician = getObjIdObjVar(self, "musician");
+        if (!exists(musician))
+        {
+            spawnMusician(self);
+        }
+        if (!hasMessageTo(self, "handlePlaying"))
+        {
+            messageTo(self, "handlePlaying", null, 10.0f, false);
+        }
+        if (hasScript(self, "theme_park.poi.launch") && !hasMessageTo(self, "checkForScripts"))
+        {
+            messageTo(self, "checkForScripts", null, 10.0f, false);
+        }
+    }
     public void spawnMusician(obj_id baseObject) throws InterruptedException
     {
         obj_id musician = create.themeParkObject("noble", 1.0f, 0.0f, "objectDestroyed", 0.0f);
-        createObject("object/tangible/instrument/kloo_horn.iff", musician, "");
+        if (!isIdValid(musician))
+        {
+            LOG("poi_city_street_music", "Unable to create street musician for " + baseObject);
+            return;
+        }
+        obj_id instrument = createObject("object/tangible/instrument/kloo_horn.iff", musician, "");
+        if (!isIdValid(instrument))
+        {
+            LOG("poi_city_street_music", "Unable to equip street musician " + musician + " with a kloo horn");
+        }
         setObjVar(baseObject, "musician", musician);
     }
     public int objectDestroyed(obj_id self, dictionary params) throws InterruptedException
     {
+        removeObjVar(self, "musician");
         spawnMusician(self);
         return SCRIPT_CONTINUE;
     }

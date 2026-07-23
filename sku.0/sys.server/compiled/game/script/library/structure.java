@@ -81,6 +81,7 @@ public class structure extends script.base_script
     public static final String VAR_FILLER_SPAWN_CURRENT_BASE = "fillerSpawn.current";
     public static final String VAR_FILLER_SPAWN_CURRENT_EGG = "fillerSpawn.current.egg";
     public static final String VAR_FILLER_SPAWN_CURRENT_LOC = "fillerSpawn.current.loc";
+    public static final String VAR_FILLER_SPAWN_INITIALIZED = "fillerSpawn.initialized";
     public static final String HANDLER_CLEANUP_SELF = "handleCleanupSelf";
     public static obj_id getContainingBuilding(obj_id target) throws InterruptedException
     {
@@ -593,6 +594,25 @@ public class structure extends script.base_script
         } while (doContinue);
         return count > 0;
     }
+    public static boolean initializeFillerSpawns(obj_id building) throws InterruptedException
+    {
+        if (building == null)
+        {
+            return false;
+        }
+        if (hasObjVar(building, VAR_FILLER_SPAWN_INITIALIZED))
+        {
+            return true;
+        }
+        if (hasObjVar(building, VAR_FILLER_SPAWN_CURRENT_EGG))
+        {
+            setObjVar(building, VAR_FILLER_SPAWN_INITIALIZED, true);
+            return true;
+        }
+        boolean result = resetFillerSpawns(building);
+        setObjVar(building, VAR_FILLER_SPAWN_INITIALIZED, true);
+        return result;
+    }
     public static boolean cleanupFillerSpawns(obj_id building) throws InterruptedException
     {
         if (building == null)
@@ -606,6 +626,7 @@ public class structure extends script.base_script
             }
         }
         removeObjVar(building, VAR_FILLER_SPAWN_CURRENT_BASE);
+        removeObjVar(building, VAR_FILLER_SPAWN_INITIALIZED);
         return true;
     }
     public static dictionary getFillerEggTemplate(obj_id building, int spawnIdx, int eggIdx) throws InterruptedException
