@@ -21,6 +21,7 @@ public class handler extends script.base_script
         int bp = sui.getIntButtonPressed(params);
         if (bp == sui.BP_CANCEL)
         {
+            gm.cleanupSetHueScriptVars(self);
             return SCRIPT_CONTINUE;
         }
         obj_id target = utils.getObjIdScriptVar(self, gm.SCRIPTVAR_WIPEITEMS_TARGET);
@@ -82,42 +83,48 @@ public class handler extends script.base_script
         int bp = sui.getIntButtonPressed(params);
         if (bp == sui.BP_CANCEL)
         {
+            gm.cleanupSetHueScriptVars(self);
             return SCRIPT_CONTINUE;
         }
         obj_id target = utils.getObjIdScriptVar(self, gm.SCRIPTVAR_SETHUE_TARGET);
         String varPath = utils.getStringScriptVar(self, gm.SCRIPTVAR_SETHUE_DATA);
         gm.cleanupSetHueScriptVars(self);
 
-        // Debug: dump all params
-        java.util.Enumeration keys = params.keys();
-        while (keys.hasMoreElements())
+        if (!isIdValid(target) || !exists(target) || !target.isLoaded())
         {
-            String key = (String)keys.nextElement();
-            sendSystemMessageTestingOnly(self, "/setHue DEBUG key: [" + key + "] = [" + params.getString(key) + "]");
+            sendSystemMessageTestingOnly(self, "/setHue: target is no longer valid or loaded; no change applied");
+            return SCRIPT_CONTINUE;
         }
-
-        // First check for HTML color input from enhanced picker
-        String htmlColor = sui.getEnhancedColorPickerHtml(params);
-        sendSystemMessageTestingOnly(self, "/setHue DEBUG: htmlColor = [" + htmlColor + "], target = " + target + ", varPath = " + varPath);
-        if (htmlColor != null && !htmlColor.isEmpty() && (htmlColor.startsWith("#") || htmlColor.length() == 6))
+        if (varPath == null || varPath.equals(""))
         {
-            // Use the new direct color API with HTML color
-            if (setCustomizationColorHtml(target, varPath, htmlColor))
-            {
-                sendSystemMessageTestingOnly(self, "/setHue: Applied HTML color " + htmlColor + " to " + varPath);
-            }
-            else
-            {
-                sendSystemMessageTestingOnly(self, "/setHue: Failed to apply HTML color " + htmlColor);
-            }
+            sendSystemMessageTestingOnly(self, "/setHue: selected variable path was empty; no change applied");
             return SCRIPT_CONTINUE;
         }
 
-        // Fall back to palette index selection (enhanced picker uses volume page, not Script.ColorPicker)
-        int idx = sui.getEnhancedColorPickerIndex(params);
-        if (idx > -1)
+        custom_var cv = getCustomVarByName(target, varPath);
+        if (cv == null || !cv.isPalColor())
         {
-            hue.setColor(target, varPath, idx);
+            sendSystemMessageTestingOnly(self, "/setHue: palette variable " + varPath + " does not exist on " + target);
+            return SCRIPT_CONTINUE;
+        }
+
+        ranged_int_custom_var ri = (ranged_int_custom_var)cv;
+        int idx = sui.getEnhancedColorPickerIndex(params);
+        if (idx < ri.getMinRangeInclusive() || idx > ri.getMaxRangeInclusive())
+        {
+            sendSystemMessageTestingOnly(self, "/setHue: rejected palette index " + idx + " for " + varPath + "; valid range is " + ri.getMinRangeInclusive() + " to " + ri.getMaxRangeInclusive());
+            return SCRIPT_CONTINUE;
+        }
+
+        int before = ri.getValue();
+        if (hue.setColor(target, varPath, idx))
+        {
+            int after = hue.getVarColorIndex(target, varPath);
+            sendSystemMessageTestingOnly(self, "/setHue: updated " + varPath + " from palette index " + before + " to " + after);
+        }
+        else
+        {
+            sendSystemMessageTestingOnly(self, "/setHue: palette index " + idx + " produced no customization change for " + varPath);
         }
         return SCRIPT_CONTINUE;
     }

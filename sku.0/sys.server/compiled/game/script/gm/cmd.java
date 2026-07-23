@@ -1584,19 +1584,21 @@ public class cmd extends script.base_script
         }
         if (c != null && cv.isPalColor())
         {
-            palcolor_custom_var pcv = (palcolor_custom_var)cv;
-            if (isHtmlColor)
+            int before = ((ranged_int_custom_var)cv).getValue();
+            if (hue.setColor(target, varIdxPath, c))
             {
-                // Use direct HTML color - will auto-match to closest palette color
-                sendSystemMessageTestingOnly(self, "/setHue: setting " + target + "'s " + varIdxPath + " to HTML color " + colorname + " (RGB: " + c.getR() + "," + c.getG() + "," + c.getB() + ")");
-                pcv.setDirectColor(c);
+                int after = hue.getVarColorIndex(target, varIdxPath);
+                sendSystemMessageTestingOnly(self, "/setHue: updated " + target + "'s " + varIdxPath + " from palette index " + before + " to " + after + " using color " + colorname);
             }
             else
             {
-                // Named color - use direct color API
-                sendSystemMessageTestingOnly(self, "/setHue: setting " + target + "'s " + varIdxPath + " to color '" + colorname + "'");
-                pcv.setDirectColor(c);
+                sendSystemMessageTestingOnly(self, "/setHue: color " + colorname + " mapped to the current palette index; no customization value changed for " + varIdxPath);
             }
+            return SCRIPT_CONTINUE;
+        }
+        if (!cv.isPalColor())
+        {
+            sendSystemMessageTestingOnly(self, "/setHue: variable " + varIdxPath + " is not backed by a palette");
             return SCRIPT_CONTINUE;
         }
         ranged_int_custom_var ri = (ranged_int_custom_var)cv;
@@ -1619,10 +1621,13 @@ public class cmd extends script.base_script
             gm.showSetHueColorUI(self, target, varIdxPath);
             return SCRIPT_CONTINUE;
         }
-        if (ri != null)
+        if (hue.setColor(target, varIdxPath, palIdx))
         {
-            sendSystemMessageTestingOnly(self, "/setHue: attempting to hue " + target + "'s " + varIdxPath + " to " + palIdx);
-            ri.setValue(palIdx);
+            sendSystemMessageTestingOnly(self, "/setHue: updated " + target + "'s " + varIdxPath + " to palette index " + palIdx);
+        }
+        else
+        {
+            sendSystemMessageTestingOnly(self, "/setHue: no change applied to " + varIdxPath + "; verify the variable, palette, and requested range");
         }
         return SCRIPT_CONTINUE;
     }
