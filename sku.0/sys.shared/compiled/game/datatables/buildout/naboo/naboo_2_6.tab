@@ -1,5 +1,5 @@
 objid	container	type	shared_template_crc	cell_index	px	py	pz	qw	qx	qy	qz	sx	sy	sz	radius	portal_layout_crc
-i	i	i	h	i	f	f	f	f	f	f	f	f	f	f	i
+i	i	i	h	i	f	f	f	f	f	f	f	f	f	f	f	i
 -2021891732	0	1398030671	object/soundobject/shared_soundobject_city_crowd_sentients.iff	0	1186.95	11.379	2035.62	1	0	0	0	1	1	1	128	0
 -1798513765	0	1398030671	object/static/structure/naboo/shared_nboo_imprv_flagpole_s01.iff	0	1182.14	14.6742	1993.56	1	0	0	0	1	1	1	200	0
 -67196124	0	1398030671	object/soundobject/shared_soundobject_city_crowd_sentients.iff	0	1308.51	6	2046.11	1	0	0	0	1	1	1	128	0
