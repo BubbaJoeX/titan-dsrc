@@ -475,11 +475,6 @@ public class player_building extends script.base_script
             sendSystemMessage(self, message);
             return SCRIPT_CONTINUE;
         }
-        if (!claimCanManipulateFurniture(self, target))
-        {
-            sendSystemMessageTestingOnly(self, "You cannot manipulate furnishings in another player's claim.");
-            return SCRIPT_CONTINUE;
-        }
         boolean authorizedAdmin = getEffectiveAdminLevel(self) > 0;
         java.util.StringTokenizer stBypass = new java.util.StringTokenizer(params);
         if (stBypass.countTokens() >= 5)
@@ -514,6 +509,22 @@ public class player_building extends script.base_script
                     qx = Math.round(qx * 10000.0f) / 10000.0f;
                     qy = Math.round(qy * 10000.0f) / 10000.0f;
                     qz = Math.round(qz * 10000.0f) / 10000.0f;
+                    if (!isIdValid(target))
+                    {
+                        obj_id intendedTarget = getIntendedTarget(self);
+                        obj_id lookAtTarget = getLookAtTarget(self);
+                        target = isIdValid(intendedTarget) ? intendedTarget : lookAtTarget;
+                    }
+                    if (!isIdValid(target))
+                    {
+                        sendSystemMessage(self, new string_id(STF, "rotate_what"));
+                        return SCRIPT_CONTINUE;
+                    }
+                    if (!claimCanManipulateFurniture(self, target))
+                    {
+                        sendSystemMessageTestingOnly(self, "You cannot manipulate furnishings in another player's claim.");
+                        return SCRIPT_CONTINUE;
+                    }
                     if (!isMoveCommandValid(self, target))
                     {
                         return SCRIPT_CONTINUE;
@@ -745,6 +756,11 @@ public class player_building extends script.base_script
             sendSystemMessage(self, new string_id(STF, "rotate_move_copy_no_intended_target"));
             return SCRIPT_CONTINUE;
         }
+        if (!claimCanManipulateFurniture(self, target))
+        {
+            sendSystemMessageTestingOnly(self, "You cannot manipulate furnishings in another player's claim.");
+            return SCRIPT_CONTINUE;
+        }
         boolean isVendor = hasCondition(target, CONDITION_VENDOR);
         if (isVendor && (actionPitch || actionRoll || actionCopy || actionRestore || actionSetQuaternion))
         {
@@ -879,11 +895,6 @@ public class player_building extends script.base_script
             sendSystemMessage(self, message);
             return SCRIPT_CONTINUE;
         }
-        if (!claimCanManipulateFurniture(self, target))
-        {
-            sendSystemMessageTestingOnly(self, "You cannot manipulate furnishings in another player's claim.");
-            return SCRIPT_CONTINUE;
-        }
         boolean authorizedAdmin = getEffectiveAdminLevel(self) > 0;
         java.util.StringTokenizer stBypass = new java.util.StringTokenizer(params);
         if (stBypass.countTokens() >= 4)
@@ -909,6 +920,22 @@ public class player_building extends script.base_script
                     x = Math.round(x * 10000.0f) / 10000.0f;
                     y = Math.round(y * 10000.0f) / 10000.0f;
                     z = Math.round(z * 10000.0f) / 10000.0f;
+                    if (!isIdValid(target))
+                    {
+                        obj_id intendedTarget = getIntendedTarget(self);
+                        obj_id lookAtTarget = getLookAtTarget(self);
+                        target = isIdValid(intendedTarget) ? intendedTarget : lookAtTarget;
+                    }
+                    if (!isIdValid(target))
+                    {
+                        sendSystemMessage(self, new string_id(STF, "move_what"));
+                        return SCRIPT_CONTINUE;
+                    }
+                    if (!claimCanManipulateFurniture(self, target))
+                    {
+                        sendSystemMessageTestingOnly(self, "You cannot manipulate furnishings in another player's claim.");
+                        return SCRIPT_CONTINUE;
+                    }
                     if (!isMoveCommandValid(self, target))
                     {
                         return SCRIPT_CONTINUE;
@@ -1099,6 +1126,11 @@ public class player_building extends script.base_script
         if ((direction.equals("COPY")) && !isIdValid(intendedTarget))
         {
             sendSystemMessage(self, new string_id(STF, "rotate_move_copy_no_intended_target"));
+            return SCRIPT_CONTINUE;
+        }
+        if (!claimCanManipulateFurniture(self, target))
+        {
+            sendSystemMessageTestingOnly(self, "You cannot manipulate furnishings in another player's claim.");
             return SCRIPT_CONTINUE;
         }
         if (hasObjVar(target, "unmoveable"))
