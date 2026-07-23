@@ -13,10 +13,22 @@ public class poi_city_convo extends script.base_script
     public static final String npcTable = "datatables/poi/city/convo_npc.iff";
     public int OnInitialize(obj_id self) throws InterruptedException
     {
-        spawnGuyOne(self);
-        spawnGuyTwo(self);
-        messageTo(self, "handleChatting", null, 10, false);
-        messageTo(self, "checkForScripts", null, 10, true);
+        if (!exists(getObjIdObjVar(self, "guy1")))
+        {
+            spawnGuyOne(self);
+        }
+        if (!exists(getObjIdObjVar(self, "guy2")))
+        {
+            spawnGuyTwo(self);
+        }
+        if (!hasMessageTo(self, "handleChatting"))
+        {
+            messageTo(self, "handleChatting", null, 10, false);
+        }
+        if (!hasMessageTo(self, "checkForScripts"))
+        {
+            messageTo(self, "checkForScripts", null, 10, true);
+        }
         return SCRIPT_CONTINUE;
     }
     public int handleChatting(obj_id self, dictionary params) throws InterruptedException
@@ -46,11 +58,19 @@ public class poi_city_convo extends script.base_script
     }
     public void spawnGuyOne(obj_id baseObject) throws InterruptedException
     {
+        if (exists(getObjIdObjVar(baseObject, "guy1")))
+        {
+            return;
+        }
         obj_id guy1 = create.themeParkObject(getRandomGuy(), 1, 0, "handleGuyOneKilled", 0);
         setObjVar(baseObject, "guy1", guy1);
     }
     public void spawnGuyTwo(obj_id baseObject) throws InterruptedException
     {
+        if (exists(getObjIdObjVar(baseObject, "guy2")))
+        {
+            return;
+        }
         obj_id guy2 = create.themeParkObject(getRandomGuy(), 1, 1, "handleGuyTwoKilled", 0);
         setObjVar(baseObject, "guy2", guy2);
     }

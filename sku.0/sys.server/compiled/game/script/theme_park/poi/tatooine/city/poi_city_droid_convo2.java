@@ -11,10 +11,22 @@ public class poi_city_droid_convo2 extends script.base_script
     }
     public int OnInitialize(obj_id self) throws InterruptedException
     {
-        spawnDroid(self);
-        spawnGuy(self);
-        messageTo(self, "handleChatting", null, 10, false);
-        messageTo(self, "checkForScripts", null, 10, true);
+        if (!exists(getObjIdObjVar(self, "droidSpawn")))
+        {
+            spawnDroid(self);
+        }
+        if (!exists(getObjIdObjVar(self, "guy1")))
+        {
+            spawnGuy(self);
+        }
+        if (!hasMessageTo(self, "handleChatting"))
+        {
+            messageTo(self, "handleChatting", null, 10, false);
+        }
+        if (!hasMessageTo(self, "checkForScripts"))
+        {
+            messageTo(self, "checkForScripts", null, 10, true);
+        }
         return SCRIPT_CONTINUE;
     }
     public int handleChatting(obj_id self, dictionary params) throws InterruptedException
@@ -33,6 +45,10 @@ public class poi_city_droid_convo2 extends script.base_script
     }
     public void spawnGuy(obj_id baseObject) throws InterruptedException
     {
+        if (exists(getObjIdObjVar(baseObject, "guy1")))
+        {
+            return;
+        }
         obj_id guy1 = create.themeParkObject(getRandomGuy(), 1.0f, 0.0f, "handleDeadGuy", 0.0f);
         setObjVar(baseObject, "guy1", guy1);
     }
@@ -43,16 +59,21 @@ public class poi_city_droid_convo2 extends script.base_script
     }
     public void spawnDroid(obj_id baseObject) throws InterruptedException
     {
+        if (exists(getObjIdObjVar(baseObject, "droidSpawn")))
+        {
+            return;
+        }
         String[] droids = new String[4];
         droids[0] = "r2";
         droids[1] = "r3";
         droids[2] = "r4";
         droids[3] = "r5";
         obj_id droid = create.themeParkObject(droids[rand(0, 3)], 2.0f, 1.0f, "handleDeadDroid", 0.0f);
-        setObjVar(baseObject, "droidSpawn", true);
+        setObjVar(baseObject, "droidSpawn", droid);
     }
     public int handleDeadDroid(obj_id self, dictionary params) throws InterruptedException
     {
+        removeObjVar(self, "droidSpawn");
         spawnDroid(self);
         return SCRIPT_CONTINUE;
     }

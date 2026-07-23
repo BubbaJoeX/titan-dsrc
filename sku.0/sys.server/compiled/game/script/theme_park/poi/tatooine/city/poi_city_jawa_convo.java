@@ -12,15 +12,35 @@ public class poi_city_jawa_convo extends script.base_script
     }
     public int OnInitialize(obj_id self) throws InterruptedException
     {
-        obj_id jawa = spawnGuyOne(self);
-        obj_id jawa2 = spawnGuyTwo(self);
-        obj_id jawa3 = spawnGuy3(self);
-        messageTo(self, "handleChatting", null, 10.0f, false);
-        messageTo(self, "checkForScripts", null, 10, true);
+        if (!exists(getObjIdObjVar(self, "jawa1")))
+        {
+            spawnGuyOne(self);
+        }
+        if (!exists(getObjIdObjVar(self, "jawa2")))
+        {
+            spawnGuyTwo(self);
+        }
+        if (!exists(getObjIdObjVar(self, "jawa3")))
+        {
+            spawnGuy3(self);
+        }
+        if (!hasMessageTo(self, "handleChatting"))
+        {
+            messageTo(self, "handleChatting", null, 10.0f, false);
+        }
+        if (!hasMessageTo(self, "checkForScripts"))
+        {
+            messageTo(self, "checkForScripts", null, 10, true);
+        }
         return SCRIPT_CONTINUE;
     }
     public obj_id spawnGuyOne(obj_id baseObject) throws InterruptedException
     {
+        obj_id existing = getObjIdObjVar(baseObject, "jawa1");
+        if (exists(existing))
+        {
+            return existing;
+        }
         location here = getLocation(baseObject);
         here.x = here.x + 1;
         obj_id jawa1 = create.staticObject("jawa", here);
@@ -29,6 +49,11 @@ public class poi_city_jawa_convo extends script.base_script
     }
     public obj_id spawnGuyTwo(obj_id baseObject) throws InterruptedException
     {
+        obj_id existing = getObjIdObjVar(baseObject, "jawa2");
+        if (exists(existing))
+        {
+            return existing;
+        }
         location here = getLocation(baseObject);
         here.x = here.x - 1;
         obj_id jawa2 = create.staticObject("jawa", here);
@@ -37,6 +62,11 @@ public class poi_city_jawa_convo extends script.base_script
     }
     public obj_id spawnGuy3(obj_id baseObject) throws InterruptedException
     {
+        obj_id existing = getObjIdObjVar(baseObject, "jawa3");
+        if (exists(existing))
+        {
+            return existing;
+        }
         location here = getLocation(baseObject);
         here.z = here.z - 1;
         obj_id jawa3 = create.staticObject("jawa", here);

@@ -82,6 +82,10 @@ public class structure extends script.base_script
     public static final String VAR_FILLER_SPAWN_CURRENT_EGG = "fillerSpawn.current.egg";
     public static final String VAR_FILLER_SPAWN_CURRENT_LOC = "fillerSpawn.current.loc";
     public static final String VAR_FILLER_SPAWN_INITIALIZED = "fillerSpawn.initialized";
+    public static final String VAR_FILLER_SPAWN_FAILED = "fillerSpawn.failed";
+    public static final String VAR_FILLER_SPAWN_OWNER = "fillerSpawn.owner";
+    public static final int MAX_FILLER_EGGS_PER_BUILDING = 4;
+    public static final float FILLER_EGG_RECOVERY_RADIUS = 1.0f;
     public static final String HANDLER_CLEANUP_SELF = "handleCleanupSelf";
     public static obj_id getContainingBuilding(obj_id target) throws InterruptedException
     {
@@ -596,22 +600,171 @@ public class structure extends script.base_script
     }
     public static boolean initializeFillerSpawns(obj_id building) throws InterruptedException
     {
-        if (building == null)
+        if (!isIdValid(building))
         {
             return false;
         }
-        if (hasObjVar(building, VAR_FILLER_SPAWN_INITIALIZED))
+        if (hasObjVar(building, VAR_FILLER_SPAWN_FAILED))
         {
             return true;
         }
-        if (hasObjVar(building, VAR_FILLER_SPAWN_CURRENT_EGG))
+
+        int expectedEggCount = getFillerSpawnCount(building);
+        if (expectedEggCount < 0 || expectedEggCount > MAX_FILLER_EGGS_PER_BUILDING)
+        {
+            LOG("FILLER_BUILDING", "Initialization disabled for " + building + " template " + getTemplateName(building) + ": expected egg count " + expectedEggCount + " is outside 0-" + MAX_FILLER_EGGS_PER_BUILDING);
+            setObjVar(building, VAR_FILLER_SPAWN_FAILED, true);
+            setObjVar(building, VAR_FILLER_SPAWN_INITIALIZED, true);
+            return true;
+        }
+
+        recoverFillerSpawns(building, expectedEggCount);
+        obj_id[] eggs = getObjIdArrayObjVar(building, VAR_FILLER_SPAWN_CURRENT_EGG);
+        int currentEggCount = eggs == null ? 0 : eggs.length;
+        if (currentEggCount >= expectedEggCount)
         {
             setObjVar(building, VAR_FILLER_SPAWN_INITIALIZED, true);
             return true;
         }
-        boolean result = resetFillerSpawns(building);
-        setObjVar(building, VAR_FILLER_SPAWN_INITIALIZED, true);
-        return result;
+
+        if (!spawnNextFillerEggTemplate(building))
+        {
+            LOG("FILLER_BUILDING", "Initialization disabled for " + building + " template " + getTemplateName(building) + ": failed creating egg " + currentEggCount + " of " + expectedEggCount);
+            setObjVar(building, VAR_FILLER_SPAWN_FAILED, true);
+            setObjVar(building, VAR_FILLER_SPAWN_INITIALIZED, true);
+            return true;
+        }
+
+        eggs = getObjIdArrayObjVar(building, VAR_FILLER_SPAWN_CURRENT_EGG);
+        currentEggCount = eggs == null ? 0 : eggs.length;
+        if (currentEggCount >= expectedEggCount)
+        {
+            setObjVar(building, VAR_FILLER_SPAWN_INITIALIZED, true);
+            return true;
+        }
+        return false;
+    }
+    public static int getFillerSpawnCount(obj_id building) throws InterruptedException
+    {
+        if (!isIdValid(building))
+        {
+            return -1;
+        }
+        String table = DATATABLE_FILLER_BASE + getCurrentSceneName() + DATATABLE_FILLER_SPAWN_ENDING;
+        String eggTable = DATATABLE_FILLER_BASE + getCurrentSceneName() + DATATABLE_FILLER_EGG_ENDING;
+        if (!dataTableOpen(table) || !dataTableOpen(eggTable) || dataTableGetNumRows(eggTable) < 1)
+        {
+            return -1;
+        }
+
+        String buildingTemplate = getTemplateName(building);
+        String[] buildingTemplates = dataTableGetStringColumn(table, DATATABLE_COL_TEMPLATE);
+        if (buildingTemplates == null)
+        {
+            return -1;
+        }
+        int count = 0;
+        for (String template : buildingTemplates)
+        {
+            if (buildingTemplate.equals(template))
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+    public static boolean isFillerEggTemplate(String template) throws InterruptedException
+    {
+        if (template == null || template.equals(""))
+        {
+            return false;
+        }
+        String table = DATATABLE_FILLER_BASE + getCurrentSceneName() + DATATABLE_FILLER_EGG_ENDING;
+        if (!dataTableOpen(table))
+        {
+            return false;
+        }
+        String[] templates = dataTableGetStringColumn(table, DATATABLE_COL_TEMPLATE);
+        if (templates != null)
+        {
+            for (String validTemplate : templates)
+            {
+                if (template.equals(validTemplate))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public static void recoverFillerSpawns(obj_id building, int expectedEggCount) throws InterruptedException
+    {
+        obj_id[] trackedEggs = getObjIdArrayObjVar(building, VAR_FILLER_SPAWN_CURRENT_EGG);
+        if (trackedEggs != null && trackedEggs.length > 0)
+        {
+            boolean allTrackedEggsExist = true;
+            for (obj_id egg : trackedEggs)
+            {
+                if (!exists(egg))
+                {
+                    allTrackedEggsExist = false;
+                    break;
+                }
+                setObjVar(egg, VAR_FILLER_SPAWN_OWNER, building);
+            }
+            if (allTrackedEggsExist)
+            {
+                return;
+            }
+        }
+
+        Vector recoveredEggs = new Vector();
+        Vector recoveredLocations = new Vector();
+        for (int spawnIdx = 0; spawnIdx < expectedEggCount; spawnIdx++)
+        {
+            dictionary spawnData = getFillerEggTemplate(building, spawnIdx, 0);
+            if (spawnData == null)
+            {
+                break;
+            }
+            location expectedLocation = spawnData.getLocation(DICT_LOC);
+            obj_id[] nearbyObjects = getObjectsInRange(expectedLocation, FILLER_EGG_RECOVERY_RADIUS);
+            obj_id recoveredEgg = obj_id.NULL_ID;
+            if (nearbyObjects != null)
+            {
+                for (obj_id nearbyObject : nearbyObjects)
+                {
+                    if (!isFillerEggTemplate(getTemplateName(nearbyObject)))
+                    {
+                        continue;
+                    }
+                    if (hasObjVar(nearbyObject, VAR_FILLER_SPAWN_OWNER) && getObjIdObjVar(nearbyObject, VAR_FILLER_SPAWN_OWNER) != building)
+                    {
+                        continue;
+                    }
+                    recoveredEgg = nearbyObject;
+                    break;
+                }
+            }
+            if (!isIdValid(recoveredEgg))
+            {
+                break;
+            }
+            setObjVar(recoveredEgg, VAR_FILLER_SPAWN_OWNER, building);
+            recoveredEggs = utils.addElement(recoveredEggs, recoveredEgg);
+            recoveredLocations = utils.addElement(recoveredLocations, getLocation(recoveredEgg));
+        }
+
+        if (recoveredEggs.size() > 0)
+        {
+            setObjVar(building, VAR_FILLER_SPAWN_CURRENT_EGG, recoveredEggs);
+            setObjVar(building, VAR_FILLER_SPAWN_CURRENT_LOC, recoveredLocations);
+        }
+        else
+        {
+            removeObjVar(building, VAR_FILLER_SPAWN_CURRENT_EGG);
+            removeObjVar(building, VAR_FILLER_SPAWN_CURRENT_LOC);
+        }
     }
     public static boolean cleanupFillerSpawns(obj_id building) throws InterruptedException
     {
@@ -627,6 +780,7 @@ public class structure extends script.base_script
         }
         removeObjVar(building, VAR_FILLER_SPAWN_CURRENT_BASE);
         removeObjVar(building, VAR_FILLER_SPAWN_INITIALIZED);
+        removeObjVar(building, VAR_FILLER_SPAWN_FAILED);
         return true;
     }
     public static dictionary getFillerEggTemplate(obj_id building, int spawnIdx, int eggIdx) throws InterruptedException
@@ -762,11 +916,12 @@ public class structure extends script.base_script
         LOG("FILLER_BUILDING", "spawnFillerEgg: template = " + template);
         LOG("FILLER_BUILDING", "spawnFillerEgg: loc = " + loc);
         obj_id egg = createObject(template, loc);
-        if (egg == null)
+        if (!isIdValid(egg))
         {
             LOG("FILLER_BUILDING", "spawnFillerEgg: unable to create spawn egg!");
             return false;
         }
+        setObjVar(egg, VAR_FILLER_SPAWN_OWNER, building);
         setYaw(egg, rand(0, 360));
         Vector eggs = getResizeableObjIdArrayObjVar(building, VAR_FILLER_SPAWN_CURRENT_EGG);
         Vector locs = getResizeableLocationArrayObjVar(building, VAR_FILLER_SPAWN_CURRENT_LOC);

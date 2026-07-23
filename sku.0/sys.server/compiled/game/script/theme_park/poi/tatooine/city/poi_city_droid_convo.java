@@ -13,12 +13,29 @@ public class poi_city_droid_convo extends script.base_script
     }
     public int OnInitialize(obj_id self) throws InterruptedException
     {
-        obj_id guy = spawnGuyOne(self);
-        obj_id guy2 = spawnGuyTwo(self);
-        spawnDroid();
+        obj_id guy = getObjIdObjVar(self, "guy1");
+        if (!exists(guy))
+        {
+            guy = spawnGuyOne(self);
+        }
+        obj_id guy2 = getObjIdObjVar(self, "guy2");
+        if (!exists(guy2))
+        {
+            guy2 = spawnGuyTwo(self);
+        }
+        if (!exists(getObjIdObjVar(self, "droidSpawn")))
+        {
+            spawnDroid(self);
+        }
         faceTo(guy, guy2);
-        messageTo(self, "handleChatting", null, 10.0f, false);
-        messageTo(self, "checkForScripts", null, 10, true);
+        if (!hasMessageTo(self, "handleChatting"))
+        {
+            messageTo(self, "handleChatting", null, 10.0f, false);
+        }
+        if (!hasMessageTo(self, "checkForScripts"))
+        {
+            messageTo(self, "checkForScripts", null, 10, true);
+        }
         return SCRIPT_CONTINUE;
     }
     public obj_id spawnGuyOne(obj_id baseObject) throws InterruptedException
@@ -37,13 +54,18 @@ public class poi_city_droid_convo extends script.base_script
         setObjVar(baseObject, "guy2", guy2);
         return guy2;
     }
-    public void spawnDroid() throws InterruptedException
+    public void spawnDroid(obj_id baseObject) throws InterruptedException
     {
-        location here = getLocation(getSelf());
+        if (exists(getObjIdObjVar(baseObject, "droidSpawn")))
+        {
+            return;
+        }
+        location here = getLocation(baseObject);
         here.z = here.z + 1;
         String droidToSpawn = getRandomDroid();
         obj_id droid = create.object(droidToSpawn, here);
         ai_lib.setDefaultCalmBehavior(droid, ai_lib.BEHAVIOR_SENTINEL);
+        setObjVar(baseObject, "droidSpawn", droid);
     }
     public int handleDeadGuyOne(obj_id self, dictionary params) throws InterruptedException
     {
@@ -57,7 +79,8 @@ public class poi_city_droid_convo extends script.base_script
     }
     public int handleDeadDroid(obj_id self, dictionary params) throws InterruptedException
     {
-        spawnDroid();
+        removeObjVar(self, "droidSpawn");
+        spawnDroid(self);
         return SCRIPT_CONTINUE;
     }
     public int handleChatting(obj_id self, dictionary params) throws InterruptedException
