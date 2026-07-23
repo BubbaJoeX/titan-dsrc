@@ -112,25 +112,33 @@ public class handler extends script.base_script
         }
 
         ranged_int_custom_var ri = (ranged_int_custom_var)cv;
-        String htmlColor = sui.getEnhancedColorPickerHtml(params);
-        boolean clearOverride = htmlColor != null && htmlColor.equalsIgnoreCase("clear");
-        if (clearOverride || (htmlColor != null && sui.getEnhancedColorPickerDirectEnabled(params)))
+        String htmlInput = sui.getEnhancedColorPickerHtml(params);
+        boolean clearOverride = htmlInput != null && htmlInput.equalsIgnoreCase("clear");
+        boolean directColorRequested = sui.getEnhancedColorPickerDirectEnabled(params);
+        String normalizedHtml = clearOverride ? "clear" : sui.normalizeEnhancedColorPickerHtml(htmlInput);
+        if (directColorRequested && normalizedHtml == null)
         {
-            if (setCustomizationColorHtml(target, varPath, htmlColor))
+            sendSystemMessageTestingOnly(self, "/setHue: malformed HTML color " + htmlInput + " for " + varPath + "; expected #RRGGBB or RRGGBB");
+            return SCRIPT_CONTINUE;
+        }
+
+        if (clearOverride || directColorRequested)
+        {
+            if (setCustomizationColorHtml(target, varPath, normalizedHtml))
             {
-                int mappedIndex = hue.getVarColorIndex(target, varPath);
-                if (htmlColor.equalsIgnoreCase("clear"))
+                int fallbackIndex = hue.getVarColorIndex(target, varPath);
+                if (clearOverride)
                 {
-                    sendSystemMessageTestingOnly(self, "/setHue: cleared the declared direct-color override for " + varPath + "; palette/CDF index " + mappedIndex + " is visible");
+                    sendSystemMessageTestingOnly(self, "/setHue: cleared the direct-color override for " + varPath + "; saved palette fallback index " + fallbackIndex + " is visible");
                 }
                 else
                 {
-                    sendSystemMessageTestingOnly(self, "/setHue: applied HTML color " + htmlColor + " to " + varPath + " where direct override channels are declared; palette fallback index is " + mappedIndex);
+                    sendSystemMessageTestingOnly(self, "/setHue: applied HTML color " + normalizedHtml + " to the direct-color override for " + varPath + "; saved palette fallback index remains " + fallbackIndex);
                 }
             }
             else
             {
-                sendSystemMessageTestingOnly(self, "/setHue: rejected HTML color " + htmlColor + " for " + varPath + "; use #RRGGBB, or 'clear' on an override-capable asset");
+                sendSystemMessageTestingOnly(self, "/setHue: no direct-color override slot is available for palette variable " + varPath + " in its selected customization namespace");
             }
             return SCRIPT_CONTINUE;
         }
@@ -147,14 +155,7 @@ public class handler extends script.base_script
         int after = hue.getVarColorIndex(target, varPath);
         if (changed || after == idx)
         {
-            if (htmlColor != null)
-            {
-                sendSystemMessageTestingOnly(self, "/setHue: target is palette-only; mapped HTML color " + htmlColor + " deterministically to palette index " + after);
-            }
-            else
-            {
-                sendSystemMessageTestingOnly(self, "/setHue: updated " + varPath + " from palette index " + before + " to " + after);
-            }
+            sendSystemMessageTestingOnly(self, "/setHue: updated " + varPath + " from palette index " + before + " to " + after);
         }
         else
         {

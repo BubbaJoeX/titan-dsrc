@@ -54,7 +54,8 @@ public class sui extends script.base_script
     public static final String SUI_COLORPICKER_ENHANCED = "Script.GMSetHue";
     public static final String COLORPICKER_ENH_TEXTBOX_HTML = "content.pageColorWheel.valuesRow.textboxHtml";
     public static final String COLORPICKER_ENH_VOLUME_PAGE = "content.pagePaletteGrid.volumePage";
-    public static final String COLORPICKER_ENH_DIRECT_ENABLED = COLORPICKER_ENH_VOLUME_PAGE + ".DirectColorEnabled";
+    public static final String COLORPICKER_ENH_ROOT = "this";
+    public static final String COLORPICKER_ENH_DIRECT_ENABLED = COLORPICKER_ENH_ROOT + ".DirectColorEnabled";
     public static final String COLORPICKER_ENH_PAGE_SAMPLE = "content.pageColorWheel.valuesRow.pageSample";
     public static final String COLORPICKER_ENH_TEXT_TITLE = "content.textTitle";
     public static final String SUI_MSGBOX = "Script.messageBox";
@@ -1613,15 +1614,16 @@ public class sui extends script.base_script
         int pid = createSUIPage(SUI_COLORPICKER_ENHANCED, owner, player, handler);
         if (pid > -1)
         {
-            // Set up the volume page for palette display
-            setSUIProperty(pid, COLORPICKER_ENH_VOLUME_PAGE, PROP_TARGETID, target.toString());
-            setSUIProperty(pid, COLORPICKER_ENH_VOLUME_PAGE, PROP_TARGETVAR, customizationVar);
-            setSUIProperty(pid, COLORPICKER_ENH_VOLUME_PAGE, PROP_TARGETRANGEMAX, "500");
+            // CuiColorPicker reads and publishes mediator properties on the
+            // page root.  The volume page is only its internal palette grid.
+            setSUIProperty(pid, COLORPICKER_ENH_ROOT, PROP_TARGETID, target.toString());
+            setSUIProperty(pid, COLORPICKER_ENH_ROOT, PROP_TARGETVAR, customizationVar);
+            setSUIProperty(pid, COLORPICKER_ENH_ROOT, PROP_TARGETRANGEMAX, "500");
 
             // Subscribe to HTML textbox value and palette selection
             subscribeToSUIProperty(pid, COLORPICKER_ENH_TEXTBOX_HTML, PROP_LOCALTEXT);
-            subscribeToSUIProperty(pid, COLORPICKER_ENH_VOLUME_PAGE, PROP_SELECTEDINDEX);
-            subscribeToSUIProperty(pid, COLORPICKER_ENH_VOLUME_PAGE, "DirectColorEnabled");
+            subscribeToSUIProperty(pid, COLORPICKER_ENH_ROOT, PROP_SELECTEDINDEX);
+            subscribeToSUIProperty(pid, COLORPICKER_ENH_ROOT, "DirectColorEnabled");
 
             showSUIPage(pid);
         }
@@ -1646,13 +1648,42 @@ public class sui extends script.base_script
         return raw.isEmpty() ? null : raw;
     }
 
+    public static String normalizeEnhancedColorPickerHtml(String raw) throws InterruptedException
+    {
+        if (raw == null)
+        {
+            return null;
+        }
+        raw = raw.trim();
+        if (raw.startsWith("#"))
+        {
+            raw = raw.substring(1);
+        }
+        if (raw.length() != 6)
+        {
+            return null;
+        }
+        for (int i = 0; i < raw.length(); ++i)
+        {
+            char c = raw.charAt(i);
+            boolean digit = c >= '0' && c <= '9';
+            boolean lower = c >= 'a' && c <= 'f';
+            boolean upper = c >= 'A' && c <= 'F';
+            if (!digit && !lower && !upper)
+            {
+                return null;
+            }
+        }
+        return "#" + raw.toUpperCase();
+    }
+
     public static int getEnhancedColorPickerIndex(dictionary params) throws InterruptedException
     {
         if (params == null || params.isEmpty())
         {
             return -1;
         }
-        return utils.stringToInt(params.getString(COLORPICKER_ENH_VOLUME_PAGE + "." + PROP_SELECTEDINDEX));
+        return utils.stringToInt(params.getString(COLORPICKER_ENH_ROOT + "." + PROP_SELECTEDINDEX));
     }
 
     public static boolean getEnhancedColorPickerDirectEnabled(dictionary params) throws InterruptedException
