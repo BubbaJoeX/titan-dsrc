@@ -11169,6 +11169,16 @@ public class base_class
         }
 
         /**
+         * Returns the authoritative account-admin/active-god authorization level.
+         * Unlike getGodLevel(), account staff remain authorized with /gm off.
+         */
+        private static native int _getEffectiveAdminLevel(long target);
+        public static int getEffectiveAdminLevel(obj_id target)
+        {
+            return _getEffectiveAdminLevel(getLongWithNull(target));
+        }
+
+        /**
          * Display title for the player's account staff tier (from staff_ranks.iff), independent of /gm toggle.
          */
         private static native String _getStaffRankTitle(long target);

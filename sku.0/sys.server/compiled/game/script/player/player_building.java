@@ -480,6 +480,7 @@ public class player_building extends script.base_script
             sendSystemMessageTestingOnly(self, "You cannot manipulate furnishings in another player's claim.");
             return SCRIPT_CONTINUE;
         }
+        boolean authorizedAdmin = getEffectiveAdminLevel(self) > 0;
         java.util.StringTokenizer stBypass = new java.util.StringTokenizer(params);
         if (stBypass.countTokens() >= 5)
         {
@@ -513,6 +514,10 @@ public class player_building extends script.base_script
                     qx = Math.round(qx * 10000.0f) / 10000.0f;
                     qy = Math.round(qy * 10000.0f) / 10000.0f;
                     qz = Math.round(qz * 10000.0f) / 10000.0f;
+                    if (!isMoveCommandValid(self, target))
+                    {
+                        return SCRIPT_CONTINUE;
+                    }
                     setQuaternion(target, qw, qx, qy, qz);
                     messageTo(target, "furniture_rotated", null, 1.0f, false);
                     return SCRIPT_CONTINUE;
@@ -522,7 +527,7 @@ public class player_building extends script.base_script
                 }
             }
         }
-        boolean canRollAndPitch = (player_structure.canRotateFurnitureInPitchRollAxes(self) || isGod(self));
+        boolean canRollAndPitch = (player_structure.canRotateFurnitureInPitchRollAxes(self) || authorizedAdmin);
         java.util.StringTokenizer st = new java.util.StringTokenizer(params);
         if (st.countTokens() == 0)
         {
@@ -611,10 +616,15 @@ public class player_building extends script.base_script
                     try
                     {
                         rotationDegrees = Float.parseFloat(rot_str);
+                        if (!Float.isFinite(rotationDegrees))
+                        {
+                            sendSystemMessage(self, new string_id(STF, "rotate_params"));
+                            return SCRIPT_CONTINUE;
+                        }
                         rotationIsFloat = (rot_str.indexOf('.') >= 0);
                         if (rotationIsFloat)
                         {
-                            if (rotationDegrees < -360.0f || rotationDegrees > 360.0f)
+                            if ((rotationDegrees < -360.0f || rotationDegrees > 360.0f) && !authorizedAdmin)
                             {
                                 sendSystemMessage(self, new string_id(STF, "rotate_params"));
                                 return SCRIPT_CONTINUE;
@@ -623,7 +633,7 @@ public class player_building extends script.base_script
                         else
                         {
                             rotation = (int)rotationDegrees;
-                            if (rotation < -180 || rotation > 180 && !isGod(self))
+                            if ((rotation < -180 || rotation > 180) && !authorizedAdmin)
                             {
                                 sendSystemMessage(self, new string_id(STF, "rotate_params"));
                                 return SCRIPT_CONTINUE;
@@ -839,6 +849,23 @@ public class player_building extends script.base_script
         }
         else if (actionSetQuaternion)
         {
+            if (!Float.isFinite(qw) || !Float.isFinite(qx) || !Float.isFinite(qy) || !Float.isFinite(qz))
+            {
+                return SCRIPT_CONTINUE;
+            }
+            float magSq = qw * qw + qx * qx + qy * qy + qz * qz;
+            if (magSq < 0.0001f || magSq > 100.0f)
+            {
+                return SCRIPT_CONTINUE;
+            }
+            if (Math.abs(magSq - 1.0f) > 0.01f)
+            {
+                float mag = (float) Math.sqrt(magSq);
+                qw /= mag;
+                qx /= mag;
+                qy /= mag;
+                qz /= mag;
+            }
             setQuaternion(target, qw, qx, qy, qz);
         }
         messageTo(target, "furniture_rotated", null, 1.0f, false);
@@ -857,6 +884,7 @@ public class player_building extends script.base_script
             sendSystemMessageTestingOnly(self, "You cannot manipulate furnishings in another player's claim.");
             return SCRIPT_CONTINUE;
         }
+        boolean authorizedAdmin = getEffectiveAdminLevel(self) > 0;
         java.util.StringTokenizer stBypass = new java.util.StringTokenizer(params);
         if (stBypass.countTokens() >= 4)
         {
@@ -881,6 +909,10 @@ public class player_building extends script.base_script
                     x = Math.round(x * 10000.0f) / 10000.0f;
                     y = Math.round(y * 10000.0f) / 10000.0f;
                     z = Math.round(z * 10000.0f) / 10000.0f;
+                    if (!isMoveCommandValid(self, target))
+                    {
+                        return SCRIPT_CONTINUE;
+                    }
                     if (!claimValidateWorldPosition(self, target, x, y, z))
                     {
                         sendSystemMessageTestingOnly(self, "That position is outside the claim boundary.");
@@ -1011,7 +1043,7 @@ public class player_building extends script.base_script
                 {
                     distance = dist_int;
                 }
-                if (distance < 1 || distance > 500 && !isGod(self))
+                if ((distance < 1 || distance > 500) && !authorizedAdmin)
                 {
                     sendSystemMessage(self, new string_id(STF, "movefurniture_params"));
                     return SCRIPT_CONTINUE;
@@ -1128,7 +1160,7 @@ public class player_building extends script.base_script
                 move_loc = new location(x + loc.x, loc.y, z + loc.z, loc.area, loc.cell);
             }
             LOG("LOG_CHANNEL", "move_loc ->" + move_loc);
-            if (!isGod(self))
+            if (!authorizedAdmin)
             {
                 if (!isValidInteriorLocation(move_loc))
                 {
@@ -1145,7 +1177,7 @@ public class player_building extends script.base_script
             LOG("LOG_CHANNEL", "y ->" + y + " dist ->" + dist_scaled);
             move_loc = new location(loc.x, y + loc.y, loc.z, loc.area, loc.cell);
             LOG("LOG_CHANNEL", "move_loc ->" + move_loc);
-            if (!isGod(self))
+            if (!authorizedAdmin)
             {
                 obj_id building = getTopMostContainer(target);
                 String bldgstr = getTemplateName(building);
@@ -1186,7 +1218,7 @@ public class player_building extends script.base_script
             move_loc = getLocation(target);
             if (sourceLoc != null
                     && move_loc != null
-                    && (isGod(self) || (isIdValid(sourceLoc.cell) && isIdValid(move_loc.cell))))
+                    && (authorizedAdmin || (isIdValid(sourceLoc.cell) && isIdValid(move_loc.cell))))
             {
                 // existing logic unchanged
                 if (sourceLoc.cell == move_loc.cell)
@@ -1207,7 +1239,7 @@ public class player_building extends script.base_script
                 }
                 else
                 {
-                    if (!isGod(self)) // optional: still warn non-gods
+                    if (!authorizedAdmin)
                     {
                         sendSystemMessage(self, new string_id(STF, "move_copy_objects_not_in_same_cell"));
                         return SCRIPT_CONTINUE;
@@ -5538,10 +5570,6 @@ public class player_building extends script.base_script
     }
     public boolean isMoveCommandValid(obj_id player, obj_id target) throws InterruptedException
     {
-        if (isGod(player))
-        {
-            return true;
-        }
         if (claimCanManipulateFurniture(player, target))
         {
             if (hasObjVar(target, "noMoveItem"))
