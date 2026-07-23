@@ -93,12 +93,27 @@ public class dynamic_bunker_lib extends script.base_script
         String donorPob = def.getString("donor_pob");
         int donorCell = def.getInt("donor_cell_index");
         int donorPortal = def.getInt("donor_portal_index");
+        // addRoomHook replaces any existing graft on this socket.
         obj_id cell = addRoomHook(building, hostCellIndex, hostPortalIndex, donorPob, donorCell, donorPortal);
         if (isIdValid(cell))
         {
             setObjVar(building, OV_ASSIGNED_ROOM + "." + hostCellIndex + "." + hostPortalIndex, roomId);
         }
         return cell;
+    }
+
+    public static boolean unassignRoom(obj_id building, int hostCellIndex, int hostPortalIndex) throws InterruptedException
+    {
+        if (!isIdValid(building))
+        {
+            return false;
+        }
+        boolean ok = removeRoomHook(building, hostCellIndex, hostPortalIndex);
+        if (ok)
+        {
+            removeObjVar(building, OV_ASSIGNED_ROOM + "." + hostCellIndex + "." + hostPortalIndex);
+        }
+        return ok;
     }
 
     public static boolean linkPortals(obj_id building, int cellA, int portalA, int cellB, int portalB) throws InterruptedException

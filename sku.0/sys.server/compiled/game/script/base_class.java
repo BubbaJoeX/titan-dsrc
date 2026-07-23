@@ -7770,6 +7770,15 @@ public class base_class
     }
 
     /**
+     * Unassign / detach a dynamically grafted room from a host portal (cascades child grafts).
+     */
+    private static native boolean _removeRoomHook(long building, int hostCellIndex, int hostPortalIndex);
+    public static boolean removeRoomHook(obj_id building, int hostCellIndex, int hostPortalIndex)
+    {
+        return _removeRoomHook(getLongWithNull(building), hostCellIndex, hostPortalIndex);
+    }
+
+    /**
      * Snap two already-loaded inward portals inside the same building.
      */
     private static native boolean _linkRoomPortals(long building, int cellIndexA, int portalIndexA, int cellIndexB, int portalIndexB);
