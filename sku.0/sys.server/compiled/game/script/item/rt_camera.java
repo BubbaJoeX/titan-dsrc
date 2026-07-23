@@ -27,6 +27,8 @@ public class rt_camera extends script.base_script
     public static final float MIN_FOV = 30.0f;
     public static final float MAX_FOV = 120.0f;
     public static final float MAX_LINK_DISTANCE = 1000.0f;
+    public static final int LINK_RESTORE_MAX_ATTEMPTS = 10;
+    public static final String SCRIPTVAR_RESTORE_ACTIVE = OBJVAR_ROOT + ".restoreActive";
 
     public static final int MENU_LINK_SCREEN = menu_info_types.SERVER_MENU1;
     public static final int MENU_UNLINK = menu_info_types.SERVER_MENU2;
@@ -52,6 +54,19 @@ public class rt_camera extends script.base_script
 
     public int OnInitialize(obj_id self) throws InterruptedException
     {
+        if (!hasObjVar(self, OBJVAR_FOV))
+            setObjVar(self, OBJVAR_FOV, DEFAULT_FOV);
+        if (!hasObjVar(self, OBJVAR_IS_ACTIVE))
+            setObjVar(self, OBJVAR_IS_ACTIVE, false);
+
+        validatePersistentState(self, 0);
+        return SCRIPT_CONTINUE;
+    }
+
+    public int handleValidatePersistentState(obj_id self, dictionary params) throws InterruptedException
+    {
+        int attempt = params == null ? 0 : params.getInt("attempt");
+        validatePersistentState(self, attempt);
         return SCRIPT_CONTINUE;
     }
 
@@ -338,6 +353,12 @@ public class rt_camera extends script.base_script
             return;
         }
 
+        if (!isSpatiallyCompatible(camera, target))
+        {
+            sendSystemMessageTestingOnly(player, "\\#ff4444[RT Camera]: Camera and target must be in the same world space or POB.");
+            return;
+        }
+
         // Lock camera to target at current relative position
         location camLoc = getLocation(camera);
         location targetLoc = getLocation(target);
@@ -383,8 +404,14 @@ public class rt_camera extends script.base_script
         obj_id screen = params.getObjId("screen");
         obj_id player = params.getObjId("player");
 
-        if (!isIdValid(screen) || !isIdValid(player))
+        if (!isIdValid(screen) || !exists(screen) || !isIdValid(player))
             return SCRIPT_CONTINUE;
+
+        if (!isSpatiallyCompatible(self, screen))
+        {
+            sendSystemMessageTestingOnly(player, "\\#ff4444[RT Camera]: Camera and screen must be in the same world space or POB.");
+            return SCRIPT_CONTINUE;
+        }
 
         // Check distance
         float dist = getDistance(self, screen);
@@ -415,6 +442,159 @@ public class rt_camera extends script.base_script
         sendSystemMessageTestingOnly(player, "\\#00ff88[RT Camera]: Linked to screen successfully!");
 
         return SCRIPT_CONTINUE;
+    }
+
+    private void validatePersistentState(obj_id camera, int attempt) throws InterruptedException
+    {
+        if (hasObjVar(camera, "dynamics.lockParent.parentId"))
+        {
+            obj_id parent = getTypedParentId(camera);
+            if (!isIdValid(parent) || parent.equals(camera) ||
+                (exists(parent) && !isSpatiallyCompatible(camera, parent)))
+            {
+                clearPersistentParent(camera);
+                LOG("RtCamera", "Cleared invalid persistent parent from camera " + camera);
+            }
+            else if (!exists(parent) && attempt < LINK_RESTORE_MAX_ATTEMPTS)
+            {
+                schedulePersistentValidation(camera, attempt + 1);
+            }
+            else if (!exists(parent))
+            {
+                clearPersistentParent(camera);
+                LOG("RtCamera", "Cleared unloaded persistent parent from camera " + camera + " after deferred restore.");
+            }
+        }
+
+        if (!hasObjVar(camera, OBJVAR_LINKED_SCREEN))
+            return;
+
+        obj_id screen = getObjIdObjVar(camera, OBJVAR_LINKED_SCREEN);
+        if (!isIdValid(screen) || screen.equals(camera))
+        {
+            clearPersistentLink(camera, screen, "invalid screen id");
+            return;
+        }
+
+        if (!exists(screen))
+        {
+            quarantineActiveState(camera);
+            if (attempt < LINK_RESTORE_MAX_ATTEMPTS)
+                schedulePersistentValidation(camera, attempt + 1);
+            else
+                clearPersistentLink(camera, screen, "screen did not load");
+            return;
+        }
+
+        if (!isSpatiallyCompatible(camera, screen))
+        {
+            clearPersistentLink(camera, screen, "cross-POB or invalid cell");
+            return;
+        }
+
+        if (hasObjVar(screen, "rt_screen.linkedCamera"))
+        {
+            obj_id reciprocalCamera = getObjIdObjVar(screen, "rt_screen.linkedCamera");
+            if (isIdValid(reciprocalCamera) && !reciprocalCamera.equals(camera))
+            {
+                clearPersistentLink(camera, screen, "screen points to another camera");
+                return;
+            }
+        }
+
+        setObjVar(screen, "rt_screen.linkedCamera", camera);
+        if (utils.hasScriptVar(camera, SCRIPTVAR_RESTORE_ACTIVE))
+        {
+            setObjVar(camera, OBJVAR_IS_ACTIVE, utils.getBooleanScriptVar(camera, SCRIPTVAR_RESTORE_ACTIVE));
+            utils.removeScriptVar(camera, SCRIPTVAR_RESTORE_ACTIVE);
+        }
+    }
+
+    private void quarantineActiveState(obj_id camera) throws InterruptedException
+    {
+        if (!utils.hasScriptVar(camera, SCRIPTVAR_RESTORE_ACTIVE))
+        {
+            boolean wasActive = hasObjVar(camera, OBJVAR_IS_ACTIVE) && getBooleanObjVar(camera, OBJVAR_IS_ACTIVE);
+            utils.setScriptVar(camera, SCRIPTVAR_RESTORE_ACTIVE, wasActive);
+        }
+        setObjVar(camera, OBJVAR_IS_ACTIVE, false);
+    }
+
+    private void schedulePersistentValidation(obj_id camera, int attempt) throws InterruptedException
+    {
+        dictionary params = new dictionary();
+        params.put("attempt", attempt);
+        messageTo(camera, "handleValidatePersistentState", params, 1.0f, false);
+    }
+
+    private obj_id getTypedParentId(obj_id camera) throws InterruptedException
+    {
+        obj_var_list lockVars = getObjVarList(camera, "dynamics.lockParent");
+        if (lockVars == null)
+            return null;
+
+        obj_var parentVar = lockVars.getObjVar("parentId");
+        if (parentVar == null || !(parentVar.getData() instanceof obj_id))
+            return null;
+
+        return (obj_id)parentVar.getData();
+    }
+
+    private void clearPersistentParent(obj_id camera) throws InterruptedException
+    {
+        removeObjVar(camera, "dynamics.lockParent.parentId");
+        removeObjVar(camera, "dynamics.lockParent.offsetX");
+        removeObjVar(camera, "dynamics.lockParent.offsetY");
+        removeObjVar(camera, "dynamics.lockParent.offsetZ");
+        removeObjVar(camera, "dynamics.lockParent.rotYaw");
+        removeObjVar(camera, "dynamics.lockParent.rotPitch");
+        removeObjVar(camera, "dynamics.lockParent.rotRoll");
+        removeObjVar(camera, "dynamics.lockParent.matchRotation");
+        removeObjVar(camera, "dynamics.lockParent.duration");
+
+        int revision = hasObjVar(camera, "dynamicsRevision") ? getIntObjVar(camera, "dynamicsRevision") : 0;
+        setObjVar(camera, "dynamicsRevision", revision == 2147483647 ? 1 : revision + 1);
+    }
+
+    private void clearPersistentLink(obj_id camera, obj_id screen, String reason) throws InterruptedException
+    {
+        setObjVar(camera, OBJVAR_IS_ACTIVE, false);
+        removeObjVar(camera, OBJVAR_LINKED_SCREEN);
+        utils.removeScriptVar(camera, SCRIPTVAR_RESTORE_ACTIVE);
+
+        if (isIdValid(screen) && exists(screen) && hasObjVar(screen, "rt_screen.linkedCamera"))
+        {
+            obj_id reciprocalCamera = getObjIdObjVar(screen, "rt_screen.linkedCamera");
+            if (isIdValid(reciprocalCamera) && reciprocalCamera.equals(camera))
+                removeObjVar(screen, "rt_screen.linkedCamera");
+        }
+
+        LOG("RtCamera", "Sanitized camera " + camera + " link to " + screen + ": " + reason);
+    }
+
+    public static boolean isSpatiallyCompatible(obj_id first, obj_id second) throws InterruptedException
+    {
+        if (!isIdValid(first) || !isIdValid(second) || !exists(first) || !exists(second))
+            return false;
+
+        location firstLoc = getLocation(first);
+        location secondLoc = getLocation(second);
+        if (firstLoc == null || secondLoc == null || firstLoc.area == null ||
+            secondLoc.area == null || !firstLoc.area.equals(secondLoc.area))
+            return false;
+
+        boolean firstInCell = isIdValid(firstLoc.cell);
+        boolean secondInCell = isIdValid(secondLoc.cell);
+        if (firstInCell != secondInCell)
+            return false;
+        if (!firstInCell)
+            return true;
+        if (!exists(firstLoc.cell) || !exists(secondLoc.cell))
+            return false;
+
+        obj_id firstTop = getTopMostContainer(first);
+        obj_id secondTop = getTopMostContainer(second);
+        return isIdValid(firstTop) && isIdValid(secondTop) && firstTop.equals(secondTop);
     }
 
     /**

@@ -15,6 +15,7 @@ package script.developer.bubbajoe;/*
 import script.*;
 import script.ai.ai;
 import script.creature.creature_dynamic_mount;
+import script.item.rt_camera;
 import script.library.*;
 import script.space.atmo.atmo_landing_manager;
 import script.space.atmo.atmo_landing_registry;
@@ -1546,9 +1547,15 @@ public class player_developer extends base_script
         else if (cmd.equalsIgnoreCase("spawnRtCameraWithFollowTarget"))
         {
             // Spawn RT Camera system that follows the current target
-            if (!isIdValid(target) || target.equals(self))
+            if (!isIdValid(target) || !exists(target) || target.equals(self))
             {
                 broadcast(self, "\\#ff4444[RT System]: You must have a valid target to follow.");
+                return SCRIPT_CONTINUE;
+            }
+
+            if (!rt_camera.isSpatiallyCompatible(self, target))
+            {
+                broadcast(self, "\\#ff4444[RT System]: Follow target must be in the same world space or POB.");
                 return SCRIPT_CONTINUE;
             }
 
@@ -1634,7 +1641,7 @@ public class player_developer extends base_script
 
             // Set up tangible dynamics to follow target
             // Lock to parent with offset (above and behind target)
-            setObjVar(camera, "dynamics.lockParent.parentId", target.toString());
+            setObjVar(camera, "dynamics.lockParent.parentId", target);
             setObjVar(camera, "dynamics.lockParent.offsetX", 0.0f);
             setObjVar(camera, "dynamics.lockParent.offsetY", 3.0f);   // Above target
             setObjVar(camera, "dynamics.lockParent.offsetZ", -5.0f);  // Behind target

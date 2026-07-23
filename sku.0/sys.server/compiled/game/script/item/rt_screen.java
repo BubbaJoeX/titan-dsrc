@@ -26,6 +26,7 @@ public class rt_screen extends script.base_script
     public static final int DEFAULT_RESOLUTION = 512;
     public static final int[] VALID_RESOLUTIONS = {256, 512};
     public static final float MAX_VIEW_DISTANCE = 50.0f;
+    public static final int LINK_RESTORE_MAX_ATTEMPTS = 10;
 
     public static final int MENU_VIEW_FEED = menu_info_types.SERVER_MENU1;
     public static final int MENU_STOP_VIEWING = menu_info_types.SERVER_MENU2;
@@ -50,6 +51,19 @@ public class rt_screen extends script.base_script
 
     public int OnInitialize(obj_id self) throws InterruptedException
     {
+        if (!hasObjVar(self, OBJVAR_RESOLUTION))
+            setObjVar(self, OBJVAR_RESOLUTION, DEFAULT_RESOLUTION);
+        if (!hasObjVar(self, OBJVAR_IS_DISPLAYING))
+            setObjVar(self, OBJVAR_IS_DISPLAYING, false);
+
+        validatePersistentLink(self, 0);
+        return SCRIPT_CONTINUE;
+    }
+
+    public int handleValidatePersistentLink(obj_id self, dictionary params) throws InterruptedException
+    {
+        int attempt = params == null ? 0 : params.getInt("attempt");
+        validatePersistentLink(self, attempt);
         return SCRIPT_CONTINUE;
     }
 
@@ -208,6 +222,13 @@ public class rt_screen extends script.base_script
             return;
         }
 
+        if (!rt_camera.isSpatiallyCompatible(screen, camera))
+        {
+            sendSystemMessageTestingOnly(player, "\\#ff4444[RT Screen]: Camera is no longer in this world space or POB.");
+            removeObjVar(screen, OBJVAR_LINKED_CAMERA);
+            return;
+        }
+
         boolean cameraActive = hasObjVar(camera, "rt_camera.isActive") && getBooleanObjVar(camera, "rt_camera.isActive");
         if (!cameraActive)
         {
@@ -251,6 +272,71 @@ public class rt_screen extends script.base_script
         }
 
         sendSystemMessageTestingOnly(player, "\\#00ff88[RT Screen]: Camera unlinked.");
+    }
+
+    private void validatePersistentLink(obj_id screen, int attempt) throws InterruptedException
+    {
+        if (!hasObjVar(screen, OBJVAR_LINKED_CAMERA))
+            return;
+
+        obj_id camera = getObjIdObjVar(screen, OBJVAR_LINKED_CAMERA);
+        if (!isIdValid(camera) || camera.equals(screen))
+        {
+            clearPersistentLink(screen, camera, "invalid camera id");
+            return;
+        }
+
+        if (!exists(camera))
+        {
+            setObjVar(screen, OBJVAR_IS_DISPLAYING, false);
+            if (attempt < LINK_RESTORE_MAX_ATTEMPTS)
+            {
+                dictionary params = new dictionary();
+                params.put("attempt", attempt + 1);
+                messageTo(screen, "handleValidatePersistentLink", params, 1.0f, false);
+            }
+            else
+            {
+                clearPersistentLink(screen, camera, "camera did not load");
+            }
+            return;
+        }
+
+        if (!rt_camera.isSpatiallyCompatible(screen, camera))
+        {
+            clearPersistentLink(screen, camera, "cross-POB or invalid cell");
+            return;
+        }
+
+        if (hasObjVar(camera, "rt_camera.linkedScreen"))
+        {
+            obj_id reciprocalScreen = getObjIdObjVar(camera, "rt_camera.linkedScreen");
+            if (isIdValid(reciprocalScreen) && !reciprocalScreen.equals(screen))
+            {
+                clearPersistentLink(screen, camera, "camera points to another screen");
+                return;
+            }
+        }
+
+        setObjVar(camera, "rt_camera.linkedScreen", screen);
+    }
+
+    private void clearPersistentLink(obj_id screen, obj_id camera, String reason) throws InterruptedException
+    {
+        removeObjVar(screen, OBJVAR_LINKED_CAMERA);
+        setObjVar(screen, OBJVAR_IS_DISPLAYING, false);
+
+        if (isIdValid(camera) && exists(camera) && hasObjVar(camera, "rt_camera.linkedScreen"))
+        {
+            obj_id reciprocalScreen = getObjIdObjVar(camera, "rt_camera.linkedScreen");
+            if (isIdValid(reciprocalScreen) && reciprocalScreen.equals(screen))
+            {
+                removeObjVar(camera, "rt_camera.linkedScreen");
+                setObjVar(camera, "rt_camera.isActive", false);
+            }
+        }
+
+        LOG("RtCamera", "Sanitized screen " + screen + " link to " + camera + ": " + reason);
     }
 
     public int handleSetResolution(obj_id self, dictionary params) throws InterruptedException
