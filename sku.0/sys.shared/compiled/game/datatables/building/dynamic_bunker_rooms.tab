@@ -1,0 +1,7 @@
+room_id	display_name	donor_pob	donor_cell_index	donor_portal_index	socket_type	appearance_hint	enabled
+s	s	s	i	i	s	s	i
+impl_bunker_small_01	Imperial Bunker Small Room	appearance/poi_all_impl_bunker_s03.pob	1	0	standard_door	appearance/poi_all_impl_bunker_s03_room1.apt	1
+impl_bunker_recon_01	Imperial Recon Outpost Cell	appearance/poi_all_impl_bunker_small_outpost_s01.pob	1	0	standard_door	appearance/poi_all_impl_bunker_small_outpost_s01.apt	1
+commando_bunker_01	Commando Bunker Room	appearance/ply_all_commando_bunker.pob	1	0	standard_door	appearance/ply_all_commando_bunker.apt	1
+mandalorian_bunker_01	Mandalorian Bunker Room	appearance/ply_mandalorian_bunker_s01.pob	1	0	standard_door	appearance/ply_mandalorian_bunker_s01.apt	1
+cave_bunker_01	Cave Bunker Chamber	appearance/poi_all_bunker_cave_s01.pob	1	0	standard_door	appearance/poi_all_bunker_cave_s01.apt	1

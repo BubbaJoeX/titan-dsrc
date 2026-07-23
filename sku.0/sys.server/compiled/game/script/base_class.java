@@ -7759,6 +7759,46 @@ public class base_class
      */
      public static native boolean isAtPendingLoadRequestLimit();
 
+    /**
+     * Dynamically graft a donor POB cell onto an inward host portal and snap the portals together.
+     * @return the new cell obj_id, or null on failure
+     */
+    private static native long _addRoomHook(long building, int hostCellIndex, int hostPortalIndex, String donorPob, int donorCellIndex, int donorPortalIndex);
+    public static obj_id addRoomHook(obj_id building, int hostCellIndex, int hostPortalIndex, String donorPob, int donorCellIndex, int donorPortalIndex)
+    {
+        return getObjIdWithNull(_addRoomHook(getLongWithNull(building), hostCellIndex, hostPortalIndex, donorPob, donorCellIndex, donorPortalIndex));
+    }
+
+    /**
+     * Snap two already-loaded inward portals inside the same building.
+     */
+    private static native boolean _linkRoomPortals(long building, int cellIndexA, int portalIndexA, int cellIndexB, int portalIndexB);
+    public static boolean linkRoomPortals(obj_id building, int cellIndexA, int portalIndexA, int cellIndexB, int portalIndexB)
+    {
+        return _linkRoomPortals(getLongWithNull(building), cellIndexA, portalIndexA, cellIndexB, portalIndexB);
+    }
+
+    private static native int _getCellPortalCount(long building, int cellIndex);
+    public static int getCellPortalCount(obj_id building, int cellIndex)
+    {
+        return _getCellPortalCount(getLongWithNull(building), cellIndex);
+    }
+
+    private static native String _getCellAppearanceName(long building, int cellIndex);
+    public static String getCellAppearanceName(obj_id building, int cellIndex)
+    {
+        return _getCellAppearanceName(getLongWithNull(building), cellIndex);
+    }
+
+    /**
+     * Open the client bunker floorplan UI (room catalog + top-down preview + snap sockets).
+     */
+    private static native boolean _openDynamicBunkerFloorplan(long player, long building, long terminal, int hostCellIndex, int hostPortalIndex);
+    public static boolean openDynamicBunkerFloorplan(obj_id player, obj_id building, obj_id terminal, int hostCellIndex, int hostPortalIndex)
+    {
+        return _openDynamicBunkerFloorplan(getLongWithNull(player), getLongWithNull(building), getLongWithNull(terminal), hostCellIndex, hostPortalIndex);
+    }
+
 /*@}*/
 //-----------------------------------------------------------------------------------------
 
