@@ -44,6 +44,7 @@ public class handler extends script.base_script
         int bp = sui.getIntButtonPressed(params);
         if (bp == sui.BP_CANCEL)
         {
+            gm.cleanupSetHueScriptVars(self);
             return SCRIPT_CONTINUE;
         }
         obj_id target = utils.getObjIdScriptVar(self, gm.SCRIPTVAR_SETHUE_TARGET);

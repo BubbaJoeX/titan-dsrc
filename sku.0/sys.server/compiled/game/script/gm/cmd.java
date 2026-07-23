@@ -1559,11 +1559,18 @@ public class cmd extends script.base_script
         }
         boolean showVarIdxUI = true;
         String varIdxPath = hue.INDEX_BASE + varIdx;
+        String unqualifiedVarIdxPath = varIdxPath.startsWith("/") ? varIdxPath.substring(1) : varIdxPath;
         // index_color_0 is valid and must be accepted.
         if (varIdx >= 0)
         {
             if (palColData.containsKey(varIdxPath))
             {
+                showVarIdxUI = false;
+            }
+            else if (palColData.containsKey(unqualifiedVarIdxPath))
+            {
+                // Preserve the exact namespace spelling returned by the object.
+                varIdxPath = unqualifiedVarIdxPath;
                 showVarIdxUI = false;
             }
             else
