@@ -43,8 +43,10 @@ public class hue extends script.base_script
         {
             return false;
         }
+        int before = pcv.getValue();
         pcv.setToClosestColor(c);
-        return true;
+        int after = pcv.getValue();
+        return after != before;
     }
     public static boolean setColor(obj_id target, int varIdx, int paletteIdx) throws InterruptedException
     {
@@ -79,8 +81,14 @@ public class hue extends script.base_script
         {
             return false;
         }
+        if (paletteIdx < ri.getMinRangeInclusive() || paletteIdx > ri.getMaxRangeInclusive())
+        {
+            return false;
+        }
+        int before = ri.getValue();
         ri.setValue(paletteIdx);
-        return true;
+        int after = ri.getValue();
+        return after == paletteIdx && after != before;
     }
     public static int getVarColorIndex(obj_id target, String varPathName) throws InterruptedException
     {
