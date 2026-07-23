@@ -426,7 +426,8 @@ public class mount_maker extends script.base_script
         clearHateList(mount);
     }
 
-    private mount_maker()
+    // The legacy script_class_loader instantiates every script and library class.
+    public mount_maker()
     {
     }
 }

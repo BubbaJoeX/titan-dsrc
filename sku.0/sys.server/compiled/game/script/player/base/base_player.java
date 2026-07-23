@@ -2227,7 +2227,7 @@ public class base_player extends script.base_script
     }
     public int OnLogout(obj_id self) throws InterruptedException
     {
-        mount_maker.onPlayerLogoutCleanup(self);
+        cleanupMountMakerOnLogout(self);
         turret_gunner_lib.onPlayerLogout(self);
         if (hasObjVar(self, pclib.VAR_CONSENT_FROM_ID))
         {
@@ -2287,7 +2287,7 @@ public class base_player extends script.base_script
     }
     public int OnImmediateLogout(obj_id self) throws InterruptedException
     {
-        mount_maker.onPlayerLogoutCleanup(self);
+        cleanupMountMakerOnLogout(self);
         (self.getScriptVars()).remove(veteran_deprecated.SCRIPTVAR_VETERAN_LOGGED_IN);
         if (utils.hasScriptVar(self, "profit"))
         {
@@ -2358,6 +2358,21 @@ public class base_player extends script.base_script
             }
         }
         return SCRIPT_CONTINUE;
+    }
+    public void cleanupMountMakerOnLogout(obj_id self) throws InterruptedException
+    {
+        try
+        {
+            mount_maker.onPlayerLogoutCleanup(self);
+        }
+        catch (NoClassDefFoundError err)
+        {
+            // The legacy script class loader can retain a failed optional-library lookup until the
+            // GameServer JVM restarts. Do not let that prevent the rest of player logout cleanup.
+            removeObjVar(self, "mount_maker.editing_creature");
+            (self.getScriptVars()).remove("creature_dynamic_mount.mm_auth_creature");
+            CustomerServiceLog("MountMaker", "Logout cleanup library unavailable for player " + self + "; cleared player-side mount maker state");
+        }
     }
     public int OnReceivedItem(obj_id self, obj_id srcContainer, obj_id transferer, obj_id item) throws InterruptedException
     {
