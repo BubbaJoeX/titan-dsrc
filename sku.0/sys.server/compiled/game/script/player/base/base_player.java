@@ -1727,6 +1727,9 @@ public class base_player extends script.base_script
     }
 
     public String getMotdJson() {
+        if ("swg".equals(getClusterName())) {
+            return "Welcome to SWG: Titan";
+        }
         try {
             URL url = new URL("https://swgtitan.org/motd.json");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -1758,7 +1761,7 @@ public class base_player extends script.base_script
             return title;
         } catch (Exception e) {
             e.printStackTrace();
-            return "Welcome to SWG: Titan";
+            return "An error occurred while fetching the MOTD";
         }
     }
 

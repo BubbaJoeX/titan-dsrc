@@ -54,6 +54,7 @@ public class sui extends script.base_script
     public static final String SUI_COLORPICKER_ENHANCED = "Script.GMSetHue";
     public static final String COLORPICKER_ENH_TEXTBOX_HTML = "content.pageColorWheel.valuesRow.textboxHtml";
     public static final String COLORPICKER_ENH_VOLUME_PAGE = "content.pagePaletteGrid.volumePage";
+    public static final String COLORPICKER_ENH_DIRECT_ENABLED = COLORPICKER_ENH_VOLUME_PAGE + ".DirectColorEnabled";
     public static final String COLORPICKER_ENH_PAGE_SAMPLE = "content.pageColorWheel.valuesRow.pageSample";
     public static final String COLORPICKER_ENH_TEXT_TITLE = "content.textTitle";
     public static final String SUI_MSGBOX = "Script.messageBox";
@@ -1620,6 +1621,7 @@ public class sui extends script.base_script
             // Subscribe to HTML textbox value and palette selection
             subscribeToSUIProperty(pid, COLORPICKER_ENH_TEXTBOX_HTML, PROP_LOCALTEXT);
             subscribeToSUIProperty(pid, COLORPICKER_ENH_VOLUME_PAGE, PROP_SELECTEDINDEX);
+            subscribeToSUIProperty(pid, COLORPICKER_ENH_VOLUME_PAGE, "DirectColorEnabled");
 
             showSUIPage(pid);
         }
@@ -1651,6 +1653,16 @@ public class sui extends script.base_script
             return -1;
         }
         return utils.stringToInt(params.getString(COLORPICKER_ENH_VOLUME_PAGE + "." + PROP_SELECTEDINDEX));
+    }
+
+    public static boolean getEnhancedColorPickerDirectEnabled(dictionary params) throws InterruptedException
+    {
+        if (params == null || params.isEmpty())
+        {
+            return false;
+        }
+        String value = params.getString(COLORPICKER_ENH_DIRECT_ENABLED);
+        return value != null && value.equalsIgnoreCase("true");
     }
 
     public static int getColorPickerIndex(dictionary params) throws InterruptedException

@@ -112,6 +112,29 @@ public class handler extends script.base_script
         }
 
         ranged_int_custom_var ri = (ranged_int_custom_var)cv;
+        String htmlColor = sui.getEnhancedColorPickerHtml(params);
+        boolean clearOverride = htmlColor != null && htmlColor.equalsIgnoreCase("clear");
+        if (clearOverride || (htmlColor != null && sui.getEnhancedColorPickerDirectEnabled(params)))
+        {
+            if (setCustomizationColorHtml(target, varPath, htmlColor))
+            {
+                int mappedIndex = hue.getVarColorIndex(target, varPath);
+                if (htmlColor.equalsIgnoreCase("clear"))
+                {
+                    sendSystemMessageTestingOnly(self, "/setHue: cleared the declared direct-color override for " + varPath + "; palette/CDF index " + mappedIndex + " is visible");
+                }
+                else
+                {
+                    sendSystemMessageTestingOnly(self, "/setHue: applied HTML color " + htmlColor + " to " + varPath + " where direct override channels are declared; palette fallback index is " + mappedIndex);
+                }
+            }
+            else
+            {
+                sendSystemMessageTestingOnly(self, "/setHue: rejected HTML color " + htmlColor + " for " + varPath + "; use #RRGGBB, or 'clear' on an override-capable asset");
+            }
+            return SCRIPT_CONTINUE;
+        }
+
         int idx = sui.getEnhancedColorPickerIndex(params);
         if (idx < ri.getMinRangeInclusive() || idx > ri.getMaxRangeInclusive())
         {
@@ -120,10 +143,18 @@ public class handler extends script.base_script
         }
 
         int before = ri.getValue();
-        if (hue.setColor(target, varPath, idx))
+        boolean changed = hue.setColor(target, varPath, idx);
+        int after = hue.getVarColorIndex(target, varPath);
+        if (changed || after == idx)
         {
-            int after = hue.getVarColorIndex(target, varPath);
-            sendSystemMessageTestingOnly(self, "/setHue: updated " + varPath + " from palette index " + before + " to " + after);
+            if (htmlColor != null)
+            {
+                sendSystemMessageTestingOnly(self, "/setHue: target is palette-only; mapped HTML color " + htmlColor + " deterministically to palette index " + after);
+            }
+            else
+            {
+                sendSystemMessageTestingOnly(self, "/setHue: updated " + varPath + " from palette index " + before + " to " + after);
+            }
         }
         else
         {

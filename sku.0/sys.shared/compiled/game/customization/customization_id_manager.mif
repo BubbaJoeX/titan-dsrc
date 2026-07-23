@@ -355,6 +355,44 @@ form "CIDM"
 			int16	114
 			cstring	"/shared_owner/blend_chinsize_1"
 
+			// Reserved direct-color slots.  The high byte of each value is the
+			// declared palette variable's CIM id; the low byte is RGB.
+			int16	115
+			cstring	"/private/direct_color_0_r"
+
+			int16	116
+			cstring	"/private/direct_color_0_g"
+
+			int16	117
+			cstring	"/private/direct_color_0_b"
+
+			int16	118
+			cstring	"/private/direct_color_1_r"
+
+			int16	119
+			cstring	"/private/direct_color_1_g"
+
+			int16	120
+			cstring	"/private/direct_color_1_b"
+
+			int16	121
+			cstring	"/shared_owner/direct_color_0_r"
+
+			int16	122
+			cstring	"/shared_owner/direct_color_0_g"
+
+			int16	123
+			cstring	"/shared_owner/direct_color_0_b"
+
+			int16	124
+			cstring	"/shared_owner/direct_color_1_r"
+
+			int16	125
+			cstring	"/shared_owner/direct_color_1_g"
+
+			int16	126
+			cstring	"/shared_owner/direct_color_1_b"
+
 		}
 	}
 }
