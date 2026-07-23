@@ -652,6 +652,7 @@ droid_trick_3	commandClicky	normal	droid_trick_3	failSpecialAttack			1	droid_tri
 droid_trick_4	commandClicky	normal	droid_trick_4	failSpecialAttack			1	droid_trick_4	1	0	1	1	1	0	1	1	0	0	0	0	0	0	0	0	0	0	0			0	0	1	1		1	0	0	1	1	1	1	0	1	0	1	1	1	1	0	0									0		0	0	0	0	0								enemy	optional		2			0			droid	1			droid_trick_4	0	0.25	1
 dropAllInventoryItemsIntoRoom		immediate			dropAllInventoryItemsIntoRoom																							1	1		0	1												1																														none		2			0				0
 duel		immediate			duel		0		1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1		0	1	0	1	0	1	1		0	1	1	1	1	1	1	0	1	1	1	0	1	1											1	1	0	0	0									required	1	3			0				0
+dynamicBunker		immediate			dynamicBunker																										0	1												1																														none
 dumpObjectInformation		immediate	cmdDumpObjectInformation					admin																				1	1		0													1																												gm.cmd									40	csr
 dumpTargetInformation		immediate	cmdDumpTargetInformation					admin																				1	1		0	1												1																												gm.cmd									40	csr
 dumpZoneInformation		immediate	dumpZoneInformation					admin																				1	1		0	1												1																																					40	csr

@@ -5,11 +5,12 @@ import script.*;
 /**
  * Helpers for runtime bunker room grafting.
  *
- * Room catalog is discovered by the GameServer (DynamicBunkerRoomCatalog)
- * from object templates + POB cells — not from a per-room datatable.
+ * Preferred entry (no setup):
+ *   /dynamicBunker
+ *   openDynamicBunkerFloorplanHere(player)
  *
- * roomId format from the floorplan UI:
- *   dyn|donorPob|donorCellIndex|donorPortalIndex
+ * Room catalog is discovered by the GameServer from object templates + POB cells.
+ * roomId format: dyn|donorPob|donorCellIndex|donorPortalIndex
  */
 public class dynamic_bunker_lib extends script.base_script
 {
@@ -17,9 +18,18 @@ public class dynamic_bunker_lib extends script.base_script
     {
     }
 
+    // Optional legacy terminal objvars (not required).
     public static final String OV_SOCKET_CELL = "dynamicBunker.socket.cell";
     public static final String OV_SOCKET_PORTAL = "dynamicBunker.socket.portal";
     public static final String OV_ASSIGNED_ROOM = "dynamicBunker.assignedRoom";
+
+    /**
+     * Open floorplan UI for the building the player is standing in.
+     */
+    public static boolean openHere(obj_id player) throws InterruptedException
+    {
+        return openDynamicBunkerFloorplanHere(player);
+    }
 
     /**
      * Parse a runtime dyn| room id. Returns null if malformed.
@@ -31,7 +41,6 @@ public class dynamic_bunker_lib extends script.base_script
             return null;
         }
 
-        // Format: dyn|<pob>|<cell>|<portal>  (pob path has no '|')
         int p1 = roomId.indexOf('|', 4);
         if (p1 < 0)
         {
@@ -70,10 +79,6 @@ public class dynamic_bunker_lib extends script.base_script
         return def;
     }
 
-    /**
-     * Graft a catalog room onto a building host portal socket.
-     * Prefer the client floorplan UI (openDynamicBunkerFloorplan); this is for script/debug use.
-     */
     public static obj_id assignRoom(obj_id building, int hostCellIndex, int hostPortalIndex, String roomId) throws InterruptedException
     {
         if (!isIdValid(building) || roomId == null || roomId.length() < 1)

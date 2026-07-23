@@ -7799,6 +7799,26 @@ public class base_class
         return _openDynamicBunkerFloorplan(getLongWithNull(player), getLongWithNull(building), getLongWithNull(terminal), hostCellIndex, hostPortalIndex);
     }
 
+    /**
+     * Open the bunker floorplan UI for the building the player is currently standing in.
+     * Uses the existing native (no extra JNI registration). Prefer the slash command
+     * /dynamicBunker for the fully automatic C++ path (open-socket selection).
+     */
+    public static boolean openDynamicBunkerFloorplanHere(obj_id player)
+    {
+        if (!isIdValid(player))
+        {
+            return false;
+        }
+        obj_id building = getTopMostContainer(player);
+        if (!isIdValid(building) || building == player)
+        {
+            return false;
+        }
+        // Defaults; client UI lists all sockets so the player can re-pick.
+        return openDynamicBunkerFloorplan(player, building, building, 1, 0);
+    }
+
 /*@}*/
 //-----------------------------------------------------------------------------------------
 

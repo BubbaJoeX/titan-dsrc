@@ -4,11 +4,12 @@ import script.*;
 import script.systems.dynamic_bunker.dynamic_bunker_lib;
 
 /**
- * Opens the client bunker floorplan UI (room catalog + top-down preview + snap sockets).
+ * Optional convenience terminal. Prefer the slash command:
+ *   /dynamicBunker
+ * which needs no scripts or objvars — just stand inside a POB.
  *
- * Objvars:
- *   dynamicBunker.socket.cell   (int) default host cell index
- *   dynamicBunker.socket.portal (int) default host portal index
+ * If this script is attached, the radial works with zero objvar setup
+ * (socket is auto-detected from the building / player cell).
  */
 public class terminal_dynamic_bunker extends script.base_script
 {
@@ -26,10 +27,6 @@ public class terminal_dynamic_bunker extends script.base_script
 
     public int OnObjectMenuRequest(obj_id self, obj_id player, menu_info mi) throws InterruptedException
     {
-        if (!hasObjVar(self, dynamic_bunker_lib.OV_SOCKET_CELL) || !hasObjVar(self, dynamic_bunker_lib.OV_SOCKET_PORTAL))
-        {
-            return SCRIPT_CONTINUE;
-        }
         mi.addRootMenu(MENU_ASSIGN_ROOM, string_id.unlocalized("Bunker Floorplan"));
         return SCRIPT_CONTINUE;
     }
@@ -40,25 +37,14 @@ public class terminal_dynamic_bunker extends script.base_script
         {
             return SCRIPT_CONTINUE;
         }
-        if (!hasObjVar(self, dynamic_bunker_lib.OV_SOCKET_CELL) || !hasObjVar(self, dynamic_bunker_lib.OV_SOCKET_PORTAL))
+
+        // Auto path: building the player is in (no objvars). Prefer /dynamicBunker in chat.
+        if (openDynamicBunkerFloorplanHere(player))
         {
-            sendSystemMessageTestingOnly(player, "[DynamicBunker] Terminal is missing socket cell/portal objvars.");
             return SCRIPT_CONTINUE;
         }
 
-        obj_id building = getTopMostContainer(self);
-        if (!isIdValid(building))
-        {
-            sendSystemMessageTestingOnly(player, "[DynamicBunker] Could not resolve parent building.");
-            return SCRIPT_CONTINUE;
-        }
-
-        int hostCell = getIntObjVar(self, dynamic_bunker_lib.OV_SOCKET_CELL);
-        int hostPortal = getIntObjVar(self, dynamic_bunker_lib.OV_SOCKET_PORTAL);
-        if (!openDynamicBunkerFloorplan(player, building, self, hostCell, hostPortal))
-        {
-            sendSystemMessageTestingOnly(player, "[DynamicBunker] Failed to open floorplan UI. Is the client build current?");
-        }
+        sendSystemMessageTestingOnly(player, "[DynamicBunker] Stand inside a POB building, or use /dynamicBunker.");
         return SCRIPT_CONTINUE;
     }
 }
