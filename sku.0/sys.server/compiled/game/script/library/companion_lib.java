@@ -319,6 +319,36 @@ public class companion_lib extends script.base_script
         }
         return cur;
     }
+    /** No script {@code unequip}; clear active weapon if needed, then move via {@link #putInOverloaded}. */
+    private static boolean moveItemFromCreatureToContainer(obj_id item, obj_id container, obj_id player) throws InterruptedException
+    {
+        if (!isIdValid(item) || !exists(item) || !isIdValid(container))
+        {
+            return false;
+        }
+        obj_id creature = getTopMostContainer(item);
+        if (isIdValid(creature) && exists(creature) && creature != item && isWeapon(item))
+        {
+            obj_id cur = getCurrentWeapon(creature);
+            if (item == cur)
+            {
+                obj_id def = getDefaultWeapon(creature);
+                if (isIdValid(def) && exists(def))
+                {
+                    setCurrentWeapon(creature, def);
+                }
+                else
+                {
+                    setCurrentWeapon(creature, obj_id.NULL_ID);
+                }
+            }
+        }
+        if (putInOverloaded(item, container))
+        {
+            return true;
+        }
+        return putIn(item, container, player);
+    }
     public static void stashStoryCompanionWeapon(obj_id weapon, obj_id pcd, obj_id player) throws InterruptedException
     {
         if (!isIdValid(weapon) || !exists(weapon) || !isStoryCompanionControlDevice(pcd))
@@ -330,8 +360,7 @@ public class companion_lib extends script.base_script
         {
             return;
         }
-        unequip(weapon);
-        if (putIn(weapon, hold, player))
+        if (moveItemFromCreatureToContainer(weapon, hold, player))
         {
             setObjVar(weapon, OBJVAR_BOUND_PCD, pcd);
             setObjVar(weapon, "noTrade", 1);
@@ -468,8 +497,7 @@ public class companion_lib extends script.base_script
         {
             return false;
         }
-        unequip(weapon);
-        if (!putIn(weapon, ownerInv, player))
+        if (!moveItemFromCreatureToContainer(weapon, ownerInv, player))
         {
             sendSystemMessage(player, string_id.unlocalized("No room in your inventory for the companion's weapon."));
             return false;
@@ -547,8 +575,7 @@ public class companion_lib extends script.base_script
                 }
                 if (isCompanionDressableTangible(item) && !isCompanionCreatureWeapon(item))
                 {
-                    unequip(item);
-                    putIn(item, hold, player);
+                    moveItemFromCreatureToContainer(item, hold, player);
                     setObjVar(item, OBJVAR_BOUND_PCD, pcd);
                     setObjVar(item, "noTrade", 1);
                 }
@@ -661,8 +688,7 @@ public class companion_lib extends script.base_script
         {
             return false;
         }
-        unequip(item);
-        if (!putIn(item, ownerInv, player))
+        if (!moveItemFromCreatureToContainer(item, ownerInv, player))
         {
             sendSystemMessage(player, string_id.unlocalized("No room in your inventory for that item."));
             return false;
