@@ -44,6 +44,10 @@ public class pet_master extends script.base_script
         {
             addHate(pet, attacker, 0.0f);
         }
+        if (isIdValid(pet) && exists(pet) && companion_lib.isStoryCompanionPet(pet))
+        {
+            companion_lib.onMasterDefended(self, attacker);
+        }
         return SCRIPT_CONTINUE;
     }
     public int failPetBuff(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException

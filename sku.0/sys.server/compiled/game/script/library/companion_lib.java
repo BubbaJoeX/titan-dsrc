@@ -1214,6 +1214,11 @@ public class companion_lib extends script.base_script
             sendSystemMessage(player, string_id.unlocalized("Assign a command to this core slot from the companion control device."));
             return;
         }
+        if (!isCompanionAbilityOffCooldown(pet, cmd))
+        {
+            sendSystemMessage(player, string_id.unlocalized("That companion core bar command is still recharging."));
+            return;
+        }
         obj_id target = getIntendedTarget(player);
         if (!isIdValid(target))
         {
@@ -1223,7 +1228,8 @@ public class companion_lib extends script.base_script
         {
             target = player;
         }
-        queueCommand(player, getStringCrc(cmd.toLowerCase()), target, "", COMMAND_PRIORITY_DEFAULT);
+        queueCommand(pet, getStringCrc(cmd.toLowerCase()), target, "", COMMAND_PRIORITY_DEFAULT);
+        setCompanionAbilityCooldown(pet, cmd, getCompanionAbilityCooldownSeconds(cmd));
     }
     public static void executeCompanionTaughtSlot(obj_id player, int slotIndex) throws InterruptedException
     {
@@ -1244,6 +1250,11 @@ public class companion_lib extends script.base_script
             sendSystemMessage(player, string_id.unlocalized("Train an ability in this slot from the companion control device."));
             return;
         }
+        if (!isCompanionAbilityOffCooldown(pet, skill))
+        {
+            sendSystemMessage(player, string_id.unlocalized("That companion ability is still recharging."));
+            return;
+        }
         obj_id target = getIntendedTarget(player);
         if (!isIdValid(target))
         {
@@ -1255,6 +1266,7 @@ public class companion_lib extends script.base_script
             return;
         }
         queueCommand(pet, getStringCrc(skill.toLowerCase()), target, "", COMMAND_PRIORITY_DEFAULT);
+        setCompanionAbilityCooldown(pet, skill, getCompanionAbilityCooldownSeconds(skill));
     }
     public static boolean isValidBeastSpecialForStoryPetBar(String abilityName) throws InterruptedException
     {
@@ -1391,6 +1403,224 @@ public class companion_lib extends script.base_script
         }
         setCompanionPetStanceUi(player, stance);
     }
+
+    /** Per-ability cooldown objvars on the pet (separate from the master's command timers). */
+    public static final String OBJVAR_ABILITY_COOLDOWN_PREFIX = "companion.cooldown.";
+    public static final float COMPANION_COMBAT_TICK_INTERVAL = 2.0f;
+    public static final String MESSAGE_COMPANION_COMBAT_TICK = "companionCombatTick";
+    public static final String SCRIPTVAR_COMPANION_COMBAT_LOOP = "companion.combatLoopActive";
+
+    public static void startStoryCompanionCombatLoop(obj_id pet) throws InterruptedException
+    {
+        if (!isStoryCompanionPet(pet))
+        {
+            return;
+        }
+        if (utils.hasScriptVar(pet, SCRIPTVAR_COMPANION_COMBAT_LOOP))
+        {
+            return;
+        }
+        utils.setScriptVar(pet, SCRIPTVAR_COMPANION_COMBAT_LOOP, 1);
+        messageTo(pet, MESSAGE_COMPANION_COMBAT_TICK, null, COMPANION_COMBAT_TICK_INTERVAL, false);
+    }
+
+    public static void stopStoryCompanionCombatLoop(obj_id pet) throws InterruptedException
+    {
+        utils.removeScriptVar(pet, SCRIPTVAR_COMPANION_COMBAT_LOOP);
+    }
+
+    public static int companionCombatTick(obj_id pet, dictionary params) throws InterruptedException
+    {
+        if (!isStoryCompanionPet(pet) || !isIdValid(pet) || !exists(pet) || isDead(pet))
+        {
+            stopStoryCompanionCombatLoop(pet);
+            return SCRIPT_CONTINUE;
+        }
+        obj_id master = getMaster(pet);
+        if (!isIdValid(master) || !exists(master) || isDead(master))
+        {
+            stopStoryCompanionCombatLoop(pet);
+            return SCRIPT_CONTINUE;
+        }
+
+        messageTo(pet, MESSAGE_COMPANION_COMBAT_TICK, null, COMPANION_COMBAT_TICK_INTERVAL, false);
+
+        if (isInCombat(master))
+        {
+            obj_id masterTarget = getIntendedTarget(master);
+            if (!isIdValid(masterTarget))
+            {
+                masterTarget = getLookAtTarget(master);
+            }
+            if (isIdValid(masterTarget) && exists(masterTarget) && !isDead(masterTarget) && masterTarget != pet && masterTarget != master)
+            {
+                if (!isInCombat(pet) || getIntendedTarget(pet) != masterTarget)
+                {
+                    addHate(pet, masterTarget, 1.0f);
+                }
+            }
+        }
+
+        if (isInCombat(pet))
+        {
+            tryUseAutonomousCompanionAbility(pet);
+        }
+        return SCRIPT_CONTINUE;
+    }
+
+    public static void onMasterDefended(obj_id master, obj_id attacker) throws InterruptedException
+    {
+        obj_id pet = getPetBarCombatCreature(master);
+        if (!isStoryCompanionPet(pet))
+        {
+            return;
+        }
+        if (!isIdValid(attacker) || !exists(attacker) || isDead(attacker) || attacker == pet || attacker == master)
+        {
+            return;
+        }
+        if (!isInCombat(pet))
+        {
+            addHate(pet, attacker, 2.0f);
+        }
+        startStoryCompanionCombatLoop(pet);
+    }
+
+    public static boolean isCompanionAbilityOffCooldown(obj_id pet, String abilityName) throws InterruptedException
+    {
+        if (abilityName == null || abilityName.length() < 1 || abilityName.equals("empty"))
+        {
+            return false;
+        }
+        String key = OBJVAR_ABILITY_COOLDOWN_PREFIX + abilityName;
+        if (!hasObjVar(pet, key))
+        {
+            return true;
+        }
+        return getIntObjVar(pet, key) <= getGameTime();
+    }
+
+    public static void setCompanionAbilityCooldown(obj_id pet, String abilityName, int durationSec) throws InterruptedException
+    {
+        if (durationSec < 1)
+        {
+            durationSec = 1;
+        }
+        setObjVar(pet, OBJVAR_ABILITY_COOLDOWN_PREFIX + abilityName, getGameTime() + durationSec);
+    }
+
+    public static int getCompanionAbilityCooldownSeconds(String abilityName) throws InterruptedException
+    {
+        if (abilityName == null || abilityName.length() < 1)
+        {
+            return 8;
+        }
+        int row = dataTableSearchColumnForString(abilityName, "commandName", COMMAND_TABLE_PATH);
+        if (row < 0)
+        {
+            row = dataTableSearchColumnForString(abilityName.toLowerCase(), "commandName", COMMAND_TABLE_PATH);
+        }
+        if (row >= 0)
+        {
+            float cd = dataTableGetFloat(COMMAND_TABLE_PATH, row, "defaultTime");
+            if (cd > 0f)
+            {
+                return (int) cd;
+            }
+        }
+        if (isValidBeastSpecialForStoryPetBar(abilityName))
+        {
+            int beastRow = dataTableSearchColumnForString(abilityName, "ability_name", beast_lib.BEASTS_SPECIALS);
+            if (beastRow >= 0)
+            {
+                float cd = dataTableGetFloat(beast_lib.BEASTS_SPECIALS, beastRow, "cooldown");
+                if (cd > 0f)
+                {
+                    return (int) cd;
+                }
+            }
+        }
+        return 8;
+    }
+
+    public static void tryUseAutonomousCompanionAbility(obj_id pet) throws InterruptedException
+    {
+        obj_id target = getIntendedTarget(pet);
+        if (!isIdValid(target))
+        {
+            target = getLookAtTarget(pet);
+        }
+        if (!isIdValid(target) || !exists(target) || isDead(target))
+        {
+            return;
+        }
+
+        int stance = STANCE_DPS;
+        if (hasObjVar(pet, OBJVAR_COMBAT_STANCE))
+        {
+            stance = getIntObjVar(pet, OBJVAR_COMBAT_STANCE);
+        }
+
+        String[] abilities = pickAutonomousAbilitiesForStance(pet, stance);
+        if (abilities == null)
+        {
+            return;
+        }
+
+        for (int i = 0; i < abilities.length; ++i)
+        {
+            String skill = abilities[i];
+            if (skill == null || skill.length() < 1 || skill.equals("empty"))
+            {
+                continue;
+            }
+            if (!isCompanionAbilityOffCooldown(pet, skill))
+            {
+                continue;
+            }
+            queueCommand(pet, getStringCrc(skill.toLowerCase()), target, "", COMMAND_PRIORITY_DEFAULT);
+            setCompanionAbilityCooldown(pet, skill, getCompanionAbilityCooldownSeconds(skill));
+            return;
+        }
+    }
+
+    private static String[] pickAutonomousAbilitiesForStance(obj_id pet, int stance) throws InterruptedException
+    {
+        String[] source;
+        if (usesHumanoidStoryCompanionPetBar(pet))
+        {
+            source = getTaughtAbilitiesArray(pet);
+        }
+        else
+        {
+            String companionId = getStringObjVar(pet, OBJVAR_STORY_COMPANION_ID);
+            source = getStoryCompanionTrainedSkillsFromTable(companionId);
+        }
+        if (source == null || source.length < 1)
+        {
+            return source;
+        }
+
+        // Stance ordering: tank prefers first slots, healer middle, dps all — simple spec bias without new datatable columns.
+        if (stance == STANCE_TANK && source.length > 1)
+        {
+            return new String[]
+            {
+                source[0],
+                source.length > 1 ? source[1] : "empty"
+            };
+        }
+        if (stance == STANCE_HEALER && source.length > 2)
+        {
+            return new String[]
+            {
+                source[1],
+                source[2]
+            };
+        }
+        return source;
+    }
+
     public static void clearStoryCompanionPetBarIfActive(obj_id player, obj_id pet) throws InterruptedException
     {
         if (!beast_lib.isValidPlayer(player) || !isIdValid(pet))

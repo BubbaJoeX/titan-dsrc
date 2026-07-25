@@ -754,6 +754,11 @@ public class pet extends script.base_script
             detachScript(self, "ai.droid");
         }
         pet_lib.petFollow(self, master);
+        if (companion_lib.isStoryCompanionPet(self))
+        {
+            companion_lib.syncCompanionTaughtCommandGrants(self);
+            companion_lib.startStoryCompanionCombatLoop(self);
+        }
         return SCRIPT_CONTINUE;
     }
     public int handleLostMaster(obj_id self, dictionary params) throws InterruptedException
@@ -764,8 +769,16 @@ public class pet extends script.base_script
         }
         return SCRIPT_CONTINUE;
     }
+    public int companionCombatTick(obj_id self, dictionary params) throws InterruptedException
+    {
+        return companion_lib.companionCombatTick(self, params);
+    }
     public int OnDetach(obj_id self) throws InterruptedException
     {
+        if (companion_lib.isStoryCompanionPet(self))
+        {
+            companion_lib.stopStoryCompanionCombatLoop(self);
+        }
         if (!isMob(self))
         {
             return SCRIPT_CONTINUE;
