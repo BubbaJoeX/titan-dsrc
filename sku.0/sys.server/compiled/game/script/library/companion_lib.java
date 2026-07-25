@@ -16,6 +16,30 @@ public class companion_lib extends script.base_script
     {
     }
     public static final String STORY_COMPANIONS_TABLE = "datatables/companion/story_companions.iff";
+    /** Full-tier companions for each playable player species and gender (see {@code companion_spawn_template} column). */
+    public static final String[] PLAYABLE_SPECIES_COMPANION_IDS =
+    {
+        "companion_human_male",
+        "companion_human_female",
+        "companion_bothan_male",
+        "companion_bothan_female",
+        "companion_ithorian_male",
+        "companion_ithorian_female",
+        "companion_moncal_male",
+        "companion_moncal_female",
+        "companion_rodian_male",
+        "companion_rodian_female",
+        "companion_sullustan_male",
+        "companion_sullustan_female",
+        "companion_trandoshan_male",
+        "companion_trandoshan_female",
+        "companion_twilek_male",
+        "companion_twilek_female",
+        "companion_wookiee_male",
+        "companion_wookiee_female",
+        "companion_zabrak_male",
+        "companion_zabrak_female"
+    };
     public static final String OBJVAR_STORY_COMPANION_ID = "companion.storyId";
     /** Owner-assigned display name; falls back to datatable companion_name. */
     public static final String OBJVAR_DISPLAY_NAME = "companion.displayName";
@@ -255,6 +279,19 @@ public class companion_lib extends script.base_script
         }
         String gender = (getGender(player) == GENDER_FEMALE) ? "female" : "male";
         return "object/creature/player/" + species + "_" + gender + ".iff";
+    }
+    /** Full-tier spawn template: {@code companion_spawn_template} column when set, else granting player's species. */
+    public static String resolveStoryCompanionGrantTemplate(String companionId, obj_id player) throws InterruptedException
+    {
+        if (isValidStoryCompanionRow(companionId))
+        {
+            String fixed = dataTableGetString(STORY_COMPANIONS_TABLE, companionId, "companion_spawn_template");
+            if (fixed != null && fixed.trim().length() > 0)
+            {
+                return fixed.trim();
+            }
+        }
+        return resolvePlayerSpeciesTemplate(player);
     }
     public static boolean hasStoryCompanionSpawnTemplate(obj_id pcd) throws InterruptedException
     {
@@ -1131,6 +1168,40 @@ public class companion_lib extends script.base_script
         create.attachCreatureScripts(pet, "", true);
         clearAiWeaponCombatProfiles(pet);
     }
+    /** Grants all {@link #PLAYABLE_SPECIES_COMPANION_IDS} to the player datapad. */
+    public static int grantPlayableSpeciesCompanionsToPlayer(obj_id player) throws InterruptedException
+    {
+        int granted = 0;
+        for (int i = 0; i < PLAYABLE_SPECIES_COMPANION_IDS.length; ++i)
+        {
+            obj_id cd = grantStoryCompanionToDatapad(player, PLAYABLE_SPECIES_COMPANION_IDS[i]);
+            if (isIdValid(cd))
+            {
+                granted++;
+            }
+        }
+        return granted;
+    }
+    /** Grants every row in {@link #STORY_COMPANIONS_TABLE} (skips invalid rows). */
+    public static int grantAllStoryCompanionsToPlayer(obj_id player) throws InterruptedException
+    {
+        int granted = 0;
+        int rows = dataTableGetNumRows(STORY_COMPANIONS_TABLE);
+        for (int i = 0; i < rows; ++i)
+        {
+            String id = dataTableGetString(STORY_COMPANIONS_TABLE, i, "companion_id");
+            if (id == null || id.length() < 1 || !isValidStoryCompanionRow(id))
+            {
+                continue;
+            }
+            obj_id cd = grantStoryCompanionToDatapad(player, id);
+            if (isIdValid(cd))
+            {
+                granted++;
+            }
+        }
+        return granted;
+    }
     /**
      * Adds a story companion as a packed NPC pet control device on the datapad (SWTOR-style unlock).
      * @return the control device, or null on failure
@@ -1163,8 +1234,8 @@ public class companion_lib extends script.base_script
         obj_id pet;
         if (CUSTOMIZATION_TIER_FULL.equals(customizationTier))
         {
-            String playerTemplate = resolvePlayerSpeciesTemplate(player);
-            pet = create.object(playerTemplate, loc, spawnLevel, true, true);
+            String grantTemplate = resolveStoryCompanionGrantTemplate(companionId, player);
+            pet = create.object(grantTemplate, loc, spawnLevel, true, true);
         }
         else
         {
@@ -1191,7 +1262,7 @@ public class companion_lib extends script.base_script
         setObjVar(cd, OBJVAR_COMBAT_STANCE, stance);
         if (CUSTOMIZATION_TIER_FULL.equals(customizationTier))
         {
-            setObjVar(cd, OBJVAR_SPAWN_TEMPLATE, resolvePlayerSpeciesTemplate(player));
+            setObjVar(cd, OBJVAR_SPAWN_TEMPLATE, resolveStoryCompanionGrantTemplate(companionId, player));
             setObjVar(cd, pet_lib.VAR_PALVAR_BASE, 1);
         }
         String displayDefault = getStoryCompanionDisplayName(companionId);

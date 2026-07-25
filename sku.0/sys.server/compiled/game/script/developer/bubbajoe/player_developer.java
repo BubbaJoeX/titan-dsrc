@@ -2806,6 +2806,54 @@ public class player_developer extends base_script
             LOG("ethereal", "[Developer]: " + getPlayerFullName(self) + " used /developer makeHireable " + storyId + " on " + npc);
             return SCRIPT_CONTINUE;
         }
+        else if (cmd.equalsIgnoreCase("hireCompanion"))
+        {
+            if (!tok.hasMoreTokens())
+            {
+                broadcast(self, "Usage: /developer hireCompanion [story_companion_id | playable | all]");
+                broadcast(self, "  playable - grant all 20 playable race/gender companions (companion_human_male, etc.)");
+                broadcast(self, "  all      - grant every row in story_companions.iff");
+                broadcast(self, "  Example: /developer hireCompanion companion_twilek_female");
+                return SCRIPT_CONTINUE;
+            }
+            String arg = tok.nextToken();
+            if (arg.equalsIgnoreCase("playable"))
+            {
+                int granted = companion_lib.grantPlayableSpeciesCompanionsToPlayer(self);
+                broadcast(self, "hireCompanion: granted " + granted + " playable species companions to your datapad.");
+                LOG("ethereal", "[Developer]: " + getPlayerFullName(self) + " used /developer hireCompanion playable (" + granted + ")");
+                return SCRIPT_CONTINUE;
+            }
+            if (arg.equalsIgnoreCase("all"))
+            {
+                int granted = companion_lib.grantAllStoryCompanionsToPlayer(self);
+                broadcast(self, "hireCompanion: granted " + granted + " story companions to your datapad.");
+                LOG("ethereal", "[Developer]: " + getPlayerFullName(self) + " used /developer hireCompanion all (" + granted + ")");
+                return SCRIPT_CONTINUE;
+            }
+            if (!companion_lib.isValidStoryCompanionRow(arg))
+            {
+                broadcast(self, "Unknown story_companions id: " + arg);
+                return SCRIPT_CONTINUE;
+            }
+            obj_id cd = companion_lib.grantStoryCompanionToDatapad(self, arg);
+            if (!isIdValid(cd))
+            {
+                broadcast(self, "hireCompanion failed for " + arg + " (NPC pet storage full or create failed).");
+                return SCRIPT_CONTINUE;
+            }
+            String grantMsg = dataTableGetString(companion_lib.STORY_COMPANIONS_TABLE, arg, "grant_message");
+            if (grantMsg != null && grantMsg.length() > 0)
+            {
+                sendSystemMessage(self, string_id.unlocalized(grantMsg));
+            }
+            else
+            {
+                broadcast(self, "hireCompanion: granted " + arg + " (" + companion_lib.getStoryCompanionDisplayName(arg) + ").");
+            }
+            LOG("ethereal", "[Developer]: " + getPlayerFullName(self) + " used /developer hireCompanion " + arg);
+            return SCRIPT_CONTINUE;
+        }
         else if (cmd.equalsIgnoreCase("say"))
         {
             StringBuilder speech = new StringBuilder(tok.nextToken());

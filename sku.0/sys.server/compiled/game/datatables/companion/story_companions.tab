@@ -1,7 +1,27 @@
-companion_id	companion_name	creature_name	level	role	companion_weapon	companion_favorite_gifts	companion_speed	companion_pet_bar_abilities	companion_customization	grant_message
-s	s	s	i[0]	s	s	s	f[1.2]	s	s	c
-companion_demo_bodyguard	Veteran Guard	aaph_koden	0	tank			1.2	bm_bite_2,bm_charge_1	none	A disciplined ally has joined your cause. Check your datapad (NPC companion).
-companion_demo_scoundrel	Slice McCandles	criminal	12	dps			1.2	bm_slash_2,bm_hamstring_2	none	A wily operative agrees to fight at your side. Check your datapad (NPC companion).
-companion_demo_medic	Corpsman Reeves	mission_bounty_rebel_medic	20	healer			1.2	bm_siphon_1,bm_siphon_2	none	A field medic joins your roster. Check your datapad (NPC companion).
-companion_greeata	Greeata	greeata	55	dps			1.2	bm_slash_4,bm_claw_3	celebrity	Greeata is now on your datapad as an NPC companion.
-companion_commoner	Associate	commoner	0	dps			1.2	bm_slash_2,bm_kick_1	full	An associate has joined your roster. Check your datapad (NPC companion).
+companion_id	companion_name	creature_name	level	role	companion_weapon	companion_favorite_gifts	companion_speed	companion_pet_bar_abilities	companion_customization	companion_spawn_template	grant_message
+s	s	s	i[0]	s	s	s	f[1.2]	s	s	s	c
+companion_demo_bodyguard	Veteran Guard	aaph_koden	0	tank			1.2	bm_bite_2,bm_charge_1	none		A disciplined ally has joined your cause. Check your datapad (NPC companion).
+companion_demo_scoundrel	Slice McCandles	criminal	12	dps			1.2	bm_slash_2,bm_hamstring_2	none		A wily operative agrees to fight at your side. Check your datapad (NPC companion).
+companion_demo_medic	Corpsman Reeves	mission_bounty_rebel_medic	20	healer			1.2	bm_siphon_1,bm_siphon_2	none		A field medic joins your roster. Check your datapad (NPC companion).
+companion_greeata	Greeata	greeata	55	dps			1.2	bm_slash_4,bm_claw_3	celebrity		Greeata is now on your datapad as an NPC companion.
+companion_commoner	Associate	commoner	0	dps			1.2	bm_slash_2,bm_kick_1	full		An associate has joined your roster. Check your datapad (NPC companion).
+companion_human_male	Human Male Associate	commoner	0	dps			1.2		full	object/creature/player/human_male.iff	A Human male associate has joined your roster. Check your datapad (NPC companion).
+companion_human_female	Human Female Associate	commoner	0	dps			1.2		full	object/creature/player/human_female.iff	A Human female associate has joined your roster. Check your datapad (NPC companion).
+companion_bothan_male	Bothan Male Associate	commoner	0	dps			1.2		full	object/creature/player/bothan_male.iff	A Bothan male associate has joined your roster. Check your datapad (NPC companion).
+companion_bothan_female	Bothan Female Associate	commoner	0	dps			1.2		full	object/creature/player/bothan_female.iff	A Bothan female associate has joined your roster. Check your datapad (NPC companion).
+companion_ithorian_male	Ithorian Male Associate	commoner	0	dps			1.2		full	object/creature/player/ithorian_male.iff	An Ithorian male associate has joined your roster. Check your datapad (NPC companion).
+companion_ithorian_female	Ithorian Female Associate	commoner	0	dps			1.2		full	object/creature/player/ithorian_female.iff	An Ithorian female associate has joined your roster. Check your datapad (NPC companion).
+companion_moncal_male	Mon Cal Male Associate	commoner	0	dps			1.2		full	object/creature/player/moncal_male.iff	A Mon Cal male associate has joined your roster. Check your datapad (NPC companion).
+companion_moncal_female	Mon Cal Female Associate	commoner	0	dps			1.2		full	object/creature/player/moncal_female.iff	A Mon Cal female associate has joined your roster. Check your datapad (NPC companion).
+companion_rodian_male	Rodian Male Associate	commoner	0	dps			1.2		full	object/creature/player/rodian_male.iff	A Rodian male associate has joined your roster. Check your datapad (NPC companion).
+companion_rodian_female	Rodian Female Associate	commoner	0	dps			1.2		full	object/creature/player/rodian_female.iff	A Rodian female associate has joined your roster. Check your datapad (NPC companion).
+companion_sullustan_male	Sullustan Male Associate	commoner	0	dps			1.2		full	object/creature/player/sullustan_male.iff	A Sullustan male associate has joined your roster. Check your datapad (NPC companion).
+companion_sullustan_female	Sullustan Female Associate	commoner	0	dps			1.2		full	object/creature/player/sullustan_female.iff	A Sullustan female associate has joined your roster. Check your datapad (NPC companion).
+companion_trandoshan_male	Trandoshan Male Associate	commoner	0	dps			1.2		full	object/creature/player/trandoshan_male.iff	A Trandoshan male associate has joined your roster. Check your datapad (NPC companion).
+companion_trandoshan_female	Trandoshan Female Associate	commoner	0	dps			1.2		full	object/creature/player/trandoshan_female.iff	A Trandoshan female associate has joined your roster. Check your datapad (NPC companion).
+companion_twilek_male	Twi'lek Male Associate	commoner	0	dps			1.2		full	object/creature/player/twilek_male.iff	A Twi'lek male associate has joined your roster. Check your datapad (NPC companion).
+companion_twilek_female	Twi'lek Female Associate	commoner	0	dps			1.2		full	object/creature/player/twilek_female.iff	A Twi'lek female associate has joined your roster. Check your datapad (NPC companion).
+companion_wookiee_male	Wookiee Male Associate	commoner	0	dps			1.2		full	object/creature/player/wookiee_male.iff	A Wookiee male associate has joined your roster. Check your datapad (NPC companion).
+companion_wookiee_female	Wookiee Female Associate	commoner	0	dps			1.2		full	object/creature/player/wookiee_female.iff	A Wookiee female associate has joined your roster. Check your datapad (NPC companion).
+companion_zabrak_male	Zabrak Male Associate	commoner	0	dps			1.2		full	object/creature/player/zabrak_male.iff	A Zabrak male associate has joined your roster. Check your datapad (NPC companion).
+companion_zabrak_female	Zabrak Female Associate	commoner	0	dps			1.2		full	object/creature/player/zabrak_female.iff	A Zabrak female associate has joined your roster. Check your datapad (NPC companion).
