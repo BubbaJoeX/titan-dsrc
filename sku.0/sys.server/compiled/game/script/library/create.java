@@ -487,7 +487,7 @@ public class create extends script.base_script
         setObjVar(creature, "creature_type", creatureName);
         setObjVar(creature, "socialGroup", creatureDict.getString("socialGroup"));
         int huevar = creatureDict.getInt("hue");
-        if (huevar != 0)
+        if (huevar != 0 && !utils.hasScriptVar(creature, "companion.skipRandomHue"))
         {
             int highhuevar = (huevar * 8) - 1;
             int lowhuevar = highhuevar - 7;

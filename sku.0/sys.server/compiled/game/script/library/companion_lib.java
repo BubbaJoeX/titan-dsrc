@@ -56,6 +56,8 @@ public class companion_lib extends script.base_script
     public static final String CUSTOMIZATION_TIER_FULL = "full";
     /** Hidden datapad stash; use creature inventory stubs (droid_inventory is not in the compiled template list). */
     public static final String GEAR_HOLD_TEMPLATE = "object/tangible/inventory/creature_inventory_1.iff";
+    public static final String OBJVAR_CUSTOMIZATION_SCALE = "companion.customization.scale";
+    public static final String SCRIPTVAR_SKIP_RANDOM_HUE = "companion.skipRandomHue";
     public static final String[] GEAR_HOLD_TEMPLATE_FALLBACKS = 
     {
         "object/tangible/inventory/creature_inventory_2.iff",
@@ -400,6 +402,239 @@ public class companion_lib extends script.base_script
             return resolvePlayableCommonerCreatureName(player);
         }
         return creatureName;
+    }
+    /** Server object template path for {@code createObject} (strips {@code shared_} prefix from grant templates). */
+    public static String resolveStoryCompanionServerObjectTemplate(String companionId, obj_id player) throws InterruptedException
+    {
+        String template = resolveStoryCompanionGrantTemplate(companionId, player);
+        if (template == null || template.length() < 1)
+        {
+            return null;
+        }
+        if (template.indexOf("/shared_") >= 0)
+        {
+            return template.replace("/shared_", "/");
+        }
+        return template;
+    }
+    /**
+     * Player-style appearance: suppress template baked wearables on clients, ensure appearance inventory, strip NPC defaults.
+     */
+    public static void setupStoryCompanionPlayerAppearance(obj_id pet) throws InterruptedException
+    {
+        if (!isIdValid(pet) || !exists(pet))
+        {
+            return;
+        }
+        setSuppressTemplateClientDataFile(pet, true);
+        ensureAppearanceInventory(pet);
+        stripStoryCompanionDefaultWearables(pet);
+    }
+    private static String normalizeCustomizationVarPath(String varPath) throws InterruptedException
+    {
+        if (varPath == null || varPath.length() < 1)
+        {
+            return varPath;
+        }
+        if (varPath.startsWith("/"))
+        {
+            return varPath;
+        }
+        return "/" + varPath;
+    }
+    /** Persists hair, face, body morphs, palette colors, and scale on the story companion PCD. */
+    public static void saveStoryCompanionCustomizationToPcd(obj_id pet, obj_id pcd) throws InterruptedException
+    {
+        if (!isIdValid(pet) || !exists(pet) || !isStoryCompanionControlDevice(pcd))
+        {
+            return;
+        }
+        setObjVar(pcd, pet_lib.VAR_PALVAR_BASE, 1);
+        setObjVar(pcd, OBJVAR_CUSTOMIZATION_SCALE, getScale(pet));
+        custom_var[] allVars = getAllCustomVars(pet);
+        if (allVars != null)
+        {
+            for (int i = 0; i < allVars.length; ++i)
+            {
+                custom_var cv = allVars[i];
+                if (cv == null || !(cv instanceof ranged_int_custom_var))
+                {
+                    continue;
+                }
+                ranged_int_custom_var ri = (ranged_int_custom_var) cv;
+                String varName = ri.getVarName();
+                if (varName == null || varName.length() < 1)
+                {
+                    continue;
+                }
+                setObjVar(pcd, pet_lib.VAR_PALVAR_VARS + "." + varName, ri.getValue());
+            }
+        }
+    }
+    /** Restores saved hair, face, body, palette, and scale from the PCD onto a freshly spawned pet. */
+    public static void restoreStoryCompanionCustomizationFromPcd(obj_id pet, obj_id pcd) throws InterruptedException
+    {
+        if (!isIdValid(pet) || !exists(pet) || !isStoryCompanionControlDevice(pcd))
+        {
+            return;
+        }
+        if (!hasObjVar(pcd, pet_lib.VAR_PALVAR_BASE))
+        {
+            return;
+        }
+        if (hasObjVar(pcd, OBJVAR_CUSTOMIZATION_SCALE))
+        {
+            setScale(pet, getFloatObjVar(pcd, OBJVAR_CUSTOMIZATION_SCALE));
+        }
+        obj_var_list ovl = getObjVarList(pcd, pet_lib.VAR_PALVAR_VARS);
+        if (ovl == null)
+        {
+            return;
+        }
+        int numItem = ovl.getNumItems();
+        for (int i = 0; i < numItem; ++i)
+        {
+            obj_var ov = ovl.getObjVar(i);
+            if (ov == null)
+            {
+                continue;
+            }
+            String var = ov.getName();
+            int val = ov.getIntData();
+            if (var == null || var.length() < 1)
+            {
+                continue;
+            }
+            if (var.indexOf("index_texture") >= 0 || var.endsWith("_texture_1"))
+            {
+                setRangedIntCustomVarValue(pet, normalizeCustomizationVarPath(var), val);
+            }
+            else if (!hue.setColor(pet, var, val))
+            {
+                setRangedIntCustomVarValue(pet, normalizeCustomizationVarPath(var), val);
+            }
+        }
+    }
+    private static obj_id finishStoryCompanionCreatureSpawn(String creatureName, dictionary creatureDict, obj_id pet, obj_id owner, obj_id pcd, int level, boolean withAi, boolean isPet) throws InterruptedException
+    {
+        if (!isIdValid(pet) || creatureDict == null)
+        {
+            return null;
+        }
+        if (isPet)
+        {
+            utils.setScriptVar(pet, "petBeingInitialized", true);
+        }
+        utils.setScriptVar(pet, "spawnedBy", owner);
+        utils.setScriptVar(pet, SCRIPTVAR_SKIP_RANDOM_HUE, 1);
+        setObjVar(pet, create.INITIALIZE_CREATURE_DO_NOT_SCALE_OBJVAR, 1);
+        create.initializeCreature(pet, creatureName, creatureDict, level);
+        create.attachCreatureScripts(pet, creatureDict.getString("scripts"), withAi);
+        setupStoryCompanionPlayerAppearance(pet);
+        if (isIdValid(pcd) && hasObjVar(pcd, pet_lib.VAR_PALVAR_BASE))
+        {
+            restoreStoryCompanionCustomizationFromPcd(pet, pcd);
+        }
+        return pet;
+    }
+    /**
+     * Spawns a full-customization story companion from the naked NPC base template (not dressed {@code commoner_*} mobiles).
+     */
+    public static obj_id spawnStoryCompanionCreature(String companionId, obj_id player, location loc, int level, boolean withAi, boolean isPet) throws InterruptedException
+    {
+        if (!beast_lib.isValidPlayer(player) || !isValidStoryCompanionRow(companionId) || loc == null)
+        {
+            return null;
+        }
+        String creatureName = resolveStoryCompanionCreatureName(companionId, player);
+        dictionary creatureDict = utils.dataTableGetRow(create.CREATURE_TABLE, creatureName);
+        if (creatureDict == null)
+        {
+            creatureDict = utils.dataTableGetRow(create.CREATURE_TABLE, "commoner");
+        }
+        if (creatureDict == null)
+        {
+            return null;
+        }
+        String template = resolveStoryCompanionServerObjectTemplate(companionId, player);
+        if (template == null || template.length() < 1)
+        {
+            return create.createCreature(creatureName, loc, level, withAi, isPet);
+        }
+        obj_id pet = createObject(template, loc);
+        return finishStoryCompanionCreatureSpawn(creatureName, creatureDict, pet, player, obj_id.NULL_ID, level, withAi, isPet);
+    }
+    public static obj_id spawnStoryCompanionCreature(String companionId, obj_id player, obj_id pcd, location loc, int level, boolean withAi, boolean isPet) throws InterruptedException
+    {
+        if (!beast_lib.isValidPlayer(player) || !isValidStoryCompanionRow(companionId) || loc == null)
+        {
+            return null;
+        }
+        String creatureName = resolveStoryCompanionCreatureName(companionId, player);
+        dictionary creatureDict = utils.dataTableGetRow(create.CREATURE_TABLE, creatureName);
+        if (creatureDict == null)
+        {
+            creatureDict = utils.dataTableGetRow(create.CREATURE_TABLE, "commoner");
+        }
+        if (creatureDict == null)
+        {
+            return null;
+        }
+        String template = resolveStoryCompanionServerObjectTemplate(companionId, player);
+        if (template == null || template.length() < 1)
+        {
+            return create.createCreature(creatureName, loc, level, withAi, isPet);
+        }
+        obj_id pet = createObject(template, loc);
+        return finishStoryCompanionCreatureSpawn(creatureName, creatureDict, pet, player, pcd, level, withAi, isPet);
+    }
+    public static obj_id spawnStoryCompanionCreature(String companionId, obj_id player, obj_id container, int level, boolean withAi, boolean isPet) throws InterruptedException
+    {
+        if (!beast_lib.isValidPlayer(player) || !isValidStoryCompanionRow(companionId) || !isIdValid(container))
+        {
+            return null;
+        }
+        String creatureName = resolveStoryCompanionCreatureName(companionId, player);
+        dictionary creatureDict = utils.dataTableGetRow(create.CREATURE_TABLE, creatureName);
+        if (creatureDict == null)
+        {
+            creatureDict = utils.dataTableGetRow(create.CREATURE_TABLE, "commoner");
+        }
+        if (creatureDict == null)
+        {
+            return null;
+        }
+        String template = resolveStoryCompanionServerObjectTemplate(companionId, player);
+        if (template == null || template.length() < 1)
+        {
+            return create.createCreature(creatureName, container, level, withAi, isPet);
+        }
+        obj_id pet = createObject(template, container, "");
+        return finishStoryCompanionCreatureSpawn(creatureName, creatureDict, pet, player, obj_id.NULL_ID, level, withAi, isPet);
+    }
+    public static obj_id spawnStoryCompanionCreature(String companionId, obj_id player, obj_id pcd, obj_id container, int level, boolean withAi, boolean isPet) throws InterruptedException
+    {
+        if (!beast_lib.isValidPlayer(player) || !isValidStoryCompanionRow(companionId) || !isIdValid(container))
+        {
+            return null;
+        }
+        String creatureName = resolveStoryCompanionCreatureName(companionId, player);
+        dictionary creatureDict = utils.dataTableGetRow(create.CREATURE_TABLE, creatureName);
+        if (creatureDict == null)
+        {
+            creatureDict = utils.dataTableGetRow(create.CREATURE_TABLE, "commoner");
+        }
+        if (creatureDict == null)
+        {
+            return null;
+        }
+        String template = resolveStoryCompanionServerObjectTemplate(companionId, player);
+        if (template == null || template.length() < 1)
+        {
+            return create.createCreature(creatureName, container, level, withAi, isPet);
+        }
+        obj_id pet = createObject(template, container, "");
+        return finishStoryCompanionCreatureSpawn(creatureName, creatureDict, pet, player, pcd, level, withAi, isPet);
     }
     /** Legacy PCDs stored player or npc .iff spawn paths; rewrite to creatures-table names. */
     public static void migrateStoryCompanionPcdSpawnData(obj_id pcd, obj_id player) throws InterruptedException
@@ -952,14 +1187,25 @@ public class companion_lib extends script.base_script
         {
             return false;
         }
+        obj_id playerInv = utils.getInventoryContainer(player);
+        if (!isIdValid(playerInv) || getContainedBy(item) != playerInv)
+        {
+            sendSystemMessage(player, string_id.unlocalized("That item must be in your inventory."));
+            return false;
+        }
         obj_id pet = callable.getCDCallable(pcd);
         if (isIdValid(pet) && exists(pet))
         {
-            ensureAppearanceInventory(pet);
+            setupStoryCompanionPlayerAppearance(pet);
             obj_id appInv = getAppearanceInventory(pet);
             if (!isIdValid(appInv))
             {
                 sendSystemMessage(player, string_id.unlocalized("This companion cannot equip appearance items (missing appearance slot)."));
+                return false;
+            }
+            if (!canEquipWearable(pet, item))
+            {
+                sendSystemMessage(player, string_id.unlocalized("Your companion cannot wear that item."));
                 return false;
             }
             if (!putIn(item, appInv, player))
@@ -973,6 +1219,8 @@ public class companion_lib extends script.base_script
                 sendSystemMessage(player, string_id.unlocalized("The item could not be equipped (species or slot mismatch)."));
                 return false;
             }
+            setObjVar(item, OBJVAR_BOUND_PCD, pcd);
+            setObjVar(item, "noTrade", 1);
             sendSystemMessage(player, string_id.unlocalized("Equipped item on your companion."));
             return true;
         }
@@ -1018,11 +1266,7 @@ public class companion_lib extends script.base_script
         saveStoryCompanionAppearanceOnStore(pet, pcd, player);
         if (canCustomizeStoryCompanionAppearance(pcd))
         {
-            pet_lib.savePetInfo(pet, pcd);
-            if (!hasObjVar(pcd, pet_lib.VAR_PALVAR_BASE))
-            {
-                setObjVar(pcd, pet_lib.VAR_PALVAR_BASE, 1);
-            }
+            saveStoryCompanionCustomizationToPcd(pet, pcd);
         }
         applyStoryCompanionDisplayName(pcd, pet);
     }
@@ -1042,9 +1286,8 @@ public class companion_lib extends script.base_script
         applyStoryCompanionDisplayName(pcd, pet);
         if (canCustomizeStoryCompanionAppearance(pcd))
         {
-            ensureAppearanceInventory(pet);
-            stripStoryCompanionDefaultWearables(pet);
-            pet_lib.restoreCustomization(pet, pcd);
+            setupStoryCompanionPlayerAppearance(pet);
+            restoreStoryCompanionCustomizationFromPcd(pet, pcd);
             restoreStoryCompanionAppearanceOnSummon(pet, pcd, player);
         }
         restoreStoryCompanionWeaponOnSummon(pet, pcd, player);
@@ -1236,7 +1479,7 @@ public class companion_lib extends script.base_script
         if (changed)
         {
             utils.setScriptVar(pet, "customizationUpdated", 1);
-            pet_lib.savePetInfo(pet, pcd);
+            saveStoryCompanionCustomizationToPcd(pet, pcd);
         }
         return changed;
     }
@@ -1518,7 +1761,15 @@ public class companion_lib extends script.base_script
         String customizationTier = getStoryCompanionCustomizationTier(companionId);
         location loc = getLocation(player);
         String spawnCreatureName = resolveStoryCompanionCreatureName(companionId, player);
-        obj_id pet = create.createCreature(spawnCreatureName, loc, spawnLevel, true, true);
+        obj_id pet = null;
+        if (CUSTOMIZATION_TIER_FULL.equals(customizationTier))
+        {
+            pet = spawnStoryCompanionCreature(companionId, player, loc, spawnLevel, true, true);
+        }
+        else
+        {
+            pet = create.createCreature(spawnCreatureName, loc, spawnLevel, true, true);
+        }
         if (!isIdValid(pet) || !exists(pet))
         {
             return null;
@@ -1570,12 +1821,11 @@ public class companion_lib extends script.base_script
             attachScript(cd, "systems.companion.companion_story_pcd");
         }
         applyStoryCompanionPcdStatsForPlayer(player, cd);
+        applyDefaultStoryCompanionWeapon(pet, companionId);
         if (CUSTOMIZATION_TIER_FULL.equals(customizationTier))
         {
-            ensureAppearanceInventory(pet);
-            stripStoryCompanionDefaultWearables(pet);
+            saveStoryCompanionCustomizationToPcd(pet, cd);
         }
-        applyDefaultStoryCompanionWeapon(pet, companionId);
         if (!hasScript(player, "ai.pet_master"))
         {
             attachScript(player, "ai.pet_master");

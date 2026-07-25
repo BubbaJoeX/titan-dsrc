@@ -5029,21 +5029,49 @@ public class pet_lib extends script.base_script
         if (!isIdValid(objContainer))
         {
             location loc = getLocation(master);
-            if (companion_lib.isStoryCompanionControlDevice(petControlDevice))
+            if (companion_lib.isStoryCompanionControlDevice(petControlDevice) && companion_lib.canCustomizeStoryCompanionAppearance(petControlDevice))
             {
                 companion_lib.migrateStoryCompanionPcdSpawnData(petControlDevice, master);
-                creatureName = getStringObjVar(petControlDevice, "pet.creatureName");
+                String companionId = getStringObjVar(petControlDevice, companion_lib.OBJVAR_STORY_COMPANION_ID);
+                int level = getLevel(master);
+                if (hasObjVar(petControlDevice, "creature_attribs.level"))
+                {
+                    level = getIntObjVar(petControlDevice, "creature_attribs.level");
+                }
+                pet = companion_lib.spawnStoryCompanionCreature(companionId, master, petControlDevice, loc, level, true, true);
             }
-            pet = create.object(creatureName, loc, true, true);
+            else
+            {
+                if (companion_lib.isStoryCompanionControlDevice(petControlDevice))
+                {
+                    companion_lib.migrateStoryCompanionPcdSpawnData(petControlDevice, master);
+                    creatureName = getStringObjVar(petControlDevice, "pet.creatureName");
+                }
+                pet = create.object(creatureName, loc, true, true);
+            }
         }
         else 
         {
-            if (companion_lib.isStoryCompanionControlDevice(petControlDevice))
+            if (companion_lib.isStoryCompanionControlDevice(petControlDevice) && companion_lib.canCustomizeStoryCompanionAppearance(petControlDevice))
             {
                 companion_lib.migrateStoryCompanionPcdSpawnData(petControlDevice, master);
-                creatureName = getStringObjVar(petControlDevice, "pet.creatureName");
+                String companionId = getStringObjVar(petControlDevice, companion_lib.OBJVAR_STORY_COMPANION_ID);
+                int level = getLevel(master);
+                if (hasObjVar(petControlDevice, "creature_attribs.level"))
+                {
+                    level = getIntObjVar(petControlDevice, "creature_attribs.level");
+                }
+                pet = companion_lib.spawnStoryCompanionCreature(companionId, master, petControlDevice, objContainer, level, true, true);
             }
-            pet = create.object(creatureName, objContainer, false, true);
+            else
+            {
+                if (companion_lib.isStoryCompanionControlDevice(petControlDevice))
+                {
+                    companion_lib.migrateStoryCompanionPcdSpawnData(petControlDevice, master);
+                    creatureName = getStringObjVar(petControlDevice, "pet.creatureName");
+                }
+                pet = create.object(creatureName, objContainer, false, true);
+            }
         }
         if (!isIdValid(pet))
         {
@@ -5121,7 +5149,14 @@ public class pet_lib extends script.base_script
         }
         if (!ai_lib.isDroid(pet) && !ai_lib.isAndroid(pet))
         {
-            restoreCustomization(pet, petControlDevice);
+            if (companion_lib.isStoryCompanionControlDevice(petControlDevice))
+            {
+                companion_lib.restoreStoryCompanionCustomizationFromPcd(pet, petControlDevice);
+            }
+            else
+            {
+                restoreCustomization(pet, petControlDevice);
+            }
         }
         else if (hasObjVar(petControlDevice, pet_lib.VAR_PALVAR_BASE))
         {
