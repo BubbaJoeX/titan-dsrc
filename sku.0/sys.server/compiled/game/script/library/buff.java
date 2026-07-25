@@ -1056,13 +1056,10 @@ public class buff extends script.base_script
         {
             utils.setScriptVar(target, "groupBuff." + buffList[i], owner);
             applyBuff(target, owner, buffList[i], durList[i], strList[i]);
-            if (beast_lib.isBeastMaster(target))
+            obj_id sharePet = companion_lib.getOwnerBuffSharePet(target);
+            if (isIdValid(sharePet) && !isIdNull(sharePet))
             {
-                obj_id beast = beast_lib.getBeastOnPlayer(target);
-                if (isIdValid(beast) && !isIdNull(beast))
-                {
-                    applyBuff(beast, owner, buffList[i], durList[i], strList[i]);
-                }
+                applyBuff(sharePet, owner, buffList[i], durList[i], strList[i]);
             }
         }
     }
@@ -1077,17 +1074,14 @@ public class buff extends script.base_script
             return;
         }
         obj_id owner;
-        obj_id beast;
         for (int aBuffList : buffList) {
             owner = utils.getObjIdScriptVar(target, "groupBuff." + aBuffList);
             if (owner != target) {
                 _removeBuff(target, aBuffList);
                 utils.removeScriptVar(target, "groupBuff." + aBuffList);
-                if (beast_lib.isBeastMaster(target)) {
-                    beast = beast_lib.getBeastOnPlayer(target);
-                    if (isIdValid(beast) && !isIdNull(beast)) {
-                        _removeBuff(beast, aBuffList);
-                    }
+                obj_id sharePet = companion_lib.getOwnerBuffSharePet(target);
+                if (isIdValid(sharePet) && !isIdNull(sharePet)) {
+                    _removeBuff(sharePet, aBuffList);
                 }
             }
         }

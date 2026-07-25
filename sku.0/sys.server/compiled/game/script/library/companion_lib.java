@@ -54,7 +54,14 @@ public class companion_lib extends script.base_script
     public static final String CUSTOMIZATION_TIER_NONE = "none";
     public static final String CUSTOMIZATION_TIER_CELEBRITY = "celebrity";
     public static final String CUSTOMIZATION_TIER_FULL = "full";
-    public static final String GEAR_HOLD_TEMPLATE = "object/tangible/inventory/droid_inventory_1.iff";
+    /** Hidden datapad stash; use creature inventory stubs (droid_inventory is not in the compiled template list). */
+    public static final String GEAR_HOLD_TEMPLATE = "object/tangible/inventory/creature_inventory_1.iff";
+    public static final String[] GEAR_HOLD_TEMPLATE_FALLBACKS = 
+    {
+        "object/tangible/inventory/creature_inventory_2.iff",
+        "object/tangible/inventory/creature_inventory_3.iff",
+        "object/tangible/inventory/creature_inventory_4.iff"
+    };
     public static final String OBJVAR_COMBAT_STANCE = "companion.stance";
     /** 0 = prefer melee commands, 1 = prefer ranged (humanoid pet bar). */
     public static final String OBJVAR_WEAPON_MODE = "companion.weaponMode";
@@ -453,6 +460,17 @@ public class companion_lib extends script.base_script
         obj_id hold = createObject(GEAR_HOLD_TEMPLATE, datapad, "");
         if (!isIdValid(hold))
         {
+            for (int i = 0; i < GEAR_HOLD_TEMPLATE_FALLBACKS.length; ++i)
+            {
+                hold = createObject(GEAR_HOLD_TEMPLATE_FALLBACKS[i], datapad, "");
+                if (isIdValid(hold))
+                {
+                    break;
+                }
+            }
+        }
+        if (!isIdValid(hold))
+        {
             return obj_id.NULL_ID;
         }
         setObjVar(hold, OBJVAR_BOUND_PCD, pcd);
@@ -481,6 +499,77 @@ public class companion_lib extends script.base_script
             return obj_id.NULL_ID;
         }
         return cur;
+    }
+    /**
+     * Keeps a player-bound companion weapon active; {@code aiEquipPrimaryWeapon} otherwise swaps to creature defaults (unarmed).
+     */
+    public static void ensureStoryCompanionCombatWeapon(obj_id pet) throws InterruptedException
+    {
+        if (!isStoryCompanionPet(pet))
+        {
+            return;
+        }
+        obj_id weapon = getStoryCompanionEquippedPlayerWeapon(pet);
+        if (!isIdValid(weapon))
+        {
+            return;
+        }
+        obj_id cur = getCurrentWeapon(pet);
+        if (cur != weapon)
+        {
+            setCurrentWeapon(pet, weapon);
+            clearAiWeaponCombatProfiles(pet);
+        }
+    }
+    /**
+     * Active combat pet that receives owner group-buff sharing: BM beast if out, else active story companion.
+     */
+    public static obj_id getOwnerBuffSharePet(obj_id player) throws InterruptedException
+    {
+        if (!beast_lib.isValidPlayer(player))
+        {
+            return obj_id.NULL_ID;
+        }
+        obj_id beast = beast_lib.getBeastOnPlayer(player);
+        if (isIdValid(beast) && exists(beast))
+        {
+            return beast;
+        }
+        return getActiveStoryCompanionPet(player);
+    }
+    /**
+     * Match follow speed to the owner's movement mode when close; sprint only to catch up or when the owner is running.
+     */
+    public static void syncStoryCompanionFollowSpeed(obj_id pet, obj_id master) throws InterruptedException
+    {
+        if (!isStoryCompanionPet(pet) || !beast_lib.isValidPlayer(master))
+        {
+            return;
+        }
+        if (utils.getBooleanScriptVar(pet, "ai.pet.staying"))
+        {
+            return;
+        }
+        if (ai_lib.isInCombat(pet))
+        {
+            setMovementRun(pet);
+            return;
+        }
+        float dist = getDistance(pet, master);
+        if (dist >= 5.0f)
+        {
+            setMovementRun(pet);
+            return;
+        }
+        int masterLoc = getLocomotion(master);
+        if (masterLoc == LOCOMOTION_RUNNING)
+        {
+            setMovementRun(pet);
+        }
+        else
+        {
+            setMovementWalk(pet);
+        }
     }
     /** No script {@code unequip}; clear active weapon if needed, then move via {@link #putInOverloaded}. */
     private static boolean moveItemFromCreatureToContainer(obj_id item, obj_id container, obj_id player) throws InterruptedException
@@ -763,6 +852,64 @@ public class companion_lib extends script.base_script
             }
         }
     }
+    /** Remove template default clothes from a freshly spawned story companion; player-bound gear is kept. */
+    public static void stripStoryCompanionDefaultWearables(obj_id pet) throws InterruptedException
+    {
+        if (!isIdValid(pet) || !exists(pet))
+        {
+            return;
+        }
+        obj_id[] equipped = getAllWornItems(pet, false);
+        if (equipped != null)
+        {
+            for (int i = 0; i < equipped.length; ++i)
+            {
+                obj_id item = equipped[i];
+                if (!isIdValid(item) || !exists(item))
+                {
+                    continue;
+                }
+                if (hasObjVar(item, OBJVAR_BOUND_PCD))
+                {
+                    continue;
+                }
+                if (isCompanionCreatureWeapon(item))
+                {
+                    continue;
+                }
+                if (isWeapon(item))
+                {
+                    continue;
+                }
+                if (!isCompanionDressableTangible(item))
+                {
+                    continue;
+                }
+                destroyObject(item);
+            }
+        }
+        obj_id appInv = getAppearanceInventory(pet);
+        if (isIdValid(appInv))
+        {
+            obj_id[] inApp = getContents(appInv);
+            if (inApp != null)
+            {
+                for (int i = 0; i < inApp.length; ++i)
+                {
+                    obj_id item = inApp[i];
+                    if (!isIdValid(item) || !exists(item))
+                    {
+                        continue;
+                    }
+                    if (hasObjVar(item, OBJVAR_BOUND_PCD))
+                    {
+                        continue;
+                    }
+                    destroyObject(item);
+                }
+            }
+        }
+    }
     public static void restoreStoryCompanionAppearanceOnSummon(obj_id pet, obj_id pcd, obj_id player) throws InterruptedException
     {
         if (!canCustomizeStoryCompanionAppearance(pcd) || !isIdValid(pet) || !exists(pet))
@@ -896,6 +1043,7 @@ public class companion_lib extends script.base_script
         if (canCustomizeStoryCompanionAppearance(pcd))
         {
             ensureAppearanceInventory(pet);
+            stripStoryCompanionDefaultWearables(pet);
             pet_lib.restoreCustomization(pet, pcd);
             restoreStoryCompanionAppearanceOnSummon(pet, pcd, player);
         }
@@ -1422,6 +1570,11 @@ public class companion_lib extends script.base_script
             attachScript(cd, "systems.companion.companion_story_pcd");
         }
         applyStoryCompanionPcdStatsForPlayer(player, cd);
+        if (CUSTOMIZATION_TIER_FULL.equals(customizationTier))
+        {
+            ensureAppearanceInventory(pet);
+            stripStoryCompanionDefaultWearables(pet);
+        }
         applyDefaultStoryCompanionWeapon(pet, companionId);
         if (!hasScript(player, "ai.pet_master"))
         {
@@ -1858,11 +2011,7 @@ public class companion_lib extends script.base_script
         }
         if (isIdValid(cur) && exists(cur) && cur != item)
         {
-            if (utils.hasScriptVar(cur, "isCreatureWeapon") || hasObjVar(cur, "isCreatureWeapon"))
-            {
-                destroyObject(cur);
-            }
-            else
+            if (!isCompanionCreatureWeapon(cur))
             {
                 if (!putIn(cur, ownerInv, giver))
                 {
@@ -2259,7 +2408,7 @@ public class companion_lib extends script.base_script
         }
         if (cmd.equals(beast_lib.BM_COMMAND_ATTACK) || cmd.equals("bm_pet_attack_1"))
         {
-            beast_lib.doAttackCommand(pet, player);
+            pet_lib.doAttackCommand(pet, player);
             setCompanionAbilityCooldown(pet, cmd, getCompanionAbilityCooldownSeconds(cmd));
             return;
         }

@@ -2843,13 +2843,10 @@ public class buff_handler extends script.base_script
             return SCRIPT_CONTINUE;
         }
         obj_id owner = utils.getObjIdScriptVar(self, var);
-        if (beast_lib.isBeastMaster(self))
+        obj_id sharePet = companion_lib.getOwnerBuffSharePet(self);
+        if (isIdValid(sharePet) && !isIdNull(sharePet) && !isDead(sharePet))
         {
-            obj_id beast = beast_lib.getBeastOnPlayer(self);
-            if (isIdValid(beast) && !isIdNull(beast) && !isDead(beast))
-            {
-                buff.applyBuff(beast, owner, effectName, duration, value);
-            }
+            buff.applyBuff(sharePet, owner, effectName, duration, value);
         }
         if (owner != self)
         {

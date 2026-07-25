@@ -27,7 +27,14 @@ public class creature_combat extends script.systems.combat.combat_base
         clearCombatActions();
         if (!stealth.isDecoy(self))
         {
-            aiEquipPrimaryWeapon(self);
+            if (companion_lib.isStoryCompanionPet(self))
+            {
+                companion_lib.ensureStoryCompanionCombatWeapon(self);
+            }
+            else
+            {
+                aiEquipPrimaryWeapon(self);
+            }
         }
         removeTriggerVolume(ai_lib.ALERT_VOLUME_NAME);
         removeTriggerVolume(ai_lib.AGGRO_VOLUME_NAME);
@@ -423,10 +430,11 @@ public class creature_combat extends script.systems.combat.combat_base
             {
                 if (dict.getBoolean("ai.combat.cover.foundTarget"))
                 {
-                    if (!companion_lib.isStoryCompanionPet(self))
+                    if (companion_lib.isStoryCompanionPet(self))
                     {
-                        attack(target);
+                        companion_lib.ensureStoryCompanionCombatWeapon(self);
                     }
+                    attack(target);
                 }
             }
         }
@@ -557,6 +565,11 @@ public class creature_combat extends script.systems.combat.combat_base
         final obj_id self = getSelf();
         if (beast_lib.isBeast(self))
         {
+            return;
+        }
+        if (companion_lib.isStoryCompanionPet(self))
+        {
+            companion_lib.ensureStoryCompanionCombatWeapon(self);
             return;
         }
         if (!aiHasPrimaryWeapon(self))

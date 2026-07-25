@@ -899,16 +899,31 @@ public class pet extends script.base_script
     }
     public int OnFollowWaiting(obj_id self, obj_id target) throws InterruptedException
     {
+        if (companion_lib.isStoryCompanionPet(self))
+        {
+            obj_id master = getMaster(self);
+            if (isIdValid(master))
+            {
+                companion_lib.syncStoryCompanionFollowSpeed(self, master);
+            }
+        }
         pet_lib.validateFollowTarget(self, target);
         return SCRIPT_CONTINUE;
     }
     public int OnFollowMoving(obj_id self, obj_id target) throws InterruptedException
     {
-        if (getLocomotion(self) != LOCOMOTION_RUNNING)
+        if (companion_lib.isStoryCompanionPet(self))
         {
-            
+            obj_id master = getMaster(self);
+            if (isIdValid(master))
+            {
+                companion_lib.syncStoryCompanionFollowSpeed(self, master);
+            }
         }
-        setMovementRun(self);
+        else
+        {
+            setMovementRun(self);
+        }
         pet_lib.validateFollowTarget(self, target);
         return SCRIPT_CONTINUE;
     }

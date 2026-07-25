@@ -76,6 +76,14 @@ public class combat_base extends script.base_script
         }
         boolean triggerPetBar = false;
         obj_id player = self;
+        if (isPlayer(self) && !testPetBar)
+        {
+            obj_id storyPet = companion_lib.getPetBarCombatCreature(self);
+            if (isIdValid(storyPet) && exists(storyPet) && companion_lib.isStoryCompanionPet(storyPet) && beast_lib.canPerformCommand(self, storyPet, actionName))
+            {
+                testPetBar = true;
+            }
+        }
         if (testPetBar && isPlayer(self))
         {
             obj_id beast = companion_lib.getPetBarCombatCreature(self);
@@ -464,6 +472,10 @@ public class combat_base extends script.base_script
             String cooldownGroup = cd.cooldownGroup;
             int groupCrc = getStringCrc(cooldownGroup);
             sendCooldownGroupTimingOnly(player, groupCrc, cd.cooldownTime);
+            if (companion_lib.isStoryCompanionPet(self))
+            {
+                companion_lib.setCompanionAbilityCooldown(self, actionName, (int) cd.cooldownTime);
+            }
         }
         return true;
     }

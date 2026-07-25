@@ -2177,7 +2177,14 @@ public class beast_lib extends script.base_script
     public static void beastFollowTarget(obj_id beast, obj_id target) throws InterruptedException
     {
         follow(beast, target, scaleDistanceByLevel(beast, 0.1f), scaleDistanceByLevel(beast, 0.2f));
-        setMovementRun(beast);
+        if (companion_lib.isStoryCompanionPet(beast))
+        {
+            companion_lib.syncStoryCompanionFollowSpeed(beast, target);
+        }
+        else
+        {
+            setMovementRun(beast);
+        }
     }
     public static void doAttackCommand(obj_id beast, obj_id master) throws InterruptedException
     {

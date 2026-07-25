@@ -176,7 +176,14 @@ public class pet_lib extends script.base_script
     {
         final float collisionRadius = getObjectCollisionRadius(pet) * 2.0f;
         ai_lib.aiFollow(pet, master, collisionRadius, collisionRadius);
-        setMovementRun(pet);
+        if (companion_lib.isStoryCompanionPet(pet))
+        {
+            companion_lib.syncStoryCompanionFollowSpeed(pet, master);
+        }
+        else
+        {
+            setMovementRun(pet);
+        }
     }
     public static void setUpPetControlDevice(obj_id petControlDevice, obj_id pet) throws InterruptedException
     {
@@ -1395,6 +1402,11 @@ public class pet_lib extends script.base_script
         }
         utils.removeScriptVar(pet, "ai.pet.staying");
         chat.setBadMood(pet);
+        if (companion_lib.isStoryCompanionPet(pet))
+        {
+            companion_lib.ensureStoryCompanionCombatWeapon(pet);
+            companion_lib.startStoryCompanionCombatLoop(pet);
+        }
         if (!ai_lib.isInCombat(pet))
         {
             if (!pet_lib.cancelAttackDueToFactionalRestrictions(pet, target))
