@@ -89,6 +89,10 @@ public class ai_lib extends script.base_script
         {
             needsCombatTriggerVolumes = false;
         }
+        else if (hasObjVar(self, "companion.storyId"))
+        {
+            needsCombatTriggerVolumes = false;
+        }
         if (needsCombatTriggerVolumes)
         {
             // Create ALERT trigger volume

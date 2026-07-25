@@ -5017,25 +5017,21 @@ public class pet_lib extends script.base_script
         if (!isIdValid(objContainer))
         {
             location loc = getLocation(master);
-            if (companion_lib.isStoryCompanionControlDevice(petControlDevice) && companion_lib.hasStoryCompanionSpawnTemplate(petControlDevice))
+            if (companion_lib.isStoryCompanionControlDevice(petControlDevice))
             {
-                pet = create.object(companion_lib.getStoryCompanionSpawnTemplate(petControlDevice), loc, true, true);
+                companion_lib.migrateStoryCompanionPcdSpawnData(petControlDevice, master);
+                creatureName = getStringObjVar(petControlDevice, "pet.creatureName");
             }
-            else
-            {
-                pet = create.object(creatureName, loc, true, true);
-            }
+            pet = create.object(creatureName, loc, true, true);
         }
         else 
         {
-            if (companion_lib.isStoryCompanionControlDevice(petControlDevice) && companion_lib.hasStoryCompanionSpawnTemplate(petControlDevice))
+            if (companion_lib.isStoryCompanionControlDevice(petControlDevice))
             {
-                pet = create.object(companion_lib.getStoryCompanionSpawnTemplate(petControlDevice), objContainer, false, true);
+                companion_lib.migrateStoryCompanionPcdSpawnData(petControlDevice, master);
+                creatureName = getStringObjVar(petControlDevice, "pet.creatureName");
             }
-            else
-            {
-                pet = create.object(creatureName, objContainer, false, true);
-            }
+            pet = create.object(creatureName, objContainer, false, true);
         }
         if (!isIdValid(pet))
         {

@@ -99,7 +99,7 @@ public class creature_combat extends script.systems.combat.combat_base
         ai_combat_assist.clearNoAssistCall();
         setLookAtTarget(self, null);
         utils.removeScriptVarTree(self, "me_evasion");
-        if (!beast_lib.isBeast(self))
+        if (!beast_lib.isBeast(self) && !companion_lib.isStoryCompanionPet(self))
         {
             ai_lib.resetCombatTriggerVolumes();
             float healthRegenMod = hasObjVar(self, "regen_mod.health") ? getFloatObjVar(self, "regen_mod.health") : 1.0f;
