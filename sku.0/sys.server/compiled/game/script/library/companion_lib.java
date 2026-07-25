@@ -57,6 +57,9 @@ public class companion_lib extends script.base_script
     /** Hidden datapad stash; use creature inventory stubs (droid_inventory is not in the compiled template list). */
     public static final String GEAR_HOLD_TEMPLATE = "object/tangible/inventory/creature_inventory_1.iff";
     public static final String OBJVAR_CUSTOMIZATION_SCALE = "companion.customization.scale";
+    /** Server hair template path (e.g. object/tangible/hair/human/human_male_s01.iff). Empty = bald. */
+    public static final String OBJVAR_CUSTOMIZATION_HAIR_TEMPLATE = "companion.customization.hairTemplate";
+    public static final String OBJVAR_CUSTOMIZATION_HAIR_VARS = "companion.customization.hairVars";
     public static final String SCRIPTVAR_SKIP_RANDOM_HUE = "companion.skipRandomHue";
     public static final String[] GEAR_HOLD_TEMPLATE_FALLBACKS = 
     {
@@ -451,6 +454,35 @@ public class companion_lib extends script.base_script
         }
         setObjVar(pcd, pet_lib.VAR_PALVAR_BASE, 1);
         setObjVar(pcd, OBJVAR_CUSTOMIZATION_SCALE, getScale(pet));
+        obj_id hair = getObjectInSlot(pet, slots.HAIR);
+        if (isIdValid(hair) && exists(hair))
+        {
+            setObjVar(pcd, OBJVAR_CUSTOMIZATION_HAIR_TEMPLATE, getTemplateName(hair));
+            custom_var[] hairVars = getAllCustomVars(hair);
+            if (hairVars != null)
+            {
+                for (int h = 0; h < hairVars.length; ++h)
+                {
+                    custom_var hcv = hairVars[h];
+                    if (hcv == null || !(hcv instanceof ranged_int_custom_var))
+                    {
+                        continue;
+                    }
+                    ranged_int_custom_var hri = (ranged_int_custom_var) hcv;
+                    String hairVarName = hri.getVarName();
+                    if (hairVarName == null || hairVarName.length() < 1)
+                    {
+                        continue;
+                    }
+                    setObjVar(pcd, OBJVAR_CUSTOMIZATION_HAIR_VARS + "." + hairVarName, hri.getValue());
+                }
+            }
+        }
+        else
+        {
+            removeObjVar(pcd, OBJVAR_CUSTOMIZATION_HAIR_TEMPLATE);
+            removeObjVar(pcd, OBJVAR_CUSTOMIZATION_HAIR_VARS);
+        }
         custom_var[] allVars = getAllCustomVars(pet);
         if (allVars != null)
         {
@@ -512,6 +544,82 @@ public class companion_lib extends script.base_script
             else if (!hue.setColor(pet, var, val))
             {
                 setRangedIntCustomVarValue(pet, normalizeCustomizationVarPath(var), val);
+            }
+        }
+        applyStoryCompanionHairFromPcd(pet, pcd);
+    }
+    /** Creates or removes hair on the companion pet from PCD-persisted hair template and vars. */
+    public static void applyStoryCompanionHairFromPcd(obj_id pet, obj_id pcd) throws InterruptedException
+    {
+        if (!isIdValid(pet) || !exists(pet) || !isStoryCompanionControlDevice(pcd))
+        {
+            return;
+        }
+        obj_id existingHair = getObjectInSlot(pet, slots.HAIR);
+        if (!hasObjVar(pcd, OBJVAR_CUSTOMIZATION_HAIR_TEMPLATE))
+        {
+            if (isIdValid(existingHair) && exists(existingHair))
+            {
+                destroyObject(existingHair);
+            }
+            return;
+        }
+        String hairTemplate = getStringObjVar(pcd, OBJVAR_CUSTOMIZATION_HAIR_TEMPLATE);
+        if (hairTemplate == null || hairTemplate.length() < 1)
+        {
+            if (isIdValid(existingHair) && exists(existingHair))
+            {
+                destroyObject(existingHair);
+            }
+            return;
+        }
+        if (isIdValid(existingHair) && exists(existingHair) && hairTemplate.equals(getTemplateName(existingHair)))
+        {
+            applyStoryCompanionHairVarsFromPcd(existingHair, pcd);
+            return;
+        }
+        if (isIdValid(existingHair) && exists(existingHair))
+        {
+            destroyObject(existingHair);
+        }
+        obj_id newHair = createObject(hairTemplate, pet, slots.HAIR);
+        if (isIdValid(newHair) && exists(newHair))
+        {
+            applyStoryCompanionHairVarsFromPcd(newHair, pcd);
+        }
+    }
+    private static void applyStoryCompanionHairVarsFromPcd(obj_id hair, obj_id pcd) throws InterruptedException
+    {
+        if (!isIdValid(hair) || !exists(hair) || !hasObjVar(pcd, OBJVAR_CUSTOMIZATION_HAIR_VARS))
+        {
+            return;
+        }
+        obj_var_list ovl = getObjVarList(pcd, OBJVAR_CUSTOMIZATION_HAIR_VARS);
+        if (ovl == null)
+        {
+            return;
+        }
+        int numItem = ovl.getNumItems();
+        for (int i = 0; i < numItem; ++i)
+        {
+            obj_var ov = ovl.getObjVar(i);
+            if (ov == null)
+            {
+                continue;
+            }
+            String var = ov.getName();
+            int val = ov.getIntData();
+            if (var == null || var.length() < 1)
+            {
+                continue;
+            }
+            if (var.indexOf("index_texture") >= 0 || var.endsWith("_texture_1"))
+            {
+                setRangedIntCustomVarValue(hair, normalizeCustomizationVarPath(var), val);
+            }
+            else if (!hue.setColor(hair, var, val))
+            {
+                setRangedIntCustomVarValue(hair, normalizeCustomizationVarPath(var), val);
             }
         }
     }
@@ -1033,7 +1141,14 @@ public class companion_lib extends script.base_script
             return false;
         }
         int got = getGameObjectType(item);
-        return isGameObjectTypeOf(got, GOT_armor) || isGameObjectTypeOf(got, GOT_clothing) || isGameObjectTypeOf(got, GOT_weapon) || isGameObjectTypeOf(got, GOT_jewelry) || isGameObjectTypeOf(got, GOT_cybernetic);
+        return isGameObjectTypeOf(got, GOT_armor)
+            || isGameObjectTypeOf(got, GOT_clothing)
+            || isGameObjectTypeOf(got, GOT_weapon)
+            || isGameObjectTypeOf(got, GOT_jewelry)
+            || isGameObjectTypeOf(got, GOT_cybernetic)
+            || got == GOT_misc_appearance_only
+            || got == GOT_misc_appearance_only_invisible
+            || got == GOT_misc_container_wearable;
     }
     public static void saveStoryCompanionAppearanceOnStore(obj_id pet, obj_id pcd, obj_id player) throws InterruptedException
     {
@@ -1241,6 +1356,15 @@ public class companion_lib extends script.base_script
         {
             return false;
         }
+        if (hasObjVar(item, OBJVAR_BOUND_PCD))
+        {
+            obj_id boundPcd = getObjIdObjVar(item, OBJVAR_BOUND_PCD);
+            if (boundPcd != pcd)
+            {
+                sendSystemMessage(player, string_id.unlocalized("That item is not bound to this companion."));
+                return false;
+            }
+        }
         obj_id ownerInv = utils.getInventoryContainer(player);
         if (!isIdValid(ownerInv))
         {
@@ -1248,8 +1372,11 @@ public class companion_lib extends script.base_script
         }
         if (!moveItemFromCreatureToContainer(item, ownerInv, player))
         {
-            sendSystemMessage(player, string_id.unlocalized("No room in your inventory for that item."));
-            return false;
+            if (!putIn(item, ownerInv, player))
+            {
+                sendSystemMessage(player, string_id.unlocalized("No room in your inventory for that item."));
+                return false;
+            }
         }
         removeObjVar(item, OBJVAR_BOUND_PCD);
         removeObjVar(item, "noTrade");
@@ -1443,6 +1570,10 @@ public class companion_lib extends script.base_script
         {
             return false;
         }
+        String hairTemplate = null;
+        boolean hairTemplateSet = false;
+        boolean baldRequested = false;
+        dictionary hairVars = new dictionary();
         boolean changed = false;
         for (int i = 0; i < pairs.length; ++i)
         {
@@ -1458,7 +1589,33 @@ public class companion_lib extends script.base_script
             }
             String var = pair.substring(0, eq).trim();
             String valStr = pair.substring(eq + 1).trim();
-            if (var.length() < 1 || valStr.length() < 1)
+            if (var.length() < 1)
+            {
+                continue;
+            }
+            if (var.equals("hairTemplate"))
+            {
+                hairTemplateSet = true;
+                if (valStr.length() < 1)
+                {
+                    baldRequested = true;
+                }
+                else
+                {
+                    hairTemplate = valStr;
+                }
+                continue;
+            }
+            if (var.startsWith("hair/"))
+            {
+                if (valStr.length() < 1)
+                {
+                    continue;
+                }
+                hairVars.put(var.substring(5), utils.stringToInt(valStr));
+                continue;
+            }
+            if (valStr.length() < 1)
             {
                 continue;
             }
@@ -1474,6 +1631,76 @@ public class companion_lib extends script.base_script
                 {
                     changed = true;
                 }
+            }
+        }
+        if (hairTemplateSet)
+        {
+            if (baldRequested)
+            {
+                removeObjVar(pcd, OBJVAR_CUSTOMIZATION_HAIR_TEMPLATE);
+                removeObjVar(pcd, OBJVAR_CUSTOMIZATION_HAIR_VARS);
+                obj_id existingHair = getObjectInSlot(pet, slots.HAIR);
+                if (isIdValid(existingHair) && exists(existingHair))
+                {
+                    destroyObject(existingHair);
+                }
+            }
+            else if (hairTemplate != null && hairTemplate.length() > 0)
+            {
+                setObjVar(pcd, OBJVAR_CUSTOMIZATION_HAIR_TEMPLATE, hairTemplate);
+                obj_id existingHair = getObjectInSlot(pet, slots.HAIR);
+                if (isIdValid(existingHair) && exists(existingHair) && !hairTemplate.equals(getTemplateName(existingHair)))
+                {
+                    destroyObject(existingHair);
+                    existingHair = obj_id.NULL_ID;
+                }
+                obj_id hairObj = existingHair;
+                if (!isIdValid(hairObj) || !exists(hairObj))
+                {
+                    hairObj = createObject(hairTemplate, pet, slots.HAIR);
+                }
+                if (isIdValid(hairObj) && exists(hairObj))
+                {
+                    removeObjVar(pcd, OBJVAR_CUSTOMIZATION_HAIR_VARS);
+                    for (java.util.Enumeration e = hairVars.keys(); e.hasMoreElements();)
+                    {
+                        String hairVar = (String) e.nextElement();
+                        int hairVal = hairVars.getInt(hairVar);
+                        setObjVar(pcd, OBJVAR_CUSTOMIZATION_HAIR_VARS + "." + hairVar, hairVal);
+                        if (hairVar.indexOf("index_texture") >= 0 || hairVar.endsWith("_texture_1"))
+                        {
+                            setRangedIntCustomVarValue(hairObj, normalizeCustomizationVarPath(hairVar), hairVal);
+                        }
+                        else if (!hue.setColor(hairObj, hairVar, hairVal))
+                        {
+                            setRangedIntCustomVarValue(hairObj, normalizeCustomizationVarPath(hairVar), hairVal);
+                        }
+                    }
+                }
+            }
+            changed = true;
+        }
+        else if (!hairVars.isEmpty())
+        {
+            obj_id hairObj = getObjectInSlot(pet, slots.HAIR);
+            if (isIdValid(hairObj) && exists(hairObj))
+            {
+                removeObjVar(pcd, OBJVAR_CUSTOMIZATION_HAIR_VARS);
+                for (java.util.Enumeration e = hairVars.keys(); e.hasMoreElements();)
+                {
+                    String hairVar = (String) e.nextElement();
+                    int hairVal = hairVars.getInt(hairVar);
+                    setObjVar(pcd, OBJVAR_CUSTOMIZATION_HAIR_VARS + "." + hairVar, hairVal);
+                    if (hairVar.indexOf("index_texture") >= 0 || hairVar.endsWith("_texture_1"))
+                    {
+                        setRangedIntCustomVarValue(hairObj, normalizeCustomizationVarPath(hairVar), hairVal);
+                    }
+                    else if (!hue.setColor(hairObj, hairVar, hairVal))
+                    {
+                        setRangedIntCustomVarValue(hairObj, normalizeCustomizationVarPath(hairVar), hairVal);
+                    }
+                }
+                changed = true;
             }
         }
         if (changed)
