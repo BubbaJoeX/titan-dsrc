@@ -280,18 +280,69 @@ public class companion_lib extends script.base_script
         String gender = (getGender(player) == GENDER_FEMALE) ? "female" : "male";
         return "object/creature/player/" + species + "_" + gender + ".iff";
     }
-    /** Full-tier spawn template: {@code companion_spawn_template} column when set, else granting player's species. */
+    /**
+     * Player creature templates register as players on client/server and break pet interaction.
+     * Map to {@code object/creature/npc/base/shared_{species}_base_{gender}.iff} instead.
+     */
+    public static String normalizeStoryCompanionSpawnTemplate(String templatePath) throws InterruptedException
+    {
+        if (templatePath == null || templatePath.length() < 1)
+        {
+            return templatePath;
+        }
+        String t = templatePath.trim();
+        if (t.indexOf("/creature/npc/") >= 0)
+        {
+            return t;
+        }
+        if (t.indexOf("/creature/player/") < 0)
+        {
+            return t;
+        }
+        int slash = t.lastIndexOf('/');
+        if (slash < 0 || slash >= t.length() - 1)
+        {
+            return t;
+        }
+        String file = t.substring(slash + 1);
+        if (file.endsWith(".iff"))
+        {
+            file = file.substring(0, file.length() - 4);
+        }
+        int us = file.lastIndexOf('_');
+        if (us <= 0)
+        {
+            return t;
+        }
+        String species = file.substring(0, us);
+        String gender = file.substring(us + 1);
+        if (!gender.equals("male") && !gender.equals("female"))
+        {
+            return t;
+        }
+        if (gender.equals("female") && (species.equals("sullustan") || species.equals("ithorian")))
+        {
+            return "object/creature/npc/base/shared_" + species + "_base_male.iff";
+        }
+        return "object/creature/npc/base/shared_" + species + "_base_" + gender + ".iff";
+    }
+    /** Full-tier spawn template: datatable override or granting player's species, always as an NPC base template. */
     public static String resolveStoryCompanionGrantTemplate(String companionId, obj_id player) throws InterruptedException
     {
+        String resolved = null;
         if (isValidStoryCompanionRow(companionId))
         {
             String fixed = dataTableGetString(STORY_COMPANIONS_TABLE, companionId, "companion_spawn_template");
             if (fixed != null && fixed.trim().length() > 0)
             {
-                return fixed.trim();
+                resolved = fixed.trim();
             }
         }
-        return resolvePlayerSpeciesTemplate(player);
+        if (resolved == null)
+        {
+            resolved = resolvePlayerSpeciesTemplate(player);
+        }
+        return normalizeStoryCompanionSpawnTemplate(resolved);
     }
     public static boolean hasStoryCompanionSpawnTemplate(obj_id pcd) throws InterruptedException
     {
@@ -303,7 +354,13 @@ public class companion_lib extends script.base_script
         {
             return null;
         }
-        return getStringObjVar(pcd, OBJVAR_SPAWN_TEMPLATE);
+        String raw = getStringObjVar(pcd, OBJVAR_SPAWN_TEMPLATE);
+        String normalized = normalizeStoryCompanionSpawnTemplate(raw);
+        if (normalized != null && !normalized.equals(raw))
+        {
+            setObjVar(pcd, OBJVAR_SPAWN_TEMPLATE, normalized);
+        }
+        return normalized;
     }
     public static obj_id ensureCompanionGearHold(obj_id pcd, obj_id player) throws InterruptedException
     {
@@ -761,6 +818,8 @@ public class companion_lib extends script.base_script
             return;
         }
         stripCreatureScriptsForStoryCompanion(pet);
+        setObjVar(pet, "ai.pet.type", pet_lib.PET_TYPE_NPC);
+        setObjVar(pet, "ai.pet", true);
         copyStoryCompanionIdentityFromPcdToPet(pcd, pet);
         applyStoryCompanionFactionFromOwner(player, pet);
         applyStoryCompanionLivePetStats(player, pcd, pet);
@@ -1247,6 +1306,7 @@ public class companion_lib extends script.base_script
         }
         stripCreatureScriptsForStoryCompanion(pet);
         setObjVar(pet, "ai.pet.type", pet_lib.PET_TYPE_NPC);
+        setObjVar(pet, "ai.pet", true);
         setObjVar(pet, OBJVAR_STORY_COMPANION_ID, companionId);
         setObjVar(pet, OBJVAR_COMBAT_STANCE, stance);
         setMaster(pet, player);
