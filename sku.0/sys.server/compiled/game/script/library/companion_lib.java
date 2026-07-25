@@ -1,6 +1,7 @@
 package script.library;
 
 import script.*;
+import script.systems.companion.companion_combat_helper;
 
 import java.util.Arrays;
 import java.util.Vector;
