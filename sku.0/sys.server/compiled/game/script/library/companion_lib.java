@@ -1519,7 +1519,7 @@ public class companion_lib extends script.base_script
 
         messageTo(pet, MESSAGE_COMPANION_COMBAT_TICK, null, COMPANION_COMBAT_TICK_INTERVAL, false);
 
-        if (isInCombat(master))
+        if (ai_lib.isInCombat(master))
         {
             obj_id masterTarget = getIntendedTarget(master);
             if (!isIdValid(masterTarget))
@@ -1528,14 +1528,14 @@ public class companion_lib extends script.base_script
             }
             if (isIdValid(masterTarget) && exists(masterTarget) && !isDead(masterTarget) && masterTarget != pet && masterTarget != master)
             {
-                if (!isInCombat(pet) || getIntendedTarget(pet) != masterTarget)
+                if (!ai_lib.isInCombat(pet) || getIntendedTarget(pet) != masterTarget)
                 {
                     addHate(pet, masterTarget, 1.0f);
                 }
             }
         }
 
-        if (isInCombat(pet))
+        if (ai_lib.isInCombat(pet))
         {
             tryUseAutonomousCompanionAbility(pet);
         }
@@ -1553,7 +1553,7 @@ public class companion_lib extends script.base_script
         {
             return;
         }
-        if (!isInCombat(pet))
+        if (!ai_lib.isInCombat(pet))
         {
             addHate(pet, attacker, 2.0f);
         }
