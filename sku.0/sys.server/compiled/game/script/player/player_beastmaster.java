@@ -790,6 +790,108 @@ public class player_beastmaster extends script.base_script
         companion_lib.executeCompanionCoreBarSlot(self, 2);
         return SCRIPT_CONTINUE;
     }
+    public int companionEquipWearable(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException
+    {
+        obj_id pcd = companion_lib.getActiveStoryCompanionPcd(self);
+        if (!isIdValid(pcd))
+        {
+            sendSystemMessage(self, string_id.unlocalized("You need an active story companion for that."));
+            return SCRIPT_CONTINUE;
+        }
+        if (!isIdValid(target) || !exists(target))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        companion_lib.equipCompanionWearableFromPlayer(pcd, self, target);
+        return SCRIPT_CONTINUE;
+    }
+    public int companionUnequipWearable(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException
+    {
+        obj_id pcd = companion_lib.getActiveStoryCompanionPcd(self);
+        if (!isIdValid(pcd))
+        {
+            sendSystemMessage(self, string_id.unlocalized("You need an active story companion for that."));
+            return SCRIPT_CONTINUE;
+        }
+        if (!isIdValid(target) || !exists(target))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        companion_lib.removeCompanionWearableToPlayer(pcd, self, target);
+        return SCRIPT_CONTINUE;
+    }
+    public int companionRename(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException
+    {
+        obj_id pcd = companion_lib.getActiveStoryCompanionPcd(self);
+        if (!isIdValid(pcd) || !companion_lib.canRenameStoryCompanion(pcd))
+        {
+            sendSystemMessage(self, string_id.unlocalized("This companion cannot be renamed."));
+            return SCRIPT_CONTINUE;
+        }
+        if (params == null || params.trim().length() < 1)
+        {
+            sui.inputbox(self, self, "Enter a display name for this companion (32 characters max).", "Rename Companion", "handleCompanionTabRenameSui", companion_lib.getCompanionDisplayName(pcd));
+            return SCRIPT_CONTINUE;
+        }
+        companion_lib.setCompanionDisplayName(pcd, params.trim());
+        sendSystemMessage(self, string_id.unlocalized("Companion renamed to " + companion_lib.getCompanionDisplayName(pcd) + "."));
+        return SCRIPT_CONTINUE;
+    }
+    public int handleCompanionTabRenameSui(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (params == null || params.isEmpty())
+        {
+            return SCRIPT_CONTINUE;
+        }
+        obj_id player = sui.getPlayerId(params);
+        if (!isIdValid(player))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        int btn = sui.getIntButtonPressed(params);
+        if (btn == sui.BP_CANCEL || btn == sui.BP_REVERT)
+        {
+            return SCRIPT_CONTINUE;
+        }
+        obj_id pcd = companion_lib.getActiveStoryCompanionPcd(player);
+        if (!isIdValid(pcd) || !companion_lib.canRenameStoryCompanion(pcd))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        String name = sui.getInputBoxText(params);
+        companion_lib.setCompanionDisplayName(pcd, name);
+        sendSystemMessage(player, string_id.unlocalized("Companion renamed to " + companion_lib.getCompanionDisplayName(pcd) + "."));
+        return SCRIPT_CONTINUE;
+    }
+    public int companionSaveCustomization(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException
+    {
+        obj_id pcd = companion_lib.getActiveStoryCompanionPcd(self);
+        obj_id pet = companion_lib.getActiveStoryCompanionPet(self);
+        if (!isIdValid(pcd) || !isIdValid(pet))
+        {
+            sendSystemMessage(self, string_id.unlocalized("You need an active customizable story companion for that."));
+            return SCRIPT_CONTINUE;
+        }
+        if (!companion_lib.canCustomizeStoryCompanionAppearance(pcd))
+        {
+            sendSystemMessage(self, string_id.unlocalized("This companion does not support appearance customization."));
+            return SCRIPT_CONTINUE;
+        }
+        if (params == null || params.length() < 1)
+        {
+            sendSystemMessage(self, string_id.unlocalized("No customization changes to save."));
+            return SCRIPT_CONTINUE;
+        }
+        if (companion_lib.applyCompanionCustomizationParams(pet, pcd, params))
+        {
+            sendSystemMessage(self, string_id.unlocalized("Companion appearance saved."));
+        }
+        else
+        {
+            sendSystemMessage(self, string_id.unlocalized("Could not save companion appearance."));
+        }
+        return SCRIPT_CONTINUE;
+    }
     public int bm_pet_trick_1(obj_id self, obj_id target, String params, float defaultTime) throws InterruptedException
     {
         obj_id beast = beast_lib.getBeastOnPlayer(self);

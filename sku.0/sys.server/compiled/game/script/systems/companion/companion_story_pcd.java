@@ -3,8 +3,11 @@ package script.systems.companion;
 import script.*;
 import script.library.*;
 
+import java.util.Vector;
+
 /**
- * Story-companion pet control device: one radial entry opens a comprehensive SUI hub for role, training, and bar management.
+ * Story-companion pet control device: radial entry opens a comprehensive SUI hub for role, naming,
+ * appearance (full tier), weapon management, and pet bar training.
  */
 public class companion_story_pcd extends script.base_script
 {
@@ -13,14 +16,21 @@ public class companion_story_pcd extends script.base_script
     public static final String SV_TRAIN_SKILL = "companion.train.skillPick";
     public static final String SV_TRAIN_CORE_SLOT = "companion.train.coreSlot";
     public static final String SV_TRAIN_COMMANDS = "companion.train.commands";
-    /** Main hub listbox row indices. */
-    public static final int HUB_ROLE_TANK = 0;
-    public static final int HUB_ROLE_HEALER = 1;
-    public static final int HUB_ROLE_DPS = 2;
-    public static final int HUB_TRAIN_ABILITY = 3;
-    public static final int HUB_CLEAR_ABILITY = 4;
-    public static final int HUB_TRAIN_CORE = 5;
-    public static final int HUB_CLEAR_CORE = 6;
+    public static final String SV_HUB_ACTIONS = "companion.hub.actions";
+    public static final String SV_ROW_IDS = "companion.appearance.rowIds";
+    public static final String ACTION_ROLE_TANK = "role_tank";
+    public static final String ACTION_ROLE_HEALER = "role_healer";
+    public static final String ACTION_ROLE_DPS = "role_dps";
+    public static final String ACTION_RENAME = "rename";
+    public static final String ACTION_ADD_WEARABLE = "add_wearable";
+    public static final String ACTION_REMOVE_WEARABLE = "remove_wearable";
+    public static final String ACTION_WEAPON_INFO = "weapon_info";
+    public static final String ACTION_WEAPON_CLEAR = "weapon_clear";
+    public static final String ACTION_WEAPON_RETURN = "weapon_return";
+    public static final String ACTION_TRAIN_ABILITY = "train_ability";
+    public static final String ACTION_CLEAR_ABILITY = "clear_ability";
+    public static final String ACTION_TRAIN_CORE = "train_core";
+    public static final String ACTION_CLEAR_CORE = "clear_core";
     public companion_story_pcd()
     {
     }
@@ -43,7 +53,16 @@ public class companion_story_pcd extends script.base_script
         {
             return SCRIPT_CONTINUE;
         }
-        mi.addRootMenu(MENU_COMPANION_OPTIONS, string_id.unlocalized("Companion Options"));
+        String hubLabel = "Companion Options";
+        if (companion_lib.canRenameStoryCompanion(self))
+        {
+            String dn = companion_lib.getCompanionDisplayName(self);
+            if (dn != null && dn.length() > 0)
+            {
+                hubLabel = dn + " - Options";
+            }
+        }
+        mi.addRootMenu(MENU_COMPANION_OPTIONS, string_id.unlocalized(hubLabel));
         return SCRIPT_CONTINUE;
     }
     public int OnObjectMenuSelect(obj_id self, obj_id player, int item) throws InterruptedException
@@ -67,17 +86,58 @@ public class companion_story_pcd extends script.base_script
     }
     private void openCompanionHubSui(obj_id self, obj_id player) throws InterruptedException
     {
-        String[] options =
+        Vector labels = new Vector();
+        Vector actions = new Vector();
+        labels.add("Combat Role: Tank");
+        actions.add(ACTION_ROLE_TANK);
+        labels.add("Combat Role: Healer");
+        actions.add(ACTION_ROLE_HEALER);
+        labels.add("Combat Role: Damage");
+        actions.add(ACTION_ROLE_DPS);
+        if (companion_lib.canRenameStoryCompanion(self))
         {
-            "Combat Role: Tank",
-            "Combat Role: Healer",
-            "Combat Role: Damage",
-            "Train Ability Slot...",
-            "Clear Ability Slot...",
-            "Train Core Bar Slot...",
-            "Clear Core Bar Slot..."
-        };
-        sui.listbox(self, player, "Manage combat role, taught abilities, and core pet bar slots.", sui.OK_CANCEL, "Companion Options", options, "handleCompanionHubSui", true, false);
+            labels.add("Rename Companion...");
+            actions.add(ACTION_RENAME);
+        }
+        if (companion_lib.canCustomizeStoryCompanionAppearance(self))
+        {
+            labels.add("Customize Appearance: Add Wearable...");
+            actions.add(ACTION_ADD_WEARABLE);
+            labels.add("Customize Appearance: Remove Wearable...");
+            actions.add(ACTION_REMOVE_WEARABLE);
+        }
+        labels.add("Weapon: " + companion_lib.describeStoryCompanionWeapon(self));
+        actions.add(ACTION_WEAPON_INFO);
+        labels.add("Clear Companion Weapon");
+        actions.add(ACTION_WEAPON_CLEAR);
+        labels.add("Return Weapon to Inventory");
+        actions.add(ACTION_WEAPON_RETURN);
+        labels.add("Train Ability Slot...");
+        actions.add(ACTION_TRAIN_ABILITY);
+        labels.add("Clear Ability Slot...");
+        actions.add(ACTION_CLEAR_ABILITY);
+        labels.add("Train Core Bar Slot...");
+        actions.add(ACTION_TRAIN_CORE);
+        labels.add("Clear Core Bar Slot...");
+        actions.add(ACTION_CLEAR_CORE);
+        String[] options = new String[labels.size()];
+        String[] actionList = new String[actions.size()];
+        for (int i = 0; i < labels.size(); ++i)
+        {
+            options[i] = (String)labels.get(i);
+            actionList[i] = (String)actions.get(i);
+        }
+        utils.setScriptVar(player, SV_HUB_ACTIONS, actionList);
+        String title = companion_lib.getCompanionDisplayName(self);
+        if (title == null || title.length() < 1)
+        {
+            title = "Companion Options";
+        }
+        else
+        {
+            title = title + " - Options";
+        }
+        sui.listbox(self, player, "Manage combat role, name, appearance, weapon, taught abilities, and core pet bar slots.", sui.OK_CANCEL, title, options, "handleCompanionHubSui", true, false);
     }
     public int handleCompanionHubSui(obj_id self, dictionary params) throws InterruptedException
     {
@@ -103,46 +163,293 @@ public class companion_story_pcd extends script.base_script
             clearTrainScriptVars(player);
             return SCRIPT_CONTINUE;
         }
-        if (row == HUB_ROLE_TANK)
+        String[] actionList = utils.getStringArrayScriptVar(player, SV_HUB_ACTIONS);
+        if (actionList == null || row < 0 || row >= actionList.length)
+        {
+            clearTrainScriptVars(player);
+            return SCRIPT_CONTINUE;
+        }
+        String action = actionList[row];
+        if (ACTION_ROLE_TANK.equals(action))
         {
             applyRoleAndRefresh(self, player, companion_lib.STANCE_TANK);
             clearTrainScriptVars(player);
             return SCRIPT_CONTINUE;
         }
-        if (row == HUB_ROLE_HEALER)
+        if (ACTION_ROLE_HEALER.equals(action))
         {
             applyRoleAndRefresh(self, player, companion_lib.STANCE_HEALER);
             clearTrainScriptVars(player);
             return SCRIPT_CONTINUE;
         }
-        if (row == HUB_ROLE_DPS)
+        if (ACTION_ROLE_DPS.equals(action))
         {
             applyRoleAndRefresh(self, player, companion_lib.STANCE_DPS);
             clearTrainScriptVars(player);
             return SCRIPT_CONTINUE;
         }
-        if (row == HUB_TRAIN_ABILITY)
+        if (ACTION_RENAME.equals(action))
+        {
+            sui.inputbox(self, player, "Enter a display name for this companion (32 characters max).", "Rename Companion", "handleRenameSui", companion_lib.getCompanionDisplayName(self));
+            return SCRIPT_CONTINUE;
+        }
+        if (ACTION_ADD_WEARABLE.equals(action))
+        {
+            showAddWearableListbox(self, player);
+            return SCRIPT_CONTINUE;
+        }
+        if (ACTION_REMOVE_WEARABLE.equals(action))
+        {
+            showRemoveWearableListbox(self, player, pcd);
+            return SCRIPT_CONTINUE;
+        }
+        if (ACTION_WEAPON_INFO.equals(action))
+        {
+            sendSystemMessage(player, string_id.unlocalized("Companion weapon: " + companion_lib.describeStoryCompanionWeapon(self) + ". Drag a weapon onto your active companion to equip."));
+            openCompanionHubSui(self, player);
+            return SCRIPT_CONTINUE;
+        }
+        if (ACTION_WEAPON_CLEAR.equals(action))
+        {
+            companion_lib.clearStoryCompanionWeapon(self, player);
+            clearTrainScriptVars(player);
+            return SCRIPT_CONTINUE;
+        }
+        if (ACTION_WEAPON_RETURN.equals(action))
+        {
+            companion_lib.returnWeaponToPlayerFromPcd(self, player);
+            clearTrainScriptVars(player);
+            return SCRIPT_CONTINUE;
+        }
+        if (ACTION_TRAIN_ABILITY.equals(action))
         {
             openTrainAbilityCommandSui(self, player);
             return SCRIPT_CONTINUE;
         }
-        if (row == HUB_CLEAR_ABILITY)
+        if (ACTION_CLEAR_ABILITY.equals(action))
         {
             openClearTaughtSlotSui(self, player, pcd);
             return SCRIPT_CONTINUE;
         }
-        if (row == HUB_TRAIN_CORE)
+        if (ACTION_TRAIN_CORE.equals(action))
         {
             openTrainCoreSlotSui(self, player, pcd);
             return SCRIPT_CONTINUE;
         }
-        if (row == HUB_CLEAR_CORE)
+        if (ACTION_CLEAR_CORE.equals(action))
         {
             openClearCoreSlotSui(self, player, pcd);
             return SCRIPT_CONTINUE;
         }
         clearTrainScriptVars(player);
         return SCRIPT_CONTINUE;
+    }
+    public int handleRenameSui(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (params == null || params.isEmpty())
+        {
+            return SCRIPT_CONTINUE;
+        }
+        obj_id player = sui.getPlayerId(params);
+        if (!isIdValid(player))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        int btn = sui.getIntButtonPressed(params);
+        if (btn == sui.BP_CANCEL || btn == sui.BP_REVERT)
+        {
+            openCompanionHubSui(self, player);
+            return SCRIPT_CONTINUE;
+        }
+        String name = sui.getInputBoxText(params);
+        companion_lib.setCompanionDisplayName(self, name);
+        sendSystemMessage(player, string_id.unlocalized("Companion renamed to " + companion_lib.getCompanionDisplayName(self) + "."));
+        clearTrainScriptVars(player);
+        return SCRIPT_CONTINUE;
+    }
+    private void showAddWearableListbox(obj_id self, obj_id player) throws InterruptedException
+    {
+        utils.removeScriptVar(player, SV_ROW_IDS);
+        obj_id pInv = utils.getInventoryContainer(player);
+        if (!isIdValid(pInv))
+        {
+            sendSystemMessage(player, string_id.unlocalized("No player inventory."));
+            clearTrainScriptVars(player);
+            return;
+        }
+        obj_id[] contents = getContents(pInv);
+        Vector labelVec = new Vector();
+        Vector idVec = new Vector();
+        if (contents != null)
+        {
+            for (obj_id item : contents)
+            {
+                if (companion_lib.isCompanionDressableTangible(item))
+                {
+                    idVec.add(item);
+                    String nm = getName(item);
+                    String st = getStaticItemName(item);
+                    labelVec.add((nm != null ? nm : "?") + " - " + (st != null ? st : getTemplateName(item)));
+                }
+            }
+        }
+        if (idVec.size() == 0)
+        {
+            sendSystemMessage(player, string_id.unlocalized("No equippable armor, clothing, jewelry, or cybernetics in your inventory."));
+            openCompanionHubSui(self, player);
+            return;
+        }
+        obj_id[] ids = new obj_id[idVec.size()];
+        for (int i = 0; i < idVec.size(); ++i)
+        {
+            ids[i] = (obj_id)idVec.get(i);
+        }
+        utils.setScriptVar(player, SV_ROW_IDS, ids);
+        String[] rows = new String[labelVec.size()];
+        for (int i = 0; i < labelVec.size(); ++i)
+        {
+            rows[i] = (String)labelVec.get(i);
+        }
+        sui.listbox(self, player, "Choose an item from your inventory to equip on this companion.", sui.OK_CANCEL, "Companion: add wearable", rows, "handleAddWearablePick", true, false);
+    }
+    public int handleAddWearablePick(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (params == null || params.isEmpty())
+        {
+            return SCRIPT_CONTINUE;
+        }
+        obj_id player = sui.getPlayerId(params);
+        if (!isIdValid(player))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        int btn = sui.getIntButtonPressed(params);
+        if (btn == sui.BP_CANCEL || btn == sui.BP_REVERT)
+        {
+            openCompanionHubSui(self, player);
+            return SCRIPT_CONTINUE;
+        }
+        int row = sui.getListboxSelectedRow(params);
+        obj_id[] ids = utils.getObjIdArrayScriptVar(player, SV_ROW_IDS);
+        if (ids == null || row < 0 || row >= ids.length)
+        {
+            clearTrainScriptVars(player);
+            return SCRIPT_CONTINUE;
+        }
+        companion_lib.equipCompanionWearableFromPlayer(self, player, ids[row]);
+        clearTrainScriptVars(player);
+        return SCRIPT_CONTINUE;
+    }
+    private void showRemoveWearableListbox(obj_id self, obj_id player, obj_id pcd) throws InterruptedException
+    {
+        utils.removeScriptVar(player, SV_ROW_IDS);
+        Vector labelVec = new Vector();
+        Vector idVec = new Vector();
+        obj_id pet = callable.getCDCallable(pcd);
+        if (isIdValid(pet) && exists(pet))
+        {
+            obj_id[] equipped = getAllWornItems(pet, false);
+            if (equipped != null)
+            {
+                for (int i = 0; i < equipped.length; ++i)
+                {
+                    addWearableRow(idVec, labelVec, equipped[i]);
+                }
+            }
+            obj_id appInv = getAppearanceInventory(pet);
+            if (isIdValid(appInv))
+            {
+                obj_id[] inInv = getContents(appInv);
+                if (inInv != null)
+                {
+                    for (int i = 0; i < inInv.length; ++i)
+                    {
+                        addWearableRow(idVec, labelVec, inInv[i]);
+                    }
+                }
+            }
+        }
+        if (hasObjVar(pcd, companion_lib.OBJVAR_GEAR_HOLD))
+        {
+            obj_id hold = getObjIdObjVar(pcd, companion_lib.OBJVAR_GEAR_HOLD);
+            if (isIdValid(hold))
+            {
+                obj_id[] stored = getContents(hold);
+                if (stored != null)
+                {
+                    for (int i = 0; i < stored.length; ++i)
+                    {
+                        if (companion_lib.isCompanionDressableTangible(stored[i]) && !isWeapon(stored[i]))
+                        {
+                            addWearableRow(idVec, labelVec, stored[i]);
+                        }
+                    }
+                }
+            }
+        }
+        if (idVec.size() == 0)
+        {
+            sendSystemMessage(player, string_id.unlocalized("Nothing equipped or stored for this companion to remove."));
+            openCompanionHubSui(self, player);
+            return;
+        }
+        obj_id[] ids = new obj_id[idVec.size()];
+        for (int i = 0; i < idVec.size(); ++i)
+        {
+            ids[i] = (obj_id)idVec.get(i);
+        }
+        utils.setScriptVar(player, SV_ROW_IDS, ids);
+        String[] rows = new String[labelVec.size()];
+        for (int i = 0; i < labelVec.size(); ++i)
+        {
+            rows[i] = (String)labelVec.get(i);
+        }
+        sui.listbox(self, player, "Choose a worn or stored piece to remove to your inventory.", sui.OK_CANCEL, "Companion: remove wearable", rows, "handleRemoveWearablePick", true, false);
+    }
+    public int handleRemoveWearablePick(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (params == null || params.isEmpty())
+        {
+            return SCRIPT_CONTINUE;
+        }
+        obj_id player = sui.getPlayerId(params);
+        if (!isIdValid(player))
+        {
+            return SCRIPT_CONTINUE;
+        }
+        int btn = sui.getIntButtonPressed(params);
+        if (btn == sui.BP_CANCEL || btn == sui.BP_REVERT)
+        {
+            openCompanionHubSui(self, player);
+            return SCRIPT_CONTINUE;
+        }
+        int row = sui.getListboxSelectedRow(params);
+        obj_id[] ids = utils.getObjIdArrayScriptVar(player, SV_ROW_IDS);
+        if (ids == null || row < 0 || row >= ids.length)
+        {
+            clearTrainScriptVars(player);
+            return SCRIPT_CONTINUE;
+        }
+        companion_lib.removeCompanionWearableToPlayer(self, player, ids[row]);
+        clearTrainScriptVars(player);
+        return SCRIPT_CONTINUE;
+    }
+    private static void addWearableRow(Vector idVec, Vector labelVec, obj_id item) throws InterruptedException
+    {
+        if (!isIdValid(item) || !exists(item))
+        {
+            return;
+        }
+        for (int i = 0; i < idVec.size(); ++i)
+        {
+            if (((obj_id)idVec.get(i)).equals(item))
+            {
+                return;
+            }
+        }
+        idVec.add(item);
+        String nm = getName(item);
+        labelVec.add(nm != null ? nm : getTemplateName(item));
     }
     private void applyRoleAndRefresh(obj_id self, obj_id player, int stance) throws InterruptedException
     {
@@ -206,6 +513,8 @@ public class companion_story_pcd extends script.base_script
         utils.removeScriptVar(player, SV_TRAIN_SKILL);
         utils.removeScriptVar(player, SV_TRAIN_CORE_SLOT);
         utils.removeScriptVar(player, SV_TRAIN_COMMANDS);
+        utils.removeScriptVar(player, SV_HUB_ACTIONS);
+        utils.removeScriptVar(player, SV_ROW_IDS);
     }
     public int handleTrainSkillPickSui(obj_id self, dictionary params) throws InterruptedException
     {

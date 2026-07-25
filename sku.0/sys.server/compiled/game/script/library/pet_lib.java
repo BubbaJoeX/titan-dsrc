@@ -1953,6 +1953,15 @@ public class pet_lib extends script.base_script
             obj_id currentPet = callable.getCDCallable(petControlDevice);
             if (isIdValid(currentPet) && currentPet == pet && currentPet.isLoaded())
             {
+                if (companion_lib.isStoryCompanionPet(pet))
+                {
+                    obj_id storeMaster = master;
+                    if (!isIdValid(storeMaster))
+                    {
+                        storeMaster = getMaster(pet);
+                    }
+                    companion_lib.saveStoryCompanionStateOnStore(pet, petControlDevice, storeMaster);
+                }
                 savePetInfo(currentPet, petControlDevice);
                 setObjVar(petControlDevice, "pet.timeStored", getGameTime());
                 callable.setCDCallable(petControlDevice, null);
@@ -5008,11 +5017,25 @@ public class pet_lib extends script.base_script
         if (!isIdValid(objContainer))
         {
             location loc = getLocation(master);
-            pet = create.object(creatureName, loc, true, true);
+            if (companion_lib.isStoryCompanionControlDevice(petControlDevice) && companion_lib.hasStoryCompanionSpawnTemplate(petControlDevice))
+            {
+                pet = create.object(companion_lib.getStoryCompanionSpawnTemplate(petControlDevice), loc, true, true);
+            }
+            else
+            {
+                pet = create.object(creatureName, loc, true, true);
+            }
         }
         else 
         {
-            pet = create.object(creatureName, objContainer, false, true);
+            if (companion_lib.isStoryCompanionControlDevice(petControlDevice) && companion_lib.hasStoryCompanionSpawnTemplate(petControlDevice))
+            {
+                pet = create.object(companion_lib.getStoryCompanionSpawnTemplate(petControlDevice), objContainer, false, true);
+            }
+            else
+            {
+                pet = create.object(creatureName, objContainer, false, true);
+            }
         }
         if (!isIdValid(pet))
         {
