@@ -781,6 +781,53 @@ public class companion_lib extends script.base_script
         }
         return slotCommand + PET_BAR_CMD_DISPLAY_SEPARATOR + taughtOrEmpty;
     }
+    /** String table used by the client for command names/tooltips ({@code StringTables::Cmd::descs}). */
+    public static final String CMD_DESC_STRING_TABLE = "cmd/descs";
+    /**
+     * Localized listbox row for a teachable command; mirrors {@link pet_lib#createLearnCommandListEntry}.
+     */
+    public static String createCompanionCommandListEntry(String commandName) throws InterruptedException
+    {
+        if (commandName == null || commandName.length() < 1)
+        {
+            return "";
+        }
+        prose_package pp = new prose_package();
+        pp.stringId = new string_id("pet/pet_ability", "learn_command_list_entry");
+        pp.actor.set(new string_id(CMD_DESC_STRING_TABLE, commandName));
+        pp.target.set(" ");
+        return " \0" + packOutOfBandProsePackage(null, pp);
+    }
+    /** Builds a {@code prose_package[]} listbox source with localized command names. */
+    public static prose_package[] buildCommandProseList(String[] commands) throws InterruptedException
+    {
+        if (commands == null || commands.length < 1)
+        {
+            return new prose_package[0];
+        }
+        prose_package[] rows = new prose_package[commands.length];
+        for (int i = 0; i < commands.length; ++i)
+        {
+            rows[i] = prose.getPackage(new string_id(CMD_DESC_STRING_TABLE, commands[i]));
+        }
+        return rows;
+    }
+    /** Slot picker row showing slot index and current assignment (localized command name or Empty). */
+    public static String createCompanionBarSlotPickerEntry(String slotLabel, String commandOrEmpty) throws InterruptedException
+    {
+        prose_package pp = new prose_package();
+        pp.stringId = new string_id("pet/pet_ability", "learn_command_list_entry");
+        if (commandOrEmpty != null && commandOrEmpty.length() > 0 && !commandOrEmpty.equals("empty"))
+        {
+            pp.actor.set(new string_id(CMD_DESC_STRING_TABLE, commandOrEmpty));
+        }
+        else
+        {
+            pp.actor.set(string_id.unlocalized("Empty"));
+        }
+        pp.target.set(" — " + slotLabel);
+        return " \0" + packOutOfBandProsePackage(null, pp);
+    }
     public static String[] buildHumanoidStoryCompanionPetBar(obj_id player, obj_id pet) throws InterruptedException
     {
         String[] barData = (String[])beast_lib.PET_BAR_DEFAULT_ARRAY.clone();
@@ -791,13 +838,27 @@ public class companion_lib extends script.base_script
         {
             String w = getCoreBarWrapperCommandForIndex(i);
             String c = coreCmd[i];
-            barData[i] = encodeCompanionBarSlotForClientUi(w, (c == null || c.equals("empty")) ? "" : c);
+            if (c == null || c.equals("empty"))
+            {
+                barData[i] = "empty";
+            }
+            else
+            {
+                barData[i] = encodeCompanionBarSlotForClientUi(w, c);
+            }
         }
         String[] cmds = getHumanoidCompanionSlotPlaceholders();
         String[] taught = getTaughtAbilitiesArray(pet);
         for (int i = 0; i < 4; ++i)
         {
-            barData[3 + i] = encodeCompanionBarSlotForClientUi(cmds[i], taught[i]);
+            if (taught[i] == null || taught[i].equals("empty"))
+            {
+                barData[3 + i] = "empty";
+            }
+            else
+            {
+                barData[3 + i] = encodeCompanionBarSlotForClientUi(cmds[i], taught[i]);
+            }
         }
         return barData;
     }
@@ -1158,7 +1219,10 @@ public class companion_lib extends script.base_script
         }
         else
         {
-            sendSystemMessage(player, string_id.unlocalized("Companion will use \"" + normalized + "\" from pet bar slot " + (slot + 1) + " (separate cooldown from the companion)."));
+            prose_package msg = prose.getPackage(new string_id("pet/pet_ability", "learn_command_list_entry"));
+            msg.actor.set(new string_id(CMD_DESC_STRING_TABLE, normalized));
+            msg.target.set(string_id.unlocalized(" (pet bar slot " + (slot + 1) + ", companion cooldown)"));
+            sendSystemMessageProse(player, msg);
         }
     }
     public static void setCoreBarCommandOnPcd(obj_id pcd, int slot, String commandName, obj_id player) throws InterruptedException
@@ -1188,11 +1252,14 @@ public class companion_lib extends script.base_script
         }
         if (normalized.equals("empty"))
         {
-            sendSystemMessage(player, string_id.unlocalized("Companion core bar slot " + (slot + 1) + " cleared (generic icon until you assign a command)."));
+            sendSystemMessage(player, string_id.unlocalized("Companion core bar slot " + (slot + 1) + " cleared."));
         }
         else
         {
-            sendSystemMessage(player, string_id.unlocalized("Companion core bar slot " + (slot + 1) + " will run \"" + normalized + "\"."));
+            prose_package msg = prose.getPackage(new string_id("pet/pet_ability", "learn_command_list_entry"));
+            msg.actor.set(new string_id(CMD_DESC_STRING_TABLE, normalized));
+            msg.target.set(string_id.unlocalized(" (core bar slot " + (slot + 1) + ")"));
+            sendSystemMessageProse(player, msg);
         }
     }
     public static void executeCompanionCoreBarSlot(obj_id player, int slotIndex) throws InterruptedException
@@ -1330,7 +1397,14 @@ public class companion_lib extends script.base_script
         {
             String w = getCoreBarWrapperCommandForIndex(i);
             String c = coreCmd[i];
-            barData[i] = encodeCompanionBarSlotForClientUi(w, (c == null || c.equals("empty")) ? "" : c);
+            if (c == null || c.equals("empty"))
+            {
+                barData[i] = "empty";
+            }
+            else
+            {
+                barData[i] = encodeCompanionBarSlotForClientUi(w, c);
+            }
         }
         for (int i = 0; i < 4; ++i)
         {
@@ -1339,7 +1413,7 @@ public class companion_lib extends script.base_script
             {
                 s = knownSkills[i];
             }
-            barData[3 + i] = s;
+            barData[3 + i] = s.equals("empty") ? "empty" : s;
         }
         return barData;
     }
