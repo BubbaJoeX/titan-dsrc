@@ -2778,6 +2778,14 @@ public class beast_lib extends script.base_script
                         return true;
                     }
                 }
+                String[] core = companion_lib.getCoreBarCommandsArray(pet);
+                for (int ci = 0; ci < core.length; ++ci)
+                {
+                    if (core[ci] != null && !core[ci].equals("empty") && core[ci].equals(command))
+                    {
+                        return true;
+                    }
+                }
             }
             return false;
         }

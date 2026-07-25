@@ -308,10 +308,6 @@ public class companion_lib extends script.base_script
         {
             cap = Math.min(tableLevel, pl);
         }
-        if (cap > 60 && !craftinglib.isTrader(player))
-        {
-            cap = 60;
-        }
         return cap;
     }
     /**
@@ -357,6 +353,67 @@ public class companion_lib extends script.base_script
         setObjVar(pcd, "creature_attribs.toHitChance", toHit);
         setObjVar(pcd, "creature_attribs.defenseValue", defenseValue);
         setObjVar(pcd, "creature_attribs.general_protection", general_protection);
+    }
+    /**
+     * Applies refreshed PCD stats to a summoned story companion at full scale (no crafted-pet level 60 cap).
+     */
+    public static void applyStoryCompanionLivePetStats(obj_id player, obj_id pcd, obj_id pet) throws InterruptedException
+    {
+        if (!beast_lib.isValidPlayer(player) || !isStoryCompanionControlDevice(pcd) || !isIdValid(pet) || !exists(pet))
+        {
+            return;
+        }
+        applyStoryCompanionPcdStatsForPlayer(player, pcd);
+        int level = getIntObjVar(pcd, "creature_attribs.level");
+        if (level < 1)
+        {
+            level = 1;
+        }
+        int myHealth = getIntObjVar(pcd, "creature_attribs." + create.MAXATTRIBNAMES[HEALTH]);
+        int healthRegen = getIntObjVar(pcd, "creature_attribs." + create.MAXATTRIBNAMES[CONSTITUTION]);
+        int minDamage = getIntObjVar(pcd, "creature_attribs.minDamage");
+        int maxDamage = getIntObjVar(pcd, "creature_attribs.maxDamage");
+        int toHit = getIntObjVar(pcd, "creature_attribs.toHitChance") - 5;
+        int defenseValue = getIntObjVar(pcd, "creature_attribs.defenseValue") - 5;
+        int general_protection = getIntObjVar(pcd, "creature_attribs.general_protection");
+        setLevel(pet, level);
+        utils.setScriptVar(pet, "ai.level", level);
+        if (myHealth < 1)
+        {
+            myHealth = 1;
+        }
+        setMaxAttrib(pet, HEALTH, myHealth);
+        setAttrib(pet, HEALTH, myHealth);
+        setMaxAttrib(pet, ACTION, 1000);
+        setAttrib(pet, ACTION, 1000);
+        setMaxAttrib(pet, MIND, 1000);
+        setAttrib(pet, MIND, 1000);
+        pet_lib.fixMinRegenStats(pet);
+        if (healthRegen >= 1)
+        {
+            setRegenRate(pet, CONSTITUTION, 150);
+        }
+        int[] armorData = new int[10];
+        armorData[1] = general_protection;
+        create.initializeArmor(pet, armorData);
+        create.applySkillStatisticModifiers(pet, toHit, defenseValue);
+        utils.setScriptVar(pet, "ai.combat.minDamage", minDamage);
+        utils.setScriptVar(pet, "ai.combat.maxDamage", maxDamage);
+    }
+    public static void resyncStoryCompanionLevelForActivePet(obj_id player) throws InterruptedException
+    {
+        obj_id pet = getPetBarCombatCreature(player);
+        if (!isStoryCompanionPet(pet))
+        {
+            return;
+        }
+        obj_id pcd = pet_lib.getPetControlDevice(pet);
+        if (!isStoryCompanionControlDevice(pcd))
+        {
+            return;
+        }
+        applyStoryCompanionPcdStatsForPlayer(player, pcd);
+        applyStoryCompanionLivePetStats(player, pcd, pet);
     }
     /**
      * For mobs spawned from a creatures-table name (e.g. {@code aaph_koden}): remove every script on the object,
@@ -781,7 +838,9 @@ public class companion_lib extends script.base_script
         }
         return slotCommand + PET_BAR_CMD_DISPLAY_SEPARATOR + taughtOrEmpty;
     }
-    /** String table used by the client for command names/tooltips ({@code StringTables::Cmd::descs}). */
+    /** String table for localized command names in SUI listboxes ({@code cmd_n}, same as beastmaster training UI). */
+    public static final String CMD_NAME_STRING_TABLE = "cmd_n";
+    /** Client tooltip table ({@code StringTables::Cmd::descs}). */
     public static final String CMD_DESC_STRING_TABLE = "cmd/descs";
     /**
      * Localized listbox row for a teachable command; mirrors {@link pet_lib#createLearnCommandListEntry}.
@@ -794,7 +853,7 @@ public class companion_lib extends script.base_script
         }
         prose_package pp = new prose_package();
         pp.stringId = new string_id("pet/pet_ability", "learn_command_list_entry");
-        pp.actor.set(new string_id(CMD_DESC_STRING_TABLE, commandName));
+        pp.actor.set(new string_id(CMD_NAME_STRING_TABLE, commandName));
         pp.target.set(" ");
         return " \0" + packOutOfBandProsePackage(null, pp);
     }
@@ -808,24 +867,21 @@ public class companion_lib extends script.base_script
         prose_package[] rows = new prose_package[commands.length];
         for (int i = 0; i < commands.length; ++i)
         {
-            rows[i] = prose.getPackage(new string_id(CMD_DESC_STRING_TABLE, commands[i]));
+            rows[i] = prose.getPackage(new string_id(CMD_NAME_STRING_TABLE, commands[i]));
         }
         return rows;
     }
     /** Slot picker row showing slot index and current assignment (localized command name or Empty). */
     public static String createCompanionBarSlotPickerEntry(String slotLabel, String commandOrEmpty) throws InterruptedException
     {
+        if (commandOrEmpty == null || commandOrEmpty.length() < 1 || commandOrEmpty.equals("empty"))
+        {
+            return slotLabel + " (Empty)";
+        }
         prose_package pp = new prose_package();
         pp.stringId = new string_id("pet/pet_ability", "learn_command_list_entry");
-        if (commandOrEmpty != null && commandOrEmpty.length() > 0 && !commandOrEmpty.equals("empty"))
-        {
-            pp.actor.set(new string_id(CMD_DESC_STRING_TABLE, commandOrEmpty));
-        }
-        else
-        {
-            pp.actor.set(string_id.unlocalized("Empty"));
-        }
-        pp.target.set(" — " + slotLabel);
+        pp.actor.set(new string_id(CMD_NAME_STRING_TABLE, commandOrEmpty));
+        pp.target.set(" - " + slotLabel);
         return " \0" + packOutOfBandProsePackage(null, pp);
     }
     public static String[] buildHumanoidStoryCompanionPetBar(obj_id player, obj_id pet) throws InterruptedException
@@ -1220,7 +1276,7 @@ public class companion_lib extends script.base_script
         else
         {
             prose_package msg = prose.getPackage(new string_id("pet/pet_ability", "learn_command_list_entry"));
-            msg.actor.set(new string_id(CMD_DESC_STRING_TABLE, normalized));
+            msg.actor.set(new string_id(CMD_NAME_STRING_TABLE, normalized));
             msg.target.set(string_id.unlocalized(" (pet bar slot " + (slot + 1) + ", companion cooldown)"));
             sendSystemMessageProse(player, msg);
         }
@@ -1257,7 +1313,7 @@ public class companion_lib extends script.base_script
         else
         {
             prose_package msg = prose.getPackage(new string_id("pet/pet_ability", "learn_command_list_entry"));
-            msg.actor.set(new string_id(CMD_DESC_STRING_TABLE, normalized));
+            msg.actor.set(new string_id(CMD_NAME_STRING_TABLE, normalized));
             msg.target.set(string_id.unlocalized(" (core bar slot " + (slot + 1) + ")"));
             sendSystemMessageProse(player, msg);
         }
@@ -1286,17 +1342,47 @@ public class companion_lib extends script.base_script
             sendSystemMessage(player, string_id.unlocalized("That companion core bar command is still recharging."));
             return;
         }
-        obj_id target = getIntendedTarget(player);
-        if (!isIdValid(target))
+        if (cmd.equals(beast_lib.BM_COMMAND_ATTACK) || cmd.equals("bm_pet_attack_1"))
         {
-            target = getLookAtTarget(player);
+            beast_lib.doAttackCommand(pet, player);
+            setCompanionAbilityCooldown(pet, cmd, getCompanionAbilityCooldownSeconds(cmd));
+            return;
         }
-        if (!isIdValid(target))
+        if (cmd.equals(beast_lib.BM_COMMAND_FOLLOW) || cmd.equals("bm_follow_1"))
         {
-            target = player;
+            beast_lib.doFollowCommand(pet, player);
+            setCompanionAbilityCooldown(pet, cmd, getCompanionAbilityCooldownSeconds(cmd));
+            return;
         }
-        queueCommand(pet, getStringCrc(cmd.toLowerCase()), target, "", COMMAND_PRIORITY_DEFAULT);
-        setCompanionAbilityCooldown(pet, cmd, getCompanionAbilityCooldownSeconds(cmd));
+        if (cmd.equals(beast_lib.BM_COMMAND_STAY) || cmd.equals("bm_stay_1"))
+        {
+            beast_lib.doStayCommand(pet, player);
+            setCompanionAbilityCooldown(pet, cmd, getCompanionAbilityCooldownSeconds(cmd));
+            return;
+        }
+        if (isValidBeastSpecialForStoryPetBar(cmd))
+        {
+            obj_id target = getIntendedTarget(pet);
+            if (!isIdValid(target))
+            {
+                target = getIntendedTarget(player);
+            }
+            if (!isIdValid(target))
+            {
+                target = getLookAtTarget(player);
+            }
+            if (!isIdValid(target))
+            {
+                target = player;
+            }
+            queueCommand(pet, getStringCrc(cmd.toLowerCase()), target, "", COMMAND_PRIORITY_DEFAULT);
+            setCompanionAbilityCooldown(pet, cmd, getCompanionAbilityCooldownSeconds(cmd));
+            return;
+        }
+        if (companion_combat_helper.castAbilityFromCompanionBar(player, cmd, obj_id.NULL_ID))
+        {
+            setCompanionAbilityCooldown(pet, cmd, getCompanionAbilityCooldownSeconds(cmd));
+        }
     }
     public static void executeCompanionTaughtSlot(obj_id player, int slotIndex) throws InterruptedException
     {
@@ -1322,18 +1408,10 @@ public class companion_lib extends script.base_script
             sendSystemMessage(player, string_id.unlocalized("That companion ability is still recharging."));
             return;
         }
-        obj_id target = getIntendedTarget(player);
-        if (!isIdValid(target))
+        if (companion_combat_helper.castAbilityFromCompanionBar(player, skill, obj_id.NULL_ID))
         {
-            target = getLookAtTarget(player);
+            setCompanionAbilityCooldown(pet, skill, getCompanionAbilityCooldownSeconds(skill));
         }
-        if (!isIdValid(target))
-        {
-            sendSystemMessage(player, string_id.unlocalized("Select a valid target for this ability."));
-            return;
-        }
-        queueCommand(pet, getStringCrc(skill.toLowerCase()), target, "", COMMAND_PRIORITY_DEFAULT);
-        setCompanionAbilityCooldown(pet, skill, getCompanionAbilityCooldownSeconds(skill));
     }
     public static boolean isValidBeastSpecialForStoryPetBar(String abilityName) throws InterruptedException
     {
@@ -1652,7 +1730,18 @@ public class companion_lib extends script.base_script
             {
                 continue;
             }
-            queueCommand(pet, getStringCrc(skill.toLowerCase()), target, "", COMMAND_PRIORITY_DEFAULT);
+            if (isValidBeastSpecialForStoryPetBar(skill))
+            {
+                queueCommand(pet, getStringCrc(skill.toLowerCase()), target, "", COMMAND_PRIORITY_DEFAULT);
+            }
+            else if (companion_combat_helper.castAbilityFromCompanionBar(getMaster(pet), skill, target))
+            {
+                // cast through combat helper (testPetBar redirects to companion)
+            }
+            else
+            {
+                continue;
+            }
             setCompanionAbilityCooldown(pet, skill, getCompanionAbilityCooldownSeconds(skill));
             return;
         }

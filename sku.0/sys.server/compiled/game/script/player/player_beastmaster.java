@@ -61,6 +61,7 @@ public class player_beastmaster extends script.base_script
             if (companion_lib.isStoryCompanionPet(sc))
             {
                 companion_lib.refreshStoryCompanionPetBar(self, sc);
+                companion_lib.resyncStoryCompanionLevelForActivePet(self);
             }
             else 
             {
