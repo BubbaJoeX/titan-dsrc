@@ -11234,6 +11234,10 @@ public class terminal_character_builder extends script.base_script
             {
                 broadcast(player, "Created crate: " + localize(getNameFromTemplate(getTemplateName(crate))));
                 setCrafter(crate, player);
+                setCount(crate, 100);
+                string_id productNameId = getProductNameFromSchematic(schematics[idx]);
+                if (productNameId != null)
+                    setName(crate, productNameId);
             }
             else
             {
