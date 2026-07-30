@@ -1631,6 +1631,11 @@ public class companion_lib extends script.base_script
                 {
                     changed = true;
                 }
+                else
+                {
+                    setRangedIntCustomVarValue(pet, normalizeCustomizationVarPath(var), val);
+                    changed = true;
+                }
             }
         }
         if (hairTemplateSet)
