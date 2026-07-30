@@ -11227,15 +11227,31 @@ public class terminal_character_builder extends script.base_script
             craftPercentage = utils.getFloatScriptVar(player, "character_builder.qualityPercentage");
         }
         obj_id container = getInventoryContainer(player);
-        obj_id craftedItem = makeCraftedItem(schematics[idx], craftPercentage, container);
-        if (isIdValid(craftedItem))
+        if (hasObjVar(player, "gm.crate_maker"))
         {
-            broadcast(player, "Crafting: " + localize(getNameFromTemplate(getTemplateName(craftedItem))));
-            setCrafter(craftedItem, player);
+            obj_id crate = generateFactoryCrate(schematics[idx], 1000.0f, container);
+            if (isIdValid(crate))
+            {
+                broadcast(player, "Created crate: " + localize(getNameFromTemplate(getTemplateName(crate))));
+                setCrafter(crate, player);
+            }
+            else
+            {
+                broadcast(player, "Failed to create crate: " + schematics[idx]);
+            }
         }
         else
         {
-            broadcast(player, "Failed to make: " + schematics[idx]);
+            obj_id craftedItem = makeCraftedItem(schematics[idx], craftPercentage, container);
+            if (isIdValid(craftedItem))
+            {
+                broadcast(player, "Crafting: " + localize(getNameFromTemplate(getTemplateName(craftedItem))));
+                setCrafter(craftedItem, player);
+            }
+            else
+            {
+                broadcast(player, "Failed to make: " + schematics[idx]);
+            }
         }
         if (utils.hasScriptVar(player, "character_builder.qualityPercentagePID"))
         {
