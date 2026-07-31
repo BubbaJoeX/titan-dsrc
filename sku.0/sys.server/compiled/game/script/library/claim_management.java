@@ -120,7 +120,7 @@ public class claim_management extends script.base_script
         int fee = getMaintenanceFee(marker);
         String prompt =
             "Maintenance & Upkeep\n"
-            + "────────────────────\n\n"
+            + "-------------------\n\n"
             + "Keep credits prepaid to avoid repossession of this claim.\n"
             + "Standard cycle: " + formatCredits(fee) + " per " + MAINTENANCE_INTERVAL_DAYS + " days.\n\n"
             + "Choose payment:";
@@ -147,7 +147,7 @@ public class claim_management extends script.base_script
 
         String prompt =
             "Tax & Visitor Revenue\n"
-            + "────────────────────\n\n"
+            + "-------------------\n\n"
             + "Visitors who sample resources inside your claim pay a tax.\n"
             + "Taxed units are stored here for withdrawal by the owner.\n\n"
             + "Balance (" + DEFAULT_TAX_RESOURCE + "): " + taxBalance + "\n\n"
@@ -173,7 +173,7 @@ public class claim_management extends script.base_script
     {
         String prompt =
             "Access & Permissions\n"
-            + "────────────────────\n\n"
+            + "-------------------\n\n"
             + "Owner (you): full management via this flag.\n"
             + "Granted players: decorate inside the footprint only.\n"
             + "Banned players: ejected and blocked from entry.\n\n"
@@ -205,7 +205,7 @@ public class claim_management extends script.base_script
 
         String prompt =
             "Look-At Quick Actions\n"
-            + "────────────────────\n\n"
+            + "-------------------\n\n"
             + targetLine + "\n\n"
             + "Face a player, then choose:";
 
@@ -228,7 +228,7 @@ public class claim_management extends script.base_script
     {
         String prompt =
             "Help & Information\n"
-            + "────────────────────\n\n"
+            + "-------------------\n\n"
             + "• Your claim is a circular open-world area centered on this flag.\n"
             + "• Prepay maintenance to keep the claim active.\n"
             + "• Visitor resource tax applies to sampling inside your footprint.\n"
@@ -750,9 +750,9 @@ public class claim_management extends script.base_script
         String dueLine = secondsUntilDue > 0 ? utils.formatTimeVerbose(secondsUntilDue) : "due now";
 
         return
-            "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+            "-------------------\n"
             + "  OPEN WORLD CLAIM\n"
-            + "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
+            + "-------------------\n\n"
             + "Claim ID:      " + claimId + "\n"
             + "Planet:        " + planet + "\n"
             + "Center:        " + Math.round(loc.x) + ", " + Math.round(loc.z) + "\n"
@@ -786,7 +786,7 @@ public class claim_management extends script.base_script
 
         return
             "Status & Condition\n"
-            + "────────────────────\n\n"
+            + "-------------------\n\n"
             + "Condition:     " + statusLine + "\n"
             + "Claim ID:      " + claimId + "\n"
             + "Location:      " + loc.area + " @ " + Math.round(loc.x) + ", " + Math.round(loc.z) + "\n"
