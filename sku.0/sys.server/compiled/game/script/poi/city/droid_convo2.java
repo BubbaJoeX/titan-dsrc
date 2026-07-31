@@ -11,10 +11,10 @@ public class droid_convo2 extends script.base_script
     }
     public int OnInitialize(obj_id self) throws InterruptedException
     {
-        spawnDroid(self);
-        spawnGuy(self);
-        messageTo(self, "handleChatting", null, 10, false);
-        messageTo(self, "checkForScripts", null, 10, true);
+        //spawnDroid(self);
+        //spawnGuy(self);
+        //messageTo(self, "handleChatting", null, 10, false);
+        //messageTo(self, "checkForScripts", null, 10, true);
         return SCRIPT_CONTINUE;
     }
     public int handleChatting(obj_id self, dictionary params) throws InterruptedException
@@ -41,7 +41,7 @@ public class droid_convo2 extends script.base_script
     }
     public int handleDeadGuy(obj_id self, dictionary params) throws InterruptedException
     {
-        spawnGuy(self);
+        //spawnGuy(self);
         return SCRIPT_CONTINUE;
     }
     public void spawnDroid(obj_id baseObject) throws InterruptedException

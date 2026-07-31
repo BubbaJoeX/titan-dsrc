@@ -38,10 +38,10 @@ public class filler extends script.base_script
     }
     public int handleInitFillerSpawn(obj_id self, dictionary params) throws InterruptedException
     {
-        if (!structure.initializeFillerSpawns(self))
+        /*if (!structure.initializeFillerSpawns(self))
         {
             messageTo(self, HANDLER_INIT_FILLER_SPAWN, null, BATCH_DELAY, false);
-        }
+        }*/
         return SCRIPT_CONTINUE;
     }
     public int handleCleanupFillerSpawn(obj_id self, dictionary params) throws InterruptedException
