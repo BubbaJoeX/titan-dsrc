@@ -19,7 +19,7 @@ public class tangible_dynamics extends script.base_script
 {
     // Force mode bitmask values (match C++ TangibleDynamics::ForceMode)
     public static final int FORCE_MODE_NONE         = 0;
-    public static final int FORCE_MODE_PUSH         = (1 << 0);
+    public static final int FORCE_MODE_PUSH         = (1);
     public static final int FORCE_MODE_SPIN         = (1 << 1);
     public static final int FORCE_MODE_BREATHING    = (1 << 2);
     public static final int FORCE_MODE_BOUNCE       = (1 << 3);
@@ -806,6 +806,7 @@ public class tangible_dynamics extends script.base_script
             return false;
         if (!hasScript(target, "handler.tangible_dynamics_handler"))
             attachScript(target, "handler.tangible_dynamics_handler");
+        setCondition(target, CONDITION_MAGIC_TANGIBLE_DYNAMIC);
         return true;
     }
 
