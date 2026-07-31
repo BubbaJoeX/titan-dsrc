@@ -11252,6 +11252,7 @@ public class terminal_character_builder extends script.base_script
             {
                 broadcast(player, "Crafting: " + localize(getNameFromTemplate(getTemplateName(craftedItem))));
                 setCrafter(craftedItem, player);
+                setCraftedId(player, craftedItem);
             }
             else
             {

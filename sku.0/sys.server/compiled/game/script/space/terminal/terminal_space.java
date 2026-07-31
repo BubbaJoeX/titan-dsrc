@@ -12,7 +12,7 @@ public class terminal_space extends script.terminal.base.base_terminal
     }
     public static final float TERMINAL_USE_DISTANCE = 8.0f;
     public static final string_id SID_LAUNCH_SHIP = new string_id("space/space_terminal", "launch_ship");
-    public static final string_id SID_LAUNCH_TO_ATMOSPHERE = new string_id("space/space_interaction", "launch_to_atmosphere");
+    public static final string_id SID_LAUNCH_TO_ATMOSPHERE = new string_id("Launch to Atmosphere");
     public static final string_id SID_MUSTAFAR = new string_id("space/space_terminal", "mustafar_exception");
     public static final string_id SID_NOT_IN_COMBAT = new string_id("travel", "not_in_combat");
     public static final String SUI_LAUNCH_ATMOSPHERE_CALLBACK = "launchAtmosphereCallback";
