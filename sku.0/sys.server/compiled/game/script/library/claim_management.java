@@ -229,13 +229,13 @@ public class claim_management extends script.base_script
         String prompt =
             "Help & Information\n"
             + "-------------------\n\n"
-            + "• Your claim is a circular open-world area centered on this flag.\n"
-            + "• Prepay maintenance to keep the claim active.\n"
-            + "• Visitor resource tax applies to sampling inside your footprint.\n"
-            + "• Grant decorate permission to allow trusted players to place and\n"
+            + "* Your claim is a circular open-world area centered on this flag.\n"
+            + "* Prepay maintenance to keep the claim active.\n"
+            + "* Visitor resource tax applies to sampling inside your footprint.\n"
+            + "* Grant decorate permission to allow trusted players to place and\n"
             + "  move items inside the claim (not no-trade items on open ground).\n"
-            + "• Banned players cannot enter and are ejected if inside.\n"
-            + "• Only the claim owner may use this management panel.\n";
+            + "* Banned players cannot enter and are ejected if inside.\n"
+            + "* Only the claim owner may use this management panel.\n";
 
         String[] options = new String[]
         {
