@@ -77,8 +77,8 @@ public class terminal_character_builder extends script.base_script
             "Buffs",
             "Warps",
             "Quests",
-            "Static Items",
-            "Tangible Objects",
+            "Static Item Lookup",
+            "Tangible Object Lookup",
             "Beast Abilities",
             "Junk Loot",
             "Internal",
@@ -556,7 +556,7 @@ public class terminal_character_builder extends script.base_script
     };
     public static final String[] REBEL_SHIP_OPTIONS = {
             "Incom X4 Gunship",
-            "Z95",
+            "Z-95",
             "Y-Wing",
             "Y-Wing Longprobe",
             "X-Wing",
@@ -602,7 +602,7 @@ public class terminal_character_builder extends script.base_script
     };
     public static final String[] FREELANCE_SHIP_OPTIONS = {
             "Blacksun AEG-77 Vigo Gunship",
-            "Naboo N-1",
+            "Naboo N-1 Starfighter",
             "Scyk",
             "Dunelizard",
             "Kimogila",
@@ -722,6 +722,7 @@ public class terminal_character_builder extends script.base_script
             " Buffs -- Applys Buffs.",
             " Warps -- Lists key locations for you to warp to.",
             " Static Items -- Enter item_static code to generate in your inventory. You can also use .iff paths.",
+            " Tangible Objects -- Enter search .iff paths by keyword to spawn an item.",
             " Quests -- Allows you to grant, complete and clear quests.",
             " Beast Abilities -- Allows you to learn beast abilities.",
             " Internal -- Game Master Only Options.",
@@ -2311,9 +2312,9 @@ public class terminal_character_builder extends script.base_script
         }
         else if (idx == 1)
         {
-            /*buff.applyBuff((player), "event_buff_gm", 7200);
-            buff.applyBuff((player), "event_buff_dev", 7200);*/
-            broadcast(player, "Bubba Buffs are missing :(.");
+            buff.applyBuff((player), "event_buff_gm", 7200);
+            buff.applyBuff((player), "event_buff_dev", 7200);
+            broadcast(player, "Bubba Buffs Applied.");
         }
         else
         {

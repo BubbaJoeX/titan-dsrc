@@ -185,6 +185,7 @@ public class parcel_mailbox extends base_script
         {
             if (isIdValid(getObjIdObjVar(self, VAR_OWNER)) && transferer != getObjIdObjVar(self, VAR_OWNER))
             {
+                //fails if player is not on planet.
                 broadcast(transferer, "You have received a parcel from " + getPlayerName(getObjIdObjVar(self, VAR_OWNER)) + ".");
                 return SCRIPT_CONTINUE;
             }

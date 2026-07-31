@@ -25,55 +25,55 @@ public class features extends script.base_script
     public static final int SUBSCRIPTION_COMBAT_BALANCE_ACCESS = 0x4;
     public static boolean hasCollectorEdition(obj_id player) throws InterruptedException
     {
-        return (getGameFeatureBits(player) & GAME_COLLECTORS_EDITION) != 0;
+        return true;
     }
     public static boolean hasSpaceExpansion(obj_id player) throws InterruptedException
     {
-        return (getGameFeatureBits(player) & GAME_SPACE_EXPANSION_RETAIL) != 0;
+        return true;
     }
     public static boolean hasSpaceExpansionPromotion(obj_id player) throws InterruptedException
     {
-        return (getGameFeatureBits(player) & GAME_SPACE_EXPANSION_PROMOTION) != 0;
+        return true;
     }
     public static boolean hasJapaneseCollectorEdition(obj_id player) throws InterruptedException
     {
-        return (getGameFeatureBits(player) & GAME_JAPANESE_COLLECTORS) != 0;
+        return true;
     }
     public static boolean hasEpisode3Expansion(obj_id player) throws InterruptedException
     {
-        return (hasEpisode3PreOrderDigitalDownload(player) || hasEpisode3ExpansionRetail(player));
+        return true;
     }
     public static boolean hasEpisode3PreOrderDigitalDownload(obj_id player) throws InterruptedException
     {
-        return (getGameFeatureBits(player) & GAME_EPISODE3_PREORDER_DIGITAL_DOWNLOAD) != 0;
+        return true;
     }
     public static boolean hasEpisode3ExpansionRetail(obj_id player) throws InterruptedException
     {
-        return (getGameFeatureBits(player) & GAME_EPISODE3_EXPANSION_RETAIL) != 0;
+        return true;
     }
     public static boolean hasTrialsOfObiwanExpansionRetail(obj_id player) throws InterruptedException
     {
-        return (getGameFeatureBits(player) & GAME_TRIALS_OF_OBIWAN_RETAIL) != 0;
+        return true;
     }
     public static boolean hasTrialsOfObiwanExpansionPreorder(obj_id player) throws InterruptedException
     {
-        return (getGameFeatureBits(player) & GAME_TRIALS_OF_OBIWAN_PREORDER) != 0;
+        return true;
     }
     public static boolean hasTrialsOfObiwanExpansion(obj_id player) throws InterruptedException
     {
-        return hasTrialsOfObiwanExpansionRetail(player) || hasTrialsOfObiwanExpansionPreorder(player);
+        return true;
     }
     public static boolean hasMustafarExpansionRetail(obj_id player) throws InterruptedException
     {
-        return hasTrialsOfObiwanExpansion(player);
+        return true;
     }
     public static boolean hasFreeTrial(obj_id player) throws InterruptedException
     {
-        return (getSubscriptionFeatureBits(player) & SUBSCRIPTION_FREE_TRIAL) != 0;
+        return true;
     }
     public static boolean hasCombatBalanceAccess(obj_id player) throws InterruptedException
     {
-        return (getSubscriptionFeatureBits(player) & SUBSCRIPTION_COMBAT_BALANCE_ACCESS) != 0;
+        return true;
     }
     public static boolean isCollectorEdition(obj_id player) throws InterruptedException
     {
