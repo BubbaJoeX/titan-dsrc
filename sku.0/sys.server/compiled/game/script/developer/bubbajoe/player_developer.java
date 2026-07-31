@@ -2372,6 +2372,26 @@ public class player_developer extends base_script
                 }
             }
         }
+        else if (cmd.equalsIgnoreCase("cleanup-spawns"))
+        {
+            int counter = 0;
+            location origin = new location(0, 0, 0);
+            origin.area = getCurrentSceneName();
+            obj_id[] spawns = getAllObjectsWithScript(origin, 16192, "poi.city.droid_convo");
+            for (obj_id spawnEgg : spawns)
+            {
+                destroyObject(spawnEgg);
+                counter++;
+            }
+            obj_id[] otherSpawns = getAllObjectsWithScript(origin, 16192, "poi.city.droid_convo");
+            for (obj_id spawnEgg : spawns)
+            {
+                destroyObject(spawnEgg);
+                counter++;
+            }
+            broadcast(self, "Removed " + counter + " bad spawn eggs.");
+            return SCRIPT_CONTINUE;
+        }
         else if (cmd.equalsIgnoreCase("housing"))
         {
             String subcommand = tok.nextToken();

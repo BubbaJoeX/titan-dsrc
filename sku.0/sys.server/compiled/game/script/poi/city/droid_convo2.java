@@ -11,6 +11,7 @@ public class droid_convo2 extends script.base_script
     }
     public int OnInitialize(obj_id self) throws InterruptedException
     {
+        destroyObject(self);
         //spawnDroid(self);
         //spawnGuy(self);
         //messageTo(self, "handleChatting", null, 10, false);

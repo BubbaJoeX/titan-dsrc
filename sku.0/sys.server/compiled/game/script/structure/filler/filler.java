@@ -17,11 +17,12 @@ public class filler extends script.base_script
     public static final String HANDLER_CLEANUP_FILLER_SPAWN = "handleCleanupFillerSpawn";
     public int OnInitialize(obj_id self) throws InterruptedException
     {
-        if (!hasMessageTo(self, HANDLER_INIT_FILLER_SPAWN))
+        /*if (!hasMessageTo(self, HANDLER_INIT_FILLER_SPAWN))
         {
             float stagger = ((self.getValue() & 0x7fffffffL) % (long)(INITIAL_STAGGER_WINDOW * 1000.0f)) / 1000.0f;
             messageTo(self, HANDLER_INIT_FILLER_SPAWN, null, DELAY_TIME + stagger, false);
-        }
+        }*/
+        structure.cleanupFillerSpawns(self);
         return SCRIPT_CONTINUE;
     }
     public int OnDetach(obj_id self) throws InterruptedException
