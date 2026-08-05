@@ -55,7 +55,7 @@ public class companion_lib extends script.base_script
     public static final String CUSTOMIZATION_TIER_CELEBRITY = "celebrity";
     public static final String CUSTOMIZATION_TIER_FULL = "full";
     /** Hidden datapad stash; use creature inventory stubs (droid_inventory is not in the compiled template list). */
-    public static final String GEAR_HOLD_TEMPLATE = "object/tangible/inventory/creature_inventory_1.iff";
+    public static final String GEAR_HOLD_TEMPLATE = "object/tangible/inventory/creature_inventory.iff";
     public static final String OBJVAR_CUSTOMIZATION_SCALE = "companion.customization.scale";
     /** Server hair template path (e.g. object/tangible/hair/human/human_male_s01.iff). Empty = bald. */
     public static final String OBJVAR_CUSTOMIZATION_HAIR_TEMPLATE = "companion.customization.hairTemplate";
@@ -63,9 +63,9 @@ public class companion_lib extends script.base_script
     public static final String SCRIPTVAR_SKIP_RANDOM_HUE = "companion.skipRandomHue";
     public static final String[] GEAR_HOLD_TEMPLATE_FALLBACKS = 
     {
-        "object/tangible/inventory/creature_inventory_2.iff",
-        "object/tangible/inventory/creature_inventory_3.iff",
-        "object/tangible/inventory/creature_inventory_4.iff"
+        "object/tangible/inventory/creature_inventory.iff",
+        "object/tangible/inventory/creature_inventory.iff",
+        "object/tangible/inventory/creature_inventory.iff"
     };
     public static final String OBJVAR_COMBAT_STANCE = "companion.stance";
     /** 0 = prefer melee commands, 1 = prefer ranged (humanoid pet bar). */
