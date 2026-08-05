@@ -8,7 +8,7 @@ import script.library.groundquests;
 import script.*;
 
 /**
- * Abubb — Mos Eisley holocron bait quest. Attach {@code conversation.tatooine_mos_eisley_abubb} to your NPC and place him near {@code 3518, 5, -4788} on Tatooine (match {@code tatooine_abubb_holocron_ambush} wait waypoint).
+ * Abubb -- Mos Eisley holocron bait quest. Attach {@code conversation.tatooine_mos_eisley_abubb} to your NPC and place him near {@code 3518, 5, -4788} on Tatooine (match {@code tatooine_abubb_holocron_ambush} wait waypoint).
  * <p>
  * Place a static tangible using {@code object/tangible/loot/creature_loot/collections/sith_holocron_01.iff} at the retrieve waypoint ({@code 3545, 5, -4685}) so {@code quest.task.ground.retrieve_item} can resolve.
  */
@@ -34,7 +34,7 @@ public class tatooine_mos_eisley_abubb extends conversation_base
         {
             groundquests.sendSignal(player, "abubbReturnedWithHolocron");
             return serverSide_endConversation(player,
-                "Abubb palms the holocron without looking at it. \"Good. My buyers hate loose ends.\" He whistles once—two cloaked figures unfold from the shadows with ignited blades.");
+                "Abubb palms the holocron without looking at it. \"Good. My buyers hate loose ends.\" He whistles once--two cloaked figures unfold from the shadows with ignited blades.");
         }
 
         if (groundquests.hasCompletedQuest(player, Q_ABUBB))
@@ -46,7 +46,7 @@ public class tatooine_mos_eisley_abubb extends conversation_base
         if (!groundquests.isQuestActiveOrComplete(player, Q_ABUBB))
         {
             return serverSide_startConversation(player, self,
-                "A scarred human leans under the awning, voice low. \"You look hungry for credits. I need a trinket out in the scrap—Sith junk. Bring it here and we talk payday.\"",
+                "A scarred human leans under the awning, voice low. \"You look hungry for credits. I need a trinket out in the scrap--Sith junk. Bring it here and we talk payday.\"",
                 10,
                 new ConvoResponse[] {
                     convo("accept_abubb", "I'll get it."),
@@ -57,7 +57,7 @@ public class tatooine_mos_eisley_abubb extends conversation_base
         if (groundquests.isTaskActive(player, Q_ABUBB, "abubb_retrieveHolocron"))
         {
             return serverSide_endConversation(player,
-                "\"Datapad's marked,\" Abubb mutters. \"Southeast rings—don't get dust in the contacts.\"");
+                "\"Datapad's marked,\" Abubb mutters. \"Southeast rings--don't get dust in the contacts.\"");
         }
 
         if (groundquests.isTaskActive(player, Q_ABUBB, "abubb_surviveElders"))
@@ -76,7 +76,7 @@ public class tatooine_mos_eisley_abubb extends conversation_base
         {
             groundquests.grantQuest(player, Q_ABUBB);
             return serverSide_endConversation(player,
-                "\"Smart. Waypoint's on your pad—don't make me send a finder droid.\"");
+                "\"Smart. Waypoint's on your pad--don't make me send a finder droid.\"");
         }
         if (responseIdIs(response, "decline"))
         {

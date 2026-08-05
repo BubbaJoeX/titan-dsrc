@@ -42,7 +42,7 @@ public class tatooine_jawa_flitz extends conversation_base
         if (groundquests.isTaskActive(player, Q2, "flitzQ2_returnToFlitz"))
         {
             groundquests.sendSignal(player, "flitzReturnedQ2");
-            return serverSide_endConversation(player, "\"The bottle—still sealed! Buyer pays extra this cycle. Here, take this.\"");
+            return serverSide_endConversation(player, "\"The bottle--still sealed! Buyer pays extra this cycle. Here, take this.\"");
         }
         if (groundquests.isTaskActive(player, Q3, "flitzQ3_returnToFlitz"))
         {
@@ -58,7 +58,7 @@ public class tatooine_jawa_flitz extends conversation_base
         if (groundquests.hasCompletedQuest(player, Q2) && !groundquests.isQuestActiveOrComplete(player, Q3))
         {
             return serverSide_startConversation(player, self,
-                "Flitz taps a greasy datapad. \"Third run is messy—grav core at the old liner scatter. Sandcrawlers argue for that scrap. You still brave?\"",
+                "Flitz taps a greasy datapad. \"Third run is messy--grav core at the old liner scatter. Sandcrawlers argue for that scrap. You still brave?\"",
                 30,
                 new ConvoResponse[] {
                     convo("accept_q3", "I'll get the core."),
@@ -69,7 +69,7 @@ public class tatooine_jawa_flitz extends conversation_base
         if (groundquests.hasCompletedQuest(player, Q1) && !groundquests.isQuestActiveOrComplete(player, Q2))
         {
             return serverSide_startConversation(player, self,
-                "\"Part two,\" he chirps, shoving a holomap into your hand. \"Podrace bleachers junk—one sealed bottle for off-world snobs. Quick feet.\"",
+                "\"Part two,\" he chirps, shoving a holomap into your hand. \"Podrace bleachers junk--one sealed bottle for off-world snobs. Quick feet.\"",
                 20,
                 new ConvoResponse[] {
                     convo("accept_q2", "I'll find the bottle."),
@@ -80,7 +80,7 @@ public class tatooine_jawa_flitz extends conversation_base
         if (!groundquests.isQuestActiveOrComplete(player, Q1))
         {
             return serverSide_startConversation(player, self,
-                "The Jawa peers up from under brown wraps. \"Utinni! Tall walker—Flitz pays real credits for choice scrap south of Mos Eisley. Two picks, easy maps. Deal?\"",
+                "The Jawa peers up from under brown wraps. \"Utinni! Tall walker--Flitz pays real credits for choice scrap south of Mos Eisley. Two picks, easy maps. Deal?\"",
                 10,
                 new ConvoResponse[] {
                     convo("accept_q1", "Deal."),
@@ -90,7 +90,7 @@ public class tatooine_jawa_flitz extends conversation_base
 
         if (groundquests.isQuestActive(player, Q1))
         {
-            return serverSide_endConversation(player, "\"Waypoints on your datapad. Bring pieces back clean—Flitz deducts for dents!\"");
+            return serverSide_endConversation(player, "\"Waypoints on your datapad. Bring pieces back clean--Flitz deducts for dents!\"");
         }
         if (groundquests.isQuestActive(player, Q2))
         {
@@ -98,7 +98,7 @@ public class tatooine_jawa_flitz extends conversation_base
         }
         if (groundquests.isQuestActive(player, Q3))
         {
-            return serverSide_endConversation(player, "\"Core heavy—don't drop it in the dust. Static kills the payout!\"");
+            return serverSide_endConversation(player, "\"Core heavy--don't drop it in the dust. Static kills the payout!\"");
         }
 
         chat.chat(self, player, string_id.unlocalized("Flitz clicks his teeth nervously."));
@@ -120,7 +120,7 @@ public class tatooine_jawa_flitz extends conversation_base
         if (responseIdIs(response, "accept_q3"))
         {
             groundquests.grantQuest(player, Q3);
-            return serverSide_endConversation(player, "\"Liner wreck on your map—grav rack sticks out like a bantha horn. Go!\"");
+            return serverSide_endConversation(player, "\"Liner wreck on your map--grav rack sticks out like a bantha horn. Go!\"");
         }
         if (responseIdIs(response, "decline"))
         {

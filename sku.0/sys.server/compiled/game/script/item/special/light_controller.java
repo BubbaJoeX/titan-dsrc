@@ -13,7 +13,7 @@ public class light_controller extends script.base_script
     public static final String OV_CELL_LIGHT_B = "lights.cell.b";
     public static final String OV_CELL_LIGHT_BRIGHTNESS = "lights.cell.brightness";
 
-    /** Listbox row label — opens custom HTML-style color entry instead of preset floats. */
+    /** Listbox row label -- opens custom HTML-style color entry instead of preset floats. */
     public static final String COLOR_HTML_OPTION_LABEL = "HTML Color (hex / rgb)";
 
     public static final String[][] COLOR_PRESETS = {
@@ -613,7 +613,7 @@ public class light_controller extends script.base_script
 
     /**
      * Reads {@code lights.cell.*} chrominance (r,g,b template factors). Falls back to legacy {@code cellLights.<n>.*}
-     * on the structure, else white — matching {@link #copyRoomLighting}.
+     * on the structure, else white -- matching {@link #copyRoomLighting}.
      */
     private void readStoredChrominance(obj_id cellObj, obj_id structure, float[] rgb) throws InterruptedException
     {

@@ -9,12 +9,12 @@ import script.obj_id;
  * <p>
  * Designer / dev objvars on the <b>turret</b>:<br>
  * {@code turret.playerControllable} (int/bool, non-zero = mountable radial)<br>
- * {@code turret.gunner.off_x}, {@code off_y}, {@code off_z} (float, meters in parent/world frame — see setLocation)<br>
- * {@code turret.gunner.max_range} (float, optional — radial mount range, default 12m)<br>
- * {@code turret.gunner.damage_percent} (int, optional — gunner hit damage as % of defender max HP, 1–100, default 12)<br>
- * {@code turret.gunner.sync_leader} (int, optional — non-zero = GM “sync mode”: other turrets in range mirror gunner fire)<br>
- * {@code turret.gunner.sync_range} (float, optional — meters for sync neighbor search, default 80)<br>
- * {@code turret.dev.attackSpeedScale} (float, optional — multiplies post-shot recycle delay in {@code turret_ai})<br>
+ * {@code turret.gunner.off_x}, {@code off_y}, {@code off_z} (float, meters in parent/world frame -- see setLocation)<br>
+ * {@code turret.gunner.max_range} (float, optional -- radial mount range, default 12m)<br>
+ * {@code turret.gunner.damage_percent} (int, optional -- gunner hit damage as % of defender max HP, 1–100, default 12)<br>
+ * {@code turret.gunner.sync_leader} (int, optional -- non-zero = GM “sync mode”: other turrets in range mirror gunner fire)<br>
+ * {@code turret.gunner.sync_range} (float, optional -- meters for sync neighbor search, default 80)<br>
+ * {@code turret.dev.attackSpeedScale} (float, optional -- multiplies post-shot recycle delay in {@code turret_ai})<br>
  * <p>
  * Gunner aim is driven client-side (camera + turret mesh slew) with server combat commands
  * {@code turretGunnerAim} / {@code turretGunnerFire}; this library keeps seat + state ready.

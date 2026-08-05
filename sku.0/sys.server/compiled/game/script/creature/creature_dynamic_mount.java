@@ -14,7 +14,7 @@ import script.menu_info_types;
 /**
  * Authoring UI for dynamic mounts ({@code mount.dm.*} plus optional {@code hp_dyn.*} saddle overlay).
  * <p>
- * Attach only to a <b>dedicated</b> test creature — this script reserves {@link menu_info_types#SERVER_MENU53}.
+ * Attach only to a <b>dedicated</b> test creature -- this script reserves {@link menu_info_types#SERVER_MENU53}.
  * Attachments / saddles / lights / FX use {@code hp_dyn.*} via the same listbox ({@link script.library.dynamic_hardpoint}).
  * Optional {@code terminal.gm_dynamic_hardpoint} remains for radial editing on a terminal prop. {@code ai.ai} may attach this
  * script when using the GM radial -> Attach Mount Scripts on an NPC.
@@ -37,7 +37,7 @@ public class creature_dynamic_mount extends script.base_script
     /** Set on the designer player while the Dynamic mount authoring menu is in use (player-owned SUI). */
     public static final String SCRIPTVAR_MM_AUTH_CREATURE = "creature_dynamic_mount.mm_auth_creature";
 
-    /** Callback names — must match {@code player.base.base_player} handler methods. */
+    /** Callback names -- must match {@code player.base.base_player} handler methods. */
     public static final String HANDLER_MM_MAIN = "handleMmDmMainList";
     private static final String HANDLER_MM_CAP = "handleMmDmCapacityInput";
     private static final String HANDLER_MM_SEAT = "handleMmDmSeatIndexInput";
@@ -77,7 +77,7 @@ public class creature_dynamic_mount extends script.base_script
 
     /**
      * Opens the Dynamic mount authoring listbox. Static so {@link script.ai.ai} can invoke it immediately after
-     * {@code attachScript} — avoids {@code messageTo} while {@code m_attachingScript} is active (drops handlers).
+     * {@code attachScript} -- avoids {@code messageTo} while {@code m_attachingScript} is active (drops handlers).
      * <p>
      * Registers {@link #SCRIPTVAR_MM_AUTH_CREATURE} on the player and opens {@code sui.listbox(player, player, ...)}
      * so Ok/inputbox callbacks resolve on the player ({@code base_player}), not the creature.
@@ -112,7 +112,7 @@ public class creature_dynamic_mount extends script.base_script
             "SERVER: Begin designer session (invuln + ignore combat)",
             "SERVER: End designer session",
             "Clear mount.dm and hp_dyn on this creature",
-            "SERVER: Ride mount (seat 0 — same as mountCreature)",
+            "SERVER: Ride mount (seat 0 -- same as mountCreature)",
             "SERVER: Dismount",
         };
         sui.listbox(player, player, "Attach Mount Scripts: rider geometry (mount.dm), then attachments (hp_dyn), export, finalize. Ride mount to snap to seat 0 and drive like a normal rider.", sui.OK_CANCEL, "Attach Mount Scripts", rows, HANDLER_MM_MAIN, true);
@@ -172,7 +172,7 @@ public class creature_dynamic_mount extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
-    /** Invoked from {@code base_player} — {@code self} is the mount creature being authored. */
+    /** Invoked from {@code base_player} -- {@code self} is the mount creature being authored. */
     public static int mountMakerMainList(obj_id self, dictionary params) throws InterruptedException
     {
         obj_id player = sui.getPlayerId(params);

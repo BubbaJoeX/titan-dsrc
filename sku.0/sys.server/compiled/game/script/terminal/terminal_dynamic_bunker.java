@@ -6,7 +6,7 @@ import script.systems.dynamic_bunker.dynamic_bunker_lib;
 /**
  * Optional convenience terminal. Prefer the slash command:
  *   /dynamicBunker
- * which needs no scripts or objvars — just stand inside a POB.
+ * which needs no scripts or objvars -- just stand inside a POB.
  *
  * If this script is attached, the radial works with zero objvar setup
  * (socket is auto-detected from the building / player cell).

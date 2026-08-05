@@ -4,15 +4,15 @@ package script.content.fun;/*
 @Purpose: Triggers a staged asteroid shower with warnings, waves, and local effects (impacts scattered around world origin 0,0)
 @Requirements: <no requirements>
 @Notes: Optional objvars on the spawner object:
-  fun.asteroid.count (int) — fragments to spawn, default 8
-  fun.asteroid.range (float) — scatter radius in meters from world (0,0), default 7560
-  fun.asteroid.waves (int) — impact waves, default 3
-  fun.asteroid.wave_gap (float) — seconds between waves, default 2.5
-  fun.asteroid.warning_delay (float) — seconds before first sky effects, default 2.0
-  fun.asteroid.notify_radius (float) — players who get system messages / sounds, default 384
-  fun.asteroid.cooldown (int) — seconds before the event can run again, default 90; set 0 to disable
+  fun.asteroid.count (int) -- fragments to spawn, default 8
+  fun.asteroid.range (float) -- scatter radius in meters from world (0,0), default 7560
+  fun.asteroid.waves (int) -- impact waves, default 3
+  fun.asteroid.wave_gap (float) -- seconds between waves, default 2.5
+  fun.asteroid.warning_delay (float) -- seconds before first sky effects, default 2.0
+  fun.asteroid.notify_radius (float) -- players who get system messages / sounds, default 384
+  fun.asteroid.cooldown (int) -- seconds before the event can run again, default 90; set 0 to disable
   Spawn templates: CRC table paths under object/ship/asteroid, excluding /base/, mapping /shared_ → / for server createObject; fallback object/tangible/usable/asteroid.iff if none left.
-  fun.asteroid.spawned_ids (obj_id[]) — maintained automatically; stale ids pruned when you open the list menu.
+  fun.asteroid.spawned_ids (obj_id[]) -- maintained automatically; stale ids pruned when you open the list menu.
 @Created: Tuesday, 2/25/2025, at 7:56 PM,
 @Copyright © SWG: Titan 2025.
     Unauthorized usage, viewing or sharing of this file is prohibited.
@@ -57,16 +57,16 @@ public class asteroid_spawner extends base_script
     private static final String[] WARNING_LINES =
             {
                     "The ground trembles. A distant roar builds in the upper atmosphere...",
-                    "Long-range sensors scream—debris cluster inbound on a decaying trajectory.",
+                    "Long-range sensors scream--debris cluster inbound on a decaying trajectory.",
                     "A glittering cascade tears through the sky: meteoric fragments incoming!",
                     "Thermal bloom overhead. Whatever just entered the well is coming down hard.",
             };
 
     private static final String[] WAVE_LINES =
             {
-                    "Impacts register—fragments are striking the surface nearby.",
+                    "Impacts register--fragments are striking the surface nearby.",
                     "Another salvo hammers the terrain; dust and ionized grit fill the air.",
-                    "The barrage continues—each strike leaves a smoldering crater of ore-rich rock.",
+                    "The barrage continues--each strike leaves a smoldering crater of ore-rich rock.",
             };
 
     private static final String[] ASTEROID_NAMES =
@@ -528,7 +528,7 @@ public class asteroid_spawner extends base_script
             String tpl = getTemplateName(a);
             location loc = getLocation(a);
             String locStr = loc != null ? loc.toReadableFormat(true) : "?";
-            rows[i] = (nm != null ? nm : "?") + " — " + shortTemplateLabel(tpl) + " @ " + locStr;
+            rows[i] = (nm != null ? nm : "?") + " -- " + shortTemplateLabel(tpl) + " @ " + locStr;
         }
         sui.listbox(self, player, "Fragments spawned from this relay (stale entries are removed automatically).", sui.OK_ONLY, "Spawned asteroids", rows, "handleSpawnedAsteroidListOk", true, false);
     }

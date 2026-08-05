@@ -19,7 +19,7 @@ import script.library.utils;
 public class dynamic_hardpoint extends script.base_script
 {
     /**
-     * Must match {@code creature_dynamic_mount.SCRIPTVAR_MM_AUTH_CREATURE}. Not imported here — circular load with
+     * Must match {@code creature_dynamic_mount.SCRIPTVAR_MM_AUTH_CREATURE}. Not imported here -- circular load with
      * {@code creature_dynamic_mount} would cause {@code NoClassDefFoundError} at runtime.
      */
     private static final String MM_AUTH_CREATURE_SCRIPTVAR = "creature_dynamic_mount.mm_auth_creature";
@@ -66,7 +66,7 @@ public class dynamic_hardpoint extends script.base_script
     public static final int FX_COMMIT = menu_info_types.SERVER_MENU51;
     public static final int FX_CLEAR = menu_info_types.SERVER_MENU52;
 
-    /** Mount maker listbox callbacks — registered on {@code base_player}. */
+    /** Mount maker listbox callbacks -- registered on {@code base_player}. */
     public static final String HANDLER_HP_MAIN = "handleMmHpDynMainList";
     public static final String HANDLER_HP_SLOT = "handleMmHpDynSlotInput";
     public static final String HANDLER_HP_APP_HP = "handleMmHpDynAppHpInput";
@@ -97,7 +97,7 @@ public class dynamic_hardpoint extends script.base_script
         return isDesignerAuthorized(player);
     }
 
-    /** Mirrors {@link script.library.mount_maker#endDesignerSession} — keep behavior aligned when editing session helpers. */
+    /** Mirrors {@link script.library.mount_maker#endDesignerSession} -- keep behavior aligned when editing session helpers. */
     private static void endDesignerSessionForHpDyn(obj_id designer) throws InterruptedException
     {
         if (!isIdValid(designer) || !hasObjVar(designer, OV_MM_PLAYER_MOUNT))

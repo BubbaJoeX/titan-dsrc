@@ -169,7 +169,7 @@ public class player_developer extends base_script
     {
         if (!isIdValid(player) || !hasObjVar(player, OV_GIT_PULL_SCRIPT_HISTORY))
         {
-            broadcast(player, "No script history queue yet — run /developer git pull with .java changes first.");
+            broadcast(player, "No script history queue yet -- run /developer git pull with .java changes first.");
             return;
         }
         String packed = getStringObjVar(player, OV_GIT_PULL_SCRIPT_HISTORY);
@@ -553,7 +553,7 @@ public class player_developer extends base_script
                 attachScript(mount, scriptName);
                 if (!hasScript(mount, scriptName))
                 {
-                    broadcast(self, "Failed to attach " + scriptName + " — check server log / OnAttach.");
+                    broadcast(self, "Failed to attach " + scriptName + " -- check server log / OnAttach.");
                     return SCRIPT_CONTINUE;
                 }
                 broadcast(self, "Attached " + scriptName + " to " + getName(mount) + ". Opened authoring menu.");
@@ -609,7 +609,7 @@ public class player_developer extends base_script
                 attachScript(deed, scriptName);
                 if (!hasScript(deed, scriptName))
                 {
-                    broadcast(self, "Objvars set but failed to attach " + scriptName + " — check server log.");
+                    broadcast(self, "Objvars set but failed to attach " + scriptName + " -- check server log.");
                     return SCRIPT_CONTINUE;
                 }
             }
@@ -2531,7 +2531,7 @@ public class player_developer extends base_script
             }
             else
             {
-                broadcast(self, "\\#ff4444[Developer]: setTime failed — no terrain or invalid cycle on this server.");
+                broadcast(self, "\\#ff4444[Developer]: setTime failed -- no terrain or invalid cycle on this server.");
             }
             return SCRIPT_CONTINUE;
         }
@@ -4167,7 +4167,7 @@ public class player_developer extends base_script
                 broadcast(self, "Syntax: /developer ant tab");
                 return SCRIPT_CONTINUE;
             }
-            broadcast(self, "Please wait — running ant compile_tab...");
+            broadcast(self, "Please wait -- running ant compile_tab...");
             final String compileResult = system_process.runAndGetOutput("ant compile_tab", DEV_SWG_MAIN_DIR);
             if (compileResult == null || !compileResult.contains("BUILD SUCCESSFUL"))
             {
@@ -4193,7 +4193,7 @@ public class player_developer extends base_script
                 for (String tableBase : tables)
                 {
                     boolean ok = sendConsoleCommand("/server reloadTable " + tableBase + ".iff", self);
-                    statusMessage.append(tableBase).append(".iff — ").append(ok ? "reload sent" : "reload FAILED").append("\n");
+                    statusMessage.append(tableBase).append(".iff -- ").append(ok ? "reload sent" : "reload FAILED").append("\n");
                 }
             }
             msgbox(self, statusMessage.toString());

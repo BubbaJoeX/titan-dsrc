@@ -403,7 +403,7 @@ public class mount_maker extends script.base_script
      * Halt script-driven AI intent on the mount so it does not fight player steering. Engine-side AI locomotion is
      * suppressed for mounts with a player primary rider in {@code AICreatureController::realAlter}.
      * <p>
-     * Do not use {@link ai_lib#aiStopFollowing} here — it schedules {@code resumeDefaultCalmBehavior} and would
+     * Do not use {@link ai_lib#aiStopFollowing} here -- it schedules {@code resumeDefaultCalmBehavior} and would
      * restart patrol/wander while the player is still riding.
      */
     private static void suspendAiForPlayerDrivenMount(obj_id mount) throws InterruptedException

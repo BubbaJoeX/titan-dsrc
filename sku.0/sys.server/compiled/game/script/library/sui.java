@@ -1716,7 +1716,7 @@ public class sui extends script.base_script
         }
         String bp = params.getString(PROP_BUTTONPRESSED);
         if ((bp != null) && (!bp.equals(""))) {
-            // Match OK/revert case-insensitively — some UI builds vary capitalization
+            // Match OK/revert case-insensitively -- some UI builds vary capitalization
             if (bp.equalsIgnoreCase(OK))
 			{
 				if (params.containsKey("this.otherPressed"))

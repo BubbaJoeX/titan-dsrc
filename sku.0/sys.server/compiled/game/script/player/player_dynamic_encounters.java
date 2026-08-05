@@ -119,7 +119,7 @@ public class player_dynamic_encounters extends script.base_script
         {
             return SCRIPT_CONTINUE;
         }
-        // Scripted rows in zone_abilities.tab — keep names in sync with datatable.
+        // Scripted rows in zone_abilities.tab -- keep names in sync with datatable.
         if (abilityName.equals("zone_start_dance_basic"))
         {
             queueCommand(self, getStringCrc("startDance"), self, "basic", COMMAND_PRIORITY_DEFAULT);

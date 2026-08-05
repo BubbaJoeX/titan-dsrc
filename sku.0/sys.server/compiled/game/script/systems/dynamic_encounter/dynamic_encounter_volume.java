@@ -7,10 +7,10 @@ import script.player.player_dynamic_encounters;
 /**
  * Attach to an encounter object. Objvars:
  * <ul>
- *   <li>{@code dynamic_encounter.volume_name} — trigger volume name (default {@code encounter_trigger})</li>
- *   <li>{@code dynamic_encounter.radius} — sphere radius (default 10)</li>
- *   <li>{@code dynamic_encounter.ability_list} — comma-separated keys into {@code zone_abilities.tab}</li>
- *   <li>{@code dynamic_encounter.encounter_key} — optional id string; defaults to this object's id string</li>
+ *   <li>{@code dynamic_encounter.volume_name} -- trigger volume name (default {@code encounter_trigger})</li>
+ *   <li>{@code dynamic_encounter.radius} -- sphere radius (default 10)</li>
+ *   <li>{@code dynamic_encounter.ability_list} -- comma-separated keys into {@code zone_abilities.tab}</li>
+ *   <li>{@code dynamic_encounter.encounter_key} -- optional id string; defaults to this object's id string</li>
  * </ul>
  */
 public class dynamic_encounter_volume extends script.base_script

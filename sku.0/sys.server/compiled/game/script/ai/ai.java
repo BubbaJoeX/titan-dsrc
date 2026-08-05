@@ -3122,7 +3122,7 @@ public class ai extends script.base_script {
                     return SCRIPT_CONTINUE;
                 }
                 // Needs creature_dynamic_mount (radial + listbox) and dynamic_hardpoint (hp_dyn.* helpers).
-                // Defer opening the SUI until after attach completes — immediate openAuthoringMainMenu can run while
+                // Defer opening the SUI until after attach completes -- immediate openAuthoringMainMenu can run while
                 // m_attachingScript is active and drop handlers / skip priming callbacks on the creature.
                 if (!hasScript(self, "creature.creature_dynamic_mount")) {
                     attachScript(self, "creature.creature_dynamic_mount");
@@ -3140,7 +3140,7 @@ public class ai extends script.base_script {
     }
 
     /**
-     * Deferred open after GM radial attaches mount scripts — runs on {@code ai.ai} so messageTo delivery is reliable
+     * Deferred open after GM radial attaches mount scripts -- runs on {@code ai.ai} so messageTo delivery is reliable
      * (newly attached scripts may not receive the same frame).
      */
     public int handleAiGmMountMakerOpen(obj_id self, dictionary params)

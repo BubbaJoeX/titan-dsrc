@@ -15,7 +15,7 @@ import script.string_id;
 /**
  * Orbit beacon: invulnerable. The template is a {@code ShipObject}, so the radial often omits {@code CONVERSE_START};
  * we always add {@code SERVER_MENU1}/{@code SERVER_MENU2}. {@code /comm} and {@code conversationStart} still use the
- * normal NPC conversation path ({@link #OnStartNpcConversation}) — that must not return {@code SCRIPT_OVERRIDE} alone or
+ * normal NPC conversation path ({@link #OnStartNpcConversation}) -- that must not return {@code SCRIPT_OVERRIDE} alone or
  * those commands do nothing on the client.
  */
 public class guild_space_station_orbit_marker extends conversation_base
@@ -89,7 +89,7 @@ public class guild_space_station_orbit_marker extends conversation_base
     @Override
     public int OnStartNpcConversation(obj_id self, obj_id player) throws InterruptedException
     {
-        // Do not return SCRIPT_OVERRIDE alone — the client needs npcEndConversationWithMessage or it never clears comm UI.
+        // Do not return SCRIPT_OVERRIDE alone -- the client needs npcEndConversationWithMessage or it never clears comm UI.
         if (ai_lib.isInCombat(self) || ai_lib.isInCombat(player))
             return serverSide_endConversation(player, "Unable to establish a comm channel while in combat.");
         if (!hasObjVar(self, guild_space_station.OV_GUILD_ID))

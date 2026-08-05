@@ -68,7 +68,7 @@ public class guild_space_station extends script.base_script
 
     /**
      * Dismount, store callables, pack surface ship before station travel.
-     * In space or atmospheric flight, only {@link #unpilotShip} — do not call {@link space_transition#packShip} before
+     * In space or atmospheric flight, only {@link #unpilotShip} -- do not call {@link space_transition#packShip} before
      * {@code warpPlayer}: packing then cross-scene warp has left ships stuck, unpackable, or SCD-desynced. Ground players
      * still get {@code packShip} for their deployed ship.
      */
@@ -137,7 +137,7 @@ public class guild_space_station extends script.base_script
     }
 
     /**
-     * Orbit beacon: invulnerable, conversable, display name {@code Station: [abbrev]} (no angle brackets — client comm UI). Call from marker attach/init
+     * Orbit beacon: invulnerable, conversable, display name {@code Station: [abbrev]} (no angle brackets -- client comm UI). Call from marker attach/init
      * whenever the object is created or refreshed (e.g. comlink orbit move).
      */
     public static void applyOrbitMarkerPresentation(obj_id marker) throws InterruptedException
@@ -151,7 +151,7 @@ public class guild_space_station extends script.base_script
         int guildId = getIntObjVar(marker, OV_GUILD_ID);
         if (guildId <= 0 || !guildExists(guildId))
             return;
-        // Avoid '<'/'>' in names — client/UI can treat them as markup and break hail/comm on ships.
+        // Avoid '<'/'>' in names -- client/UI can treat them as markup and break hail/comm on ships.
         setName(marker, "Station: [" + guildGetAbbrev(guildId) + "]");
     }
 
@@ -851,7 +851,7 @@ public class guild_space_station extends script.base_script
                 sb.append("Billing status: current\n");
         }
         else
-            sb.append("Maintenance: not scheduled — pay to set the next cycle.\n");
+            sb.append("Maintenance: not scheduled -- pay to set the next cycle.\n");
         sb.append(describeAccessPolicy(building));
         if (hasObjVar(building, OV_ORBIT_PLANET))
         {

@@ -16,7 +16,7 @@ public class mannequin extends base_script
     public static final String OV_ANIM = "content.mannequin.animSpec";
     public static final String OV_LOOP = "content.mannequin.animLoop";
 
-    /** @see menu_info_types — reused server menu slots (no mannequin-specific types). */
+    /** @see menu_info_types -- reused server menu slots (no mannequin-specific types). */
     private static final int M_ROOT = menu_info_types.SERVER_MENU52;
     private static final int M_SET_NAME = menu_info_types.SERVER_MENU47;
     private static final int M_SET_ANIM = menu_info_types.SERVER_MENU48;
@@ -354,7 +354,7 @@ public class mannequin extends base_script
                     idVec.add(item);
                     String nm = getName(item);
                     String st = getStaticItemName(item);
-                    labelVec.add((nm != null ? nm : "?") + " — " + (st != null ? st : getTemplateName(item)));
+                    labelVec.add((nm != null ? nm : "?") + " -- " + (st != null ? st : getTemplateName(item)));
                 }
             }
         }
@@ -507,7 +507,7 @@ public class mannequin extends base_script
         idVec.add(item);
         String nm = getName(item);
         String st = getStaticItemName(item);
-        labelVec.add((nm != null ? nm : "?") + " — " + (st != null ? st : getTemplateName(item)));
+        labelVec.add((nm != null ? nm : "?") + " -- " + (st != null ? st : getTemplateName(item)));
     }
 
     private static boolean itemIsEquippedOrInAppearanceInv(obj_id self, obj_id item, obj_id appInv) throws InterruptedException

@@ -110,7 +110,7 @@ public class claim_management extends script.base_script
         };
 
         closePid(player, PID_SUB);
-        int pid = sui.listbox(marker, player, prompt, sui.OK_CANCEL, "Claim — Status", options,
+        int pid = sui.listbox(marker, player, prompt, sui.OK_CANCEL, "Claim -- Status", options,
             "handleClaimMgmtStatus", true, false);
         sui.setPid(player, pid, PID_SUB);
     }
@@ -135,7 +135,7 @@ public class claim_management extends script.base_script
         };
 
         closePid(player, PID_SUB);
-        int pid = sui.listbox(marker, player, prompt, sui.OK_CANCEL, "Claim — Maintenance", options,
+        int pid = sui.listbox(marker, player, prompt, sui.OK_CANCEL, "Claim -- Maintenance", options,
             "handleClaimMgmtMaintenance", true, false);
         sui.setPid(player, pid, PID_SUB);
     }
@@ -164,7 +164,7 @@ public class claim_management extends script.base_script
         };
 
         closePid(player, PID_SUB);
-        int pid = sui.listbox(marker, player, prompt, sui.OK_CANCEL, "Claim — Tax Revenue", options,
+        int pid = sui.listbox(marker, player, prompt, sui.OK_CANCEL, "Claim -- Tax Revenue", options,
             "handleClaimMgmtTax", true, false);
         sui.setPid(player, pid, PID_SUB);
     }
@@ -189,7 +189,7 @@ public class claim_management extends script.base_script
         };
 
         closePid(player, PID_SUB);
-        int pid = sui.listbox(marker, player, prompt, sui.OK_CANCEL, "Claim — Access", options,
+        int pid = sui.listbox(marker, player, prompt, sui.OK_CANCEL, "Claim -- Access", options,
             "handleClaimMgmtAccess", true, false);
         sui.setPid(player, pid, PID_SUB);
     }
@@ -219,7 +219,7 @@ public class claim_management extends script.base_script
         };
 
         closePid(player, PID_SUB);
-        int pid = sui.listbox(marker, player, prompt, sui.OK_CANCEL, "Claim — Quick Actions", options,
+        int pid = sui.listbox(marker, player, prompt, sui.OK_CANCEL, "Claim -- Quick Actions", options,
             "handleClaimMgmtLookAt", true, false);
         sui.setPid(player, pid, PID_SUB);
     }
@@ -243,7 +243,7 @@ public class claim_management extends script.base_script
         };
 
         closePid(player, PID_SUB);
-        int pid = sui.listbox(marker, player, prompt, sui.OK_CANCEL, "Claim — Help", options,
+        int pid = sui.listbox(marker, player, prompt, sui.OK_CANCEL, "Claim -- Help", options,
             "handleClaimMgmtHelp", true, false);
         sui.setPid(player, pid, PID_SUB);
     }
@@ -780,7 +780,7 @@ public class claim_management extends script.base_script
         int now = getGameTime();
         int secondsUntilDue = dueTime > now ? dueTime - now : 0;
         String statusLine = status == 0 ? "Active" : "Suspended / repossession pending";
-        String dueLine = secondsUntilDue > 0 ? utils.formatTimeVerbose(secondsUntilDue) : "billing overdue — pay upkeep immediately";
+        String dueLine = secondsUntilDue > 0 ? utils.formatTimeVerbose(secondsUntilDue) : "billing overdue -- pay upkeep immediately";
         int cyclesCovered = fee > 0 ? prepay / fee : 0;
         int remainder = fee > 0 ? prepay % fee : prepay;
 

@@ -13827,8 +13827,8 @@ public class base_class
      * <p>
      * Raw keyframe (.ans) on the object's current skeleton: use a reserved prefix (client-side):
      * <ul>
-     *   <li>{@code ans:}&lt;path&gt; — play the .ans once (queued on the client's {@code loop} track)</li>
-     *   <li>{@code ansl:}&lt;path&gt; — same, looping</li>
+     *   <li>{@code ans:}&lt;path&gt; -- play the .ans once (queued on the client's {@code loop} track)</li>
+     *   <li>{@code ansl:}&lt;path&gt; -- same, looping</li>
      * </ul>
      * {@code path} is either a full tree path starting with {@code appearance/} (e.g.
      * {@code appearance/animation/creature/rancor/rancor_bite.ans}) or a path relative to
@@ -13837,8 +13837,8 @@ public class base_class
      * <p>
      * Client track control (skeletal appearances):
      * <ul>
-     *   <li>{@code anim:clear} — stop raw .ans playback on the {@code loop} track</li>
-     *   <li>{@code anim:bind} — stop {@code loop}, {@code action}, and {@code add} tracks (pose toward bind/rest)</li>
+     *   <li>{@code anim:clear} -- stop raw .ans playback on the {@code loop} track</li>
+     *   <li>{@code anim:bind} -- stop {@code loop}, {@code action}, and {@code add} tracks (pose toward bind/rest)</li>
      * </ul>
      * Display mannequins skip template .cdf via {@link #setSuppressTemplateClientDataFile(obj_id, boolean)} (authoritative creature only).
      * Setting suppress to true also notifies clients to strip already-applied .cdf mesh wearables; use {@link #setAuthoritativeClientAnimationAction} for pose state that late joiners must see.

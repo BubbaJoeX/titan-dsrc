@@ -4,14 +4,14 @@ package script.content.fun;/*
 @Purpose: Mine ore from a fallen asteroid fragment with timed extraction and feedback
 @Requirements: <no requirements>
 @Notes: Optional objvars on this object (set in the editor or by a spawner):
-  fun.fallen_asteroid.level_req (int) — minimum character level, default 10
-  fun.fallen_asteroid.duration (int) — channel seconds, default 15 (max 60)
-  fun.fallen_asteroid.sui_range (float) — stay within this distance of the fragment during the timer, default 15
-  fun.fallen_asteroid.finish_range (float) — max distance when the channel completes or it fails, default 18
-  fun.fallen_asteroid.min_yield (int) / max_yield (int) — crate units, defaults 240 / 630
-  fun.fallen_asteroid.resource (string) — resource type name for getResourceTypeByName, default "asteroid"
-  fun.fallen_asteroid.max_harvests (int) — successful extractions before depletion, default 1
-  fun.fallen_asteroid.destroy_when_depleted (boolean) — remove the object when exhausted, default true
+  fun.fallen_asteroid.level_req (int) -- minimum character level, default 10
+  fun.fallen_asteroid.duration (int) -- channel seconds, default 15 (max 60)
+  fun.fallen_asteroid.sui_range (float) -- stay within this distance of the fragment during the timer, default 15
+  fun.fallen_asteroid.finish_range (float) -- max distance when the channel completes or it fails, default 18
+  fun.fallen_asteroid.min_yield (int) / max_yield (int) -- crate units, defaults 240 / 630
+  fun.fallen_asteroid.resource (string) -- resource type name for getResourceTypeByName, default "asteroid"
+  fun.fallen_asteroid.max_harvests (int) -- successful extractions before depletion, default 1
+  fun.fallen_asteroid.destroy_when_depleted (boolean) -- remove the object when exhausted, default true
 @Created: Tuesday, 2/25/2025, at 7:43 PM,
 @Copyright © SWG: Titan 2025.
     Unauthorized usage, viewing or sharing of this file is prohibited.
@@ -53,7 +53,7 @@ public class fallen_asteroid extends base_script
 
     private static final String[] SUCCESS_LINES =
             {
-                    "A satisfying crack—and a dense cluster of raw material breaks free into your pack.",
+                    "A satisfying crack--and a dense cluster of raw material breaks free into your pack.",
                     "The fragment yields; cooling slag patters to the ground as you stow the haul.",
                     "Veins of ore part under pressure. This strike paid off.",
             };
@@ -84,7 +84,7 @@ public class fallen_asteroid extends base_script
 
         if (isDepleted(self))
         {
-            sendSystemMessage(player, "This meteorite has already been stripped bare—only cooling slag remains.", "");
+            sendSystemMessage(player, "This meteorite has already been stripped bare--only cooling slag remains.", "");
             return SCRIPT_CONTINUE;
         }
 

@@ -76,7 +76,7 @@ public class companion_lib extends script.base_script
     public static final String OBJVAR_TAUGHT_ABILITIES = "companion.taughtAbilities";
     public static final int TAUGHT_SLOT_COUNT = 4;
     /**
-     * Three programmable pet-bar slots (attack / follow / stay style) — slash command names the owner assigns; stored on PCD and pet.
+     * Three programmable pet-bar slots (attack / follow / stay style) -- slash command names the owner assigns; stored on PCD and pet.
      */
     public static final String OBJVAR_CORE_BAR_COMMANDS = "companion.coreBarCommands";
     public static final int CORE_BAR_SLOT_COUNT = 3;
@@ -3310,7 +3310,7 @@ public class companion_lib extends script.base_script
             return source;
         }
 
-        // Stance ordering: tank prefers first slots, healer middle, dps all — simple spec bias without new datatable columns.
+        // Stance ordering: tank prefers first slots, healer middle, dps all -- simple spec bias without new datatable columns.
         if (stance == STANCE_TANK && source.length > 1)
         {
             return new String[]

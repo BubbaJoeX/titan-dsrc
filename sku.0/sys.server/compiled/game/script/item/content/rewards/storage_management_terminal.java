@@ -726,7 +726,7 @@ public class storage_management_terminal extends script.base_script
     }
 
     // ---------------------------------------------------------------
-    //  Add rule wizard — step 1: match type
+    //  Add rule wizard -- step 1: match type
     // ---------------------------------------------------------------
 
     private void showAddRuleTypeMenu(obj_id self, obj_id player) throws InterruptedException
@@ -768,7 +768,7 @@ public class storage_management_terminal extends script.base_script
     }
 
     // ---------------------------------------------------------------
-    //  Add rule wizard — step 2a: GOT category selection
+    //  Add rule wizard -- step 2a: GOT category selection
     // ---------------------------------------------------------------
 
     private void showGotCategoryMenu(obj_id self, obj_id player) throws InterruptedException
@@ -801,7 +801,7 @@ public class storage_management_terminal extends script.base_script
     }
 
     // ---------------------------------------------------------------
-    //  Add rule wizard — step 2b: freeform text input
+    //  Add rule wizard -- step 2b: freeform text input
     // ---------------------------------------------------------------
 
     public int handleAddRuleValue(obj_id self, dictionary params) throws InterruptedException
@@ -829,7 +829,7 @@ public class storage_management_terminal extends script.base_script
     }
 
     // ---------------------------------------------------------------
-    //  Add rule wizard — step 3: target container
+    //  Add rule wizard -- step 3: target container
     // ---------------------------------------------------------------
 
     private void showTargetContainerMenu(obj_id self, obj_id player) throws InterruptedException

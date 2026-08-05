@@ -5,7 +5,7 @@ import script.dictionary;
 import script.obj_id;
 
 /**
- * Character Transfer (CTS) snapshot helpers — same pack/unpack path as upload/download:
+ * Character Transfer (CTS) snapshot helpers -- same pack/unpack path as upload/download:
  * {@code OnUploadCharacter} → {@link dictionary#pack()} / {@link dictionary#unpack(byte[])} → {@code OnDownloadCharacter}.
  * Not lore cloning; this is the transfer-pipeline binary snapshot.
  */
