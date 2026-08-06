@@ -1298,7 +1298,7 @@ public class companion_lib extends script.base_script
     }
     public static boolean equipCompanionWearableFromPlayer(obj_id pcd, obj_id player, obj_id item) throws InterruptedException
     {
-        if (!canCustomizeStoryCompanionAppearance(pcd) || !beast_lib.isValidPlayer(player) || !isCompanionDressableTangible(item))
+        if (!beast_lib.isValidPlayer(player) || !isCompanionDressableTangible(item) || (!isWeapon(item) && !canCustomizeStoryCompanionAppearance(pcd)) || (isWeapon(item) && !isStoryCompanionControlDevice(pcd)))
         {
             return false;
         }
@@ -1309,6 +1309,39 @@ public class companion_lib extends script.base_script
             return false;
         }
         obj_id pet = callable.getCDCallable(pcd);
+        if (isWeapon(item))
+        {
+            if (isIdValid(pet) && exists(pet))
+            {
+                return handleStoryCompanionWeaponGift(pet, item, player);
+            }
+            if (hasObjVar(pcd, OBJVAR_STORED_WEAPON))
+            {
+                obj_id oldWeapon = getObjIdObjVar(pcd, OBJVAR_STORED_WEAPON);
+                if (isIdValid(oldWeapon) && exists(oldWeapon) && oldWeapon != item)
+                {
+                    if (!moveItemFromCreatureToContainer(oldWeapon, playerInv, player))
+                    {
+                        sendSystemMessage(player, string_id.unlocalized("No room in your inventory for the companion's old weapon."));
+                        return false;
+                    }
+                    removeObjVar(oldWeapon, OBJVAR_BOUND_PCD);
+                    removeObjVar(oldWeapon, "noTrade");
+                    removeObjVar(pcd, OBJVAR_STORED_WEAPON);
+                }
+            }
+            obj_id hold = ensureCompanionGearHold(pcd, player);
+            if (!isIdValid(hold) || !putIn(item, hold, player))
+            {
+                sendSystemMessage(player, string_id.unlocalized("Could not stash the weapon for your stored companion."));
+                return false;
+            }
+            setObjVar(item, OBJVAR_BOUND_PCD, pcd);
+            setObjVar(item, "noTrade", 1);
+            setObjVar(pcd, OBJVAR_STORED_WEAPON, item);
+            sendSystemMessage(player, string_id.unlocalized("Weapon assigned to your stored companion."));
+            return true;
+        }
         if (isIdValid(pet) && exists(pet))
         {
             setupStoryCompanionPlayerAppearance(pet);
@@ -1328,7 +1361,7 @@ public class companion_lib extends script.base_script
                 sendSystemMessage(player, string_id.unlocalized("Could not move the item to your companion."));
                 return false;
             }
-            boolean ok = isWeapon(item) ? (equip(item, pet, "hold_r") || equip(item, pet, "hold_l")) : equip(item, pet);
+            boolean ok = equip(item, pet);
             if (!ok)
             {
                 sendSystemMessage(player, string_id.unlocalized("The item could not be equipped (species or slot mismatch)."));
@@ -2526,13 +2559,16 @@ public class companion_lib extends script.base_script
         {
             sendSystemMessage(giver, string_id.unlocalized("Your companion could not equip that weapon."));
             clearAiWeaponCombatProfiles(pet);
-            return true;
+            putIn(item, ownerInv, giver);
+            return false;
         }
         clearAiWeaponCombatProfiles(pet);
         obj_id pcd = pet_lib.getPetControlDevice(pet);
         if (isStoryCompanionControlDevice(pcd))
         {
             removeObjVar(pcd, OBJVAR_STORED_WEAPON);
+            setObjVar(item, OBJVAR_BOUND_PCD, pcd);
+            setObjVar(item, "noTrade", 1);
         }
         sendSystemMessage(giver, string_id.unlocalized("Your companion equips the new weapon; the old one was moved to your inventory."));
         return true;
