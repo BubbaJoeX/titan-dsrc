@@ -445,6 +445,20 @@ public class companion_lib extends script.base_script
         }
         return "/" + varPath;
     }
+    /** Client customization UIs provide shared hair templates; object creation requires the server template. */
+    private static String normalizeStoryCompanionHairTemplate(String hairTemplate) throws InterruptedException
+    {
+        if (hairTemplate == null)
+        {
+            return null;
+        }
+        String normalized = hairTemplate.trim();
+        if (normalized.indexOf("/shared_") >= 0)
+        {
+            normalized = normalized.replace("/shared_", "/");
+        }
+        return normalized;
+    }
     /** Persists hair, face, body morphs, palette colors, and scale on the story companion PCD. */
     public static void saveStoryCompanionCustomizationToPcd(obj_id pet, obj_id pcd) throws InterruptedException
     {
@@ -519,31 +533,30 @@ public class companion_lib extends script.base_script
             setScale(pet, getFloatObjVar(pcd, OBJVAR_CUSTOMIZATION_SCALE));
         }
         obj_var_list ovl = getObjVarList(pcd, pet_lib.VAR_PALVAR_VARS);
-        if (ovl == null)
+        if (ovl != null)
         {
-            return;
-        }
-        int numItem = ovl.getNumItems();
-        for (int i = 0; i < numItem; ++i)
-        {
-            obj_var ov = ovl.getObjVar(i);
-            if (ov == null)
+            int numItem = ovl.getNumItems();
+            for (int i = 0; i < numItem; ++i)
             {
-                continue;
-            }
-            String var = ov.getName();
-            int val = ov.getIntData();
-            if (var == null || var.length() < 1)
-            {
-                continue;
-            }
-            if (var.indexOf("index_texture") >= 0 || var.endsWith("_texture_1"))
-            {
-                setRangedIntCustomVarValue(pet, normalizeCustomizationVarPath(var), val);
-            }
-            else if (!hue.setColor(pet, var, val))
-            {
-                setRangedIntCustomVarValue(pet, normalizeCustomizationVarPath(var), val);
+                obj_var ov = ovl.getObjVar(i);
+                if (ov == null)
+                {
+                    continue;
+                }
+                String var = ov.getName();
+                int val = ov.getIntData();
+                if (var == null || var.length() < 1)
+                {
+                    continue;
+                }
+                if (var.indexOf("index_texture") >= 0 || var.endsWith("_texture_1"))
+                {
+                    setRangedIntCustomVarValue(pet, normalizeCustomizationVarPath(var), val);
+                }
+                else if (!hue.setColor(pet, var, val))
+                {
+                    setRangedIntCustomVarValue(pet, normalizeCustomizationVarPath(var), val);
+                }
             }
         }
         applyStoryCompanionHairFromPcd(pet, pcd);
@@ -564,7 +577,7 @@ public class companion_lib extends script.base_script
             }
             return;
         }
-        String hairTemplate = getStringObjVar(pcd, OBJVAR_CUSTOMIZATION_HAIR_TEMPLATE);
+        String hairTemplate = normalizeStoryCompanionHairTemplate(getStringObjVar(pcd, OBJVAR_CUSTOMIZATION_HAIR_TEMPLATE));
         if (hairTemplate == null || hairTemplate.length() < 1)
         {
             if (isIdValid(existingHair) && exists(existingHair))
@@ -1209,6 +1222,7 @@ public class companion_lib extends script.base_script
         {
             return;
         }
+        obj_id hair = getObjectInSlot(pet, slots.HAIR);
         obj_id[] equipped = getAllWornItems(pet, false);
         if (equipped != null)
         {
@@ -1216,6 +1230,10 @@ public class companion_lib extends script.base_script
             {
                 obj_id item = equipped[i];
                 if (!isIdValid(item) || !exists(item))
+                {
+                    continue;
+                }
+                if (item == hair)
                 {
                     continue;
                 }
@@ -1635,7 +1653,7 @@ public class companion_lib extends script.base_script
                 }
                 else
                 {
-                    hairTemplate = valStr;
+                    hairTemplate = normalizeStoryCompanionHairTemplate(valStr);
                 }
                 continue;
             }
