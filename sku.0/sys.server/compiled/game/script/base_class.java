@@ -26293,6 +26293,23 @@ public class base_class
     {
         return _shipSetAutopilotTarget(getLongWithNull(shipId), targetX, targetZ, takeoffAlt, landingAlt);
     }
+    private static native boolean _shipSetAutopilotLandingY(long shipId, float landingY);
+    /** Titan: the active autopilot descends to this world height at its target (a hover over a landing well). */
+    public static boolean shipSetAutopilotLandingY(obj_id shipId, float landingY)
+    {
+        return _shipSetAutopilotLandingY(getLongWithNull(shipId), landingY);
+    }
+    private static native void _setShipNoFlyZone(long ownerId, float x, float z, float radius, float ceilingY);
+    /** Titan: a cylinder (world x, z, radius, up to world height ceilingY) pilots may not fly into, kept under owner; gods and server-flown ships exempt. */
+    public static void setShipNoFlyZone(obj_id owner, float x, float z, float radius, float ceilingY)
+    {
+        _setShipNoFlyZone(getLongWithNull(owner), x, z, radius, ceilingY);
+    }
+    private static native void _clearShipNoFlyZone(long ownerId);
+    public static void clearShipNoFlyZone(obj_id owner)
+    {
+        _clearShipNoFlyZone(getLongWithNull(owner));
+    }
     private static native boolean _shipSetAutopilotTargetHold(long shipId, float targetX, float targetZ, float takeoffAlt, float landingAlt, boolean holdCruise);
     public static boolean shipSetAutopilotTargetHold(obj_id shipId, float targetX, float targetZ, float takeoffAlt, float landingAlt, boolean holdCruise)
     {
@@ -26327,6 +26344,34 @@ public class base_class
     public static int shipGetAutopilotPhase(obj_id shipId)
     {
         return _shipGetAutopilotPhase(getLongWithNull(shipId));
+    }
+    /**
+     * Fly a POB/player ship along timed keys (seconds from now): parent-space position, heading (0 = +z, 90 = +x),
+     * pitch (nose up) and roll (right wing down) in degrees. The ship eases in and out of the path, follows the keys
+     * exactly and then holds the last key until shipClearFlightPath. Atmospheric scenes skip the terrain floor while a
+     * path is set, so a path may end on the ground.
+     */
+    private static native boolean _shipSetFlightPath(long shipId, float[] times, float[] xs, float[] ys, float[] zs, float[] yaws, float[] pitches, float[] rolls);
+    public static boolean shipSetFlightPath(obj_id shipId, float[] times, float[] xs, float[] ys, float[] zs, float[] yaws, float[] pitches, float[] rolls)
+    {
+        return _shipSetFlightPath(getLongWithNull(shipId), times, xs, ys, zs, yaws, pitches, rolls);
+    }
+    private static native boolean _shipClearFlightPath(long shipId);
+    public static boolean shipClearFlightPath(obj_id shipId)
+    {
+        return _shipClearFlightPath(getLongWithNull(shipId));
+    }
+    /** Seconds since the current flight path started (capped at its duration), or -1 without a path. */
+    private static native float _shipGetFlightPathElapsed(long shipId);
+    public static float shipGetFlightPathElapsed(obj_id shipId)
+    {
+        return _shipGetFlightPathElapsed(getLongWithNull(shipId));
+    }
+    /** Time of the last key of the current flight path, or -1 without a path. */
+    private static native float _shipGetFlightPathDuration(long shipId);
+    public static float shipGetFlightPathDuration(obj_id shipId)
+    {
+        return _shipGetFlightPathDuration(getLongWithNull(shipId));
     }
     private static native boolean _shipIsWeaponTurret(long shipId, int weaponIndex);
     public static boolean shipIsWeaponTurret(obj_id shipId, int weaponIndex)

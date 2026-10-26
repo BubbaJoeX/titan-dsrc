@@ -5,6 +5,8 @@ moncal_female	body	hslider	height		1										body	5	physical
 moncal_female	body	hslider	weight	"blend_skinny,blend_fat"											body	7	physical
 moncal_female	body	color	color_skin	index_color_skin											body	9	physical
 moncal_female	body	color	color_markings	index_color_3											markings	3	cosmetic
+moncal_female	body	hslider	chest_size	blend_chest_large											body	9	physical
+moncal_female	body	hslider	glutes	blend_glutes											body	7	physical
 moncal_female	eyes_nose	hslider	eye_size	"blend_eyesize_0,blend_eyesize_1"											face	8	physical
 moncal_female	eyes_nose	hslider	eye_shape	"blend_eyedirection_0,blend_eyedirection_1"											face	8	physical
 moncal_female	eyes_nose	hslider	nose_length	"blend_noselength_0,blend_noselength_1"						225					face	6	physical
@@ -19,6 +21,7 @@ moncal_female	face	hslider	gullet	"blend_chinsize_0,blend_chinsize_1"											
 moncal_female	face	hslider	head	"blend_headsize_0,blend_headsize_1"						250					face	12	physical
 moncal_female	face	color	color_skin	index_color_skin											face	9	physical
 moncal_female	face	color	color_markings	index_color_3											markings	3	cosmetic
+moncal_female	face	hslider	ear_shape	"blend_ear_0,blend_ear_1"											face	5	physical
 moncal_female	markings	hslider	pattern	index_texture_1							1				markings	5	cosmetic
 moncal_female	markings	color	color_skin	index_color_skin											body	9	physical
 moncal_female	markings	color	color_markings	index_color_3											markings	3	cosmetic
@@ -27,6 +30,8 @@ bothan_female	body	hslider	height		1										body	5	physical
 bothan_female	body	hslider	weight	"blend_skinny,blend_fat"											body	7	physical
 bothan_female	body	hslider	chest	blend_flat_chest		1									body	9	physical
 bothan_female	body	color	color_fur	index_color_skin											body	1	cosmetic
+bothan_female	body	hslider	chest_size	blend_chest_large											body	9	physical
+bothan_female	body	hslider	glutes	blend_glutes											body	7	physical
 bothan_female	eyes_nose	hslider	eye_size	"blend_eyesize_0,blend_eyesize_1"											face	8	physical
 bothan_female	eyes_nose	hslider	eye_shape	"blend_eyedirection_0,blend_eyedirection_1"											face	8	physical
 bothan_female	eyes_nose	hslider	nose_length	"blend_noselength_0,blend_noselength_1"						225					face	6	physical
@@ -47,6 +52,8 @@ human_male	body	hslider	height		1										body	5	physical
 human_male	body	hslider	weight	"blend_skinny,blend_fat"											body	7	physical
 human_male	body	hslider	chest	blend_muscle											body	9	physical
 human_male	body	color	color_skin	index_color_skin											body	9	physical
+human_male	body	hslider	glutes	blend_glutes											body	7	physical
+human_male	body	hslider	bulge	blend_bulge											body	7	physical
 human_male	eyes_nose	hslider	eye_size	"blend_eyesize_0,blend_eyesize_1"											face	8	physical
 human_male	eyes_nose	hslider	eye_shape	"blend_eyeshape_0,blend_eyeshape_1"											face	8	physical
 human_male	eyes_nose	hslider	eye_direction	"blend_eyedirection_0,blend_eyedirection_1"											face	8	physical
@@ -72,6 +79,8 @@ moncal_male	body	hslider	height		1										body	5	physical
 moncal_male	body	hslider	weight	"blend_skinny,blend_fat"											body	7	physical
 moncal_male	body	color	color_skin	index_color_skin											body	9	physical
 moncal_male	body	color	color_markings	index_color_pattern											markings	3	cosmetic
+moncal_male	body	hslider	glutes	blend_glutes											body	7	physical
+moncal_male	body	hslider	bulge	blend_bulge											body	7	physical
 moncal_male	eyes_nose	hslider	eye_size	"blend_eyesize_0,blend_eyesize_1"											face	8	physical
 moncal_male	eyes_nose	hslider	eye_shape	"blend_eyedirection_0,blend_eyedirection_1"											face	8	physical
 moncal_male	eyes_nose	hslider	nose_length	"blend_noselength_0,blend_noselength_1"						225					face	6	physical
@@ -94,6 +103,8 @@ bothan_male	body	hslider	height		1										body	5	physical
 bothan_male	body	hslider	weight	"blend_skinny,blend_fat"											body	7	physical
 bothan_male	body	hslider	chest	blend_muscle								0			body	9	physical
 bothan_male	body	color	color_fur	index_color_skin											body	1	cosmetic
+bothan_male	body	hslider	glutes	blend_glutes											body	7	physical
+bothan_male	body	hslider	bulge	blend_bulge											body	7	physical
 bothan_male	eyes_nose	hslider	eye_size	"blend_eyesize_0,blend_eyesize_1"											face	8	physical
 bothan_male	eyes_nose	hslider	eye_shape	"blend_eyedirection_0,blend_eyedirection_1"											face	8	physical
 bothan_male	eyes_nose	hslider	nose_length	"blend_noselength_0,blend_noselength_1"						225					face	6	physical
@@ -114,6 +125,8 @@ zabrak_female	body	hslider	height		1										body	5	physical
 zabrak_female	body	hslider	weight	"blend_skinny,blend_fat"											body	7	physical
 zabrak_female	body	hslider	chest	blend_flat_chest		1									body	9	physical
 zabrak_female	body	color	color_skin	index_color_skin				index_color_eyeshadow	index_color_lips						body	9	physical
+zabrak_female	body	hslider	chest_size	blend_chest_large											body	9	physical
+zabrak_female	body	hslider	glutes	blend_glutes											body	7	physical
 zabrak_female	eyes_nose	hslider	eye_size	"blend_eyesize_0,blend_eyesize_1"											face	8	physical
 zabrak_female	eyes_nose	hslider	eye_shape	"blend_eyeshape_0,blend_eyeshape_1"											face	8	physical
 zabrak_female	eyes_nose	hslider	eye_direction	"blend_eyedirection_0,blend_eyedirection_1"											face	8	physical
@@ -143,6 +156,8 @@ zabrak_male	body	hslider	height		1										body	5	physical
 zabrak_male	body	hslider	weight	"blend_skinny,blend_fat"											body	7	physical
 zabrak_male	body	hslider	chest	blend_muscle								0			body	9	physical
 zabrak_male	body	color	color_skin	index_color_skin											body	9	physical
+zabrak_male	body	hslider	glutes	blend_glutes											body	7	physical
+zabrak_male	body	hslider	bulge	blend_bulge											body	7	physical
 zabrak_male	eyes_nose	hslider	eye_size	"blend_eyesize_0,blend_eyesize_1"											face	8	physical
 zabrak_male	eyes_nose	hslider	eye_shape	"blend_eyeshape_0,blend_eyeshape_1"											face	8	physical
 zabrak_male	eyes_nose	hslider	eye_direction	"blend_eyedirection_0,blend_eyedirection_1"											face	8	physical
@@ -170,6 +185,8 @@ twilek_female	body	hslider	weight	"blend_skinny,blend_fat"											body	7	phys
 twilek_female	body	hslider	chest	blend_flat_chest		1									body	9	physical
 twilek_female	body	color	color_skin	index_color_skin				index_color_eyeshadow	index_color_lips						body	9	physical
 twilek_female	body	color	color_markings	index_color_pattern											markings	5	cosmetic
+twilek_female	body	hslider	chest_size	blend_chest_large											body	9	physical
+twilek_female	body	hslider	glutes	blend_glutes											body	7	physical
 twilek_female	eyes_nose	hslider	eye_size	"blend_eyesize_0,blend_eyesize_1"											face	8	physical
 twilek_female	eyes_nose	hslider	eye_shape	"blend_eyeshape_0,blend_eyeshape_1"											face	8	physical
 twilek_female	eyes_nose	hslider	eye_direction	"blend_eyedirection_0,blend_eyedirection_1"											face	8	physical
@@ -201,6 +218,8 @@ twilek_male	body	hslider	weight	"blend_skinny,blend_fat"											body	7	physic
 twilek_male	body	hslider	chest	blend_muscle								0			body	9	physical
 twilek_male	body	color	color_skin	index_color_skin											body	9	physical
 twilek_male	body	color	color_markings	index_color_pattern											markings	5	cosmetic
+twilek_male	body	hslider	glutes	blend_glutes											body	7	physical
+twilek_male	body	hslider	bulge	blend_bulge											body	7	physical
 twilek_male	eyes_nose	hslider	eye_size	"blend_eyesize_0,blend_eyesize_1"											face	8	physical
 twilek_male	eyes_nose	hslider	eye_shape	"blend_eyeshape_0,blend_eyeshape_1"											face	8	physical
 twilek_male	eyes_nose	hslider	eye_direction	"blend_eyedirection_0,blend_eyedirection_1"											face	8	physical
@@ -225,6 +244,9 @@ trandoshan_female	body	hslider	muscle	blend_muscle											body	3	physical
 trandoshan_female	body	hslider	height		1										body	5	physical
 trandoshan_female	body	hslider	weight	"blend_skinny,blend_fat"											body	7	physical
 trandoshan_female	body	color	color_skin	index_color_skin											body	9	physical
+trandoshan_female	body	hslider	chest_size	blend_chest_large											body	9	physical
+trandoshan_female	body	hslider	glutes	blend_glutes											body	7	physical
+trandoshan_female	body	hslider	chest	blend_flat_chest		1									body	9	physical
 trandoshan_female	eyes_nose	hslider	eye_size	"blend_eyesize_0,blend_eyesize_1"											face	8	physical
 trandoshan_female	eyes_nose	hslider	eye_shape	"blend_eyedirection_0,blend_eyedirection_1"											face	8	physical
 trandoshan_female	eyes_nose	hslider	nose_length	"blend_noselength_0,blend_noselength_1"						225					face	6	physical
@@ -240,6 +262,8 @@ trandoshan_male	body	hslider	muscle	blend_muscle											body	3	physical
 trandoshan_male	body	hslider	height		1										body	5	physical
 trandoshan_male	body	hslider	weight	"blend_skinny,blend_fat"											body	7	physical
 trandoshan_male	body	color	color_skin	index_color_skin											body	9	physical
+trandoshan_male	body	hslider	glutes	blend_glutes											body	7	physical
+trandoshan_male	body	hslider	bulge	blend_bulge											body	7	physical
 trandoshan_male	eyes_nose	hslider	eye_size	"blend_eyesize_0,blend_eyesize_1"											face	8	physical
 trandoshan_male	eyes_nose	hslider	eye_shape	"blend_eyedirection_0,blend_eyedirection_1"											face	8	physical
 trandoshan_male	eyes_nose	hslider	nose_length	"blend_noselength_0,blend_noselength_1"						225					face	6	physical
@@ -257,11 +281,14 @@ wookiee_female	body	hslider	weight	"blend_skinny,blend_fat"											body	7	phy
 wookiee_female	body	hslider	head_size	"blend_headsize_0,blend_headsize_1"											face	12	physical
 wookiee_female	body	color	color_fur	index_color_1											body	1	cosmetic
 wookiee_female	body	color	color_markings	index_color_3											markings	7	cosmetic
+wookiee_female	body	hslider	chest_size	blend_chest_large											body	9	physical
+wookiee_female	body	hslider	glutes	blend_glutes											body	7	physical
 wookiee_female	eyes_nose	hslider	eye_size	"blend_eyesize_0,blend_eyesize_1"											face	8	physical
 wookiee_female	eyes_nose	hslider	eye_shape	"blend_eyedirection_0,blend_eyedirection_1"											face	8	physical
 wookiee_female	eyes_nose	hslider	nose_length	"blend_noselength_0,blend_noselength_1"						225					face	6	physical
 wookiee_female	eyes_nose	hslider	nose_width	"blend_nosewidth_0,blend_nosewidth_1"						180					face	6	physical
 wookiee_female	eyes_nose	color	color_eyes	index_color_2											face	2	physical
+wookiee_female	eyes_nose	hslider	nose_protrusion	"blend_nosedepth_0,blend_nosedepth_1"											face	6	physical
 wookiee_female	face	hslider	lip_width	"blend_lipwidth_0,blend_lipwidth_1"											face	5	physical
 wookiee_female	face	hslider	chin	"blend_chinsize_0,blend_chinsize_1"											face	5	physical
 wookiee_female	face	hslider	jaw	"blend_jaw_0,blend_jaw_1"						195					face	10	physical
@@ -278,11 +305,14 @@ wookiee_male	body	hslider	weight	"blend_skinny,blend_fat"											body	7	physi
 wookiee_male	body	hslider	head_size	"blend_headsize_0,blend_headsize_1"											face	12	physical
 wookiee_male	body	color	color_fur	index_color_1											body	1	cosmetic
 wookiee_male	body	color	color_markings	index_color_3											markings	7	cosmetic
+wookiee_male	body	hslider	glutes	blend_glutes											body	7	physical
+wookiee_male	body	hslider	bulge	blend_bulge											body	7	physical
 wookiee_male	eyes_nose	hslider	eye_size	"blend_eyesize_0,blend_eyesize_1"											face	8	physical
 wookiee_male	eyes_nose	hslider	eye_shape	"blend_eyedirection_0,blend_eyedirection_1"											face	8	physical
 wookiee_male	eyes_nose	hslider	nose_length	"blend_noselength_0,blend_noselength_1"						225					face	6	physical
 wookiee_male	eyes_nose	hslider	nose_width	"blend_nosewidth_0,blend_nosewidth_1"						180					face	6	physical
 wookiee_male	eyes_nose	color	color_eyes	index_color_2											face	2	physical
+wookiee_male	eyes_nose	hslider	nose_protrusion	"blend_nosedepth_0,blend_nosedepth_1"											face	6	physical
 wookiee_male	face	hslider	lip_width	"blend_lipwidth_0,blend_lipwidth_1"											face	5	physical
 wookiee_male	face	hslider	chin	"blend_chinsize_0,blend_chinsize_1"											face	5	physical
 wookiee_male	face	hslider	jaw	"blend_jaw_0,blend_jaw_1"											face	10	physical
@@ -298,6 +328,8 @@ rodian_female	body	hslider	height		1										body	5	physical
 rodian_female	body	hslider	weight	"blend_skinny,blend_fat"											body	7	physical
 rodian_female	body	hslider	chest	blend_flat_chest		1									body	9	physical
 rodian_female	body	color	color_skin	index_color_skin											body	9	physical
+rodian_female	body	hslider	chest_size	blend_chest_large											body	9	physical
+rodian_female	body	hslider	glutes	blend_glutes											body	7	physical
 rodian_female	eyes_nose	hslider	eye_size	"blend_eyesize_0,blend_eyesize_1"											face	8	physical
 rodian_female	eyes_nose	hslider	eye_shape	"blend_eyedirection_0,blend_eyedirection_1"											face	8	physical
 rodian_female	eyes_nose	hslider	nose_length	"blend_noselength_0,blend_noselength_1"						225					face	6	physical
@@ -319,6 +351,8 @@ rodian_male	body	hslider	height		1										body	5	physical
 rodian_male	body	hslider	weight	"blend_skinny,blend_fat"											body	7	physical
 rodian_male	body	hslider	chest	blend_muscle								0			body	9	physical
 rodian_male	body	color	color_skin	index_color_skin											body	9	physical
+rodian_male	body	hslider	glutes	blend_glutes											body	7	physical
+rodian_male	body	hslider	bulge	blend_bulge											body	7	physical
 rodian_male	eyes_nose	hslider	eye_size	"blend_eyesize_0,blend_eyesize_1"											face	8	physical
 rodian_male	eyes_nose	hslider	eye_shape	"blend_eyedirection_0,blend_eyedirection_1"											face	8	physical
 rodian_male	eyes_nose	hslider	nose_length	"blend_noselength_0,blend_noselength_1"						225					face	6	physical
@@ -340,6 +374,8 @@ human_female	body	hslider	height		1										body	5	physical
 human_female	body	hslider	weight	"blend_skinny,blend_fat"											body	7	physical
 human_female	body	hslider	chest	blend_flat_chest		1									body	9	physical
 human_female	body	color	color_skin	index_color_skin				index_color_eyeshadow	index_color_lips						body	9	physical
+human_female	body	hslider	chest_size	blend_chest_large											body	9	physical
+human_female	body	hslider	glutes	blend_glutes											body	7	physical
 human_female	eyes_nose	hslider	eye_size	"blend_eyesize_0,blend_eyesize_1"											face	8	physical
 human_female	eyes_nose	hslider	eye_shape	"blend_eyeshape_0,blend_eyeshape_1"											face	8	physical
 human_female	eyes_nose	hslider	eye_direction	"blend_eyedirection_0,blend_eyedirection_1"											face	8	physical
@@ -366,6 +402,8 @@ ithorian_female	body	hslider	muscle	blend_muscle											body	3	physical
 ithorian_female	body	hslider	height		1										body	5	physical
 ithorian_female	body	hslider	weight	"blend_skinny,blend_fat"											body	7	physical
 ithorian_female	body	color	color_skin	index_color_skin											body	9	physical
+ithorian_female	body	hslider	chest_size	blend_chest_large											body	9	physical
+ithorian_female	body	hslider	glutes	blend_glutes											body	7	physical
 ithorian_female	trunk	hslider	trunk_height	"blend_noselength_0,blend_noselength_1"						195					face	6	physical
 ithorian_female	trunk	hslider	trunk_length	"blend_nosedepth_0,blend_nosedepth_1"											face	6	physical
 ithorian_female	trunk	hslider	trunk_slope	"blend_chinsize_0,blend_chinsize_1"											face	5	physical
@@ -391,6 +429,8 @@ ithorian_male	body	hslider	muscle	blend_muscle											body	3	physical
 ithorian_male	body	hslider	height		1										body	5	physical
 ithorian_male	body	hslider	weight	"blend_skinny,blend_fat"											body	7	physical
 ithorian_male	body	color	color_skin	index_color_skin											body	9	physical
+ithorian_male	body	hslider	glutes	blend_glutes											body	7	physical
+ithorian_male	body	hslider	bulge	blend_bulge											body	7	physical
 ithorian_male	trunk	hslider	trunk_height	"blend_noselength_0,blend_noselength_1"						195					face	6	physical
 ithorian_male	trunk	hslider	trunk_length	"blend_nosedepth_0,blend_nosedepth_1"											face	6	physical
 ithorian_male	trunk	hslider	trunk_slope	"blend_chinsize_0,blend_chinsize_1"											face	5	physical
@@ -417,6 +457,8 @@ sullustan_female	body	hslider	height		1										body	5	physical
 sullustan_female	body	hslider	weight	"blend_skinny,blend_fat"											body	7	physical
 sullustan_female	body	hslider	chest	blend_flat_chest		1									body	9	physical
 sullustan_female	body	color	color_skin	index_color_skin				index_color_eyeshadow	index_color_lips						body	9	physical
+sullustan_female	body	hslider	chest_size	blend_chest_large											body	9	physical
+sullustan_female	body	hslider	glutes	blend_glutes											body	7	physical
 sullustan_female	eyes_nose	hslider	eye_size	"blend_eyesize_0,blend_eyesize_1"											face	8	physical
 sullustan_female	eyes_nose	hslider	eye_shape	"blend_eyeshape_0,blend_eyeshape_1"											face	8	physical
 sullustan_female	eyes_nose	hslider	nose_length	"blend_noselength_0,blend_noselength_1"						225					face	6	physical
@@ -448,6 +490,8 @@ sullustan_male	body	hslider	muscle	blend_muscle											body	3	physical
 sullustan_male	body	hslider	height		1										body	5	physical
 sullustan_male	body	hslider	weight	"blend_skinny,blend_fat"											body	7	physical
 sullustan_male	body	color	color_skin	index_color_skin											body	9	physical
+sullustan_male	body	hslider	glutes	blend_glutes											body	7	physical
+sullustan_male	body	hslider	bulge	blend_bulge											body	7	physical
 sullustan_male	eyes_nose	hslider	eye_size	"blend_eyesize_0,blend_eyesize_1"											face	8	physical
 sullustan_male	eyes_nose	hslider	eye_shape	"blend_eyeshape_0,blend_eyeshape_1"											face	8	physical
 sullustan_male	eyes_nose	hslider	nose_length	"blend_noselength_0,blend_noselength_1"						225					face	6	physical

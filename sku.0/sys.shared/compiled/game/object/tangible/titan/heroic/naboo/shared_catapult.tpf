@@ -1,0 +1,12 @@
+// Battle of Naboo heroic (docs/content/battle-of-naboo/README.md). Written by the server session's make_templates_naboo.py.
+
+@base object/tangible/base/shared_tangible_base.iff
+
+@class tangible_object_template 6
+
+@class object_template 5
+
+objectName = "theme_park/heroic_naboo_battle" "name_catapult"
+detailedDescription = "theme_park/heroic_naboo_battle" "desc_catapult"
+lookAtText = "theme_park/heroic_naboo_battle" "name_catapult"
+appearanceFilename = "appearance/titan_hrc_nboo_catapult.apt"

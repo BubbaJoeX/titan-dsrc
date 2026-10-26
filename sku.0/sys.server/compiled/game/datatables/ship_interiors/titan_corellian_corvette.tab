@@ -1,0 +1,19 @@
+strTemplate	fltJX	fltJY	fltJZ	fltKX	fltKY	fltKZ	fltPX	fltPY	fltPZ	strObjVars	strScripts	strCellName	intNoCreate	strLocationList
+s	f	f	f	f	f	f	f	f	f	p	s	s	i	s
+object/tangible/space/content_infrastructure/generic_egg_small.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	0.00000	-12.00000	30.00000	intNoCreate|4|1|strLocationList|4|locEntrance|$|		embark	1	locEntrance
+object/tangible/furniture/all/frn_all_couch_lg_s1.iff	0.00000	1.00000	0.00000	1.00000	0.00000	0.00000	-17.40000	0.00000	35.00000	$|		lounge	0	
+object/tangible/furniture/all/frn_all_couch_lg_s1.iff	0.00000	1.00000	0.00000	1.00000	0.00000	0.00000	-17.40000	0.00000	44.00000	$|		lounge	0	
+object/tangible/furniture/all/frn_all_couch_lg_s1.iff	0.00000	1.00000	0.00000	1.00000	0.00000	0.00000	-17.40000	0.00000	53.00000	$|		lounge	0	
+object/tangible/furniture/modern/coffee_table_modern_style_01.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	-14.60000	0.00000	35.00000	$|		lounge	0	
+object/tangible/furniture/modern/coffee_table_modern_style_01.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	-14.60000	0.00000	44.00000	$|		lounge	0	
+object/tangible/furniture/modern/coffee_table_modern_style_01.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	-14.60000	0.00000	53.00000	$|		lounge	0	
+object/tangible/furniture/modern/dining_table_modern_style_01.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	-7.00000	0.00000	40.00000	$|		lounge	0	
+object/tangible/furniture/modern/dining_table_modern_style_01.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	-7.00000	0.00000	48.00000	$|		lounge	0	
+object/tangible/furniture/all/frn_all_bed_sm_s1.iff	0.00000	1.00000	0.00000	-1.00000	0.00000	0.00000	17.20000	0.00000	33.00000	$|		quarters	0	
+object/tangible/furniture/all/frn_all_bed_sm_s1.iff	0.00000	1.00000	0.00000	-1.00000	0.00000	0.00000	17.20000	0.00000	38.00000	$|		quarters	0	
+object/tangible/furniture/all/frn_all_bed_sm_s1.iff	0.00000	1.00000	0.00000	-1.00000	0.00000	0.00000	17.20000	0.00000	43.00000	$|		quarters	0	
+object/tangible/furniture/all/frn_all_bed_sm_s1.iff	0.00000	1.00000	0.00000	-1.00000	0.00000	0.00000	17.20000	0.00000	48.00000	$|		quarters	0	
+object/tangible/furniture/all/frn_all_bed_sm_s1.iff	0.00000	1.00000	0.00000	-1.00000	0.00000	0.00000	17.20000	0.00000	53.00000	$|		quarters	0	
+object/tangible/furniture/all/frn_all_bed_sm_s1.iff	0.00000	1.00000	0.00000	1.00000	0.00000	0.00000	5.20000	0.00000	35.50000	$|		quarters	0	
+object/tangible/furniture/all/frn_all_bed_sm_s1.iff	0.00000	1.00000	0.00000	1.00000	0.00000	0.00000	5.20000	0.00000	45.50000	$|		quarters	0	
+object/tangible/terminal/terminal_command_console.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	0.00000	0.10000	120.00000	$|	script.space.vessel.vessel_helm	bridge66	0	

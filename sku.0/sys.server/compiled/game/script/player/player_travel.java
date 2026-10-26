@@ -483,6 +483,12 @@ public class player_travel extends script.base_script
                     utils.setScriptVar(self, SCRIPTVAR_ACCEPT_GCW_SURCHARGE_SHUTTLE_ID, shuttle);
                     return SCRIPT_CONTINUE;
                 }
+                if (vessel.isService(shuttle))
+                {
+                    // Titan vessel: a seat aboard, the ticket is taken when the doors close
+                    vessel.bookPassenger(shuttle, self, ticket, arrival_planet, arrival_point);
+                    return SCRIPT_CONTINUE;
+                }
                 utils.setScriptVar(self, travel.VAR_DEPARTURE_PLANET, travel.getTicketDeparturePlanet(ticket));
                 utils.setScriptVar(self, travel.VAR_DEPARTURE_POINT, travel.getTicketDeparturePoint(ticket));
                 utils.setScriptVar(self, travel.VAR_ARRIVAL_PLANET, arrival_planet);
@@ -1016,6 +1022,12 @@ public class player_travel extends script.base_script
                     transferBankCreditsToNamedAccount(self, "GcwTravelSurcharge", totalSurcharge, null, null, null);
                     sendSystemMessage(self, "You have paid " + totalSurcharge + " credits GCW travel surcharge to the Galactic Travel Commission.", "");
                 }
+            }
+            if (vessel.isService(target))
+            {
+                // Titan vessel: a seat aboard, the ticket is taken when the doors close
+                vessel.bookPassenger(target, self, ticket, arrival_planet, arrival_point);
+                return SCRIPT_CONTINUE;
             }
             utils.setScriptVar(self, travel.VAR_DEPARTURE_PLANET, travel.getTicketDeparturePlanet(ticket));
             utils.setScriptVar(self, travel.VAR_DEPARTURE_POINT, travel.getTicketDeparturePoint(ticket));

@@ -1,0 +1,14 @@
+// Battle of Naboo heroic (docs/content/battle-of-naboo/README.md). Written by the server session's make_templates_naboo.py.
+
+@base object/mobile/shared_gungan_male.iff
+
+@class creature_object_template 3
+
+@class tangible_object_template 3
+
+@class object_template 3
+
+objectName = "mob/creature_names" "hrc_nboo_jar_jar_binks"
+lookAtText = "mob/creature_names" "hrc_nboo_jar_jar_binks"
+appearanceFilename = "appearance/gungan_m.sat"
+scale = 1.05..1.05

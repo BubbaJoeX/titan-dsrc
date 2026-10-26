@@ -56,5 +56,7 @@ FORM "PLTS"
 		Planet("dungeon_hub")
 		Planet("hutta")
 		Planet("chandrila")
+		Planet("geonosis")
+		Planet("adventure_heroic")
 	}
 }

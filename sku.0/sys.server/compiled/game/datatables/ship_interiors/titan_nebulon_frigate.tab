@@ -1,0 +1,31 @@
+strTemplate	fltJX	fltJY	fltJZ	fltKX	fltKY	fltKZ	fltPX	fltPY	fltPZ	strObjVars	strScripts	strCellName	intNoCreate	strLocationList
+s	f	f	f	f	f	f	f	f	f	p	s	s	i	s
+object/tangible/space/content_infrastructure/generic_egg_small.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	0.00000	-133.00000	100.00000	intNoCreate|4|1|strLocationList|4|locEntrance|$|		embark	1	locEntrance
+object/tangible/item/quest/force_sensitive/bacta_tank.iff	0.00000	1.00000	0.00000	-0.00000	0.00000	-1.00000	5.40000	-94.50000	115.60000	$|		medbay	0	
+object/tangible/item/quest/force_sensitive/bacta_tank.iff	0.00000	1.00000	0.00000	-0.00000	0.00000	-1.00000	-5.40000	-94.50000	115.60000	$|		medbay	0	
+object/tangible/furniture/all/frn_all_bed_sm_s1.iff	0.00000	1.00000	0.00000	1.00000	0.00000	0.00000	-5.30000	-94.50000	98.00000	$|		medbay	0	
+object/tangible/furniture/all/frn_all_bed_sm_s1.iff	0.00000	1.00000	0.00000	1.00000	0.00000	0.00000	-5.30000	-94.50000	103.00000	$|		medbay	0	
+object/tangible/furniture/all/frn_all_bed_sm_s1.iff	0.00000	1.00000	0.00000	1.00000	0.00000	0.00000	-5.30000	-94.50000	108.00000	$|		medbay	0	
+object/tangible/furniture/all/frn_all_bed_sm_s1.iff	0.00000	1.00000	0.00000	-1.00000	0.00000	0.00000	5.30000	-94.50000	98.00000	$|		medbay	0	
+object/tangible/furniture/all/frn_all_bed_sm_s1.iff	0.00000	1.00000	0.00000	-1.00000	0.00000	0.00000	5.30000	-94.50000	103.00000	$|		medbay	0	
+object/tangible/furniture/all/frn_all_bed_sm_s1.iff	0.00000	1.00000	0.00000	-1.00000	0.00000	0.00000	5.30000	-94.50000	108.00000	$|		medbay	0	
+object/tangible/furniture/technical/cyborg_repair_table.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	0.00000	-94.50000	109.00000	$|		medbay	0	
+object/tangible/furniture/modern/dining_table_modern_style_01.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	0.00000	-77.00000	100.00000	$|		crewdeck	0	
+object/tangible/furniture/modern/dining_table_modern_style_01.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	0.00000	-77.00000	108.00000	$|		crewdeck	0	
+object/tangible/furniture/all/frn_all_couch_lg_s1.iff	0.00000	1.00000	0.00000	1.00000	0.00000	0.00000	-5.60000	-77.00000	104.00000	$|		crewdeck	0	
+object/tangible/furniture/all/frn_all_couch_lg_s1.iff	0.00000	1.00000	0.00000	-1.00000	0.00000	0.00000	5.60000	-77.00000	104.00000	$|		crewdeck	0	
+object/tangible/furniture/modern/coffee_table_modern_style_01.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	0.00000	-77.00000	114.50000	$|		crewdeck	0	
+object/tangible/furniture/all/frn_all_command_console.iff	0.00000	1.00000	0.00000	-0.00000	0.00000	-1.00000	0.00000	-55.50000	147.00000	$|	script.space.vessel.vessel_helm	bridge	0	
+object/tangible/furniture/all/frn_all_technical_console_s01.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	2.60000	-55.50000	149.60000	$|		bridge	0	
+object/tangible/furniture/all/frn_all_technical_console_s02.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	-2.60000	-55.50000	149.60000	$|		bridge	0	
+object/tangible/furniture/all/frn_chair_control.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	2.60000	-55.50000	148.40000	$|		bridge	0	
+object/tangible/furniture/all/frn_chair_control.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	-2.60000	-55.50000	148.40000	$|		bridge	0	
+object/tangible/furniture/all/frn_all_desk_map_table.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	0.00000	-55.50000	138.00000	$|		bridge	0	
+object/tangible/furniture/all/frn_all_desk_radar_topology_screen.iff	0.00000	1.00000	0.00000	1.00000	0.00000	0.00000	-3.90000	-55.50000	143.50000	$|		bridge	0	
+object/tangible/furniture/all/frn_all_desk_radar_topology_screen.iff	0.00000	1.00000	0.00000	-1.00000	0.00000	0.00000	3.90000	-55.50000	143.50000	$|		bridge	0	
+object/tangible/terminal/terminal_elevator_up.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	-1.00000	-133.00000	90.35000	$|		lift	0	
+object/tangible/terminal/terminal_elevator_up.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	-1.00000	-94.50000	90.35000	$|		lift	0	
+object/tangible/terminal/terminal_elevator_up.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	-1.00000	-77.00000	90.35000	$|		lift	0	
+object/tangible/terminal/terminal_elevator_down.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	1.00000	-94.50000	90.35000	$|		lift	0	
+object/tangible/terminal/terminal_elevator_down.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	1.00000	-77.00000	90.35000	$|		lift	0	
+object/tangible/terminal/terminal_elevator_down.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	1.00000	-55.50000	90.35000	$|		lift	0	

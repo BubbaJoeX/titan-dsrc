@@ -1414,6 +1414,9 @@ public class combat_ship extends script.base_script
             sendSystemMessageTestingOnly(owner, "Failed to engage auto-pilot on this ship.");
             return SCRIPT_CONTINUE;
         }
+        // a set height to descend to (starport traffic control: the hover over a landing well, where there's no terrain)
+        if (params.containsKey("landingY"))
+            shipSetAutopilotLandingY(self, params.getFloat("landingY"));
 
         if (npcControlled)
             script_logs.logToGodsInRange(self, SHUTTLE_LOG_RANGE, "Shuttle combat_ship: shipSetAutopilotTarget ok, scheduling tick in " + AUTOPILOT_MONITOR_RATE + "s");

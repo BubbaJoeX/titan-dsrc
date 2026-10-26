@@ -1,0 +1,25 @@
+// Battle of Naboo heroic (docs/content/battle-of-naboo/README.md). Written by the server session's make_templates_naboo.py.
+
+@base object/mobile/shared_atst.iff
+
+@class creature_object_template 12
+
+acceleration[MT_walk] = 3
+acceleration[MT_run] = 10
+turnRate[MT_walk] = 154
+turnRate[MT_run] = 77
+speed[MT_walk] = 9.0
+speed[MT_run] = 17.0
+stepHeight = 0.5
+collisionRadius = 1.0
+collisionLength = 4.0
+warpTolerance = 20
+
+@class tangible_object_template 3
+
+@class object_template 7
+
+objectName = "mob/creature_names" "hrc_nboo_stap"
+lookAtText = "mob/creature_names" "hrc_nboo_stap"
+appearanceFilename = "appearance/titan_hrc_nboo_stap.sat"     // a B1 in the riding pose; droid_unit hangs the STAP hull on it
+clientDataFile = ""

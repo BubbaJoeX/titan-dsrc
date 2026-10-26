@@ -70,6 +70,7 @@ public class tos_instance extends base_script
             promptAddition += "13: Old Republic Facility\n";
             promptAddition += "14: Sher Kar Cave\n";
             promptAddition += "15: Crystal Cave\n";
+            promptAddition += "16: The Battle of Naboo (Historical)\n";
             sui.inputbox(self, player, "\\#e3d005Enter the instance index for this transit.\n\n" + promptAddition + "\\#", "handleInstance");
         }
         return SCRIPT_CONTINUE;
@@ -290,6 +291,17 @@ public class tos_instance extends base_script
                 if (instance.isFlaggedForInstance(player, "obiwan_crystal_cave"))
                 {
                     instance.requestInstanceMovement(player, "obiwan_crystal_cave");
+                }
+                else
+                {
+                    broadcast(player, "The engines appear to have been sabotaged on the away transport.");
+                }
+                break;
+            case 16:
+                if (instance.isFlaggedForInstance(player, "heroic_naboo_battle"))
+                {
+                    instance.requestInstanceMovement(player, "heroic_naboo_battle");
+                    broadcast(player, "You have been sent to the Great Grass Plains of Naboo.");
                 }
                 else
                 {

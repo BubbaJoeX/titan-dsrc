@@ -1,0 +1,13 @@
+// Battle of Naboo heroic (docs/content/battle-of-naboo/README.md): a rally point, where Jar Jar's narration sends the
+// group. naboo_battle_lib.setRally spawns it and puts the Historical disc on top (interesting condition + hp_dyn).
+
+@base object/tangible/base/shared_tangible_base.iff
+
+@class tangible_object_template 6
+
+@class object_template 5
+
+objectName = "theme_park/heroic_naboo_battle" "name_rally_marker"
+detailedDescription = "theme_park/heroic_naboo_battle" "desc_rally_marker"
+lookAtText = "theme_park/heroic_naboo_battle" "name_rally_marker"
+appearanceFilename = "appearance/titan_hrc_nboo_rally_marker.apt"

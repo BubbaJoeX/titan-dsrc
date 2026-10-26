@@ -1,0 +1,12 @@
+// Battle of Naboo heroic (docs/content/battle-of-naboo/README.md). Written by the server session's make_templates_naboo.py.
+
+@base object/tangible/poi/base/poi_base.iff
+
+@class tangible_object_template 0
+
+@class object_template 0
+
+	visibleFlags = [VF_gm]
+	moveFlags = [MF_gm]
+	objvars = [ "spawns" = "hrc_nboo_jar_jar_binks", "quest_script" = "conversation.jar_jar_binks_historical" ]
+	scripts = [ "npc.celebrity.celebrity_spawner" ]

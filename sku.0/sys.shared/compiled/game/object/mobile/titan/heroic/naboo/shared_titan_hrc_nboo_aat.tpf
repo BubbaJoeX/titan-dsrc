@@ -1,0 +1,24 @@
+// Battle of Naboo heroic (docs/content/battle-of-naboo/README.md). Written by the server session's make_templates_naboo.py.
+
+@base object/mobile/shared_atst.iff
+
+@class creature_object_template 12
+
+acceleration[MT_walk] = 3
+acceleration[MT_run] = 8
+turnRate[MT_walk] = 90
+turnRate[MT_run] = 60
+speed[MT_walk] = 4.0
+speed[MT_run] = 12.0
+stepHeight = 0.6
+collisionRadius = 3.0
+collisionLength = 9.8
+warpTolerance = 20
+
+@class tangible_object_template 3
+
+@class object_template 7
+
+objectName = "mob/creature_names" "hrc_nboo_aat"
+lookAtText = "mob/creature_names" "hrc_nboo_aat"
+appearanceFilename = "appearance/titan_hrc_nboo_aat.sat"

@@ -93,3 +93,8 @@ object/building/player/city/reb_shuttleport_corellia.iff	0	0	-10.5	WORLD_DELTA	3
 									object/tangible/terminal/terminal_travel.iff	-6	-1	-14	WORLD_DELTA	0	1	0	0
 									object/creature/npc/theme_park/player_shuttle.iff	0	-0.6	-5	WORLD_DELTA	180	0	1	0
 									object/tangible/travel/ticket_collector/ticket_collector.iff	6	-1	-14	WORLD_DELTA	0	0	0	1
+object/building/titan/titan_atmo_starport.iff	39.412	32.53	2.682	WORLD_DELTA	300	60	0	1									
+									object/tangible/terminal/terminal_travel.iff	-37.104	0.97	-6.807	east_boarding3	260	1	0	0
+									object/tangible/terminal/terminal_travel.iff	37.715	32.53	-0.417	WORLD_DELTA	90.6	1	0	0
+									object/creature/npc/theme_park/player_transport.iff	50.653	32.53	20.872	WORLD_DELTA	71.25	0	1	0
+									object/tangible/travel/ticket_collector/ticket_collector.iff	37.993	32.53	6.542	WORLD_DELTA	165.6	0	0	1

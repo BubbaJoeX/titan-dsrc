@@ -150,6 +150,12 @@ public class travel extends script.base_script
                 }
                 dictionary object_row = dataTableGetRow(STARPORT_DATATABLE, i);
                 String obj_template = object_row.getString(DATATABLE_COL_OBJECT);
+                // Titan vessel service: a pad controller flying a boardable transport replaces the stock creature shuttle
+                String service_vessel = object_row.getInt(DATATABLE_COL_IS_TRANSPORT) == 1 ? vessel.getServiceVessel(template) : null;
+                if (service_vessel != null)
+                {
+                    obj_template = vessel.SERVICE_OBJECT;
+                }
                 float x = object_row.getFloat(DATATABLE_COL_X);
                 float y = object_row.getFloat(DATATABLE_COL_Y);
                 float z = object_row.getFloat(DATATABLE_COL_Z);
@@ -197,7 +203,25 @@ public class travel extends script.base_script
 				{
 					setObjVar(object, VAR_STARPORT, structure);
 				}
-                if (is_transport == 1)
+                if (is_transport == 1 && service_vessel != null)
+				{
+					setObjVar(object, VAR_STARPORT, structure);
+					setObjVar(object, "vessel.service.point", travel_point);
+					setObjVar(object, "vessel.service.template", service_vessel);
+					// a pad in a hangar bay off a landing well (titan_atmo_starport): the shaft's centre and rim height in
+					// world space, so the vessel flies down the well and backs into the bay instead of landing on terrain
+					int srow = dataTableSearchColumnForString(template, "structure", vessel.SERVICE_TABLE);
+					if (srow >= 0 && dataTableGetInt(vessel.SERVICE_TABLE, srow, "well") == 1)
+					{
+						float[] w = transformDeltaWorldYaw(structure, dataTableGetFloat(vessel.SERVICE_TABLE, srow, "well_x"),
+								dataTableGetFloat(vessel.SERVICE_TABLE, srow, "well_z"));
+						location s_loc = getLocation(structure);
+						setObjVar(object, "vessel.service.well", new float[]{ s_loc.x + w[0], s_loc.z + w[1],
+								s_loc.y + dataTableGetFloat(vessel.SERVICE_TABLE, srow, "well_top") });
+					}
+					attachScript(object, vessel.SCRIPT_SERVICE);
+				}
+                else if (is_transport == 1)
 				{
 					setObjVar(object, VAR_STARPORT, structure);
 					attachScript(object, SCRIPT_SHUTTLE);
@@ -207,10 +231,15 @@ public class travel extends script.base_script
 					setObjVar(object, VAR_STARPORT, structure);
 					attachScript(object, SCRIPT_SHUTTLE_PILOT);
 				}
-                if (object_list.size() > 0)
-                {
-                    setObjVar(structure, VAR_BASE_OBJECT, object_list);
-                }
+            }
+            // Titan: a starport with a landing well and hangar bays gets traffic control - one landing point for the
+            // whole well, standing at the hover over the shaft (space.atmo.starport_traffic)
+            obj_id control = script.space.atmo.starport_traffic.create(structure, travel_point);
+            if (isIdValid(control))
+                object_list = utils.addElement(object_list, control);
+            if (object_list.size() > 0)
+            {
+                setObjVar(structure, VAR_BASE_OBJECT, object_list);
             }
         }
         return true;
@@ -449,7 +478,7 @@ public class travel extends script.base_script
         {
             return false;
         }
-        return hasScript(object, SCRIPT_SHUTTLE);
+        return hasScript(object, SCRIPT_SHUTTLE) || vessel.isService(object);
     }
     public static boolean isTravelShuttlePilot(obj_id object) throws InterruptedException
     {

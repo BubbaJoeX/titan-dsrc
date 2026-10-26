@@ -279,9 +279,10 @@ public class trial extends script.base_script
         "item_gcw_imperial_token",
         "item_token_duty_space_01_01",
         "item_imperial_station_token_01_01",
-        "item_rebel_station_token_01_01"
+        "item_rebel_station_token_01_01",
+        "item_heroic_token_naboo_battle_01_01"          // 22: Heroic: The Battle of Naboo (Titan)
     };
-    public static final int NUM_HEROIC_TOKEN_TYPES = 22;
+    public static final int NUM_HEROIC_TOKEN_TYPES = 23;
     public static final String KIMARU_HATE_LIST = "kimaru_hate_list";
     public static final String WP_DATA = "nearPoint";
     public static final String PROT_CHILD = "protected_data";

@@ -85,3 +85,6 @@ undead_melee_02	object/weapon/melee/sword/sword_01.iff	object/weapon/melee/knife
 tusken_iso_rifle	object/weapon/ranged/rifle/rifle_tusken_elite.iff			
 tusken_iso_carbine	object/weapon/ranged/carbine/carbine_nym_slugthrower.iff			
 tusken_iso_sword	object/weapon/melee/2h_sword/2h_sword_kashyyk.iff			
+hrc_nboo_aat_cannon	object/weapon/ranged/vehicle/titan_hrc_aat_cannon.iff			
+hrc_nboo_mtt_blaster	object/weapon/ranged/vehicle/titan_hrc_mtt_blaster.iff			
+hrc_nboo_booma	object/weapon/ranged/vehicle/titan_hrc_booma.iff			

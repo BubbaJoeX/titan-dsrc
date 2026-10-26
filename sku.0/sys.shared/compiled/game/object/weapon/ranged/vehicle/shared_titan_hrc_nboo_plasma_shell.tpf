@@ -1,0 +1,17 @@
+// Battle of Naboo heroic (docs/content/battle-of-naboo/README.md). Written by the server session's make_templates_naboo.py.
+
+@base object/weapon/ranged/base/shared_base_ranged_weapon.iff
+
+@class weapon_object_template 4
+weaponEffect = "titan_aat_plasma"
+weaponEffectIndex = 0
+
+@class tangible_object_template 5
+
+@class object_template 5
+
+objectName = "theme_park/heroic_naboo_battle" "name_plasma_shell"
+detailedDescription = "theme_park/heroic_naboo_battle" "name_plasma_shell"
+arrangementDescriptorFilename = "abstract/slot/arrangement/arrangement_default_weapon.iff"
+appearanceFilename = ""
+portalLayoutFilename = ""

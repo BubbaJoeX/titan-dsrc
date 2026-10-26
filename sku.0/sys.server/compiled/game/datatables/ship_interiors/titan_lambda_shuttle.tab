@@ -1,0 +1,4 @@
+strTemplate	fltJX	fltJY	fltJZ	fltKX	fltKY	fltKZ	fltPX	fltPY	fltPZ	strObjVars	strScripts	strCellName	intNoCreate	strLocationList
+s	f	f	f	f	f	f	f	f	f	p	s	s	i	s
+object/tangible/space/content_infrastructure/generic_egg_small.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	0.00000	-0.61000	-2.00000	intNoCreate|4|1|strLocationList|4|locEntrance|$|		r1	1	locEntrance
+object/tangible/terminal/terminal_command_console.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	1.75000	-0.61000	-7.50000	$|	script.space.vessel.vessel_helm	r1	0	

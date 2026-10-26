@@ -21,3 +21,5 @@ kashyyyk_pob_dungeons	datatables/region/region_kashyyyk_pob_dungeons.iff	-8000	-
 adventure1	datatables/region/region_adventure1.iff	-8000	-8000	8000	8000
 adventure2	datatables/region/region_adventure2.iff	-8000	-8000	8000	8000
 dungeon1	datatables/region/region_dungeon1.iff	-8000	-8000	8000	8000
+geonosis	datatables/region/region_geonosis.iff	-8000	-8000	8000	8000
+adventure_heroic	datatables/region/region_adventure_heroic.iff	-8000	-8000	8000	8000

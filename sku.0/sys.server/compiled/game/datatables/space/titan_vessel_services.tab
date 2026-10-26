@@ -1,0 +1,5 @@
+structure	vessel	enabled
+s	s	i
+object/building/tatooine/starport_tatooine.iff	object/ship/player/player_titan_transport_shuttle.iff	1
+object/building/naboo/starport_naboo.iff	object/ship/player/player_titan_transport_shuttle.iff	1
+object/building/corellia/starport_corellia.iff	object/ship/player/player_titan_transport_shuttle.iff	1

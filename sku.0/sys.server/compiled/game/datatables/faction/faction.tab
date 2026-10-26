@@ -108,3 +108,5 @@ survivor	0	0	0
 afflicted	0	1	0		"survivor,survivor_guard"	
 survivor_guard	0	0	0		afflicted	
 sulfur_lake_pirate	0	1	0		nym	
+hrc_nboo_gungan	0	1	0		hrc_nboo_droid		
+hrc_nboo_droid	0	1	0		hrc_nboo_gungan		

@@ -1,0 +1,38 @@
+strTemplate	fltJX	fltJY	fltJZ	fltKX	fltKY	fltKZ	fltPX	fltPY	fltPZ	strObjVars	strScripts	strCellName	intNoCreate	strLocationList
+s	f	f	f	f	f	f	f	f	f	p	s	s	i	s
+object/tangible/furniture/space/frn_chair_falcon_passenger_s01.iff	-0.00000	0.99998	-0.00707	0.00000	0.00707	0.99998	-1.25000	-2.39672	6.43671	$|		cabin	0	
+object/tangible/furniture/space/frn_chair_falcon_passenger_s01.iff	-0.00000	0.99998	-0.00707	0.00000	0.00707	0.99998	-2.05000	-2.39672	6.43671	$|		cabin	0	
+object/tangible/furniture/space/frn_chair_falcon_passenger_s01.iff	-0.00000	0.99998	-0.00707	0.00000	0.00707	0.99998	-2.85000	-2.39672	6.43671	$|		cabin	0	
+object/tangible/furniture/space/frn_chair_falcon_passenger_s01.iff	-0.00000	0.99998	-0.00707	0.00000	0.00707	0.99998	1.25000	-2.39672	6.43671	$|		cabin	0	
+object/tangible/furniture/space/frn_chair_falcon_passenger_s01.iff	-0.00000	0.99998	-0.00707	0.00000	0.00707	0.99998	2.05000	-2.39672	6.43671	$|		cabin	0	
+object/tangible/furniture/space/frn_chair_falcon_passenger_s01.iff	-0.00000	0.99998	-0.00707	0.00000	0.00707	0.99998	2.85000	-2.39672	6.43671	$|		cabin	0	
+object/tangible/furniture/space/frn_chair_falcon_passenger_s01.iff	-0.00000	0.99998	-0.00707	0.00000	0.00707	0.99998	-1.25000	-2.41086	4.43676	$|		cabin	0	
+object/tangible/furniture/space/frn_chair_falcon_passenger_s01.iff	-0.00000	0.99998	-0.00707	0.00000	0.00707	0.99998	-2.05000	-2.41086	4.43676	$|		cabin	0	
+object/tangible/furniture/space/frn_chair_falcon_passenger_s01.iff	-0.00000	0.99998	-0.00707	0.00000	0.00707	0.99998	-2.85000	-2.41086	4.43676	$|		cabin	0	
+object/tangible/furniture/space/frn_chair_falcon_passenger_s01.iff	-0.00000	0.99998	-0.00707	0.00000	0.00707	0.99998	1.25000	-2.41086	4.43676	$|		cabin	0	
+object/tangible/furniture/space/frn_chair_falcon_passenger_s01.iff	-0.00000	0.99998	-0.00707	0.00000	0.00707	0.99998	2.05000	-2.41086	4.43676	$|		cabin	0	
+object/tangible/furniture/space/frn_chair_falcon_passenger_s01.iff	-0.00000	0.99998	-0.00707	0.00000	0.00707	0.99998	2.85000	-2.41086	4.43676	$|		cabin	0	
+object/tangible/furniture/space/frn_chair_falcon_passenger_s01.iff	-0.00000	0.99998	-0.00707	0.00000	0.00707	0.99998	-1.25000	-2.42500	2.43681	$|		cabin	0	
+object/tangible/furniture/space/frn_chair_falcon_passenger_s01.iff	-0.00000	0.99998	-0.00707	0.00000	0.00707	0.99998	-2.05000	-2.42500	2.43681	$|		cabin	0	
+object/tangible/furniture/space/frn_chair_falcon_passenger_s01.iff	-0.00000	0.99998	-0.00707	0.00000	0.00707	0.99998	-2.85000	-2.42500	2.43681	$|		cabin	0	
+object/tangible/furniture/space/frn_chair_falcon_passenger_s01.iff	-0.00000	0.99998	-0.00707	0.00000	0.00707	0.99998	1.25000	-2.42500	2.43681	$|		cabin	0	
+object/tangible/furniture/space/frn_chair_falcon_passenger_s01.iff	-0.00000	0.99998	-0.00707	0.00000	0.00707	0.99998	2.05000	-2.42500	2.43681	$|		cabin	0	
+object/tangible/furniture/space/frn_chair_falcon_passenger_s01.iff	-0.00000	0.99998	-0.00707	0.00000	0.00707	0.99998	2.85000	-2.42500	2.43681	$|		cabin	0	
+object/tangible/furniture/space/frn_chair_falcon_passenger_s01.iff	-0.00000	0.99998	-0.00707	0.00000	0.00707	0.99998	-1.25000	-2.43914	0.43686	$|		cabin	0	
+object/tangible/furniture/space/frn_chair_falcon_passenger_s01.iff	-0.00000	0.99998	-0.00707	0.00000	0.00707	0.99998	-2.05000	-2.43914	0.43686	$|		cabin	0	
+object/tangible/furniture/space/frn_chair_falcon_passenger_s01.iff	-0.00000	0.99998	-0.00707	0.00000	0.00707	0.99998	-2.85000	-2.43914	0.43686	$|		cabin	0	
+object/tangible/furniture/space/frn_chair_falcon_passenger_s01.iff	-0.00000	0.99998	-0.00707	0.00000	0.00707	0.99998	1.25000	-2.43914	0.43686	$|		cabin	0	
+object/tangible/furniture/space/frn_chair_falcon_passenger_s01.iff	-0.00000	0.99998	-0.00707	0.00000	0.00707	0.99998	2.05000	-2.43914	0.43686	$|		cabin	0	
+object/tangible/furniture/space/frn_chair_falcon_passenger_s01.iff	-0.00000	0.99998	-0.00707	0.00000	0.00707	0.99998	2.85000	-2.43914	0.43686	$|		cabin	0	
+object/tangible/furniture/space/frn_chair_falcon_passenger_s01.iff	-0.00000	0.99998	-0.00707	0.00000	0.00707	0.99998	-1.25000	-2.45328	-1.56309	$|		cabin	0	
+object/tangible/furniture/space/frn_chair_falcon_passenger_s01.iff	-0.00000	0.99998	-0.00707	0.00000	0.00707	0.99998	-2.05000	-2.45328	-1.56309	$|		cabin	0	
+object/tangible/furniture/space/frn_chair_falcon_passenger_s01.iff	-0.00000	0.99998	-0.00707	0.00000	0.00707	0.99998	-2.85000	-2.45328	-1.56309	$|		cabin	0	
+object/tangible/furniture/space/frn_chair_falcon_passenger_s01.iff	-0.00000	0.99998	-0.00707	0.00000	0.00707	0.99998	1.25000	-2.45328	-1.56309	$|		cabin	0	
+object/tangible/furniture/space/frn_chair_falcon_passenger_s01.iff	-0.00000	0.99998	-0.00707	0.00000	0.00707	0.99998	2.05000	-2.45328	-1.56309	$|		cabin	0	
+object/tangible/furniture/space/frn_chair_falcon_passenger_s01.iff	-0.00000	0.99998	-0.00707	0.00000	0.00707	0.99998	2.85000	-2.45328	-1.56309	$|		cabin	0	
+object/tangible/furniture/titan/frn_titan_veh_wall_monitor.iff	-0.00000	0.99998	-0.00707	-0.00000	-0.00707	-0.99998	0.00000	-2.39854	11.83686	$|	space.vessel.cabin_media	cabin	0	
+object/tangible/furniture/titan/frn_titan_veh_ceiling_speaker.iff	-0.00000	0.99998	-0.00707	0.00000	0.00707	0.99998	0.00000	0.56159	9.01586	$|		cabin	0	
+object/tangible/furniture/titan/frn_titan_veh_ceiling_speaker.iff	-0.00000	0.99998	-0.00707	0.00000	0.00707	0.99998	0.00000	0.53614	5.41595	$|		cabin	0	
+object/tangible/furniture/titan/frn_titan_veh_ceiling_speaker.iff	-0.00000	0.99998	-0.00707	0.00000	0.00707	0.99998	0.00000	0.51069	1.81604	$|		cabin	0	
+object/tangible/furniture/titan/frn_titan_veh_ceiling_speaker.iff	-0.00000	0.99998	-0.00707	0.00000	0.00707	0.99998	-0.00000	0.48524	-1.78387	$|		cabin	0	
+object/tangible/space/content_infrastructure/generic_egg_small.iff	-0.00000	0.99998	-0.00707	-0.00000	-0.00707	-0.99998	-2.60000	-2.36844	10.43661	intNoCreate|4|1|strLocationList|4|locEntrance|$|		cabin	1	locEntrance

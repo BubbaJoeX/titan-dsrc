@@ -1,0 +1,8 @@
+template	land_y	center_x	center_z	along	across	yaw_offset	name
+s	f	f	f	f	f	f	s
+object/ship/player/player_decimator.iff	3.52	0	15.82	54.51	36.5	0	VT-49 Decimator
+object/ship/player/player_ykl37r.iff	5.06	-0.1	0	49.9	39.7	0	YKL-37R
+object/ship/player/player_yt2400.iff	3.93	5.21	0.9	46.19	33.96	90	YT-2400
+object/ship/player/player_yt1300.iff	3.17	0.53	5.24	41.2	28.9	0	YT-1300
+object/ship/player/player_yt1300_decorated_01.iff	3.17	0.53	5.24	41.2	28.9	0	YT-1300
+object/ship/player/player_titan_transport_shuttle.iff	3.94	0	0.83	43.07	15.67	0	Transport Shuttle

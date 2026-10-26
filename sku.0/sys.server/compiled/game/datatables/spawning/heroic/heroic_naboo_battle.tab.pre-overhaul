@@ -1,0 +1,119 @@
+object	spawn_id	triggerId	room	loc_x	loc_y	loc_z	yaw	script	spawn_objvar	trigger_event	isInvulnerable	comment	paths	respawn
+s[required]	s[none]	s[default]	s[none]	f[0.0]	f[0.0]	f[0.0]	f[0.0]	s[none]	s[none]	s[none]	i[0]	c	s[none]	i[-1]
+hrc_nboo_gungan_officer	tarpals			-1040	13	12	90		string:hrc_nboo.role=tarpals		1	Captain Tarpals at the staging hummock		
+hrc_nboo_gungan_warrior	staging_gungan			-1030	13	-14	90		string:hrc_nboo.role=staging		1	staging hummock honour guard		
+hrc_nboo_gungan_warrior	staging_gungan			-1036	13	26	90		string:hrc_nboo.role=staging		1	staging hummock honour guard		
+hrc_nboo_gungan_warrior	staging_gungan			-1058	13	30	90		string:hrc_nboo.role=staging		1	staging hummock honour guard		
+hrc_nboo_gungan_warrior	staging_gungan			-1062	13	-22	90		string:hrc_nboo.role=staging		1	staging hummock honour guard		
+hrc_nboo_fambaa_generator	gen_1			-480	12	0	90		int:hrc_nboo.gen=1			shield generator G1		
+hrc_nboo_fambaa_generator	gen_2			-360	12	70	90		int:hrc_nboo.gen=2			shield generator G2		
+hrc_nboo_fambaa_generator	gen_3			-360	12	-70	90		int:hrc_nboo.gen=3			shield generator G3		
+hrc_nboo_gungan_warrior	gungan_line			-300	12	-120	90		string:hrc_nboo.role=line			Gungan battle line		120
+hrc_nboo_gungan_warrior	gungan_line			-300	12	-90	90		string:hrc_nboo.role=line			Gungan battle line		120
+hrc_nboo_gungan_warrior	gungan_line			-300	12	-60	90		string:hrc_nboo.role=line			Gungan battle line		120
+hrc_nboo_gungan_warrior	gungan_line			-300	12	-30	90		string:hrc_nboo.role=line			Gungan battle line		120
+hrc_nboo_gungan_warrior	gungan_line			-300	12	0	90		string:hrc_nboo.role=line			Gungan battle line		120
+hrc_nboo_gungan_warrior	gungan_line			-300	12	30	90		string:hrc_nboo.role=line			Gungan battle line		120
+hrc_nboo_gungan_warrior	gungan_line			-300	12	60	90		string:hrc_nboo.role=line			Gungan battle line		120
+hrc_nboo_gungan_warrior	gungan_line			-300	12	90	90		string:hrc_nboo.role=line			Gungan battle line		120
+hrc_nboo_gungan_warrior	gungan_line			-300	12	120	90		string:hrc_nboo.role=line			Gungan battle line		120
+hrc_nboo_gungan_kaadu_rider	gungan_riders			-340	12	100	90		string:hrc_nboo.role=line			kaadu riders behind the line		150
+hrc_nboo_gungan_kaadu_rider	gungan_riders			-340	12	-100	90		string:hrc_nboo.role=line			kaadu riders behind the line		150
+hrc_nboo_gungan_kaadu_rider	gungan_riders			-380	12	40	90		string:hrc_nboo.role=line			kaadu riders behind the line		150
+hrc_nboo_gungan_kaadu_rider	gungan_riders			-380	12	-40	90		string:hrc_nboo.role=line			kaadu riders behind the line		150
+object/tangible/titan/heroic/naboo/catapult	catapult			-520	12	50	90	theme_park.heroic.naboo_battle.catapult				booma catapult		
+object/tangible/titan/heroic/naboo/catapult	catapult			-520	12	-50	90	theme_park.heroic.naboo_battle.catapult				booma catapult		
+object/tangible/titan/heroic/naboo/shield_dome	dome	dome_up		-420	12	0	0	theme_park.heroic.naboo_battle.shield_dome				Gungan shield dome r150		
+hrc_nboo_stap	p1_stap	p1_scouts		100	13	40	270		string:hrc_nboo.attack=generators			STAP scouts		
+hrc_nboo_stap	p1_stap	p1_scouts		100	13	-40	270		string:hrc_nboo.attack=generators			STAP scouts		
+hrc_nboo_stap	p1_stap	p1_scouts		150	13	90	270		string:hrc_nboo.attack=generators			STAP scouts		
+hrc_nboo_stap	p1_stap	p1_scouts		150	13	-90	270		string:hrc_nboo.attack=generators			STAP scouts		
+deleteSpawn:p1_stap		p1_reset		0	13	0	0					phase 1 reset		
+hrc_nboo_aat	p2_aat	p2_tanks		1100	13	-300	270		"float:hrc_nboo.station_x=300,float:hrc_nboo.station_z=-260,int:hrc_nboo.bombard=1"			AAT bombarding the dome		
+hrc_nboo_aat	p2_aat	p2_tanks		1100	13	300	270		"float:hrc_nboo.station_x=300,float:hrc_nboo.station_z=260,int:hrc_nboo.bombard=1"			AAT bombarding the dome		
+hrc_nboo_aat	p2_aat	p2_tanks		1150	13	0	270		"float:hrc_nboo.station_x=220,float:hrc_nboo.station_z=0,int:hrc_nboo.bombard=1"			AAT bombarding the dome		
+object/tangible/titan/heroic/naboo/mtt	p2_mtt	p2_mtts		1500	14	-300	270	theme_park.heroic.naboo_battle.mtt	"float:hrc_nboo.pad_x=520,float:hrc_nboo.pad_z=-160"			MTT glides in to its pad		
+object/tangible/titan/heroic/naboo/mtt	p2_mtt	p2_mtts		1500	14	300	270	theme_park.heroic.naboo_battle.mtt	"float:hrc_nboo.pad_x=520,float:hrc_nboo.pad_z=160"			MTT glides in to its pad		
+hrc_nboo_b1_pilot	p2_droid	p2_squad_a		200	13	30	270		string:hrc_nboo.attack=line			droid squad		
+hrc_nboo_b1	p2_droid	p2_squad_a		200	13	36	270		string:hrc_nboo.attack=line			droid squad		
+hrc_nboo_b1	p2_droid	p2_squad_a		206	13	38	270		string:hrc_nboo.attack=line			droid squad		
+hrc_nboo_b1	p2_droid	p2_squad_a		206	13	44	270		string:hrc_nboo.attack=line			droid squad		
+hrc_nboo_b1_pilot	p2_droid	p2_squad_a		212	13	46	270		string:hrc_nboo.attack=line			droid squad		
+hrc_nboo_b1	p2_droid	p2_squad_a		212	13	52	270		string:hrc_nboo.attack=line			droid squad		
+hrc_nboo_b1	p2_droid	p2_squad_a		218	13	54	270		string:hrc_nboo.attack=line			droid squad		
+hrc_nboo_b1	p2_droid	p2_squad_a		218	13	60	270		string:hrc_nboo.attack=line			droid squad		
+hrc_nboo_b1_pilot	p2_droid	p2_squad_b		200	13	-30	270		string:hrc_nboo.attack=line			droid squad		
+hrc_nboo_b1	p2_droid	p2_squad_b		200	13	-36	270		string:hrc_nboo.attack=line			droid squad		
+hrc_nboo_b1	p2_droid	p2_squad_b		206	13	-38	270		string:hrc_nboo.attack=line			droid squad		
+hrc_nboo_b1	p2_droid	p2_squad_b		206	13	-44	270		string:hrc_nboo.attack=line			droid squad		
+hrc_nboo_b1_pilot	p2_droid	p2_squad_b		212	13	-46	270		string:hrc_nboo.attack=line			droid squad		
+hrc_nboo_b1	p2_droid	p2_squad_b		212	13	-52	270		string:hrc_nboo.attack=line			droid squad		
+hrc_nboo_b1	p2_droid	p2_squad_b		218	13	-54	270		string:hrc_nboo.attack=line			droid squad		
+hrc_nboo_b1	p2_droid	p2_squad_b		218	13	-60	270		string:hrc_nboo.attack=line			droid squad		
+deleteSpawn:p2_droid		p2_reset		0	13	0	0					phase 2 reset		
+deleteSpawn:p2_aat		p2_reset		0	13	0	0					phase 2 reset		
+deleteSpawn:p2_mtt		p2_reset		0	13	0	0					phase 2 reset		
+hrc_nboo_b1_security	p3_droid	p3_assault		-150	13	14	270		string:hrc_nboo.attack=generators			security detail		
+hrc_nboo_b1_security	p3_droid	p3_assault		-150	13	-14	270		string:hrc_nboo.attack=generators			security detail		
+hrc_nboo_b1_security	p3_droid	p3_assault		-155	13	18	270		string:hrc_nboo.attack=generators			security detail		
+hrc_nboo_b1_security	p3_droid	p3_assault		-155	13	-18	270		string:hrc_nboo.attack=generators			security detail		
+hrc_nboo_b1_security	p3_droid	p3_assault		-160	13	22	270		string:hrc_nboo.attack=generators			security detail		
+hrc_nboo_b1_security	p3_droid	p3_assault		-160	13	-22	270		string:hrc_nboo.attack=generators			security detail		
+hrc_nboo_b1	p3_droid	p3_assault		-110	13	50	270		string:hrc_nboo.attack=generators			droid squad on the generators		
+hrc_nboo_b1	p3_droid	p3_assault		-110	13	-50	270		string:hrc_nboo.attack=generators			droid squad on the generators		
+hrc_nboo_b1	p3_droid	p3_assault		-104	13	57	270		string:hrc_nboo.attack=generators			droid squad on the generators		
+hrc_nboo_b1	p3_droid	p3_assault		-104	13	-57	270		string:hrc_nboo.attack=generators			droid squad on the generators		
+hrc_nboo_b1	p3_droid	p3_assault		-98	13	64	270		string:hrc_nboo.attack=generators			droid squad on the generators		
+hrc_nboo_b1	p3_droid	p3_assault		-98	13	-64	270		string:hrc_nboo.attack=generators			droid squad on the generators		
+hrc_nboo_b1	p3_droid	p3_assault		-92	13	71	270		string:hrc_nboo.attack=generators			droid squad on the generators		
+hrc_nboo_b1	p3_droid	p3_assault		-92	13	-71	270		string:hrc_nboo.attack=generators			droid squad on the generators		
+hrc_nboo_b1	p3_droid	p3_assault		-86	13	78	270		string:hrc_nboo.attack=generators			droid squad on the generators		
+hrc_nboo_b1	p3_droid	p3_assault		-86	13	-78	270		string:hrc_nboo.attack=generators			droid squad on the generators		
+hrc_nboo_b1	p3_droid	p3_wave		60	13	20	270		string:hrc_nboo.attack=generators			phase 3 reinforcements		
+hrc_nboo_b1	p3_droid	p3_wave		60	13	-20	270		string:hrc_nboo.attack=generators			phase 3 reinforcements		
+hrc_nboo_b1	p3_droid	p3_wave		66	13	28	270		string:hrc_nboo.attack=generators			phase 3 reinforcements		
+hrc_nboo_b1	p3_droid	p3_wave		66	13	-28	270		string:hrc_nboo.attack=generators			phase 3 reinforcements		
+hrc_nboo_b1	p3_droid	p3_wave		72	13	36	270		string:hrc_nboo.attack=generators			phase 3 reinforcements		
+hrc_nboo_b1	p3_droid	p3_wave		72	13	-36	270		string:hrc_nboo.attack=generators			phase 3 reinforcements		
+deleteSpawn:p3_droid		p3_reset		0	13	0	0					phase 3 reset		
+hrc_nboo_aat_captured	captured_aat	p4_captured		-150	12	-200	90				1	the recaptured AAT (two seats)		
+hrc_nboo_aat	p4_aat	p4_enemies		900	13	-250	270		"float:hrc_nboo.station_x=120,float:hrc_nboo.station_z=-160,int:hrc_nboo.counted=1"			enemy tank (phase 4 counts these)		
+hrc_nboo_aat	p4_aat	p4_enemies		950	13	0	270		"float:hrc_nboo.station_x=80,float:hrc_nboo.station_z=0,int:hrc_nboo.counted=1"			enemy tank (phase 4 counts these)		
+hrc_nboo_aat	p4_aat	p4_enemies		900	13	250	270		"float:hrc_nboo.station_x=120,float:hrc_nboo.station_z=160,int:hrc_nboo.counted=1"			enemy tank (phase 4 counts these)		
+hrc_nboo_b1	p4_droid	p4_enemies		150	13	20	270		string:hrc_nboo.attack=line			phase 4 squad		
+hrc_nboo_b1	p4_droid	p4_enemies		150	13	-20	270		string:hrc_nboo.attack=line			phase 4 squad		
+hrc_nboo_b1	p4_droid	p4_enemies		156	13	29	270		string:hrc_nboo.attack=line			phase 4 squad		
+hrc_nboo_b1	p4_droid	p4_enemies		156	13	-29	270		string:hrc_nboo.attack=line			phase 4 squad		
+hrc_nboo_b1	p4_droid	p4_enemies		162	13	38	270		string:hrc_nboo.attack=line			phase 4 squad		
+hrc_nboo_b1	p4_droid	p4_enemies		162	13	-38	270		string:hrc_nboo.attack=line			phase 4 squad		
+hrc_nboo_b1	p4_droid	p4_enemies		168	13	47	270		string:hrc_nboo.attack=line			phase 4 squad		
+hrc_nboo_b1	p4_droid	p4_enemies		168	13	-47	270		string:hrc_nboo.attack=line			phase 4 squad		
+deleteSpawn:p4_aat		p4_reset		0	13	0	0					phase 4 reset		
+deleteSpawn:p4_droid		p4_reset		0	13	0	0					phase 4 reset		
+hrc_nboo_aat_command	p5_boss	p5_boss		1300	13	0	270		"float:hrc_nboo.station_x=150,float:hrc_nboo.station_z=0,int:hrc_nboo.command=1"			OOM-9's command AAT (boss)		
+hrc_nboo_b1	p5_escort	p5_boss		1240	13	12	270		string:hrc_nboo.attack=line			command escort		
+hrc_nboo_b1	p5_escort	p5_boss		1240	13	-12	270		string:hrc_nboo.attack=line			command escort		
+hrc_nboo_b1	p5_escort	p5_boss		1234	13	17	270		string:hrc_nboo.attack=line			command escort		
+hrc_nboo_b1	p5_escort	p5_boss		1234	13	-17	270		string:hrc_nboo.attack=line			command escort		
+hrc_nboo_b1	p5_escort	p5_boss		1228	13	22	270		string:hrc_nboo.attack=line			command escort		
+hrc_nboo_b1	p5_escort	p5_boss		1228	13	-22	270		string:hrc_nboo.attack=line			command escort		
+hrc_nboo_b1	p5_escort	p5_boss		1222	13	27	270		string:hrc_nboo.attack=line			command escort		
+hrc_nboo_b1	p5_escort	p5_boss		1222	13	-27	270		string:hrc_nboo.attack=line			command escort		
+hrc_nboo_b1_security	p5_escort	p5_boss		1260	13	6	270		string:hrc_nboo.attack=line			command escort		
+hrc_nboo_b1_security	p5_escort	p5_boss		1260	13	-6	270		string:hrc_nboo.attack=line			command escort		
+hrc_nboo_b1_security	p5_escort	p5_boss		1260	13	10	270		string:hrc_nboo.attack=line			command escort		
+hrc_nboo_b1_security	p5_escort	p5_boss		1260	13	-10	270		string:hrc_nboo.attack=line			command escort		
+hrc_nboo_stap	p5_escort	p5_boss		1200	13	60	270		string:hrc_nboo.attack=line			STAP escort		
+hrc_nboo_stap	p5_escort	p5_boss		1200	13	-60	270		string:hrc_nboo.attack=line			STAP escort		
+hrc_nboo_b1_security	p5_wave	p5_wave		200	13	16	270		string:hrc_nboo.attack=line			hold-out wave		
+hrc_nboo_b1	p5_wave	p5_wave		200	13	-16	270		string:hrc_nboo.attack=line			hold-out wave		
+hrc_nboo_b1	p5_wave	p5_wave		206	13	24	270		string:hrc_nboo.attack=line			hold-out wave		
+hrc_nboo_b1	p5_wave	p5_wave		206	13	-24	270		string:hrc_nboo.attack=line			hold-out wave		
+hrc_nboo_b1_security	p5_wave	p5_wave		212	13	32	270		string:hrc_nboo.attack=line			hold-out wave		
+hrc_nboo_b1	p5_wave	p5_wave		212	13	-32	270		string:hrc_nboo.attack=line			hold-out wave		
+hrc_nboo_b1	p5_wave	p5_wave		218	13	40	270		string:hrc_nboo.attack=line			hold-out wave		
+hrc_nboo_b1	p5_wave	p5_wave		218	13	-40	270		string:hrc_nboo.attack=line			hold-out wave		
+deleteSpawn:p5_boss		p5_reset		0	13	0	0					phase 5 reset		
+deleteSpawn:p5_escort		p5_reset		0	13	0	0					phase 5 reset		
+deleteSpawn:p5_wave		p5_reset		0	13	0	0					phase 5 reset		
+deleteSpawn:p5_commander		p5_reset		0	13	0	0					phase 5 reset		

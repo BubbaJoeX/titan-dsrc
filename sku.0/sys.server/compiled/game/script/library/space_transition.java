@@ -409,6 +409,10 @@ public class space_transition extends script.base_script
             {
                 LOG("space_transition", "player " + player + " logging out in ship " + containingShip);
             }
+            // Titan boardable vessels (script.library.vessel) are parked ground objects: they stay where they are, and
+            // space.vessel.vessel_aboard puts the player back aboard on login
+            if (vessel.isVessel(containingShip))
+                return;
             obj_id owner = getOwner(containingShip);
             if (owner == player)
             {
@@ -1739,9 +1743,26 @@ public class space_transition extends script.base_script
         if (posture == POSTURE_SITTING || posture == POSTURE_PRONE)
             setPostureClientImmediate(player, POSTURE_UPRIGHT);
         location shipLoc = getLocation(ship);
+        float theta = rand() * (2.0f * (float)Math.PI);
+        if (isIdValid(shipLoc.cell))
+        {
+            // Titan: a ship parked inside another pob's cell (a hangar) sets people down on that cell's floor
+            location cellLoc = vessel.groundPoint(ship, shipLoc.x + 3.0f * (float)StrictMath.cos(theta), shipLoc.z + 3.0f * (float)StrictMath.sin(theta));
+            setLocation(player, cellLoc);
+            refreshShipNameIfEmpty(ship);
+            return;
+        }
+        // Titan: parked in a starport's hangar bay (under cut-away terrain): onto the bay floor - the lounge door of a
+        // berthed ship, the arrival point by the gate lift for the shuttle service's vessel
+        location bayLoc = vessel.wellSetDownPoint(ship);
+        if (bayLoc != null)
+        {
+            setLocation(player, bayLoc);
+            refreshShipNameIfEmpty(ship);
+            return;
+        }
         float terrainY = getHeightAtLocation(shipLoc.x, shipLoc.z);
         location groundLoc = new location(shipLoc.x, terrainY, shipLoc.z, shipLoc.area, null);
-        float theta = rand() * (2.0f * (float)Math.PI);
         groundLoc.x += 3.0f * (float)StrictMath.cos(theta);
         groundLoc.z += 3.0f * (float)StrictMath.sin(theta);
         if (isAtmosphericFlightScene())

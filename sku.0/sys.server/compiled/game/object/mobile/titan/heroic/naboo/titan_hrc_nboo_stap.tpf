@@ -1,0 +1,13 @@
+// Battle of Naboo heroic (docs/content/battle-of-naboo/README.md). Written by the server session's make_templates_naboo.py.
+
+@base object/mobile/mobile.iff
+
+@class creature_object_template 2
+
+defaultWeapon = "object/weapon/ranged/carbine/carbine_e5.iff"
+
+@class tangible_object_template 0
+
+@class object_template 0
+
+sharedTemplate = "object/mobile/titan/heroic/naboo/shared_titan_hrc_nboo_stap.iff"

@@ -48,3 +48,4 @@ object/building/military/military_imperial_clone_tent_small.iff	1	0	1		FACTION_I
 object/building/player/city/imp_cloning_corellia.iff	-9.54	-1.29	-6.24	cloninglab	PLAYER_CITY		0	1	-9.66	-6.92	0																		
 object/building/player/city/reb_cloning_corellia.iff	-9.54	-1.29	-6.24	cloninglab	PLAYER_CITY		0	1	-9.66	-6.92	0																		
 object/building/player/city/cloning_camo_tatooine.iff	-9.54	-1.29	-6.24	cloninglab	PLAYER_CITY		0	1	-9.66	-6.92	0																		
+object/tangible/titan/heroic/naboo/naboo_battle_controller.iff	-120	12.1	6		PRIVATE_INSTANCE	@theme_park/heroic_naboo_battle:clone_name	90	0

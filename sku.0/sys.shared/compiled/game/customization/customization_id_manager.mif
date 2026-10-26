@@ -392,6 +392,14 @@ form "CIDM"
 
 			int16	126
 			cstring	"/shared_owner/direct_color_1_b"
+			int16	127
+			cstring	"/shared_owner/blend_chest_large"
+
+			int16	128
+			cstring	"/shared_owner/blend_glutes"
+
+			int16	129
+			cstring	"/shared_owner/blend_bulge"
 
 		}
 	}
