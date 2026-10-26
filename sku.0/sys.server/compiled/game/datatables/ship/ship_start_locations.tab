@@ -100,3 +100,6 @@ object/ship/player/player_gunship_rebel.iff		bridge	0	1.8	15.4
 		storage3	5.7	-3.5	-4.2	
 		storage4	-5.7	-3.5	-4.2	
 object/ship/player/player_havoc.iff	ship_gunner1					
+object/ship/player/player_titan_lambda_shuttle.iff		r1	-0.95	-0.61	7.20	
+object/ship/player/player_titan_corellian_corvette.iff		bridge66	0.07	-0.10	123.73	
+object/ship/player/player_titan_nebulon_frigate.iff		bridge	0.00	-55.50	147.60	

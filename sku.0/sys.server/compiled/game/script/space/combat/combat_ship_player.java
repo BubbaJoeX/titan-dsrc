@@ -117,6 +117,9 @@ public class combat_ship_player extends script.base_script
                     }
                 }
                 boolean result = pilotShip(self, pilotSlotObject);
+                // a Titan vessel: off the ground first if it is landed, then the pilot has the controls
+                if (result && vessel.isStarship(ship))
+                    messageTo(ship, "vesselPilotSeated", null, 0.0f, false);
                 if ((isGod(self)) || (utils.checkConfigFlag("ScriptFlags", "e3Demo")))
                 {
                     if ((result) && (isGod(self)))
@@ -223,6 +226,10 @@ public class combat_ship_player extends script.base_script
             if (getObjectInSlot(container, POB_SHIP_PILOT_SLOT_NAME) == self || getObjectInSlot(container, space_transition.SHIP_PILOT_SLOT_NAME) == self)
             {
                 unpilotShip(self);
+                // a Titan vessel left low over the ground sets down on its legs (vessel_controller.vesselPilotLeft)
+                obj_id ship = getTopMostContainer(self);
+                if (vessel.isStarship(ship))
+                    messageTo(ship, "vesselPilotLeft", null, 0.0f, false);
             }
             else if (getObjectInSlot(container, POB_SHIP_OPERATIONS_SLOT_NAME) == self)
             {

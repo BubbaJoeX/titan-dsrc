@@ -2214,7 +2214,8 @@ public class space_crafting extends script.base_script
                         }
                     }
                     setOwner(ship, player);
-                    if (!type.equals("sorosuub_space_yacht"))
+                    // ships that come fitted out (their shiptype.tab components are the factory loadout)
+                    if (!type.equals("sorosuub_space_yacht") && !type.startsWith("titan_"))
                     {
                         space_crafting.uninstallAll(ship);
                     }

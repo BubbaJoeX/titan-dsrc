@@ -253,6 +253,27 @@ public class dev_console extends script.base_script
             }
             return sb.length() > 0 ? sb.toString() : "no vessels there";
         }
+        if (a[1].equals("datapad") && a.length >= 3)
+        {
+            // a player's datapad: the ship control devices (and what each holds) for radial tests
+            obj_id player = a[2].matches("\\d+") ? obj_id.getObjId(Long.parseLong(a[2])) : getPlayerIdFromFirstName(a[2]);
+            if (!isIdValid(player) || !exists(player))
+            {
+                return "no player " + a[2] + " on " + scene;
+            }
+            obj_id pad = script.library.utils.getPlayerDatapad(player);
+            obj_id[] items = isIdValid(pad) ? getContents(pad) : null;
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; items != null && i < items.length; ++i)
+            {
+                sb.append("  ").append(items[i]).append(" ").append(getTemplateName(items[i]));
+                obj_id[] inner = getContents(items[i]);
+                for (int j = 0; inner != null && j < inner.length; ++j)
+                    sb.append(" > ").append(inner[j]).append(" ").append(getTemplateName(inner[j]));
+                sb.append("\n");
+            }
+            return sb.length() > 0 ? sb.toString() : "  datapad empty";
+        }
         if (a[1].equals("deed") && a.length >= 4)
         {
             // a vessel deed (object/tangible/titan/vessel_deed/<name>_deed.iff) into a player's inventory

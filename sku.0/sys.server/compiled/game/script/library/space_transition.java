@@ -824,6 +824,9 @@ public class space_transition extends script.base_script
         removeObjVar(ship, "space.autopilot");
         if (hasScript(ship, "space.ship.ship_atmospheric_boarding"))
             detachScript(ship, "space.ship.ship_atmospheric_boarding");
+        boolean titanVessel = vessel.isStarship(ship);
+        if (titanVessel)
+            vessel.onPacked(ship);
         boolean inSpace = isSpaceScene();
         boolean teleportFixup = hasObjVar(ship, "teleportFixup");
         obj_id pilot = getPilotId(ship);
@@ -859,9 +862,14 @@ public class space_transition extends script.base_script
                     }
                     float terrainY = getHeightAtLocation(shipLoc.x, shipLoc.z);
                     location worldLoc = new location(shipLoc.x, terrainY, shipLoc.z, shipLoc.area, null);
-                    setLocation(player, worldLoc);
-                    if (isAtmosphericFlightScene())
-                        warpPlayer(player, worldLoc.area, worldLoc.x, worldLoc.y, worldLoc.z, null, worldLoc.x, worldLoc.y, worldLoc.z, null, true);
+                    if (titanVessel && isAtmosphericFlightScene())
+                        vessel.moveOffShip(ship, player);
+                    else
+                    {
+                        setLocation(player, worldLoc);
+                        if (isAtmosphericFlightScene())
+                            warpPlayer(player, worldLoc.area, worldLoc.x, worldLoc.y, worldLoc.z, null, worldLoc.x, worldLoc.y, worldLoc.z, null, true);
+                    }
                 }
             }
         }
@@ -1157,6 +1165,8 @@ public class space_transition extends script.base_script
                         }
                     }
                 }
+                if (vessel.isStarship(ship))
+                    vessel.onUnpacked(ship);           // after the cells went public: the ramp cell is private again
                 if (isAtmosphericFlightScene())
                 {
                     messageTo(ship, "checkAtmosphericAltitude", null, 2.0f, false);
@@ -1758,6 +1768,12 @@ public class space_transition extends script.base_script
         if (bayLoc != null)
         {
             setLocation(player, bayLoc);
+            refreshShipNameIfEmpty(ship);
+            return;
+        }
+        if (vessel.isStarship(ship) && isAtmosphericFlightScene())
+        {
+            vessel.moveOffShip(ship, player);
             refreshShipNameIfEmpty(ship);
             return;
         }

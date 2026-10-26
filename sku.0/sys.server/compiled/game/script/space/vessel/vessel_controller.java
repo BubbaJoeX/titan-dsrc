@@ -484,10 +484,78 @@ public class vessel_controller extends script.base_script
         return SCRIPT_CONTINUE;
     }
 
+    /** library.vessel.setGear's delayed leg move coming due. */
+    public int vesselGear(obj_id self, dictionary params) throws InterruptedException
+    {
+        vessel.gearDue(self, params);
+        return SCRIPT_CONTINUE;
+    }
+
     public int vesselAirborne(obj_id self, dictionary params) throws InterruptedException
     {
         vessel.setState(self, vessel.STATE_AIRBORNE);
+        if (utils.hasScriptVar(self, SV_HANDOVER))
+        {
+            // lifted off for the pilot who took the helm: the controls are theirs from the hover
+            utils.removeScriptVar(self, SV_HANDOVER);
+            if (isIdValid(getPilotId(self)))
+            {
+                vessel.releaseToPilot(self);
+                tellOwnerAndCrew(self, getName(self) + ": airborne. You have the controls.");
+                return SCRIPT_CONTINUE;
+            }
+        }
         tellOwnerAndCrew(self, getName(self) + ": airborne, holding a hover.");
+        return SCRIPT_CONTINUE;
+    }
+
+    // ------------------------------------------------------------------
+    // flown as a player starship (vessel.isStarship): the stock pilot seat, the atmospheric autopilot and summon
+    // ------------------------------------------------------------------
+
+    private static final String SV_HANDOVER = "vessel.handover";
+    public static final float SET_DOWN_AGL = 120.0f;       // left lower than this, the ship sets down on its legs
+
+    /** combat_ship_player.cmdPilotShip seated a pilot: a landed ship lifts off first, then the controls are theirs. */
+    public int vesselPilotSeated(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (isLanded(self))
+        {
+            utils.setScriptVar(self, SV_HANDOVER, 1);
+            vessel.setState(self, vessel.STATE_PARKED);
+            messageTo(self, "vesselTakeOff", null, 0.0f, false);
+            return SCRIPT_CONTINUE;
+        }
+        int state = vessel.getState(self);
+        if (state == vessel.STATE_DEPARTING)
+        {
+            utils.setScriptVar(self, SV_HANDOVER, 1);          // already lifting off: the hover hands over
+            return SCRIPT_CONTINUE;
+        }
+        vessel.releaseToPilot(self);
+        return SCRIPT_CONTINUE;
+    }
+
+    /** combat_ship_player.cmdLeaveStation: the pilot let go of the controls. Low over open ground it sets down. */
+    public int vesselPilotLeft(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (isLanded(self) || isIdValid(getPilotId(self)))
+            return SCRIPT_CONTINUE;
+        location here = getLocation(self);
+        if (isIdValid(here.cell) || here.y - getHeightAtLocation(here.x, here.z) > SET_DOWN_AGL)
+            return SCRIPT_CONTINUE;
+        vessel.setState(self, vessel.STATE_AIRBORNE);
+        messageTo(self, "vesselLandHere", null, 0.5f, false);
+        return SCRIPT_CONTINUE;
+    }
+
+    /** combat_ship: a summoned ship arrived over its owner; it settles onto its legs if the ground below takes it. */
+    public int vesselSetDown(obj_id self, dictionary params) throws InterruptedException
+    {
+        if (isLanded(self) || isIdValid(getPilotId(self)))
+            return SCRIPT_CONTINUE;
+        vessel.setState(self, vessel.STATE_AIRBORNE);
+        messageTo(self, "vesselLandHere", null, 0.0f, false);
         return SCRIPT_CONTINUE;
     }
 
@@ -495,6 +563,12 @@ public class vessel_controller extends script.base_script
     {
         if (!isPrivate(self) || vessel.getState(self) != vessel.STATE_AIRBORNE)
             return SCRIPT_CONTINUE;
+        if (!vessel.canSetDownHere(self))
+        {
+            vessel.setGear(self, false, 1.0f);
+            tellOwnerAndCrew(self, getName(self) + ": no level, open ground under us to set down on. Holding a hover.");
+            return SCRIPT_CONTINUE;
+        }
         vessel.setState(self, vessel.STATE_ARRIVING);
         vessel.Path p = vessel.landHerePath(self);
         vessel.setGear(self, true, Math.max(0.0f, p.duration() - 9.0f));

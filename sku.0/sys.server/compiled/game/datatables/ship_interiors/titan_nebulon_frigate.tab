@@ -15,14 +15,17 @@ object/tangible/furniture/modern/dining_table_modern_style_01.iff	0.00000	1.0000
 object/tangible/furniture/all/frn_all_couch_lg_s1.iff	0.00000	1.00000	0.00000	1.00000	0.00000	0.00000	-5.60000	-77.00000	104.00000	$|		crewdeck	0	
 object/tangible/furniture/all/frn_all_couch_lg_s1.iff	0.00000	1.00000	0.00000	-1.00000	0.00000	0.00000	5.60000	-77.00000	104.00000	$|		crewdeck	0	
 object/tangible/furniture/modern/coffee_table_modern_style_01.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	0.00000	-77.00000	114.50000	$|		crewdeck	0	
-object/tangible/furniture/all/frn_all_command_console.iff	0.00000	1.00000	0.00000	-0.00000	0.00000	-1.00000	0.00000	-55.50000	147.00000	$|	script.space.vessel.vessel_helm	bridge	0	
-object/tangible/furniture/all/frn_all_technical_console_s01.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	2.60000	-55.50000	149.60000	$|		bridge	0	
-object/tangible/furniture/all/frn_all_technical_console_s02.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	-2.60000	-55.50000	149.60000	$|		bridge	0	
-object/tangible/furniture/all/frn_chair_control.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	2.60000	-55.50000	148.40000	$|		bridge	0	
-object/tangible/furniture/all/frn_chair_control.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	-2.60000	-55.50000	148.40000	$|		bridge	0	
+object/tangible/furniture/all/frn_all_command_console.iff	0.00000	1.00000	0.00000	-1.00000	0.00000	0.00000	3.60000	-55.50000	133.00000	$|	script.space.vessel.vessel_helm	bridge	0	
+object/tangible/terminal/terminal_pob_ship.iff	0.00000	1.00000	0.00000	1.00000	0.00000	0.00000	-3.90000	-55.50000	133.00000	$|	script.terminal.terminal_pob_ship	bridge	0	
+object/tangible/ship/interior_components/escape_pod_hatch.iff	0.00000	1.00000	0.00000	1.00000	0.00000	0.00000	-2.90000	-133.00000	104.00000	$|	script.space.crafting.escape_hatch	embark	0	
+object/tangible/shipcontrol/shipcontrol_corvette.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	0.00000	-55.50000	147.60000	$|	script.space.ship.shipcontrol_falcon	bridge	0	
+object/tangible/furniture/all/frn_all_technical_console_s01.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	2.00000	-55.50000	149.60000	$|		bridge	0	
+object/tangible/furniture/all/frn_all_technical_console_s02.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	-2.00000	-55.50000	149.60000	$|		bridge	0	
+object/tangible/shipcontrol/shipoperations_falcon.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	2.00000	-55.50000	148.40000	$|	script.space.ship.shipoperations_falcon	bridge	0	
+object/tangible/furniture/all/frn_chair_control.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	-2.00000	-55.50000	148.40000	$|		bridge	0	
 object/tangible/furniture/all/frn_all_desk_map_table.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	0.00000	-55.50000	138.00000	$|		bridge	0	
-object/tangible/furniture/all/frn_all_desk_radar_topology_screen.iff	0.00000	1.00000	0.00000	1.00000	0.00000	0.00000	-3.90000	-55.50000	143.50000	$|		bridge	0	
-object/tangible/furniture/all/frn_all_desk_radar_topology_screen.iff	0.00000	1.00000	0.00000	-1.00000	0.00000	0.00000	3.90000	-55.50000	143.50000	$|		bridge	0	
+object/tangible/furniture/all/frn_all_desk_radar_topology_screen.iff	0.00000	1.00000	0.00000	1.00000	0.00000	0.00000	-4.30000	-55.50000	138.60000	$|		bridge	0	
+object/tangible/furniture/all/frn_all_desk_radar_topology_screen.iff	0.00000	1.00000	0.00000	-1.00000	0.00000	0.00000	4.30000	-55.50000	138.60000	$|		bridge	0	
 object/tangible/terminal/terminal_elevator_up.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	-1.00000	-133.00000	90.35000	$|		lift	0	
 object/tangible/terminal/terminal_elevator_up.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	-1.00000	-94.50000	90.35000	$|		lift	0	
 object/tangible/terminal/terminal_elevator_up.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	-1.00000	-77.00000	90.35000	$|		lift	0	

@@ -242,16 +242,164 @@ public class vessel extends script.base_script
         return part != null && part.length > 0 && part[0].startsWith("ramp");
     }
 
-    /** Landing legs (every part but the ramp) down or up. */
+    public static final String OV_GEAR_SEQ = "vessel.gear_seq";
+
+    /** Landing legs (every part but the ramp) down or up, starting in `delay` seconds. A delayed move is sent when it
+     *  starts (vessel_controller.vesselGear), not as a client-side delay: a client that first sees the ship before
+     *  then builds its legs in their current pose, so they swing down in flight instead of hanging deployed from the
+     *  moment the ship appears. The latest call wins. */
     public static void setGear(obj_id ship, boolean down, float delay) throws InterruptedException
+    {
+        int seq = (hasObjVar(ship, OV_GEAR_SEQ) ? getIntObjVar(ship, OV_GEAR_SEQ) : 0) + 1;
+        setObjVar(ship, OV_GEAR_SEQ, seq);
+        if (delay <= 0.25f)
+        {
+            applyGear(ship, down);
+            return;
+        }
+        dictionary d = new dictionary();
+        d.put("down", down);
+        d.put("seq", seq);
+        messageTo(ship, "vesselGear", d, delay, false);
+    }
+
+    /** vessel_controller.vesselGear: a delayed setGear coming due, unless a later call superseded it. */
+    public static void gearDue(obj_id ship, dictionary params) throws InterruptedException
+    {
+        if (params == null || !hasObjVar(ship, OV_GEAR_SEQ) || getIntObjVar(ship, OV_GEAR_SEQ) != params.getInt("seq"))
+            return;
+        applyGear(ship, params.getBoolean("down"));
+    }
+
+    private static void applyGear(obj_id ship, boolean down) throws InterruptedException
     {
         Config c = getConfig(ship);
         if (c == null)
             return;
         for (String[] part : c.parts)
             if (!isRampPart(part))
-                setPart(ship, part, down ? 1.0f : 0.0f, delay);
+                setPart(ship, part, down ? 1.0f : 0.0f, 0.0f);
         setObjVar(ship, OV_GEAR_DOWN, down ? 1 : 0);
+    }
+
+    // ------------------------------------------------------------------
+    // landing sites: level ground clear of buildings, statics and other hulls under a hull plan (the deed's Call
+    // Vessel pad, a summoned starship setting down, Land Here)
+    // ------------------------------------------------------------------
+
+    public static final String OV_SHIP_HULL = "vessel.hull";                // float[]{half width, length aft, length fore}
+    public static final String OV_SHIP_DEED = "vessel.deed";                // on the vessel: the deed it answers to
+    public static final String OV_DEED_HALF_WIDTH = "vessel_deed.half_width";
+    public static final float PAD_SLOPE = 3.0f;                   // metres of rise over a pad that still count as level,
+    public static final float PAD_SLOPE_PER_M = 0.02f;            // plus this much per metre of hull length
+    public static final float PAD_MARGIN = 3.0f;                  // clear ground past the hull's sides
+
+    // distance from point (px, pz) to the segment (ax, az)-(bx, bz)
+    public static float pointSegment(float px, float pz, float ax, float az, float bx, float bz)
+    {
+        float dx = bx - ax, dz = bz - az, len2 = dx * dx + dz * dz;
+        float t = len2 > 0.0f ? Math.max(0.0f, Math.min(1.0f, ((px - ax) * dx + (pz - az) * dz) / len2)) : 0.0f;
+        float ex = px - (ax + dx * t), ez = pz - (az + dz * t);
+        return (float)Math.sqrt(ex * ex + ez * ez);
+    }
+
+    // closest distance between two keels (segments that don't cross: the pad check never lands one across another)
+    public static float segmentSegment(float[] a, float[] b)
+    {
+        return Math.min(Math.min(pointSegment(a[0], a[1], b[0], b[1], b[2], b[3]), pointSegment(a[2], a[3], b[0], b[1], b[2], b[3])),
+                Math.min(pointSegment(b[0], b[1], a[0], a[1], a[2], a[3]), pointSegment(b[2], b[3], a[0], a[1], a[2], a[3])));
+    }
+
+    // another vessel's keel (x0, z0, x1, z1) and half width from its titan_vessels.tab hull plan, else the one stamped
+    // on it or its deed's (a service shuttle has none: its frame, 15 m)
+    public static float[] keelOf(obj_id other) throws InterruptedException
+    {
+        location at = getLocation(other);
+        float[] plan = getHullPlan(getTemplateName(other));
+        if (plan == null && hasObjVar(other, OV_SHIP_HULL))
+            plan = getFloatArrayObjVar(other, OV_SHIP_HULL);
+        obj_id deed = hasObjVar(other, OV_SHIP_DEED) ? getObjIdObjVar(other, OV_SHIP_DEED) : null;
+        if (plan == null && isIdValid(deed) && exists(deed) && hasObjVar(deed, OV_DEED_HALF_WIDTH))
+            plan = new float[]{getFloatObjVar(deed, OV_DEED_HALF_WIDTH), getFloatObjVar(deed, "vessel_deed.length_aft"), getFloatObjVar(deed, "vessel_deed.length_fore")};
+        if (plan == null || plan.length < 3)
+            return new float[]{at.x, at.z, at.x, at.z, 15.0f};
+        double h = Math.toRadians(getVesselYaw(other));
+        float ax = (float)Math.sin(h), az = (float)Math.cos(h);
+        return new float[]{at.x - ax * plan[1], at.z - az * plan[1], at.x + ax * plan[2], at.z + az * plan[2], plan[0]};
+    }
+
+    // The hull's plan on the ground (a strip `half` either side of the keel from aft to fore along `heading`): level
+    // (samples down the keel and both sides) and no building, installation, static or other vessel on it.
+    public static boolean padIsClear(location pad, float heading, float half, float aft, float fore, obj_id ship) throws InterruptedException
+    {
+        double h = Math.toRadians(heading);
+        float ax = (float)Math.sin(h), az = (float)Math.cos(h);         // along the keel
+        float sx = az, sz = -ax;                                        // across
+        int n = Math.max(1, (int)Math.ceil((fore - aft) / half));
+        float lo = Float.MAX_VALUE, hi = -Float.MAX_VALUE;
+        for (int i = 0; i <= n; ++i)
+        {
+            float t = aft + (fore - aft) * i / n;
+            for (int side = -1; side <= 1; ++side)
+            {
+                float y = getHeightAtLocation(pad.x + ax * t + sx * half * side, pad.z + az * t + sz * half * side);
+                lo = Math.min(lo, y);
+                hi = Math.max(hi, y);
+            }
+        }
+        if (hi - lo > PAD_SLOPE + PAD_SLOPE_PER_M * (fore - aft))
+        {
+            LOG("vessel", "landing site " + pad.x + "," + pad.z + " heading " + heading + ": not level (" + (hi - lo) + " m)");
+            return false;
+        }
+        float mid = (aft + fore) / 2.0f;
+        location centre = new location(pad.x + ax * mid, getHeightAtLocation(pad.x + ax * mid, pad.z + az * mid), pad.z + az * mid, pad.area, null);
+        obj_id[] near = getNonCreaturesInRange(centre, (fore - aft) / 2.0f + half + 300.0f);   // a Nebulon's keel reaches 270 m
+        for (int i = 0; near != null && i < near.length; ++i)
+        {
+            obj_id o = near[i];
+            if (!isIdValid(o) || o.equals(ship) || isIdValid(getContainedBy(o)))
+                continue;
+            // clear ground past the hull: to another vessel's hull (its keel and half width), else past the object's
+            // position (its centre) by what its type says about its size
+            int got = getGameObjectType(o);
+            float margin = isVessel(o) ? 10.0f : isGameObjectTypeOf(got, GOT_building) ? 15.0f
+                    : isGameObjectTypeOf(got, GOT_installation) ? 8.0f : got == GOT_static ? 3.0f : -1.0f;
+            if (margin < 0.0f)
+                continue;
+            float gap;
+            if (isVessel(o))
+            {
+                float[] k = keelOf(o);
+                gap = segmentSegment(new float[]{pad.x + ax * aft, pad.z + az * aft, pad.x + ax * fore, pad.z + az * fore}, k) - k[4];
+            }
+            else
+            {
+                location at = getLocation(o);
+                gap = pointSegment(at.x, at.z, pad.x + ax * aft, pad.z + az * aft, pad.x + ax * fore, pad.z + az * fore);
+            }
+            if (gap < half + margin)
+            {
+                LOG("vessel", "landing site " + pad.x + "," + pad.z + " heading " + heading + ": " + o + " " + getTemplateName(o) + " in the way");
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    /** Can the ship set down on its legs straight below where it is, heading as it heads? */
+    public static boolean canSetDownHere(obj_id ship) throws InterruptedException
+    {
+        location here = getLocation(ship);
+        if (isIdValid(here.cell))
+            return true;                                            // a hangar cell: its floor is the pad
+        float[] plan = getHullPlan(getTemplateName(ship));
+        if (plan == null && hasObjVar(ship, OV_SHIP_HULL))
+            plan = getFloatArrayObjVar(ship, OV_SHIP_HULL);
+        if (plan == null || plan.length < 3)
+            return true;
+        return padIsClear(here, getVesselYaw(ship), plan[0] + PAD_MARGIN, -plan[1], plan[2], ship);
     }
 
     public static boolean isGearDown(obj_id ship) throws InterruptedException
@@ -300,6 +448,62 @@ public class vessel extends script.base_script
                 permissionsMakePrivate(rampCell);
         }
         refreshCellAccess(ship);
+    }
+
+    // ------------------------------------------------------------------
+    // a vessel flown as a player starship (an SCD in its owner's datapad; atmospheric flight, summon, landing pads):
+    // a scripted flight path owns the ship's transform until it is cleared, so every hand-over to the pilot or the
+    // autopilot clears it first. While it is in the air the ship is AIRBORNE (its owner's helm then offers Land Here).
+    // ------------------------------------------------------------------
+
+    public static boolean isStarship(obj_id ship) throws InterruptedException
+    {
+        return isVessel(ship) && !hasObjVar(ship, OV_SERVICE) && space_utils.isPobType(ship);
+    }
+
+    private static void clearFlight(obj_id ship) throws InterruptedException
+    {
+        shipClearFlightPath(ship);
+        utils.removeScriptVar(ship, SV_PATH);
+        utils.removeScriptVar(ship, SV_PATH_DONE);
+    }
+
+    /** The pilot has the helm of a ship in the air: their controls move it from here. */
+    public static void releaseToPilot(obj_id ship) throws InterruptedException
+    {
+        clearFlight(ship);
+        setState(ship, STATE_AIRBORNE);
+        if (isGearDown(ship))
+            setGear(ship, false, 2.0f);
+    }
+
+    /** The atmospheric autopilot (summon, landing pad) takes the ship, landed or not: ramp up, legs up as it climbs. */
+    public static void releaseForAutopilot(obj_id ship) throws InterruptedException
+    {
+        if (isRampOpen(ship))
+            setRamp(ship, false, 0.0f);
+        clearFlight(ship);
+        setState(ship, STATE_AIRBORNE);
+        if (isGearDown(ship))
+            setGear(ship, false, 3.0f);
+    }
+
+    /** Launched from the datapad (space_transition.unpackShipForPlayer): in the air, legs up, ramp shut and private. */
+    public static void onUnpacked(obj_id ship) throws InterruptedException
+    {
+        clearFlight(ship);
+        setState(ship, STATE_AIRBORNE);
+        setGear(ship, false, 0.0f);
+        setRamp(ship, false, 0.0f);
+    }
+
+    /** Stored in the datapad (space_transition.packShip): nothing scripted survives into the next launch. */
+    public static void onPacked(obj_id ship) throws InterruptedException
+    {
+        clearFlight(ship);
+        setState(ship, STATE_AIRBORNE);
+        setGear(ship, false, 0.0f);
+        setRamp(ship, false, 0.0f);
     }
 
     /** Snap every part (no animation for clients that see the vessel for the first time). */
@@ -745,8 +949,10 @@ public class vessel extends script.base_script
         location here = getLocation(ship);
         float yaw = getVesselYaw(ship);
         double h = Math.toRadians(yaw);
-        // to the vessel's left (the transport's ramp side), clear of the hull
-        float ox = (float)(-Math.cos(h) * 12.0), oz = (float)(Math.sin(h) * 12.0);
+        // to the vessel's left (the transport's ramp side), clear of the hull (a big hull's plan: past its side)
+        float[] plan = getHullPlan(getTemplateName(ship));
+        double out = plan != null && !isIdValid(here.cell) ? Math.max(12.0, plan[0] + 6.0) : 12.0;
+        float ox = (float)(-Math.cos(h) * out), oz = (float)(Math.sin(h) * out);
         location ground = groundPoint(ship, here.x + ox, here.z + oz);
         // in a hangar cell, closer in when 12 m out is off the cell floor (a wall), else either side
         if (isIdValid(ground.cell))

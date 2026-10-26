@@ -17,3 +17,7 @@ object/tangible/furniture/all/frn_all_bed_sm_s1.iff	0.00000	1.00000	0.00000	-1.0
 object/tangible/furniture/all/frn_all_bed_sm_s1.iff	0.00000	1.00000	0.00000	1.00000	0.00000	0.00000	5.20000	0.00000	35.50000	$|		quarters	0	
 object/tangible/furniture/all/frn_all_bed_sm_s1.iff	0.00000	1.00000	0.00000	1.00000	0.00000	0.00000	5.20000	0.00000	45.50000	$|		quarters	0	
 object/tangible/terminal/terminal_command_console.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	0.00000	0.10000	120.00000	$|	script.space.vessel.vessel_helm	bridge66	0	
+object/tangible/shipcontrol/shipcontrol_corvette.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	0.07000	-0.10200	123.73000	$|	script.space.ship.shipcontrol_falcon	bridge66	0	
+object/tangible/shipcontrol/shipoperations_falcon.iff	0.00000	1.00000	0.00000	0.00000	0.00000	1.00000	-2.20000	-0.10200	121.60000	$|	script.space.ship.shipoperations_falcon	bridge66	0	
+object/tangible/terminal/terminal_pob_ship.iff	0.00000	1.00000	0.00000	1.00000	0.00000	0.00000	-1.75000	-0.10200	110.00000	$|	script.terminal.terminal_pob_ship	hall62	0	
+object/tangible/ship/interior_components/escape_pod_hatch.iff	0.00000	1.00000	0.00000	1.00000	0.00000	0.00000	-4.20000	-12.00000	24.00000	$|	script.space.crafting.escape_hatch	embark	0	

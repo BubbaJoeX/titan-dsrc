@@ -22,7 +22,7 @@ public class vessel_deed extends script.base_script
     public static final String OV_TEMPLATE = "vessel_deed.template";
     public static final String OV_CLEARANCE = "vessel_deed.clearance";
     public static final String OV_SHIP = "vessel_deed.ship";
-    public static final String OV_SHIP_DEED = "vessel.deed";              // on the vessel: the deed it answers to
+    public static final String OV_SHIP_DEED = vessel.OV_SHIP_DEED;              // on the vessel: the deed it answers to
 
     private obj_id getShip(obj_id self) throws InterruptedException
     {
@@ -160,12 +160,9 @@ public class vessel_deed extends script.base_script
     public static final String OV_HALF_WIDTH = "vessel_deed.half_width";    // hull plan (hull frame, metres), written by
     public static final String OV_LENGTH_AFT = "vessel_deed.length_aft";    // make_titan_vessels from the hull boxes
     public static final String OV_LENGTH_FORE = "vessel_deed.length_fore";
-    private static final float PAD_SLOPE = 3.0f;                   // metres of rise over a pad that still count as level,
-    private static final float PAD_SLOPE_PER_M = 0.02f;            // plus this much per metre of hull length
-    private static final float PAD_MARGIN = 3.0f;                  // clear ground past the hull's sides
 
     // the hull plan on the vessel too, so other vessels' pad checks see its whole keel, not just its frame
-    public static final String OV_SHIP_HULL = "vessel.hull";                // float[]{half width, length aft, length fore}
+    public static final String OV_SHIP_HULL = vessel.OV_SHIP_HULL;                // float[]{half width, length aft, length fore}
 
     private void stampHullPlan(obj_id self, obj_id ship, float clearance) throws InterruptedException
     {
@@ -184,115 +181,22 @@ public class vessel_deed extends script.base_script
                 hasObjVar(self, OV_LENGTH_FORE) ? getFloatObjVar(self, OV_LENGTH_FORE) : half};
     }
 
-    // distance from point (px, pz) to the segment (ax, az)-(bx, bz)
-    private static float pointSegment(float px, float pz, float ax, float az, float bx, float bz)
-    {
-        float dx = bx - ax, dz = bz - az, len2 = dx * dx + dz * dz;
-        float t = len2 > 0.0f ? Math.max(0.0f, Math.min(1.0f, ((px - ax) * dx + (pz - az) * dz) / len2)) : 0.0f;
-        float ex = px - (ax + dx * t), ez = pz - (az + dz * t);
-        return (float)Math.sqrt(ex * ex + ez * ez);
-    }
-
-    // closest distance between two keels (segments that don't cross: the pad check never lands one across another)
-    private static float segmentSegment(float[] a, float[] b)
-    {
-        return Math.min(Math.min(pointSegment(a[0], a[1], b[0], b[1], b[2], b[3]), pointSegment(a[2], a[3], b[0], b[1], b[2], b[3])),
-                Math.min(pointSegment(b[0], b[1], a[0], a[1], a[2], a[3]), pointSegment(b[2], b[3], a[0], a[1], a[2], a[3])));
-    }
-
-    // another vessel's keel (x0, z0, x1, z1) and half width from its titan_vessels.tab hull plan, else the one stamped
-    // on it or its deed's (a service shuttle has none: its frame, 15 m)
-    private static float[] keelOf(obj_id other) throws InterruptedException
-    {
-        location at = getLocation(other);
-        float[] plan = vessel.getHullPlan(getTemplateName(other));
-        if (plan == null && hasObjVar(other, OV_SHIP_HULL))
-            plan = getFloatArrayObjVar(other, OV_SHIP_HULL);
-        obj_id deed = hasObjVar(other, OV_SHIP_DEED) ? getObjIdObjVar(other, OV_SHIP_DEED) : null;
-        if (plan == null && isIdValid(deed) && exists(deed) && hasObjVar(deed, OV_HALF_WIDTH))
-            plan = new float[]{getFloatObjVar(deed, OV_HALF_WIDTH), getFloatObjVar(deed, OV_LENGTH_AFT), getFloatObjVar(deed, OV_LENGTH_FORE)};
-        if (plan == null || plan.length < 3)
-            return new float[]{at.x, at.z, at.x, at.z, 15.0f};
-        double h = Math.toRadians(vessel.getVesselYaw(other));
-        float ax = (float)Math.sin(h), az = (float)Math.cos(h);
-        return new float[]{at.x - ax * plan[1], at.z - az * plan[1], at.x + ax * plan[2], at.z + az * plan[2], plan[0]};
-    }
-
     // The caller's yaw turned toward the first clear landing pad (ahead, left, right, behind), or NaN when none is.
     // The vessel lands broadside at `clearance`, heading the caller's yaw + 90.
     private float pickPadYaw(obj_id self, location here, float yaw, float clearance, obj_id ship) throws InterruptedException
     {
         float[] plan = hullPlan(self, clearance);
-        float half = plan[0] + PAD_MARGIN, aft = -plan[1], fore = plan[2];
+        float half = plan[0] + vessel.PAD_MARGIN, aft = -plan[1], fore = plan[2];
         float[] turns = {0.0f, -90.0f, 90.0f, 180.0f};
         for (float turn : turns)
         {
             float y = vessel.wrap(yaw + turn);
             double h = Math.toRadians(y);
             location pad = new location(here.x + (float)(Math.sin(h) * clearance), 0.0f, here.z + (float)(Math.cos(h) * clearance), here.area, null);
-            if (padIsClear(pad, vessel.wrap(y + 90.0f), half, aft, fore, ship))
+            if (vessel.padIsClear(pad, vessel.wrap(y + 90.0f), half, aft, fore, ship))
                 return y;
         }
         return Float.NaN;
-    }
-
-    // The hull's plan on the ground (a strip `half` either side of the keel from aft to fore along `heading`): level
-    // (samples down the keel and both sides) and no building, installation, static or other vessel on it.
-    private boolean padIsClear(location pad, float heading, float half, float aft, float fore, obj_id ship) throws InterruptedException
-    {
-        double h = Math.toRadians(heading);
-        float ax = (float)Math.sin(h), az = (float)Math.cos(h);         // along the keel
-        float sx = az, sz = -ax;                                        // across
-        int n = Math.max(1, (int)Math.ceil((fore - aft) / half));
-        float lo = Float.MAX_VALUE, hi = -Float.MAX_VALUE;
-        for (int i = 0; i <= n; ++i)
-        {
-            float t = aft + (fore - aft) * i / n;
-            for (int side = -1; side <= 1; ++side)
-            {
-                float y = getHeightAtLocation(pad.x + ax * t + sx * half * side, pad.z + az * t + sz * half * side);
-                lo = Math.min(lo, y);
-                hi = Math.max(hi, y);
-            }
-        }
-        if (hi - lo > PAD_SLOPE + PAD_SLOPE_PER_M * (fore - aft))
-        {
-            LOG("vessel", "deed pad " + pad.x + "," + pad.z + " heading " + heading + ": not level (" + (hi - lo) + " m)");
-            return false;
-        }
-        float mid = (aft + fore) / 2.0f;
-        location centre = new location(pad.x + ax * mid, getHeightAtLocation(pad.x + ax * mid, pad.z + az * mid), pad.z + az * mid, pad.area, null);
-        obj_id[] near = getNonCreaturesInRange(centre, (fore - aft) / 2.0f + half + 300.0f);   // a Nebulon's keel reaches 270 m
-        for (int i = 0; near != null && i < near.length; ++i)
-        {
-            obj_id o = near[i];
-            if (!isIdValid(o) || o.equals(ship) || isIdValid(getContainedBy(o)))
-                continue;
-            // clear ground past the hull: to another vessel's hull (its keel and half width), else past the object's
-            // position (its centre) by what its type says about its size
-            int got = getGameObjectType(o);
-            float margin = vessel.isVessel(o) ? 10.0f : isGameObjectTypeOf(got, GOT_building) ? 15.0f
-                    : isGameObjectTypeOf(got, GOT_installation) ? 8.0f : got == GOT_static ? 3.0f : -1.0f;
-            if (margin < 0.0f)
-                continue;
-            float gap;
-            if (vessel.isVessel(o))
-            {
-                float[] k = keelOf(o);
-                gap = segmentSegment(new float[]{pad.x + ax * aft, pad.z + az * aft, pad.x + ax * fore, pad.z + az * fore}, k) - k[4];
-            }
-            else
-            {
-                location at = getLocation(o);
-                gap = pointSegment(at.x, at.z, pad.x + ax * aft, pad.z + az * aft, pad.x + ax * fore, pad.z + az * fore);
-            }
-            if (gap < half + margin)
-            {
-                LOG("vessel", "deed pad " + pad.x + "," + pad.z + " heading " + heading + ": " + o + " " + getTemplateName(o) + " in the way");
-                return false;
-            }
-        }
-        return true;
     }
 
     private void sendAway(obj_id self, obj_id player) throws InterruptedException

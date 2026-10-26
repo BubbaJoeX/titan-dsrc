@@ -1231,6 +1231,9 @@ public class combat_ship extends script.base_script
                 sendSystemMessageTestingOnly(summonOwner, "\\#778899[Navicomputer]: Holding follow-orbit position.");
             }
 
+            if (!quietArr && vessel.isStarship(self) && !(hasObjVar(self, OV_SUMMON_FOLLOW_ACTIVE) && getBooleanObjVar(self, OV_SUMMON_FOLLOW_ACTIVE)))
+                messageTo(self, "vesselSetDown", null, 1.0f, false);
+
             if (isIdValid(summonOwner) && exists(summonOwner)
                 && hasObjVar(self, OV_SUMMON_FOLLOW_ACTIVE) && getBooleanObjVar(self, OV_SUMMON_FOLLOW_ACTIVE))
             {
@@ -1400,6 +1403,8 @@ public class combat_ship extends script.base_script
         }
 
         boolean isPob = space_utils.isShipWithInterior(self);
+        if (vessel.isStarship(self))
+            vessel.releaseForAutopilot(self);
         removeObjVar(self, OV_FIGHTER_STATIONARY_LAST_X);
         removeObjVar(self, OV_FIGHTER_STATIONARY_LAST_Z);
         removeObjVar(self, OV_FIGHTER_STATIONARY_TICKS);
@@ -1649,6 +1654,8 @@ public class combat_ship extends script.base_script
                     break;
                 }
                 case AP_DESCENDING:
+                    if (vessel.isStarship(self))
+                        vessel.setGear(self, true, 0.0f);
                     if (!summonQuiet)
                     {
                         playSoundOnShipOccupants(self, SND_COMM);
@@ -2370,6 +2377,8 @@ public class combat_ship extends script.base_script
         else
             removeObjVar(self, OV_SUMMON_FOLLOW_CRUISE_HOLD);
 
+        if (vessel.isStarship(self))
+            vessel.releaseForAutopilot(self);
         boolean apOk = cruiseHold
             ? shipSetAutopilotTargetHold(self, targetX, targetZ, takeoffA, landingA, true)
             : shipSetAutopilotTarget(self, targetX, targetZ, takeoffA, landingA);
